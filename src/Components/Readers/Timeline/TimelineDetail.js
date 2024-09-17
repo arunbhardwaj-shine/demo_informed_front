@@ -72,7 +72,7 @@ const TimelineDetail = (props) => {
     totalVideoTime: ''
   })
 
-  const [sectionLoader,setSectionLoader]=useState(false)
+  const [sectionLoader, setSectionLoader] = useState(false)
   function isJSONValid(jsonString) {
     try {
       JSON.parse(jsonString);
@@ -149,7 +149,7 @@ const TimelineDetail = (props) => {
       } catch (err) {
         // loader("hide");
         setSectionLoader(false)
-        console.log("--err",err)
+        console.log("--err", err)
       }
     }
   }
@@ -1733,10 +1733,23 @@ const TimelineDetail = (props) => {
                                                                   </p>
                                                                 </div>
                                                                 <div className="timeline-article-details-overall">
+                                                                  {(details.id == activeIndex && sectionLoader == true) ? (
+                                                                    <div
+                                                                      className={"load_more"}
+                                                                      style={{
+                                                                        margin: "10 auto",
+                                                                        justifyContent: "center",
+                                                                        display: "flex",
+                                                                      }}
+                                                                    >
+                                                                      <Spinner color="#53aff4" size={32} speed={1} animating={true} />
+                                                                    </div>
+
+                                                                  ) : null}
                                                                   <div className="data-main-box tab-panel">
-                                                                    {typeof ebookData !==
+                                                                    {(!sectionLoader&&typeof ebookData !==
                                                                       "undefined" &&
-                                                                      ebookData.length > 0 ? (
+                                                                      ebookData.length > 0) ? (
                                                                       <>
                                                                         {ebookData.map(
                                                                           (data, index) => {
@@ -1799,11 +1812,11 @@ const TimelineDetail = (props) => {
                                                                           }
                                                                         )}
                                                                       </>
-                                                                    ) : (
+                                                                    ) :!sectionLoader? (
                                                                       <div className="no_found">
                                                                         <p>No Data Found</p>
                                                                       </div>
-                                                                    )}
+                                                                    ):""}
 
                                                                   </div>
                                                                 </div>
@@ -2514,7 +2527,7 @@ const TimelineDetail = (props) => {
                                             }}
                                           >
                                             <div className="timeline-article-details-heading">
-                                            
+
                                               <p>
                                                 Details{" "}
                                                 <img
@@ -2527,23 +2540,23 @@ const TimelineDetail = (props) => {
                                               </p>
                                             </div>
                                             <div className="timeline-article-details-overall">
-                                            { (details.id == activeIndex&&sectionLoader == true) ? (
-                                                  <div
-                                                    className={"load_more"}
-                                                    style={{
-                                                      margin: "10 auto",
-                                                      justifyContent: "center",
-                                                      display: "flex",
-                                                    }}
-                                                  >
-                                                    <Spinner color="#53aff4" size={32} speed={1} animating={true} />
-                                                  </div>
-                                                  
-                                                ) : null}
+                                              {(details.id == activeIndex && sectionLoader == true) ? (
+                                                <div
+                                                  className={"load_more"}
+                                                  style={{
+                                                    margin: "10 auto",
+                                                    justifyContent: "center",
+                                                    display: "flex",
+                                                  }}
+                                                >
+                                                  <Spinner color="#53aff4" size={32} speed={1} animating={true} />
+                                                </div>
+
+                                              ) : null}
                                               <div className="data-main-box tab-panel">
-                                            
+
                                                 {/* <div className="timeline-article-details-boxes"> */}
-                                                {(!sectionLoader&&typeof ebookData !==
+                                                {(!sectionLoader && typeof ebookData !==
                                                   "undefined" &&
                                                   ebookData.length > 0) ? (
                                                   <>
@@ -2624,11 +2637,11 @@ const TimelineDetail = (props) => {
                                                       }
                                                     )}
                                                   </>
-                                                ) :!sectionLoader? (
+                                                ) : !sectionLoader ? (
                                                   <div className="no_found">
                                                     <p>No Data Found</p>
                                                   </div>
-                                                ):""}
+                                                ) : ""}
                                                 {/* </div> */}
                                               </div>
                                             </div>
@@ -3552,7 +3565,7 @@ const TimelineDetail = (props) => {
                                             </tbody>
                                           </Table>
                                         </div>
-                                       
+
 
                                         {details?.action?.includes("played") ? (
                                           <div
@@ -3580,25 +3593,25 @@ const TimelineDetail = (props) => {
                                                 />
                                               </p>
                                             </div>
-                                          
-                                            <div className="timeline-article-details-overall">
-                                           
-                                            { details.id == activeIndex&&sectionLoader == true ? (
-                                                  <div
-                                                    className={"load_more"}
-                                                    style={{
-                                                      margin: "10 auto",
-                                                      justifyContent: "center",
-                                                      display: "flex",
-                                                    }}
-                                                  >
-                                                    <Spinner color="#53aff4" size={32} speed={1} animating={true} />
-                                                  </div>
-                                                ) : null}
-                                              <div className="data-main-box tab-panel">
-                                              
 
-                                                {(!sectionLoader&&videoTime?.timeSpent) ? (<>
+                                            <div className="timeline-article-details-overall">
+
+                                              {details.id == activeIndex && sectionLoader == true ? (
+                                                <div
+                                                  className={"load_more"}
+                                                  style={{
+                                                    margin: "10 auto",
+                                                    justifyContent: "center",
+                                                    display: "flex",
+                                                  }}
+                                                >
+                                                  <Spinner color="#53aff4" size={32} speed={1} animating={true} />
+                                                </div>
+                                              ) : null}
+                                              <div className="data-main-box tab-panel">
+
+
+                                                {(!sectionLoader && videoTime?.timeSpent) ? (<>
 
 
                                                   <div className="media-right">
@@ -3679,11 +3692,11 @@ const TimelineDetail = (props) => {
                                                     </div>
                                                   </div>
                                                 </>
-                                                ) :!sectionLoader? (
+                                                ) : !sectionLoader ? (
                                                   <div className="no_found">
                                                     <p>No Data Found</p>
                                                   </div>
-                                                ):""}
+                                                ) : ""}
 
                                               </div>
                                             </div>
