@@ -22,7 +22,7 @@ body {
 
 .informed-survey-text p {
   font-size: 13px;
-  color: #70899e;
+  /* color: #70899e; */
 }
 .informed-survey-text p a {
   color:inherit;
@@ -356,7 +356,7 @@ input[type="checkbox"]:checked ~ .checkmark {
 }
 
 .login-consent a {
-  color: var(--dark-blue);
+  color:inherit
 }
 
 .consent-item {
@@ -402,7 +402,7 @@ input[type="checkbox"]:checked ~ .checkmark:after {
 }
 
 .survey-consent p {
-  color: #70899e;
+  /* color: #70899e; */
   font-size: 12px;
   font-weight: 400;
   line-height: 132%;
@@ -410,8 +410,9 @@ input[type="checkbox"]:checked ~ .checkmark:after {
 }
 
 .copyright-links a,
-.survey-consent p a {
-  color: #70899e;
+.survey-consent div p a {
+  /* color: #70899e; */
+  color:inherit;
   font-size: 12px;
   text-decoration: underline;
   padding: 0 13px 0 0;
