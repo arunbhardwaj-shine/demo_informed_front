@@ -54,6 +54,7 @@ const SurveyList = (props) => {
   const [isChecked, setIsChecked] = useState(true);
   const dispatch = useDispatch();
   const [qrState, setQr] = useState({ value: "" });
+  const [duplicateCounter,setDuplicateCounter]=useState(0)
 
   const navigate = useNavigate();
 
@@ -81,7 +82,6 @@ const SurveyList = (props) => {
       if (res) {
         setIsData(survey_data);
       }
-
       loader("hide");
     } catch (error) {
       loader("hide");
@@ -148,7 +148,8 @@ const SurveyList = (props) => {
 
  
 
-  const handleClick = async (e, survey_id) => {
+  const handleClick = async (e,survey_id) => {
+
     if (e === "sublinks") {
       await fetchSublinks(survey_id);
     }
@@ -169,6 +170,7 @@ const SurveyList = (props) => {
  
       if (response) {
         await fetchSurveyListing();
+        setDuplicateCounter(duplicateCounter+1)
       }
       loader("hide");
     } catch (error) {
@@ -1400,7 +1402,7 @@ const SurveyList = (props) => {
                                                       ></path>
                                                     </svg>
                                                   </div>
-                                                  <span>{data.percentage}</span>
+                                                  <span>{data.percentage}%</span>
                                                 </li>
                                               </ul>
                                             </div>

@@ -12,6 +12,8 @@ export default function Matrix({
   deleteOptionInMiddle,
   addOptionInMiddle
 }) {
+
+
   
  
 
@@ -55,7 +57,7 @@ export default function Matrix({
 
         <div className="answer-choice add-more">
           <Form.Label></Form.Label>
-          <Button onClick={() => addRow(index, "Row", "title", "answer")}>
+          <Button onClick={() => addRow(index, `Row ${item.answer.length+1}`, "title", "answer")}>
             + Add new row label
           </Button>
         </div> 
@@ -79,8 +81,6 @@ export default function Matrix({
               value={option.value}
               placeholder="Type column label"
               onChange={(e) => {
-        
-
                 updateColumns(index,idx,"answer",e.target.value);
               }}
             />

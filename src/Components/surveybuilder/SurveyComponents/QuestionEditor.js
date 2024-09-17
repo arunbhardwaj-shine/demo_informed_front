@@ -28,7 +28,7 @@ const QuestionEditor = ({
           toolbar:
             "fontsize bold italic underline strikethrough | link forecolor ",
           content_style:
-            "body { font-family:Roboto,Helvetica,Arial,sans-serif; font-size:14px;color:#0066be; } body p img{width:100%;} body p{color:#0066be; margin: 2px 0;}, body *{margin:2px 0;}",
+            "body { font-family:Roboto,Helvetica,Arial,sans-serif; font-size:14px;color:#0066be;cursor: text; } body p img{width:100%;} body p{color:#0066be; margin: 2px 0;}, body *{margin:2px 0;}",
           automatic_uploads: true,
           image_caption: true,
           auto_focus: false,
@@ -44,3 +44,4 @@ const QuestionEditor = ({
 };
 
 export default QuestionEditor;
+

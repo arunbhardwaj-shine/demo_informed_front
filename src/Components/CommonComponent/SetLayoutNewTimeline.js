@@ -349,8 +349,8 @@ const SetLayoutNewTimeline = () => {
                       {/* <p>{moment(loadMore?.lastUpdate).utc().format('MMMM. DD. YYYY | h:mm A')}  <sub>last update</sub></p> */}
                       {apiStatus?<p>
                         {loadMore?.lastUpdate ? moment(loadMore?.lastUpdate).utc().format('MMMM. DD. YYYY') : "N/A"}
-                        <span> | </span>
-                        {loadMore?.lastUpdate ? moment(loadMore?.lastUpdate).utc().format('h:mm A') : "N/A"}
+                        {/* <span> | </span>
+                        {loadMore?.lastUpdate ? moment(loadMore?.lastUpdate).utc().format('h:mm A') : "N/A"} */}
                         <sub> last update</sub>
                       </p>:""}
                     </div>
@@ -712,7 +712,7 @@ const SetLayoutNewTimeline = () => {
                                                   </div>
                                                   <div className="timeline-article-detail">
                                                     <div className="timeline-title">
-                                                      <p>{item?.pdfTitle}</p>
+                                                      <p>{item?.pdfTitle} ({item?.reader_mandatory==1?"Mondatory Content":"Non-Mandatory Content"})</p>
                                                     </div>
                                                     <div className="timeline-subtitle">
                                                       <p>{item?.subTitle ? item?.subTitle : "N/A"}</p>
@@ -733,17 +733,18 @@ const SetLayoutNewTimeline = () => {
                                                       const userProfile = data?.userProfile?.find(profile => profile?.user_id == userId)
                                                       return userProfile ? (
                                                         <div key={index} className="timeline-activity-detail">
-                                                          {/* <p>{
+                                                          <p>{
                                                         userProfile?.first_name != '' ?
                                                           userProfile?.first_name + " " + userProfile?.last_name
                                                           : userProfile?.name
                                                       }
-                                                      </p> */}
+                                                      </p>
                                                           <span>{userProfile?.site_number != 0 ? userProfile?.site_number : "N/A"}</span>
                                                         </div>
-                                                      ) : <div className="timeline-activity-detail">
-                                                            <span>N/A</span>
-                                                          </div>
+                                                      ) : null
+                                                      // <div className="timeline-activity-detail">
+                                                      //       <span>N/A</span>
+                                                      //     </div>
                                                     }) : null}
 
 
@@ -867,10 +868,10 @@ const SetLayoutNewTimeline = () => {
                                                         </div>
                                                         <div className="timeline-article-detail">
                                                           <div className="timeline-title">
-                                                            <p>{item?.pdfTitle}</p>
+                                                            <p>{item?.pdfTitle} </p>
                                                           </div>
                                                           <div className="timeline-subtitle">
-                                                            <p>{item?.subTitle}</p>
+                                                            <p>{item?.subTitle?item?.subTitle:"N/A"} </p>
                                                             {item?.allow_video == 1 ?
                                                               <div className="d-flex align-items-center include-links">
                                                                 <img src={path_image + "video-img.png"} alt="" />
@@ -1190,8 +1191,8 @@ const SetLayoutNewTimeline = () => {
                                                                                 : userProfile?.name
                                                                             }
                                                                             </p>
-                                                                            <p>{userProfile?.user_type != 0 ? userProfile?.user_type : "N/A"}</p>
-                                                                            <span>{userProfile?.site_number != 0 ? userProfile?.site_number : "N/A"}</span>
+                                                                            <p>{userProfile?.user_type != 0 ? userProfile?.user_type : ""}</p>
+                                                                            <span>{userProfile?.site_number != 0 ? userProfile?.site_number : ""}</span>
                                                                           </div>
                                                                         ) : null
                                                                       }) : ""}

@@ -8,10 +8,9 @@ const templates = [
     id: 1,
     template_html: `
                   <div class="informed-survey" id="templatecapture" >
-                    <div class="informed-survey-header" style="{#dynamic_header_background#};">
+                    <div class="informed-survey-header" id ="surveyBackgroundImage" style="{#dynamic_header_background#};">
                         {#logo#}
-                      <h2 style="color: {#title_color#} ;">
-                     {#main_heading#} </h2>
+                      <h2 style="color: {#title_color#} ;">{#main_heading#}</h2>
                     </div>
                     <div class="informed-survey-body" style="background-color:#ffffff;">
                       <div class="informed-survey-text" style="color: {#bodyTextColor#};">
@@ -74,10 +73,9 @@ const templates = [
     id: 2,
     template_html: `
       <div class="informed-survey " id="templatecapture" >
-                    <div class="informed-survey-header" style="{#dynamic_header_background#};">
+                    <div class="informed-survey-header" id ="surveyBackgroundImage" style="{#dynamic_header_background#};">
                         {#logo#}
-                      <h2 style="color: {#title_color#} ;">
-                     {#main_heading#} </h2>
+                      <h2 style="color: {#title_color#} ;">{#main_heading#}</h2>
                     </div>
                     <div class="informed-survey-body" style="background-color: #ffffff;">
                       <div class="informed-survey-text" style="color: {#bodyTextColor#};">
@@ -141,10 +139,9 @@ const templates = [
     id: 3,
     template_html: `
       <div class="informed-survey"  id="templatecapture">
-                    <div class="informed-survey-header" style="{#dynamic_header_background#};">
+                    <div class="informed-survey-header" id ="surveyBackgroundImage" style="{#dynamic_header_background#};">
                         {#logo#}
-                      <h2 style="color: {#title_color#};">
-                     {#main_heading#} </h2>
+                      <h2 style="color: {#title_color#};">{#main_heading#}</h2>
                     </div>
                     <div class="informed-survey-body" style="background-color: #ffffff;">
                       <div class="informed-survey-text" style="color: {#bodyTextColor#};">

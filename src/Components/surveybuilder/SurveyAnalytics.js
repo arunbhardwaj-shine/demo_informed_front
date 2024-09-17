@@ -10,9 +10,13 @@ import {
   Table,
 } from "react-bootstrap";
 import { Link, useLocation } from "react-router-dom";
+import { loader } from "../../loader";
+import { surveyAxiosInstance } from "./CommonFunctions/CommonFunction";
+import moment from "moment";
 
 const SurveyAnalytics = () => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+  const { state } = useLocation();
   const [filterdata, setFilterData] = useState([]);
   const [showfilter, setShowFilter] = useState(false);
   const [deletestatus, setDeleteStatus] = useState(false);
@@ -30,7 +34,53 @@ const SurveyAnalytics = () => {
   const [SendListData, setSendListData] = useState([]);
   const [filter, setFilter] = useState([]);
   const [getoriginalsendlistdata, setOriginalSendListData] = useState([]);
-  const { state } = useLocation();
+  const [data,setData]=useState([])
+  const [apiStatus,setApiStatus]=useState(false)
+  const [sortBy, setSortBy] = useState('name'); // Initial sort key
+  const [sortOrder, setSortOrder] = useState('asc');  
+
+  useEffect(() => {
+    //props.getEmailData(null);
+    // props.getDraftData(null);
+    //props.getSelectedSmartListData(null);
+    getSurveyAnalyticsDetail()
+
+    function handleOutsideClick(event) {
+      if (
+        buttonRef.current &&
+        !buttonRef.current.contains(event.target) &&
+        filterRef.current &&
+        !filterRef.current.contains(event.target)
+      ) {
+        setShowFilter(false);
+      }
+    }
+
+    document.addEventListener("click", handleOutsideClick);
+
+    return () => {
+      document.removeEventListener("click", handleOutsideClick);
+    };
+  }, []);
+
+const getSurveyAnalyticsDetail=async()=>{
+  try{
+    loader("show")
+    setApiStatus(true)
+    const res=await surveyAxiosInstance.post("/survey/survey-analytic-details", {
+      admin_id: "18207"
+    });
+    console.log("res-->",res?.data?.data)
+    setData(res?.data?.data?.allDetails)
+
+  }catch(err){
+    console.log("--err",err)
+  }finally{
+    setApiStatus(false)
+    loader("hide")
+    
+  }
+}
 
   const submitHandler = (event) => {
     setShowFilter(false);
@@ -188,28 +238,8 @@ const SurveyAnalytics = () => {
   // );
   const buttonRef = useRef(null);
   const filterRef = useRef(null);
-  useEffect(() => {
-    //props.getEmailData(null);
-    // props.getDraftData(null);
-    //props.getSelectedSmartListData(null);
 
-    function handleOutsideClick(event) {
-      if (
-        buttonRef.current &&
-        !buttonRef.current.contains(event.target) &&
-        filterRef.current &&
-        !filterRef.current.contains(event.target)
-      ) {
-        setShowFilter(false);
-      }
-    }
 
-    document.addEventListener("click", handleOutsideClick);
-
-    return () => {
-      document.removeEventListener("click", handleOutsideClick);
-    };
-  }, []);
   const handleOnFilterDate = (fdate) => {
     let tag_index = filterdate.indexOf(fdate);
     if (tag_index !== -1) {
@@ -229,6 +259,26 @@ const SurveyAnalytics = () => {
     setFilter(getfilter);
     let up = updateflag + 1;
     setUpdateFlag(up);
+  };
+
+  const handleSort = (key) => {
+    setSortBy(key);
+    setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc'); 
+  };
+  const sortData = (data, key, order) => {
+    return data.sort((a, b) => {
+      const valueA = a[key];
+      const valueB = b[key];
+  
+      // Handle different data types (numbers, strings)
+      if (typeof valueA === 'number' && typeof valueB === 'number') {
+        return order === 'asc' ? valueA - valueB : valueB - valueA;
+      } else {
+        return order === 'asc'
+          ? valueA?.localeCompare(valueB) // Handle string sorting with locale awareness
+          : valueB?.localeCompare(valueA);
+      }
+    });
   };
 
   return (
@@ -586,9 +636,18 @@ const SurveyAnalytics = () => {
                     <thead className="sticky-header">
                       <tr>
                         <th className="sort_option">
-                          <span>
+                          <span onClick={() => handleSort('Status')}>
                             Status
-                            <button className="event_sort_btn">
+                            <button 
+                            // className="event_sort_btn"
+                            className={`event_sort_btn ${sortBy == "Status" ?
+                              sortOrder == "asc"
+                              ? "svg_asc"
+                              : "svg_active"
+                              : "" 
+                              }`}
+                            onClick={() => handleSort('Status')}
+                            >
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 width="8"
@@ -613,9 +672,18 @@ const SurveyAnalytics = () => {
                         </th>
 
                         <th className="sort_option">
-                          <span>
+                          <span  onClick={() => handleSort('Title')}>
                             Title & Subtitle
-                            <button className="event_sort_btn">
+                            <button 
+                            // className="event_sort_btn"
+                            className={`event_sort_btn ${sortBy == "Title" ?
+                              sortOrder == "asc"
+                              ? "svg_asc"
+                              : "svg_active"
+                              : "" 
+                              }`}
+                            onClick={() => handleSort('Title')}
+                            >
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 width="8"
@@ -640,9 +708,18 @@ const SurveyAnalytics = () => {
                         </th>
 
                         <th className="sort_option">
-                          <span>
+                          <span onClick={() => handleSort('Consent')}>
                             Consent
-                            <button className="event_sort_btn">
+                            <button 
+                            // className="event_sort_btn"
+                            className={`event_sort_btn ${sortBy == "Consent" ?
+                              sortOrder == "asc"
+                              ? "svg_asc"
+                              : "svg_active"
+                              : "" 
+                              }`}
+                              onClick={() => handleSort('Consent')}
+                            >
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 width="8"
@@ -667,9 +744,18 @@ const SurveyAnalytics = () => {
                         </th>
 
                         <th className="sort_option">
-                          <span>
+                          <span onClick={() => handleSort('Creator')}>
                             Creator
-                            <button className="event_sort_btn">
+                            <button 
+                            // className="event_sort_btn"
+                            className={`event_sort_btn ${sortBy == "Creator" ?
+                              sortOrder == "asc"
+                              ? "svg_asc"
+                              : "svg_active"
+                              : "" 
+                              }`}
+                              onClick={() => handleSort('Creator')}
+                            >
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 width="8"
@@ -694,9 +780,18 @@ const SurveyAnalytics = () => {
                         </th>
 
                         <th className="sort_option">
-                          <span>
+                          <span  onClick={() => handleSort('CreatedDate')}>
                             Created Date
-                            <button className="event_sort_btn">
+                            <button 
+                            // className="event_sort_btn"
+                            className={`event_sort_btn ${sortBy == "CreatedDate" ?
+                              sortOrder == "asc"
+                              ? "svg_asc"
+                              : "svg_active"
+                              : "" 
+                              }`}
+                              onClick={() => handleSort('CreatedDate')}
+                            >
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 width="8"
@@ -721,9 +816,18 @@ const SurveyAnalytics = () => {
                         </th>
 
                         <th className="sort_option">
-                          <span>
+                          <span onClick={() => handleSort('Completed')}>
                             Completed
-                            <button className="event_sort_btn">
+                            <button 
+                            // className="event_sort_btn"
+                            className={`event_sort_btn ${sortBy == "Completed" ?
+                              sortOrder == "asc"
+                              ? "svg_asc"
+                              : "svg_active"
+                              : "" 
+                              }`}
+                              onClick={() => handleSort('Completed')}
+                            >
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 width="8"
@@ -748,9 +852,18 @@ const SurveyAnalytics = () => {
                         </th>
 
                         <th className="sort_option">
-                          <span>
+                          <span onClick={() => handleSort('Dropoff')}>
                             Drop-off
-                            <button className="event_sort_btn">
+                            <button 
+                            // className="event_sort_btn"
+                            className={`event_sort_btn ${sortBy == "Dropoff" ?
+                              sortOrder == "asc"
+                              ? "svg_asc"
+                              : "svg_active"
+                              : "" 
+                              }`}
+                              onClick={() => handleSort('Dropoff')}
+                            >
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 width="8"
@@ -801,9 +914,18 @@ const SurveyAnalytics = () => {
                           </span>
                         </th>
                         <th className="sort_option">
-                          <span>
+                          <span  onClick={() => handleSort('questionCount')}>
                             Questions
-                            <button className="event_sort_btn">
+                            <button 
+                            // className="event_sort_btn"
+                            className={`event_sort_btn ${sortBy == "questionCount" ?
+                              sortOrder == "asc"
+                              ? "svg_asc"
+                              : "svg_active"
+                              : "" 
+                              }`}
+                              onClick={() => handleSort('questionCount')}
+                            >
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 width="8"
@@ -829,37 +951,39 @@ const SurveyAnalytics = () => {
                         <th className="sort_option">&nbsp;</th>
                       </tr>
                     </thead>
-                    <tbody>
-                      <tr className="view">
-                        <td className="status completed">
-                          <div>Completed</div>
+                    <tbody>                  
+
+                      {data?.length>0?(<>
+                      {sortData(data, sortBy, sortOrder)?.map((item,index)=>{
+                        return(<>
+                         <tr className="view">
+                        <td className={`status ${item?.Status==0?'draft':item?.Status==1?'live':item?.Status==2?'completed':""}`}>
+                          <div>{item?.Status==0?'Draft':item?.Status==1?'Live':item?.Status==2?'Completed':""}</div>
                         </td>
                         <td className="blue">
                           <table>
                             <tr className="title-heading">
                               <td>
-                                Headline Lorem ipsum pretium id libero dolorsit
-                                amet consectetur Orci{" "}
+                                {item?.Title}{" "}
                               </td>
                             </tr>
                             <tr className="title-subheading">
                               <td>
-                                Subtitle klacerat proin aenean pretium id libero
-                                nulla
+                                {item?.Subtitle}
                               </td>
                             </tr>
                           </table>
                         </td>
-                        <td>Mandatory</td>
-                        <td>Meznah Alkhames</td>
-                        <td className="blue">May 18.2024 | 9:00 AM</td>
+                        <td>{item?.Consent}</td>
+                        <td>{item?.Creator}</td>
+                        <td className="blue">{moment(item?.CreatedDate).utc()?.format('MMM DD.YYYY | h:mm A')}  </td>
                         <td>
                           <img src={path_image + "completed-icon.svg"} alt="" />{" "}
-                          90%
+                          {item?.Completed} %
                         </td>
                         <td>
                           <img src={path_image + "drop-off-icon.svg"} alt="" />{" "}
-                          500
+                          {item?.Dropoff}
                         </td>
                         <td>
                           <img src={path_image + "avg-time-icon.svg"} alt="" />{" "}
@@ -867,7 +991,7 @@ const SurveyAnalytics = () => {
                         </td>
                         <td>
                           <img src={path_image + "question-icon.svg"} alt="" />{" "}
-                          10
+                          {item?.questionCount}
                         </td>
                         <td>
                           <img
@@ -881,105 +1005,8 @@ const SurveyAnalytics = () => {
                           &nbsp;
                         </td>
                       </tr>
-                      <tr className="view">
-                        <td className="status completed">
-                          <div>Completed</div>
-                        </td>
-                        <td className="blue">
-                          <table>
-                            <tr className="title-heading">
-                              <td>
-                                Headline Lorem ipsum pretium id libero dolorsit
-                                amet consectetur Orci{" "}
-                              </td>
-                            </tr>
-                            <tr className="title-subheading">
-                              <td>
-                                Subtitle klacerat proin aenean pretium id libero
-                                nulla
-                              </td>
-                            </tr>
-                          </table>
-                        </td>
-                        <td>Mandatory</td>
-                        <td>Meznah Alkhames</td>
-                        <td className="blue">May 18.2024 | 9:00 AM</td>
-                        <td>
-                          <img src={path_image + "completed-icon.svg"} alt="" />{" "}
-                          90%
-                        </td>
-                        <td>
-                          <img src={path_image + "drop-off-icon.svg"} alt="" />{" "}
-                          500
-                        </td>
-                        <td>
-                          <img src={path_image + "avg-time-icon.svg"} alt="" />{" "}
-                          1.5 min
-                        </td>
-                        <td>
-                          <img src={path_image + "question-icon.svg"} alt="" />{" "}
-                          10
-                        </td>
-                        <td>
-                          <Link to={"/survey/survey-analytics-detail"}>
-                            <img
-                              src={path_image + "accordian_arrow.svg"}
-                              alt=""
-                            />
-                          </Link>
-                        </td>
-                      </tr>
-                      <tr className="blank">
-                        <td colspan="10" style={{ height: "10px;" }}>
-                          &nbsp;
-                        </td>
-                      </tr>
-                      <tr className="view">
-                        <td className="status live">
-                          <div>Live</div>
-                        </td>
-                        <td className="blue">
-                          <table>
-                            <tr className="title-heading">
-                              <td>
-                                Headline Lorem ipsum pretium id libero dolorsit
-                                amet consectetur Orci{" "}
-                              </td>
-                            </tr>
-                            <tr className="title-subheading">
-                              <td>
-                                Subtitle klacerat proin aenean pretium id libero
-                                nulla
-                              </td>
-                            </tr>
-                          </table>
-                        </td>
-                        <td>Mandatory</td>
-                        <td>Meznah Alkhames</td>
-                        <td className="blue">May 18.2024 | 9:00 AM</td>
-                        <td>
-                          <img src={path_image + "completed-icon.svg"} alt="" />{" "}
-                          90%
-                        </td>
-                        <td>
-                          <img src={path_image + "drop-off-icon.svg"} alt="" />{" "}
-                          500
-                        </td>
-                        <td>
-                          <img src={path_image + "avg-time-icon.svg"} alt="" />{" "}
-                          1.5 min
-                        </td>
-                        <td>
-                          <img src={path_image + "question-icon.svg"} alt="" />{" "}
-                          10
-                        </td>
-                        <td>
-                          <img
-                            src={path_image + "accordian_arrow.svg"}
-                            alt=""
-                          />
-                        </td>
-                      </tr>
+                        </>)
+                     } )}</>):!apiStatus?<div className="no_found"><p>No Data Found</p></div>:""}
                     </tbody>
                   </Table>
                 </div>

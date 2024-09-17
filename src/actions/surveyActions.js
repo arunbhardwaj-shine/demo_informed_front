@@ -18,7 +18,7 @@ export const ADD_AT_POSITION = "ADD_AT_POSITION";
 
 export const addElement = (type,index) => ({
   type: ADD_ELEMENT,
-  payload: { type,index },
+  payload: { type,index},
 });
 
 export const updateSurveyId = (surveyId) => ({

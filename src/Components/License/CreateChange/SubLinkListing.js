@@ -63,7 +63,7 @@ const SubLinkListing = ({
 
   return (
     <>
-      <div class="sublink_right_block">
+      <div className="sublink_right_block">
 
         {
           sectionLoader ?
