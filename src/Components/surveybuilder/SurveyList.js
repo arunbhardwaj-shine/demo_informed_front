@@ -82,7 +82,6 @@ const SurveyList = (props) => {
       if (res) {
         setIsData(survey_data);
       }
-
       loader("hide");
     } catch (error) {
       loader("hide");
@@ -1025,7 +1024,7 @@ const SurveyList = (props) => {
                                       handleClick(e, data.survey_id)
                                     }
                                   >
-                                    <Tab eventKey="link" title="link">
+                                    <Tab eventKey="link" title="Link">
                                       <div className="survey_tabs_data">
                                         <div className="tab-panel">
                                           <div class="tab-content-links">

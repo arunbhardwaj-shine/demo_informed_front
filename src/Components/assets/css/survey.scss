@@ -2246,9 +2246,9 @@ span {
                         }
                     }
 
-                    a {
-                        color: $dark-blue;
-                    }
+                    // a {
+                    //     color: $dark-blue;
+                    // }
 
                     &>span {
                         color: inherit;
@@ -2601,7 +2601,7 @@ span {
                         @include custom-checkbox;
                         @include custom-radio;
                         input[type=radio], input[type=checkbox]{
-                            position: static;
+                            position: relative;
                         }
 
                         span {
@@ -2687,13 +2687,13 @@ span {
 
                 .page-copyright {
                     p {
-                        color: $dark-gray;
+                        // color: $dark-gray;
                         font-size: 12px;
                         font-weight: 400;
 
-                        a {
-                            color: $dark-gray;
-                        }
+                        // a {
+                        //     color: $dark-gray;
+                        // }
                     }
 
                     .copyright-links {
@@ -2701,7 +2701,8 @@ span {
                         margin: 15px 0 0;
 
                         a {
-                            color: $dark-gray;
+                            // color: $dark-gray;
+                            color:inherit;
                             font-size: 12px;
                             text-decoration: underline;
                             padding: 0 13px 0 0;
