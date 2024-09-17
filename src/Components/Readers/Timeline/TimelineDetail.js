@@ -3518,7 +3518,6 @@ const TimelineDetail = (props) => {
                                     </div>
                                   )}
 
-
                                   {["Event", "Expert opinions", "profile-seeMore", "profile-setting", "Highlights", "Expert opinions played", "Symposium Highlights Video played"]?.includes(details.action) ? (
                                     <div className="timeline-box">
                                       <div className="timeline_date">
@@ -3559,7 +3558,6 @@ const TimelineDetail = (props) => {
                                                 <th className="device-title">
                                                   Article Heading
                                                 </th>
-
                                                 <td className="device-name">
                                                   {details?.action == "profile-setting" ? "User clicked on profile setting"
                                                     : details?.action == "profile-seeMore" ? "User clicked on profile see more"
@@ -3569,8 +3567,6 @@ const TimelineDetail = (props) => {
                                             </tbody>
                                           </Table>
                                         </div>
-
-
                                         {details?.action?.includes("played") ? (
                                           <div
                                             className={
