@@ -9,8 +9,12 @@ import {
     Row,
     Table,
   } from "react-bootstrap";
+  import  {useLocation}  from "react-router-dom";
 const SurveyAnalyticsDetail = () => {
     let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+    const location=useLocation()
+    const [surveyId,setSurveyId]=useState(location?.state?.survey_id) 
+    console.log("surveyId-->",surveyId);       
     const filterdata=[];
     const [showfilter, setShowFilter] = useState(false);
     const [deletestatus, setDeleteStatus] = useState(false);
@@ -26,6 +30,8 @@ const SurveyAnalyticsDetail = () => {
     const [filter, setFilter] = useState([]);
     const getoriginalsendlistdata= [];
     const [isData, setIsData] = useState([]);
+    const buttonRef = useRef(null);
+    const filterRef = useRef(null);
     const clearFilter = () => {
         document.querySelectorAll("input").forEach((checkbox) => {
           checkbox.checked = false;
@@ -176,8 +182,7 @@ const SurveyAnalyticsDetail = () => {
         let up = updateflag + 1;
         setUpdateFlag(up);
       };
-      const buttonRef = useRef(null);
-      const filterRef = useRef(null);
+     
     return (
         <>
            <Col className="right-sidebar custom-change">
