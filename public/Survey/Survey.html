@@ -194,6 +194,7 @@
       };
 
       document.addEventListener("DOMContentLoaded", async function () {
+      // var startTime=0;
         const urlKeys = getQueryParam("Utmde");
         // Check if urlKeys is an array and extract values accordingly
         const Utmde = Array.isArray(urlKeys) ? urlKeys[0] : urlKeys;
@@ -204,9 +205,7 @@
           window.location.replace("/survey/404");
           return;
         }
-
         const apiUrl = "https://informedback.shinedezign.pro/survey/fetch-preview-data";
-       
         const payload = {
           Utmde,
           user_id: user_id,
@@ -225,6 +224,7 @@
 
           data = await response.json();
           console.log(data);
+            //  startTime=new Date()
 
           if (data.status == 200) {
             if (
@@ -266,6 +266,7 @@
             console.error("survey data not avaliable");
             return;
           }
+   
           loader("hide");
         } catch (error) {
           loader("hide");
@@ -1574,6 +1575,11 @@
               }
             });
 
+          //   const EndTime=new Date();
+
+          //  const completionTimeSeconds = (EndTime - startTime) / 1000;
+          //  completionTimeSeconds:Math.round(completionTimeSeconds)
+
             const submitPayload = {
               name: obj.name ?? "", // New object containing additional information
               email: obj.email ?? "",
@@ -1590,7 +1596,7 @@
               survey_id: survey_id,
               survey_responses: [
                 ...responses, // Spread the existing responses array
-              ],
+              ]
             };
 
             try {
