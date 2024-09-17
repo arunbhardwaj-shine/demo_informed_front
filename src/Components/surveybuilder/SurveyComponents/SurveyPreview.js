@@ -33,7 +33,7 @@ var surveyValues = {};
 const SurveyPreview = (props) => {
   let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const obj = useSelector((state) => state.surveyData);
-  // console.log(obj)
+
 
   const { currentElementIndex, elements, isAddClicked } = useSelector(
     (state) => state.surveyData
@@ -455,7 +455,7 @@ const SurveyPreview = (props) => {
                   <div className="d-flex flex-column">
                     {elements?.map((item, index) => {
                       let questionIndex = index;
-                      console.log(index);
+        
                       return (
                         <div
                           className={`dragable-box ${

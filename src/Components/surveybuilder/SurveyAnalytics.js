@@ -185,6 +185,7 @@ const getSurveyAnalyticsDetail=async()=>{
             <div className="survey-data survey-analytics">
               <div className="survey_data_details">
                 <div className="survey_data_accordion_heading">
+                  {data?.length>0?
                   <Table className="fold-table" id="survey-analytics">
                     <thead className="sticky-header">
                       <tr>
@@ -441,9 +442,18 @@ const getSurveyAnalyticsDetail=async()=>{
                         </th>
 
                         <th className="sort_option">
-                          <span>
+                          <span onClick={() => handleSort('averageCompletionTime')}>
                             AVG Completion Time
-                            <button className="event_sort_btn">
+                            <button 
+                            // className="event_sort_btn"
+                            className={`event_sort_btn ${sortBy == "averageCompletionTime" ?
+                              sortOrder == "asc"
+                              ? "svg_asc"
+                              : "svg_active"
+                              : "" 
+                              }`}
+                              onClick={() => handleSort('averageCompletionTime')}
+                            >
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 width="8"
@@ -540,17 +550,19 @@ const getSurveyAnalyticsDetail=async()=>{
                         </td>
                         <td>
                           <img src={path_image + "avg-time-icon.svg"} alt="" />{" "}
-                          1.5 min
+                          {item?.averageCompletionTime} sec
                         </td>
                         <td>
                           <img src={path_image + "question-icon.svg"} alt="" />{" "}
                           {item?.questionCount}
                         </td>
                         <td>
+                        <Link to={"/survey/survey-analytics-detail"} state={{ survey_id: item?.survey_id }}>
                           <img
                             src={path_image + "accordian_arrow.svg"}
                             alt=""
                           />
+                          </Link>
                         </td>
                       </tr>
                       <tr className="blank">
@@ -562,6 +574,7 @@ const getSurveyAnalyticsDetail=async()=>{
                      } )}</>):!apiStatus?<div className="no_found"><p>No Data Found</p></div>:""}
                     </tbody>
                   </Table>
+                  :!apiStatus?<div className="no_found"><p>No Data Found</p></div>:""}
                 </div>
               </div>
             </div>
