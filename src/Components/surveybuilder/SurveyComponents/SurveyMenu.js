@@ -68,19 +68,13 @@ const SurveyMenu = ({ menuRef }) => {
   const obj = useSelector(
     (state) => state.surveyData
   );
-  // console.log(obj,"from menu")
+
 
 
   const [editorIndex, setEditorIndex] = useState(0);
 
   const dispatch = useDispatch();
-  // const scaleOptions = [
-  //     { value: 1, label: 1 },
-  //     { value: 2, label: 2 },
-  //     { value: 3, label: 3 },
-  //     { value: 4, label: 4 },
-  //     { value: 5, label: 5 },
-  // ];
+
   const [accordionType, setAccordionType] = useState("0");
   const handleAddElement = (type) => {
     dispatch(addElement(type));
