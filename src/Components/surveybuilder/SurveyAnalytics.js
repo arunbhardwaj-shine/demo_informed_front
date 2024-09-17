@@ -35,9 +35,12 @@ const SurveyAnalytics = () => {
   const [filter, setFilter] = useState([]);
   const [getoriginalsendlistdata, setOriginalSendListData] = useState([]);
   const [data,setData]=useState([])
+  const [totalData,setTotalData]=useState([])
   const [apiStatus,setApiStatus]=useState(false)
   const [sortBy, setSortBy] = useState('name'); // Initial sort key
   const [sortOrder, setSortOrder] = useState('asc');  
+  const buttonRef = useRef(null);
+  const filterRef = useRef(null);
 
   useEffect(() => {
     //props.getEmailData(null);
@@ -70,39 +73,30 @@ const getSurveyAnalyticsDetail=async()=>{
     const res=await surveyAxiosInstance.post("/survey/survey-analytic-details", {
       admin_id: "18207"
     });
-    console.log("res-->",res?.data?.data)
-    setData(res?.data?.data?.allDetails)
-
+    const data=res?.data?.data?.allDetails
+    setData(data)
+    setTotalData(data)
   }catch(err){
     console.log("--err",err)
   }finally{
     setApiStatus(false)
-    loader("hide")
-    
+    loader("hide")    
   }
 }
 
-  const submitHandler = (event) => {
-    setShowFilter(false);
-    //getData("progress");
-    setSubmiHandle(1);
-    event.preventDefault();
-    return false;
+  const searchChange = (e) => {
+    setSearch(e?.target?.value);
+    if (e?.target?.value === "") {
+      setData(totalData)
+    }
   };
 
-  const searchChange = (e) => {
-    setSearch(e.target.value);
-    if (e.target.value === "") {
-      setSendListData(getoriginalsendlistdata);
-    }
+  const submitSearchHandler = (event) => {
+    event.preventDefault();
+    let searchData = totalData?.filter((item) => item?.Title?.includes(search))
+    setData(searchData)
   };
-  const showDeleteButtons = () => {
-    if (deletestatus) {
-      setDeleteStatus(false);
-    } else {
-      setDeleteStatus(true);
-    }
-  };
+
   const clearFilter = () => {
     document.querySelectorAll("input").forEach((checkbox) => {
       checkbox.checked = false;
@@ -127,138 +121,6 @@ const getSurveyAnalyticsDetail=async()=>{
     setFilterApply(true);
     //getData("progress");
     setShowFilter(false);
-  };
-  const selectOptions = [
-    { value: 1, label: "Sublink1" },
-    { value: 2, label: "Sublink2" },
-    { value: 3, label: "Sublink3" },
-    { value: 4, label: "Sublink4" },
-  ];
-  const handleOnFilterRole = (role) => {
-    let tag_index = filterrole.indexOf(role);
-    if (role == "No IRT") {
-      if (tag_index !== -1) {
-        filterrole.splice(tag_index, 1);
-        setFilterRole(filterrole);
-      } else {
-        filterrole.length = 0;
-        filterrole.push(role);
-        setFilterRole(filterrole);
-      }
-    } else {
-      //TO REMOVE THE NO IRT OPTION
-      const index = filterrole.indexOf("No IRT");
-      if (index !== -1) {
-        filterrole.splice(index, 1);
-      }
-
-      if (tag_index !== -1) {
-        filterrole.splice(tag_index, 1);
-        setFilterRole(filterrole);
-      } else {
-        filterrole.push(role);
-        setFilterRole(filterrole);
-      }
-    }
-
-    let getfilter = filter;
-    if (getfilter.hasOwnProperty("role")) {
-      getfilter.role = filterrole;
-    } else {
-      getfilter = Object.assign({ role: filterrole }, filter);
-    }
-    setFilter(getfilter);
-    let up = updateflag + 1;
-    setUpdateFlag(up);
-  };
-
-  const handleOnFilterTags = (ftag) => {
-    let tag_index = filtertags.indexOf(ftag);
-    if (tag_index !== -1) {
-      filtertags.splice(tag_index, 1);
-      setFilterTags(filtertags);
-    } else {
-      filtertags.push(ftag);
-      setFilterTags(filtertags);
-    }
-
-    let getfilter = filter;
-    if (getfilter.hasOwnProperty("tags")) {
-      getfilter.tags = filtertags;
-    } else {
-      getfilter = Object.assign({ tags: filtertags }, filter);
-    }
-    setFilter(getfilter);
-
-    let up = updateflag + 1;
-    setUpdateFlag(up);
-  };
-  const handleOnFilterCampaign = (fcampaign) => {
-    let tag_index = filtercampaign.indexOf(fcampaign);
-    if (tag_index !== -1) {
-      filtercampaign.splice(tag_index, 1);
-      setFilterCampaigns(filtercampaign);
-    } else {
-      filtercampaign.push(fcampaign);
-      setFilterCampaigns(filtercampaign);
-    }
-
-    let getfilter = filter;
-    if (getfilter.hasOwnProperty("campaign")) {
-      getfilter.campaign = filtercampaign;
-    } else {
-      getfilter = Object.assign({ campaign: filtercampaign }, filter);
-    }
-    setFilter(getfilter);
-    let up = updateflag + 1;
-    setUpdateFlag(up);
-  };
-  const handleOnFilterCreator = (fcreator) => {
-    let tag_index = filtercreator.indexOf(fcreator);
-    if (tag_index !== -1) {
-      filtercreator.splice(tag_index, 1);
-      setFilterCreators(filtercreator);
-    } else {
-      filtercreator.push(fcreator);
-      setFilterCreators(filtercreator);
-    }
-
-    let getfilter = filter;
-    if (getfilter.hasOwnProperty("creator")) {
-      getfilter.creator = filtercreator;
-    } else {
-      getfilter = Object.assign({ creator: filtercreator }, filter);
-    }
-    setFilter(getfilter);
-    let up = updateflag + 1;
-    setUpdateFlag(up);
-  };
-  // const [irtRoleObj, setIRTRoleObj] = useState(
-  //     typeof state?.IrtObj !== "undefined" && location?.pathname == '/RD-EmailList' ? state?.IrtObj : {}
-  // );
-  const buttonRef = useRef(null);
-  const filterRef = useRef(null);
-
-
-  const handleOnFilterDate = (fdate) => {
-    let tag_index = filterdate.indexOf(fdate);
-    if (tag_index !== -1) {
-      filterdate.splice(tag_index, 1);
-      setFilterDate(filterdate);
-    } else {
-      filterdate.push(fdate);
-      setFilterDate(filterdate);
-    }
-
-    let getfilter = filter;
-    if (getfilter.hasOwnProperty("date")) {
-      getfilter.date = filterdate;
-    } else {
-      getfilter = Object.assign({ date: filterdate }, filter);
-    }
-    setFilter(getfilter);
-    let up = updateflag + 1;
-    setUpdateFlag(up);
   };
 
   const handleSort = (key) => {
@@ -293,7 +155,7 @@ const getSurveyAnalyticsDetail=async()=>{
               </div>
               <div className="top-right-action">
                 <div className="search-bar">
-                  <form className="d-flex" onSubmit={(e) => submitHandler(e)}>
+                  <form className="d-flex" onSubmit={(e) => submitSearchHandler(e)}>
                     <input
                       className="form-control me-2"
                       type="search"
@@ -317,315 +179,6 @@ const getSurveyAnalyticsDetail=async()=>{
                       </svg>
                     </button>
                   </form>
-                </div>
-                <div
-                  className={
-                    showfilter
-                      ? "filter-by nav-item dropdown highlight"
-                      : "filter-by nav-item dropdown"
-                  }
-                >
-                  <button
-                    ref={buttonRef}
-                    className="btn btn-secondary dropdown"
-                    type="button"
-                    id="dropdownMenuButton2"
-                    onClick={() => setShowFilter((showfilter) => !showfilter)}
-                  >
-                    Filter By
-                    {showfilter ? (
-                      <svg
-                        className="close-arrow"
-                        width="13"
-                        height="12"
-                        viewBox="0 0 13 12"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <rect
-                          width="2.09896"
-                          height="15.1911"
-                          rx="1.04948"
-                          transform="matrix(0.720074 0.693897 -0.720074 0.693897 11.0977 0)"
-                          fill="#0066BE"
-                        />
-                        <rect
-                          width="2.09896"
-                          height="15.1911"
-                          rx="1.04948"
-                          transform="matrix(0.720074 -0.693897 0.720074 0.693897 0 1.45898)"
-                          fill="#0066BE"
-                        />
-                      </svg>
-                    ) : (
-                      <svg
-                        className="filter-arrow"
-                        width="16"
-                        height="14"
-                        viewBox="0 0 16 14"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M0.615385 2.46154H3.07692C3.07692 3.14031 3.62892 3.69231 4.30769 3.69231H5.53846C6.21723 3.69231 6.76923 3.14031 6.76923 2.46154H15.3846C15.7243 2.46154 16 2.18646 16 1.84615C16 1.50585 15.7243 1.23077 15.3846 1.23077H6.76923C6.76923 0.552 6.21723 0 5.53846 0H4.30769C3.62892 0 3.07692 0.552 3.07692 1.23077H0.615385C0.275692 1.23077 0 1.50585 0 1.84615C0 2.18646 0.275692 2.46154 0.615385 2.46154Z"
-                          fill="#97B6CF"
-                        />
-                        <path
-                          d="M15.3846 6.15362H11.6923C11.6923 5.47485 11.1403 4.92285 10.4615 4.92285H9.23077C8.552 4.92285 8 5.47485 8 6.15362H0.615385C0.275692 6.15362 0 6.4287 0 6.76901C0 7.10931 0.275692 7.38439 0.615385 7.38439H8C8 8.06316 8.552 8.61516 9.23077 8.61516H10.4615C11.1403 8.61516 11.6923 8.06316 11.6923 7.38439H15.3846C15.7243 7.38439 16 7.10931 16 6.76901C16 6.4287 15.7243 6.15362 15.3846 6.15362Z"
-                          fill="#97B6CF"
-                        />
-                        <path
-                          d="M15.3846 11.077H6.76923C6.76923 10.3982 6.21723 9.84619 5.53846 9.84619H4.30769C3.62892 9.84619 3.07692 10.3982 3.07692 11.077H0.615385C0.275692 11.077 0 11.352 0 11.6923C0 12.0327 0.275692 12.3077 0.615385 12.3077H3.07692C3.07692 12.9865 3.62892 13.5385 4.30769 13.5385H5.53846C6.21723 13.5385 6.76923 12.9865 6.76923 12.3077H15.3846C15.7243 12.3077 16 12.0327 16 11.6923C16 11.352 15.7243 11.077 15.3846 11.077Z"
-                          fill="#97B6CF"
-                        />
-                      </svg>
-                    )}
-                  </button>
-                  {/*Code for show filters*/}
-                  {showfilter && (
-                    <div
-                      ref={filterRef}
-                      className="dropdown-menu filter-options"
-                      aria-labelledby="dropdownMenuButton2"
-                    >
-                      <h4>Filter By</h4>
-                      <Accordion defaultActiveKey="0" flush>
-                        {filterdata.hasOwnProperty("tags") &&
-                          filterdata.tags.length > 0 && (
-                            <Accordion.Item className="card" eventKey="0">
-                              <Accordion.Header className="card-header">
-                                Tags
-                              </Accordion.Header>
-                              <Accordion.Body className="card-body">
-                                <ul>
-                                  {Object.entries(filterdata.tags).map(
-                                    ([index, item]) => (
-                                      <li>
-                                        {item != "" ? (
-                                          <label className="select-multiple-option">
-                                            <input
-                                              type="checkbox"
-                                              id={`custom-checkbox-tags-${index}`}
-                                              name="tags[]"
-                                              value={item}
-                                              checked={
-                                                updateflag > 0 &&
-                                                typeof filtertags !==
-                                                  "undefined" &&
-                                                filtertags.indexOf(item) !== -1
-                                              }
-                                              onChange={() =>
-                                                handleOnFilterTags(item)
-                                              }
-                                            />
-                                            {item}
-                                            <span className="checkmark"></span>
-                                          </label>
-                                        ) : null}
-                                      </li>
-                                    )
-                                  )}
-                                </ul>
-                              </Accordion.Body>
-                            </Accordion.Item>
-                          )}
-
-                        {filterdata.hasOwnProperty("creators") &&
-                          filterdata.creators.length > 0 && (
-                            <Accordion.Item className="card" eventKey="1">
-                              <Accordion.Header className="card-header">
-                                Creator
-                              </Accordion.Header>
-                              <Accordion.Body className="card-body">
-                                <ul>
-                                  {Object.entries(filterdata.creators).map(
-                                    ([index, item]) => (
-                                      <li>
-                                        <label className="select-multiple-option">
-                                          <input
-                                            type="checkbox"
-                                            id={`custom-checkbox-creator-${index}`}
-                                            name="creator[]"
-                                            value={item}
-                                            checked={
-                                              updateflag > 0 &&
-                                              typeof filtercreator !==
-                                                "undefined" &&
-                                              filtercreator.indexOf(item) !== -1
-                                            }
-                                            onChange={() =>
-                                              handleOnFilterCreator(item)
-                                            }
-                                          />
-                                          {item}
-                                          <span className="checkmark"></span>
-                                        </label>
-                                      </li>
-                                    )
-                                  )}
-                                </ul>
-                              </Accordion.Body>
-                            </Accordion.Item>
-                          )}
-                        {filterdata.hasOwnProperty("created") &&
-                          filterdata.created.length > 0 && (
-                            <Accordion.Item className="card" eventKey="2">
-                              <Accordion.Header className="card-header">
-                                Date
-                              </Accordion.Header>
-                              <Accordion.Body className="card-body">
-                                <ul>
-                                  {Object.entries(filterdata.created).map(
-                                    ([index, item]) => (
-                                      <li>
-                                        <label className="select-multiple-option">
-                                          <input
-                                            type="checkbox"
-                                            id={`custom-checkbox-date-${index}`}
-                                            name="date[]"
-                                            value={item}
-                                            checked={
-                                              updateflag > 0 &&
-                                              typeof filterdate !==
-                                                "undefined" &&
-                                              filterdate.indexOf(item) !== -1
-                                            }
-                                            onChange={() =>
-                                              handleOnFilterDate(item)
-                                            }
-                                          />
-                                          {item}
-                                          <span className="checkmark"></span>
-                                        </label>
-                                      </li>
-                                    )
-                                  )}
-                                </ul>
-                              </Accordion.Body>
-                            </Accordion.Item>
-                          )}
-                        {localStorage.getItem("user_id") !=
-                        "56Ek4feL/1A8mZgIKQWEqg==" ? (
-                          <Accordion.Item className="card" eventKey="3">
-                            <Accordion.Header className="card-header">
-                              Campaign
-                            </Accordion.Header>
-                            <Accordion.Body className="card-body">
-                              <ul>
-                                <li>
-                                  <label className="select-multiple-option">
-                                    <input
-                                      type="checkbox"
-                                      id={`custom-checkbox-campaign-0`}
-                                      name="campaign[]"
-                                      value="Sent"
-                                      checked={
-                                        updateflag > 0 &&
-                                        typeof filtercampaign !== "undefined" &&
-                                        filtercampaign.indexOf(1) !== -1
-                                      }
-                                      onChange={() => handleOnFilterCampaign(1)}
-                                    />
-                                    Sent
-                                    <span className="checkmark"></span>
-                                  </label>
-                                </li>
-                                <li>
-                                  <label className="select-multiple-option">
-                                    <input
-                                      type="checkbox"
-                                      id={`custom-checkbox-campaign-1`}
-                                      name="campaign[]"
-                                      value="Draft"
-                                      checked={
-                                        updateflag > 0 &&
-                                        typeof filtercampaign !== "undefined" &&
-                                        filtercampaign.indexOf(2) !== -1
-                                      }
-                                      onChange={() => handleOnFilterCampaign(2)}
-                                    />
-                                    Draft
-                                    <span className="checkmark"></span>
-                                  </label>
-                                </li>
-                                <li>
-                                  <label className="select-multiple-option">
-                                    <input
-                                      type="checkbox"
-                                      id={`custom-checkbox-campaign-2`}
-                                      name="campaign[]"
-                                      value="draft-approved"
-                                      checked={
-                                        updateflag > 0 &&
-                                        typeof filtercampaign !== "undefined" &&
-                                        filtercampaign.indexOf(3) !== -1
-                                      }
-                                      onChange={() => handleOnFilterCampaign(3)}
-                                    />
-                                    Draft Approved
-                                    <span className="checkmark"></span>
-                                  </label>
-                                </li>
-                              </ul>
-                            </Accordion.Body>
-                          </Accordion.Item>
-                        ) : (
-                          filterdata.hasOwnProperty("IRT_roles") &&
-                          filterdata.IRT_roles.length > 0 && (
-                            <Accordion.Item className="card" eventKey="3">
-                              <Accordion.Header className="card-header">
-                                IRT Roles
-                              </Accordion.Header>
-                              <Accordion.Body className="card-body">
-                                <ul>
-                                  {Object.entries(filterdata.IRT_roles).map(
-                                    ([index, item]) => (
-                                      <li>
-                                        <label className="select-multiple-option">
-                                          <input
-                                            type="checkbox"
-                                            id={`custom-checkbox-IRT_roles-${index}`}
-                                            name="IRT_roles[]"
-                                            value={item}
-                                            checked={
-                                              updateflag > 0 &&
-                                              typeof filterrole !==
-                                                "undefined" &&
-                                              filterrole.indexOf(item) !== -1
-                                            }
-                                            onChange={() =>
-                                              handleOnFilterRole(item)
-                                            }
-                                          />
-                                          {item}
-                                          <span className="checkmark"></span>
-                                        </label>
-                                      </li>
-                                    )
-                                  )}
-                                </ul>
-                              </Accordion.Body>
-                            </Accordion.Item>
-                          )
-                        )}
-                      </Accordion>
-
-                      <div className="filter-footer">
-                        <button
-                          className="btn btn-primary btn-bordered"
-                          onClick={clearFilter}
-                        >
-                          Clear
-                        </button>
-                        <button
-                          className="btn btn-primary btn-filled"
-                          onClick={applyFilter}
-                        >
-                          Apply
-                        </button>
-                      </div>
-                    </div>
-                  )}
                 </div>
               </div>
             </div>
