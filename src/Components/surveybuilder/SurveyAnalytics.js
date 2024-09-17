@@ -557,7 +557,7 @@ const getSurveyAnalyticsDetail=async()=>{
                           {item?.questionCount}
                         </td>
                         <td>
-                        <Link to={"/survey/survey-analytics-detail"} state={{ survey_id: item?.survey_id }}>
+                        <Link to={"/survey/survey-analytics-detail"} state={{ item }}>
                           <img
                             src={path_image + "accordian_arrow.svg"}
                             alt=""
