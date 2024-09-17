@@ -858,8 +858,7 @@ const getSurveyAnalyticsDetail=async()=>{
                         <th className="sort_option">&nbsp;</th>
                       </tr>
                     </thead>
-                    <tbody>
-                   
+                    <tbody>                  
 
                       {data?.length?data?.map((item,index)=>{
                         return(<>
