@@ -1747,7 +1747,7 @@ const TimelineDetail = (props) => {
 
                                                                   ) : null}
                                                                   <div className="data-main-box tab-panel">
-                                                                    {(!sectionLoader&&typeof ebookData !==
+                                                                    {(!sectionLoader && typeof ebookData !==
                                                                       "undefined" &&
                                                                       ebookData.length > 0) ? (
                                                                       <>
@@ -1812,11 +1812,11 @@ const TimelineDetail = (props) => {
                                                                           }
                                                                         )}
                                                                       </>
-                                                                    ) :!sectionLoader? (
+                                                                    ) : !sectionLoader ? (
                                                                       <div className="no_found">
                                                                         <p>No Data Found</p>
                                                                       </div>
-                                                                    ):""}
+                                                                    ) : ""}
 
                                                                   </div>
                                                                 </div>
@@ -3538,7 +3538,9 @@ const TimelineDetail = (props) => {
                                                 alt=""
                                               />
                                             </div>
-                                            <h6>{details?.action}</h6>
+                                            <h6>{
+                                              details.action
+                                            }</h6>
                                           </div>
                                           <div className="timeline-time-view">
                                             <div className="timeline-time">
@@ -3559,7 +3561,9 @@ const TimelineDetail = (props) => {
                                                 </th>
 
                                                 <td className="device-name">
-                                                  {details?.article_heading}
+                                                  {details?.action == "profile-setting" ? "User clicked on profile setting"
+                                                    : details?.action == "profile-seeMore" ? "User clicked on profile see more"
+                                                      : details?.article_heading}
                                                 </td>
                                               </tr>
                                             </tbody>
