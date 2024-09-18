@@ -25,16 +25,14 @@
 
     <script>
       function getQueryParam(name) {
-        // const params = new URLSearchParams(window.location.search);
-        // console.log(params)
-        // return params.get(name);
+  
         const url = window.location.href;
         const params = new URLSearchParams(new URL(url).search);
-  
+
         const utmde = params?.get(name) || "";
- 
+
         const secretValues = utmde.includes("~") ? utmde?.split("~") : utmde;
-     
+
         return secretValues;
       }
 
@@ -81,7 +79,13 @@
           element.value = "";
         });
         document.getElementById("survey-form").reset(); // Reset your form
-        window.location.reload();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+
+        const urlKeys = getQueryParam("Utmde");
+        const Utmde = Array.isArray(urlKeys) ? urlKeys[0] : urlKeys;
+        if (Utmde === "SqfTvRle") {
+          window.location.reload();
+        }
       }
 
       function updateCharCount(questionId, maxTextLength) {
@@ -188,17 +192,17 @@
       };
 
       document.addEventListener("DOMContentLoaded", async function () {
+      // var startTime=0;
         const urlKeys = getQueryParam("Utmde");
         // Check if urlKeys is an array and extract values accordingly
         const Utmde = Array.isArray(urlKeys) ? urlKeys[0] : urlKeys;
         const user_id = Array.isArray(urlKeys) ? urlKeys[1] || 0 : 0;
-    
+
         if (!Utmde) {
-          console.log(urlKeys);
+       
           window.location.replace("/survey/404");
           return;
         }
-
         const apiUrl = "https://informedback.shinedezign.pro/survey/fetch-preview-data";
         const payload = {
           Utmde,
@@ -217,14 +221,15 @@
           });
 
           data = await response.json();
-          console.log(data)
-       
+
+            //  startTime=new Date()
 
           if (data.status == 200) {
             if (
-             ( localStorage.getItem(
+              localStorage.getItem(
                 `form_surveyid${data.data[0].survey_info.id}`
-              )) && (user_id == 0)
+              ) &&
+              user_id == 0
             ) {
               const element = document.getElementById("survey_modal");
               element.style.display = "block";
@@ -239,14 +244,11 @@
               element.style.display = "block";
               loader("hide");
               return;
-
             }
             if (data.data[0].survey_info.is_draft === 2) {
               window.location.replace("/survey/404");
               return;
             }
-            data.data[0].survey_info.id;
-            JSON.parse(data.data[0].survey_info.custom_html)[0];
           } else if (
             data.status == 400 &&
             data.data[0].question_data.length == 0
@@ -262,6 +264,7 @@
             console.error("survey data not avaliable");
             return;
           }
+   
           loader("hide");
         } catch (error) {
           loader("hide");
@@ -294,7 +297,7 @@
             customHtml?.page_background_color
           };">
               <div class="informed-survey-text" style="color: ${
-                customHtml?.bodyTextColor
+                customHtml.bodyTextColor
               };">
                   <p>${customHtml?.bodyText}</p>
               </div>
@@ -316,11 +319,13 @@
                   <div class="d-flex question-title" style="color: ${
                     customHtml.question_answer_color
                   };">
-                      ${question.question} <span>${
-                question.isOptional ? question.optionalLabel : ""
-              }</span>
+                   ${question.question} <span style="color : ${
+                customHtml.bodyTextColor
+              };">${question.isOptional ? question.optionalLabel : ""}</span>
                   </div>
-                  <p class="helper-text">${question.questionDescription}</p>`;
+                  <p class="helper-text" style="color : ${
+                    customHtml.question_answer_color
+                  };" >${question.questionDescription}</p>`;
 
               // Loop through the answers to create radio buttons
               question.answer.forEach((answer) => {
@@ -336,7 +341,9 @@
                             question.questionId
                           }, this.value);" />
                       ${answer.value}
-                      <span class="checkmark"></span>
+                      <span class="checkmark"  style="border-color : ${
+                        customHtml.question_answer_color
+                      };"</span>
                   </label>`;
               });
 
@@ -353,15 +360,23 @@
                             question.questionId
                           }, 'other');" />
                       ${question.extra.otherChoiceLabel}
-                      <span class="checkmark"></span><br>
+                      <span class="checkmark" style="border-color : ${
+                        customHtml.question_answer_color
+                      };"></span><br>
                   </label>
-                  <textarea name="question${question.questionId}_other"
+                  ${
+                    Utmde === "SqfTvRle"
+                      ? `<textarea name="question${question.questionId}_other"
                       placeholder="${question.extra.otherChoicePlaceholderText}"
-                      id="other-text-${
-                        question.questionId
-                      }" class="other-text-input"
-                      style="display:inline-block;margin-top:0;" ></textarea>`;
-              } 
+                      id="other-text-${question.questionId}" class="other-text-input"
+                      style="display:inline-block;margin-top:0;" ></textarea> `
+                      : ` <input type="text" name="question${question.questionId}_other"
+                      placeholder="${question.extra.otherChoicePlaceholderText}"
+                      id="other-text-${question.questionId}" class="other-text-input"
+                      style="display:inline-block;margin-top:0;" />`
+                  }
+                  `;
+              }
 
               surveyHtml += `${
                 question.isOptional
@@ -381,10 +396,14 @@
               }">
             <div class="d-flex question-title" style="color: ${
               customHtml.question_answer_color
-            };">${question.question} <span>${
+            };">${question.question} <span style="color : ${
+                customHtml.bodyTextColor
+              };">${
                 question.isOptional ? question.optionalLabel : ""
               }</span></div>
-            <p class="helper-text">${question.questionDescription}</p>`;
+            <p class="helper-text" style="color : ${
+              customHtml.question_answer_color
+            };">${question.questionDescription}</p>`;
 
               question.answer.forEach((answer) => {
                 surveyHtml += `
@@ -400,7 +419,9 @@
                   question.questionId
                 });" />
                     ${answer.value}
-                    <span class="checkmark"></span>
+                    <span class="checkmark" style="border-color : ${
+                      customHtml.question_answer_color
+                    };"></span>
                 </label>`;
               });
               // Add the "All of the above" option if applicable
@@ -419,21 +440,23 @@
                             question.questionId
                           }, this.value);" />
                       ${question.extra.allOfTheAboveLabel}
-                      <span class="checkmark"></span><br>
+                      <span class="checkmark" style="border-color : ${
+                        customHtml.question_answer_color
+                      };"></span><br>
                   </label>`;
               }
               if (question.addOtherChoice) {
                 surveyHtml += `
-              <label class="check" style="color: ${
-                customHtml.customHtml.bodyTextColor
-              };">
+              <label class="check" style="color: ${customHtml.bodyTextColor};">
                   <input type="checkbox" name="question${
                     question.questionId
                   }" value="other" ${
                   question.isOptional ? "" : "required"
                 } id="checkbox-other-choice-${question.questionId}" />
                   ${question.extra.otherChoiceLabel}
-                  <span class="checkmark"></span><br>
+                  <span class="checkmark" style="border-color : ${
+                    customHtml.question_answer_color
+                  };"></span><br>
               </label>
               <input type="text" placeholder="${
                 question.extra.otherChoicePlaceholderText
@@ -461,13 +484,13 @@
                         <div class="d-flex question-title" style="color: ${
                           customHtml.question_answer_color
                         };">
-                          ${question.question} <span>${
-                question.isOptional ? question.optionalLabel : ""
-              }</span>
+                          ${question.question} <span style="color : ${
+                customHtml.bodyTextColor
+              };" >${question.isOptional ? question.optionalLabel : ""}</span>
                         </div>
-                        <p class="helper-text">${
-                          question.questionDescription
-                        }</p>
+                        <p class="helper-text" style="color : ${
+                          customHtml.question_answer_color
+                        };">${question.questionDescription}</p>
                         <div class="dropdown-el" >
                          <div data-value="" class="select-dropdown__button">
   <span data-place-value="${question.extra.placeholder}">${
@@ -511,11 +534,13 @@
       <div class="d-flex question-title" style="color: ${
         customHtml.question_answer_color
       };">
-        ${question.question} <span>${
-                question.isOptional ? question.optionalLabel : ""
-              }</span>
+        ${question.question} <span style="color : ${
+                customHtml.bodyTextColor
+              };" >${question.isOptional ? question.optionalLabel : ""}</span>
       </div>
-      <p class="helper-text">${question.questionDescription}</p>
+      <p class="helper-text" style="color : ${
+        customHtml.question_answer_color
+      };" >${question.questionDescription}</p>
   `;
 
               // Check if the rating type is stars
@@ -610,11 +635,13 @@
                   ? "d-flex question-title"
                   : "d-flex question-title notoptional"
               }" style="color: ${customHtml.question_answer_color};">
-                    ${question.question} <span>${
-                question.isOptional ? question.optionalLabel : ""
-              }</span>
+                    ${question.question} <span style="color : ${
+                customHtml.bodyTextColor
+              };" >${question.isOptional ? question.optionalLabel : ""}</span>
                   </div>
-                  <p class="helper-text">${question.questionDescription}</p>
+                  <p class="helper-text" style="color : ${
+                    customHtml.question_answer_color
+                  };" >${question.questionDescription}</p>
                   <div class="table-responsive">
                     <table>
                       <thead>
@@ -634,7 +661,7 @@
                             (row) =>
                               `<tr>
                                 <td style="color: ${
-                                  customHtml.bodyTextColor
+                                  customHtml.question_answer_color
                                 };">${row.title}</td>
                                 ${row.answer
                                   .map(
@@ -654,7 +681,9 @@
                                             id="matrix"
                                                value="${option.answerId}">
 
-                                        <span class="checkmark"></span>
+                                        <span class="checkmark" style="border-color : ${
+                                          customHtml.question_answer_color
+                                        };"></span>
                                       </td>`
                                   )
                                   .join("")}
@@ -685,12 +714,13 @@
       <div class="d-flex question-title" style="color: ${
         customHtml.question_answer_color
       };">
-        ${question.question} <span>${
-                question.isOptional ? question.optionalLabel : ""
-              }</span>
+        ${question.question} <span style="color : ${
+                customHtml.bodyTextColor
+              };" >${question.isOptional ? question.optionalLabel : ""}</span>
       </div>
       <textarea
         id="textarea${question.questionId}"
+      
         type="textarea"
         name="question${question.questionId}"
         placeholder="${question.extra.placeholder}"
@@ -716,7 +746,7 @@
               surveyHtml += `
                     <div class="survey-question">
                         <h2 style="color: ${customHtml.question_answer_color};">${question.question}</h2>
-                        <p class="helper-text">${question.questionDescription}</p>
+                        <p class="helper-text" style="color : ${customHtml.question_answer_color};" >${question.questionDescription}</p>
                     `;
               surveyHtml += `</div>`;
               break;
@@ -751,7 +781,9 @@
             case "consent":
               surveyHtml += `
               <div class="survey-consent">
-                  <div class="login-consent">${question.question}${
+                  <div class="login-consent" style="color : ${
+                    customHtml.question_answer_color
+                  };" >${question.question}${
                 question.extra.operatingStatement
               }</div>
                   <div class="form-section">
@@ -762,7 +794,7 @@
                             html = `
 
                                       <div class="form-group">
-                                          <label class="form-label">
+                                          <label class="form-label" style="color : ${customHtml.question_answer_color};">
                                               ${userdetail.nameLabel}
                                               </label>
                                                 <input type="text" name="name" placeholder="${userdetail.namePlaceholder}" required />
@@ -771,7 +803,7 @@
                           } else if (userdetail.emailLabel) {
                             html = `
                                       <div class="form-group">
-                                          <label class="form-label">
+                                          <label class="form-label" style="color : ${customHtml.question_answer_color};">
                                               ${userdetail.emailLabel}
                                                 </label>
                                                 <input type="email" name="email" placeholder="${userdetail.emailPlaceholder}" required />
@@ -780,7 +812,9 @@
                           } else if (userdetail.countryLabel) {
                             html = `
         <div class="form-group">
-          <label class="form-label">${userdetail.countryLabel}</label>
+          <label class="form-label" style="color : ${
+            customHtml.question_answer_color
+          };">${userdetail.countryLabel}</label>
           <div class="dropdown-el" name="question${
             question.questionId
           }_country">
@@ -810,7 +844,9 @@
                         .join("")}
             </div>
             <div class="consent-select">
-                <label class="form-label">I consent to:</label>
+                <label class="form-label" style="color : ${
+                  customHtml.question_answer_color
+                };">I consent to:</label>
                 ${question.extra.consentOptions
                   .map(
                     (option, index) => `
@@ -822,18 +858,21 @@
                   }"  required value="${option.label}" ${
                       option.isChecked ? "checked" : ""
                     }>
-                  <span class="checkmark"></span>
+                  <span class="checkmark" style="border-color : ${
+                    customHtml.question_answer_color
+                  };"></span>
                   ${option.label}
                 </label>`
                   )
                   .join("")}
              
                 <div class="error-message" id="error-consentoption"></div>
-                </div>
-                  <p>${question.extra.cookiePolicy}</p>
+                </div >
+                  <div style="color:${customHtml.bodyTextColor}">${
+                question.extra.cookiePolicy
+              }</div>
               </div>`;
               break;
-
             default:
               console.log(`Unknown question type: ${question.type}`);
           }
@@ -1087,17 +1126,29 @@
                 );
 
                 if (otherRadio && otherRadio.checked) {
-                  const selectedTextarea = question.querySelector(
-                    `textarea[name="question${questionId}_other"]`
-                  );
-              
+                  if (Utmde === "SqfTvRle") {
+                    const selectedTextarea = question.querySelector(
+                      `textarea[name="question${questionId}_other"]`
+                    );
 
-                  if (
-                    selectedTextarea &&
-                    selectedTextarea.value.trim() === ""
-                  ) {
-                    errorMessage = "Please enter your opinion";
-                    isValid = false;
+                    if (
+                      selectedTextarea &&
+                      selectedTextarea.value.trim() === ""
+                    ) {
+                      errorMessage = "Please enter your opinion";
+                      isValid = false;
+                    }
+                  } else {
+                    const selectedTextarea = question.querySelector(
+                      `input[name="question${questionId}_other"]`
+                    );
+                    if (
+                      selectedTextarea &&
+                      selectedTextarea.value.trim() === ""
+                    ) {
+                      errorMessage = "Please enter your opinion";
+                      isValid = false;
+                    }
                   }
                 } else {
                   if (!selectedRadio) {
@@ -1112,9 +1163,23 @@
                 const selectedCheckboxes = question.querySelectorAll(
                   `input[name^="question${questionId}"]:checked`
                 );
-                if (selectedCheckboxes.length === 0) {
-                  errorMessage = "Please select at least one option.";
-                  isValid = false;
+
+                const otherCheckbox = document.getElementById(
+                  `checkbox-other-choice-${questionId}`
+                );
+                if (otherCheckbox && otherCheckbox.checked) {
+                  const selectedinput = question.querySelector(
+                    `input[name="question${questionId}_other"]`
+                  );
+                  if (selectedinput && selectedinput.value.trim() === "") {
+                    errorMessage = "Please enter your opinion";
+                    isValid = false;
+                  }
+                } else {
+                  if (selectedCheckboxes.length === 0) {
+                    errorMessage = "Please select at least one option.";
+                    isValid = false;
+                  }
                 }
                 break;
 
@@ -1508,6 +1573,11 @@
               }
             });
 
+          //   const EndTime=new Date();
+
+          //  const completionTimeSeconds = (EndTime - startTime) / 1000;
+          //  completionTimeSeconds:Math.round(completionTimeSeconds)
+
             const submitPayload = {
               name: obj.name ?? "", // New object containing additional information
               email: obj.email ?? "",
@@ -1524,19 +1594,25 @@
               survey_id: survey_id,
               survey_responses: [
                 ...responses, // Spread the existing responses array
-              ],
+              ]
             };
 
             try {
-              // if ((localStorage.getItem(`form_surveyid${survey_id}`)) && ((user_id == 0))) {
-              //   showToast("You have already submitted the survey");
-              //   closeModal();
-              //   document.getElementById("survey-form").reset(); // Reset your form
-              //   return;
-              // }
+              if (
+                localStorage.getItem(`form_surveyid${survey_id}`) &&
+                user_id == 0 &&
+                Utmde !== "SqfTvRle"
+              ) {
+                showToast("You have already submitted the survey");
+                closeModal();
+                document.getElementById("survey-form").reset(); // Reset your form
+                return;
+              }
 
               loader("show");
+  
               const submitApiUrl ="https://informedback.shinedezign.pro/survey/insert-user-responses";
+            
               const submitResponse = await fetch(submitApiUrl, {
                 method: "POST",
                 headers: {
@@ -1545,8 +1621,6 @@
                 body: JSON.stringify(submitPayload),
               });
 
-              // console.log(submitResponse);
-              // console.log(await submitResponse.json());
 
               if (submitResponse.status == "400") {
                 loader("hide");

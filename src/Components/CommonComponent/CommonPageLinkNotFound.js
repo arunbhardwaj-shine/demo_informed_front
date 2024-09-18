@@ -12,7 +12,7 @@ const CommonPageLinkNotFound = () => {
       />
     <div className="page_not_found">
       <div className="page_not_found-inset">
-      <div class="not-found">
+      <div className="not-found">
          <h1>404</h1>
       </div>
         <h4>Page not found</h4>

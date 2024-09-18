@@ -186,12 +186,12 @@ const LicenseLinkToPdf = () => {
                 popup.style.top = `-${45}px`;
                 popup.style.left = `-${50}px`;
                 popup.innerHTML = `<div
-                  class="link-popup visible"
+                  className="link-popup visible"
 
                 >
-                  <div id="link-popup" class="link-popup-inner">
+                  <div id="link-popup" className="link-popup-inner">
 
-                    <div class="link-popup-buttons">
+                    <div className="link-popup-buttons">
                       <button id=${"view-" + index + "-" + e.currentPage}>
                         View
                       </button>

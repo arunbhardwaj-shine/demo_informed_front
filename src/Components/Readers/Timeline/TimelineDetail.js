@@ -5,6 +5,7 @@ import { postData } from "../../../axios/apiHelper";
 import { ENDPOINT } from "../../../axios/apiConfig";
 import moment from "moment";
 import { loader } from "../../../loader";
+import { Spinner } from "react-activity";
 // import {
 //   Accordion,
 //   Col,
@@ -70,6 +71,8 @@ const TimelineDetail = (props) => {
     timeSpent: '',
     totalVideoTime: ''
   })
+
+  const [sectionLoader, setSectionLoader] = useState(false)
   function isJSONValid(jsonString) {
     try {
       JSON.parse(jsonString);
@@ -85,8 +88,10 @@ const TimelineDetail = (props) => {
     } else {
       setActiveIndex(index);
       try {
-        setIsActive(false);
-        loader("show");
+        // setIsActive(false);
+        setIsActive(true);
+        // loader("show");
+        setSectionLoader(true)
         let crdate = moment(cdate).format("YYYY/MM/DD");
 
         let body = {
@@ -99,10 +104,12 @@ const TimelineDetail = (props) => {
         if (res?.data?.data) {
           setEbookData(res?.data?.data);
         }
-        loader("hide");
-        setIsActive(true);
+        // loader("hide");
+        setSectionLoader(false)
+        // setIsActive(true);
       } catch (err) {
-        loader("hide");
+        // loader("hide");
+        setSectionLoader(false)
         setEbookData([]);
       }
     }
@@ -114,8 +121,10 @@ const TimelineDetail = (props) => {
     } else {
       setActiveIndex(index);
       try {
-        setIsActive(false);
-        loader("show");
+        // setIsActive(false);
+        setIsActive(true);
+        // loader("show");
+        setSectionLoader(true)
         let body = {
           action: action,
           articleId: articleId,
@@ -129,17 +138,18 @@ const TimelineDetail = (props) => {
         if (video_start_time != null && video_end_time != null) {
           time = getTimeDifferenceHHMMSS(video_start_time, video_end_time)
         }
-        console.log(video_start_time, "--", video_end_time)
-        console.log("time---->", time, "--video-->", videoDuration)
         if (time == 0 || time == "") {
           setVideoTime((prev) => ({ ...prev, timeSpent: 1 }))
         } else {
           setVideoTime((prev) => ({ ...prev, timeSpent: time }))
         }
-        loader("hide");
-        setIsActive(true);
+        // loader("hide");
+        setSectionLoader(false)
+        // setIsActive(true);
       } catch (err) {
-        loader("hide");
+        // loader("hide");
+        setSectionLoader(false)
+        console.log("--err", err)
       }
     }
   }
@@ -635,8 +645,8 @@ const TimelineDetail = (props) => {
                                                   <div className="timeline-block">
                                                     <div className="timeline-status">
                                                       <p>
-                                                        IRT Invited to the
-                                                        Training
+                                                        IRT invited to the
+                                                        training
                                                       </p>
                                                       <span>
                                                         {details?.time}{" "}
@@ -734,7 +744,7 @@ const TimelineDetail = (props) => {
                                                       <p>
                                                         {details?.webinar ==
                                                           "Webinar"
-                                                          ? "Webinar Email sent"
+                                                          ? "Webinar email sent"
                                                           : "Email sent"}
                                                       </p>
                                                       <span>
@@ -1418,7 +1428,7 @@ const TimelineDetail = (props) => {
 
                                                     <div className="timeline-block">
                                                       <div className="timeline-status">
-                                                        <p>Content Opened</p>
+                                                        <p>Content opened</p>
                                                         <span>
                                                           {details?.time}{" "}
                                                         </span>
@@ -1539,8 +1549,6 @@ const TimelineDetail = (props) => {
                                                                     {isActive &&
                                                                       details.id == activeIndex ? '< Hide' : 'Show Details... >'}
                                                                   </p>
-
-
                                                                   {typeof ebookData !== "undefined" && ebookData.length > 0 ? (
                                                                     <>
                                                                       {isActive &&
@@ -1564,8 +1572,6 @@ const TimelineDetail = (props) => {
                                                                   ) : (
                                                                     ''
                                                                   )}
-
-
                                                                 </div>
                                                               </div>
                                                             </div>
@@ -1727,10 +1733,23 @@ const TimelineDetail = (props) => {
                                                                   </p>
                                                                 </div>
                                                                 <div className="timeline-article-details-overall">
+                                                                  {(details.id == activeIndex && sectionLoader == true) ? (
+                                                                    <div
+                                                                      className={"load_more"}
+                                                                      style={{
+                                                                        margin: "10 auto",
+                                                                        justifyContent: "center",
+                                                                        display: "flex",
+                                                                      }}
+                                                                    >
+                                                                      <Spinner color="#53aff4" size={32} speed={1} animating={true} />
+                                                                    </div>
+
+                                                                  ) : null}
                                                                   <div className="data-main-box tab-panel">
-                                                                    {typeof ebookData !==
+                                                                    {(!sectionLoader && typeof ebookData !==
                                                                       "undefined" &&
-                                                                      ebookData.length > 0 ? (
+                                                                      ebookData.length > 0) ? (
                                                                       <>
                                                                         {ebookData.map(
                                                                           (data, index) => {
@@ -1793,11 +1812,11 @@ const TimelineDetail = (props) => {
                                                                           }
                                                                         )}
                                                                       </>
-                                                                    ) : (
+                                                                    ) : !sectionLoader ? (
                                                                       <div className="no_found">
                                                                         <p>No Data Found</p>
                                                                       </div>
-                                                                    )}
+                                                                    ) : ""}
 
                                                                   </div>
                                                                 </div>
@@ -1881,7 +1900,7 @@ const TimelineDetail = (props) => {
 
                                                     <div className="timeline-block">
                                                       <div className="timeline-status">
-                                                        <p>Content Shared</p>
+                                                        <p>Content shared</p>
                                                         <span>
                                                           {details?.time}{" "}
                                                         </span>
@@ -1954,7 +1973,7 @@ const TimelineDetail = (props) => {
 
                                                     <div className="timeline-block">
                                                       <div className="timeline-status">
-                                                        <p>Content Saved</p>
+                                                        <p>Content saved</p>
                                                         <span>
                                                           {details?.time}{" "}
                                                         </span>
@@ -2411,7 +2430,7 @@ const TimelineDetail = (props) => {
                                                 alt=""
                                               />
                                             </div>
-                                            <h6>Content Opened</h6>
+                                            <h6>Content opened</h6>
                                           </div>
                                           <div className="timeline-time-view">
                                             <div className="timeline-time">
@@ -2508,6 +2527,7 @@ const TimelineDetail = (props) => {
                                             }}
                                           >
                                             <div className="timeline-article-details-heading">
+
                                               <p>
                                                 Details{" "}
                                                 <img
@@ -2520,11 +2540,25 @@ const TimelineDetail = (props) => {
                                               </p>
                                             </div>
                                             <div className="timeline-article-details-overall">
+                                              {(details.id == activeIndex && sectionLoader == true) ? (
+                                                <div
+                                                  className={"load_more"}
+                                                  style={{
+                                                    margin: "10 auto",
+                                                    justifyContent: "center",
+                                                    display: "flex",
+                                                  }}
+                                                >
+                                                  <Spinner color="#53aff4" size={32} speed={1} animating={true} />
+                                                </div>
+
+                                              ) : null}
                                               <div className="data-main-box tab-panel">
+
                                                 {/* <div className="timeline-article-details-boxes"> */}
-                                                {typeof ebookData !==
+                                                {(!sectionLoader && typeof ebookData !==
                                                   "undefined" &&
-                                                  ebookData.length > 0 ? (
+                                                  ebookData.length > 0) ? (
                                                   <>
                                                     {ebookData.map(
                                                       (data, index) => {
@@ -2603,11 +2637,11 @@ const TimelineDetail = (props) => {
                                                       }
                                                     )}
                                                   </>
-                                                ) : (
+                                                ) : !sectionLoader ? (
                                                   <div className="no_found">
                                                     <p>No Data Found</p>
                                                   </div>
-                                                )}
+                                                ) : ""}
                                                 {/* </div> */}
                                               </div>
                                             </div>
@@ -3183,7 +3217,7 @@ const TimelineDetail = (props) => {
                                                 alt=""
                                               />
                                             </div>
-                                            <h6>Webinar Email Sent</h6>
+                                            <h6>Webinar email sent</h6>
                                           </div>
                                           <div className="timeline-time-view">
                                             <div className="timeline-time">
@@ -3273,7 +3307,7 @@ const TimelineDetail = (props) => {
                                                   alt=""
                                                 />
                                               </div>
-                                              <h6>Shared Content</h6>
+                                              <h6>Shared content</h6>
                                             </div>
                                             <div className="timeline-time-view">
                                               <div className="timeline-time">
@@ -3359,7 +3393,7 @@ const TimelineDetail = (props) => {
                                                     alt=""
                                                   />
                                                 </div>
-                                                <h6>Saved Content</h6>
+                                                <h6>Saved content</h6>
                                               </div>
                                               <div className="timeline-time-view">
                                                 <div className="timeline-time">
@@ -3484,25 +3518,31 @@ const TimelineDetail = (props) => {
                                     </div>
                                   )}
 
-
                                   {["Event", "Expert opinions", "profile-seeMore", "profile-setting", "Highlights", "Expert opinions played", "Symposium Highlights Video played"]?.includes(details.action) ? (
                                     <div className="timeline-box">
                                       <div className="timeline_date">
                                         {details?.date}
                                       </div>
                                       <div className="timeline-block">
-                                        <div className="timeline-block-head received">
+                                        <div className="timeline-block-head library">
                                           <div className="timeline-block-title">
                                             <div className="timeline-block-img">
                                               <img
                                                 src={
-                                                  path_image +
-                                                  "email-received.png"
+                                                  path_image + `${details?.action == "Event" ? "Events.svg" : details?.action == "Expert opinions" ? "Expert_opinion.svg" :
+                                                    details?.action == "profile-seeMore" ? "Profile.svg" : details?.action == "profile-setting" ? "Profile.svg" : details?.action == "Highlights" ? "Highlights.svg" :
+                                                      details?.action == "Expert opinions played" ? "Expert_opinion.svg" : details?.action == "Symposium Highlights Video played" ? "Symposium_highlight.svg" : ""}`
+
                                                 }
                                                 alt=""
                                               />
                                             </div>
-                                            <h6>{details?.action}</h6>
+                                            <h6>{
+                                              details.action=="profile-seeMore"?"Profile see more"
+                                              :details.action=="profile-setting"?"Profile setting"
+                                              :details?.action=="Symposium Highlights Video played"?"Symposium highlights video played"
+                                              :details.action
+                                            }</h6>
                                           </div>
                                           <div className="timeline-time-view">
                                             <div className="timeline-time">
@@ -3521,16 +3561,16 @@ const TimelineDetail = (props) => {
                                                 <th className="device-title">
                                                   Article Heading
                                                 </th>
-
                                                 <td className="device-name">
-                                                  {details?.article_heading}
+                                                  {details?.action == "profile-setting" ? "User clicked on profile setting"
+                                                    : details?.action == "profile-seeMore" ? "User clicked on profile see more"
+                                                      : details?.article_heading}
                                                 </td>
                                               </tr>
                                             </tbody>
                                           </Table>
                                         </div>
-
-                                        {/* {details?.action?.includes("played") ? (
+                                        {details?.action?.includes("played") ? (
                                           <div
                                             className={
                                               isActive &&
@@ -3538,12 +3578,14 @@ const TimelineDetail = (props) => {
                                                 ? "timeline-article-detail-full active"
                                                 : "timeline-article-detail-full"
                                             }
-                                            onClick={(e) => {
-                                              videoPlayedClicked(details?.id, details?.action, details?.article_id, details?.mongo_tracking_id)
-                                            }}
+                                          // onClick={(e) => {
+                                          //   videoPlayedClicked(details?.id, details?.action, details?.article_id, details?.mongo_tracking_id)
+                                          // }}
                                           >
                                             <div className="timeline-article-details-heading">
-                                              <p>
+                                              <p onClick={(e) => {
+                                                videoPlayedClicked(details?.id, details?.action, details?.article_id, details?.mongo_tracking_id)
+                                              }}>
                                                 Details{" "}
                                                 <img
                                                   src={
@@ -3554,15 +3596,87 @@ const TimelineDetail = (props) => {
                                                 />
                                               </p>
                                             </div>
+
                                             <div className="timeline-article-details-overall">
+
+                                              {details.id == activeIndex && sectionLoader == true ? (
+                                                <div
+                                                  className={"load_more"}
+                                                  style={{
+                                                    margin: "10 auto",
+                                                    justifyContent: "center",
+                                                    display: "flex",
+                                                  }}
+                                                >
+                                                  <Spinner color="#53aff4" size={32} speed={1} animating={true} />
+                                                </div>
+                                              ) : null}
                                               <div className="data-main-box tab-panel">
 
-                                                {videoTime?.timeSpent ? (<>
+
+                                                {(!sectionLoader && videoTime?.timeSpent) ? (<>
 
 
                                                   <div className="media-right">
-                                                    <p>
-                                                      <span>
+                                                    {/* <p onClick={(e) => {
+                                                      handleClick(
+                                                        details.id,
+                                                        details.pdf_id,
+                                                        details.Created,
+                                                        details
+                                                      );
+                                                    }}>
+                                                      {isActive &&
+                                                        details.id == activeIndex ? '< Hide' : 'Show Details... >'}
+                                                    </p>
+                                                    {isActive &&
+                                                      details.id == activeIndex && ebookData.map((data) => (
+                                                        <div
+                                                          className="timeline-time-show">
+                                                          
+                                                              <div className="d-flex flex-direction-row">
+                                                                <div className="timeline-activity-detail">
+                                                                  <p><span>Needed |</span> {videoTime?.totalVideoTime}</p>
+                                                                </div>
+                                                                <div className="timeline-activity-detail">
+                                                                  <p><span>Spent |</span> {videoTime?.timeSpent}</p>
+                                                                </div>
+                                                              </div>
+                                                           
+                                                        </div>
+                                                      ))} */}
+                                                    <div className="timeline-time-show">
+                                                      <div className="d-flex flex-direction-row" style={{ gap: "24px" }}>
+                                                        <div className="timeline-activity-detail">
+                                                          <p>
+                                                            <span>
+                                                              Time
+                                                              Needed | {" "}</span>
+                                                            {
+                                                              videoTime?.totalVideoTime
+                                                            }{" "}
+                                                            <span>
+                                                              seconds
+                                                            </span>
+                                                          </p>
+                                                        </div>
+                                                        <div className="timeline-activity-detail">
+                                                          <p>
+                                                            <span>
+                                                              Time
+                                                              Spent | {" "}</span>
+                                                            {
+                                                              videoTime?.timeSpent
+                                                            }{" "}
+                                                            <span>
+                                                              seconds
+                                                            </span>
+                                                          </p>
+
+                                                        </div>
+                                                      </div>
+
+                                                      {/* <span>
                                                         Time
                                                         Needed:{" "}
                                                         {
@@ -3577,20 +3691,20 @@ const TimelineDetail = (props) => {
                                                           videoTime?.timeSpent
                                                         }{" "}
                                                         seconds
-                                                      </span>
-                                                    </p>
+                                                      </span> */}
+                                                    </div>
                                                   </div>
                                                 </>
-                                                ) : (
+                                                ) : !sectionLoader ? (
                                                   <div className="no_found">
                                                     <p>No Data Found</p>
                                                   </div>
-                                                )}
+                                                ) : ""}
 
                                               </div>
                                             </div>
                                           </div>
-                                        ) : ""} */}
+                                        ) : ""}
                                       </div>
                                     </div>
                                   ) : null}

@@ -19,7 +19,7 @@ const ThanksPage = (props) => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [thanksPageData, setThanksPageData] = useState({
     thanksImgPath: surveyValues?.thanksPageData?.thanku_image_path || "",
-    imageWidth: surveyValues?.thanksPageData?.thanku_image_width || 45,
+    imageWidth: surveyValues?.thanksPageData?.thanku_image_width || 20,
     headline: surveyValues?.thanksPageData?.thanku_image_headline || "Thank You!",
     bodyText:
       surveyValues?.thanksPageData?.thanku_body_text ||
@@ -85,7 +85,7 @@ const ThanksPage = (props) => {
                         survey
                       </p>
                     </div>
-                    <div className="live-stream-tabs-data">
+                    <div className="live-stream-tabs-data thanks">
                       <div className="survey-active-data thank">
                         <div className="steps">
                           <div className="d-flex align-items-center justify-content-between">

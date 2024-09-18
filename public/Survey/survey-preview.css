@@ -22,9 +22,12 @@ body {
 
 .informed-survey-text p {
   font-size: 13px;
-  color: #70899e;
+  /* color: #70899e; */
 }
-
+.informed-survey-text p a {
+  color:inherit;
+  text-decoration: none;
+}
 .informed-survey {
   width: 100%;
   max-width: 723px;
@@ -104,7 +107,7 @@ p {
 }
 
 .question-title p {
-  color: var(--dark-blue);
+  color: inherit;
   font-size: 12px;
   font-weight: 500;
   line-height: 132%;
@@ -224,6 +227,10 @@ input[type="checkbox"]:checked ~ .checkmark {
 .informed-survey-header h2 {
   font-size: 20px;
 }
+.informed-survey-header h2 p a{
+  color:inherit;
+  text-decoration: none;
+}
 .modal .modal-dialog {
   -webkit-transform: translateY(-50%);
   transform: translateY(-50%);
@@ -287,7 +294,7 @@ input[type="checkbox"]:checked ~ .checkmark {
 .form-footer button {
   border-radius: 30px;
   background: var(--dark-blue);
-  box-shadow: 0px 1px 6px 0px rgba(0, 102, 190, 0.2);
+  box-shadow: 0px 1px 6px 0px rgba(0, 0, 0, 0.16);
   border: 0;
   color: var(--white);
   font-size: 13px;
@@ -306,6 +313,10 @@ input[type="checkbox"]:checked ~ .checkmark {
   line-height: 132%;
   margin: 24px 0 0;
   word-break: break-word;
+}
+.form-footer span p a {
+  color:inherit;
+  text-decoration: none;
 }
 
 .table-responsive {
@@ -345,7 +356,7 @@ input[type="checkbox"]:checked ~ .checkmark {
 }
 
 .login-consent a {
-  color: var(--dark-blue);
+  color:inherit
 }
 
 .consent-item {
@@ -391,7 +402,7 @@ input[type="checkbox"]:checked ~ .checkmark:after {
 }
 
 .survey-consent p {
-  color: #70899e;
+  /* color: #70899e; */
   font-size: 12px;
   font-weight: 400;
   line-height: 132%;
@@ -399,8 +410,9 @@ input[type="checkbox"]:checked ~ .checkmark:after {
 }
 
 .copyright-links a,
-.survey-consent p a {
-  color: #70899e;
+.survey-consent div p a {
+  /* color: #70899e; */
+  color:inherit;
   font-size: 12px;
   text-decoration: underline;
   padding: 0 13px 0 0;
@@ -785,6 +797,8 @@ width: 100%;
   background: transparent;
   padding: 0;
   cursor: pointer;
+  z-index: 2;
+  padding: 3px;
 }
 
 .modal-body {

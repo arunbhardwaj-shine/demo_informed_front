@@ -8,10 +8,9 @@ const templates = [
     id: 1,
     template_html: `
                   <div class="informed-survey" id="templatecapture" >
-                    <div class="informed-survey-header" style="{#dynamic_header_background#};">
+                    <div class="informed-survey-header" id ="surveyBackgroundImage" style="{#dynamic_header_background#};">
                         {#logo#}
-                      <h2 style="color: {#title_color#} ;">
-                     {#main_heading#} </h2>
+                      <h2 style="color: {#title_color#} ;">{#main_heading#}</h2>
                     </div>
                     <div class="informed-survey-body" style="background-color:#ffffff;">
                       <div class="informed-survey-text" style="color: {#bodyTextColor#};">
@@ -51,6 +50,7 @@ const templates = [
                   </div>
       `,
     default_values: {
+      footer_color:"70899E",
       header_background_type:"color",
       template_name:"Template 1",
       header_background_color: "#004A89",
@@ -73,10 +73,9 @@ const templates = [
     id: 2,
     template_html: `
       <div class="informed-survey " id="templatecapture" >
-                    <div class="informed-survey-header" style="{#dynamic_header_background#};">
+                    <div class="informed-survey-header" id ="surveyBackgroundImage" style="{#dynamic_header_background#};">
                         {#logo#}
-                      <h2 style="color: {#title_color#} ;">
-                     {#main_heading#} </h2>
+                      <h2 style="color: {#title_color#} ;">{#main_heading#}</h2>
                     </div>
                     <div class="informed-survey-body" style="background-color: #ffffff;">
                       <div class="informed-survey-text" style="color: {#bodyTextColor#};">
@@ -117,6 +116,7 @@ const templates = [
 `,
     default_values: {
       // // selectedTemplateClass:"informed-survey",
+      footer_color:"70899E",
       header_background_type:"image",
       template_name:"Template 2",
       header_background_color: "#004A89",
@@ -139,10 +139,9 @@ const templates = [
     id: 3,
     template_html: `
       <div class="informed-survey"  id="templatecapture">
-                    <div class="informed-survey-header" style="{#dynamic_header_background#};">
+                    <div class="informed-survey-header" id ="surveyBackgroundImage" style="{#dynamic_header_background#};">
                         {#logo#}
-                      <h2 style="color: {#title_color#};">
-                     {#main_heading#} </h2>
+                      <h2 style="color: {#title_color#};">{#main_heading#}</h2>
                     </div>
                     <div class="informed-survey-body" style="background-color: #ffffff;">
                       <div class="informed-survey-text" style="color: {#bodyTextColor#};">
@@ -184,6 +183,7 @@ const templates = [
     default_values: {
       
       // selectedTemplateClass:"informed-survey",
+      footer_color:"70899E",
       header_background_type:"image",
       template_name:"Template 3",
       header_background_color: "#004A89",

@@ -16,6 +16,7 @@ const RenderOptions = ({
 
 
 
+
   const renderOption = (option, optIndex, type) => {
     
       return (
@@ -25,9 +26,8 @@ const RenderOptions = ({
             type={type}
             name={item.questionNo}
             disabled={!isEdit}
-          
           />
-          <span className="checkmark"></span>
+          <span className="checkmark" style={{ borderColor: inputColor }} ></span>
         </label>
       );
   };
@@ -111,7 +111,6 @@ const RenderOptions = ({
       );
     case "dropdown":
       return (
-   
         <Select
           className="dropdown-basic-button split-button-dropup"
           placeholder={item.extra.placeholder}
@@ -304,10 +303,10 @@ const RenderOptions = ({
     case "consent":
       return (
         <div className="login-consent">
-          <p className="start-title">
+          <p className="start-title" style={{color:inputColor}} >
             {item.question}
             <span
-              style={{ pointerEvents: isEdit ? "auto" : "none" }}
+              style={{ pointerEvents: isEdit ? "auto" : "none" ,color:inputColor}}
               dangerouslySetInnerHTML={{
                 __html: item.extra.operatingStatement,
               }}
@@ -316,7 +315,7 @@ const RenderOptions = ({
           <div className="consent">
             <Row>
               <Form.Group as={Col}>
-                <Form.Label>
+                <Form.Label style={{color:inputColor}}>
                   {item.extra.consentDetails[0].nameLabel}
                 </Form.Label>
                 <Form.Control
@@ -326,7 +325,7 @@ const RenderOptions = ({
                 />
               </Form.Group>
               <Form.Group as={Col}>
-                <Form.Label>
+                <Form.Label style={{color:inputColor}}>
                   {item.extra.consentDetails[1].emailLabel}
                 </Form.Label>
                 <Form.Control
@@ -338,7 +337,7 @@ const RenderOptions = ({
             </Row>
             <Row>
               <Form.Group as={Col}>
-                <Form.Label>
+                <Form.Label style={{color:inputColor}}>
                   {item.extra.consentDetails[2].countryLabel}
                 </Form.Label>
                 <Select
@@ -357,22 +356,22 @@ const RenderOptions = ({
               </Form.Group>
             </Row>
             <Form.Group className="consent-select">
-              <Form.Label>I consent to:</Form.Label>
+              <Form.Label style={{color:inputColor}} >I consent to:</Form.Label>
               {item.extra.consentOptions.map((option, index) => (
-                <label className="check" key={index}>
+                <label className="check" key={index} style={{color:optionColor}}>
                   {option.label}
                   <input
                     type="checkbox"
                     checked={index === 0}
                     disabled={!isEdit}
                   />
-                  <span className="checkmark"></span>
+                  <span className="checkmark" style={{"border-color": inputColor}}></span>
                 </label>
               ))}
             </Form.Group>
             <div
               className="page-copyright"
-              style={{ pointerEvents: isEdit ? "auto" : "none" }}
+              style={{ pointerEvents: isEdit ? "auto" : "none",color:optionColor}}
               dangerouslySetInnerHTML={{ __html: item.extra.cookiePolicy }}
             />
           </div>
