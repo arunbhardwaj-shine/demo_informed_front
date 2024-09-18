@@ -174,7 +174,7 @@ export const menuType = {
     style: {
       lineStyle: "solid",
       lineWidth: 1,
-      color: "#004A89",
+      color: "",
       width: 100,
       height: 5,
     },
