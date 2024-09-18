@@ -13,7 +13,7 @@ const RenderOptions = ({
   const getTextStyle = ({ style }) => ({
     color: style.color,
   });
-
+  let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [selectedIndex, setSelectedIndex] = useState(null);
 
 
@@ -309,13 +309,23 @@ const RenderOptions = ({
         </div>
       );
     case "image":
-      return (
-        <img
-          src={item.question}
-          alt={item.extra.altText}
-          style={{ width: `${item.style.width}%`, minWidth: "10%" }}
-        />
-      );
+      if(item.question === ""){
+        return (
+          <img
+            src={path_image+"image-placeholder.png"}
+            alt={item.extra.altText}
+          />
+        );
+      }else{
+        return (
+          <img
+            src={item.question}
+            alt={item.extra.altText}
+            
+          />
+        );
+      }
+      
     case "consent":
       return (
         <div className="login-consent">

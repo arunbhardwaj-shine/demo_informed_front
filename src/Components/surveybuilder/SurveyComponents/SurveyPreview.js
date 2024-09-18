@@ -33,7 +33,7 @@ var surveyValues = {};
 const SurveyPreview = (props) => {
   let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
-
+  let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
   const { currentElementIndex, elements, isAddClicked } = useSelector(
     (state) => state.surveyData
@@ -50,7 +50,7 @@ const SurveyPreview = (props) => {
 
   const custom_html = surveyValues?.formBuilderData?.custom_html?.[0];
 
-  let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+
   const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();

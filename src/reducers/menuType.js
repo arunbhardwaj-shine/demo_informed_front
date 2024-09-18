@@ -185,7 +185,7 @@ export const menuType = {
     type: "image",
     visible: true,
     questionId: 0,
-    question: path_image+"add-img1.png",
+    question: "",
     extra: {
       altText: "Image",
     },
