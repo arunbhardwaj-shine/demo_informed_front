@@ -4735,6 +4735,9 @@ body {
         .form-group {
             .split-button-dropup {
                 max-width: 352px;
+                &> div:nth-child(3) {
+                    padding: 8px 50px 8px 15px;
+                }
             }
 
             .load-choice-txt {
