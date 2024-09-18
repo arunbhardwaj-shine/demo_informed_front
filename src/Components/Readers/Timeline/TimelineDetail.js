@@ -645,8 +645,8 @@ const TimelineDetail = (props) => {
                                                   <div className="timeline-block">
                                                     <div className="timeline-status">
                                                       <p>
-                                                        IRT Invited to the
-                                                        Training
+                                                        IRT invited to the
+                                                        training
                                                       </p>
                                                       <span>
                                                         {details?.time}{" "}
@@ -744,7 +744,7 @@ const TimelineDetail = (props) => {
                                                       <p>
                                                         {details?.webinar ==
                                                           "Webinar"
-                                                          ? "Webinar Email sent"
+                                                          ? "Webinar email sent"
                                                           : "Email sent"}
                                                       </p>
                                                       <span>
@@ -1428,7 +1428,7 @@ const TimelineDetail = (props) => {
 
                                                     <div className="timeline-block">
                                                       <div className="timeline-status">
-                                                        <p>Content Opened</p>
+                                                        <p>Content opened</p>
                                                         <span>
                                                           {details?.time}{" "}
                                                         </span>
@@ -1900,7 +1900,7 @@ const TimelineDetail = (props) => {
 
                                                     <div className="timeline-block">
                                                       <div className="timeline-status">
-                                                        <p>Content Shared</p>
+                                                        <p>Content shared</p>
                                                         <span>
                                                           {details?.time}{" "}
                                                         </span>
@@ -1973,7 +1973,7 @@ const TimelineDetail = (props) => {
 
                                                     <div className="timeline-block">
                                                       <div className="timeline-status">
-                                                        <p>Content Saved</p>
+                                                        <p>Content saved</p>
                                                         <span>
                                                           {details?.time}{" "}
                                                         </span>
@@ -2430,7 +2430,7 @@ const TimelineDetail = (props) => {
                                                 alt=""
                                               />
                                             </div>
-                                            <h6>Content Opened</h6>
+                                            <h6>Content opened</h6>
                                           </div>
                                           <div className="timeline-time-view">
                                             <div className="timeline-time">
@@ -3217,7 +3217,7 @@ const TimelineDetail = (props) => {
                                                 alt=""
                                               />
                                             </div>
-                                            <h6>Webinar Email Sent</h6>
+                                            <h6>Webinar email sent</h6>
                                           </div>
                                           <div className="timeline-time-view">
                                             <div className="timeline-time">
@@ -3307,7 +3307,7 @@ const TimelineDetail = (props) => {
                                                   alt=""
                                                 />
                                               </div>
-                                              <h6>Shared Content</h6>
+                                              <h6>Shared content</h6>
                                             </div>
                                             <div className="timeline-time-view">
                                               <div className="timeline-time">
@@ -3393,7 +3393,7 @@ const TimelineDetail = (props) => {
                                                     alt=""
                                                   />
                                                 </div>
-                                                <h6>Saved Content</h6>
+                                                <h6>Saved content</h6>
                                               </div>
                                               <div className="timeline-time-view">
                                                 <div className="timeline-time">
@@ -3538,7 +3538,10 @@ const TimelineDetail = (props) => {
                                               />
                                             </div>
                                             <h6>{
-                                              details.action
+                                              details.action=="profile-seeMore"?"Profile see more"
+                                              :details.action=="profile-setting"?"Profile setting"
+                                              :details?.action=="Symposium Highlights Video played"?"Symposium highlights video played"
+                                              :details.action
                                             }</h6>
                                           </div>
                                           <div className="timeline-time-view">
