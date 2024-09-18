@@ -737,7 +737,7 @@ const SurveyMenu = ({ menuRef }) => {
                   src={
                     item.question != ""
                       ? item.question
-                      : path_image + "dummy-img.png"
+                      : path_image + "add-img1.png"
                   }
                   alt=""
                 />
@@ -753,8 +753,10 @@ const SurveyMenu = ({ menuRef }) => {
                   }}
                 ></input>
                 <label tabindex="0" for="my-file" class="input-file-trigger">
-                  {elements[index].question ? "Change image" : "Add Image"}
+                  {elements[index].question === "" ? "+ Add Image" : "Change Image"}
                 </label>
+                <br/>
+                {/* <span><strong>Max width:</strong> 724px |  <strong>Height:</strong> Auto</span> */}
               </div>
             </div>
             <div className="words-limit">

@@ -572,7 +572,13 @@ span {
                                 }
                             }
                         }
-
+                        .img-preview{
+                            border-radius: 8px;
+                            border: 1px dashed rgba(151, 182, 207, 0.50);
+                            background: rgba(0, 102, 190, 0.04);
+                            box-shadow: none;
+                            padding:0;
+                        }
                         p {
                             color: $dark-gray;
                             font-size: 14px;
@@ -1847,7 +1853,9 @@ span {
 .input-file-container {
     position: relative;
     width: 225px;
-
+    span{
+        strong{font-weight:500}
+    }
     .input-file {
         position: absolute;
         top: 0;
@@ -2525,6 +2533,7 @@ span {
                     p {
                         color: inherit;
                         font-weight: 400;
+                        margin:0;
                         a{
                             color: inherit;
                             font-weight: 400;
@@ -4726,6 +4735,9 @@ body {
         .form-group {
             .split-button-dropup {
                 max-width: 352px;
+                &> div:nth-child(3) {
+                    padding: 8px 50px 8px 15px;
+                }
             }
 
             .load-choice-txt {
