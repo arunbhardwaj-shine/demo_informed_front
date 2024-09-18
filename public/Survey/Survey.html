@@ -13,7 +13,7 @@
       href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
       rel="stylesheet"
     />
-    <title>Survey Preview</title>
+    <!-- <title>Survey Preview</title> -->
   </head>
 
   <body>
@@ -25,7 +25,6 @@
 
     <script>
       function getQueryParam(name) {
-  
         const url = window.location.href;
         const params = new URLSearchParams(new URL(url).search);
 
@@ -113,26 +112,57 @@
         }
       };
 
-      function handleRadioClick(questionId, value) {
-        // Hide all "Other" text inputs
+      // function handleRadioClick(questionId, value, borderColor) {
+      //   // Hide all "Other" text inputs
+      //   document
+      //     .querySelectorAll(`input[name="question${questionId}"]`)
+      //     .forEach((input) => {
+      //       if (input.value !== "other") {
+      //         document.getElementById(
+      //           "other-text-" + questionId
+      //         ).style.display = "none";
+      //       }
+      //     });
+
+      //   // Show the "Other" text input if the 'other' option is selected
+      //   if (value === "other") {
+      //     document.getElementById("other-text-" + questionId).style.display =
+      //       "inline";
+      //   }
+      // }
+
+      function handleRadioClick(questionId, value, borderColor) {
+        // Get the "Other" text input element
+        const otherTextInput = document.getElementById(
+          "other-text-" + questionId
+        );
+
+        // // Hide the "Other" text input by default
+        otherTextInput.style.display = "none";
+
+        // Check all radio buttons for the specific question
         document
           .querySelectorAll(`input[name="question${questionId}"]`)
           .forEach((input) => {
-            if (input.value !== "other") {
-              document.getElementById(
-                "other-text-" + questionId
-              ).style.display = "none";
+            const span = input.nextElementSibling; // Select the corresponding span
+
+            // Reset border color for all spans
+            span.style.borderColor = "";
+
+            // If the input is checked
+            if (input.checked) {
+              // Set border color for the checked input's span
+              span.style.borderColor = borderColor;
+
+              // Show the "Other" text input if the 'other' option is selected
+              if (input.value === "other") {
+                otherTextInput.style.display = "inline";
+              }
             }
           });
-
-        // Show the "Other" text input if the 'other' option is selected
-        if (value === "other") {
-          document.getElementById("other-text-" + questionId).style.display =
-            "inline";
-        }
       }
 
-      const handleAllOfTheAboveChange = (questionNo) => {
+      const handleAllOfTheAboveChange = (questionNo, value, borderColor) => {
         // Select all checkboxes with the given questionNo
         const checkboxes = document.querySelectorAll(
           `input[type="checkbox"][name="question${questionNo}"]`
@@ -160,14 +190,61 @@
             }
           });
         }
+        checkboxesArray.forEach((checkbox) => {
+          if (checkbox.checked) {
+            const span = checkbox.nextElementSibling;
+
+            span.style.borderColor = borderColor;
+          } else {
+            const span = checkbox.nextElementSibling;
+            span.style.borderColor = "";
+          }
+        });
       };
 
-      const handleIndividualCheckboxChange = (questionNo) => {
+      function addMetaTag(name, content) {
+        switch (name) {
+          case "description":
+            const metaTag = document.createElement("meta");
+            metaTag.setAttribute("name", name);
+            metaTag.setAttribute("content", content);
+            document.head.appendChild(metaTag);
+            break;
+
+          case "og:image":
+            const ogMetaTag = document.createElement("meta");
+            ogMetaTag.setAttribute("property", name);
+            ogMetaTag.setAttribute("content", content);
+            document.head.appendChild(ogMetaTag);
+            break;
+
+          case "title":
+            const titleTag = document.createElement("title");
+            titleTag.innerHTML = content;
+            document.head.appendChild(titleTag);
+            break;
+
+          default:
+            console.log("Unsupported meta tag:", name);
+        }
+      }
+
+      const handleIndividualCheckboxChange = (questionNo, borderColor) => {
         // Select all checkboxes with the given questionNo
         const checkboxes = document.querySelectorAll(
           `input[type="checkbox"][name="question${questionNo}"]`
         );
         const checkboxesArray = Array.from(checkboxes);
+
+        checkboxesArray.forEach((checkbox) => {
+          if (checkbox.checked) {
+            const span = checkbox.nextElementSibling;
+            span.style.borderColor = borderColor;
+          } else {
+            const span = checkbox.nextElementSibling;
+            span.style.borderColor = "";
+          }
+        });
 
         // Find the "All of the Above" checkbox
         const allOfTheAboveCheckbox = checkboxesArray.find(
@@ -192,18 +269,17 @@
       };
 
       document.addEventListener("DOMContentLoaded", async function () {
-      // var startTime=0;
+        var startTime = 0;
         const urlKeys = getQueryParam("Utmde");
         // Check if urlKeys is an array and extract values accordingly
         const Utmde = Array.isArray(urlKeys) ? urlKeys[0] : urlKeys;
         const user_id = Array.isArray(urlKeys) ? urlKeys[1] || 0 : 0;
 
         if (!Utmde) {
-       
           window.location.replace("/survey/404");
           return;
         }
-        const apiUrl = "https://informedback.shinedezign.pro/survey/fetch-preview-data";
+        const apiUrl = "http://192.168.0.231:3001/survey/fetch-preview-data";
         const payload = {
           Utmde,
           user_id: user_id,
@@ -221,8 +297,9 @@
           });
 
           data = await response.json();
+          console.log(data);
 
-            //  startTime=new Date()
+          startTime = new Date();
 
           if (data.status == 200) {
             if (
@@ -264,7 +341,6 @@
             console.error("survey data not avaliable");
             return;
           }
-   
           loader("hide");
         } catch (error) {
           loader("hide");
@@ -274,6 +350,13 @@
         }
         const survey_id = data.data[0].survey_info.id;
         const customHtml = JSON.parse(data.data[0].survey_info.custom_html)[0];
+        addMetaTag(
+          "description",
+          data.data[0].survey_info.survey_link_description ?? ""
+        );
+        addMetaTag("og:image", data.data[0].survey_info.survey_thumbnail ?? "");
+        addMetaTag("title", data.data[0].survey_info.survey_title ?? "");
+
         let surveyHtml = `
           <div class="informed-survey-header" style="${
             customHtml.header_background_type === "color"
@@ -337,13 +420,12 @@
                         question.questionId
                       }" value="${answer.answerId}"
                           ${question.isOptional ? "" : "required"}
-                          onclick="handleRadioClick(${
-                            question.questionId
-                          }, this.value);" />
+                         onclick="handleRadioClick(${
+                           question.questionId
+                         }, this.value, '${customHtml.question_answer_color}');"
+ />
                       ${answer.value}
-                      <span class="checkmark"  style="border-color : ${
-                        customHtml.question_answer_color
-                      };"</span>
+                      <span class="checkmark"  </span>
                   </label>`;
               });
 
@@ -358,11 +440,12 @@
                           value="other" ${question.isOptional ? "" : "required"}
                           onclick="handleRadioClick(${
                             question.questionId
-                          }, 'other');" />
+                          }, this.value, '${
+                  customHtml.question_answer_color
+                }');"
+ />
                       ${question.extra.otherChoiceLabel}
-                      <span class="checkmark" style="border-color : ${
-                        customHtml.question_answer_color
-                      };"></span><br>
+                      <span class="checkmark" ></span><br>
                   </label>
                   ${
                     Utmde === "SqfTvRle"
@@ -417,11 +500,9 @@
                 id="checkbox-${question.questionId}-${answer.answerId}"
                 onclick="handleIndividualCheckboxChange(${
                   question.questionId
-                });" />
+                },'${customHtml.question_answer_color}');" />
                     ${answer.value}
-                    <span class="checkmark" style="border-color : ${
-                      customHtml.question_answer_color
-                    };"></span>
+                    <span class="checkmark" ></span>
                 </label>`;
               });
               // Add the "All of the above" option if applicable
@@ -438,11 +519,11 @@
                           ${question.isOptional ? "" : "required"}
                           onclick="handleAllOfTheAboveChange(${
                             question.questionId
-                          }, this.value);" />
+                          }, this.value,'${
+                  customHtml.question_answer_color
+                }');" />
                       ${question.extra.allOfTheAboveLabel}
-                      <span class="checkmark" style="border-color : ${
-                        customHtml.question_answer_color
-                      };"></span><br>
+                      <span class="checkmark"></span><br>
                   </label>`;
               }
               if (question.addOtherChoice) {
@@ -454,9 +535,7 @@
                   question.isOptional ? "" : "required"
                 } id="checkbox-other-choice-${question.questionId}" />
                   ${question.extra.otherChoiceLabel}
-                  <span class="checkmark" style="border-color : ${
-                    customHtml.question_answer_color
-                  };"></span><br>
+                  <span class="checkmark" ></span><br>
               </label>
               <input type="text" placeholder="${
                 question.extra.otherChoicePlaceholderText
@@ -951,6 +1030,14 @@
                 const otherTextInput = document.getElementById(
                   `other-text-${questionId}`
                 );
+
+                if (this.checked) {
+                  const span = this.nextElementSibling;
+                  span.style.borderColor = customHtml.question_answer_color;
+                } else {
+                  const span = this.nextElementSibling;
+                  span.style.borderColor = "";
+                }
                 if (otherTextInput) {
                   otherTextInput.style.display = this.checked
                     ? "block"
@@ -1573,10 +1660,9 @@
               }
             });
 
-          //   const EndTime=new Date();
+            const EndTime = new Date();
 
-          //  const completionTimeSeconds = (EndTime - startTime) / 1000;
-          //  completionTimeSeconds:Math.round(completionTimeSeconds)
+            const completionTimeSeconds = (EndTime - startTime) / 1000;
 
             const submitPayload = {
               name: obj.name ?? "", // New object containing additional information
@@ -1594,7 +1680,8 @@
               survey_id: survey_id,
               survey_responses: [
                 ...responses, // Spread the existing responses array
-              ]
+              ],
+              completionTimeSeconds: Math.round(completionTimeSeconds),
             };
 
             try {
@@ -1610,9 +1697,10 @@
               }
 
               loader("show");
-  
-              const submitApiUrl ="https://informedback.shinedezign.pro/survey/insert-user-responses";
-            
+
+              const submitApiUrl =
+                "http://192.168.0.231:3001/survey/insert-user-responses";
+
               const submitResponse = await fetch(submitApiUrl, {
                 method: "POST",
                 headers: {
@@ -1620,7 +1708,6 @@
                 },
                 body: JSON.stringify(submitPayload),
               });
-
 
               if (submitResponse.status == "400") {
                 loader("hide");

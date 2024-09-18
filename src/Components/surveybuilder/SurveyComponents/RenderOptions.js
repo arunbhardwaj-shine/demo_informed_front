@@ -13,23 +13,34 @@ const RenderOptions = ({
   const getTextStyle = ({ style }) => ({
     color: style.color,
   });
-
-
+  let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+  const [selectedIndex, setSelectedIndex] = useState(null);
 
 
   const renderOption = (option, optIndex, type) => {
-    
-      return (
-        <label style={{ color: optionColor }} key={optIndex} className="check">
-          {option}
-          <input
-            type={type}
-            name={item.questionNo}
-            disabled={!isEdit}
-          />
-          <span className="checkmark" style={{ borderColor: inputColor }} ></span>
-        </label>
-      );
+    const isSelected = selectedIndex === optIndex;
+
+    return (
+      <label style={{ color: optionColor }} key={optIndex} className="check">
+        {option}
+        <input
+          type={type}
+          name={item.questionNo}
+          disabled={!isEdit}
+          onClick={(e) => {
+            if (e.target.checked) {
+              setSelectedIndex(optIndex);
+            }else{
+              setSelectedIndex("");
+            }
+          }}
+        />
+        <span
+          className="checkmark"
+          style={{ borderColor: isSelected ? inputColor : "" }}
+        ></span>
+      </label>
+    );
   };
 
   switch (item.type) {
@@ -73,7 +84,7 @@ const RenderOptions = ({
           {item.answer.map((option, optIndex) =>
             renderOption(option.value, optIndex, "checkbox")
           )}
-            {item.extra.addAllOfTheAbove && (
+          {item.extra.addAllOfTheAbove && (
             <>
               {renderOption(
                 item.extra.allOfTheAboveLabel,
@@ -135,7 +146,9 @@ const RenderOptions = ({
           ></textarea>
           <div className="d-flex justify-content-end word-limit">
             <span>
-              {item.extra.maxTextLength ? `0 /${item.extra.maxTextLength}` : `0 / 50`}
+              {item.extra.maxTextLength
+                ? `0 /${item.extra.maxTextLength}`
+                : `0 / 50`}
             </span>
           </div>
         </>
@@ -155,7 +168,7 @@ const RenderOptions = ({
             <tbody>
               {item?.answer?.map((option, rowIndex) => (
                 <tr key={rowIndex}>
-                  <td style={{ color: optionColor }}>{option?.title}</td>
+                  <td style={{ color: inputColor }}>{option?.title}</td>
                   {option?.answer?.map((column, colIndex) => (
                     <td key={`${rowIndex}-${colIndex}`}>
                       {item.extra.allowMultipleAnswer ? (
@@ -171,7 +184,10 @@ const RenderOptions = ({
                           disabled={!isEdit}
                         />
                       )}
-                           <span className="checkmark" style={{ borderColor: inputColor }}></span>
+                      <span
+                        className="checkmark"
+                        style={{ borderColor: inputColor }}
+                      ></span>
                     </td>
                   ))}
                 </tr>
@@ -209,7 +225,7 @@ const RenderOptions = ({
                           d="M11.6597 0.793025C11.791 0.4645 12.209 0.4645 12.3403 0.793025L15.0391 7.54285C15.2315 8.02382 15.6711 8.36782 16.193 8.41302L23.1552 9.01592C23.3081 9.02917 23.428 9.13134 23.4785 9.29421C23.5294 9.45806 23.4917 9.63156 23.3607 9.74964L18.0665 14.5242C17.6817 14.8712 17.5205 15.4048 17.6337 15.9076L19.2378 23.0301C19.2811 23.2223 19.2053 23.381 19.0865 23.4714C18.9703 23.5599 18.828 23.5757 18.6921 23.4892L12.7213 19.6902C12.2792 19.4089 11.7208 19.4089 11.2787 19.6902L5.30791 23.4892C5.172 23.5757 5.02972 23.5599 4.91355 23.4714C4.79473 23.381 4.71894 23.2223 4.76224 23.0301L6.3663 15.9076C6.47955 15.4048 6.31834 14.8712 5.9335 14.5242L0.639264 9.74964C0.508325 9.63156 0.47065 9.45806 0.521472 9.29421C0.57199 9.13134 0.691868 9.02917 0.844809 9.01592L7.807 8.41302C8.32895 8.36782 8.76855 8.02382 8.96086 7.54285L11.6597 0.793025Z"
                           stroke={item.extra.ratingColor}
                           // style={{ fill: isEdit ? "" : "none" }}
-                            //  style={fill}
+                          //  style={fill}
                         />
                       </g>
                       <defs>
@@ -264,7 +280,7 @@ const RenderOptions = ({
       return (
         <span
           className="heading"
-          style={getTextStyle(item)}
+          style={{color:inputColor}}
           dangerouslySetInnerHTML={{
             __html: item.question,
           }}
@@ -286,27 +302,40 @@ const RenderOptions = ({
           className="divide-line"
           style={{
             width: `${item.style.width}%`,
-            borderTop: `${item.style.height}px ${item.style.lineStyle} ${item.style.color}`,
+            borderTop: `${item.style.height}px ${item.style.lineStyle} ${item.style.color ? item.style.color:inputColor}`,
           }}
         >
           &nbsp;
         </div>
       );
     case "image":
-      return (
-        <img
-          src={item.question}
-          alt={item.extra.altText}
-          style={{ width: `${item.style.width}%`, minWidth: "10%" }}
-        />
-      );
+      if(item.question === ""){
+        return (
+          <img
+            src={path_image+"image-placeholder.png"}
+            alt={item.extra.altText}
+          />
+        );
+      }else{
+        return (
+          <img
+            src={item.question}
+            alt={item.extra.altText}
+            
+          />
+        );
+      }
+      
     case "consent":
       return (
         <div className="login-consent">
-          <p className="start-title" style={{color:inputColor}} >
+          <p className="start-title" style={{ color: inputColor }}>
             {item.question}
             <span
-              style={{ pointerEvents: isEdit ? "auto" : "none" ,color:inputColor}}
+              style={{
+                pointerEvents: isEdit ? "auto" : "none",
+                color: inputColor,
+              }}
               dangerouslySetInnerHTML={{
                 __html: item.extra.operatingStatement,
               }}
@@ -315,7 +344,7 @@ const RenderOptions = ({
           <div className="consent">
             <Row>
               <Form.Group as={Col}>
-                <Form.Label style={{color:inputColor}}>
+                <Form.Label style={{ color: inputColor }}>
                   {item.extra.consentDetails[0].nameLabel}
                 </Form.Label>
                 <Form.Control
@@ -325,7 +354,7 @@ const RenderOptions = ({
                 />
               </Form.Group>
               <Form.Group as={Col}>
-                <Form.Label style={{color:inputColor}}>
+                <Form.Label style={{ color: inputColor }}>
                   {item.extra.consentDetails[1].emailLabel}
                 </Form.Label>
                 <Form.Control
@@ -337,7 +366,7 @@ const RenderOptions = ({
             </Row>
             <Row>
               <Form.Group as={Col}>
-                <Form.Label style={{color:inputColor}}>
+                <Form.Label style={{ color: inputColor }}>
                   {item.extra.consentDetails[2].countryLabel}
                 </Form.Label>
                 <Select
@@ -356,22 +385,34 @@ const RenderOptions = ({
               </Form.Group>
             </Row>
             <Form.Group className="consent-select">
-              <Form.Label style={{color:inputColor}} >I consent to:</Form.Label>
+              <Form.Label style={{ color: inputColor }}>
+                I consent to:
+              </Form.Label>
               {item.extra.consentOptions.map((option, index) => (
-                <label className="check" key={index} style={{color:optionColor}}>
+                <label
+                  className="check"
+                  key={index}
+                  style={{ color: optionColor }}
+                >
                   {option.label}
                   <input
                     type="checkbox"
                     checked={index === 0}
                     disabled={!isEdit}
                   />
-                  <span className="checkmark" style={{"border-color": inputColor}}></span>
+                  <span
+                    className="checkmark"
+                    style={{ "border-color": inputColor }}
+                  ></span>
                 </label>
               ))}
             </Form.Group>
             <div
               className="page-copyright"
-              style={{ pointerEvents: isEdit ? "auto" : "none",color:optionColor}}
+              style={{
+                pointerEvents: isEdit ? "auto" : "none",
+                color: optionColor,
+              }}
               dangerouslySetInnerHTML={{ __html: item.extra.cookiePolicy }}
             />
           </div>

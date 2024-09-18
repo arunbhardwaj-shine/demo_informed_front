@@ -32,8 +32,8 @@ import { updateLiveFlag } from "../CommonFunctions/CommonFunction";
 var surveyValues = {};
 const SurveyPreview = (props) => {
   let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
-  const obj = useSelector((state) => state.surveyData);
 
+  let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
   const { currentElementIndex, elements, isAddClicked } = useSelector(
     (state) => state.surveyData
@@ -50,7 +50,7 @@ const SurveyPreview = (props) => {
 
   const custom_html = surveyValues?.formBuilderData?.custom_html?.[0];
 
-  let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+
   const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
@@ -162,7 +162,7 @@ const SurveyPreview = (props) => {
     }
   };
 
-  const UpdateQuestion = async (questionId) => {
+  const UpdateQuestion = async (e,questionId) => {
     try {
       loader("show");
       if (questionId != 0) {
@@ -200,6 +200,7 @@ const SurveyPreview = (props) => {
                     }
                   >
                     Back
+
                   </Link>
                 </div>
               </Col>
@@ -603,6 +604,7 @@ const SurveyPreview = (props) => {
                                   <img
                                     src={`${path_image}delete-survey.svg`}
                                     alt="Delete"
+                                    title="Delete" 
                                   />{" "}
                                 </Button>
                                 <Button
@@ -615,6 +617,7 @@ const SurveyPreview = (props) => {
                                   <img
                                     src={`${path_image}copy-survey.svg`}
                                     alt="Copy"
+                                    title="Duplicate" 
                                   />{" "}
                                 </Button>
                                 <Button
@@ -627,6 +630,7 @@ const SurveyPreview = (props) => {
                                   <img
                                     src={`${path_image}add-survey.svg`}
                                     alt="Add"
+                                    title="Add" 
                                   />{" "}
                                 </Button>
 
@@ -657,10 +661,11 @@ const SurveyPreview = (props) => {
                                         <button
                                           type="button"
                                           className="btn btn-primary btn-filled"
-                                          onClick={(e) => {
+                                          onClick={async (e) => {
                                             e.stopPropagation();
                                             dispatch(deleteElement(index));
-                                            UpdateQuestion(item.questionId);
+                                            UpdateQuestion(e,item.questionId);
+                                           
                                           }}
                                         >
                                           Yes Please!
