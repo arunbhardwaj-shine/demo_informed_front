@@ -520,11 +520,17 @@ const getSurveyAnalyticsDetail=async()=>{
                       {sortData(data, sortBy, sortOrder)?.map((item,index)=>{
                         return(<>
                          <tr className="view">
-                        <td className={`status ${item?.Status==0?'draft':item?.Status==1?'live':item?.Status==2?'completed':""}`}>
-                          <div>{item?.Status==0?'Draft':item?.Status==1?'Live':item?.Status==2?'Completed':""}</div>
-                        </td>
+                          <td className={`status ${item?.Status==0?'draft':item?.Status==1?'live':item?.Status==2?'completed':""}`}>
+                            <div>{item?.Status==0?'Draft':item?.Status==1?'Live':item?.Status==2?'Completed':""}</div>
+                          </td>
                         <td className="blue">
-                          <table>
+                          <div className="title-heading">
+                            <p>{item?.Title}{" "}</p>
+                          </div>
+                          <div className="title-subheading">
+                            <p>{item?.Subtitle}</p>
+                          </div>
+                          {/* <table>
                             <tr className="title-heading">
                               <td>
                                 {item?.Title}{" "}
@@ -535,7 +541,7 @@ const getSurveyAnalyticsDetail=async()=>{
                                 {item?.Subtitle}
                               </td>
                             </tr>
-                          </table>
+                          </table> */}
                         </td>
                         <td>{item?.Consent}</td>
                         <td>{item?.Creator}</td>
