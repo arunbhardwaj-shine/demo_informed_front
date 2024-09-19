@@ -369,6 +369,8 @@ span {
                         input[type="radio"] {
                             position: absolute;
                             opacity: 0;
+                            
+                           
                         }
 
                         span {
@@ -2281,6 +2283,7 @@ span {
                     font-size: 12px;
                     line-height: 132%;
                     &.checkmark{
+                       
                         span{
                             top: 2px;
                             left: 2px;
@@ -2630,7 +2633,7 @@ span {
                         text-align: center;
                         min-width: 66px;
                         font-size: 11px;
-                        padding: 3px 4px;
+                        padding: 1.5px 4px;
                         color: $dark-blue;
                         min-height: 24px;
                         position: relative;
@@ -2638,13 +2641,34 @@ span {
                             text-align: left;
                             color: $dark-blue;
                             line-height: 1;
+                            vertical-align: middle;
                         }
                         @include custom-checkbox;
                         @include custom-radio;
                         input[type=radio], input[type=checkbox]{
                             position: relative;
                         }
+                        input[type=radio]{
+                            margin:0;width:16px;height:16px;top: 3px;
+                            &:checked{
+                                & ~ .checkmark {
+                                    &:after{
+                                        display: none;
+                                    }
+                            } 
+                        }
+                        }
+                        input[type=checkbox]{
+                            margin:0;width:16px;height:16px;top: 3px;
 
+                            &:checked{
+                                & ~ .checkmark {
+                                    &:after{
+                                        background: inherit;
+                                    }
+                            } 
+                        }
+                        }
                         span {
                             &.checkmark {
                                 // border: 1px solid $dark-gray;
@@ -2691,11 +2715,11 @@ span {
                         padding-left: 12px;
                         margin: 0 0 5px;
                     }
-                    .split-button-dropup{
-                        &> div:nth-child(3) {
+                    // .split-button-dropup{
+                    //     &> div:nth-child(3) {
 
-                        }
-                    } 
+                    //     }
+                    // } 
                     &:nth-child(2n) {
                         display: flex;
                         justify-content: flex-end;
