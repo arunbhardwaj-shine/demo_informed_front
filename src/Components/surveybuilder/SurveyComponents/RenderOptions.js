@@ -48,6 +48,7 @@ const RenderOptions = ({
           className="checkmark"
           style={{
             borderColor: type === 'radio' ? (isSelected ? inputColor : "") : (isChecked ? inputColor : ""),
+            backgroundColor : type === 'radio' ? (isSelected ? inputColor : "") : (isChecked ? inputColor : ""),
           }}
         ></span>
       </label>
@@ -414,7 +415,8 @@ const RenderOptions = ({
                   />
                   <span
                     className="checkmark"
-                    style={ index === 0 ? {"border-color": inputColor} :{"border-color": ""} }
+                    style={ index === 0 ? { borderColor: inputColor, backgroundColor: inputColor } : { borderColor: "" }}
+
                   ></span>
                 </label>
               ))}

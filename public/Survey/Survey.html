@@ -142,18 +142,16 @@
         document
           .querySelectorAll(`input[name="question${questionId}"]`)
           .forEach((input) => {
-
-      
-
-            
             const span = input.nextElementSibling; // Select the corresponding span
             // Reset border color for all spans
             span.style.borderColor = "";
+            span.style.backgroundColor="";
 
             // If the input is checked
             if (input.checked) {
               // Set border color for the checked input's span
               span.style.borderColor = borderColor;
+              span.style.backgroundColor=borderColor;
               // Show the "Other" text input if the 'other' option is selected
               if (input.value === "other") {
                 otherTextInput.style.display = "inline";
@@ -194,9 +192,11 @@
           if (checkbox.checked) {
             const span = checkbox.nextElementSibling;
             span.style.borderColor = borderColor;
+            span.style.backgroundColor=borderColor;
           } else {
             const span = checkbox.nextElementSibling;
             span.style.borderColor = "";
+            span.style.backgroundColor="";
           }
         });
       };
@@ -233,11 +233,6 @@
         const checkboxes = document.querySelectorAll(
           `input[type="checkbox"][name="question${questionNo}"]`
         );
-
-
-
-
-  
         const checkboxesArray = Array.from(checkboxes);
 
         checkboxesArray.forEach((checkbox) => {
@@ -245,9 +240,11 @@
           if (checkbox.checked) {
             const span = checkbox.nextElementSibling;
             span.style.borderColor = borderColor;
+            span.style.backgroundColor=borderColor;
           } else {
             const span = checkbox.nextElementSibling;
             span.style.borderColor = "";
+            span.style.backgroundColor="";
            
           }
 
@@ -274,9 +271,16 @@
             console.log("inside checkbox")
             const span = allOfTheAboveCheckbox.nextElementSibling;
             span.style.borderColor = "";
+            span.style.backgroundColor="";
+          }else{
+            const span = allOfTheAboveCheckbox.nextElementSibling;
+            span.style.borderColor = borderColor;
+            span.style.backgroundColor=borderColor;
+
           }
 
         // Uncheck "All of the Above" if not all other checkboxes are checked
+        
         if (allOfTheAboveCheckbox) {
           allOfTheAboveCheckbox.checked = allOtherChecked;
         }
@@ -1046,9 +1050,11 @@
                 if (this.checked) {
                   const span = this.nextElementSibling;
                   span.style.borderColor = customHtml.question_answer_color;
+                  span.style.backgroundColor=customHtml.question_answer_color;
                 } else {
                   const span = this.nextElementSibling;
                   span.style.borderColor = "";
+                  span.style.backgroundColor="";
                 }
                 if (otherTextInput) {
                   otherTextInput.style.display = this.checked
@@ -1133,6 +1139,7 @@
             span.style.borderColor = input.checked
               ? customHtml.question_answer_color
               : ""; // Set border color if checked
+              span.style.backgroundColor=input.checked ? customHtml.question_answer_color :"";
           });
         }
 
@@ -1144,6 +1151,7 @@
             input.checked = false; // Deselect the option
             let span = input.nextElementSibling; // Get the corresponding span
             span.style.borderColor = ""; // Reset border color
+            span.style.backgroundColor="";
           });
         }
 
@@ -1167,6 +1175,7 @@
                       input.checked = false; // Deselect the option
                       let span = input.nextElementSibling; // Get the corresponding span
                       span.style.borderColor = ""; // Reset border color
+                      span.style.backgroundColor="";
                     });
                   }
                 } else if (option.id === "option4") {
@@ -1181,16 +1190,19 @@
                     const option3 = consent.querySelector("#option3");
                     let span = option3.nextElementSibling;
                     span.style.borderColor = customHtml.question_answer_color;
+                    span.style.backgroundColor=customHtml.question_answer_color;
                   } else {
                     consent.querySelector("#option3").checked = false;
                     const option3 = consent.querySelector("#option3");
                     let span = option3.nextElementSibling;
                     span.style.borderColor = "";
+                    span.style.backgroundColor="";
                   }
                   consent.querySelector("#option4").checked = false;
                   const option4 = consent.querySelector("#option4");
                   let span = option4.nextElementSibling;
                   span.style.borderColor = "";
+                  span.style.backgroundColor="";
                   // Set option4 checkbox to false
                 } else if (option.id === "option2") {
                   const element = consent.querySelector("#option1");
@@ -1200,25 +1212,30 @@
                     const option3 = consent.querySelector("#option3");
                     let span = option3.nextElementSibling;
                     span.style.borderColor = customHtml.question_answer_color;
+                    span.style.backgroundColor=customHtml.question_answer_color;
                   } else {
                     consent.querySelector("#option3").checked = false;
                     const option3 = consent.querySelector("#option3");
                     let span = option3.nextElementSibling;
                     span.style.borderColor = "";
+                    span.style.backgroundColor="";
                   }
                   consent.querySelector("#option4").checked = false;
                   const option4 = consent.querySelector("#option4");
                   let span = option4.nextElementSibling;
                   span.style.borderColor = "";
+                  span.style.backgroundColor="";
                 }
                 // Add more conditions if necessary
 
                 if (option.checked) {
                   let span = option.nextElementSibling;
                   span.style.borderColor = customHtml.question_answer_color;
+                  span.style.backgroundColor=customHtml.question_answer_color;
                 } else {
                   let span = option.nextElementSibling;
                   span.style.borderColor = "";
+                  span.style.backgroundColor="";
                 }
               });
             });
