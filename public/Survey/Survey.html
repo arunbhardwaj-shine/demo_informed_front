@@ -413,7 +413,7 @@
           data.data[0].survey_info.survey_link_description ?? ""
         );
         addMetaTag("og:image", data.data[0].survey_info.survey_thumbnail ?? "");
-        addMetaTag("title", data.data[0].survey_info.survey_title ?? "");
+        addMetaTag("title", data.data[0].survey_info.survey_link_title ?? "");
 
         let surveyHtml = `
           <div class="informed-survey-header" style="${
