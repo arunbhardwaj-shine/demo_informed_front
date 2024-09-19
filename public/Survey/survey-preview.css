@@ -1099,6 +1099,7 @@ label.form-label {
   .form-section .form-group:nth-child(2n) .error-message {
     padding: 0 0;
 }
+
 .informed-survey-header {
   min-height: 100px;
 }
