@@ -3989,7 +3989,7 @@ body {
 
 /**Survey-Analytics**/
 .survey-analytics {
-    padding-top: 10px;
+    padding: 14px 4px 8px;
 
     .survey_data_accordion_heading {
         table {
@@ -4008,7 +4008,7 @@ body {
                         }
 
                         &:nth-child(2) {
-                            width: 550px;
+                            width: 35%;
                         }
 
                         &:nth-last-child(3) {
@@ -4016,11 +4016,41 @@ body {
                             text-align: center;
                         }
                     }
+                    @media (max-width:1500px){
+                        th{
+                            &:nth-child(2) {
+                                width: 25%;
+                            }
+                        }
+                    }
+                    @media (max-width:1400px){
+                        th{
+                            font-size: 12px;
+                            &:nth-child(5) {
+                                width: auto;
+                            }
+                            &:first-child {
+                                width: 100px;
+                            }
+                        }
+                    }
+                    @media (max-width:1365px){
+                        th{
+                            font-size: 11px;
+                            &:nth-last-child(3) {
+                                width: 105px;
+                            }
+                            &:first-child {
+                                width: 90px;
+                            }
+                        }
+                    }
                 }
             }
 
             tbody {
                 tr {
+                    box-shadow: 0px 1px 6px 0px rgba(0, 102, 190, 0.20);
                     &.view {
                         td {
                             padding: 12px 8px;
@@ -4070,6 +4100,11 @@ body {
                                         background: $secondary-green;
                                     }
                                 }
+                                &.draft {
+                                    div {
+                                        background: #FAC755;
+                                    }
+                                }
                             }
 
                             table {
@@ -4099,6 +4134,71 @@ body {
 
                             &.blue {
                                 color: $primary-color;
+                                .title-heading {
+                                    p {
+                                        font-weight: 500;
+                                        padding: 0 0 6px;
+                                        font-size: 13px;
+                                    }
+                                }
+                                .title-subheading {
+                                    p {
+                                        font-size: 13px;
+                                    }
+                                }
+                            }
+                        }
+                        @media (max-width:1400px){
+                            td{
+                                padding: 10px 6px;
+                                &.blue{
+                                    .title-heading{
+                                        p {
+                                            font-size: 12px;
+                                        }
+                                    } 
+                                    .title-subheading{
+                                        p {
+                                            font-size: 12px;
+                                        }
+                                    } 
+                                }
+                                &.status{
+                                    div {
+                                        padding: 2px 6px;
+                                    }
+                                } 
+                                &:first-child{
+                                    width: 100px;
+                                    padding-left: 10px;
+                                }
+                                &:nth-child(5){
+                                    width: auto;
+                                }
+                                
+                            }
+                        }
+                        @media (max-width:1365px){
+                            td{
+                                font-size: 11px;
+                                &.blue{
+                                .title-heading{
+                                    p {
+                                        font-size: 11px;
+                                    }
+                                } 
+                                .title-subheading{
+                                    p {
+                                        font-size: 11px;
+                                    }
+                                } 
+                                }
+                                &:nth-last-child(5) {
+                                    padding-left: 10px;
+                                }
+                                &:first-child{
+                                    width: 90px;
+                                }
                             }
                         }
 
