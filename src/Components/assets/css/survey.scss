@@ -578,6 +578,13 @@ span {
                             background: rgba(0, 102, 190, 0.04);
                             box-shadow: none;
                             padding:0;
+                            &.header-logo{
+                                border-radius: 8px;
+                                background: #001F39;
+                                box-shadow: 0px 0px 6px 0px rgba(0, 102, 190, 0.2);
+                                padding: 4px;
+                                border:0;
+                            }
                         }
                         p {
                             color: $dark-gray;
@@ -2054,7 +2061,7 @@ span {
                 font-size: 13px;
                 font-weight: 400;
                 line-height: 132%;
-                margin: 0 0 20px;
+                // margin: 0 0 20px;
             }
 
             p {
@@ -2273,6 +2280,17 @@ span {
                     font-weight: 400;
                     font-size: 12px;
                     line-height: 132%;
+                    &.checkmark{
+                        span{
+                            top: 2px;
+                            left: 2px;
+                            width: 10px;
+                            height: 10px;
+                            border-radius: 50%;
+                            background: inherit;
+                            position: absolute;
+                        }
+                    }
 
                     &.heading {
                         word-break: break-word;
@@ -2365,6 +2383,7 @@ span {
                                         -ms-transform: rotate(45deg);
                                         transform: rotate(45deg);
                                         border-radius: 0;
+                                        background: transparent;
                                     }
                                 }
                             }
@@ -2385,6 +2404,16 @@ span {
                                 left: 0;
                                 top: 0px;
                                 cursor: pointer;
+                                span{
+                                    top: 2px;
+                                    left: 2px;
+                                    width: 10px;
+                                    height: 10px;
+                                    border-radius: 50%;
+                                    background: inherit; 
+                                    position: absolute;
+
+                                }
                             }
                         }
 
@@ -2559,16 +2588,16 @@ span {
                 }
             }
 
-            .checkmark {
-                &:after {
-                    top: 2px;
-                    left: 2px;
-                    width: 10px;
-                    height: 10px;
-                    border-radius: 50%;
-                    background: $dark-blue;
-                }
-            }
+            // .checkmark {
+            //     &:after {
+            //         top: 2px;
+            //         left: 2px;
+            //         width: 10px;
+            //         height: 10px;
+            //         border-radius: 50%;
+            //         background: $dark-blue;
+            //     }
+            // }
         }
 
         .checkmark {
