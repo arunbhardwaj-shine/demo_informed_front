@@ -167,11 +167,17 @@
 
         if (inputType === "checkbox") {
           const checkedInputs = document.querySelectorAll(
-            `input[name="${inputname}"]:checked`
+            `input[name="${inputname}"]`
           );
           checkedInputs.forEach((input) => {
-            const checkmark = input.nextElementSibling;
-            checkmark.style.backgroundColor = color;
+            if(input.checked){
+              const checkmark = input.nextElementSibling;
+              checkmark.style.backgroundColor = color;
+            }else{
+              const checkmark = input.nextElementSibling;
+              checkmark.style.backgroundColor = "";
+            }
+            
           });
         } else {
           const checkedInputs = document.querySelectorAll(
