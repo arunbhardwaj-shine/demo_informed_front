@@ -23,15 +23,24 @@ const LoadChoicesModal = ({ show, onClose, handleAddBulkElements }) => {
   const handleSave = (e) => {
     e.preventDefault();
     if (addYourOwn) {
+     
       const choices = textAreaValue
         .split(/\r?\n/)
         .map(choice => choice.trim())
         .filter(choice => choice);
-      handleAddBulkElements(choices);
-      onClose(false);
-      resetState();
+
+        if(choices.length > 0){
+          setError({})
+          handleAddBulkElements(choices);
+          onClose(false);
+          resetState();
+        }else{
+          setError( { customChoice: "please Enter at least one option"})
+        }
+    
     } else {
       if(selectedValue){
+        setError({})
         const selectedList = dropdownList[selectedValue.value];
         const choices = selectedList.join("\n")
         .split(/\r?\n/)
@@ -41,9 +50,10 @@ const LoadChoicesModal = ({ show, onClose, handleAddBulkElements }) => {
         onClose(false);
         resetState();
         setTextAreaValue(selectedList.join("\n"));
-        
-        // setAddYourOwn(true);
+      }else{
+        setError( { choices: "please Select at least one choice from list"})
       }
+      
      
     }
   };
@@ -106,6 +116,7 @@ const LoadChoicesModal = ({ show, onClose, handleAddBulkElements }) => {
                 </div>
               </div>
             </div>
+            {error?.customChoice && <div className="login-validation">{error.customChoice}</div>}
           </div>
         )}
       </Modal.Body>

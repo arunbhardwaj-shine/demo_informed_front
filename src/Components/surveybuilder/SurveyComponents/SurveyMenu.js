@@ -62,6 +62,13 @@ const SurveyMenu = ({ menuRef }) => {
 
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
+  const questionElemnts=JSON.parse(localStorage.getItem("getSurveyData"));
+  let defaultColor="";
+  if(questionElemnts.formBuilderData.custom_html.length > 0 ){
+     defaultColor=questionElemnts.formBuilderData.custom_html[0].bodyTextColor;
+  }
+
+
   const { currentElementIndex, elements, isEditModeOn } = useSelector(
     (state) => state.surveyData
   );
@@ -710,7 +717,7 @@ const SurveyMenu = ({ menuRef }) => {
                         type="color"
                         title="Choose your color"
                         name="color"
-                        value={item.style.color || "#ffffff"}
+                        value={item.style.color || defaultColor}
                         onChange={(e) =>
                           handleExtraAndStyle(
                             index,

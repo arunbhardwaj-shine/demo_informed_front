@@ -6,14 +6,14 @@ let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 export default function DivideLine({item,handleUpdateElement,index,handleExtraAndStyle}) {
 
 
-    console.log("from devide line")
+
     const questionElemnts=JSON.parse(localStorage.getItem("getSurveyData"));
-let defaultColor="";
+    let defaultColor="";
     if(questionElemnts.formBuilderData.custom_html.length > 0 ){
        defaultColor=questionElemnts.formBuilderData.custom_html[0].question_answer_color;
     }
 
-   console.log(defaultColor)
+
 
     const lineOptions = [
         { value: 'solid', label: 'Solid' },
