@@ -147,14 +147,13 @@
             const innerSpan = span.querySelector("span"); // Select the inner <span>
             // Reset border color for all spans
             span.style.borderColor = "";
-            span.style.backgroundColor = "";
+            innerSpan.style.backgroundColor = "";
 
             // If the input is checked
             if (input.checked) {
               // Set border color for the checked input's span
               span.style.borderColor = borderColor;
               innerSpan.style.backgroundColor = borderColor;
-
               // Show the "Other" text input if the 'other' option is selected
               if (input.value === "other") {
                 otherTextInput.style.display = "inline";
@@ -165,25 +164,42 @@
 
       const handleMatrixClick = (inputname, inputType, color) => {
         console.log(inputname, inputType, color);
-        const checkedInputs = document.querySelectorAll(
-          `input[name="${inputname}"]:checked`
-        );
 
         if (inputType === "checkbox") {
+          const checkedInputs = document.querySelectorAll(
+            `input[name="${inputname}"]`
+          );
           checkedInputs.forEach((input) => {
-            const checkmark = input.nextElementSibling;
-            checkmark.style.backgroundColor = color;
+            if(input.checked){
+              const checkmark = input.nextElementSibling;
+              checkmark.style.backgroundColor = color;
+            }else{
+              const checkmark = input.nextElementSibling;
+              checkmark.style.backgroundColor = "";
+            }
+            
           });
         } else {
+          const checkedInputs = document.querySelectorAll(
+            `input[name="${inputname}"]`
+          );
           checkedInputs.forEach((input) => {
             // Access the corresponding checkmark span (assuming it's the next sibling)
             console.log(input);
             console.log("inside radio");
-            const span = input.nextElementSibling; // Select the corresponding span
+            if (input.checked) {
+              const span = input.nextElementSibling; // Select the corresponding span
 
-            const innerSpan = span.querySelector("span"); // Select the inner <span>
+              const innerSpan = span.querySelector("span"); // Select the inner <span>
 
-            innerSpan.style.backgroundColor = color;
+              innerSpan.style.backgroundColor = color;
+            } else {
+              const span = input.nextElementSibling; // Select the corresponding span
+
+              const innerSpan = span.querySelector("span"); // Select the inner <span>
+
+              innerSpan.style.backgroundColor = "";
+            }
           });
         }
       };
@@ -818,9 +834,7 @@
                                         ${
                                           inputType === "checkbox"
                                             ? `<span class="checkmark" style="border-color: ${customHtml.question_answer_color};"></span>`
-                                            : `<span class="checkmark" style="border-color: ${customHtml.question_answer_color};">
-      <span></span>
-    </span>`
+                                            : `<span class="checkmark" style="border-color: ${customHtml.question_answer_color};"> <span></span></span>`
                                         }
 
                                        
