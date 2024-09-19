@@ -143,15 +143,17 @@
           .querySelectorAll(`input[name="question${questionId}"]`)
           .forEach((input) => {
             const span = input.nextElementSibling; // Select the corresponding span
+
+            const innerSpan = span.querySelector("span"); // Select the inner <span>
             // Reset border color for all spans
             span.style.borderColor = "";
-            span.style.backgroundColor="";
+            innerSpan.style.backgroundColor = "";
 
             // If the input is checked
             if (input.checked) {
               // Set border color for the checked input's span
               span.style.borderColor = borderColor;
-              span.style.backgroundColor=borderColor;
+              innerSpan.style.backgroundColor = borderColor;
               // Show the "Other" text input if the 'other' option is selected
               if (input.value === "other") {
                 otherTextInput.style.display = "inline";
@@ -159,6 +161,48 @@
             }
           });
       }
+
+      const handleMatrixClick = (inputname, inputType, color) => {
+        console.log(inputname, inputType, color);
+
+        if (inputType === "checkbox") {
+          const checkedInputs = document.querySelectorAll(
+            `input[name="${inputname}"]`
+          );
+          checkedInputs.forEach((input) => {
+            if(input.checked){
+              const checkmark = input.nextElementSibling;
+              checkmark.style.backgroundColor = color;
+            }else{
+              const checkmark = input.nextElementSibling;
+              checkmark.style.backgroundColor = "";
+            }
+            
+          });
+        } else {
+          const checkedInputs = document.querySelectorAll(
+            `input[name="${inputname}"]`
+          );
+          checkedInputs.forEach((input) => {
+            // Access the corresponding checkmark span (assuming it's the next sibling)
+            console.log(input);
+            console.log("inside radio");
+            if (input.checked) {
+              const span = input.nextElementSibling; // Select the corresponding span
+
+              const innerSpan = span.querySelector("span"); // Select the inner <span>
+
+              innerSpan.style.backgroundColor = color;
+            } else {
+              const span = input.nextElementSibling; // Select the corresponding span
+
+              const innerSpan = span.querySelector("span"); // Select the inner <span>
+
+              innerSpan.style.backgroundColor = "";
+            }
+          });
+        }
+      };
 
       const handleAllOfTheAboveChange = (questionNo, value, borderColor) => {
         // Select all checkboxes with the given questionNo
@@ -192,11 +236,11 @@
           if (checkbox.checked) {
             const span = checkbox.nextElementSibling;
             span.style.borderColor = borderColor;
-            span.style.backgroundColor=borderColor;
+            span.style.backgroundColor = borderColor;
           } else {
             const span = checkbox.nextElementSibling;
             span.style.borderColor = "";
-            span.style.backgroundColor="";
+            span.style.backgroundColor = "";
           }
         });
       };
@@ -236,19 +280,16 @@
         const checkboxesArray = Array.from(checkboxes);
 
         checkboxesArray.forEach((checkbox) => {
-          console.log(checkbox.id)
+          console.log(checkbox.id);
           if (checkbox.checked) {
             const span = checkbox.nextElementSibling;
             span.style.borderColor = borderColor;
-            span.style.backgroundColor=borderColor;
+            span.style.backgroundColor = borderColor;
           } else {
             const span = checkbox.nextElementSibling;
             span.style.borderColor = "";
-            span.style.backgroundColor="";
-           
+            span.style.backgroundColor = "";
           }
-
-         
         });
 
         // Find the "All of the Above" checkbox
@@ -267,20 +308,19 @@
           )
           .every((checkbox) => checkbox.checked);
 
-          if(!allOtherChecked ){
-            console.log("inside checkbox")
-            const span = allOfTheAboveCheckbox.nextElementSibling;
-            span.style.borderColor = "";
-            span.style.backgroundColor="";
-          }else{
-            const span = allOfTheAboveCheckbox.nextElementSibling;
-            span.style.borderColor = borderColor;
-            span.style.backgroundColor=borderColor;
-
-          }
+        if (!allOtherChecked) {
+          console.log("inside checkbox");
+          const span = allOfTheAboveCheckbox.nextElementSibling;
+          span.style.borderColor = "";
+          span.style.backgroundColor = "";
+        } else {
+          const span = allOfTheAboveCheckbox.nextElementSibling;
+          span.style.borderColor = borderColor;
+          span.style.backgroundColor = borderColor;
+        }
 
         // Uncheck "All of the Above" if not all other checkboxes are checked
-        
+
         if (allOfTheAboveCheckbox) {
           allOfTheAboveCheckbox.checked = allOtherChecked;
         }
@@ -373,7 +413,7 @@
           data.data[0].survey_info.survey_link_description ?? ""
         );
         addMetaTag("og:image", data.data[0].survey_info.survey_thumbnail ?? "");
-        addMetaTag("title", data.data[0].survey_info.survey_title ?? "");
+        addMetaTag("title", data.data[0].survey_info.survey_link_title ?? "");
 
         let surveyHtml = `
           <div class="informed-survey-header" style="${
@@ -443,7 +483,9 @@
                          }, this.value, '${customHtml.question_answer_color}');"
  />
                       ${answer.value}
-                      <span class="checkmark"  </span>
+                      <span class="checkmark">
+                             <span></span>
+                      </span>
                   </label>`;
               });
 
@@ -463,7 +505,10 @@
                 }');"
  />
                       ${question.extra.otherChoiceLabel}
-                      <span class="checkmark" ></span><br>
+                     <span class="checkmark">
+                             <span></span>
+                      </span>
+                      <br>
                   </label>
                   ${
                     Utmde === "SqfTvRle"
@@ -775,12 +820,24 @@
                                                     ? ""
                                                     : "required"
                                                 }
-                                            id="matrix"
-                                               value="${option.answerId}">
 
-                                        <span class="checkmark" style="border-color : ${
-                                          customHtml.question_answer_color
-                                        };"></span>
+                                              onclick="${
+                                                inputType === "checkbox"
+                                                  ? `handleMatrixClick('question${row.id}_${option.answerId}', '${inputType}', '${customHtml.question_answer_color}');`
+                                                  : `handleMatrixClick('question${row.id}', '${inputType}', '${customHtml.question_answer_color}');`
+                                              }"
+
+                                               id="matrix"
+                                               value="${option.answerId}" 
+                                        />
+
+                                        ${
+                                          inputType === "checkbox"
+                                            ? `<span class="checkmark" style="border-color: ${customHtml.question_answer_color};"></span>`
+                                            : `<span class="checkmark" style="border-color: ${customHtml.question_answer_color};"> <span></span></span>`
+                                        }
+
+                                       
                                       </td>`
                                   )
                                   .join("")}
@@ -1050,11 +1107,11 @@
                 if (this.checked) {
                   const span = this.nextElementSibling;
                   span.style.borderColor = customHtml.question_answer_color;
-                  span.style.backgroundColor=customHtml.question_answer_color;
+                  span.style.backgroundColor = customHtml.question_answer_color;
                 } else {
                   const span = this.nextElementSibling;
                   span.style.borderColor = "";
-                  span.style.backgroundColor="";
+                  span.style.backgroundColor = "";
                 }
                 if (otherTextInput) {
                   otherTextInput.style.display = this.checked
@@ -1139,7 +1196,9 @@
             span.style.borderColor = input.checked
               ? customHtml.question_answer_color
               : ""; // Set border color if checked
-              span.style.backgroundColor=input.checked ? customHtml.question_answer_color :"";
+            span.style.backgroundColor = input.checked
+              ? customHtml.question_answer_color
+              : "";
           });
         }
 
@@ -1151,7 +1210,7 @@
             input.checked = false; // Deselect the option
             let span = input.nextElementSibling; // Get the corresponding span
             span.style.borderColor = ""; // Reset border color
-            span.style.backgroundColor="";
+            span.style.backgroundColor = "";
           });
         }
 
@@ -1175,7 +1234,7 @@
                       input.checked = false; // Deselect the option
                       let span = input.nextElementSibling; // Get the corresponding span
                       span.style.borderColor = ""; // Reset border color
-                      span.style.backgroundColor="";
+                      span.style.backgroundColor = "";
                     });
                   }
                 } else if (option.id === "option4") {
@@ -1190,19 +1249,20 @@
                     const option3 = consent.querySelector("#option3");
                     let span = option3.nextElementSibling;
                     span.style.borderColor = customHtml.question_answer_color;
-                    span.style.backgroundColor=customHtml.question_answer_color;
+                    span.style.backgroundColor =
+                      customHtml.question_answer_color;
                   } else {
                     consent.querySelector("#option3").checked = false;
                     const option3 = consent.querySelector("#option3");
                     let span = option3.nextElementSibling;
                     span.style.borderColor = "";
-                    span.style.backgroundColor="";
+                    span.style.backgroundColor = "";
                   }
                   consent.querySelector("#option4").checked = false;
                   const option4 = consent.querySelector("#option4");
                   let span = option4.nextElementSibling;
                   span.style.borderColor = "";
-                  span.style.backgroundColor="";
+                  span.style.backgroundColor = "";
                   // Set option4 checkbox to false
                 } else if (option.id === "option2") {
                   const element = consent.querySelector("#option1");
@@ -1212,30 +1272,31 @@
                     const option3 = consent.querySelector("#option3");
                     let span = option3.nextElementSibling;
                     span.style.borderColor = customHtml.question_answer_color;
-                    span.style.backgroundColor=customHtml.question_answer_color;
+                    span.style.backgroundColor =
+                      customHtml.question_answer_color;
                   } else {
                     consent.querySelector("#option3").checked = false;
                     const option3 = consent.querySelector("#option3");
                     let span = option3.nextElementSibling;
                     span.style.borderColor = "";
-                    span.style.backgroundColor="";
+                    span.style.backgroundColor = "";
                   }
                   consent.querySelector("#option4").checked = false;
                   const option4 = consent.querySelector("#option4");
                   let span = option4.nextElementSibling;
                   span.style.borderColor = "";
-                  span.style.backgroundColor="";
+                  span.style.backgroundColor = "";
                 }
                 // Add more conditions if necessary
 
                 if (option.checked) {
                   let span = option.nextElementSibling;
                   span.style.borderColor = customHtml.question_answer_color;
-                  span.style.backgroundColor=customHtml.question_answer_color;
+                  span.style.backgroundColor = customHtml.question_answer_color;
                 } else {
                   let span = option.nextElementSibling;
                   span.style.borderColor = "";
-                  span.style.backgroundColor="";
+                  span.style.backgroundColor = "";
                 }
               });
             });
