@@ -756,10 +756,10 @@ const SurveyMenu = ({ menuRef }) => {
                   {elements[index].question === "" ? "+ Add Image" : "Change Image"}
                 </label>
                 <br/>
-                {/* <span><strong>Max width:</strong> 724px |  <strong>Height:</strong> Auto</span> */}
+                <span><strong>Max width:</strong> 724px |  <strong>Height:</strong> Auto</span>
               </div>
             </div>
-            <div className="words-limit">
+            {/* <div className="words-limit">
               <p class="option-heading">Image Width (%)</p>
               <input
                 placeholder="0"
@@ -774,7 +774,7 @@ const SurveyMenu = ({ menuRef }) => {
                   handleExtraAndStyle(index, value, "width", "style");
                 }}
               />
-            </div>
+            </div> */}
           </div>
         );
       case "consent":
