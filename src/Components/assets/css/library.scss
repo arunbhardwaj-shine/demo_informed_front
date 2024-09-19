@@ -1393,6 +1393,16 @@
             content: "";
             background: #fbfcfd;
           }
+          .timeline-indicator{
+            top:35px;
+          }
+        }
+        @media (max-width:1365px){
+          .timeline-sticky {
+            .timeline-indicator{
+              top:45px;
+            }
+          }
         }
 
         .timeline-block {
@@ -1423,6 +1433,12 @@
             top: 3px;
           }
         }
+        .timeline-box-inset{
+          &:after{
+            top:0;
+          }
+        }
+        
       }
 
     }
@@ -1591,10 +1607,13 @@
 
         .timeline-article-image {
           flex: 0 0 35px;
-
+          margin: 0 0 7px;
           img {
             max-width: 35px;
             width: 100%;
+            filter: none;
+            box-shadow: 0 0 6px rgba(0, 102, 190, .29);
+            border-radius: 3px;
           }
         }
 
