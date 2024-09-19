@@ -1923,8 +1923,9 @@
 
       .timeline-box-inset {
         position: relative;
-        margin: 6px 0 24px;
-        padding-right: 5px;
+        // margin: 6px 0 24px;
+        padding: 6px 5px 24px 0;
+
 
         &:last-child {
           margin: 4px 0 4px;
@@ -1946,12 +1947,12 @@
           width: 1px;
           z-index: 2;
         }
-        @media (max-width:1500px){
-          &:after {
-            top: -6px;
-          }
+        // @media (max-width:1500px){
+        //   &:after {
+        //     top: -6px;
+        //   }
 
-        }
+        // }
         .timeline-indicator {
           position: absolute;
           left: -80px;
