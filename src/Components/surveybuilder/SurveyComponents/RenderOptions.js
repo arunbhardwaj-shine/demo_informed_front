@@ -17,12 +17,11 @@ const RenderOptions = ({
   const [selectedIndex, setSelectedIndex] = useState(null);
   // const [selectedIndex, setSelectedIndex] = useState(null); // For radio buttons
   const [checkedIndices, setCheckedIndices] = useState([]); // For checkboxes
-  
 
   const renderOption = (option, optIndex, type) => {
     const isSelected = selectedIndex === optIndex; // For radio buttons
     const isChecked = checkedIndices.includes(optIndex); // For checkboxes
-  
+
     return (
       <label style={{ color: optionColor }} key={optIndex} className="check">
         {option}
@@ -30,45 +29,104 @@ const RenderOptions = ({
           type={type} // Either 'radio' or 'checkbox' based on your requirements
           name={item.questionNo} // This should be the same for radio buttons
           disabled={!isEdit}
-          checked={type === 'radio' ? isSelected : isChecked} // Use isSelected for radio, isChecked for checkboxes
+          checked={type === "radio" ? isSelected : isChecked} // Use isSelected for radio, isChecked for checkboxes
           onChange={(e) => {
-            if (type === 'radio') {
+            if (type === "radio") {
               setSelectedIndex(optIndex); // For radio buttons, set the selected index
-            } else if (type === 'checkbox') {
+            } else if (type === "checkbox") {
               // For checkboxes, manage checked state
               if (e.target.checked) {
                 setCheckedIndices((prev) => [...prev, optIndex]); // Add the index to the checked state
               } else {
-                setCheckedIndices((prev) => prev.filter(index => index !== optIndex)); // Remove it if unchecked
+                setCheckedIndices((prev) =>
+                  prev.filter((index) => index !== optIndex)
+                ); // Remove it if unchecked
               }
             }
           }}
         />
 
-        {
-          type === 'radio'?( <span
+        {type === "radio" ? (
+          <span
             className="checkmark"
             style={{
-              borderColor: type === 'radio' ? (isSelected ? inputColor : "") : (isChecked ? inputColor : ""),
+              borderColor:
+                type === "radio"
+                  ? isSelected
+                    ? inputColor
+                    : ""
+                  : isChecked
+                  ? inputColor
+                  : "",
               // backgroundColor : type === 'radio' ? (isSelected ? inputColor : "") : (isChecked ? inputColor : ""),
             }}
-            
           >
-            <span style={{
-              backgroundColor : type === 'radio' ? (isSelected ? inputColor : "") : (isChecked ? inputColor : ""),
-            }}></span>
-          </span>):( <span
+            <span
+              style={{
+                backgroundColor:
+                  type === "radio"
+                    ? isSelected
+                      ? inputColor
+                      : ""
+                    : isChecked
+                    ? inputColor
+                    : "",
+              }}
+            ></span>
+          </span>
+        ) : (
+          <span
             className="checkmark"
             style={{
-              borderColor: type === 'radio' ? (isSelected ? inputColor : "") : (isChecked ? inputColor : ""),
-              backgroundColor : type === 'radio' ? (isSelected ? inputColor : "") : (isChecked ? inputColor : ""),
-            }}/>)
-        }
-       
+              borderColor:
+                type === "radio"
+                  ? isSelected
+                    ? inputColor
+                    : ""
+                  : isChecked
+                  ? inputColor
+                  : "",
+              backgroundColor:
+                type === "radio"
+                  ? isSelected
+                    ? inputColor
+                    : ""
+                  : isChecked
+                  ? inputColor
+                  : "",
+            }}
+          />
+        )}
       </label>
     );
   };
-  
+
+  const [checkMarkCount, setCheckMarkCount] = useState([]);
+
+  const handleMatrixCheckmark = (type, index) => {
+    if (type === "checkbox") {
+      // Check if the index is already in the array
+      if (checkMarkCount.includes(index)) {
+        // Remove the index if it exists
+        setCheckMarkCount((prev) => prev.filter((item) => item !== index));
+      } else {
+        // Add the index if it doesn't exist
+        setCheckMarkCount((prev) => [...prev, index]);
+      }
+    }
+  };
+
+  const [selectedValues, setSelectedValues] = useState({});
+
+
+  const handleMatrixRadioCheckmark = (rowIndex, value) => {
+    setSelectedValues(prev => ({
+      ...prev,
+      [rowIndex]: value, // Store the selected value for the specific row
+    }));
+  };
+
+  console.log(checkMarkCount);
 
   switch (item.type) {
     case "multiple":
@@ -200,30 +258,53 @@ const RenderOptions = ({
                     <td key={`${rowIndex}-${colIndex}`}>
                       {item.extra.allowMultipleAnswer ? (
                         <>
-                        <input
-                          type="checkbox"
-                          name={`matrix-${index}-${rowIndex}-${colIndex}`}
-                          disabled={!isEdit}
-                        />
-                        <span
-                        className="checkmark"
-                        style={{ borderColor: inputColor,backgroundColor : inputColor }}
-                      ></span>
+                          <input
+                            type="checkbox"
+                            name={`matrix-${index}-${rowIndex}-${colIndex}`}
+                            disabled={!isEdit}
+                            checked={checkMarkCount[`${rowIndex}-${colIndex}`] || true} // Control the checkbox state
+                            onChange={() =>
+                              handleMatrixCheckmark(
+                                "checkbox",
+                                `${rowIndex}-${colIndex}`
+                              )
+                            }
+                          />
+                          <span
+                            className="checkmark"
+                            style={{
+                              borderColor: inputColor,
+                              backgroundColor: checkMarkCount.includes(
+                                `${rowIndex}-${colIndex}`
+                              )
+                                ? inputColor
+                                : "", // Use 'transparent' for a clearer intent
+                            }}
+                          ></span>
                         </>
                       ) : (
                         <>
-                        <input
-                          type="radio"
-                          name={`matrix-${rowIndex}`}
-                          disabled={!isEdit}
-                        />
-                        <span
-                        className="checkmark"
-                        style={{ borderColor: inputColor }}
-                      ><span style={{backgroundColor : inputColor }}></span></span>
-                         </>
+                          <input
+                            type="radio"
+                            name={`matrix-${rowIndex}`}
+                            disabled={!isEdit}
+                            onChange={() => handleMatrixRadioCheckmark(rowIndex, `${rowIndex}-${colIndex}`)}
+                           checked={selectedValues[rowIndex] === `${rowIndex}-${colIndex}`} // Check if the current value is selected
+                          />
+                         <span
+                  className="checkmark"
+                  style={{ borderColor: inputColor }}
+                >
+                  <span
+                    style={{
+                      backgroundColor: selectedValues[rowIndex] ===  `${rowIndex}-${colIndex}`
+                        ? inputColor
+                        : 'transparent', // Use 'transparent' for a clearer intent
+                    }}
+                  ></span>
+                </span>
+                        </>
                       )}
-                    
                     </td>
                   ))}
                 </tr>
@@ -316,7 +397,7 @@ const RenderOptions = ({
       return (
         <span
           className="heading"
-          style={{color:inputColor}}
+          style={{ color: inputColor }}
           dangerouslySetInnerHTML={{
             __html: item.question,
           }}
@@ -338,30 +419,26 @@ const RenderOptions = ({
           className="divide-line"
           style={{
             width: `${item.style.width}%`,
-            borderTop: `${item.style.height}px ${item.style.lineStyle} ${item.style.color ? item.style.color:inputColor}`,
+            borderTop: `${item.style.height}px ${item.style.lineStyle} ${
+              item.style.color ? item.style.color : inputColor
+            }`,
           }}
         >
           &nbsp;
         </div>
       );
     case "image":
-      if(item.question === ""){
+      if (item.question === "") {
         return (
           <img
-            src={path_image+"image-placeholder.png"}
+            src={path_image + "image-placeholder.png"}
             alt={item.extra.altText}
           />
         );
-      }else{
-        return (
-          <img
-            src={item.question}
-            alt={item.extra.altText}
-            
-          />
-        );
+      } else {
+        return <img src={item.question} alt={item.extra.altText} />;
       }
-      
+
     case "consent":
       return (
         <div className="login-consent">
@@ -438,8 +515,14 @@ const RenderOptions = ({
                   />
                   <span
                     className="checkmark"
-                    style={ index === 0 ? { borderColor: inputColor, backgroundColor: inputColor } : { borderColor: "" }}
-
+                    style={
+                      index === 0
+                        ? {
+                            borderColor: inputColor,
+                            backgroundColor: inputColor,
+                          }
+                        : { borderColor: "" }
+                    }
                   ></span>
                 </label>
               ))}
