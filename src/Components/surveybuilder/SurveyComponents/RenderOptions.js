@@ -44,13 +44,27 @@ const RenderOptions = ({
             }
           }}
         />
-        <span
-          className="checkmark"
-          style={{
-            borderColor: type === 'radio' ? (isSelected ? inputColor : "") : (isChecked ? inputColor : ""),
-            backgroundColor : type === 'radio' ? (isSelected ? inputColor : "") : (isChecked ? inputColor : ""),
-          }}
-        ></span>
+
+        {
+          type === 'radio'?( <span
+            className="checkmark"
+            style={{
+              borderColor: type === 'radio' ? (isSelected ? inputColor : "") : (isChecked ? inputColor : ""),
+              // backgroundColor : type === 'radio' ? (isSelected ? inputColor : "") : (isChecked ? inputColor : ""),
+            }}
+            
+          >
+            <span style={{
+              backgroundColor : type === 'radio' ? (isSelected ? inputColor : "") : (isChecked ? inputColor : ""),
+            }}></span>
+          </span>):( <span
+            className="checkmark"
+            style={{
+              borderColor: type === 'radio' ? (isSelected ? inputColor : "") : (isChecked ? inputColor : ""),
+              backgroundColor : type === 'radio' ? (isSelected ? inputColor : "") : (isChecked ? inputColor : ""),
+            }}/>)
+        }
+       
       </label>
     );
   };
@@ -185,22 +199,31 @@ const RenderOptions = ({
                   {option?.answer?.map((column, colIndex) => (
                     <td key={`${rowIndex}-${colIndex}`}>
                       {item.extra.allowMultipleAnswer ? (
+                        <>
                         <input
                           type="checkbox"
                           name={`matrix-${index}-${rowIndex}-${colIndex}`}
                           disabled={!isEdit}
                         />
+                        <span
+                        className="checkmark"
+                        style={{ borderColor: inputColor,backgroundColor : inputColor }}
+                      ></span>
+                        </>
                       ) : (
+                        <>
                         <input
                           type="radio"
                           name={`matrix-${rowIndex}`}
                           disabled={!isEdit}
                         />
-                      )}
-                      <span
+                        <span
                         className="checkmark"
                         style={{ borderColor: inputColor }}
-                      ></span>
+                      ><span style={{backgroundColor : inputColor }}></span></span>
+                         </>
+                      )}
+                    
                     </td>
                   ))}
                 </tr>

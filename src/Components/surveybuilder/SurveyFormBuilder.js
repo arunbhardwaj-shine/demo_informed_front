@@ -929,7 +929,7 @@ const convertUrlToBase64 = async (url) => {
 
                                 {changeLogoToggle && (
                                   <div className="d-flex align-items-center">
-                                    <div className="img-preview">
+                                    <div className="img-preview header-logo">
                                       {templateDefaultValues.logo != "" ||
                                       dynamicValues.logo ? (
                                         <img
