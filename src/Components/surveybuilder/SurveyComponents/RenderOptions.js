@@ -15,33 +15,45 @@ const RenderOptions = ({
   });
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [selectedIndex, setSelectedIndex] = useState(null);
-
+  // const [selectedIndex, setSelectedIndex] = useState(null); // For radio buttons
+  const [checkedIndices, setCheckedIndices] = useState([]); // For checkboxes
+  
 
   const renderOption = (option, optIndex, type) => {
-    const isSelected = selectedIndex === optIndex;
-
+    const isSelected = selectedIndex === optIndex; // For radio buttons
+    const isChecked = checkedIndices.includes(optIndex); // For checkboxes
+  
     return (
       <label style={{ color: optionColor }} key={optIndex} className="check">
         {option}
         <input
-          type={type}
-          name={item.questionNo}
+          type={type} // Either 'radio' or 'checkbox' based on your requirements
+          name={item.questionNo} // This should be the same for radio buttons
           disabled={!isEdit}
-          onClick={(e) => {
-            if (e.target.checked) {
-              setSelectedIndex(optIndex);
-            }else{
-              setSelectedIndex("");
+          checked={type === 'radio' ? isSelected : isChecked} // Use isSelected for radio, isChecked for checkboxes
+          onChange={(e) => {
+            if (type === 'radio') {
+              setSelectedIndex(optIndex); // For radio buttons, set the selected index
+            } else if (type === 'checkbox') {
+              // For checkboxes, manage checked state
+              if (e.target.checked) {
+                setCheckedIndices((prev) => [...prev, optIndex]); // Add the index to the checked state
+              } else {
+                setCheckedIndices((prev) => prev.filter(index => index !== optIndex)); // Remove it if unchecked
+              }
             }
           }}
         />
         <span
           className="checkmark"
-          style={{ borderColor: isSelected ? inputColor : "" }}
+          style={{
+            borderColor: type === 'radio' ? (isSelected ? inputColor : "") : (isChecked ? inputColor : ""),
+          }}
         ></span>
       </label>
     );
   };
+  
 
   switch (item.type) {
     case "multiple":
@@ -402,7 +414,7 @@ const RenderOptions = ({
                   />
                   <span
                     className="checkmark"
-                    style={{ "border-color": inputColor }}
+                    style={ index === 0 ? {"border-color": inputColor} :{"border-color": ""} }
                   ></span>
                 </label>
               ))}

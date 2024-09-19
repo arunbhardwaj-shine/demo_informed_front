@@ -136,16 +136,17 @@
         const otherTextInput = document.getElementById(
           "other-text-" + questionId
         );
-
         // // Hide the "Other" text input by default
         otherTextInput.style.display = "none";
-
         // Check all radio buttons for the specific question
         document
           .querySelectorAll(`input[name="question${questionId}"]`)
           .forEach((input) => {
-            const span = input.nextElementSibling; // Select the corresponding span
 
+      
+
+            
+            const span = input.nextElementSibling; // Select the corresponding span
             // Reset border color for all spans
             span.style.borderColor = "";
 
@@ -153,7 +154,6 @@
             if (input.checked) {
               // Set border color for the checked input's span
               span.style.borderColor = borderColor;
-
               // Show the "Other" text input if the 'other' option is selected
               if (input.value === "other") {
                 otherTextInput.style.display = "inline";
@@ -193,7 +193,6 @@
         checkboxesArray.forEach((checkbox) => {
           if (checkbox.checked) {
             const span = checkbox.nextElementSibling;
-
             span.style.borderColor = borderColor;
           } else {
             const span = checkbox.nextElementSibling;
@@ -234,16 +233,25 @@
         const checkboxes = document.querySelectorAll(
           `input[type="checkbox"][name="question${questionNo}"]`
         );
+
+
+
+
+  
         const checkboxesArray = Array.from(checkboxes);
 
         checkboxesArray.forEach((checkbox) => {
+          console.log(checkbox.id)
           if (checkbox.checked) {
             const span = checkbox.nextElementSibling;
             span.style.borderColor = borderColor;
           } else {
             const span = checkbox.nextElementSibling;
             span.style.borderColor = "";
+           
           }
+
+         
         });
 
         // Find the "All of the Above" checkbox
@@ -261,6 +269,12 @@
               checkbox !== allOfTheAboveCheckbox && checkbox !== lastCheckbox
           )
           .every((checkbox) => checkbox.checked);
+
+          if(!allOtherChecked ){
+            console.log("inside checkbox")
+            const span = allOfTheAboveCheckbox.nextElementSibling;
+            span.style.borderColor = "";
+          }
 
         // Uncheck "All of the Above" if not all other checkboxes are checked
         if (allOfTheAboveCheckbox) {
@@ -937,9 +951,7 @@
                   }"  required value="${option.label}" ${
                       option.isChecked ? "checked" : ""
                     }>
-                  <span class="checkmark" style="border-color : ${
-                    customHtml.question_answer_color
-                  };"></span>
+                  <span class="checkmark" ></span>
                   ${option.label}
                 </label>`
                   )
@@ -1111,18 +1123,28 @@
         handleModal();
 
         function handleOption3Selection(consent) {
-          // Select first, second, and third options within the specific consent element
-          consent.querySelector("input[id=option1]").checked = true;
-          consent.querySelector("input[id=option2]").checked = true;
-          consent.querySelector("input[id=option3]").checked = true;
-          consent.querySelector("input[id=option4]").checked = false;
+          const options = [1, 2, 3, 4];
+          const checkedOptions = [1, 2, 3]; // Options to be checked
+
+          options.forEach((option) => {
+            const input = consent.querySelector(`input[id=option${option}]`);
+            input.checked = checkedOptions.includes(option);
+            let span = input.nextElementSibling;
+            span.style.borderColor = input.checked
+              ? customHtml.question_answer_color
+              : ""; // Set border color if checked
+          });
         }
 
         function handleOption4Selection(consent) {
-          // Deselect all options within the specific consent element
-          consent.querySelector("input[id=option1]").checked = false;
-          consent.querySelector("input[id=option2]").checked = false;
-          consent.querySelector("input[id=option3]").checked = false;
+          const options = [1, 2, 3];
+
+          options.forEach((option) => {
+            const input = consent.querySelector(`input[id=option${option}]`);
+            input.checked = false; // Deselect the option
+            let span = input.nextElementSibling; // Get the corresponding span
+            span.style.borderColor = ""; // Reset border color
+          });
         }
 
         function handleConsentOption() {
@@ -1130,33 +1152,74 @@
             const consentOptions = consent.querySelectorAll(
               'input[name="consentOption"]'
             );
-
             consentOptions.forEach((option) => {
               option.addEventListener("change", () => {
                 if (option.id === "option3") {
-                  handleOption3Selection(consent);
+                  if (option.checked) {
+                    handleOption3Selection(consent);
+                  } else {
+                    const options = [1, 2, 3, 4];
+
+                    options.forEach((option) => {
+                      const input = consent.querySelector(
+                        `input[id=option${option}]`
+                      );
+                      input.checked = false; // Deselect the option
+                      let span = input.nextElementSibling; // Get the corresponding span
+                      span.style.borderColor = ""; // Reset border color
+                    });
+                  }
                 } else if (option.id === "option4") {
-                  handleOption4Selection(consent);
+                  if (option.checked) {
+                    handleOption4Selection(consent);
+                  }
                 } else if (option.id === "option1") {
                   const element = consent.querySelector("#option2");
                   if (element.checked && option.checked) {
                     // Check if option2 is checked and option1 is also checked
                     consent.querySelector("#option3").checked = true;
+                    const option3 = consent.querySelector("#option3");
+                    let span = option3.nextElementSibling;
+                    span.style.borderColor = customHtml.question_answer_color;
                   } else {
                     consent.querySelector("#option3").checked = false;
+                    const option3 = consent.querySelector("#option3");
+                    let span = option3.nextElementSibling;
+                    span.style.borderColor = "";
                   }
-                  consent.querySelector("#option4").checked = false; // Set option4 checkbox to false
+                  consent.querySelector("#option4").checked = false;
+                  const option4 = consent.querySelector("#option4");
+                  let span = option4.nextElementSibling;
+                  span.style.borderColor = "";
+                  // Set option4 checkbox to false
                 } else if (option.id === "option2") {
                   const element = consent.querySelector("#option1");
                   if (element.checked && option.checked) {
                     // Check if option1 is checked and option2 is also checked
                     consent.querySelector("#option3").checked = true;
+                    const option3 = consent.querySelector("#option3");
+                    let span = option3.nextElementSibling;
+                    span.style.borderColor = customHtml.question_answer_color;
                   } else {
                     consent.querySelector("#option3").checked = false;
+                    const option3 = consent.querySelector("#option3");
+                    let span = option3.nextElementSibling;
+                    span.style.borderColor = "";
                   }
                   consent.querySelector("#option4").checked = false;
+                  const option4 = consent.querySelector("#option4");
+                  let span = option4.nextElementSibling;
+                  span.style.borderColor = "";
                 }
                 // Add more conditions if necessary
+
+                if (option.checked) {
+                  let span = option.nextElementSibling;
+                  span.style.borderColor = customHtml.question_answer_color;
+                } else {
+                  let span = option.nextElementSibling;
+                  span.style.borderColor = "";
+                }
               });
             });
           });
