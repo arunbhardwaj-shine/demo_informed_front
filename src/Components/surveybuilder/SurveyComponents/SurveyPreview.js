@@ -32,12 +32,21 @@ import { updateLiveFlag } from "../CommonFunctions/CommonFunction";
 var surveyValues = {};
 const SurveyPreview = (props) => {
   let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
-
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
-
   const { currentElementIndex, elements, isAddClicked } = useSelector(
     (state) => state.surveyData
   );
+  const [questionDeleteCount,setQuestionDeleteCount]=useState(0)
+ console.log(elements)
+
+  const updatedSurveyData = {
+    ...surveyValues,
+    question_data: elements
+  };
+
+  useEffect(()=>{
+    props.getSurveyData(updatedSurveyData)
+  },[questionDeleteCount])
 
   const [isChecked, setIsChecked] = useState(false);
   const [specificIndex, setSpecificIndex] = useState("");
@@ -165,6 +174,7 @@ const SurveyPreview = (props) => {
   const UpdateQuestion = async (e,questionId) => {
     try {
       loader("show");
+    
       if (questionId != 0) {
         const response = surveyAxiosInstance.post(
           "/survey/delete-survey-question",
@@ -174,6 +184,7 @@ const SurveyPreview = (props) => {
         );
       }
       setConfirmationPopup(false);
+      setQuestionDeleteCount(questionDeleteCount+1)
       loader("hide");
     } catch (error) {
       loader("hide");
@@ -665,7 +676,6 @@ const SurveyPreview = (props) => {
                                             e.stopPropagation();
                                             dispatch(deleteElement(index));
                                             UpdateQuestion(e,item.questionId);
-                                           
                                           }}
                                         >
                                           Yes Please!
