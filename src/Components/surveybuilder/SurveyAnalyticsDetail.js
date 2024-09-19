@@ -34,18 +34,17 @@ const SurveyAnalyticsDetail = () => {
     const [otherFilter, setOtherFilter] = useState({});
     const [filterApplyflag, setFilterApplyflag] = useState(0);
     const [filter, setFilter] = useState("");
-    const [filterapplied, setFilterApply] = useState(false);
-    const [data, setData] = useState({});
-    const buttonRef = useRef(null);
-    const filterRef = useRef(null);
-    const survey_taker = useRef(null)
+    const [data, setData] = useState({});    
     const [apiStatus, setApiStatus] = useState(false)
     const [flag, setFlag] = useState({ survey_taker: false })
-    const [sortBy, setSortBy] = useState('name'); // Initial sort key
-    const [sortOrder, setSortOrder] = useState('desc');
+    const [sortBy, setSortBy] = useState(''); // Initial sort key
+    const [sortOrder, setSortOrder] = useState('');
     const [surveyTakerTableData, setSurveyTakerTableData] = useState([])
     const [surveyTakerTableDataBackup, setSurveyTakerTableDataBackup] = useState([])
     const [surveyTakerShowQuestions, setSurveyTakerShowQuestions] = useState()
+    const buttonRef = useRef(null);
+    const filterRef = useRef(null);
+    const survey_taker = useRef(null)
     const [options, setOptions] = useState({
         chart: {
             type: "bar",
@@ -110,10 +109,7 @@ const SurveyAnalyticsDetail = () => {
             const res = await surveyAxiosInstance.post("/survey/qns-analytics", {
                 survey_id: stateData?.survey_id
             });
-            console.log('res-->', res)
             let data = res?.data?.data
-            console.log("data-->", data)
-
             if (data != "undefined") {
                 let valueupdate = options;
                 valueupdate.xAxis.categories = ["Opened", "Completed", "Drop-off"]
@@ -147,18 +143,14 @@ const SurveyAnalyticsDetail = () => {
         });
         setOtherFilter({});
         setAppliedFilter({});
-
         if (Object.keys(filterObject)?.length) {
             setFilterObject({});
             setSurveyTakerTableData(surveyTakerTableDataBackup)
-
         }
         setShowFilter(false);
+    };    
 
-    };
-    
-
-    const applyFilter = (flag = 0) => {
+    const applyFilter = () => {
         setFilterApplyflag(1);
         setSurveyTakerTableData([]);
         setFilterObject(appliedFilter);
@@ -185,11 +177,7 @@ const SurveyAnalyticsDetail = () => {
                     }
                     return true;
                 });
-                // Check if the item matches the search term (name or email)
-                // if (flag == 1) {
-                console.log("match filters-->", matchesFilters)
                 return matchesFilters;
-                // }
             });
             setSurveyTakerTableData(data);
         } else {
@@ -293,24 +281,22 @@ const SurveyAnalyticsDetail = () => {
     };
 
     const surveyTakerfn = async () => {
-        console.log("i am here in survey taker")
         try {
             loader("show")
             setFlag({ survey_taker: true })
             setApiStatus(true)
-            console.log("in fn--->", surveyTakerTableData);
-
             if (surveyTakerTableData?.length == 0) {
                 const res = await surveyAxiosInstance.post("/survey/survey-takers-status", {
-                    // survey_id: stateData?.survey_id
-                    survey_id:34
+                    survey_id: stateData?.survey_id
+                    // survey_id:34
                 });
-                console.log("res--->",res)
-                let data = [
-                    { name: "shine", email: "shinedezign@infonet.com", region: "asia", country: "india", date: new Date().toUTCString(), status: "completed" },
-                    { name: "informed", email: "informed@docintel.com", region: "asia", country: "india", date: new Date().toUTCString(), status: "drop-off" },
-                    { name: "docintel", email: "docintel@informed.com", region: "EU", country: "England", date: new Date().toUTCString(), status: "ignored" }
-                ]
+                // let data = [
+                //     { name: "shine", email: "shinedezign@infonet.com", region: "asia", country: "india", date: new Date().toUTCString(), status: "completed" },
+                //     { name: "informed", email: "informed@docintel.com", region: "asia", country: "india", date: new Date().toUTCString(), status: "drop-off" },
+                //     { name: "docintel", email: "docintel@informed.com", region: "EU", country: "England", date: new Date().toUTCString(), status: "ignored" }
+                // ]
+                const countries=res?.data?.data?.map((item)=>item?.country)
+                setFilterData((prev)=>({...prev,country:countries}))                
                 setSurveyTakerTableData(res?.data?.data)
                 setSurveyTakerTableDataBackup(res?.data?.data)
                 setTimeout(() => {
