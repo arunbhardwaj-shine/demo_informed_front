@@ -1167,7 +1167,7 @@ const SetLayoutNewTimeline = () => {
                                                                 </div>
                                                               </div>
                                                               <div className="timeline-block">
-                                                                <div className="timeline-status start">
+                                                                <div className="timeline-status">
                                                                   <p>Webinar Email Sent</p>
                                                                   <span>{formatTime(item?.time)} </span>
                                                                 </div>
