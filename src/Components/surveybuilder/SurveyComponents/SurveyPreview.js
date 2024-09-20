@@ -592,9 +592,9 @@ const SurveyPreview = (props) => {
                                 }{" "}
                                 {item.questionDescriptionEnabled && (
                                   <span
-                                    style={{
-                                      color: templateData.bodyTextColor,
-                                    }}
+                                  style={{
+                                    color: templateData.question_answer_color,
+                                  }}
                                     className="helper-text"
                                   >
                                     {item.questionDescription}

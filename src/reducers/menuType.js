@@ -160,7 +160,7 @@ export const menuType = {
     visible: true,
     question: "",
     style: {
-      color: "#004A89",
+      color: "",
     },
     answer: []
   },

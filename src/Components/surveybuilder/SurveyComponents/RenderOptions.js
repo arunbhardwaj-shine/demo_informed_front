@@ -246,7 +246,7 @@ const RenderOptions = ({
               <tr>
                 <th></th>
                 {item?.answer[0]?.answer?.map((data, colIndex) => (
-                  <th key={colIndex}>{data?.value}</th>
+                  <th key={colIndex} style={{ color: optionColor }}>{data?.value}</th>
                 ))}
               </tr>
             </thead>
@@ -407,7 +407,7 @@ const RenderOptions = ({
       return (
         <p
           className="paragraph"
-          style={{ color: item.style.color }}
+          style={{ color: item.style.color || optionColor }}
           dangerouslySetInnerHTML={{
             __html: item.question,
           }}

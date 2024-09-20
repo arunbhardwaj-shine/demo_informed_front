@@ -16,7 +16,13 @@ const QuestionEditor = ({
       <Editor
         apiKey="gpl" // Replace with your TinyMCE API key if needed
         tinymceScriptSrc={window.location.origin + "/tinymce/tinymce.min.js"} // Ensure this path is correct
-        onInit={(evt, editor) => (editorRef.current = editor)}
+        onInit={(evt, editor) =>{ (editorRef.current = editor)
+          if (headingBoldFlag) {
+            editor.execCommand('Bold');
+            
+          }
+        }}
+
         initialValue={
           headingBoldFlag ? `<strong>${editorValue}</strong>` : editorValue
         }
@@ -44,4 +50,5 @@ const QuestionEditor = ({
 };
 
 export default QuestionEditor;
+
 

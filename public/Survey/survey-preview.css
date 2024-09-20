@@ -18,6 +18,10 @@ p {
 
 body {
   margin: 0;
+  
+}
+body, html {
+  height: 100%;
 }
 
 .informed-survey-text p {
@@ -346,7 +350,7 @@ input[type="radio"]:checked ~ .checkmark {
 .survey-paragraph p {
   font-size: 12px;
   line-height: 132%;
-  color: #70899e;
+  /* color: #70899e; */
 }
 
 .survey-paragraph ol,
@@ -1269,3 +1273,92 @@ padding-top: 0;
   transform: translateX(100%);
 }
 
+
+
+.not-found-txt {
+  text-align: center;
+  z-index: 1;
+}
+
+.not-found-txt h3 {
+  color: white; /* Replace with your variable value */
+  font-size: 32px;
+  font-weight: 500;
+  margin: 0 0 12px;
+}
+
+.not-found-txt h4 {
+  color: white; /* Replace with your variable value */
+  font-size: 24px;
+  font-weight: 300;
+  margin: 0 0 32px;
+  text-transform: unset;
+}
+
+.not-found-txt a.btn-white {
+  background-color: white; /* Replace with your variable value */
+  border: 0;
+  color: #0066BE;
+  box-shadow: 0px 1px 8px 0px rgba(0, 102, 190, 0.32);
+  min-width: 175px;
+  border-radius: 30px;
+  font-size: 16px;
+  font-weight: 500;
+  text-transform: capitalize;
+  padding: 8px 30px;
+  display: inline-block;
+  text-decoration: none; /* Remove underline */
+}
+
+.no-found::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  background: url(../static/media/notfound-bg-circle.3397e601efe8a2e30186.svg) no-repeat;
+  background-size: 100%;
+  width: 774px;
+  height: 553px;
+  background-position: right bottom;
+  right: 50px;
+}
+.no-found .not-found-character span:last-child svg {
+  transform: rotate(0deg) translate(64px, 75px);
+}
+
+
+.no-found .not-found-character {
+  display: flex;
+  gap: 35px;
+  padding-top: 100px;
+  padding-right: 0;
+  padding-bottom: 90px;
+  padding-left: 0;
+}
+
+
+
+
+.not-found-txt a.btn-white:hover {
+  background-color: #0066BE;
+  color: white; /* Replace with your variable value */
+}
+.no-found {
+  min-height: 100vh;
+  align-items: center;
+  padding: 90px 0 115px;
+  background: url(../static/media/not_404.2ec525c0a054e9e6464e.jpg) no-repeat;
+  background-size: cover;
+  position: relative;
+ 
+}
+.justify-content-between {
+  justify-content: space-between!important;
+}
+
+
+.flex-column {
+  flex-direction: column!important;
+}
+.d-flex {
+  display: flex!important;
+}
