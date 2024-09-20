@@ -73,6 +73,42 @@ const TimelineDetail = (props) => {
   })
 
   const [sectionLoader, setSectionLoader] = useState(false)
+  const [oneSourceActionArray, setOneSourceActionArray] = useState(
+    {
+      "Event": "Event",
+      "Expert opinions": "Expert opinions",
+      "profile-seeMore": "Profile see more",
+      "profile-setting": "Profile setting",
+      "Highlights": "Highlights",
+      "Expert opinions played": "Expert opinions played",
+      "Symposium Highlights Video played": "Symposium highlights video played",
+
+      "My-content": "My content",
+      "One-source-library": "One source library",
+      "Article Saved in account": "Article saved in account",
+      "Symposium-add-to-library": "Symposium add to library",
+      "Most-popular-content": "Most popular content",
+      "symposium-video": "Symposium video",
+      "Symposium-video": "Symposium video",
+      "Event-materials": "Event materials",
+      "Event-add-to-calendar": "Event add to calendar",
+      "Consent-setting": "Consent setting",
+      "Change-password": "Change password",
+      "User-information": "User information",
+      "Symposium Highlights": "Symposium highlights",
+      "Symposium-download": "Symposium download",
+      "Your-opinion": "Your opinion",
+      "Expert-opinions-play": "Expert opinions play",
+      "Expert-opinion-rating": "Expert opinion rating",
+      "Symposium-rating": "Symposium rating",
+      "Registered-events-add-to-calendar": "Registered events add to calendar",
+      "Contact-us": "Contact us",
+      "Symposium-view": "Symposium view"
+
+
+    }
+  )
+
   function isJSONValid(jsonString) {
     try {
       JSON.parse(jsonString);
@@ -309,6 +345,35 @@ const TimelineDetail = (props) => {
         <a href={href}>{children}</a>
       </OverlayTrigger>
     );
+  }
+
+  const image = (action) => {
+    const imgArr = {
+      "Event": "Events.svg",
+      "Expert opinions": "Expert_opinion.svg",
+      "profile-seeMore": "Profile.svg",
+      "profile-setting": "Profile.svg",
+      "Highlights": "Highlights.svg",
+      "Expert opinions played": "Expert_opinion.svg",
+      "Symposium Highlights Video played": "Symposium_highlight.svg",
+      "Symposium-add-to-library": "Symposium_highlight.svg",
+      "Event-add-to-calendar": "Events.svg",
+      "Symposium Highlights": "Symposium_highlight.svg",
+      "Event-materials": "Events.svg",
+      "Symposium-download": "Symposium_highlight.svg",
+      "Symposium-video": "Symposium_highlight.svg",
+      "Your-opinion": "Your_opinion.svg",
+      "Expert-opinions-play": "Expert_opinion.svg",
+      "Expert opinions played": "Expert_opinion.svg",
+      "Consent-setting": "Profile.svg",
+      "Change-password": "Profile.svg",
+      "User-information": "Profile.svg",
+      "Most-popular-content": "Profile.svg",
+      "My-content": "Profile.svg",
+      "One-source-library": "Profile.svg"
+    }
+
+    return imgArr?.[action] || "Events.svg";
   }
 
   return (
@@ -3518,7 +3583,10 @@ const TimelineDetail = (props) => {
                                     </div>
                                   )}
 
-                                  {["Event", "Expert opinions", "profile-seeMore", "profile-setting", "Highlights", "Expert opinions played", "Symposium Highlights Video played"]?.includes(details.action) ? (
+                                  {/* {oneSourceActionArray?.includes(details.action) ? ( */}
+                                  {console.log("action-->", oneSourceActionArray[details.action])
+                                  }
+                                  {oneSourceActionArray[details.action] ? (
                                     <div className="timeline-box">
                                       <div className="timeline_date">
                                         {details?.date}
@@ -3528,20 +3596,24 @@ const TimelineDetail = (props) => {
                                           <div className="timeline-block-title">
                                             <div className="timeline-block-img">
                                               <img
-                                                src={
-                                                  path_image + `${details?.action == "Event" ? "Events.svg" : details?.action == "Expert opinions" ? "Expert_opinion.svg" :
-                                                    details?.action == "profile-seeMore" ? "Profile.svg" : details?.action == "profile-setting" ? "Profile.svg" : details?.action == "Highlights" ? "Highlights.svg" :
-                                                      details?.action == "Expert opinions played" ? "Expert_opinion.svg" : details?.action == "Symposium Highlights Video played" ? "Symposium_highlight.svg" : ""}`
+                                                // src={
+                                                //   path_image + `${details?.action == "Event" ? "Events.svg" : details?.action == "Expert opinions" ? "Expert_opinion.svg" :
+                                                //     details?.action == "profile-seeMore" ? "Profile.svg" : details?.action == "profile-setting" ? "Profile.svg" : details?.action == "Highlights" ? "Highlights.svg" :
+                                                //       details?.action == "Expert opinions played" ? "Expert_opinion.svg" : details?.action == "Symposium Highlights Video played" ? "Symposium_highlight.svg"
+                                                //         : ""}`
 
-                                                }
+                                                // }
+                                                src={path_image+image(details?.action)}
                                                 alt=""
                                               />
                                             </div>
                                             <h6>{
-                                              details.action=="profile-seeMore"?"Profile see more"
-                                              :details.action=="profile-setting"?"Profile setting"
-                                              :details?.action=="Symposium Highlights Video played"?"Symposium highlights video played"
-                                              :details.action
+                                              // details.action=="profile-seeMore"?"Profile see more"
+                                              // :details.action=="profile-setting"?"Profile setting"
+                                              // :details?.action=="Symposium Highlights Video played"?"Symposium highlights video played"
+                                              // :
+                                              // details.action
+                                              oneSourceActionArray[details.action]
                                             }</h6>
                                           </div>
                                           <div className="timeline-time-view">
