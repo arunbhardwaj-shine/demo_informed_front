@@ -346,7 +346,7 @@ input[type="radio"]:checked ~ .checkmark {
 .survey-paragraph p {
   font-size: 12px;
   line-height: 132%;
-  color: #70899e;
+  /* color: #70899e; */
 }
 
 .survey-paragraph ol,

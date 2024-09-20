@@ -53,8 +53,6 @@ const LoadChoicesModal = ({ show, onClose, handleAddBulkElements }) => {
       }else{
         setError( { choices: "please Select at least one choice from list"})
       }
-      
-     
     }
   };
 

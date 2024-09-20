@@ -64,7 +64,7 @@
       }
 
       // Function to handle the modal close button
-      function closeModal() {
+      function closeModal(borderColor) {
         const modal = document.getElementById("thanks-modal");
         modal.style.display = "none";
         document
@@ -76,6 +76,31 @@
         resetAllFreeTextCounts();
         document.querySelectorAll('input[type="hidden"]').forEach((element) => {
           element.value = "";
+        });
+        document.querySelectorAll("input").forEach((element) => {
+          console.log(element);
+          if (element.id === "matrix") {
+            const span = element.nextElementSibling; // Select the corresponding span
+            if (span) {
+              const innerSpan = span.querySelector("span"); // Select the inner <span>
+
+              if (innerSpan) {
+                innerSpan.style.backgroundColor = "";
+              }
+            }
+          } else {
+            const span = element.nextElementSibling; // Select the corresponding span
+            if (span) {
+              span.style.borderColor = "";
+               span.style.backgroundColor = "";
+            }
+            if (span) {
+              const innerSpan = span.querySelector("span"); // Select the inner <span>
+              if (innerSpan) {
+                innerSpan.style.backgroundColor = "";
+              }
+            }
+          }
         });
         document.getElementById("survey-form").reset(); // Reset your form
         window.scrollTo({ top: 0, behavior: "smooth" });
@@ -170,14 +195,13 @@
             `input[name="${inputname}"]`
           );
           checkedInputs.forEach((input) => {
-            if(input.checked){
+            if (input.checked) {
               const checkmark = input.nextElementSibling;
               checkmark.style.backgroundColor = color;
-            }else{
+            } else {
               const checkmark = input.nextElementSibling;
               checkmark.style.backgroundColor = "";
             }
-            
           });
         } else {
           const checkedInputs = document.querySelectorAll(
@@ -713,8 +737,12 @@
                 surveyHtml += `</div>`;
                 surveyHtml += `
       <div class="rating-labels">
-        <div class="not-satisfy">${question.extra.leftSideLabel}</div>
-        <div class="satisfy">${question.extra.rightSideLabel}</div>
+        <div class="not-satisfy" style="color : ${
+                customHtml.bodyTextColor
+              };" >${question.extra.leftSideLabel}</div>
+        <div class="satisfy" style="color : ${
+                customHtml.bodyTextColor
+              };">${question.extra.rightSideLabel}</div>
       </div>
       </div>
     </div>`;
@@ -872,6 +900,9 @@
                 customHtml.bodyTextColor
               };" >${question.isOptional ? question.optionalLabel : ""}</span>
       </div>
+        <p class="helper-text" style="color : ${
+                    customHtml.question_answer_color
+                  };" >${question.questionDescription}</p>
       <textarea
         id="textarea${question.questionId}"
       
@@ -908,7 +939,7 @@
             case "paragraph":
               surveyHtml += `
                     <div class="survey-question">
-                      <div class="survey-paragraph" style="color: ${question.style.color};">${question.question}</div>
+                      <div class="survey-paragraph" style="color: ${question.style.color != "" ? question.style.color: customHtml.bodyTextColor};">${question.question}</div>
 
                   `;
               surveyHtml += `</div>`;
@@ -917,7 +948,7 @@
             case "divideLine":
               surveyHtml += `
                     <div class="survey-question">
-                      <div class="divider" style=" width:${question.style.width}%;  border-top: ${question.style.height}px ${question.style.lineStyle} ${question.style.color};">
+                      <div class="divider" style=" width:${question.style.width}%;  border-top: ${question.style.height}px ${question.style.lineStyle} ${question.style.color != "" ?question.style.color : customHtml.question_answer_color};">
                       &nbsp
                       </div>
                   `;
@@ -1051,7 +1082,9 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="btn-close" aria-label="Close" onclick="closeModal()">
+                    <button type="button" class="btn-close" aria-label="Close" onclick="closeModal('${
+                      customHtml.question_answer_color
+                    }')">
                         <img
                             src="../componentAssets/images/cookie-popup-close.svg"
                             alt=""

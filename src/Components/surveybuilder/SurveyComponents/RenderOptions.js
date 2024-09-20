@@ -246,7 +246,7 @@ const RenderOptions = ({
               <tr>
                 <th></th>
                 {item?.answer[0]?.answer?.map((data, colIndex) => (
-                  <th key={colIndex}>{data?.value}</th>
+                  <th key={colIndex} style={{ color: optionColor }}>{data?.value}</th>
                 ))}
               </tr>
             </thead>
