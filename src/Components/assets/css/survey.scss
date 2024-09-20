@@ -4882,8 +4882,18 @@ body {
 #download-qr {
     .modal-body {
         .hcp-add-box {
+            .login-validation{
+                font-size: 13px;
+                position: static;
+                margin: 3px 0 0;
+                text-align: right;
+                width: 100%;
+            }
             .form-group {
                 margin: 0;
+                .login-validation{
+                    max-width: 331px;
+                }
             }
         }
 
@@ -4901,7 +4911,7 @@ body {
                 gap: 4px;
                 margin: 10px 0 0;
                 justify-content: flex-end;
-                max-width: 352px;
+                max-width: 331px;
                 width: 100%;
                 cursor: pointer;
 
