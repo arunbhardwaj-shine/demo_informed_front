@@ -2038,10 +2038,13 @@ span {
             h2 {
                 color: $white;
                 font-size: 24px;
-                font-weight: 400;
+                font-weight: 700;
                 // margin: 16px 0 0;
                 line-height: normal;
                 word-break: break-word;
+                p{
+                    font-weight: 400; 
+                }
             }
         }
         @media (max-width:767px){
@@ -2072,7 +2075,7 @@ span {
         }
 
         .informed-survey-question {
-            margin: 5px 0 0;
+            margin: 55px 0 0;
 
             label {
                 color: $dark-blue;
@@ -2086,6 +2089,9 @@ span {
             .dragable-box {
                 position: relative;
                 background: $white;
+                &:first-child{
+                    padding-top: 0!important;
+                }
 
                 &.active {
                     border-radius: 0px 2px 2px 0px;
@@ -2191,6 +2197,9 @@ span {
                         display: flex;
                         max-width: 100%;
                         
+                    }
+                    .divide-line{
+                        height:0;
                     }
                 }
 

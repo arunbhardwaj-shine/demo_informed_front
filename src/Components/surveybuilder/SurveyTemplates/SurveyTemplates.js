@@ -1,6 +1,4 @@
-
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
-
 
 const templates = [
   {
@@ -23,7 +21,9 @@ const templates = [
                           </p>
                           <label class="check" style="color: {#bodyTextColor#}">Sunny
                                   <input type="radio" disabled name="radio"/>
-                              <span class="checkmark" style="border-color:{#question_answer_color#}"></span>
+                              <span class="checkmark" style="border-color:{#question_answer_color#}">
+                                     <span  style="backgroundColor:{#question_answer_color#}">  </span>
+                              </span>
                           </label>
  
                           <label class="check" style="color: {#bodyTextColor#}">Rainy
@@ -50,22 +50,23 @@ const templates = [
                   </div>
       `,
     default_values: {
-      footer_color:"70899E",
-      header_background_type:"color",
-      template_name:"Template 1",
+      footer_color: "70899E",
+      header_background_type: "color",
+      template_name: "Template 1",
       header_background_color: "#004A89",
       header_background_image: "",
       main_heading: "Headline Lorem ipsum dolorsit amet consectetur Orci",
       title_color: "#ffffff",
       main_footer: "Lorem ipsum dolor sit amet consectetur 2024",
-      logo: path_image+"Informed-logo-image.png",
+      logo: path_image + "Informed-logo-image.png",
       button_text: "Submit",
       button_color: "#004A89",
       question_answer_color: "#004A89",
       bodyTextColor: "#70899E",
       page_background_color: "#ffffff",
-      logoWidth:"20",
-      bodyText:"Welcome to our survey! Your opinions matter. Help us improve by sharing your thoughts on [topic]. Your honest responses are invaluable. Thank you for your time!"
+      logoWidth: "20",
+      bodyText:
+        "Welcome to our survey! Your opinions matter. Help us improve by sharing your thoughts on [topic]. Your honest responses are invaluable. Thank you for your time!",
     },
   },
   {
@@ -88,7 +89,9 @@ const templates = [
                           </p>
                           <label class="check" style="color: {#bodyTextColor#}">Sunny
                                   <input type="radio" disabled name="radio"/>
-                              <span class="checkmark" style="border-color:{#question_answer_color#}"></span>
+                                <span class="checkmark" style="border-color:{#question_answer_color#}">
+                                     <span  style="backgroundColor:{#question_answer_color#}">  </span>
+                              </span>
                           </label>
  
                           <label class="check" style="color: {#bodyTextColor#}">Rainy
@@ -116,22 +119,23 @@ const templates = [
 `,
     default_values: {
       // // selectedTemplateClass:"informed-survey",
-      footer_color:"70899E",
-      header_background_type:"image",
-      template_name:"Template 2",
+      footer_color: "70899E",
+      header_background_type: "image",
+      template_name: "Template 2",
       header_background_color: "#004A89",
-      header_background_image: path_image+"header-choicec2.png",
+      header_background_image: path_image + "header-choicec2.png",
       main_heading: "Headline Lorem ipsum dolorsit amet consectetur Orci",
       title_color: "#ffffff",
       main_footer: "Lorem ipsum dolor sit amet consectetur 2024",
-      logo: path_image+"Informed-logo-image.png",
+      logo: path_image + "Informed-logo-image.png",
       button_text: "Submit",
       button_color: "#004A8",
       question_answer_color: "#004A89",
       bodyTextColor: "#70899E",
       page_background_color: "#ffffff",
-      logoWidth:"20",
-      bodyText:"Welcome to our survey! Your opinions matter. Help us improve by sharing your thoughts on [topic]. Your honest responses are invaluable. Thank you for your time!"
+      logoWidth: "20",
+      bodyText:
+        "Welcome to our survey! Your opinions matter. Help us improve by sharing your thoughts on [topic]. Your honest responses are invaluable. Thank you for your time!",
     },
   },
   {
@@ -154,7 +158,9 @@ const templates = [
                           </p>
                           <label class="check" style="color: {#bodyTextColor#}">Sunny
                                   <input type="radio" disabled name="radio"/>
-                              <span class="checkmark" style="border-color:{#question_answer_color#}"></span>
+                               <span class="checkmark" style="border-color:{#question_answer_color#}">
+                                     <span  style="backgroundColor:{#question_answer_color#}">  </span>
+                              </span>
                           </label>
  
                           <label class="check" style="color: {#bodyTextColor#}">Rainy
@@ -181,24 +187,24 @@ const templates = [
                   </div>
 `,
     default_values: {
-      
       // selectedTemplateClass:"informed-survey",
-      footer_color:"70899E",
-      header_background_type:"image",
-      template_name:"Template 3",
+      footer_color: "70899E",
+      header_background_type: "image",
+      template_name: "Template 3",
       header_background_color: "#004A89",
-      header_background_image: path_image+"template-header3.png",
+      header_background_image: path_image + "template-header3.png",
       main_heading: "Headline Lorem ipsum dolorsit amet consectetur Orci",
       title_color: "#ffffff",
       main_footer: "Lorem ipsum dolor sit amet consectetur 2024",
-      logo: path_image+"Informed-logo-image.png",
+      logo: path_image + "Informed-logo-image.png",
       button_text: "Submit",
       button_color: "#004A89",
       question_answer_color: "#004A89",
       bodyTextColor: "#70899E",
       page_background_color: "#ffffff",
-      logoWidth:"20",
-      bodyText:"Welcome to our survey! Your opinions matter. Help us improve by sharing your thoughts on [topic]. Your honest responses are invaluable. Thank you for your time!"
+      logoWidth: "20",
+      bodyText:
+        "Welcome to our survey! Your opinions matter. Help us improve by sharing your thoughts on [topic]. Your honest responses are invaluable. Thank you for your time!",
     },
   },
 ];
