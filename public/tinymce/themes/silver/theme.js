@@ -8477,7 +8477,7 @@
       });
       registerOption('font_size_formats', {
         processor: 'string',
-        default: '8pt 10pt 12pt 14pt 18pt 24pt 36pt'
+        default: '8px 10px 12px 14px 18px 24px 36px'
       });
       registerOption('font_size_input_default_unit', {
         processor: 'string',
