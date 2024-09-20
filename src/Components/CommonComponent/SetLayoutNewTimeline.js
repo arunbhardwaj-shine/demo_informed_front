@@ -303,6 +303,15 @@ const SetLayoutNewTimeline = () => {
     setShowFilter(false);
   }
 
+  const userRoles = (pdf_id) => {
+    const role  = {
+      "3968":"Site User-Blinded",
+      "3970":"Site unblinded pharmacist",
+      "4521":"Investigator-Blinded",
+      };
+      return role?.[pdf_id] || 'N/A';
+  }
+
   return (
     <>
       <meta
@@ -818,12 +827,12 @@ const SetLayoutNewTimeline = () => {
                                                         <img src={path_image + "certificate.png"} alt="" />
                                                       </div>
                                                     </div>
-                                                    <div className="details-box">
+                                                    {/* <div className="details-box">
                                                       <p className="timeline-details-heading">Title</p>
                                                       <div className="d-flex justify-content-between">
                                                         <p>{item?.pdfTitle}</p>
                                                       </div>
-                                                    </div>
+                                                    </div> */}
                                                     <div className="details-box">
                                                       <p className="timeline-details-heading">Who</p>
                                                       <div className="d-flex flex-wrap timeline-activity">
@@ -837,7 +846,8 @@ const SetLayoutNewTimeline = () => {
                                                                   : userProfile?.name
                                                               }
                                                               </p>
-                                                              <p>{userProfile?.user_type!=0?userProfile?.user_type:"N/A"}</p>
+                                                              {/* <p>{userProfile?.user_type!=0?userProfile?.user_type:"N/A"}</p> */}
+                                                              <p>{userRoles(item?.pdf_id)}</p>
                                                               <span>{userProfile?.site_number != 0 ? userProfile?.site_number : "N/A"}</span>
                                                             </div>
                                                           ) : null
@@ -1167,7 +1177,7 @@ const SetLayoutNewTimeline = () => {
                                                                 </div>
                                                               </div>
                                                               <div className="timeline-block">
-                                                                <div className="timeline-status start">
+                                                                <div className="timeline-status">
                                                                   <p>Webinar Email Sent</p>
                                                                   <span>{formatTime(item?.time)} </span>
                                                                 </div>
