@@ -54,7 +54,7 @@ const RenderOptions = ({
                 type === "radio"
                   ? isSelected
                     ? inputColor
-                    : ""
+                    : optionColor
                   : isChecked
                   ? inputColor
                   : "",
@@ -85,7 +85,7 @@ const RenderOptions = ({
                     : ""
                   : isChecked
                   ? inputColor
-                  : "",
+                  : optionColor,
               backgroundColor:
                 type === "radio"
                   ? isSelected
@@ -273,7 +273,11 @@ const RenderOptions = ({
                           <span
                             className="checkmark"
                             style={{
-                              borderColor: inputColor,
+                              borderColor: checkMarkCount.includes(
+                                `${rowIndex}-${colIndex}`
+                              )
+                                ? inputColor
+                                : optionColor, // Use 'transparent' for a clearer intent,
                               backgroundColor: checkMarkCount.includes(
                                 `${rowIndex}-${colIndex}`
                               )
@@ -293,7 +297,11 @@ const RenderOptions = ({
                           />
                          <span
                   className="checkmark"
-                  style={{ borderColor: inputColor }}
+                  style={{
+                    borderColor: selectedValues[rowIndex] ===  `${rowIndex}-${colIndex}`
+                      ?inputColor
+                      : optionColor, // Use 'transparent' for a clearer intent
+                  }}
                 >
                   <span
                     style={{
@@ -484,7 +492,7 @@ const RenderOptions = ({
                 </Form.Label>
                 <Select
                   className="dropdown-basic-button split-button-dropup"
-                  placeholder={item.extra.consentDetails.countryPlaceholder}
+                  placeholder={item.extra.consentDetails[2].countryPlaceholder}
                   name={`consent-country`}
                   isDisabled={!isEdit}
                   options={item.extra.consentDetails[2].countryOptions.map(
@@ -521,7 +529,7 @@ const RenderOptions = ({
                             borderColor: inputColor,
                             backgroundColor: inputColor,
                           }
-                        : { borderColor: "" }
+                        : { borderColor: optionColor }
                     }
                   ></span>
                 </label>

@@ -17,13 +17,90 @@
   </head>
 
   <body>
+    <div id="not-found"></div>
     <div class="toast-container" id="toast-container"></div>
     <div id="custom-loader" class="loader">
       <div class="loader_show"><span class="loader-view"> </span></div>
     </div>
     <div id="survey-container" class="informed-survey"></div>
+  
 
     <script>
+      const pageNotFound = () => {
+        const surveyHtml = `<div class="no-found d-flex justify-content-between flex-column">
+    <div class="page-logo">
+        <img src="../componentAssets/images/informed_logo.svg" alt="" />
+    </div>
+    <div class="not-found-character">
+        <span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="222" height="296" viewBox="0 0 222 296" fill="none">
+                <g filter="url(#filter0_d_1233_45864)">
+                    <path d="M211 180.014V225.46H14.1925L11 189.779L122.925 11H169.31L118.981 94.3803L68.0892 180.014H211ZM181.704 11V284.427H123.113V11H181.704Z" fill="white" />
+                </g>
+                <defs>
+                    <filter id="filter0_d_1233_45864" x="0" y="0" width="222" height="295.428" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                        <feFlood flood-opacity="0" result="BackgroundImageFix" />
+                        <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha" />
+                        <feOffset />
+                        <feGaussianBlur stdDeviation="5.5" />
+                        <feComposite in2="hardAlpha" operator="out" />
+                        <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0.4 0 0 0 0 0.745098 0 0 0 0.44 0" />
+                        <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_1233_45864" />
+                        <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_1233_45864" result="shape" />
+                    </filter>
+                </defs>
+            </svg>
+        </span>
+        <span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="214" height="310" viewBox="0 0 214 310" fill="none">
+                <g filter="url(#filter0_d_1233_45863)">
+                    <path d="M203 129.775V179.553C203 200.053 200.694 217.799 196.081 232.79C191.597 247.781 185.062 260.145 176.477 269.883C168.021 279.621 157.899 286.86 146.111 291.601C134.451 296.213 121.511 298.52 107.288 298.52C95.8849 298.52 85.2503 297.046 75.3844 294.099C65.5185 291.152 56.6136 286.604 48.6697 280.453C40.8539 274.175 34.1271 266.359 28.4895 257.006C22.8519 247.653 18.4955 236.506 15.4204 223.565C12.4735 210.624 11 195.953 11 179.553V129.775C11 109.018 13.2422 91.2082 17.7267 76.3453C22.3393 61.4825 28.9379 49.1822 37.5225 39.4444C46.1071 29.7067 56.2292 22.5315 67.8889 17.9189C79.6767 13.3063 92.6817 11 106.904 11C118.307 11 128.878 12.4735 138.616 15.4204C148.481 18.3674 157.386 22.9159 165.33 29.0661C173.274 35.2162 180.001 42.968 185.511 52.3213C191.148 61.6747 195.44 72.8218 198.387 85.7628C201.462 98.5756 203 113.246 203 129.775ZM143.036 187.048V121.895C143.036 112.285 142.459 103.957 141.306 96.9099C140.281 89.7347 138.744 83.6487 136.694 78.6516C134.772 73.6547 132.337 69.6186 129.39 66.5435C126.443 63.4685 123.048 61.2262 119.204 59.8168C115.488 58.2793 111.388 57.5105 106.904 57.5105C101.266 57.5105 96.2052 58.6637 91.7207 60.97C87.2362 63.2763 83.4565 66.9279 80.3814 71.9249C77.3063 76.7938 74.9359 83.3924 73.2703 91.7207C71.7327 99.9209 70.964 109.979 70.964 121.895V187.048C70.964 196.658 71.4765 205.05 72.5015 212.225C73.6547 219.4 75.1922 225.551 77.1141 230.676C79.1642 235.673 81.6627 239.773 84.6096 242.976C87.5566 246.051 90.952 248.293 94.7958 249.703C98.6396 251.112 102.804 251.817 107.288 251.817C112.926 251.817 117.923 250.728 122.279 248.55C126.636 246.243 130.351 242.592 133.426 237.595C136.63 232.469 139 225.743 140.538 217.414C142.203 209.086 143.036 198.964 143.036 187.048Z" fill="white" />
+                </g>
+                <defs>
+                    <filter id="filter0_d_1233_45863" x="0" y="0" width="214" height="309.52" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                        <feFlood flood-opacity="0" result="BackgroundImageFix" />
+                        <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha" />
+                        <feOffset />
+                        <feGaussianBlur stdDeviation="5.5" />
+                        <feComposite in2="hardAlpha" operator="out" />
+                        <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0.4 0 0 0 0 0.745098 0 0 0 0.44 0" />
+                        <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_1233_45863" />
+                        <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_1233_45863" result="shape" />
+                    </filter>
+                </defs>
+            </svg>
+        </span>
+        <span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="224" height="302" viewBox="0 0 224 302" fill="none">
+                <g filter="url(#filter0_d_1233_45866)">
+                    <path d="M212.531 191.616L206.207 236.62L11.3143 209.229L13.1187 173.452L148.836 11.989L194.769 18.4446L133.326 94.0091L71.0114 171.727L212.531 191.616ZM207.043 20.1695L168.989 290.936L110.968 282.782L149.022 12.0152L207.043 20.1695Z" fill="white" />
+                </g>
+                <defs>
+                    <filter id="filter0_d_1233_45866" x="0.314453" y="0.988281" width="223.217" height="300.947" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                        <feFlood flood-opacity="0" result="BackgroundImageFix" />
+                        <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha" />
+                        <feOffset />
+                        <feGaussianBlur stdDeviation="5.5" />
+                        <feComposite in2="hardAlpha" operator="out" />
+                        <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0.4 0 0 0 0 0.745098 0 0 0 0.44 0" />
+                        <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_1233_45866" />
+                        <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_1233_45866" result="shape" />
+                    </filter>
+                </defs>
+            </svg>
+        </span>
+    </div>
+    <div class="not-found-txt">
+        <h3>There is no active survey on this page.</h3>
+        <h4>As a favour can you let us know via email how you came to this page?</h4>
+        <a href="mailto:support@docintel.app" class="btn-white">Send email</a>
+    </div>
+</div>
+`;
+
+        document.getElementById("not-found").innerHTML = surveyHtml;
+      };
+
       function getQueryParam(name) {
         const url = window.location.href;
         const params = new URLSearchParams(new URL(url).search);
@@ -78,21 +155,24 @@
           element.value = "";
         });
         document.querySelectorAll("input").forEach((element) => {
-          console.log(element);
+ 
           if (element.id === "matrix") {
             const span = element.nextElementSibling; // Select the corresponding span
+            console.log("matrix span",span)
             if (span) {
               const innerSpan = span.querySelector("span"); // Select the inner <span>
-
               if (innerSpan) {
                 innerSpan.style.backgroundColor = "";
               }
+              span.style.backgroundColor="";
+              span.style.borderColor = borderColor;
+             
             }
           } else {
             const span = element.nextElementSibling; // Select the corresponding span
             if (span) {
-              span.style.borderColor = "";
-               span.style.backgroundColor = "";
+              span.style.borderColor = borderColor;
+              span.style.backgroundColor = "";
             }
             if (span) {
               const innerSpan = span.querySelector("span"); // Select the inner <span>
@@ -156,13 +236,16 @@
       //   }
       // }
 
-      function handleRadioClick(questionId, value, borderColor) {
+      function handleRadioClick(questionId, value, borderColor,bodyTextColor) {
         // Get the "Other" text input element
         const otherTextInput = document.getElementById(
           "other-text-" + questionId
         );
         // // Hide the "Other" text input by default
-        otherTextInput.style.display = "none";
+        if(otherTextInput){
+          otherTextInput.style.display = "none";
+        }
+
         // Check all radio buttons for the specific question
         document
           .querySelectorAll(`input[name="question${questionId}"]`)
@@ -183,11 +266,13 @@
               if (input.value === "other") {
                 otherTextInput.style.display = "inline";
               }
+            }else{
+              span.style.borderColor = bodyTextColor;
             }
           });
       }
 
-      const handleMatrixClick = (inputname, inputType, color) => {
+      const handleMatrixClick = (inputname, inputType, color,bodyTextColor) => {
         console.log(inputname, inputType, color);
 
         if (inputType === "checkbox") {
@@ -198,9 +283,12 @@
             if (input.checked) {
               const checkmark = input.nextElementSibling;
               checkmark.style.backgroundColor = color;
+              checkmark.style.borderColor = color;
+
             } else {
               const checkmark = input.nextElementSibling;
               checkmark.style.backgroundColor = "";
+              checkmark.style.borderColor = bodyTextColor;
             }
           });
         } else {
@@ -208,27 +296,24 @@
             `input[name="${inputname}"]`
           );
           checkedInputs.forEach((input) => {
-            // Access the corresponding checkmark span (assuming it's the next sibling)
-            console.log(input);
-            console.log("inside radio");
+
             if (input.checked) {
               const span = input.nextElementSibling; // Select the corresponding span
-
               const innerSpan = span.querySelector("span"); // Select the inner <span>
-
               innerSpan.style.backgroundColor = color;
+              span.style.borderColor = color;
             } else {
               const span = input.nextElementSibling; // Select the corresponding span
 
               const innerSpan = span.querySelector("span"); // Select the inner <span>
-
+              span.style.borderColor = bodyTextColor;
               innerSpan.style.backgroundColor = "";
             }
           });
         }
       };
 
-      const handleAllOfTheAboveChange = (questionNo, value, borderColor) => {
+      const handleAllOfTheAboveChange = (questionNo, value, borderColor,bodyTextColor) => {
         // Select all checkboxes with the given questionNo
         const checkboxes = document.querySelectorAll(
           `input[type="checkbox"][name="question${questionNo}"]`
@@ -263,7 +348,7 @@
             span.style.backgroundColor = borderColor;
           } else {
             const span = checkbox.nextElementSibling;
-            span.style.borderColor = "";
+            span.style.borderColor = bodyTextColor;
             span.style.backgroundColor = "";
           }
         });
@@ -291,12 +376,19 @@
             document.head.appendChild(titleTag);
             break;
 
+          case "og-url":
+            const ogUrlTag = document.createElement("meta");
+            ogUrlTag.setAttribute("property", name);
+            ogUrlTag.setAttribute("content", content);
+            document.head.appendChild(ogUrlTag);
+            break;
+
           default:
             console.log("Unsupported meta tag:", name);
         }
       }
 
-      const handleIndividualCheckboxChange = (questionNo, borderColor) => {
+      const handleIndividualCheckboxChange = (questionNo, borderColor,bodyTextColor) => {
         // Select all checkboxes with the given questionNo
         const checkboxes = document.querySelectorAll(
           `input[type="checkbox"][name="question${questionNo}"]`
@@ -311,7 +403,7 @@
             span.style.backgroundColor = borderColor;
           } else {
             const span = checkbox.nextElementSibling;
-            span.style.borderColor = "";
+            span.style.borderColor = bodyTextColor;
             span.style.backgroundColor = "";
           }
         });
@@ -334,13 +426,19 @@
 
         if (!allOtherChecked) {
           console.log("inside checkbox");
-          const span = allOfTheAboveCheckbox.nextElementSibling;
-          span.style.borderColor = "";
+          if(allOfTheAboveCheckbox){
+            const span = allOfTheAboveCheckbox.nextElementSibling;
+          span.style.borderColor = bodyTextColor;
           span.style.backgroundColor = "";
+          }
+      
         } else {
-          const span = allOfTheAboveCheckbox.nextElementSibling;
+          if(allOfTheAboveCheckbox){
+            const span = allOfTheAboveCheckbox.nextElementSibling;
           span.style.borderColor = borderColor;
           span.style.backgroundColor = borderColor;
+          }
+     
         }
 
         // Uncheck "All of the Above" if not all other checkboxes are checked
@@ -358,7 +456,8 @@
         const user_id = Array.isArray(urlKeys) ? urlKeys[1] || 0 : 0;
 
         if (!Utmde) {
-          window.location.replace("/survey/404");
+          // window.location.replace("/survey/404");
+          pageNotFound();
           return;
         }
         const apiUrl = "http://192.168.0.231:3001/survey/fetch-preview-data";
@@ -379,8 +478,6 @@
           });
 
           data = await response.json();
-          console.log(data);
-
           startTime = new Date();
 
           if (data.status == 200) {
@@ -405,7 +502,8 @@
               return;
             }
             if (data.data[0].survey_info.is_draft === 2) {
-              window.location.replace("/survey/404");
+              // window.location.replace("/survey/404");
+              pageNotFound();
               return;
             }
           } else if (
@@ -413,7 +511,8 @@
             data.data[0].question_data.length == 0
           ) {
             loader("hide");
-            window.location.replace("/survey/404");
+            // window.location.replace("/survey/404");
+            pageNotFound();
             return;
           } else if (
             data.status === 204 &&
@@ -427,7 +526,8 @@
         } catch (error) {
           loader("hide");
           console.log("Error fetching survey data:", error.message);
-          window.location.replace("/survey/404");
+          // window.location.replace("/survey/404");
+          pageNotFound();
           return;
         }
         const survey_id = data.data[0].survey_info.id;
@@ -438,6 +538,7 @@
         );
         addMetaTag("og:image", data.data[0].survey_info.survey_thumbnail ?? "");
         addMetaTag("title", data.data[0].survey_info.survey_link_title ?? "");
+        addMetaTag("og-url",`https://informed.pro/Survey/Survey.html?Utmde=${Utmde}` ?? "")
 
         let surveyHtml = `
           <div class="informed-survey-header" style="${
@@ -504,10 +605,10 @@
                           ${question.isOptional ? "" : "required"}
                          onclick="handleRadioClick(${
                            question.questionId
-                         }, this.value, '${customHtml.question_answer_color}');"
+                         }, this.value, '${customHtml.question_answer_color}','${customHtml.bodyTextColor}');"
  />
                       ${answer.value}
-                      <span class="checkmark">
+                      <span class="checkmark" style="border-color:${customHtml.bodyTextColor}">
                              <span></span>
                       </span>
                   </label>`;
@@ -526,10 +627,10 @@
                             question.questionId
                           }, this.value, '${
                   customHtml.question_answer_color
-                }');"
+                }','${customHtml.bodyTextColor}');"
  />
                       ${question.extra.otherChoiceLabel}
-                     <span class="checkmark">
+                     <span class="checkmark" style="border-color:${customHtml.bodyTextColor}">
                              <span></span>
                       </span>
                       <br>
@@ -587,9 +688,9 @@
                 id="checkbox-${question.questionId}-${answer.answerId}"
                 onclick="handleIndividualCheckboxChange(${
                   question.questionId
-                },'${customHtml.question_answer_color}');" />
+                },'${customHtml.question_answer_color}','${customHtml.bodyTextColor}');" />
                     ${answer.value}
-                    <span class="checkmark" ></span>
+                    <span class="checkmark" style="border-color:${customHtml.bodyTextColor}" ></span>
                 </label>`;
               });
               // Add the "All of the above" option if applicable
@@ -608,9 +709,9 @@
                             question.questionId
                           }, this.value,'${
                   customHtml.question_answer_color
-                }');" />
+                }','${customHtml.bodyTextColor}');" />
                       ${question.extra.allOfTheAboveLabel}
-                      <span class="checkmark"></span><br>
+                      <span class="checkmark" style="border-color:${customHtml.bodyTextColor}"></span><br>
                   </label>`;
               }
               if (question.addOtherChoice) {
@@ -622,7 +723,7 @@
                   question.isOptional ? "" : "required"
                 } id="checkbox-other-choice-${question.questionId}" />
                   ${question.extra.otherChoiceLabel}
-                  <span class="checkmark" ></span><br>
+                  <span class="checkmark" style="border-color:${customHtml.bodyTextColor}" ></span><br>
               </label>
               <input type="text" placeholder="${
                 question.extra.otherChoicePlaceholderText
@@ -737,12 +838,8 @@
                 surveyHtml += `</div>`;
                 surveyHtml += `
       <div class="rating-labels">
-        <div class="not-satisfy" style="color : ${
-                customHtml.bodyTextColor
-              };" >${question.extra.leftSideLabel}</div>
-        <div class="satisfy" style="color : ${
-                customHtml.bodyTextColor
-              };">${question.extra.rightSideLabel}</div>
+        <div class="not-satisfy" style="color : ${customHtml.bodyTextColor};" >${question.extra.leftSideLabel}</div>
+        <div class="satisfy" style="color : ${customHtml.bodyTextColor};">${question.extra.rightSideLabel}</div>
       </div>
       </div>
     </div>`;
@@ -851,8 +948,8 @@
 
                                               onclick="${
                                                 inputType === "checkbox"
-                                                  ? `handleMatrixClick('question${row.id}_${option.answerId}', '${inputType}', '${customHtml.question_answer_color}');`
-                                                  : `handleMatrixClick('question${row.id}', '${inputType}', '${customHtml.question_answer_color}');`
+                                                  ? `handleMatrixClick('question${row.id}_${option.answerId}', '${inputType}', '${customHtml.question_answer_color}','${customHtml.bodyTextColor}');`
+                                                  : `handleMatrixClick('question${row.id}', '${inputType}', '${customHtml.question_answer_color}','${customHtml.bodyTextColor}');`
                                               }"
 
                                                id="matrix"
@@ -861,8 +958,8 @@
 
                                         ${
                                           inputType === "checkbox"
-                                            ? `<span class="checkmark" style="border-color: ${customHtml.question_answer_color};"></span>`
-                                            : `<span class="checkmark" style="border-color: ${customHtml.question_answer_color};"> <span></span></span>`
+                                            ? `<span class="checkmark" style="border-color: ${customHtml.bodyTextColor};"></span>`
+                                            : `<span class="checkmark" style="border-color: ${customHtml.bodyTextColor};"> <span></span></span>`
                                         }
 
                                        
@@ -901,8 +998,8 @@
               };" >${question.isOptional ? question.optionalLabel : ""}</span>
       </div>
         <p class="helper-text" style="color : ${
-                    customHtml.question_answer_color
-                  };" >${question.questionDescription}</p>
+          customHtml.question_answer_color
+        };" >${question.questionDescription}</p>
       <textarea
         id="textarea${question.questionId}"
       
@@ -929,7 +1026,7 @@
 
             case "heading":
               surveyHtml += `
-                    <div class="survey-question">
+                    <div class="survey-question" style="color: ${customHtml.question_answer_color};">
                         <h2 style="color: ${customHtml.question_answer_color};">${question.question}</h2>
                         <p class="helper-text" style="color : ${customHtml.question_answer_color};" >${question.questionDescription}</p>
                     `;
@@ -939,7 +1036,11 @@
             case "paragraph":
               surveyHtml += `
                     <div class="survey-question">
-                      <div class="survey-paragraph" style="color: ${question.style.color != "" ? question.style.color: customHtml.bodyTextColor};">${question.question}</div>
+                      <div class="survey-paragraph" style="color: ${
+                        question.style.color != ""
+                          ? question.style.color
+                          : customHtml.bodyTextColor
+                      };">${question.question}</div>
 
                   `;
               surveyHtml += `</div>`;
@@ -948,7 +1049,15 @@
             case "divideLine":
               surveyHtml += `
                     <div class="survey-question">
-                      <div class="divider" style=" width:${question.style.width}%;  border-top: ${question.style.height}px ${question.style.lineStyle} ${question.style.color != "" ?question.style.color : customHtml.question_answer_color};">
+                      <div class="divider" style=" width:${
+                        question.style.width
+                      }%;  border-top: ${question.style.height}px ${
+                question.style.lineStyle
+              } ${
+                question.style.color != ""
+                  ? question.style.color
+                  : customHtml.question_answer_color
+              };">
                       &nbsp
                       </div>
                   `;
@@ -1043,7 +1152,7 @@
                   }"  required value="${option.label}" ${
                       option.isChecked ? "checked" : ""
                     }>
-                  <span class="checkmark" ></span>
+                  <span class="checkmark" style="border-color: ${customHtml.bodyTextColor};"></span>
                   ${option.label}
                 </label>`
                   )
@@ -1083,7 +1192,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="btn-close" aria-label="Close" onclick="closeModal('${
-                      customHtml.question_answer_color
+                      customHtml.bodyTextColor
                     }')">
                         <img
                             src="../componentAssets/images/cookie-popup-close.svg"
@@ -1143,7 +1252,7 @@
                   span.style.backgroundColor = customHtml.question_answer_color;
                 } else {
                   const span = this.nextElementSibling;
-                  span.style.borderColor = "";
+                  span.style.borderColor = customHtml.bodyTextColor;
                   span.style.backgroundColor = "";
                 }
                 if (otherTextInput) {
@@ -1228,7 +1337,7 @@
             let span = input.nextElementSibling;
             span.style.borderColor = input.checked
               ? customHtml.question_answer_color
-              : ""; // Set border color if checked
+              : customHtml.bodyTextColor; // Set border color if checked
             span.style.backgroundColor = input.checked
               ? customHtml.question_answer_color
               : "";
@@ -1242,7 +1351,7 @@
             const input = consent.querySelector(`input[id=option${option}]`);
             input.checked = false; // Deselect the option
             let span = input.nextElementSibling; // Get the corresponding span
-            span.style.borderColor = ""; // Reset border color
+            span.style.borderColor = customHtml.bodyTextColor; // Reset border color
             span.style.backgroundColor = "";
           });
         }
@@ -1266,7 +1375,7 @@
                       );
                       input.checked = false; // Deselect the option
                       let span = input.nextElementSibling; // Get the corresponding span
-                      span.style.borderColor = ""; // Reset border color
+                      span.style.borderColor = customHtml.bodyTextColor; // Reset border color
                       span.style.backgroundColor = "";
                     });
                   }
@@ -1288,13 +1397,13 @@
                     consent.querySelector("#option3").checked = false;
                     const option3 = consent.querySelector("#option3");
                     let span = option3.nextElementSibling;
-                    span.style.borderColor = "";
+                    span.style.borderColor = customHtml.bodyTextColor;
                     span.style.backgroundColor = "";
                   }
                   consent.querySelector("#option4").checked = false;
                   const option4 = consent.querySelector("#option4");
                   let span = option4.nextElementSibling;
-                  span.style.borderColor = "";
+                  span.style.borderColor = customHtml.bodyTextColor;
                   span.style.backgroundColor = "";
                   // Set option4 checkbox to false
                 } else if (option.id === "option2") {
@@ -1311,13 +1420,13 @@
                     consent.querySelector("#option3").checked = false;
                     const option3 = consent.querySelector("#option3");
                     let span = option3.nextElementSibling;
-                    span.style.borderColor = "";
+                    span.style.borderColor = customHtml.bodyTextColor;
                     span.style.backgroundColor = "";
                   }
                   consent.querySelector("#option4").checked = false;
                   const option4 = consent.querySelector("#option4");
                   let span = option4.nextElementSibling;
-                  span.style.borderColor = "";
+                  span.style.borderColor =customHtml.bodyTextColor;
                   span.style.backgroundColor = "";
                 }
                 // Add more conditions if necessary
@@ -1328,7 +1437,7 @@
                   span.style.backgroundColor = customHtml.question_answer_color;
                 } else {
                   let span = option.nextElementSibling;
-                  span.style.borderColor = "";
+                  span.style.borderColor = customHtml.bodyTextColor;
                   span.style.backgroundColor = "";
                 }
               });
@@ -1865,10 +1974,12 @@
                 Utmde !== "SqfTvRle"
               ) {
                 showToast("You have already submitted the survey");
-                closeModal();
+                closeModal(customHtml.bodyTextColor);
                 document.getElementById("survey-form").reset(); // Reset your form
                 return;
               }
+
+            
 
               loader("show");
 
@@ -1882,16 +1993,15 @@
                 },
                 body: JSON.stringify(submitPayload),
               });
+ 
+            const res = await submitResponse.json()
+          
 
-              if (submitResponse.status == "400") {
+              if (res.status === "302") {
                 loader("hide");
-                showToast("Something went wrong");
-              } else if (submitResponse.status == "302") {
-                loader("hide");
-                // showToast("You have already submitted the survey");
-                closeModal();
-                document.getElementById("survey-form").reset(); // Reset your form
-              } else if (submitResponse.status == "200") {
+                showToast(res.message);
+                closeModal(customHtml.bodyTextColor);
+              } else if (res.status === "200") {
                 loader("hide");
                 showSubmitModal();
                 localStorage.setItem(`form_surveyid${survey_id}`, 1);

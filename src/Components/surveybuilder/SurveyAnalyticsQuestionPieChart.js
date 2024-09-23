@@ -3,8 +3,11 @@ import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import { Spinner } from 'react-activity';
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
-const SurveyAnalyticsQuestionPieChart = ({key, data,show,type }) => {
-    console.log("graph type-->",data?.graphType)
+const SurveyAnalyticsQuestionPieChart = ({ key, data, show, type }) => {
+
+
+
+    console.log("graph type-->", data)
     const colors = [
         "#39CABC",
         "#FAC755",
@@ -24,7 +27,7 @@ const SurveyAnalyticsQuestionPieChart = ({key, data,show,type }) => {
         "#db6f2c",
         "#9C9CA2",
         "#00003C",
-      ];
+    ];
     const baseOptions = {
         chart: {
             plotBackgroundColor: null,
@@ -43,13 +46,13 @@ const SurveyAnalyticsQuestionPieChart = ({key, data,show,type }) => {
             formatter: function () {
                 // Calculate the total sum of all points in the series
                 var total = 0;
-                this.series.data.forEach(function(point) {
+                this.series.data.forEach(function (point) {
                     total += point.y;
                 });
-                
+
                 // Calculate the percentage for the current point
                 var percentage = ((this.point.y / total) * 100).toFixed(0);
-        
+
                 // Return the tooltip string with both the name and percentage of this.point.y
                 return this.point.name + ' : <b>' + this.point.y + '</b> (' + percentage + '%)';
             },
@@ -63,7 +66,7 @@ const SurveyAnalyticsQuestionPieChart = ({key, data,show,type }) => {
         legend: {
             verticalAlign: "bottom",
             labelFormat: '{name} ({percentage:.0f}%)',
-            enabled:false
+            enabled: false
         },
         plotOptions: {
             series: {
@@ -73,7 +76,7 @@ const SurveyAnalyticsQuestionPieChart = ({key, data,show,type }) => {
                     {
                         enabled: true,
                         distance: -40,
-                        format: "{point.percentage:.1f}%",                     
+                        format: "{point.percentage:.1f}%",
                         style: {
                             fontSize: "1.2em",
                             textOutline: "none",
@@ -89,11 +92,11 @@ const SurveyAnalyticsQuestionPieChart = ({key, data,show,type }) => {
                     enabled: false,
                 },
                 borderWidth: 0,
-            }  
+            }
         },
         series: [],
     };
-    
+
     const [pieChartOptions, setPieChartOptions] = useState(type === "analytics" ? {
         ...baseOptions,
         exporting: {
@@ -107,25 +110,25 @@ const SurveyAnalyticsQuestionPieChart = ({key, data,show,type }) => {
             menuItemDefinitions: {
                 downloadPNG: {
                     text: 'Download PNG',
-                    onclick: function() {
+                    onclick: function () {
                         this.exportChart({ type: 'image/png' });
                     }
                 },
                 downloadJPEG: {
                     text: 'Download JPEG',
-                    onclick: function() {
+                    onclick: function () {
                         this.exportChart({ type: 'image/jpeg' });
                     }
                 },
                 downloadPDF: {
                     text: 'Download PDF',
-                    onclick: function() {
+                    onclick: function () {
                         this.exportChart({ type: 'application/pdf' });
                     }
                 },
                 downloadSVG: {
                     text: 'Download SVG',
-                    onclick: function() {
+                    onclick: function () {
                         this.exportChart({ type: 'image/svg+xml' });
                     }
                 }
@@ -148,11 +151,11 @@ const SurveyAnalyticsQuestionPieChart = ({key, data,show,type }) => {
             enabled: true,
         }
     });
-    
+
     const baseBarChartOptions = {
         chart: {
             type: "bar",
-            height:225
+            height: 225
         },
         title: {
             text: "",
@@ -181,9 +184,9 @@ const SurveyAnalyticsQuestionPieChart = ({key, data,show,type }) => {
             verticalAlign: "bottom",
         },
         tooltip: {
-            formatter: function() {
+            formatter: function () {
                 var pcnt = this.point.p.toFixed(0);
-                return '<b>' + this.series.name + ":" + '</b><br/>' + pcnt+"%";
+                return '<b>' + this.series.name + ":" + '</b><br/>' + pcnt + "%";
             },
         },
         plotOptions: {
@@ -194,7 +197,7 @@ const SurveyAnalyticsQuestionPieChart = ({key, data,show,type }) => {
                 dataLabels: [
                     {
                         enabled: true,
-                        formatter: function() {
+                        formatter: function () {
                             var pcnt = this.point.p.toFixed(0);
                             return '<tspan >' + pcnt + "%" + '</tspan>';
                         },
@@ -208,11 +211,11 @@ const SurveyAnalyticsQuestionPieChart = ({key, data,show,type }) => {
             },
             bar: {
                 showInLegend: true,
-              }
+            }
         },
         series: [],
     };
-    
+
     const [barChartOptions, setBarChartOptions] = useState(type === "analytics" ? {
         ...baseBarChartOptions,
         exporting: {
@@ -226,25 +229,25 @@ const SurveyAnalyticsQuestionPieChart = ({key, data,show,type }) => {
             menuItemDefinitions: {
                 downloadPNG: {
                     text: 'Download PNG',
-                    onclick: function() {
+                    onclick: function () {
                         this.exportChart({ type: 'image/png' });
                     }
                 },
                 downloadJPEG: {
                     text: 'Download JPEG',
-                    onclick: function() {
+                    onclick: function () {
                         this.exportChart({ type: 'image/jpeg' });
                     }
                 },
                 downloadPDF: {
                     text: 'Download PDF',
-                    onclick: function() {
+                    onclick: function () {
                         this.exportChart({ type: 'application/pdf' });
                     }
                 },
                 downloadSVG: {
                     text: 'Download SVG',
-                    onclick: function() {
+                    onclick: function () {
                         this.exportChart({ type: 'image/svg+xml' });
                     }
                 }
@@ -267,86 +270,90 @@ const SurveyAnalyticsQuestionPieChart = ({key, data,show,type }) => {
             enabled: false,
         }
     });
-    
+
 
 
     useEffect(() => {
-        const options = data?.ans?.map((item) => item?.name) || [];
-        const seriesData=[{
+        const options = data?.ans?.map((item) => item?.value) || [];
+        const seriesData = [{
             name: "",
             y: "",
             color: "",
             drilldown: "",
         }]
-        const barSeriesData=[{
+        const barSeriesData = [{
             name: "",
             data: "",
             color: "",
-            y:""
-            
+            y: ""
+
         }]
-        
-        if(data?.graphType=="pie"){
-             data?.ans?.map((item, index) => {
+
+        if (data?.graphType == "pie") {
+            data?.ans?.map((item, index) => {
                 seriesData.push({
-                    name: item?.name,
-                    y: item?.y,
+                    name: item?.value,
+                    y: item?.count,
                     color: colors[index],
                     drilldown: item?.drilldown,
                 })
-               
+
             })
             const drilldownData = data?.ans?.filter(question => question?.drillDownData?.length > 0).map(question => ({
                 id: question.drilldown,
                 name: question.name,
                 data: question.drillDownData.map(answer => [answer.name, answer.total]),
                 colors: question.drillDownData.map(answer => answer.color)
-              }));
-            setPieChartOptions({ ...pieChartOptions, 
-                series: [{ ...pieChartOptions?.series[0], data: seriesData?.slice(1) }], 
-                drilldown : {"series": drilldownData} })
-        } else if(data?.graphType=="bar"){
-            let totalAnswer = data?.ans?.map(item => item.y) // Extracting the 'y' values
-            .reduce((total, yValue) => total + yValue, 0);
-          data?.ans?.map((item, index) => {            
-            barSeriesData.push({
-                name: item?.name,
-                data: [{p:(item?.y/totalAnswer)*100,y:item?.y}],
-                color: colors[index],
-                answer:item?.y
-            })              
-                
+            }));
+            setPieChartOptions({
+                ...pieChartOptions,
+                series: [{ ...pieChartOptions?.series[0], data: seriesData?.slice(1) }],
+                drilldown: { "series": drilldownData }
             })
-            setBarChartOptions({ ...barChartOptions,xAxis: {
-                ...barChartOptions.xAxis,
-                categories: options,
-            }, 
-            series:barSeriesData?.slice(1)})
-           
+        } else if (data?.graphType == "bar") {
+            let totalAnswer = data?.ans?.map(item => item.count) // Extracting the 'y' values
+                .reduce((total, yValue) => total + yValue, 0);
+            data?.ans?.map((item, index) => {
+                barSeriesData.push({
+                    name: item?.value,
+                    data: [{ p: (item?.count / totalAnswer) * 100, y: item?.count }],
+                    color: colors[index],
+                    answer: item?.count
+                })
+
+            })
+            setBarChartOptions({
+                ...barChartOptions, xAxis: {
+                    ...barChartOptions.xAxis,
+                    categories: options,
+                },
+                series: barSeriesData?.slice(1)
+            })
+
         }
-        
-    }, data?.graphType,show)
+
+    }, data?.graphType, show)
 
 
-    return (<>  
+    return (<>
         <div className="graph-box">
-            {(data?.graphType=="pie"&&data?.ans?.length)?           
-            <HighchartsReact
-                key={"pie"}
-                highcharts={Highcharts}
-                options={ pieChartOptions }
-            />          
-            :(data?.graphType=="bar" && data?.ans?.length)?           
-            <HighchartsReact
-                key={"bar"}
-                highcharts={Highcharts}
-                options={ barChartOptions }
-            />            
-            :
-            <div className="no_found">
-                <img src={path_image + "default-bar-chart.png"} alt="" />
-                
-            </div>
+            {(data?.graphType == "pie" && data?.ans?.length) ?
+                <HighchartsReact
+                    key={"pie"}
+                    highcharts={Highcharts}
+                    options={pieChartOptions}
+                />
+                : (data?.graphType == "bar" && data?.ans?.length) ?
+                    <HighchartsReact
+                        key={"bar"}
+                        highcharts={Highcharts}
+                        options={barChartOptions}
+                    />
+                    :
+                    <div className="no_found">
+                        <img src={path_image + "default-bar-chart.png"} alt="" />
+
+                    </div>
             }
         </div>
 
