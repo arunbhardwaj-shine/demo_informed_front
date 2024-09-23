@@ -1112,13 +1112,14 @@
           <div class="dropdown-el" name="question${
             question.questionId
           }_country">
+          <input type="hidden" name="countryConsent" value="" required /> <!-- Add 'required' here -->
             <div data-value="" class="select-dropdown__button">
               <span data-place-value="${userdetail.countryPlaceholder}">${
                               userdetail.countryPlaceholder
                             }</span>
             </div>
 
-            <input type="hidden" name="countryConsent" value="" required /> <!-- Add 'required' here -->
+            
             <div class="select-dropdown__list">
               <div class="select-dropdown">
 

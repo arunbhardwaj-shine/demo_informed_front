@@ -391,6 +391,7 @@ input[type="radio"]:checked ~ .checkmark {
   position: relative;
   min-height: 16px;
   word-break: break-word;
+  cursor: pointer;
 }
 
 input[type="checkbox"],
@@ -521,7 +522,7 @@ textarea:focus-visible {
 
 .select-dropdown__button span {
   font-size: 12px;
-  font-weight: 300;
+  font-weight: 400;
   color: #004A89;
 }
 
@@ -636,22 +637,22 @@ textarea:focus-visible {
 }
 
 ::-webkit-input-placeholder {
-  color: rgb(112, 137, 158);
+  color: rgba(112, 137, 158, 0.5);
   opacity: 1;
 }
 
 ::-moz-placeholder {
-  color: rgb(112, 137, 158);
+  color: rgba(112, 137, 158, 0.5);
   opacity: 1;
 }
 
 :-ms-input-placeholder {
-  color: rgb(112, 137, 158);
+  color: rgba(112, 137, 158, 0.5);
   opacity: 1;
 }
 
 :-moz-placeholder {
-  color: rgb(112, 137, 158);
+  color: rgba(112, 137, 158, 0.5);
   opacity: 1;
 }
 
@@ -1055,7 +1056,7 @@ label.form-label {
 }
 .input-error,
 .form-section .form-group .input-error,
-.form-section .form-group select.input-error {
+.form-section .form-group select.input-error, .form-section .form-group .input-error + .select-dropdown__button {
   box-shadow: 0 0 8px #ca2a48;
 }
 
@@ -1326,7 +1327,7 @@ padding-top: 0;
   color: white; /* Assuming $white is white */
   font-size: 32px;
   font-weight: 500;
-  margin: 0 0 12px;
+  margin: 0 0 9px;
 }
 
 .no-found .not-found-txt h4 {
@@ -1350,6 +1351,7 @@ padding-top: 0;
   padding: 8px 30px;
   display: inline-block;
   text-decoration: none;
+  line-height: 150%;
 }
 
 .no-found .not-found-txt a.btn-white:hover {
