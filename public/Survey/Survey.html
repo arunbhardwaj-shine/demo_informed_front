@@ -155,20 +155,23 @@
           element.value = "";
         });
         document.querySelectorAll("input").forEach((element) => {
-          console.log(element);
+ 
           if (element.id === "matrix") {
             const span = element.nextElementSibling; // Select the corresponding span
+            console.log("matrix span",span)
             if (span) {
               const innerSpan = span.querySelector("span"); // Select the inner <span>
-
               if (innerSpan) {
                 innerSpan.style.backgroundColor = "";
               }
+              span.style.backgroundColor="";
+              span.style.borderColor = borderColor;
+             
             }
           } else {
             const span = element.nextElementSibling; // Select the corresponding span
             if (span) {
-              span.style.borderColor = "";
+              span.style.borderColor = borderColor;
               span.style.backgroundColor = "";
             }
             if (span) {
@@ -233,13 +236,16 @@
       //   }
       // }
 
-      function handleRadioClick(questionId, value, borderColor) {
+      function handleRadioClick(questionId, value, borderColor,bodyTextColor) {
         // Get the "Other" text input element
         const otherTextInput = document.getElementById(
           "other-text-" + questionId
         );
         // // Hide the "Other" text input by default
-        otherTextInput.style.display = "none";
+        if(otherTextInput){
+          otherTextInput.style.display = "none";
+        }
+
         // Check all radio buttons for the specific question
         document
           .querySelectorAll(`input[name="question${questionId}"]`)
@@ -260,11 +266,13 @@
               if (input.value === "other") {
                 otherTextInput.style.display = "inline";
               }
+            }else{
+              span.style.borderColor = bodyTextColor;
             }
           });
       }
 
-      const handleMatrixClick = (inputname, inputType, color) => {
+      const handleMatrixClick = (inputname, inputType, color,bodyTextColor) => {
         console.log(inputname, inputType, color);
 
         if (inputType === "checkbox") {
@@ -275,9 +283,12 @@
             if (input.checked) {
               const checkmark = input.nextElementSibling;
               checkmark.style.backgroundColor = color;
+              checkmark.style.borderColor = color;
+
             } else {
               const checkmark = input.nextElementSibling;
               checkmark.style.backgroundColor = "";
+              checkmark.style.borderColor = bodyTextColor;
             }
           });
         } else {
@@ -285,27 +296,24 @@
             `input[name="${inputname}"]`
           );
           checkedInputs.forEach((input) => {
-            // Access the corresponding checkmark span (assuming it's the next sibling)
-            console.log(input);
-            console.log("inside radio");
+
             if (input.checked) {
               const span = input.nextElementSibling; // Select the corresponding span
-
               const innerSpan = span.querySelector("span"); // Select the inner <span>
-
               innerSpan.style.backgroundColor = color;
+              span.style.borderColor = color;
             } else {
               const span = input.nextElementSibling; // Select the corresponding span
 
               const innerSpan = span.querySelector("span"); // Select the inner <span>
-
+              span.style.borderColor = bodyTextColor;
               innerSpan.style.backgroundColor = "";
             }
           });
         }
       };
 
-      const handleAllOfTheAboveChange = (questionNo, value, borderColor) => {
+      const handleAllOfTheAboveChange = (questionNo, value, borderColor,bodyTextColor) => {
         // Select all checkboxes with the given questionNo
         const checkboxes = document.querySelectorAll(
           `input[type="checkbox"][name="question${questionNo}"]`
@@ -340,7 +348,7 @@
             span.style.backgroundColor = borderColor;
           } else {
             const span = checkbox.nextElementSibling;
-            span.style.borderColor = "";
+            span.style.borderColor = bodyTextColor;
             span.style.backgroundColor = "";
           }
         });
@@ -373,7 +381,7 @@
         }
       }
 
-      const handleIndividualCheckboxChange = (questionNo, borderColor) => {
+      const handleIndividualCheckboxChange = (questionNo, borderColor,bodyTextColor) => {
         // Select all checkboxes with the given questionNo
         const checkboxes = document.querySelectorAll(
           `input[type="checkbox"][name="question${questionNo}"]`
@@ -388,7 +396,7 @@
             span.style.backgroundColor = borderColor;
           } else {
             const span = checkbox.nextElementSibling;
-            span.style.borderColor = "";
+            span.style.borderColor = bodyTextColor;
             span.style.backgroundColor = "";
           }
         });
@@ -411,13 +419,19 @@
 
         if (!allOtherChecked) {
           console.log("inside checkbox");
-          const span = allOfTheAboveCheckbox.nextElementSibling;
-          span.style.borderColor = "";
+          if(allOfTheAboveCheckbox){
+            const span = allOfTheAboveCheckbox.nextElementSibling;
+          span.style.borderColor = bodyTextColor;
           span.style.backgroundColor = "";
+          }
+      
         } else {
-          const span = allOfTheAboveCheckbox.nextElementSibling;
+          if(allOfTheAboveCheckbox){
+            const span = allOfTheAboveCheckbox.nextElementSibling;
           span.style.borderColor = borderColor;
           span.style.backgroundColor = borderColor;
+          }
+     
         }
 
         // Uncheck "All of the Above" if not all other checkboxes are checked
@@ -457,8 +471,6 @@
           });
 
           data = await response.json();
-          console.log(data);
-
           startTime = new Date();
 
           if (data.status == 200) {
@@ -585,10 +597,10 @@
                           ${question.isOptional ? "" : "required"}
                          onclick="handleRadioClick(${
                            question.questionId
-                         }, this.value, '${customHtml.question_answer_color}');"
+                         }, this.value, '${customHtml.question_answer_color}','${customHtml.bodyTextColor}');"
  />
                       ${answer.value}
-                      <span class="checkmark">
+                      <span class="checkmark" style="border-color:${customHtml.bodyTextColor}">
                              <span></span>
                       </span>
                   </label>`;
@@ -607,10 +619,10 @@
                             question.questionId
                           }, this.value, '${
                   customHtml.question_answer_color
-                }');"
+                }','${customHtml.bodyTextColor}');"
  />
                       ${question.extra.otherChoiceLabel}
-                     <span class="checkmark">
+                     <span class="checkmark" style="border-color:${customHtml.bodyTextColor}">
                              <span></span>
                       </span>
                       <br>
@@ -668,9 +680,9 @@
                 id="checkbox-${question.questionId}-${answer.answerId}"
                 onclick="handleIndividualCheckboxChange(${
                   question.questionId
-                },'${customHtml.question_answer_color}');" />
+                },'${customHtml.question_answer_color}','${customHtml.bodyTextColor}');" />
                     ${answer.value}
-                    <span class="checkmark" ></span>
+                    <span class="checkmark" style="border-color:${customHtml.bodyTextColor}" ></span>
                 </label>`;
               });
               // Add the "All of the above" option if applicable
@@ -689,9 +701,9 @@
                             question.questionId
                           }, this.value,'${
                   customHtml.question_answer_color
-                }');" />
+                }','${customHtml.bodyTextColor}');" />
                       ${question.extra.allOfTheAboveLabel}
-                      <span class="checkmark"></span><br>
+                      <span class="checkmark" style="border-color:${customHtml.bodyTextColor}"></span><br>
                   </label>`;
               }
               if (question.addOtherChoice) {
@@ -703,7 +715,7 @@
                   question.isOptional ? "" : "required"
                 } id="checkbox-other-choice-${question.questionId}" />
                   ${question.extra.otherChoiceLabel}
-                  <span class="checkmark" ></span><br>
+                  <span class="checkmark" style="border-color:${customHtml.bodyTextColor}" ></span><br>
               </label>
               <input type="text" placeholder="${
                 question.extra.otherChoicePlaceholderText
@@ -928,8 +940,8 @@
 
                                               onclick="${
                                                 inputType === "checkbox"
-                                                  ? `handleMatrixClick('question${row.id}_${option.answerId}', '${inputType}', '${customHtml.question_answer_color}');`
-                                                  : `handleMatrixClick('question${row.id}', '${inputType}', '${customHtml.question_answer_color}');`
+                                                  ? `handleMatrixClick('question${row.id}_${option.answerId}', '${inputType}', '${customHtml.question_answer_color}','${customHtml.bodyTextColor}');`
+                                                  : `handleMatrixClick('question${row.id}', '${inputType}', '${customHtml.question_answer_color}','${customHtml.bodyTextColor}');`
                                               }"
 
                                                id="matrix"
@@ -938,8 +950,8 @@
 
                                         ${
                                           inputType === "checkbox"
-                                            ? `<span class="checkmark" style="border-color: ${customHtml.question_answer_color};"></span>`
-                                            : `<span class="checkmark" style="border-color: ${customHtml.question_answer_color};"> <span></span></span>`
+                                            ? `<span class="checkmark" style="border-color: ${customHtml.bodyTextColor};"></span>`
+                                            : `<span class="checkmark" style="border-color: ${customHtml.bodyTextColor};"> <span></span></span>`
                                         }
 
                                        
@@ -1132,7 +1144,7 @@
                   }"  required value="${option.label}" ${
                       option.isChecked ? "checked" : ""
                     }>
-                  <span class="checkmark" ></span>
+                  <span class="checkmark" style="border-color: ${customHtml.bodyTextColor};"></span>
                   ${option.label}
                 </label>`
                   )
@@ -1172,7 +1184,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="btn-close" aria-label="Close" onclick="closeModal('${
-                      customHtml.question_answer_color
+                      customHtml.bodyTextColor
                     }')">
                         <img
                             src="../componentAssets/images/cookie-popup-close.svg"
@@ -1232,7 +1244,7 @@
                   span.style.backgroundColor = customHtml.question_answer_color;
                 } else {
                   const span = this.nextElementSibling;
-                  span.style.borderColor = "";
+                  span.style.borderColor = customHtml.bodyTextColor;
                   span.style.backgroundColor = "";
                 }
                 if (otherTextInput) {
@@ -1317,7 +1329,7 @@
             let span = input.nextElementSibling;
             span.style.borderColor = input.checked
               ? customHtml.question_answer_color
-              : ""; // Set border color if checked
+              : customHtml.bodyTextColor; // Set border color if checked
             span.style.backgroundColor = input.checked
               ? customHtml.question_answer_color
               : "";
@@ -1331,7 +1343,7 @@
             const input = consent.querySelector(`input[id=option${option}]`);
             input.checked = false; // Deselect the option
             let span = input.nextElementSibling; // Get the corresponding span
-            span.style.borderColor = ""; // Reset border color
+            span.style.borderColor = customHtml.bodyTextColor; // Reset border color
             span.style.backgroundColor = "";
           });
         }
@@ -1355,7 +1367,7 @@
                       );
                       input.checked = false; // Deselect the option
                       let span = input.nextElementSibling; // Get the corresponding span
-                      span.style.borderColor = ""; // Reset border color
+                      span.style.borderColor = customHtml.bodyTextColor; // Reset border color
                       span.style.backgroundColor = "";
                     });
                   }
@@ -1377,13 +1389,13 @@
                     consent.querySelector("#option3").checked = false;
                     const option3 = consent.querySelector("#option3");
                     let span = option3.nextElementSibling;
-                    span.style.borderColor = "";
+                    span.style.borderColor = customHtml.bodyTextColor;
                     span.style.backgroundColor = "";
                   }
                   consent.querySelector("#option4").checked = false;
                   const option4 = consent.querySelector("#option4");
                   let span = option4.nextElementSibling;
-                  span.style.borderColor = "";
+                  span.style.borderColor = customHtml.bodyTextColor;
                   span.style.backgroundColor = "";
                   // Set option4 checkbox to false
                 } else if (option.id === "option2") {
@@ -1400,13 +1412,13 @@
                     consent.querySelector("#option3").checked = false;
                     const option3 = consent.querySelector("#option3");
                     let span = option3.nextElementSibling;
-                    span.style.borderColor = "";
+                    span.style.borderColor = customHtml.bodyTextColor;
                     span.style.backgroundColor = "";
                   }
                   consent.querySelector("#option4").checked = false;
                   const option4 = consent.querySelector("#option4");
                   let span = option4.nextElementSibling;
-                  span.style.borderColor = "";
+                  span.style.borderColor =customHtml.bodyTextColor;
                   span.style.backgroundColor = "";
                 }
                 // Add more conditions if necessary
@@ -1417,7 +1429,7 @@
                   span.style.backgroundColor = customHtml.question_answer_color;
                 } else {
                   let span = option.nextElementSibling;
-                  span.style.borderColor = "";
+                  span.style.borderColor = customHtml.bodyTextColor;
                   span.style.backgroundColor = "";
                 }
               });
@@ -1954,10 +1966,12 @@
                 Utmde !== "SqfTvRle"
               ) {
                 showToast("You have already submitted the survey");
-                closeModal();
+                closeModal(customHtml.bodyTextColor);
                 document.getElementById("survey-form").reset(); // Reset your form
                 return;
               }
+
+            
 
               loader("show");
 
@@ -1971,16 +1985,15 @@
                 },
                 body: JSON.stringify(submitPayload),
               });
+ 
+            const res = await submitResponse.json()
+          
 
-              if (submitResponse.status == "400") {
+              if (res.status === "302") {
                 loader("hide");
-                showToast("Something went wrong");
-              } else if (submitResponse.status == "302") {
-                loader("hide");
-                // showToast("You have already submitted the survey");
-                closeModal();
-                document.getElementById("survey-form").reset(); // Reset your form
-              } else if (submitResponse.status == "200") {
+                showToast(res.message);
+                closeModal(customHtml.bodyTextColor);
+              } else if (res.status === "200") {
                 loader("hide");
                 showSubmitModal();
                 localStorage.setItem(`form_surveyid${survey_id}`, 1);
