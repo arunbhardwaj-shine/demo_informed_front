@@ -353,6 +353,11 @@ input[type="radio"]:checked ~ .checkmark {
   /* color: #70899e; */
 }
 
+.survey-paragraph p a {
+  color: inherit;
+  text-decoration: none;
+}
+
 .survey-paragraph ol,
 .survey-paragraph ul {
   margin: 5px 0;
@@ -1273,32 +1278,69 @@ padding-top: 0;
   transform: translateX(100%);
 }
 
+.no-found {
+  min-height: 100vh;
+  align-items: center;
+  padding: 90px 0 115px;
+  background: url(../componentAssets/images/not_404.jpg) no-repeat;
+  background-size: cover;
+  position: relative;
+  display: flex; /* d-flex */
+  flex-direction: column; /* flex-column */
+  justify-content: space-between; /* justify-content-between */
+}
 
+.no-found::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  background: url(../componentAssets/images/notfound-bg-circle.svg) no-repeat;
+  background-size: 100%;
+  width: 774px;
+  height: 553px;
+  background-position: right bottom;
+  right: 50px;
+}
 
-.not-found-txt {
+.no-found .page-logo img {
+  max-width: 212px;
+  width: 100%;
+}
+
+.no-found .not-found-character {
+  display: flex;
+  gap: 35px;
+  padding: 100px 0 90px;
+}
+
+.no-found .not-found-character span:last-child {
+  transform: rotate(0deg) translate(64px, 75px);
+}
+
+.no-found .not-found-txt {
   text-align: center;
   z-index: 1;
 }
 
-.not-found-txt h3 {
-  color: white; /* Replace with your variable value */
+.no-found .not-found-txt h3 {
+  color: white; /* Assuming $white is white */
   font-size: 32px;
   font-weight: 500;
   margin: 0 0 12px;
 }
 
-.not-found-txt h4 {
-  color: white; /* Replace with your variable value */
+.no-found .not-found-txt h4 {
+  color: white; /* Assuming $white is white */
   font-size: 24px;
   font-weight: 300;
   margin: 0 0 32px;
   text-transform: unset;
 }
 
-.not-found-txt a.btn-white {
-  background-color: white; /* Replace with your variable value */
+.no-found .not-found-txt a.btn-white {
+  background-color: white; /* Assuming $white is white */
   border: 0;
-  color: #0066BE;
+  color: #0066BE; /* Replace with actual primary color */
   box-shadow: 0px 1px 8px 0px rgba(0, 102, 190, 0.32);
   min-width: 175px;
   border-radius: 30px;
@@ -1307,58 +1349,144 @@ padding-top: 0;
   text-transform: capitalize;
   padding: 8px 30px;
   display: inline-block;
-  text-decoration: none; /* Remove underline */
+  text-decoration: none;
 }
 
-.no-found::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  background: url(../static/media/notfound-bg-circle.3397e601efe8a2e30186.svg) no-repeat;
-  background-size: 100%;
-  width: 774px;
-  height: 553px;
-  background-position: right bottom;
-  right: 50px;
-}
-.no-found .not-found-character span:last-child svg {
-  transform: rotate(0deg) translate(64px, 75px);
+.no-found .not-found-txt a.btn-white:hover {
+  background-color: #0066BE; /* Replace with actual primary color */
+  color: white; /* Assuming $white is white */
 }
 
 
-.no-found .not-found-character {
-  display: flex;
-  gap: 35px;
-  padding-top: 100px;
-  padding-right: 0;
-  padding-bottom: 90px;
+@media (max-width: 1550px) {
+  .no-found {
+      padding: 40px 0 55px;
+  }
 
+  .no-found .not-found-character svg {
+      width: 190px;
+  }
+}
+
+@media (max-width: 1440px) {
+  .no-found {
+      padding: 40px 0 50px;
+  }
+
+  .no-found .not-found-character {
+      padding: 40px 0 35px;
+  }
+
+  .no-found .not-found-character svg {
+      width: 160px;
+      height: auto;
+  }
+
+  .no-found .not-found-character span:last-child {
+      transform: rotate(4deg) translate(34px, 54px);
+  }
+
+  .no-found .not-found-txt h3 {
+      font-size: 30px;
+  }
+
+  .no-found .not-found-txt h4 {
+      font-size: 22px;
+  }
+
+  .no-found::after {
+      background-size: 79%;
+      width: 664px;
+      height: 443px;
+  }
 }
 
 
 
+@media (max-width: 1365px) {
+  .no-found {
+      padding: 40px 0 40px;
+  }
 
-.not-found-txt a.btn-white:hover {
-  background-color: #0066BE;
-  color: white; /* Replace with your variable value */
+  .no-found .not-found-character svg {
+      width: 140px;
+      height: auto;
+  }
+
+  .no-found::after {
+      background-size: 77%;
+      width: 634px;
+      height: 363px;
+  }
 }
-.no-found {
-  min-height: 100vh;
-  align-items: center;
-  padding: 90px 0 115px;
-  background: url(../static/media/not_404.2ec525c0a054e9e6464e.jpg) no-repeat;
-  background-size: cover;
-  position: relative;
- 
-}
-.justify-content-between {
-  justify-content: space-between!important;
+
+@media (max-width: 991px) {
+  .no-found {
+      justify-content: center !important;
+  }
+
+  .no-found .not-found-character {
+      padding: 220px 0 135px;
+  }
+
+  .no-found::after {
+      background-size: 77%;
+      width: 634px;
+      height: 363px;
+  }
 }
 
 
-.flex-column {
-  flex-direction: column!important;
-}
-.d-flex {
-  display: flex!important;
+@media (max-width: 767px) {
+  .no-found {
+      padding: 80px 31px 90px;
+      justify-content: center !important;
+      background-position: top center;
+      background: url(../componentAssets/images/not-found-mob.png) no-repeat;
+      background-size: 100%;
+
+      .page-logo {
+          img {
+              max-width: 152px;
+          }
+      }
+
+      .not-found-txt {
+          h3 {
+              font-size: 24px;
+              line-height: normal;
+              margin: 0 0 16px;
+          }
+
+          h4 {
+              font-size: 16px;
+              margin: 0 0 44px;
+          }
+      }
+
+      .not-found-character {
+          padding: 170px 0 75px;
+          gap: 13px;
+
+          svg {
+              width: 74px;
+          }
+
+          span {
+              &:last-child {
+                  transform: rotate(0deg) translate(18px, 28px);
+              }
+          }
+      }
+
+      &:after {
+          background-size: 100%;
+          width: 270px;
+          height: 270px;
+          bottom: 20%;
+          transform: rotate(-90deg);
+          right: 0;
+
+      }
+  }
 }

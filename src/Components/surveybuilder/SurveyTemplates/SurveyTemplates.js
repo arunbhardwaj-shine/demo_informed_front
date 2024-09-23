@@ -28,17 +28,17 @@ const templates = [
  
                           <label class="check" style="color: {#bodyTextColor#}">Rainy
                                   <input type="radio" disabled name="radio"/>
-                              <span class="checkmark" ></span>
+                              <span class="checkmark" style="border-color:{#bodyTextColor#}" ></span>
                           </label>
  
                           <label class="check" style="color: {#bodyTextColor#}">Snowy
                                   <input type="radio" disabled name="radio"/>
-                              <span class="checkmark" ></span>
+                              <span class="checkmark" style="border-color:{#bodyTextColor#}" ></span>
                           </label>
  
                           <label class="check" style="color: {#bodyTextColor#}">Cloudy
                                   <input type="radio" disabled name="radio"/>
-                              <span class="checkmark" ></span>
+                              <span class="checkmark" style="border-color:{#bodyTextColor#}" ></span>
                           </label>
                           <div class="form-footer">
                             <button type="button" style="background: {#button_color#};">{#button_text#}</button>
@@ -96,17 +96,17 @@ const templates = [
  
                           <label class="check" style="color: {#bodyTextColor#}">Rainy
                                   <input type="radio" disabled name="radio"/>
-                              <span class="checkmark"  ></span>
+                                <span class="checkmark" style="border-color:{#bodyTextColor#}" ></span>
                           </label>
  
                           <label class="check" style="color:{#bodyTextColor#}">Snowy
                                   <input type="radio" disabled name="radio"/>
-                              <span class="checkmark"  ></span>
+                               <span class="checkmark" style="border-color:{#bodyTextColor#}" ></span>
                           </label>
  
                           <label class="check" style="color: {#bodyTextColor#}">Cloudy
                                   <input type="radio" disabled name="radio"/>
-                              <span class="checkmark"  ></span>
+                               <span class="checkmark" style="border-color:{#bodyTextColor#}" ></span>
                           </label>
                           <div class="form-footer">
                             <button type="button" style="background: {#button_color#};">{#button_text#}</button>
@@ -165,17 +165,17 @@ const templates = [
  
                           <label class="check" style="color: {#bodyTextColor#}">Rainy
                                   <input type="radio" disabled name="radio"/>
-                              <span class="checkmark"  ></span>
+                              <span class="checkmark" style="border-color:{#bodyTextColor#}" ></span>
                           </label>
  
                           <label class="check" style="color: {#bodyTextColor#}">Snowy
                             <input type="radio" disabled name="radio"/>
-                              <span class="checkmark" ></span>
+                               <span class="checkmark" style="border-color:{#bodyTextColor#}" ></span>
                           </label>
  
                           <label class="check" style="color: {#bodyTextColor#}">Cloudy
                             <input type="radio" disabled name="radio"/>
-                              <span class="checkmark" ></span>
+                               <span class="checkmark" style="border-color:{#bodyTextColor#}" ></span>
                           </label>
                           <div class="form-footer">
                             <button type="button" style="background: {#button_color#};">{#button_text#}</button>

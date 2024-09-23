@@ -492,7 +492,7 @@ const RenderOptions = ({
                 </Form.Label>
                 <Select
                   className="dropdown-basic-button split-button-dropup"
-                  placeholder={item.extra.consentDetails.countryPlaceholder}
+                  placeholder={item.extra.consentDetails[2].countryPlaceholder}
                   name={`consent-country`}
                   isDisabled={!isEdit}
                   options={item.extra.consentDetails[2].countryOptions.map(

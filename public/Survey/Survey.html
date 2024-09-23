@@ -376,6 +376,13 @@
             document.head.appendChild(titleTag);
             break;
 
+          case "og-url":
+            const ogUrlTag = document.createElement("meta");
+            ogUrlTag.setAttribute("property", name);
+            ogUrlTag.setAttribute("content", content);
+            document.head.appendChild(ogUrlTag);
+            break;
+
           default:
             console.log("Unsupported meta tag:", name);
         }
@@ -531,6 +538,7 @@
         );
         addMetaTag("og:image", data.data[0].survey_info.survey_thumbnail ?? "");
         addMetaTag("title", data.data[0].survey_info.survey_link_title ?? "");
+        addMetaTag("og-url",`https://informed.pro/Survey/Survey.html?Utmde=${Utmde}` ?? "")
 
         let surveyHtml = `
           <div class="informed-survey-header" style="${
@@ -1018,7 +1026,7 @@
 
             case "heading":
               surveyHtml += `
-                    <div class="survey-question">
+                    <div class="survey-question" style="color: ${customHtml.question_answer_color};">
                         <h2 style="color: ${customHtml.question_answer_color};">${question.question}</h2>
                         <p class="helper-text" style="color : ${customHtml.question_answer_color};" >${question.questionDescription}</p>
                     `;

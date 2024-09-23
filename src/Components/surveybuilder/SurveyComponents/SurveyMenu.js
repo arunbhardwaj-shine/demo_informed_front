@@ -27,7 +27,7 @@ import {
 import { loader } from "../../../loader";
 import { useDispatch, useSelector } from "react-redux";
 
-import {UpdateQuestion} from "../CommonFunctions/CommonFunction";
+import { UpdateQuestion } from "../CommonFunctions/CommonFunction";
 
 import {
   addElement,
@@ -62,21 +62,16 @@ const SurveyMenu = ({ menuRef }) => {
 
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
-  const questionElemnts=JSON.parse(localStorage.getItem("getSurveyData"));
-  let defaultColor="";
-  if(questionElemnts.formBuilderData.custom_html.length > 0 ){
-     defaultColor=questionElemnts.formBuilderData.custom_html[0].bodyTextColor;
+  const questionElemnts = JSON.parse(localStorage.getItem("getSurveyData"));
+  let defaultColor = "";
+  if (questionElemnts.formBuilderData.custom_html.length > 0) {
+    defaultColor = questionElemnts.formBuilderData.custom_html[0].bodyTextColor;
   }
-
 
   const { currentElementIndex, elements, isEditModeOn } = useSelector(
     (state) => state.surveyData
   );
-  const obj = useSelector(
-    (state) => state.surveyData
-  );
-
-
+  const obj = useSelector((state) => state.surveyData);
 
   const [editorIndex, setEditorIndex] = useState(0);
 
@@ -147,8 +142,8 @@ const SurveyMenu = ({ menuRef }) => {
         currentOptions.splice(answerIndex, 1);
         handleUpdateElement(itemIndex, "answer", [...currentOptions]);
 
-        if(optionId){
-          UpdateQuestion(optionId)
+        if (optionId) {
+          UpdateQuestion(optionId);
         }
         return;
       } else {
@@ -230,12 +225,15 @@ const SurveyMenu = ({ menuRef }) => {
   const addColumnInMiddle = (itemIndex, key, answerIndex) => {
     const currentOptions = elements[itemIndex];
     const updatedValues = currentOptions.answer.map((option) => {
-      option.answer.splice(answerIndex + 1, 0, { value: `Column ${answerIndex+2} `, answerId: 0 });
+      option.answer.splice(answerIndex + 1, 0, {
+        value: `Column ${answerIndex + 2} `,
+        answerId: 0,
+      });
       return {
         ...option,
       };
     });
-    
+
     handleUpdateElement(itemIndex, key, [...updatedValues]);
   };
 
@@ -252,8 +250,21 @@ const SurveyMenu = ({ menuRef }) => {
     }
 
     if (elements[itemIndex].type === "dropdown") {
+     
+      const currentClickedOption = currentOptions[0].value[answerIndex];
+      if (currentClickedOption.trim() === "") {
+        toast.warning("Please fill in the current option!");
+        return;
+      }
+
       currentOptions[0].value.splice(answerIndex + 1, 0, "");
       handleUpdateElement(itemIndex, key, [...currentOptions]);
+      return;
+    }
+
+    const currentClickedOption = currentOptions[answerIndex].value;
+    if (currentClickedOption.trim() === "") {
+      toast.warning("Please fill in the current option!");
       return;
     }
 
@@ -271,11 +282,10 @@ const SurveyMenu = ({ menuRef }) => {
         return;
       }
       columns = currentOptions[currentOptions.length - 1].answer.map(
-        (columns) => ({ value: columns.value , answerId: 0 })
+        (columns) => ({ value: columns.value, answerId: 0 })
       );
     } else {
       columns = [{ value: "", answerId: 0 }];
-      
     }
 
     handleUpdateElement(index, outerkey, [
@@ -299,11 +309,11 @@ const SurveyMenu = ({ menuRef }) => {
       handleUpdateElement(index, key, [...currentOptions]);
     } else if (elements[index].type === "matrix") {
       var updatedColumns = [];
-      var curentOptionsLength=0;
+      var curentOptionsLength = 0;
       if (currentOptions.length > 0 && currentOptions[0].answer.length > 0) {
         const columns = currentOptions[0].answer;
         const lastOption = columns[columns.length - 1].value;
-        curentOptionsLength=columns.length;
+        curentOptionsLength = columns.length;
 
         if (lastOption.trim() === "") {
           toast.warning("Please fill in the current option!");
@@ -320,9 +330,12 @@ const SurveyMenu = ({ menuRef }) => {
           },
         ];
       } else {
-        updatedColumns = currentOptions.map((option,index) => ({
+        updatedColumns = currentOptions.map((option, index) => ({
           ...option,
-          answer: [...currentOptions[0].answer, { value: `Column ${curentOptionsLength+1} `, answerId: 0 }],
+          answer: [
+            ...currentOptions[0].answer,
+            { value: `Column ${curentOptionsLength + 1} `, answerId: 0 },
+          ],
         }));
       }
 
@@ -342,8 +355,6 @@ const SurveyMenu = ({ menuRef }) => {
     }
   };
 
- 
-
   const toggleDescription = (index, keyName = "") => {
     const updatedElements = [...elements];
     const currentValue = updatedElements[index][keyName];
@@ -351,21 +362,20 @@ const SurveyMenu = ({ menuRef }) => {
 
     // Update the toggle value
     handleUpdateElement(index, keyName, newValue);
- 
 
     setTimeout(() => {
-      if((keyName === "addOtherChoice" || keyName === "isOptional")  && newValue ){
-
-        let element="";
-        if(keyName === "addOtherChoice"){
-          element=document.getElementById("other-choice-view");
-        }else {
-          
-          element=document.getElementById("isoptinal-scroll-view");
-         
+      if (
+        (keyName === "addOtherChoice" || keyName === "isOptional") &&
+        newValue
+      ) {
+        let element = "";
+        if (keyName === "addOtherChoice") {
+          element = document.getElementById("other-choice-view");
+        } else {
+          element = document.getElementById("isoptinal-scroll-view");
         }
         if (element) {
-          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          element.scrollIntoView({ behavior: "smooth", block: "start" });
         }
       }
     }, 0);
@@ -373,8 +383,7 @@ const SurveyMenu = ({ menuRef }) => {
 
   const handleAllOfTheAbove = (index) => {
     const value = !elements[index].extra.addAllOfTheAbove;
-    handleExtraAndStyle(index,value, "addAllOfTheAbove", "extra");
-
+    handleExtraAndStyle(index, value, "addAllOfTheAbove", "extra");
   };
 
   const renderEditorForm = (item, index) => {
@@ -402,7 +411,11 @@ const SurveyMenu = ({ menuRef }) => {
             value={item.question}
             handleUpdateElement={handleUpdateElement}
             index={index}
-            Placeholder={item.type === "paragraph" || item.type === "heading" ? "Type your text here" : "Type your question here"}
+            Placeholder={
+              item.type === "paragraph" || item.type === "heading"
+                ? "Type your text here"
+                : "Type your question here"
+            }
             key={"questionEditor" + editorIndex}
           />
 
@@ -437,64 +450,67 @@ const SurveyMenu = ({ menuRef }) => {
           )}
         </div>
         {children}
-      {
-        item.accordionType === "questionTypes"  &&  <div className="steps">
         {item.accordionType === "questionTypes" && (
-          <div className="d-flex align-items-center justify-content-between">
-            <p className="option-heading" style={{ margin: "0" }}>
-              Make this question optional{" "}
-              <img src={path_image + "info_circle_icon.svg"} alt="" />
-            </p>
-            <Form.Check
-              type="switch"
-              id="custom-switch"
-              checked={item.isOptional}
-              onChange={() => toggleDescription(index, "isOptional")}
-            />
-          </div>
-        )}
+          <div className="steps">
+            {item.accordionType === "questionTypes" && (
+              <div className="d-flex align-items-center justify-content-between">
+                <p className="option-heading" style={{ margin: "0" }}>
+                  Make this question optional{" "}
+                  <img src={path_image + "info_circle_icon.svg"} alt="" />
+                </p>
+                <Form.Check
+                  type="switch"
+                  id="custom-switch"
+                  checked={item.isOptional}
+                  onChange={() => toggleDescription(index, "isOptional")}
+                />
+              </div>
+            )}
 
-        {item.isOptional ? (
-          <div className="d-flex align-items-center w-100" id="isoptinal-scroll-view">
-            <Form.Label>Label</Form.Label>
-            <Form.Control
-              type="text"
-              value={item.optionalLabel}
-              onChange={(e) =>
-                handleUpdateElement(index, "optionalLabel", e.target.value)
-              }
-            />
-          </div>
-        ) : (
-          ""
-        )}
+            {item.isOptional ? (
+              <div
+                className="d-flex align-items-center w-100"
+                id="isoptinal-scroll-view"
+              >
+                <Form.Label>Label</Form.Label>
+                <Form.Control
+                  type="text"
+                  value={item.optionalLabel}
+                  onChange={(e) =>
+                    handleUpdateElement(index, "optionalLabel", e.target.value)
+                  }
+                />
+              </div>
+            ) : (
+              ""
+            )}
 
-        {item.extra?.allowMultipleAnswer !== undefined && (
-          <div className="d-flex align-items-center justify-content-between">
-            <p className="option-heading" style={{ margin: "0" }}>
-              Allow multiple answers per row{" "}
-              <img src={path_image + "info_circle_icon.svg"} alt="" />
-            </p>
-            <Form.Check
-              type="switch"
-              id="custom-switch"
-              checked={item.extra.allowMultipleAnswer}
-              onChange={() =>
-                handleExtraAndStyle(
-                  index,
-                  !elements[index].extra.allowMultipleAnswer,
-                  "allowMultipleAnswer",
-                  "extra"
-                )
-              }
-            />
+            {item.extra?.allowMultipleAnswer !== undefined && (
+              <div className="d-flex align-items-center justify-content-between">
+                <p className="option-heading" style={{ margin: "0" }}>
+                  Allow multiple answers per row{" "}
+                  <img src={path_image + "info_circle_icon.svg"} alt="" />
+                </p>
+                <Form.Check
+                  type="switch"
+                  id="custom-switch"
+                  checked={item.extra.allowMultipleAnswer}
+                  onChange={() =>
+                    handleExtraAndStyle(
+                      index,
+                      !elements[index].extra.allowMultipleAnswer,
+                      "allowMultipleAnswer",
+                      "extra"
+                    )
+                  }
+                />
+              </div>
+            )}
           </div>
         )}
-      </div>
-      } 
 
         {item?.extra?.addAllOfTheAbove !== undefined && (
-          <div className="steps" >
+          <div className="steps">
             <div className="d-flex align-items-center justify-content-between">
               <p className="option-heading" style={{ margin: "0" }}>
                 Add “All of the above” choice{" "}
@@ -532,7 +548,7 @@ const SurveyMenu = ({ menuRef }) => {
         )}
 
         {item?.extra?.otherChoiceLabel !== undefined && (
-          <div className="steps" id="other-choice-view" >
+          <div className="steps" id="other-choice-view">
             <div className="d-flex align-items-center justify-content-between">
               <p className="option-heading" style={{ margin: "0" }}>
                 Add “Other” choice{" "}
@@ -546,7 +562,7 @@ const SurveyMenu = ({ menuRef }) => {
               />
             </div>
             {item.addOtherChoice ? (
-              < >
+              <>
                 <div className="d-flex align-items-center w-100">
                   <Form.Label>Answer Choice</Form.Label>
                   <Form.Control
@@ -760,10 +776,15 @@ const SurveyMenu = ({ menuRef }) => {
                   }}
                 ></input>
                 <label tabindex="0" for="my-file" class="input-file-trigger">
-                  {elements[index].question === "" ? "+ Add Image" : "Change Image"}
+                  {elements[index].question === ""
+                    ? "+ Add Image"
+                    : "Change Image"}
                 </label>
-                <br/>
-                <span><strong>Max width:</strong> 724px |  <strong>Height:</strong> Auto</span>
+                <br />
+                <span>
+                  <strong>Max width:</strong> 724px | <strong>Height:</strong>{" "}
+                  Auto
+                </span>
               </div>
             </div>
             {/* <div className="words-limit">
