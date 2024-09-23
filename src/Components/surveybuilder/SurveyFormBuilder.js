@@ -1783,7 +1783,7 @@ const SurveyFormBuilder = (props) => {
     e.preventDefault();
 
     if(!(tempId == selectedTemplateId)){
-      toast.error("Please select template to edit ")
+      toast.warning("Please select template to edit ")
       return;
     }
     
@@ -1973,7 +1973,7 @@ const SurveyFormBuilder = (props) => {
     e.preventDefault();
 
     if (!(id == selectedTemplateId)) {
-      toast.error("Please Select template to delete ");
+      toast.warning("Please Select template to delete ");
       return;
     }
     try {
@@ -2585,7 +2585,7 @@ const SurveyFormBuilder = (props) => {
                                     />
                                   </div>
                                 )}
-                                {changeTitleToggle && (
+                                {/* {changeTitleToggle && (
                                   <Form.Group>
                                     <Form.Label>Title Color</Form.Label>
                                     <div className="color-picker">
@@ -2612,7 +2612,7 @@ const SurveyFormBuilder = (props) => {
                                       </div>
                                     </div>
                                   </Form.Group>
-                                )}
+                                )} */}
                               </div>
                               <div className="steps">
                                 <div className="d-flex align-items-center justify-content-between">
