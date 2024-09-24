@@ -396,7 +396,7 @@ header.-top-24~div .sidebar-menu .left-sidebar-secondary {
   padding-top: 0;
 }
 
-.clear-search button,
+.clear-search button, .mail-box-heading-block button.btn.print,
 .analytic-charts .circle_graph .col button.btn {
   width: 40px;
   text-align: center;
@@ -414,7 +414,7 @@ header.-top-24~div .sidebar-menu .left-sidebar-secondary {
 background: #8A4E9C;
 }
 
-.modal .mail-box-heading-block .clear-search.top-right-action .btn.print:active {
+.modal .mail-box-heading-block .clear-search.top-right-action .btn.print:active, .mail-box-heading-block button.btn.print:hover {
   background: var(--light-blue);
 }
 
@@ -437,7 +437,7 @@ background: #8A4E9C;
 }
 
 .clear-search button:hover svg path,
-.analytic-charts .circle_graph .col button.btn:hover svg path {
+.analytic-charts .circle_graph .col button.btn:hover svg path, .mail-box-heading-block button.btn.print:hover svg path {
   fill: var(--white);
 }
 
