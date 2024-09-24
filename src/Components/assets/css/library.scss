@@ -10071,11 +10071,11 @@ svg.pencil_icon {
       &:hover+.hover-image {
         display: block;
         margin-top: 23px;
-        animation: fadeIn ease 2s;
         -webkit-animation: fadeIn ease 2s;
         -moz-animation: fadeIn ease 2s;
         -o-animation: fadeIn ease 2s;
         -ms-animation: fadeIn ease 2s;
+        animation: fadeIn ease 2s;
       }
 
       +.hover-image {
@@ -10234,11 +10234,11 @@ svg.pencil_icon {
         &:hover+.hover-image {
           display: block;
           margin-top: 23px;
-          animation: fadeIn ease 2s;
           -webkit-animation: fadeIn ease 2s;
           -moz-animation: fadeIn ease 2s;
           -o-animation: fadeIn ease 2s;
           -ms-animation: fadeIn ease 2s;
+          animation: fadeIn ease 2s;
         }
 
         +.hover-image {
@@ -19480,8 +19480,8 @@ table {
     align-items: center;
     -webkit-justify-content: center;
     justify-content: center;
-    animation: Rotate 20s linear infinite;
     -webkit-animation: Rotate 20s linear infinite;
+    animation: Rotate 20s linear infinite;
     @include flex-middle;
 
     .icon-block {
@@ -19493,14 +19493,14 @@ table {
 
         img {
           width: 28px;
-          animation: img-rotate 20s linear infinite;
           -webkit-animation: img-rotate 20s linear infinite;
+          animation: img-rotate 20s linear infinite;
         }
       }
 
       img {
-        animation: Rotate-reverse 20s linear infinite;
         -webkit-animation: Rotate-reverse 20s linear infinite;
+        animation: Rotate-reverse 20s linear infinite;
       }
 
       &.medium {
@@ -19535,22 +19535,22 @@ table {
     img {
       margin: 0px auto;
       width: 86%;
-      animation: Rotate-reverse 26s linear infinite;
       -webkit-animation: Rotate-reverse 26s linear infinite;
+      animation: Rotate-reverse 26s linear infinite;
     }
 
     &:first-child {
       top: 20%;
       left: 0%;
-      transform: translate(0%, 0%);
       -webkit-transform: translate(0%, 0%);
+      transform: translate(0%, 0%);
     }
 
     &:nth-child(2) {
       top: 75%;
       right: 7%;
-      transform: translate(50%, -50%);
       -webkit-transform: translate(50%, -50%);
+      transform: translate(50%, -50%);
       width: 34px;
       height: 34px;
 
@@ -19562,8 +19562,8 @@ table {
     &:nth-child(3) {
       bottom: 4%;
       left: 30%;
-      transform: translate(-50%, 50%);
       -webkit-transform: translate(-50%, 50%);
+      transform: translate(-50%, 50%);
       width: 34px;
       height: 34px;
 
@@ -19575,8 +19575,8 @@ table {
     &:nth-child(4) {
       top: 50%;
       left: 0;
-      transform: translate(-50%, -50%);
       -webkit-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
     }
   }
 
@@ -19593,8 +19593,8 @@ table {
     width: 28px;
     height: 28px;
     top: auto;
-    transform: translate(50%, -50%);
     -webkit-transform: translate(0%, 0%);
+    transform: translate(50%, -50%);
     left: 50%;
     bottom: 95%;
   }
@@ -19630,13 +19630,13 @@ table {
       height: calc(100% - 112px);
       border: 1px solid #4ac9ff;
       animation-name: circle-rotate-reverse;
-      animation-duration: 26s;
       -webkit-animation-duration: 26s;
+      animation-duration: 26s;
 
       .icon-block {
         img {
-          animation: img-rotate-reverse 26s linear infinite;
           -webkit-animation: img-rotate-reverse 26s linear infinite;
+          animation: img-rotate-reverse 26s linear infinite;
         }
       }
     }
@@ -19734,13 +19734,13 @@ table {
   }
 
   .circle {
-    animation: circle-rotate 26s linear infinite;
     -webkit-animation: circle-rotate 26s linear infinite;
+    animation: circle-rotate 26s linear infinite;
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%) rotate(45deg);
     -webkit-transform: translate(-50%, -50%) rotate(45deg);
+    transform: translate(-50%, -50%) rotate(45deg);
     width: 75%;
     height: 75%;
     border: 3px solid #6495f2;
@@ -19748,8 +19748,8 @@ table {
 
     .icon-block {
       img {
-        animation: img-rotate 26s linear infinite;
         -webkit-animation: img-rotate 26s linear infinite;
+        animation: img-rotate 26s linear infinite;
       }
     }
   }
@@ -19758,8 +19758,8 @@ table {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
     -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
 
     img {
       max-width: 200px;
@@ -19772,13 +19772,13 @@ table {
     .circle {
       &.circle-inner2 {
         animation-name: circle-rotate-reverse;
-        animation-duration: 13s;
         -webkit-animation-duration: 13s;
+        animation-duration: 13s;
 
         .icon-block {
           img {
-            animation: img-rotate-reverse 13s linear infinite;
             -webkit-animation: img-rotate-reverse 13s linear infinite;
+            animation: img-rotate-reverse 13s linear infinite;
           }
         }
       }
@@ -20089,8 +20089,8 @@ table {
         width: calc(100% - 560px);
         height: calc(100% - 560px);
         border: 1px solid $dark-blue;
-        transform: translate(-50%, -50%) rotate(0deg);
         -webkit-transform: translate(-50%, -50%) rotate(0deg);
+        transform: translate(-50%, -50%) rotate(0deg);
 
         .icon-block {
           &:first-child {
@@ -26695,26 +26695,26 @@ table {
 @media only screen and (min-width: 1000px) and (max-width: 1500px) {
   .circular-ring {
     .circle {
-      animation: circle-rotate 26s linear infinite;
       -webkit-animation: circle-rotate 26s linear infinite;
+      animation: circle-rotate 26s linear infinite;
 
       &.circle-inner1 {
         .icon-block {
           img {
-            animation: img-rotate 26s linear infinite;
             -webkit-animation: img-rotate 26s linear infinite;
+            animation: img-rotate 26s linear infinite;
           }
         }
       }
 
       &.circle-inner3 {
-        animation: circle-rotate 20s linear infinite;
         -webkit-animation: circle-rotate 20s linear infinite;
+        animation: circle-rotate 20s linear infinite;
 
         .icon-block {
           img {
-            animation: img-rotate 20s linear infinite;
             -webkit-animation: img-rotate 20s linear infinite;
+            animation: img-rotate 20s linear infinite;
           }
         }
       }
