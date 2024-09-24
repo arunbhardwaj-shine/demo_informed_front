@@ -275,8 +275,8 @@ input[type="checkbox"]:checked ~ .checkmark {
 .modal-header .modal-title {
   -webkit-text-fill-color: transparent;
   background: linear-gradient(109deg, #0066be 12.9%, #004a89 87.1%);
-  background-clip: text;
   -webkit-background-clip: text;
+  background-clip: text;
   color: #001489;
   font-size: 20px;
   font-weight: 600;
@@ -320,8 +320,8 @@ input[type="checkbox"]:checked ~ .checkmark {
 }
 
 .table-responsive {
-  overflow-x: auto;
   -webkit-overflow-scrolling: touch;
+  overflow-x: auto;
 }
 
 .survey-image img {
@@ -890,8 +890,8 @@ table {
     var(--dark-blue) 12.9%,
     var(--dark-blue) 87.1%
   );
-  background-clip: text;
   -webkit-background-clip: text;
+  background-clip: text;
   color: #00a993;
   font-size: 16px;
   font-weight: 500;
