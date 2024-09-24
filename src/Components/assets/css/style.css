@@ -367,6 +367,7 @@ header.-top-24~div .sidebar-menu .left-sidebar-secondary {
   padding-left: 75px;
   width: calc(100% - 210px);
   background: rgba(255, 255, 255, 0.83);
+  -webkit-backdrop-filter:blur(254px);
   backdrop-filter: blur(254px);
   z-index: 1;
   box-shadow: -11px 0px 15px rgba(0, 102, 190, 0.1);
@@ -1451,6 +1452,7 @@ background: #8A4E9C;
 
 .active-subLink .right-sidebar {
   width: calc(100% - 260px);
+  padding-bottom:10px;
 }
 
 .toggle_sidebar .left-sidebar ul a p,
@@ -8070,6 +8072,7 @@ header.top-0~div .custom-change .invitee table#table-to-xls thead.sticky-header 
   bottom: 0;
   background: rgba(255, 255, 255, 0.83);
   box-shadow: -11px 0px 15px rgba(0, 102, 190, 0.1);
+  -webkit-backdrop-filter:blur(400px);
   backdrop-filter: blur(400px);
   padding: 12px 18px;
   height: 50px;
@@ -8089,6 +8092,7 @@ header.top-0~div .custom-change .invitee table#table-to-xls thead.sticky-header 
   box-shadow: 0px 0px 7px rgba(0, 102, 190, 0.34);
   border-radius: 15px 0px 0px 15px;
   /* background: rgba(0, 102, 190, 0.07); */
+  -webkit-backdrop-filter:blur(41px);
   backdrop-filter: blur(41px);
   width: 278px;
   position: fixed;
@@ -8452,6 +8456,7 @@ header.top-0~div .custom-change .invitee table#table-to-xls thead.sticky-header 
 
 #open_video_popup .modal-content {
   background: #ffffff91;
+  -webkit-backdrop-filter:blur(17px);
   backdrop-filter: blur(17px);
   border-radius: 20px 15px 15px 15px;
   box-shadow: 0px 3px 10px -3px rgba(0, 102, 190, 0.2);
@@ -8492,6 +8497,7 @@ header.top-0~div .custom-change .invitee table#table-to-xls thead.sticky-header 
   width: 100%;
   border-radius: 0px 0px 5px 15px;
   background: rgba(0, 102, 190, 0.02);
+  -webkit-backdrop-filter:blur(3.5px);
   backdrop-filter: blur(3.5px);
   padding: 4px 10px;
 }
@@ -12576,6 +12582,7 @@ button.event_sort_btn.svg_active svg {
   right: 0;
   border-radius: 20px;
   top: 0;
+  -webkit-backdrop-filter:blur(3px);
   backdrop-filter: blur(3px);
 }
 

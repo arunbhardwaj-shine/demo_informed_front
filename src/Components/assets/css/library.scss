@@ -2895,6 +2895,7 @@ ul.tab-mail-list.data span.total-left small {
 
 .login-confirm {
   background: rgba(0, 0, 36, 0.2);
+  -webkit-backdrop-filter:blur(10px);
   backdrop-filter: blur(10px);
 }
 
@@ -16542,7 +16543,7 @@ table#site_engagement thead.sticky-header {
 
         .graph-data {
           overflow-y: auto;
-          max-height: 235px;
+          max-height: 268px;
           padding: 0 6px;
           margin: -9px -6px 0;
 
@@ -19209,6 +19210,7 @@ table {
 
 .cookies-popup {
   background: rgba(0, 0, 36, 0.2);
+  -webkit-backdrop-filter:blur(10px);
   backdrop-filter: blur(10px);
 
   .modal-dialog {
@@ -19527,6 +19529,7 @@ table {
     fill: rgba(255, 255, 255, 0.01);
     filter: drop-shadow(0px 0px 32px rgba(0, 74, 137, 0.39));
     box-shadow: 0px 0px 32px rgba(0, 74, 137, 0.39);
+    -webkit-backdrop-filter:blur(2px);
     backdrop-filter: blur(2px);
 
     img {
@@ -20290,6 +20293,7 @@ table {
           border: 1px solid $white;
           background: rgba(255, 255, 255, 0.06);
           box-shadow: 0px 1px 14px 0px rgba(0, 102, 190, 0.16);
+          -webkit-backdrop-filter:blur(13px);
           backdrop-filter: blur(13px);
           padding: 10px;
           position: relative;
@@ -20443,6 +20447,7 @@ table {
     border: 1px solid $white;
     background: rgba(255, 255, 255, 0.06);
     box-shadow: 0px 1px 14px 0px rgba(0, 102, 190, 0.16);
+    -webkit-backdrop-filter:blur(13px);
     backdrop-filter: blur(13px);
 
     h4 {
@@ -20710,6 +20715,7 @@ table {
           border: 0.5px solid rgba(255, 255, 255, 0.5);
           background: rgba(255, 255, 255, 0.06);
           box-shadow: 0px 1px 6px 0px rgba(0, 102, 190, 0.2);
+          -webkit-backdrop-filter:blur(1px);
           backdrop-filter: blur(1px);
           padding: 9px 46px;
           font-size: 14px;
@@ -21063,6 +21069,7 @@ table {
   .overlay {
     &.show {
       background: rgba(0, 0, 36, 0.65);
+      -webkit-backdrop-filter:blur(10px);
       backdrop-filter: blur(10px);
       position: fixed;
       top: 0;
@@ -21674,6 +21681,7 @@ table {
       border: 1px solid $white;
       background: rgba(255, 255, 255, 0.06);
       box-shadow: 0px 1px 14px 0px rgba(0, 102, 190, 0.16);
+      -webkit-backdrop-filter:blur(13px);
       backdrop-filter: blur(13px);
       padding: 24px 19px 32px 20px;
 
@@ -22078,6 +22086,7 @@ table {
     border-radius: 50%;
     background: rgba(255, 255, 255, 1);
     box-shadow: 0px 3px 19px 0px rgba(0, 102, 190, 0.26);
+    -webkit-backdrop-filter:blur(40px);
     backdrop-filter: blur(40px);
     width: 800px;
     height: 800px;
@@ -30327,6 +30336,7 @@ table {
     padding: 40px 15px;
     flex-direction: column;
     background: transparent;
+    -webkit-backdrop-filter:none;
     backdrop-filter: none;
   }
 
@@ -30452,6 +30462,7 @@ table {
 
   .overlay.show {
     background: rgba(0, 0, 36, 0.65);
+    -webkit-backdrop-filter:blur(4px);
     backdrop-filter: blur(4px);
     position: fixed;
     top: 0;
@@ -30520,6 +30531,7 @@ table {
 
   .consent-content .works-started .modules-diagram .module-bigger-size.show.hide.small {
     background: transparent;
+    -webkit-backdrop-filter:blur(0px);
     backdrop-filter: blur(0);
   }
 
