@@ -1,26 +1,20 @@
-import React from 'react'
-import {
-    Accordion,
-    Button,
-    Col,
-    Container,
-    Dropdown,
-    Modal,
-    Row,
-    Table,
-} from "react-bootstrap";
+import React, { useEffect } from 'react'
+import { Dropdown, ProgressBar } from 'react-bootstrap'
 
-const SurveyAnalyticsFreeTextView = ({ index, item }) => {
+const SurveyAnalyticsRatingView = ({ index, item, colors }) => {
     let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+
+
+
     return (<>
-        <div key={index} className="survey-question-listing">
+        <div className="survey-question-listing">
             <div className="survey-question-top d-flex align-items-center">
                 <div className="survey-question-num">
                     <div className="question-type">
-                        <img src={path_image + "free-text.png"} alt="" />
+                        <img src={path_image + "star-rating.png"} alt="" />
                     </div>
                     <div className="question-number">
-                        <h4 >Q{index + 1}</h4>
+                        <h4>Q{index + 1}</h4>
                     </div>
                 </div>
                 <div className="question-view">
@@ -43,9 +37,35 @@ const SurveyAnalyticsFreeTextView = ({ index, item }) => {
                 </div>
             </div>
             <div className="question-preview-block">
+                <div className="question-preview">
+                    <div className="d-flex align-items-center justify-content-between question-preview-options">
+                        <div>
+                            Choices
+                        </div>
+                        <div>
+                            Respondents
+                        </div>
+                    </div>
+                    <div className="answer-options">
+                        {item?.answer?.map((data, index) => (
 
+                            <div className="answer">
+                                <div className="choices">
+                                    <span className="bullet-color" style={{ background: colors[index] }}>&nbsp;</span>
+                                    <div><img src={`${path_image}star-rating-${JSON.parse(data?.value)}.svg`} alt="" /></div>
+                                </div>
+                                <div className="respondents">
+                                    <span>{data?.count}</span>
+                                    <span className="respondents-percent">(<span>{data?.percentage ? data?.percentage : "00"}%</span>)</span>
+                                </div>
+                            </div>
+                        ))}
+
+                    </div>
+                </div>
                 <div className="question-preview-right">
                     <div className="rd-training-block-right d-flex justify-content-end align-items-center">
+
                         <Dropdown>
                             <Dropdown.Toggle id="dropdown-basic">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="6" height="24" viewBox="0 0 6 24" fill="none" > <path fillRule="evenodd" clipRule="evenodd" d="M6 3C6 4.65685 4.65685 6 3 6C1.34315 6 0 4.65685 0 3C0 1.34315 1.34315 0 3 0C4.65685 0 6 1.34315 6 3ZM6 12C6 13.6569 4.65685 15 3 15C1.34315 15 0 13.6569 0 12C0 10.3431 1.34315 9 3 9C4.65685 9 6 10.3431 6 12ZM3 24C4.65685 24 6 22.6569 6 21C6 19.3431 4.65685 18 3 18C1.34315 18 0 19.3431 0 21C0 22.6569 1.34315 24 3 24Z" fill="#0066BE" /> </svg>
@@ -103,49 +123,70 @@ const SurveyAnalyticsFreeTextView = ({ index, item }) => {
                             </Dropdown.Menu>
                         </Dropdown>
                     </div>
-                    <div className="free-text-section">
-                        {item?.answer?.length ? item?.answer?.map((data, index) => {
-                            return (<>
-                                <div className="free-text-block">
-                                    <p>{data?.username}</p>
-                                    <div className="user-message">
-                                        <p dangerouslySetInnerHTML={{ __html: data?.value }}></p>
-                                    </div>
-                                </div>
-                            </>)
-
-                        }) : <div className='no_found'><p>No Data Found</p></div>}
-
-                        {/* <div className="free-text-block">
-                            <p>Username</p>
-                            <div className="user-message">
-                                <p>User messages masuismod phartra donec faucibus quisque nuneque mote condi ment zcsum nudolor nibhcudolmasa euismod phartra donec mas faucibus quisque nuneque ipsum quamodio.........................</p>
+                    <div className="question-preview-chart" >
+                        {item.answer.map((data, index) => (
+                            <div key={index} className="survey-rating-detail" style={{display:"flex",width:"600px"}}>
+                                <h5>
+                                    <span>{data?.value}{" "}</span>
+                                    {/* {item.type === "rating" && ( */}
+                                    <svg
+                                        width="16"
+                                        height="17"
+                                        viewBox="0 0 16 17"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                        <g clip-path="url(#clip0_5227_4752)">
+                                            <path
+                                                d="M7.4636 0.873843C7.6629 0.375386 8.3371 0.375386 8.5364 0.873843L10.3356 5.37373C10.4195 5.58343 10.6078 5.72677 10.8241 5.7455L15.4656 6.14744C15.9797 6.19196 16.188 6.86363 15.7971 7.21621L12.2676 10.3992C12.1031 10.5476 12.0312 10.7795 12.081 11.0008L13.1504 15.7491C13.2688 16.275 12.7234 16.6902 12.2825 16.4096L8.3019 13.8769C8.1164 13.7589 7.8836 13.7589 7.6981 13.8769L3.71755 16.4096C3.27661 16.6902 2.73118 16.275 2.84964 15.7491L3.91901 11.0008C3.96884 10.7795 3.8969 10.5476 3.73243 10.3992L0.202937 7.21621C-0.188028 6.86363 0.0203079 6.19196 0.534448 6.14744L5.17591 5.7455C5.39221 5.72677 5.58055 5.58343 5.66439 5.37373L7.4636 0.873843Z"
+                                                fill="#97B6CF"
+                                            />
+                                        </g>
+                                        <defs>
+                                            <clipPath id="clip0_5227_4752">
+                                                <rect
+                                                    width="16"
+                                                    height="16"
+                                                    fill="white"
+                                                    transform="translate(0 0.5)"
+                                                />
+                                            </clipPath>
+                                        </defs>
+                                    </svg>
+                                    {/* )} */}
+                                    {" "}
+                                </h5>
+                                <ProgressBar style={{ flex: 1, margin: "10px 10px", width: "500px" }}>
+                                    <ProgressBar
+                                        now={data.percentage}
+                                        style={{
+                                            backgroundColor: colors[index],
+                                        }}
+                                    />
+                                </ProgressBar>
+                                <h5 className="survey-rating-number">
+                                    {data?.count}
+                                </h5>
                             </div>
+                        )
+                        )}
+                        <div>
+                            {item?.overallRating?.toFixed(1)} <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <g clip-path="url(#clip0_5227_4798)">
+                                    <path d="M11.1954 0.560765C11.4944 -0.186922 12.5056 -0.186922 12.8046 0.560765L15.5034 7.31059C15.6292 7.62514 15.9117 7.84016 16.2361 7.86825L23.1983 8.47116C23.9695 8.53794 24.282 9.54544 23.6956 10.0743L18.4014 14.8489C18.1546 15.0713 18.0467 15.4192 18.1215 15.7512L19.7255 22.8736C19.9032 23.6626 19.0851 24.2852 18.4237 23.8644L12.4529 20.0654C12.1746 19.8884 11.8254 19.8884 11.5472 20.0654L5.57632 23.8644C4.91492 24.2852 4.09678 23.6626 4.27446 22.8736L5.87852 15.7512C5.95327 15.4192 5.84536 15.0713 5.59864 14.8489L0.304406 10.0743C-0.282043 9.54544 0.0304618 8.53794 0.801672 8.47116L7.76386 7.86825C8.08831 7.84016 8.37082 7.62514 8.49659 7.31059L11.1954 0.560765Z" fill="#004A89" />
+                                </g>
+                                <defs>
+                                    <clipPath id="clip0_5227_4798">
+                                        <rect width="24" height="24" fill="white" />
+                                    </clipPath>
+                                </defs>
+                            </svg> | {item?.totalRatings} ratings
                         </div>
-                        <div className="free-text-block">
-                            <p>Username</p>
-                            <div className="user-message">
-                                <p>User messages masuismod phartra donec faucibus quisque nuneque mote condi ment zcsum nudolor nibhcudolmasa euismod phartra donec mas faucibus quisque nuneque ipsum quamodio.........................</p>
-                            </div>
-                        </div>
-                        <div className="free-text-block">
-                            <p>Username</p>
-                            <div className="user-message">
-                                <p>User messages masuismod phartra donec faucibus quisque nuneque mote condi ment zcsum nudolor nibhcudolmasa euismod phartra donec mas faucibus quisque nuneque ipsum quamodio.........................</p>
-                            </div>
-                        </div>
-                        <div className="free-text-block">
-                            <p>Username</p>
-                            <div className="user-message">
-                                <p>User messages masuismod phartra donec faucibus quisque nuneque mote condi ment zcsum nudolor nibhcudolmasa euismod phartra donec mas faucibus quisque nuneque ipsum quamodio.........................</p>
-                            </div>
-                        </div> */}
                     </div>
                 </div>
             </div>
-
         </div>
     </>)
 
 }
-export default SurveyAnalyticsFreeTextView
+export default SurveyAnalyticsRatingView
