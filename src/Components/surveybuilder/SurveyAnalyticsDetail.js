@@ -48,6 +48,7 @@ const SurveyAnalyticsDetail = () => {
     const [surveyTakerTableData, setSurveyTakerTableData] = useState([])
     const [surveyTakerTableDataBackup, setSurveyTakerTableDataBackup] = useState([])
     const [surveyTakerShowQuestions, setSurveyTakerShowQuestions] = useState()
+    const [surveyTakerShowQuestionsData, setSurveyTakerShowQuestionsData] = useState([])
     const [tempQuestionData, setTempQuestionData] = useState([])
     const buttonRef = useRef(null);
     const filterRef = useRef(null);
@@ -420,11 +421,33 @@ const SurveyAnalyticsDetail = () => {
         });
     };
 
-    const surveyTakerShowData = async (e, index) => {
-        if (surveyTakerShowQuestions == index) {
-            setSurveyTakerShowQuestions()
-        } else {
-            setSurveyTakerShowQuestions(index)
+    const surveyTakerShowData = async (e, index, userId, ip) => {
+        // if (surveyTakerShowQuestions == index) {
+        //     setSurveyTakerShowQuestions()
+        // } else {
+        //     setSurveyTakerShowQuestions(index)
+        // }
+        try {
+            let id = userId != 0 ? userId : ip
+            if (surveyTakerShowQuestions == id) {
+                setSurveyTakerShowQuestions()
+                return
+            } else {
+                setSurveyTakerShowQuestions(id)
+                setApiStatus(true)
+                setLoaderIndex(id)
+                const res = await surveyAxiosInstance.post("/survey/takers-responses-detail", {
+                    user_id: id,
+                    survey_id: stateData?.survey_id
+                })
+                setSurveyTakerShowQuestionsData(res?.data?.data)
+                console.log("res--->", res)
+            }
+
+        } catch (err) {
+            console.log("--err", err);
+        } finally {
+            setApiStatus(false)
         }
     }
 
@@ -1409,12 +1432,14 @@ const SurveyAnalyticsDetail = () => {
                                                                         return (<>
 
                                                                             <tr key={index}
-                                                                                className={`view ${surveyTakerShowQuestions == index
+                                                                                className={`view ${surveyTakerShowQuestions == item?.user_id!=0 
+                                                                                    ?item?.user_id
+                                                                                    :item?.ip_address
                                                                                     ? "show"
                                                                                     : ""
                                                                                     }`}
                                                                                 onClick={(e) =>
-                                                                                    surveyTakerShowData(e, index,item?.user_id,item?.ip_address)
+                                                                                    surveyTakerShowData(e, index, item?.user_id, item?.ip_address)
                                                                                 } >
                                                                                 <td>{item?.name}</td>
                                                                                 <td>{item?.email}</td>
@@ -1424,7 +1449,38 @@ const SurveyAnalyticsDetail = () => {
                                                                                 <td className={item?.status}>{item?.status}</td>
 
                                                                             </tr>
-                                                                            {surveyTakerShowQuestions == index ?
+                                                                            {
+                                                                                (apiStatus &&(loaderIndex ==(item?.user_id!=0 
+                                                                                    ?item?.user_id
+                                                                                    :item?.ip_address))) ?
+                                                                                // <div className="accordion-loader">
+                                                                                //     <div
+                                                                                //         className={
+                                                                                //             "loader tab-inside " +
+                                                                                //             (sectionLoader ? "show" : "")
+                                                                                //         }
+                                                                                //         id="custom_loader"
+                                                                                //     >
+                                                                                //         <div className="loader_show">
+                                                                                //             <span className="loader-view"> </span>
+                                                                                //         </div>
+                                                                                //     </div>
+                                                                                // </div>
+                                            
+                                                                                <div
+                                                                                    className="load_more"
+                                                                                    style={{
+                                                                                        margin: "10 auto",
+                                                                                        justifyContent: "center",
+                                                                                        display: "flex",
+                                                                                    }}
+                                                                                >
+                                                                                    <Spinner color="#53aff4" size={32} speed={1} animating={true} />
+                                                                                </div>:
+                                                                            (surveyTakerShowQuestionsData?.length>0&&surveyTakerShowQuestions == item?.user_id!=0 
+                                                                            ?item?.user_id
+                                                                            :item?.ip_address)
+                                                                            ?
                                                                                 <tr className="fold" >
                                                                                     <td colSpan="6">
                                                                                         <div className="survey-data">
@@ -1495,7 +1551,10 @@ const SurveyAnalyticsDetail = () => {
                                                                                             </div>
                                                                                         </div>
                                                                                     </td>
-                                                                                </tr> : null}
+                                                                                </tr> 
+                                                                                : !apiStatus
+                                                                                ?
+                                                                            <div className="no_found"><p>No Data Found</p></div>:null}
 
                                                                             <tr className="blank">
                                                                                 <td colSpan="6" style={{ height: "10px" }}>

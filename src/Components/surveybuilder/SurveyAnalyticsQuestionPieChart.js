@@ -5,9 +5,6 @@ import { Spinner } from 'react-activity';
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const SurveyAnalyticsQuestionPieChart = memo(({ key, data, show, type }) => {
 
-
-
-    console.log("graph type-->", data)
     const colors = [
         "#39CABC",
         "#FAC755",
