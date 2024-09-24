@@ -1,9 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState ,memo} from "react";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import { Spinner } from 'react-activity';
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
-const SurveyAnalyticsQuestionPieChart = ({ key, data, show, type }) => {
+const SurveyAnalyticsQuestionPieChart = memo(({ key, data, show, type }) => {
 
 
 
@@ -51,7 +51,7 @@ const SurveyAnalyticsQuestionPieChart = ({ key, data, show, type }) => {
                 });
 
                 // Calculate the percentage for the current point
-                var percentage = ((this.point.y / total) * 100).toFixed(0);
+                var percentage = total!=0?((this.point.y / total) * 100).toFixed(0):0;
 
                 // Return the tooltip string with both the name and percentage of this.point.y
                 return this.point.name + ' : <b>' + this.point.y + '</b> (' + percentage + '%)';
@@ -59,6 +59,9 @@ const SurveyAnalyticsQuestionPieChart = ({ key, data, show, type }) => {
             valueSuffix: '%'
         },
         accessibility: {
+            announceNewData: {
+                enabled: true
+            },
             point: {
                 valueSuffix: '%'
             }
@@ -70,6 +73,7 @@ const SurveyAnalyticsQuestionPieChart = ({ key, data, show, type }) => {
         },
         plotOptions: {
             series: {
+                // borderRadius: 5,
                 allowPointSelect: true,
                 cursor: "pointer",
                 dataLabels: [
@@ -91,7 +95,7 @@ const SurveyAnalyticsQuestionPieChart = ({ key, data, show, type }) => {
                 dataLabels: {
                     enabled: false,
                 },
-                borderWidth: 0,
+                borderWidth: 1,
             }
         },
         series: [],
@@ -290,6 +294,8 @@ const SurveyAnalyticsQuestionPieChart = ({ key, data, show, type }) => {
         }]
 
         if (data?.graphType == "pie") {
+            let totalAnswer = data?.ans?.map(item => item.count) // Extracting the 'y' values
+                .reduce((total, yValue) => total + yValue, 0);
             data?.ans?.map((item, index) => {
                 seriesData.push({
                     name: item?.value,
@@ -312,7 +318,8 @@ const SurveyAnalyticsQuestionPieChart = ({ key, data, show, type }) => {
             })
         } else if (data?.graphType == "bar") {
             let totalAnswer = data?.ans?.map(item => item.count) // Extracting the 'y' values
-                .reduce((total, yValue) => total + yValue, 0);
+                .reduce((total, yValue) => total + yValue, 1);
+
             data?.ans?.map((item, index) => {
                 barSeriesData.push({
                     name: item?.value,
@@ -332,23 +339,37 @@ const SurveyAnalyticsQuestionPieChart = ({ key, data, show, type }) => {
 
         }
 
-    }, data?.graphType, show)
+    }, [data?.graphType])
 
 
     return (<>
         <div className="graph-box">
-            {(data?.graphType == "pie" && data?.ans?.length) ?
+            
+            
+            
+            {(data?.graphType == "pie" ) ?
+            (<>
+           
+            { data?.ans?.length?
+            
                 <HighchartsReact
                     key={"pie"}
                     highcharts={Highcharts}
                     options={pieChartOptions}
-                />
+                />:<div className="no_found">
+                <img src={path_image + "default-bar-chart.png"} alt="" />
+
+            </div>}
+                </>)
                 : (data?.graphType == "bar" && data?.ans?.length) ?
+                (<>
+               
                     <HighchartsReact
                         key={"bar"}
                         highcharts={Highcharts}
                         options={barChartOptions}
                     />
+                    </>)
                     :
                     <div className="no_found">
                         <img src={path_image + "default-bar-chart.png"} alt="" />
@@ -359,5 +380,5 @@ const SurveyAnalyticsQuestionPieChart = ({ key, data, show, type }) => {
 
     </>)
 
-}
+})
 export default SurveyAnalyticsQuestionPieChart

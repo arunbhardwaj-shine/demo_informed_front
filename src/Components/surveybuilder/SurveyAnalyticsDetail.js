@@ -22,6 +22,7 @@ import { saveAs } from "file-saver";
 import SurveyAnalyticsQuestionPieChart from "./SurveyAnalyticsQuestionPieChart";
 import { Spinner } from "react-activity";
 import SurveyAnalyticsQuestionView from "./SurveyAnalyticsQuestionView";
+import SurveyAnalyticsFreeTextView from "./SurveyAnalyticsFreeTextView";
 exporting(Highcharts);
 exportData(Highcharts);
 const SurveyAnalyticsDetail = () => {
@@ -49,6 +50,7 @@ const SurveyAnalyticsDetail = () => {
     const buttonRef = useRef(null);
     const filterRef = useRef(null);
     const survey_taker = useRef(null)
+    // const [whichTypeMatrixGraph, setWhichTypeMatrixGraph] = useState({})
     // const [show, setShow] = useState(false);
     // const [whichTypeGraph, setWhichTypeGraph] = useState({})
     // const [sectionLoader, setSectionLoader] = useState(false);
@@ -207,8 +209,7 @@ const SurveyAnalyticsDetail = () => {
                 survey_id: stateData?.survey_id
             });
             const data = res?.data?.data?.allData
-            console.log("res-->", res)
-            // setTempQuestionData(QuestionData)
+       
             setTempQuestionData(data)
         } catch (err) {
             console.log("--err", err);
@@ -589,18 +590,29 @@ const SurveyAnalyticsDetail = () => {
                                                 </div>
                                             </div>
                                         </div>
-                                        {console.log("tempQuestionData--->", tempQuestionData)
-                                        }
+                                    
                                         {tempQuestionData?.map((item, index) => {
-                                            return (item?.type === "multiple"||item?.type === "checkbox"||item?.type=="matrix") ? (
-                                                <SurveyAnalyticsQuestionView
-                                                    key={index}
+                                            if (item?.type === "multiple"||item?.type === "checkbox"||item?.type=="matrix") { 
+                                            return(
+                                                <SurveyAnalyticsQuestionView                                                    
                                                     index={index}
                                                     item={item}
                                                     colors={colors}
                                                     type="pie"
                                                 />
-                                            ) : null;
+                                            ) 
+                                        }
+                                        else if (item?.type === "freeText") {
+                                            return (
+                                                <SurveyAnalyticsFreeTextView
+                                                   index={index}
+                                                    item={item}
+                                                />
+                                            );
+                                        } else {
+                                            return null;
+                                        }
+                                             
                                         })}
 
                                         {/* <div className="survey-question-listing">
@@ -741,8 +753,8 @@ const SurveyAnalyticsDetail = () => {
                                                 </div> */}
                                     {/* </>)
                                         })} */}
-                                    {flag?.survey_taker ? (<>
-                                        <div className="survey-question-listing">
+                                    {/* {flag?.survey_taker ? (<> */}
+                                        {/* <div className="survey-question-listing">
                                             <div className="survey-question-top d-flex align-items-center">
                                                 <div className="survey-question-num">
                                                     <div className="question-type">
@@ -867,7 +879,8 @@ const SurveyAnalyticsDetail = () => {
                                                 </div>
                                             </div>
 
-                                        </div>
+                                        </div> */}
+                                        {flag?.survey_taker ? (<>
                                         <div className="question-preview-block survey-takers-state">
                                             <div className="top-header"
                                                 ref={survey_taker}
