@@ -104,8 +104,8 @@ const Analytics = (props) => {
   };
   const { eventIdContext } = useSidebar();
   const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"));
-  const eventId=eventIdContext?.eventId || localStorageEvent?.eventId;
-  const eventTitle = eventIdContext?.eventTitle ? eventIdContext?.eventTitle: localStorageEvent?.eventTitle;
+  const eventId = eventIdContext?.eventId || localStorageEvent?.eventId;
+  const eventTitle = eventIdContext?.eventTitle ? eventIdContext?.eventTitle : localStorageEvent?.eventTitle;
   const navigate = useNavigate();
   if (!eventTitle) {
     toast.warning("Please Select Event First!");
@@ -123,7 +123,7 @@ const Analytics = (props) => {
   const registeredGraphRef = useRef(null);
   const overviewTableRef = useRef(null);
   const attendedUsersRef = useRef(null);
-  const eventStatus=localStorageEvent?.eventStatus
+  const eventStatus = localStorageEvent?.eventStatus
   const isOneSourceEvent = localStorageEvent?.isOneSourceEvent
 
   const commonPieOptions = {
@@ -213,7 +213,7 @@ const Analytics = (props) => {
   const regionPieEmailRef = useRef(null);
 
   const [emailListData, setEmailListData] = useState([]);
-  const localStorageUserId=localStorage.getItem("user_id")
+  const localStorageUserId = localStorage.getItem("user_id")
   const [newOptions, setNewOptions] = useState([]);
   const colorArray = [
     "#349b8e",
@@ -930,7 +930,7 @@ const Analytics = (props) => {
                 color: "#97b6cf", // Color for legend items
                 fontSize: "14px", // Font size for legend items
                 fontWeight: "400",
-                margin:"10 0 0 0",
+                margin: "10 0 0 0",
               },
             },
             plotOptions: {
@@ -1122,8 +1122,8 @@ const Analytics = (props) => {
                   },
                   events: {
                     load: function () {
-            
-                      let categoryHeight = 40;         
+
+                      let categoryHeight = 40;
                       this.update({
                         chart: {
                           height:
@@ -1211,7 +1211,7 @@ const Analytics = (props) => {
                     color: "#97B6CF", // Color for legend items
                     fontSize: "14px", // Font size for legend items
                     fontWeight: "400",
-                    margin:"10 0 0 0",
+                    margin: "10 0 0 0",
                   },
                 },
 
@@ -1243,9 +1243,7 @@ const Analytics = (props) => {
     ref,
     defaultName = "registered_attended_stats"
   ) => {
-    // Accessing Highcharts chart object using ref
     let chart = ref.current && ref.current.chart;
-    console.log(chart, "chartchart");
 
     if (chart) {
       switch (format) {
@@ -1304,6 +1302,72 @@ const Analytics = (props) => {
     });
   };
 
+
+  const PieChartSvg = () => (<svg
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <g clip-path="url(#clip0_5227_2027)">
+      <path
+        d="M11.2048 1.54687C11.2048 1.27073 10.9808 1.04571 10.7049 1.05803C9.10037 1.12967 7.52788 1.54559 6.095 2.27982C4.51361 3.09016 3.14762 4.26499 2.10978 5.70733C1.07194 7.14967 0.39202 8.81816 0.126141 10.5751C-0.139738 12.332 0.0160486 14.127 0.580642 15.8118C1.14524 17.4966 2.10245 19.023 3.37326 20.265C4.64407 21.507 6.19204 22.4289 7.8894 22.9547C9.58676 23.4805 11.3848 23.595 13.1352 23.2889C14.7211 23.0115 16.2267 22.3959 17.5505 21.4863C17.7781 21.3299 17.8212 21.0154 17.6548 20.795L11.3057 12.3854C11.2402 12.2986 11.2048 12.1928 11.2048 12.0841V1.54687Z"
+        fill="#39CABC"
+      />
+      <path
+        d="M23.5106 12.7847C23.7868 12.7847 24.0118 13.0087 23.9995 13.2846C23.9293 14.8565 23.5287 16.398 22.8216 17.8078C22.1141 19.2186 21.5564 19.844 20.4209 20.7231C20.2107 20.8858 19.9098 20.8496 19.7397 20.6452L13.8814 13.6045C13.6103 13.2788 13.842 12.7847 14.2657 12.7847H23.5106Z"
+        fill="#0066BE"
+      />
+      <path
+        d="M22.9765 11.1825C23.2526 11.1825 23.4776 10.9586 23.4653 10.6827C23.4072 9.38195 23.1228 8.09995 22.6236 6.89467C22.0605 5.53524 21.2351 4.30004 20.1947 3.25958C19.1542 2.21912 17.919 1.39378 16.5596 0.830691C15.3595 0.333593 14.4241 0.057651 13.209 -0.000201631C12.9332 -0.0133342 12.709 0.212139 12.709 0.488281V10.6825C12.709 10.9587 12.9328 11.1825 13.209 11.1825H22.9765Z"
+        fill="#8A4E9C"
+      />
+    </g>
+    <defs>
+      <clipPath id="clip0_5227_2027">
+        <rect
+          width="24"
+          height="24"
+          fill="white"
+        />
+      </clipPath>
+    </defs>
+  </svg>)
+  const BarChartSvg = () => (<svg
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <rect
+      x="24"
+      width="6"
+      height="24"
+      rx="1"
+      transform="rotate(90 24 0)"
+      fill="#0066BE"
+    />
+    <rect
+      x="13.2617"
+      y="9.14258"
+      width="5.71429"
+      height="13.2632"
+      rx="1"
+      transform="rotate(90 13.2617 9.14258)"
+      fill="#8A4E9C"
+    />
+    <rect
+      x="19"
+      y="18"
+      width="6"
+      height="19"
+      rx="1"
+      transform="rotate(90 19 18)"
+      fill="#39CABC"
+    />
+  </svg>)
   return (
     <>
       {eventId && (
@@ -1316,7 +1380,7 @@ const Analytics = (props) => {
                   <p>{eventData?.formattedEventStartDateTime}</p>
                 </div>
 
-                {(isOneSourceEvent==1&&eventStatus == -1 && eventId >= 402) ? (
+                {(isOneSourceEvent == 1 && eventStatus == -1 && eventId >= 402) ? (
                   <Button
                     title="Download Site Engagements"
                     className="download filled"
@@ -1396,202 +1460,19 @@ const Analytics = (props) => {
                             <span>{usersDataOriginal?.length || 0}</span>
                           </h4>
                         </div>
-                        <div className="rd-training-block-right d-flex align-items-center">
-                          <div className="filter-btn">
-                            <button
-                              ref={buttonRef}
-                              className={
-                                Object.keys(apifilterObject)?.length
-                                  ? "btn btn-secondary dropdown filter_applied"
-                                  : "btn btn-secondary dropdown"
-                              }
-                              type="button"
-                              id="dropdownMenuButton2"
-                              onClick={() =>
-                                setShowFilter((showFilter) => !showFilter)
-                              }
-                            >
-                              Filter By
-                              {showFilter ? (
-                                <svg
-                                  className="close-arrow"
-                                  width="13"
-                                  height="12"
-                                  viewBox="0 0 13 12"
-                                  fill="none"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                >
-                                  {" "}
-                                  <rect
-                                    width="2.09896"
-                                    height="15.1911"
-                                    rx="1.04948"
-                                    transform="matrix(0.720074 0.693897 -0.720074 0.693897 11.0977 0)"
-                                    fill="#0066BE"
-                                  />{" "}
-                                  <rect
-                                    width="2.09896"
-                                    height="15.1911"
-                                    rx="1.04948"
-                                    transform="matrix(0.720074 -0.693897 0.720074 0.693897 0 1.45898)"
-                                    fill="#0066BE"
-                                  />{" "}
-                                </svg>
-                              ) : (
-                                <svg
-                                  className="filter-arrow"
-                                  width="16"
-                                  height="14"
-                                  viewBox="0 0 16 14"
-                                  fill="none"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                >
-                                  <path
-                                    d="M0.615385 2.46154H3.07692C3.07692 3.14031 3.62892 3.69231 4.30769 3.69231H5.53846C6.21723 3.69231 6.76923 3.14031 6.76923 2.46154H15.3846C15.7243 2.46154 16 2.18646 16 1.84615C16 1.50585 15.7243 1.23077 15.3846 1.23077H6.76923C6.76923 0.552 6.21723 0 5.53846 0H4.30769C3.62892 0 3.07692 0.552 3.07692 1.23077H0.615385C0.275692 1.23077 0 1.50585 0 1.84615C0 2.18646 0.275692 2.46154 0.615385 2.46154Z"
-                                    fill="#97B6CF"
-                                  ></path>
-                                  <path
-                                    d="M15.3846 6.15362H11.6923C11.6923 5.47485 11.1403 4.92285 10.4615 4.92285H9.23077C8.552 4.92285 8 5.47485 8 6.15362H0.615385C0.275692 6.15362 0 6.4287 0 6.76901C0 7.10931 0.275692 7.38439 0.615385 7.38439H8C8 8.06316 8.552 8.61516 9.23077 8.61516H10.4615C11.1403 8.61516 11.6923 8.06316 11.6923 7.38439H15.3846C15.7243 7.38439 16 7.10931 16 6.76901C16 6.4287 15.7243 6.15362 15.3846 6.15362Z"
-                                    fill="#97B6CF"
-                                  ></path>
-                                  <path
-                                    d="M15.3846 11.077H6.76923C6.76923 10.3982 6.21723 9.84619 5.53846 9.84619H4.30769C3.62892 9.84619 3.07692 10.3982 3.07692 11.077H0.615385C0.275692 11.077 0 11.352 0 11.6923C0 12.0327 0.275692 12.3077 0.615385 12.3077H3.07692C3.07692 12.9865 3.62892 13.5385 4.30769 13.5385H5.53846C6.21723 13.5385 6.76923 12.9865 6.76923 12.3077H15.3846C15.7243 12.3077 16 12.0327 16 11.6923C16 11.352 15.7243 11.077 15.3846 11.077Z"
-                                    fill="#97B6CF"
-                                  ></path>
-                                </svg>
-                              )}
-                            </button>
-                            {showFilter && (
-                              <div
-                                ref={filterRef}
-                                className="dropdown-menu filter-options"
-                                aria-labelledby="dropdownMenuButton2"
-                              >
-                                <h4>Filter By</h4>
-                                <Accordion defaultActiveKey="0" flush>
-                                  {Object.keys(filterdata)?.map(function (
-                                    key,
-                                    index
-                                  ) {
-                                    return (
-                                      <>
-                                        {filterdata[key]?.length > 0 ? (
-                                          <Accordion.Item
-                                            className={
-                                              key == "role"
-                                                ? "card upper"
-                                                : "card"
-                                            }
-                                            eventKey={index}
-                                          >
-                                            <Accordion.Header className="card-header">
-                                              {key}
-                                            </Accordion.Header>
-                                            <Accordion.Body className="card-body">
-                                              <ul>
-                                                {filterdata[key]?.length
-                                                  ? filterdata[key]?.map(
-                                                      (item, index) => (
-                                                        <li key={index}>
-                                                          {item != "" ? (
-                                                            <label className="select-multiple-option">
-                                                              <input
-                                                                type={
-                                                                  "checkbox"
-                                                                }
-                                                                id={`custom-checkbox-tags-${index}`}
-                                                                value={
-                                                                  typeof item ==
-                                                                  "object"
-                                                                    ? item?.title
-                                                                    : item
-                                                                }
-                                                                name={key}
-                                                                checked={
-                                                                  typeof item ==
-                                                                  "object"
-                                                                    ? appliedFilter[
-                                                                        key
-                                                                      ]?.includes(
-                                                                        item.id
-                                                                      )
-                                                                      ? true
-                                                                      : false
-                                                                    : appliedFilter[
-                                                                        key
-                                                                      ]?.includes(
-                                                                        item
-                                                                      )
-                                                                    ? true
-                                                                    : false
-                                                                }
-                                                                onChange={(e) =>
-                                                                  handleOnFilterChange(
-                                                                    e,
-                                                                    typeof item ==
-                                                                      "object"
-                                                                      ? item.id
-                                                                      : item,
-                                                                    index,
-                                                                    key,
-                                                                    [
-                                                                      ...filterdata[
-                                                                        key
-                                                                      ],
-                                                                    ]
-                                                                  )
-                                                                }
-                                                              />
-                                                              {typeof item ==
-                                                              "object"
-                                                                ? item?.title
-                                                                : item}
-                                                              <span className="checkmark"></span>
-                                                            </label>
-                                                          ) : null}
-                                                        </li>
-                                                      )
-                                                    )
-                                                  : null}
-                                              </ul>
-                                            </Accordion.Body>
-                                          </Accordion.Item>
-                                        ) : null}
-                                      </>
-                                    );
-                                  })}
-                                </Accordion>
-
-                                <div className="filter-footer">
-                                  <Button
-                                    className="btn btn-primary btn-bordered"
-                                    onClick={(e) =>
-                                      customLoader(clearFilter, e)
-                                    }
-                                  >
-                                    Clear
-                                  </Button>
-                                  <Button
-                                    className="btn btn-primary btn-filled"
-                                    onClick={(e) =>
-                                      customLoader(applyFilter, e)
-                                    }
-                                  >
-                                    Apply
-                                  </Button>
-                                </div>
-                              </div>
-                            )}
-                          </div>
-                          <Button
-                            title="Download stats"
-                            onClick={() =>
-                              downloadExcel(usersData, "Total Registrations")
-                            }
-                          >
-                            <img src={path_image + "download.svg"} alt="Download" />
-                          </Button>
-                        </div>
+                        <FilterAndDownload
+                          filterdata={filterdata}
+                          appliedFilter={appliedFilter}
+                          customLoader={customLoader}
+                          clearFilter={clearFilter}
+                          applyFilter={applyFilter}
+                          downloadExcel={downloadExcel}
+                          overviewData={overViewData}
+                          title="Download stats"
+                          handleOnFilterChange={handleOnFilterChange}
+                          showFilter={showFilter}
+                          setShowFilter={setShowFilter}
+                        />
                       </div>
                       <div className="table-registered">
                         <Table
@@ -1600,127 +1481,24 @@ const Analytics = (props) => {
                         >
                           <thead className="sticky-header">
                             <tr>
-                              <th scope="col" className="sort_option">
-                                <span onClick={() => handleSort("name")}>
-                                  Name
-                                  <button
-                                    className={`event_sort_btn ${
-                                      sortBy == "name"
-                                        ? sortOrder == "asc"
-                                          ? "svg_asc"
-                                          : "svg_active"
-                                        : ""
-                                    }`}
-                                    onClick={() => handleSort("name")}
-                                  >
-                                    <img src={path_image + "arrow-sort.svg"} alt="email-sort" />
-                                  </button>
-                                </span>
-                              </th>
-                              <th scope="col" className="sort_option">
-                                <span onClick={() => handleSort("email")}>
-                                  Email
-                                  <button
-                                    className={`event_sort_btn ${
-                                      sortBy == "email"
-                                        ? sortOrder == "asc"
-                                          ? "svg_asc"
-                                          : "svg_active"
-                                        : ""
-                                    }`}
-                                    onClick={() => handleSort("email")}
-                                  >
-                                    <img src={path_image + "arrow-sort.svg"} alt="email-sort" />
-                                  </button>
-                                </span>
-                              </th>
-                              <th scope="col" className="sort_option">
-                                <span onClick={() => handleSort("province")}>
-                                  Region
-                                  <button
-                                    className={`event_sort_btn ${
-                                      sortBy == "province"
-                                        ? sortOrder == "asc"
-                                          ? "svg_asc"
-                                          : "svg_active"
-                                        : ""
-                                    }`}
-                                    onClick={() => handleSort("province")}
-                                  >
-                                   <img src={path_image + "arrow-sort.svg"} alt="email-sort" />
-                                  </button>
-                                </span>
-                              </th>
-                              <th scope="col" className="sort_option">
-                                <span onClick={() => handleSort("country")}>
-                                  Country{" "}
-                                  <button
-                                    className={`event_sort_btn ${
-                                      sortBy == "country"
-                                        ? sortOrder == "asc"
-                                          ? "svg_asc"
-                                          : "svg_active"
-                                        : ""
-                                    }`}
-                                    onClick={() => handleSort("country")}
-                                  >
-                                    <img src={path_image + "arrow-sort.svg"} alt="email-sort" />
-                                  </button>
-                                </span>
-                              </th>
-                              <th scope="col" className="sort_option">
-                                <span
-                                  onClick={() => handleSort("register_time")}
-                                >
-                                  Registered{" "}
-                                  <button
-                                    className={`event_sort_btn ${
-                                      sortBy == "register_time"
-                                        ? sortOrder == "asc"
-                                          ? "svg_asc"
-                                          : "svg_active"
-                                        : ""
-                                    }`}
-                                    onClick={() => handleSort("register_time")}
-                                  >
-                                   <img src={path_image + "arrow-sort.svg"} alt="email-sort" />
-                                  </button>
-                                </span>
-                              </th>
-                              <th scope="col" className="sort_option">
-                                <span onClick={() => handleSort("last_email")}>
-                                  Last Email{" "}
-                                  <button
-                                    className={`event_sort_btn ${
-                                      sortBy == "last_email"
-                                        ? sortOrder == "asc"
-                                          ? "svg_asc"
-                                          : "svg_active"
-                                        : ""
-                                    }`}
-                                    onClick={() => handleSort("last_email")}
-                                  >
-                                    <img src={path_image + "arrow-sort.svg"} alt="email-sort" />
-                                  </button>
-                                </span>
-                              </th>
-                              <th scope="col" className="sort_option">
-                                <span onClick={() => handleSort("hcp_status")}>
-                                  User Type{" "}
-                                  <button
-                                    className={`event_sort_btn ${
-                                      sortBy == "hcp_status"
-                                        ? sortOrder == "asc"
-                                          ? "svg_asc"
-                                          : "svg_active"
-                                        : ""
-                                    }`}
-                                    onClick={() => handleSort("hcp_status")}
-                                  >
-                                    <img src={path_image + "arrow-sort.svg"} alt="email-sort" />
-                                  </button>
-                                </span>
-                              </th>
+                              {[
+                                { column: "name", label: "Name" },
+                                { column: "email", label: "Email" },
+                                { column: "province", label: "Region" },
+                                { column: "country", label: "Country" },
+                                { column: "register_time", label: "Registered" },
+                                { column: "last_email", label: "Last Email" },
+                                { column: "hcp_status", label: "User Type" },
+                              ].map(({ column, label }) => (
+                                <SortableHeaderCell
+                                  key={column}
+                                  column={column}
+                                  sortBy={sortBy}
+                                  sortOrder={sortOrder}
+                                  handleSort={handleSort}
+                                  label={label}
+                                />
+                              ))}
                             </tr>
                           </thead>
                           <tbody>
@@ -1799,152 +1577,24 @@ const Analytics = (props) => {
                               />
                               <span>
                                 <span>
-                                  {/* <img
-                                  src={path_image + "bar-graph-img.png"}
-                                  style={{ transform: "rotate(90deg)" }}
-                                /> */}
-                                  <svg
-                                    width="24"
-                                    height="24"
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <rect
-                                      x="24"
-                                      width="6"
-                                      height="24"
-                                      rx="1"
-                                      transform="rotate(90 24 0)"
-                                      fill="#0066BE"
-                                    />
-                                    <rect
-                                      x="13.2617"
-                                      y="9.14258"
-                                      width="5.71429"
-                                      height="13.2632"
-                                      rx="1"
-                                      transform="rotate(90 13.2617 9.14258)"
-                                      fill="#8A4E9C"
-                                    />
-                                    <rect
-                                      x="19"
-                                      y="18"
-                                      width="6"
-                                      height="19"
-                                      rx="1"
-                                      transform="rotate(90 19 18)"
-                                      fill="#39CABC"
-                                    />
-                                  </svg>
+
+                                  <BarChartSvg />
+
                                 </span>
                                 <span>
-                                  {/* <img src={path_image + "pie-img.png"} /> */}
-                                  <svg
-                                    width="24"
-                                    height="24"
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <g clip-path="url(#clip0_5227_2027)">
-                                      <path
-                                        d="M11.2048 1.54687C11.2048 1.27073 10.9808 1.04571 10.7049 1.05803C9.10037 1.12967 7.52788 1.54559 6.095 2.27982C4.51361 3.09016 3.14762 4.26499 2.10978 5.70733C1.07194 7.14967 0.39202 8.81816 0.126141 10.5751C-0.139738 12.332 0.0160486 14.127 0.580642 15.8118C1.14524 17.4966 2.10245 19.023 3.37326 20.265C4.64407 21.507 6.19204 22.4289 7.8894 22.9547C9.58676 23.4805 11.3848 23.595 13.1352 23.2889C14.7211 23.0115 16.2267 22.3959 17.5505 21.4863C17.7781 21.3299 17.8212 21.0154 17.6548 20.795L11.3057 12.3854C11.2402 12.2986 11.2048 12.1928 11.2048 12.0841V1.54687Z"
-                                        fill="#39CABC"
-                                      />
-                                      <path
-                                        d="M23.5106 12.7847C23.7868 12.7847 24.0118 13.0087 23.9995 13.2846C23.9293 14.8565 23.5287 16.398 22.8216 17.8078C22.1141 19.2186 21.5564 19.844 20.4209 20.7231C20.2107 20.8858 19.9098 20.8496 19.7397 20.6452L13.8814 13.6045C13.6103 13.2788 13.842 12.7847 14.2657 12.7847H23.5106Z"
-                                        fill="#0066BE"
-                                      />
-                                      <path
-                                        d="M22.9765 11.1825C23.2526 11.1825 23.4776 10.9586 23.4653 10.6827C23.4072 9.38195 23.1228 8.09995 22.6236 6.89467C22.0605 5.53524 21.2351 4.30004 20.1947 3.25958C19.1542 2.21912 17.919 1.39378 16.5596 0.830691C15.3595 0.333593 14.4241 0.057651 13.209 -0.000201631C12.9332 -0.0133342 12.709 0.212139 12.709 0.488281V10.6825C12.709 10.9587 12.9328 11.1825 13.209 11.1825H22.9765Z"
-                                        fill="#8A4E9C"
-                                      />
-                                    </g>
-                                    <defs>
-                                      <clipPath id="clip0_5227_2027">
-                                        <rect
-                                          width="24"
-                                          height="24"
-                                          fill="white"
-                                        />
-                                      </clipPath>
-                                    </defs>
-                                  </svg>
+                                  <PieChartSvg />
                                 </span>
                               </span>
                               <a className="btn"></a>
                             </label>
                           </div>
-                          <Dropdown>
-                            <Dropdown.Toggle id="dropdown-basic">
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="6"
-                                height="24"
-                                viewBox="0 0 6 24"
-                                fill="none"
-                              >
-                                <path
-                                  fillRule="evenodd"
-                                  clipRule="evenodd"
-                                  d="M6 3C6 4.65685 4.65685 6 3 6C1.34315 6 0 4.65685 0 3C0 1.34315 1.34315 0 3 0C4.65685 0 6 1.34315 6 3ZM6 12C6 13.6569 4.65685 15 3 15C1.34315 15 0 13.6569 0 12C0 10.3431 1.34315 9 3 9C4.65685 9 6 10.3431 6 12ZM3 24C4.65685 24 6 22.6569 6 21C6 19.3431 4.65685 18 3 18C1.34315 18 0 19.3431 0 21C0 22.6569 1.34315 24 3 24Z"
-                                  fill="#0066BE"
-                                />
-                              </svg>
-                            </Dropdown.Toggle>
+                          <DownloadDropdown
+                            graphRef={[countryBarRef, countryPieRef]}
+                            whichTypeGraph={whichTypeGraph == 0 ? 0 : 1}
+                            title="Country Graph"
+                            handleDownload={handleDownload}
 
-                            <Dropdown.Menu>
-                              <Dropdown.Item
-                                onClick={() =>
-                                  handleDownload(
-                                    "PNG",
-                                    whichTypeGraph == 0
-                                      ? countryBarRef
-                                      : countryPieRef
-                                  )
-                                }
-                              >
-                                Download PNG
-                              </Dropdown.Item>
-                              <Dropdown.Item
-                                onClick={() =>
-                                  handleDownload(
-                                    "JPEG",
-                                    whichTypeGraph == 0
-                                      ? countryBarRef
-                                      : countryPieRef
-                                  )
-                                }
-                              >
-                                Download JPEG
-                              </Dropdown.Item>
-                              <Dropdown.Item
-                                onClick={() =>
-                                  handleDownload(
-                                    "PDF",
-                                    whichTypeGraph == 0
-                                      ? countryBarRef
-                                      : countryPieRef
-                                  )
-                                }
-                              >
-                                Download PDF
-                              </Dropdown.Item>
-                              <Dropdown.Item
-                                onClick={() =>
-                                  handleDownload(
-                                    "SVG",
-                                    whichTypeGraph == 0
-                                      ? countryBarRef
-                                      : countryPieRef
-                                  )
-                                }
-                              >
-                                Download SVG
-                              </Dropdown.Item>
-                            </Dropdown.Menu>
-                          </Dropdown>
+                          />
                         </div>
                       </div>
                       <div className="graph-view">
@@ -2022,7 +1672,7 @@ const Analytics = (props) => {
                                         "gray",
                                     },
                                   },
-                                   labels: {
+                                  labels: {
                                     style: {
                                       fontSize: "11px",
                                       color: "#97B6CF",
@@ -2035,7 +1685,7 @@ const Analytics = (props) => {
                                     dataLabels: {
                                       enabled: true,
                                     },
-                                    
+
                                   },
                                   series: {
                                     pointWidth: 20,
@@ -2110,152 +1760,25 @@ const Analytics = (props) => {
                               />
                               <span>
                                 <span>
-                                  {/* <img
-                                  src={path_image + "bar-graph-img.png"}
-                                  style={{ transform: "rotate(90deg)" }}
-                                /> */}
-                                  <svg
-                                    width="24"
-                                    height="24"
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <rect
-                                      x="24"
-                                      width="6"
-                                      height="24"
-                                      rx="1"
-                                      transform="rotate(90 24 0)"
-                                      fill="#0066BE"
-                                    />
-                                    <rect
-                                      x="13.2617"
-                                      y="9.14258"
-                                      width="5.71429"
-                                      height="13.2632"
-                                      rx="1"
-                                      transform="rotate(90 13.2617 9.14258)"
-                                      fill="#8A4E9C"
-                                    />
-                                    <rect
-                                      x="19"
-                                      y="18"
-                                      width="6"
-                                      height="19"
-                                      rx="1"
-                                      transform="rotate(90 19 18)"
-                                      fill="#39CABC"
-                                    />
-                                  </svg>
+
+                                  <BarChartSvg />
+
                                 </span>
                                 <span>
-                                  {/* <img src={path_image + "pie-img.png"} /> */}
-                                  <svg
-                                    width="24"
-                                    height="24"
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <g clip-path="url(#clip0_5227_2027)">
-                                      <path
-                                        d="M11.2048 1.54687C11.2048 1.27073 10.9808 1.04571 10.7049 1.05803C9.10037 1.12967 7.52788 1.54559 6.095 2.27982C4.51361 3.09016 3.14762 4.26499 2.10978 5.70733C1.07194 7.14967 0.39202 8.81816 0.126141 10.5751C-0.139738 12.332 0.0160486 14.127 0.580642 15.8118C1.14524 17.4966 2.10245 19.023 3.37326 20.265C4.64407 21.507 6.19204 22.4289 7.8894 22.9547C9.58676 23.4805 11.3848 23.595 13.1352 23.2889C14.7211 23.0115 16.2267 22.3959 17.5505 21.4863C17.7781 21.3299 17.8212 21.0154 17.6548 20.795L11.3057 12.3854C11.2402 12.2986 11.2048 12.1928 11.2048 12.0841V1.54687Z"
-                                        fill="#39CABC"
-                                      />
-                                      <path
-                                        d="M23.5106 12.7847C23.7868 12.7847 24.0118 13.0087 23.9995 13.2846C23.9293 14.8565 23.5287 16.398 22.8216 17.8078C22.1141 19.2186 21.5564 19.844 20.4209 20.7231C20.2107 20.8858 19.9098 20.8496 19.7397 20.6452L13.8814 13.6045C13.6103 13.2788 13.842 12.7847 14.2657 12.7847H23.5106Z"
-                                        fill="#0066BE"
-                                      />
-                                      <path
-                                        d="M22.9765 11.1825C23.2526 11.1825 23.4776 10.9586 23.4653 10.6827C23.4072 9.38195 23.1228 8.09995 22.6236 6.89467C22.0605 5.53524 21.2351 4.30004 20.1947 3.25958C19.1542 2.21912 17.919 1.39378 16.5596 0.830691C15.3595 0.333593 14.4241 0.057651 13.209 -0.000201631C12.9332 -0.0133342 12.709 0.212139 12.709 0.488281V10.6825C12.709 10.9587 12.9328 11.1825 13.209 11.1825H22.9765Z"
-                                        fill="#8A4E9C"
-                                      />
-                                    </g>
-                                    <defs>
-                                      <clipPath id="clip0_5227_2027">
-                                        <rect
-                                          width="24"
-                                          height="24"
-                                          fill="white"
-                                        />
-                                      </clipPath>
-                                    </defs>
-                                  </svg>
+                                  <PieChartSvg />
+
                                 </span>
                               </span>
                               <a className="btn"></a>
                             </label>
                           </div>
-                          <Dropdown>
-                            <Dropdown.Toggle id="dropdown-basic">
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="6"
-                                height="24"
-                                viewBox="0 0 6 24"
-                                fill="none"
-                              >
-                                <path
-                                  fillRule="evenodd"
-                                  clipRule="evenodd"
-                                  d="M6 3C6 4.65685 4.65685 6 3 6C1.34315 6 0 4.65685 0 3C0 1.34315 1.34315 0 3 0C4.65685 0 6 1.34315 6 3ZM6 12C6 13.6569 4.65685 15 3 15C1.34315 15 0 13.6569 0 12C0 10.3431 1.34315 9 3 9C4.65685 9 6 10.3431 6 12ZM3 24C4.65685 24 6 22.6569 6 21C6 19.3431 4.65685 18 3 18C1.34315 18 0 19.3431 0 21C0 22.6569 1.34315 24 3 24Z"
-                                  fill="#0066BE"
-                                />
-                              </svg>
-                            </Dropdown.Toggle>
+                          <DownloadDropdown
+                            graphRef={[regionBarRef, regionPieRef]}
+                            whichTypeGraph={whichTypeGraphRegion == 0 ? 0 : 1}
+                            title="Region Graph"
+                            handleDownload={handleDownload}
 
-                            <Dropdown.Menu>
-                              <Dropdown.Item
-                                onClick={() =>
-                                  handleDownload(
-                                    "PNG",
-                                    whichTypeGraphRegion == 0
-                                      ? regionBarRef
-                                      : regionPieRef
-                                  )
-                                }
-                              >
-                                Download PNG
-                              </Dropdown.Item>
-                              <Dropdown.Item
-                                onClick={() =>
-                                  handleDownload(
-                                    "JPEG",
-                                    whichTypeGraphRegion == 0
-                                      ? regionBarRef
-                                      : regionPieRef
-                                  )
-                                }
-                              >
-                                Download JPEG
-                              </Dropdown.Item>
-                              <Dropdown.Item
-                                onClick={() =>
-                                  handleDownload(
-                                    "PDF",
-                                    whichTypeGraphRegion == 0
-                                      ? regionBarRef
-                                      : regionPieRef
-                                  )
-                                }
-                              >
-                                Download PDF
-                              </Dropdown.Item>
-                              <Dropdown.Item
-                                onClick={() =>
-                                  handleDownload(
-                                    "SVG",
-                                    whichTypeGraphRegion == 0
-                                      ? regionBarRef
-                                      : regionPieRef
-                                  )
-                                }
-                              >
-                                Download SVG
-                              </Dropdown.Item>
-                            </Dropdown.Menu>
-                          </Dropdown>
+                          />
                         </div>
                       </div>
                       <div className="graph-view">
@@ -2419,157 +1942,25 @@ const Analytics = (props) => {
                               />
                               <span>
                                 <span>
-                                  {/* <img
-                                  src={path_image + "bar-graph-img.png"}
-                                  style={{ transform: "rotate(90deg)" }}
-                                /> */}
-                                  <svg
-                                    width="24"
-                                    height="24"
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <rect
-                                      x="24"
-                                      width="6"
-                                      height="24"
-                                      rx="1"
-                                      transform="rotate(90 24 0)"
-                                      fill="#0066BE"
-                                    />
-                                    <rect
-                                      x="13.2617"
-                                      y="9.14258"
-                                      width="5.71429"
-                                      height="13.2632"
-                                      rx="1"
-                                      transform="rotate(90 13.2617 9.14258)"
-                                      fill="#8A4E9C"
-                                    />
-                                    <rect
-                                      x="19"
-                                      y="18"
-                                      width="6"
-                                      height="19"
-                                      rx="1"
-                                      transform="rotate(90 19 18)"
-                                      fill="#39CABC"
-                                    />
-                                  </svg>
+
+                                  <BarChartSvg />
+
                                 </span>
                                 <span>
-                                  {/* <img src={path_image + "pie-img.png"} /> */}
-                                  <svg
-                                    width="24"
-                                    height="24"
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <g clip-path="url(#clip0_5227_2027)">
-                                      <path
-                                        d="M11.2048 1.54687C11.2048 1.27073 10.9808 1.04571 10.7049 1.05803C9.10037 1.12967 7.52788 1.54559 6.095 2.27982C4.51361 3.09016 3.14762 4.26499 2.10978 5.70733C1.07194 7.14967 0.39202 8.81816 0.126141 10.5751C-0.139738 12.332 0.0160486 14.127 0.580642 15.8118C1.14524 17.4966 2.10245 19.023 3.37326 20.265C4.64407 21.507 6.19204 22.4289 7.8894 22.9547C9.58676 23.4805 11.3848 23.595 13.1352 23.2889C14.7211 23.0115 16.2267 22.3959 17.5505 21.4863C17.7781 21.3299 17.8212 21.0154 17.6548 20.795L11.3057 12.3854C11.2402 12.2986 11.2048 12.1928 11.2048 12.0841V1.54687Z"
-                                        fill="#39CABC"
-                                      />
-                                      <path
-                                        d="M23.5106 12.7847C23.7868 12.7847 24.0118 13.0087 23.9995 13.2846C23.9293 14.8565 23.5287 16.398 22.8216 17.8078C22.1141 19.2186 21.5564 19.844 20.4209 20.7231C20.2107 20.8858 19.9098 20.8496 19.7397 20.6452L13.8814 13.6045C13.6103 13.2788 13.842 12.7847 14.2657 12.7847H23.5106Z"
-                                        fill="#0066BE"
-                                      />
-                                      <path
-                                        d="M22.9765 11.1825C23.2526 11.1825 23.4776 10.9586 23.4653 10.6827C23.4072 9.38195 23.1228 8.09995 22.6236 6.89467C22.0605 5.53524 21.2351 4.30004 20.1947 3.25958C19.1542 2.21912 17.919 1.39378 16.5596 0.830691C15.3595 0.333593 14.4241 0.057651 13.209 -0.000201631C12.9332 -0.0133342 12.709 0.212139 12.709 0.488281V10.6825C12.709 10.9587 12.9328 11.1825 13.209 11.1825H22.9765Z"
-                                        fill="#8A4E9C"
-                                      />
-                                    </g>
-                                    <defs>
-                                      <clipPath id="clip0_5227_2027">
-                                        <rect
-                                          width="24"
-                                          height="24"
-                                          fill="white"
-                                        />
-                                      </clipPath>
-                                    </defs>
-                                  </svg>
+                                  <PieChartSvg />
                                 </span>
                               </span>
                               <a className="btn"></a>
                             </label>
                           </div>
 
-                          <Dropdown>
-                            <Dropdown.Toggle id="dropdown-basic">
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="6"
-                                height="24"
-                                viewBox="0 0 6 24"
-                                fill="none"
-                              >
-                                <path
-                                  fillRule="evenodd"
-                                  clipRule="evenodd"
-                                  d="M6 3C6 4.65685 4.65685 6 3 6C1.34315 6 0 4.65685 0 3C0 1.34315 1.34315 0 3 0C4.65685 0 6 1.34315 6 3ZM6 12C6 13.6569 4.65685 15 3 15C1.34315 15 0 13.6569 0 12C0 10.3431 1.34315 9 3 9C4.65685 9 6 10.3431 6 12ZM3 24C4.65685 24 6 22.6569 6 21C6 19.3431 4.65685 18 3 18C1.34315 18 0 19.3431 0 21C0 22.6569 1.34315 24 3 24Z"
-                                  fill="#0066BE"
-                                />
-                              </svg>
-                            </Dropdown.Toggle>
+                          <DownloadDropdown
+                            graphRef={[regionBarEmailRef, regionPieEmailRef]}
+                            whichTypeGraph={whichTypeGraphByEmail == 0 ? 0 : 1}
+                            title="Total Registered HCP by Email"
+                            handleDownload={handleDownload}
 
-                            <Dropdown.Menu>
-                              <Dropdown.Item
-                                onClick={() =>
-                                  handleDownload(
-                                    "PNG",
-                                    whichTypeGraphByEmail == 0
-                                      ? regionBarEmailRef
-                                      : regionPieEmailRef,
-                                    "Total_Registered_HCP_By_Email_And_Other_Channels "
-                                  )
-                                }
-                              >
-                                Download PNG
-                              </Dropdown.Item>
-                              <Dropdown.Item
-                                onClick={() =>
-                                  handleDownload(
-                                    "JPEG",
-                                    whichTypeGraphByEmail == 0
-                                      ? regionBarEmailRef
-                                      : regionPieEmailRef,
-                                    "Total_Registered_HCP_By_Email_And_Other_Channels "
-                                  )
-                                }
-                              >
-                                Download JPEG
-                              </Dropdown.Item>
-                              <Dropdown.Item
-                                onClick={() =>
-                                  handleDownload(
-                                    "PDF",
-                                    whichTypeGraphByEmail == 0
-                                      ? regionBarEmailRef
-                                      : regionPieEmailRef,
-                                    "Total_Registered_HCP_By_Email_And_Other_Channels "
-                                  )
-                                }
-                              >
-                                Download PDF
-                              </Dropdown.Item>
-                              <Dropdown.Item
-                                onClick={() =>
-                                  handleDownload(
-                                    "SVG",
-                                    whichTypeGraphByEmail == 0
-                                      ? regionBarEmailRef
-                                      : regionPieEmailRef,
-                                    "Total_Registered_HCP_By_Email_And_Other_Channels "
-                                  )
-                                }
-                              >
-                                Download SVG
-                              </Dropdown.Item>
-                            </Dropdown.Menu>
-                          </Dropdown>
+                          />
                         </div>
                       </div>
                       <div className="graph-view">
@@ -2591,8 +1982,8 @@ const Analytics = (props) => {
                                   },
                                   events: {
                                     load: function () {
-                            
-                                      let categoryHeight = 40;          console.log(  categoryHeight * this.pointCount +
+
+                                      let categoryHeight = 40; console.log(categoryHeight * this.pointCount +
                                         (this.chartHeight - this.plotHeight));
                                       this.update({
                                         chart: {
@@ -2634,7 +2025,7 @@ const Analytics = (props) => {
                                   type: "category",
                                   labels: {
                                     style: {
-                                      fontWeight:"400",
+                                      fontWeight: "400",
                                       fontSize: "12px",
                                       color: "#70899e",
                                     },
@@ -2781,199 +2172,19 @@ const Analytics = (props) => {
                         <div className="rd-training-block-left">
                           <h4>Overview</h4>
                         </div>
-                        <div className="rd-training-block-right d-flex align-items-center">
-                          <div className="filter-btn">
-                            <button
-                              ref={buttonRef}
-                              className={
-                                Object.keys(apifilterObject)?.length
-                                  ? "btn btn-secondary dropdown filter_applied"
-                                  : "btn btn-secondary dropdown"
-                              }
-                              type="button"
-                              id="dropdownMenuButton2"
-                              onClick={() =>
-                                setShowFilter((showFilter) => !showFilter)
-                              }
-                            >
-                              Filter By
-                              {showFilter ? (
-                                <svg
-                                  className="close-arrow"
-                                  width="13"
-                                  height="12"
-                                  viewBox="0 0 13 12"
-                                  fill="none"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                >
-                                  <rect
-                                    width="2.09896"
-                                    height="15.1911"
-                                    rx="1.04948"
-                                    transform="matrix(0.720074 0.693897 -0.720074 0.693897 11.0977 0)"
-                                    fill="#0066BE"
-                                  />
-                                  <rect
-                                    width="2.09896"
-                                    height="15.1911"
-                                    rx="1.04948"
-                                    transform="matrix(0.720074 -0.693897 0.720074 0.693897 0 1.45898)"
-                                    fill="#0066BE"
-                                  />
-                                </svg>
-                              ) : (
-                                <svg
-                                  className="filter-arrow"
-                                  width="16"
-                                  height="14"
-                                  viewBox="0 0 16 14"
-                                  fill="none"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                >
-                                  <path
-                                    d="M0.615385 2.46154H3.07692C3.07692 3.14031 3.62892 3.69231 4.30769 3.69231H5.53846C6.21723 3.69231 6.76923 3.14031 6.76923 2.46154H15.3846C15.7243 2.46154 16 2.18646 16 1.84615C16 1.50585 15.7243 1.23077 15.3846 1.23077H6.76923C6.76923 0.552 6.21723 0 5.53846 0H4.30769C3.62892 0 3.07692 0.552 3.07692 1.23077H0.615385C0.275692 1.23077 0 1.50585 0 1.84615C0 2.18646 0.275692 2.46154 0.615385 2.46154Z"
-                                    fill="#97B6CF"
-                                  ></path>
-                                  <path
-                                    d="M15.3846 6.15362H11.6923C11.6923 5.47485 11.1403 4.92285 10.4615 4.92285H9.23077C8.552 4.92285 8 5.47485 8 6.15362H0.615385C0.275692 6.15362 0 6.4287 0 6.76901C0 7.10931 0.275692 7.38439 0.615385 7.38439H8C8 8.06316 8.552 8.61516 9.23077 8.61516H10.4615C11.1403 8.61516 11.6923 8.06316 11.6923 7.38439H15.3846C15.7243 7.38439 16 7.10931 16 6.76901C16 6.4287 15.7243 6.15362 15.3846 6.15362Z"
-                                    fill="#97B6CF"
-                                  ></path>
-                                  <path
-                                    d="M15.3846 11.077H6.76923C6.76923 10.3982 6.21723 9.84619 5.53846 9.84619H4.30769C3.62892 9.84619 3.07692 10.3982 3.07692 11.077H0.615385C0.275692 11.077 0 11.352 0 11.6923C0 12.0327 0.275692 12.3077 0.615385 12.3077H3.07692C3.07692 12.9865 3.62892 13.5385 4.30769 13.5385H5.53846C6.21723 13.5385 6.76923 12.9865 6.76923 12.3077H15.3846C15.7243 12.3077 16 12.0327 16 11.6923C16 11.352 15.7243 11.077 15.3846 11.077Z"
-                                    fill="#97B6CF"
-                                  ></path>
-                                </svg>
-                              )}
-                            </button>
-                            {showFilter && (
-                              <div
-                                ref={filterRef}
-                                className="dropdown-menu filter-options"
-                                aria-labelledby="dropdownMenuButton2"
-                              >
-                                <h4>Filter By</h4>
-                                <Accordion defaultActiveKey="0" flush>
-                                  {Object.keys(filterdata)?.map(function (
-                                    key,
-                                    index
-                                  ) {
-                                    return (
-                                      <>
-                                        {filterdata[key]?.length > 0 ? (
-                                          <Accordion.Item
-                                            className={
-                                              key == "role"
-                                                ? "card upper"
-                                                : "card"
-                                            }
-                                            eventKey={index}
-                                          >
-                                            <Accordion.Header className="card-header">
-                                              {key}
-                                            </Accordion.Header>
-                                            <Accordion.Body className="card-body">
-                                              <ul>
-                                                {filterdata[key]?.length
-                                                  ? filterdata[key]?.map(
-                                                      (item, index) => (
-                                                        <li key={index}>
-                                                          {item != "" ? (
-                                                            <label className="select-multiple-option">
-                                                              <input
-                                                                type={
-                                                                  "checkbox"
-                                                                }
-                                                                id={`custom-checkbox-tags-${index}`}
-                                                                value={
-                                                                  typeof item ==
-                                                                  "object"
-                                                                    ? item?.title
-                                                                    : item
-                                                                }
-                                                                name={key}
-                                                                checked={
-                                                                  typeof item ==
-                                                                  "object"
-                                                                    ? appliedFilter[
-                                                                        key
-                                                                      ]?.includes(
-                                                                        item.id
-                                                                      )
-                                                                      ? true
-                                                                      : false
-                                                                    : appliedFilter[
-                                                                        key
-                                                                      ]?.includes(
-                                                                        item
-                                                                      )
-                                                                    ? true
-                                                                    : false
-                                                                }
-                                                                onChange={(e) =>
-                                                                  handleOnFilterChange(
-                                                                    e,
-                                                                    typeof item ==
-                                                                      "object"
-                                                                      ? item.id
-                                                                      : item,
-                                                                    index,
-                                                                    key,
-                                                                    [
-                                                                      ...filterdata[
-                                                                        key
-                                                                      ],
-                                                                    ]
-                                                                  )
-                                                                }
-                                                              />
-                                                              {typeof item ==
-                                                              "object"
-                                                                ? item?.title
-                                                                : item}
-                                                              <span className="checkmark"></span>
-                                                            </label>
-                                                          ) : null}
-                                                        </li>
-                                                      )
-                                                    )
-                                                  : null}
-                                              </ul>
-                                            </Accordion.Body>
-                                          </Accordion.Item>
-                                        ) : null}
-                                      </>
-                                    );
-                                  })}
-                                </Accordion>
-
-                                <div className="filter-footer">
-                                  <Button
-                                    className="btn btn-primary btn-bordered"
-                                    onClick={() => customLoader(clearFilter)}
-                                  >
-                                    Clear
-                                  </Button>
-                                  <Button
-                                    className="btn btn-primary btn-filled"
-                                    onClick={(e) =>
-                                      customLoader(applyFilter, e)
-                                    }
-                                  >
-                                    Apply
-                                  </Button>
-                                </div>
-                              </div>
-                            )}
-                          </div>
-                          <Button
-                            title="Download stats"
-                            onClick={() =>
-                              downloadExcel(overViewData, "Overview")
-                            }
-                          >
-                            <img src={path_image + "download.svg"} alt="Download" />
-                          </Button>
-                        </div>
+                        <FilterAndDownload
+                          filterdata={filterdata}
+                          appliedFilter={appliedFilter}
+                          customLoader={customLoader}
+                          clearFilter={clearFilter}
+                          applyFilter={applyFilter}
+                          downloadExcel={downloadExcel}
+                          overviewData={overViewData}
+                          title="Download stats"
+                          handleOnFilterChange={handleOnFilterChange}
+                          showFilter={showFilter}
+                          setShowFilter={setShowFilter}
+                        />
                       </div>
                       <div className="table-registered">
                         <Table
@@ -2982,111 +2193,25 @@ const Analytics = (props) => {
                         >
                           <thead className="sticky-header">
                             <tr>
-                              <th scope="col" className="sort_option">
-                                <span onClick={() => handleSort("name")}>
-                                  Name{" "}
-                                  <button
-                                    className={`event_sort_btn ${
-                                      sortBy == "name"
-                                        ? sortOrder == "asc"
-                                          ? "svg_asc"
-                                          : "svg_active"
-                                        : ""
-                                    }`}
-                                    onClick={() => handleSort("name")}
-                                  >
-                                   <img src={path_image + "arrow-sort.svg"} alt="email-sort" />
-                                  </button>
-                                </span>
-                              </th>
-                              <th scope="col" className="sort_option">
-                                <span onClick={() => handleSort("email")}>
-                                  Email{" "}
-                                  <button
-                                    className={`event_sort_btn ${
-                                      sortBy == "email"
-                                        ? sortOrder == "asc"
-                                          ? "svg_asc"
-                                          : "svg_active"
-                                        : ""
-                                    }`}
-                                    onClick={() => handleSort("email")}
-                                  >
-                                  <img src={path_image + "arrow-sort.svg"} alt="email-sort" />
-                                  </button>
-                                </span>
-                              </th>
-                              <th scope="col" className="sort_option">
-                                <span onClick={() => handleSort("region")}>
-                                  Region
-                                  <button
-                                    className={`event_sort_btn ${
-                                      sortBy == "region"
-                                        ? sortOrder == "asc"
-                                          ? "svg_asc"
-                                          : "svg_active"
-                                        : ""
-                                    }`}
-                                    onClick={() => handleSort("region")}
-                                  >
-                                    <img src={path_image + "arrow-sort.svg"} alt="email-sort" />
-                                  </button>
-                                </span>
-                              </th>
-                              <th scope="col" className="sort_option">
-                                <span onClick={() => handleSort("country")}>
-                                  Country{" "}
-                                  <button
-                                    className={`event_sort_btn ${
-                                      sortBy == "country"
-                                        ? sortOrder == "asc"
-                                          ? "svg_asc"
-                                          : "svg_active"
-                                        : ""
-                                    }`}
-                                    onClick={() => handleSort("country")}
-                                  >
-                                    <img src={path_image + "arrow-sort.svg"} alt="email-sort" />
-                                  </button>
-                                </span>
-                              </th>
-                              <th scope="col" className="sort_option">
-                                <span
-                                  onClick={() => handleSort("register_time")}
-                                >
-                                  Registered{" "}
-                                  <button
-                                    className={`event_sort_btn ${
-                                      sortBy == "register_time"
-                                        ? sortOrder == "asc"
-                                          ? "svg_asc"
-                                          : "svg_active"
-                                        : ""
-                                    }`}
-                                    onClick={() => handleSort("register_time")}
-                                  >
-                                    <img src={path_image + "arrow-sort.svg"} alt="email-sort" />
-                                  </button>
-                                </span>
-                              </th>
-                              <th scope="col" className="sort_option">
-                                <span onClick={() => handleSort("Attended")}>
-                                  Attended
-                                  <button
-                                    className={`event_sort_btn ${
-                                      sortBy == "Attended"
-                                        ? sortOrder == "asc"
-                                          ? "svg_asc"
-                                          : "svg_active"
-                                        : ""
-                                    }`}
-                                    onClick={() => handleSort("Attended")}
-                                  >
-                                    <img src={path_image + "arrow-sort.svg"} alt="email-sort" />
-                                  </button>
-                                </span>
-                              </th>
-                              <th>Post-event views</th>
+                              {[
+                                { column: "name", label: "Name" },
+                                { column: "email", label: "Email" },
+                                { column: "region", label: "Region" },
+                                { column: "country", label: "Country" },
+                                { column: "register_time", label: "Registered" },
+                                { column: "Attended", label: "Attended" },
+                              ].map(({ column, label }) => (
+                                <SortableHeaderCell
+                                  key={column}
+                                  column={column}
+                                  sortBy={sortBy}
+                                  sortOrder={sortOrder}
+                                  handleSort={handleSort}
+                                  label={label}
+                                />
+                              ))}
+                              {/* Non-sortable column */}
+                              <th scope="col">Post-event views</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -3220,3 +2345,194 @@ const Analytics = (props) => {
 };
 
 export default Analytics;
+
+
+const SortableHeaderCell = ({ column, sortBy, sortOrder, handleSort, label }) => {
+  const isActive = sortBy === column;
+  const buttonClass = isActive ? (sortOrder === "asc" ? "svg_asc" : "svg_active") : "";
+
+  return (
+    <th scope="col" className="sort_option">
+      <span onClick={() => handleSort(column)}>
+        {label}
+        <button className={`event_sort_btn ${buttonClass}`} onClick={() => handleSort(column)}>
+          <img src={`${path_image}arrow-sort.svg`} alt={`${label}-sort`} />
+        </button>
+      </span>
+    </th>
+  );
+};
+
+
+
+const FilterAndDownload = ({
+  filterdata,
+  appliedFilter,
+  customLoader,
+  clearFilter,
+  applyFilter,
+  downloadExcel,
+  overviewData,
+  title,
+  handleOnFilterChange,
+  showFilter,
+  setShowFilter
+}) => {
+  const buttonRef = useRef(null);
+  const filterRef = useRef(null);
+
+
+  return (
+    <div className="rd-training-block-right d-flex align-items-center">
+      <div className="filter-btn">
+        <button
+          ref={buttonRef}
+          className={
+            Object.keys(appliedFilter)?.length
+              ? 'btn btn-secondary dropdown filter_applied'
+              : 'btn btn-secondary dropdown'
+          }
+          type="button"
+          id="dropdownMenuButton"
+          onClick={() => setShowFilter((prev) => !prev)}
+        >
+          Filter By {showFilter ? <svg
+            className="close-arrow"
+            width="13"
+            height="12"
+            viewBox="0 0 13 12"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <rect
+              width="2.09896"
+              height="15.1911"
+              rx="1.04948"
+              transform="matrix(0.720074 0.693897 -0.720074 0.693897 11.0977 0)"
+              fill="#0066BE"
+            />
+            <rect
+              width="2.09896"
+              height="15.1911"
+              rx="1.04948"
+              transform="matrix(0.720074 -0.693897 0.720074 0.693897 0 1.45898)"
+              fill="#0066BE"
+            />
+          </svg> : <svg
+            className="filter-arrow"
+            width="16"
+            height="14"
+            viewBox="0 0 16 14"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M0.615385 2.46154H3.07692C3.07692 3.14031 3.62892 3.69231 4.30769 3.69231H5.53846C6.21723 3.69231 6.76923 3.14031 6.76923 2.46154H15.3846C15.7243 2.46154 16 2.18646 16 1.84615C16 1.50585 15.7243 1.23077 15.3846 1.23077H6.76923C6.76923 0.552 6.21723 0 5.53846 0H4.30769C3.62892 0 3.07692 0.552 3.07692 1.23077H0.615385C0.275692 1.23077 0 1.50585 0 1.84615C0 2.18646 0.275692 2.46154 0.615385 2.46154Z"
+              fill="#97B6CF"
+            ></path>
+            <path
+              d="M15.3846 6.15362H11.6923C11.6923 5.47485 11.1403 4.92285 10.4615 4.92285H9.23077C8.552 4.92285 8 5.47485 8 6.15362H0.615385C0.275692 6.15362 0 6.4287 0 6.76901C0 7.10931 0.275692 7.38439 0.615385 7.38439H8C8 8.06316 8.552 8.61516 9.23077 8.61516H10.4615C11.1403 8.61516 11.6923 8.06316 11.6923 7.38439H15.3846C15.7243 7.38439 16 7.10931 16 6.76901C16 6.4287 15.7243 6.15362 15.3846 6.15362Z"
+              fill="#97B6CF"
+            ></path>
+            <path
+              d="M15.3846 11.077H6.76923C6.76923 10.3982 6.21723 9.84619 5.53846 9.84619H4.30769C3.62892 9.84619 3.07692 10.3982 3.07692 11.077H0.615385C0.275692 11.077 0 11.352 0 11.6923C0 12.0327 0.275692 12.3077 0.615385 12.3077H3.07692C3.07692 12.9865 3.62892 13.5385 4.30769 13.5385H5.53846C6.21723 13.5385 6.76923 12.9865 6.76923 12.3077H15.3846C15.7243 12.3077 16 12.0327 16 11.6923C16 11.352 15.7243 11.077 15.3846 11.077Z"
+              fill="#97B6CF"
+            ></path>
+          </svg>}
+        </button>
+        {showFilter && (
+          <div ref={filterRef} className="dropdown-menu filter-options" aria-labelledby="dropdownMenuButton">
+            <h4>Filter By</h4>
+            <Accordion defaultActiveKey="0" flush>
+              {Object.keys(filterdata)?.map((key, index) => (
+                filterdata[key]?.length > 0 && (
+                  <Accordion.Item className={key === 'role' ? 'card upper' : 'card'} eventKey={index} key={key}>
+                    <Accordion.Header className="card-header">{key}</Accordion.Header>
+                    <Accordion.Body className="card-body">
+                      <ul>
+                        {filterdata[key].map((item, idx) => (
+                          item && (
+                            <li key={idx}>
+                              <label className="select-multiple-option">
+                                <input
+                                  type="checkbox"
+                                  id={`custom-checkbox-tags-${idx}`}
+                                  value={typeof item === 'object' ? item.title : item}
+                                  name={key}
+                                  checked={
+                                    typeof item === 'object'
+                                      ? appliedFilter[key]?.includes(item.id)
+                                      : appliedFilter[key]?.includes(item)
+                                  }
+                                  onChange={(e) =>
+                                    handleOnFilterChange(e, typeof item === 'object' ? item.id : item, idx, key, [...filterdata[key]])
+                                  }
+                                />
+                                {typeof item === 'object' ? item.title : item}
+                                <span className="checkmark"></span>
+                              </label>
+                            </li>
+                          )
+                        ))}
+                      </ul>
+                    </Accordion.Body>
+                  </Accordion.Item>
+                )
+              ))}
+            </Accordion>
+            <div className="filter-footer">
+              <Button className="btn btn-primary btn-bordered" onClick={(e) => customLoader(clearFilter, e)}>Clear</Button>
+              <Button className="btn btn-primary btn-filled" onClick={(e) => customLoader(applyFilter, e)}>Apply</Button>
+            </div>
+          </div>
+        )}
+      </div>
+      <Button title={title} onClick={() => downloadExcel(overviewData, title)}>
+        <img src={`${path_image}download.svg`} alt="Download" />
+      </Button>
+    </div>
+  );
+};
+
+
+const DownloadDropdown = ({
+  graphRef,
+  whichTypeGraph,
+  title,
+  handleDownload
+}) => {
+  const formats = ["PNG", "JPEG", "PDF", "SVG"];
+  return (
+    <Dropdown>
+      <Dropdown.Toggle id="dropdown-basic">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="6"
+          height="24"
+          viewBox="0 0 6 24"
+          fill="none"
+        >
+          <path
+            fillRule="evenodd"
+            clipRule="evenodd"
+            d="M6 3C6 4.65685 4.65685 6 3 6C1.34315 6 0 4.65685 0 3C0 1.34315 1.34315 0 3 0C4.65685 0 6 1.34315 6 3ZM6 12C6 13.6569 4.65685 15 3 15C1.34315 15 0 13.6569 0 12C0 10.3431 1.34315 9 3 9C4.65685 9 6 10.3431 6 12ZM3 24C4.65685 24 6 22.6569 6 21C6 19.3431 4.65685 18 3 18C1.34315 18 0 19.3431 0 21C0 22.6569 1.34315 24 3 24Z"
+            fill="#0066BE"
+          />
+        </svg>
+      </Dropdown.Toggle>
+
+      <Dropdown.Menu>
+        {formats.map((format) => (
+          <Dropdown.Item
+            key={format}
+            onClick={() =>
+              handleDownload(format, graphRef[whichTypeGraph])
+            }
+          >
+            Download {format}
+          </Dropdown.Item>
+        ))}
+      </Dropdown.Menu>
+    </Dropdown>
+  );
+};
