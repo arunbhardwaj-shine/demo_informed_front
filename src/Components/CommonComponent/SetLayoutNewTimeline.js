@@ -334,7 +334,7 @@ const SetLayoutNewTimeline = () => {
     if ((scrollHeight - scrollTop <= clientHeight + 1) && loadData == 0 && loadMore?.isLoadMore && loadMore?.nextDate != null) {
       loadData = 1;
       handleLoadMore();
-      console.log("Reached bottom of the scrollable container",loadData);
+      console.log("Reached bottom of the scrollable container");
     }
   };
 
