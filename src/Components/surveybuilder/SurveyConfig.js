@@ -430,7 +430,7 @@ const handleDropdownchange=(e,selectType)=>{
                                 </Form.Label>
                                 {formData.consentType ===
                                 "No consent needed (anonymous)" ? (
-                                  formData.consentType
+                                  <p>{formData.consentType}</p>
                                 ) : (
                                   <Select
                                     aria-label="Survey consent"
@@ -455,7 +455,7 @@ const handleDropdownchange=(e,selectType)=>{
                                 </Form.Label>
                                 {formData.consentType ===
                                 "No consent needed (anonymous)" ? (
-                                  formData.consentType
+                                  <p>{formData.consentType}</p>
                                 ) : (
                                   <Select
                                     aria-label="Survey consent"

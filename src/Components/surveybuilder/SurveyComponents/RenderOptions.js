@@ -465,7 +465,7 @@ const RenderOptions = ({
 
     case "consent": {
       return (
-        consentOption !== "No consent needed (anonymous)" && (
+        consentOption != "No consent needed (anonymous)" && (
           <div className="login-consent">
             <p className="start-title" style={{ color: inputColor }}>
               {item.question}
