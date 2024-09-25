@@ -23,7 +23,6 @@
       <div class="loader_show"><span class="loader-view"> </span></div>
     </div>
     <div id="survey-container" class="informed-survey"></div>
-  
 
     <script>
       const pageNotFound = () => {
@@ -155,18 +154,16 @@
           element.value = "";
         });
         document.querySelectorAll("input").forEach((element) => {
- 
           if (element.id === "matrix") {
             const span = element.nextElementSibling; // Select the corresponding span
-            console.log("matrix span",span)
+            console.log("matrix span", span);
             if (span) {
               const innerSpan = span.querySelector("span"); // Select the inner <span>
               if (innerSpan) {
                 innerSpan.style.backgroundColor = "";
               }
-              span.style.backgroundColor="";
+              span.style.backgroundColor = "";
               span.style.borderColor = borderColor;
-             
             }
           } else {
             const span = element.nextElementSibling; // Select the corresponding span
@@ -236,13 +233,13 @@
       //   }
       // }
 
-      function handleRadioClick(questionId, value, borderColor,bodyTextColor) {
+      function handleRadioClick(questionId, value, borderColor, bodyTextColor) {
         // Get the "Other" text input element
         const otherTextInput = document.getElementById(
           "other-text-" + questionId
         );
         // // Hide the "Other" text input by default
-        if(otherTextInput){
+        if (otherTextInput) {
           otherTextInput.style.display = "none";
         }
 
@@ -266,13 +263,18 @@
               if (input.value === "other") {
                 otherTextInput.style.display = "inline";
               }
-            }else{
+            } else {
               span.style.borderColor = bodyTextColor;
             }
           });
       }
 
-      const handleMatrixClick = (inputname, inputType, color,bodyTextColor) => {
+      const handleMatrixClick = (
+        inputname,
+        inputType,
+        color,
+        bodyTextColor
+      ) => {
         console.log(inputname, inputType, color);
 
         if (inputType === "checkbox") {
@@ -284,7 +286,6 @@
               const checkmark = input.nextElementSibling;
               checkmark.style.backgroundColor = color;
               checkmark.style.borderColor = color;
-
             } else {
               const checkmark = input.nextElementSibling;
               checkmark.style.backgroundColor = "";
@@ -296,7 +297,6 @@
             `input[name="${inputname}"]`
           );
           checkedInputs.forEach((input) => {
-
             if (input.checked) {
               const span = input.nextElementSibling; // Select the corresponding span
               const innerSpan = span.querySelector("span"); // Select the inner <span>
@@ -313,7 +313,12 @@
         }
       };
 
-      const handleAllOfTheAboveChange = (questionNo, value, borderColor,bodyTextColor) => {
+      const handleAllOfTheAboveChange = (
+        questionNo,
+        value,
+        borderColor,
+        bodyTextColor
+      ) => {
         // Select all checkboxes with the given questionNo
         const checkboxes = document.querySelectorAll(
           `input[type="checkbox"][name="question${questionNo}"]`
@@ -388,7 +393,11 @@
         }
       }
 
-      const handleIndividualCheckboxChange = (questionNo, borderColor,bodyTextColor) => {
+      const handleIndividualCheckboxChange = (
+        questionNo,
+        borderColor,
+        bodyTextColor
+      ) => {
         // Select all checkboxes with the given questionNo
         const checkboxes = document.querySelectorAll(
           `input[type="checkbox"][name="question${questionNo}"]`
@@ -426,19 +435,17 @@
 
         if (!allOtherChecked) {
           console.log("inside checkbox");
-          if(allOfTheAboveCheckbox){
+          if (allOfTheAboveCheckbox) {
             const span = allOfTheAboveCheckbox.nextElementSibling;
-          span.style.borderColor = bodyTextColor;
-          span.style.backgroundColor = "";
+            span.style.borderColor = bodyTextColor;
+            span.style.backgroundColor = "";
           }
-      
         } else {
-          if(allOfTheAboveCheckbox){
+          if (allOfTheAboveCheckbox) {
             const span = allOfTheAboveCheckbox.nextElementSibling;
-          span.style.borderColor = borderColor;
-          span.style.backgroundColor = borderColor;
+            span.style.borderColor = borderColor;
+            span.style.backgroundColor = borderColor;
           }
-     
         }
 
         // Uncheck "All of the Above" if not all other checkboxes are checked
@@ -501,9 +508,10 @@
               loader("hide");
               return;
             }
-            if (data.data[0].survey_info.is_draft === 2) {
+            if (data.data[0].survey_info.is_draft === 2  ||data.data[0].survey_info.is_draft === 0 ) {
               // window.location.replace("/survey/404");
               pageNotFound();
+              loader("hide");
               return;
             }
           } else if (
@@ -513,6 +521,7 @@
             loader("hide");
             // window.location.replace("/survey/404");
             pageNotFound();
+            loader("hide");
             return;
           } else if (
             data.status === 204 &&
@@ -531,14 +540,25 @@
           return;
         }
         const survey_id = data.data[0].survey_info.id;
-        const customHtml = JSON.parse(data.data[0].survey_info.custom_html)[0];
-        addMetaTag(
+        const customHtml = await JSON.parse(
+          data.data[0].survey_info.custom_html
+        )[0];
+        await addMetaTag(
           "description",
           data.data[0].survey_info.survey_link_description ?? ""
         );
-        addMetaTag("og:image", data.data[0].survey_info.survey_thumbnail ?? "");
-        addMetaTag("title", data.data[0].survey_info.survey_link_title ?? "");
-        addMetaTag("og-url",`https://informed.pro/Survey/Survey.html?Utmde=${Utmde}` ?? "")
+        await addMetaTag(
+          "og:image",
+          data.data[0].survey_info.survey_thumbnail ?? ""
+        );
+        await addMetaTag(
+          "title",
+          data.data[0].survey_info.survey_link_title ?? ""
+        );
+        await addMetaTag(
+          "og-url",
+          `https://informed.pro/Survey/Survey.html?Utmde=${Utmde}` ?? ""
+        );
 
         let surveyHtml = `
           <div class="informed-survey-header" style="${
@@ -605,10 +625,14 @@
                           ${question.isOptional ? "" : "required"}
                          onclick="handleRadioClick(${
                            question.questionId
-                         }, this.value, '${customHtml.question_answer_color}','${customHtml.bodyTextColor}');"
+                         }, this.value, '${
+                  customHtml.question_answer_color
+                }','${customHtml.bodyTextColor}');"
  />
                       ${answer.value}
-                      <span class="checkmark" style="border-color:${customHtml.bodyTextColor}">
+                      <span class="checkmark" style="border-color:${
+                        customHtml.bodyTextColor
+                      }">
                              <span></span>
                       </span>
                   </label>`;
@@ -630,7 +654,9 @@
                 }','${customHtml.bodyTextColor}');"
  />
                       ${question.extra.otherChoiceLabel}
-                     <span class="checkmark" style="border-color:${customHtml.bodyTextColor}">
+                     <span class="checkmark" style="border-color:${
+                       customHtml.bodyTextColor
+                     }">
                              <span></span>
                       </span>
                       <br>
@@ -688,9 +714,13 @@
                 id="checkbox-${question.questionId}-${answer.answerId}"
                 onclick="handleIndividualCheckboxChange(${
                   question.questionId
-                },'${customHtml.question_answer_color}','${customHtml.bodyTextColor}');" />
+                },'${customHtml.question_answer_color}','${
+                  customHtml.bodyTextColor
+                }');" />
                     ${answer.value}
-                    <span class="checkmark" style="border-color:${customHtml.bodyTextColor}" ></span>
+                    <span class="checkmark" style="border-color:${
+                      customHtml.bodyTextColor
+                    }" ></span>
                 </label>`;
               });
               // Add the "All of the above" option if applicable
@@ -711,7 +741,9 @@
                   customHtml.question_answer_color
                 }','${customHtml.bodyTextColor}');" />
                       ${question.extra.allOfTheAboveLabel}
-                      <span class="checkmark" style="border-color:${customHtml.bodyTextColor}"></span><br>
+                      <span class="checkmark" style="border-color:${
+                        customHtml.bodyTextColor
+                      }"></span><br>
                   </label>`;
               }
               if (question.addOtherChoice) {
@@ -723,7 +755,9 @@
                   question.isOptional ? "" : "required"
                 } id="checkbox-other-choice-${question.questionId}" />
                   ${question.extra.otherChoiceLabel}
-                  <span class="checkmark" style="border-color:${customHtml.bodyTextColor}" ></span><br>
+                  <span class="checkmark" style="border-color:${
+                    customHtml.bodyTextColor
+                  }" ></span><br>
               </label>
               <input type="text" placeholder="${
                 question.extra.otherChoicePlaceholderText
@@ -1073,6 +1107,10 @@
               break;
 
             case "consent":
+            if(data.data[0].survey_info.survey_consent === "No consent needed (anonymous)"){
+              return;
+              break;
+            }
               surveyHtml += `
               <div class="survey-consent">
                   <div class="login-consent" style="color : ${
@@ -1152,7 +1190,9 @@
                   }"  required value="${option.label}" ${
                       option.isChecked ? "checked" : ""
                     }>
-                  <span class="checkmark" style="border-color: ${customHtml.bodyTextColor};"></span>
+                  <span class="checkmark" style="border-color: ${
+                    customHtml.bodyTextColor
+                  };"></span>
                   ${option.label}
                 </label>`
                   )
@@ -1426,7 +1466,7 @@
                   consent.querySelector("#option4").checked = false;
                   const option4 = consent.querySelector("#option4");
                   let span = option4.nextElementSibling;
-                  span.style.borderColor =customHtml.bodyTextColor;
+                  span.style.borderColor = customHtml.bodyTextColor;
                   span.style.backgroundColor = "";
                 }
                 // Add more conditions if necessary
@@ -1668,7 +1708,10 @@
             }
           });
 
-          document
+
+          if(data.data[0].survey_info.survey_consent === "Mandatory consent" ){
+
+            document
             .querySelectorAll(".survey-consent")
             .forEach((consent, index) => {
               // let isValid = false;
@@ -1788,6 +1831,7 @@
                 }
               }
             });
+          }
 
           return isValid;
         }
@@ -1979,8 +2023,6 @@
                 return;
               }
 
-            
-
               loader("show");
 
               const submitApiUrl =
@@ -1993,9 +2035,8 @@
                 },
                 body: JSON.stringify(submitPayload),
               });
- 
-            const res = await submitResponse.json()
-          
+
+              const res = await submitResponse.json();
 
               if (res.status === "302") {
                 loader("hide");

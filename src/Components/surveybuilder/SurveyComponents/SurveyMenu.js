@@ -41,7 +41,7 @@ import {
 import { useLocation } from "react-router-dom";
 // import { getSurveyData } from '../../../actions';
 
-const SurveyMenu = ({ menuRef }) => {
+const SurveyMenu = ({ menuRef, consentOption }) => {
   const location = useLocation();
 
   const validExtensions = ["png", "jpeg", "jpg", "gif"];
@@ -147,12 +147,15 @@ const SurveyMenu = ({ menuRef }) => {
         }
         return;
       } else {
+        const deletedids = [];
         const updatedOptions = currentOptions.map((option) => {
           const updatedInnerOptions = option.answer.filter(
             (innerOption, innerIndex) => {
               if (innerIndex != answerIndex) {
                 // If indices do not match, return the innerOption as is
                 return innerOption;
+              } else {
+                deletedids.push(innerOption.answerId);
               }
             }
           );
@@ -164,8 +167,13 @@ const SurveyMenu = ({ menuRef }) => {
 
         // Call handleUpdateElement with the correct parameters
         handleUpdateElement(itemIndex, "answer", updatedOptions);
+        console.log(deletedids, "from delete column");
         if (optionId != 0) {
-          await deleteOptions(optionId);
+          if (deletedids.length > 0) {
+            await deleteOptions(deletedids);
+          } else {
+            await deleteOptions(optionId);
+          }
         }
 
         return;
@@ -250,7 +258,6 @@ const SurveyMenu = ({ menuRef }) => {
     }
 
     if (elements[itemIndex].type === "dropdown") {
-     
       const currentClickedOption = currentOptions[0].value[answerIndex];
       if (currentClickedOption.trim() === "") {
         toast.warning("Please fill in the current option!");
@@ -881,25 +888,35 @@ const SurveyMenu = ({ menuRef }) => {
                 <Accordion.Body>
                   <div className={`top-right-action menu`}>
                     <div className="d-flex flex-column">
-                      {SidebarCommonItems.map((item, index) => (
-                        <div
-                          key={index}
-                          className="sidebar-item"
-                          draggable
-                          onDragStart={(e) => handleDragStart(e, item.type)}
-                        >
-                          {item.icon && (
-                            <div className="options-svg">{item.svg}</div>
-                          )}
-                          {item.label}
-                          <div
-                            className="plus-arrow"
-                            onClick={() => handleAddElement(item.type)}
-                          >
-                            <img src={path_image + item.icon} alt="" />
-                          </div>
-                        </div>
-                      ))}
+                      {SidebarCommonItems.map((item, index) => {
+                      console.log(item.label)
+                        if (
+                          item.label === "Consent" &&
+                          consentOption === "No consent needed (anonymous)"
+                        ) {
+                          return;
+                        } else {
+                          return (
+                            <div
+                              key={index}
+                              className="sidebar-item"
+                              draggable
+                              onDragStart={(e) => handleDragStart(e, item.type)}
+                            >
+                              {item.icon && (
+                                <div className="options-svg">{item.svg}</div>
+                              )}
+                              {item.label}
+                              <div
+                                className="plus-arrow"
+                                onClick={() => handleAddElement(item.type)}
+                              >
+                                <img src={path_image + item.icon} alt="" />
+                              </div>
+                            </div>
+                          );
+                        }
+                      })}
                     </div>
                   </div>
                 </Accordion.Body>

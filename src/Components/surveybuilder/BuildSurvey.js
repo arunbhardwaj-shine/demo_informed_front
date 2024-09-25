@@ -7,40 +7,37 @@ import { surveyAxiosInstance } from "./CommonFunctions/CommonFunction";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch, connect } from "react-redux";
 import { getSurveyData } from "../../actions";
-import { addResQuestions,toggleEditMode } from "../../actions/surveyActions";
+import { addResQuestions, toggleEditMode } from "../../actions/surveyActions";
 import { toast } from "react-toastify";
 
 var surveyValues = {};
 
 const BuildSurvey = (props) => {
   const { elements } = useSelector((state) => state.surveyData);
- 
+  const consentOption = surveyValues?.surveyConfigData?.survey_consent;
   const dispatch = useDispatch();
   const navigate = useNavigate();
-   
+
   const menuRef = useRef(null);
   const surveyRef = useRef(null);
 
   const nextHandler = async (e) => {
     e.preventDefault();
     try {
-        const updatedSurveyData = {
-          ...surveyValues,
-          question_data: elements
-        };
-        props.getSurveyData(updatedSurveyData)
-
+      const updatedSurveyData = {
+        ...surveyValues,
+        question_data: elements,
+      };
+      props.getSurveyData(updatedSurveyData);
     } catch (error) {
       loader("hide");
       toast.error("Something went wrong");
     }
   };
 
-  const navigateFunction=()=>{
+  const navigateFunction = () => {
     navigate("/survey/thank-you");
-  }
-
-
+  };
 
   return (
     <Col className="right-sidebar custom-change survey-builder">
@@ -48,9 +45,10 @@ const BuildSurvey = (props) => {
         <div className="row">
           <div className="survey-engine d-flex w-100">
             <div className="left-setup">
-              <SurveyMenu menuRef={menuRef} />
+              <SurveyMenu menuRef={menuRef} consentOption={consentOption} />
             </div>
             <SurveyPreview
+              consentOption={consentOption}
               surveyRef={surveyRef}
               isEdit={true}
               nextHandler={nextHandler}

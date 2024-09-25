@@ -7,10 +7,7 @@ import "../../../Components/assets/css/survey.scss";
 import "../../../Components/assets/fonts/fonts.css";
 import Select from "react-select";
 
-import {
-  Button,
-
-} from "react-bootstrap";
+import { Button } from "react-bootstrap";
 
 const validExtensions = ["png", "jpeg", "jpg", "gif"];
 export const surveyAxiosInstance = axios.create({
@@ -44,7 +41,6 @@ export const saveAsDraft = async (e, draft, pathname, navigate) => {
           unique_code = res.data.data.unique_code;
           survey_id = res.data.data.survey_id;
         }
- 
       } catch (error) {
         loader("hide");
         toast.error("Something went wrong");
@@ -63,13 +59,11 @@ export const saveAsDraft = async (e, draft, pathname, navigate) => {
           survey_id: survey_id,
           raw_html: 0,
           template_status: 0,
-         
         };
         const response = await surveyAxiosInstance.post(
           "/survey/insert-custom-template",
           body
         );
-   
       } catch (error) {
         loader("hide");
         toast.error("Something went wrong");
@@ -89,7 +83,6 @@ export const saveAsDraft = async (e, draft, pathname, navigate) => {
           "/survey/survey-config-information",
           body
         );
- 
       } catch (error) {
         loader("hide");
         toast.error("Something went wrong");
@@ -106,13 +99,12 @@ export const saveAsDraft = async (e, draft, pathname, navigate) => {
         return { ...item, survey_id: survey_id };
       });
       const body = data;
-      
+
       try {
         const response = await surveyAxiosInstance.post(
           "/survey/insert-question-detail",
           body
         );
-        
       } catch (error) {
         loader("hide");
         toast.error("Something went wrong");
@@ -127,13 +119,12 @@ export const saveAsDraft = async (e, draft, pathname, navigate) => {
       currentPagesData.thanksPageData !== ""
     ) {
       const body = { ...currentPagesData.thanksPageData, survey_id };
-     
+
       try {
         const response = await surveyAxiosInstance.post(
           "/survey/insert-Final-information",
           body
         );
-     
       } catch (error) {
         loader("hide");
         toast.error("Something went wrong");
@@ -151,14 +142,12 @@ export const saveAsDraft = async (e, draft, pathname, navigate) => {
       route_location: pathname,
       survey_id: survey_id,
     };
-  
 
     const response = await surveyAxiosInstance.post(
       "/survey/survey-draft-information",
       body
     );
 
- 
     if (response) {
       navigate("/survey/survey-list");
     }
@@ -187,11 +176,10 @@ export const uploadImageToServer = async (file) => {
         formData
       );
       if (res) {
-      
         loader("hide");
         return res.data.data;
       }
-      loader('hide')
+      loader("hide");
     } catch (error) {
       loader("hide");
       toast.error("Something went wrong");
@@ -200,14 +188,13 @@ export const uploadImageToServer = async (file) => {
 };
 
 export const updateLiveFlag = async (survey_id, flag) => {
- 
   const body = { survey_id: survey_id, status: flag };
   try {
     const response = await surveyAxiosInstance.post(
       "/survey/update-live-flag",
       body
     );
-  
+
     return true;
   } catch (error) {
     loader("hide");
@@ -254,7 +241,12 @@ export const SurveyLiveButton = ({
   );
 };
 
-export const SublinkHandler = ({ handleCopy,setDownloadLink,sublinkoptions ,survey_id}) => {
+export const SublinkHandler = ({
+  handleCopy,
+  setDownloadLink,
+  sublinkoptions,
+  survey_id,
+}) => {
   const [selectedSublinkId, setSelectedSublinkId] = useState();
 
   const onSublinkChange = (selectedOption) => {
@@ -280,7 +272,11 @@ export const SublinkHandler = ({ handleCopy,setDownloadLink,sublinkoptions ,surv
                     (option) => option.value === selectedSublinkId
                   )}
                 />
-                <Button onClick={() => handleCopy(survey_id,selectedSublinkId)}>Copy</Button>
+                <Button
+                  onClick={() => handleCopy(survey_id, selectedSublinkId)}
+                >
+                  Copy
+                </Button>
               </div>
             </div>
           </li>
@@ -299,7 +295,9 @@ export const SublinkHandler = ({ handleCopy,setDownloadLink,sublinkoptions ,surv
                     (option) => option.value === selectedSublinkId
                   )}
                 />
-                <Button onClick={(e) => setDownloadLink(survey_id,selectedSublinkId)}>
+                <Button
+                  onClick={(e) => setDownloadLink(survey_id, selectedSublinkId)}
+                >
                   download
                 </Button>
               </div>
@@ -310,9 +308,6 @@ export const SublinkHandler = ({ handleCopy,setDownloadLink,sublinkoptions ,surv
     </>
   );
 };
-
-
-
 
 export const UpdateQuestion = async (questionId) => {
   try {
