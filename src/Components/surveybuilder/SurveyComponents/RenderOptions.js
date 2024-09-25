@@ -3,6 +3,7 @@ import { Col, Form, Row } from "react-bootstrap";
 import Select from "react-select";
 
 const RenderOptions = ({
+  consentOption,
   item,
   index,
   optionColor,
@@ -118,9 +119,8 @@ const RenderOptions = ({
 
   const [selectedValues, setSelectedValues] = useState({});
 
-
   const handleMatrixRadioCheckmark = (rowIndex, value) => {
-    setSelectedValues(prev => ({
+    setSelectedValues((prev) => ({
       ...prev,
       [rowIndex]: value, // Store the selected value for the specific row
     }));
@@ -246,7 +246,9 @@ const RenderOptions = ({
               <tr>
                 <th></th>
                 {item?.answer[0]?.answer?.map((data, colIndex) => (
-                  <th key={colIndex} style={{ color: optionColor }}>{data?.value}</th>
+                  <th key={colIndex} style={{ color: optionColor }}>
+                    {data?.value}
+                  </th>
                 ))}
               </tr>
             </thead>
@@ -262,7 +264,9 @@ const RenderOptions = ({
                             type="checkbox"
                             name={`matrix-${index}-${rowIndex}-${colIndex}`}
                             disabled={!isEdit}
-                            checked={checkMarkCount[`${rowIndex}-${colIndex}`] || true} // Control the checkbox state
+                            checked={
+                              checkMarkCount[`${rowIndex}-${colIndex}`] || true
+                            } // Control the checkbox state
                             onChange={() =>
                               handleMatrixCheckmark(
                                 "checkbox",
@@ -292,25 +296,37 @@ const RenderOptions = ({
                             type="radio"
                             name={`matrix-${rowIndex}`}
                             disabled={!isEdit}
-                            onChange={() => handleMatrixRadioCheckmark(rowIndex, `${rowIndex}-${colIndex}`)}
-                           checked={selectedValues[rowIndex] === `${rowIndex}-${colIndex}`} // Check if the current value is selected
+                            onChange={() =>
+                              handleMatrixRadioCheckmark(
+                                rowIndex,
+                                `${rowIndex}-${colIndex}`
+                              )
+                            }
+                            checked={
+                              selectedValues[rowIndex] ===
+                              `${rowIndex}-${colIndex}`
+                            } // Check if the current value is selected
                           />
-                         <span
-                  className="checkmark"
-                  style={{
-                    borderColor: selectedValues[rowIndex] ===  `${rowIndex}-${colIndex}`
-                      ?inputColor
-                      : optionColor, // Use 'transparent' for a clearer intent
-                  }}
-                >
-                  <span
-                    style={{
-                      backgroundColor: selectedValues[rowIndex] ===  `${rowIndex}-${colIndex}`
-                        ? inputColor
-                        : 'transparent', // Use 'transparent' for a clearer intent
-                    }}
-                  ></span>
-                </span>
+                          <span
+                            className="checkmark"
+                            style={{
+                              borderColor:
+                                selectedValues[rowIndex] ===
+                                `${rowIndex}-${colIndex}`
+                                  ? inputColor
+                                  : optionColor, // Use 'transparent' for a clearer intent
+                            }}
+                          >
+                            <span
+                              style={{
+                                backgroundColor:
+                                  selectedValues[rowIndex] ===
+                                  `${rowIndex}-${colIndex}`
+                                    ? inputColor
+                                    : "transparent", // Use 'transparent' for a clearer intent
+                              }}
+                            ></span>
+                          </span>
                         </>
                       )}
                     </td>
@@ -447,105 +463,110 @@ const RenderOptions = ({
         return <img src={item.question} alt={item.extra.altText} />;
       }
 
-    case "consent":
+    case "consent": {
       return (
-        <div className="login-consent">
-          <p className="start-title" style={{ color: inputColor }}>
-            {item.question}
-            <span
-              style={{
-                pointerEvents: isEdit ? "auto" : "none",
-                color: inputColor,
-              }}
-              dangerouslySetInnerHTML={{
-                __html: item.extra.operatingStatement,
-              }}
-            />
-          </p>
-          <div className="consent">
-            <Row>
-              <Form.Group as={Col}>
-                <Form.Label style={{ color: inputColor }}>
-                  {item.extra.consentDetails[0].nameLabel}
-                </Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder={item.extra.consentDetails[0].namePlaceholder}
-                  readOnly={!isEdit}
-                />
-              </Form.Group>
-              <Form.Group as={Col}>
-                <Form.Label style={{ color: inputColor }}>
-                  {item.extra.consentDetails[1].emailLabel}
-                </Form.Label>
-                <Form.Control
-                  type="email"
-                  placeholder={item.extra.consentDetails[1].emailPlaceholder}
-                  readOnly={!isEdit}
-                />
-              </Form.Group>
-            </Row>
-            <Row>
-              <Form.Group as={Col}>
-                <Form.Label style={{ color: inputColor }}>
-                  {item.extra.consentDetails[2].countryLabel}
-                </Form.Label>
-                <Select
-                  className="dropdown-basic-button split-button-dropup"
-                  placeholder={item.extra.consentDetails[2].countryPlaceholder}
-                  name={`consent-country`}
-                  isDisabled={!isEdit}
-                  options={item.extra.consentDetails[2].countryOptions.map(
-                    (country, index) => ({
-                      value: country,
-                      label: country,
-                      key: index,
-                    })
-                  )}
-                />
-              </Form.Group>
-            </Row>
-            <Form.Group className="consent-select">
-              <Form.Label style={{ color: inputColor }}>
-                I consent to:
-              </Form.Label>
-              {item.extra.consentOptions.map((option, index) => (
-                <label
-                  className="check"
-                  key={index}
-                  style={{ color: optionColor }}
-                >
-                  {option.label}
-                  <input
-                    type="checkbox"
-                    checked={index === 0}
-                    disabled={!isEdit}
+        consentOption !== "No consent needed (anonymous)" && (
+          <div className="login-consent">
+            <p className="start-title" style={{ color: inputColor }}>
+              {item.question}
+              <span
+                style={{
+                  pointerEvents: isEdit ? "auto" : "none",
+                  color: inputColor,
+                }}
+                dangerouslySetInnerHTML={{
+                  __html: item.extra.operatingStatement,
+                }}
+              />
+            </p>
+            <div className="consent">
+              <Row>
+                <Form.Group as={Col}>
+                  <Form.Label style={{ color: inputColor }}>
+                    {item.extra.consentDetails[0].nameLabel}
+                  </Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder={item.extra.consentDetails[0].namePlaceholder}
+                    readOnly={!isEdit}
                   />
-                  <span
-                    className="checkmark"
-                    style={
-                      index === 0
-                        ? {
-                            borderColor: inputColor,
-                            backgroundColor: inputColor,
-                          }
-                        : { borderColor: optionColor }
+                </Form.Group>
+                <Form.Group as={Col}>
+                  <Form.Label style={{ color: inputColor }}>
+                    {item.extra.consentDetails[1].emailLabel}
+                  </Form.Label>
+                  <Form.Control
+                    type="email"
+                    placeholder={item.extra.consentDetails[1].emailPlaceholder}
+                    readOnly={!isEdit}
+                  />
+                </Form.Group>
+              </Row>
+              <Row>
+                <Form.Group as={Col}>
+                  <Form.Label style={{ color: inputColor }}>
+                    {item.extra.consentDetails[2].countryLabel}
+                  </Form.Label>
+                  <Select
+                    className="dropdown-basic-button split-button-dropup"
+                    placeholder={
+                      item.extra.consentDetails[2].countryPlaceholder
                     }
-                  ></span>
-                </label>
-              ))}
-            </Form.Group>
-            <div
-              className="page-copyright"
-              style={{
-                pointerEvents: isEdit ? "auto" : "none",
-                color: optionColor,
-              }}
-              dangerouslySetInnerHTML={{ __html: item.extra.cookiePolicy }}
-            />
+                    name={`consent-country`}
+                    isDisabled={!isEdit}
+                    options={item.extra.consentDetails[2].countryOptions.map(
+                      (country, index) => ({
+                        value: country,
+                        label: country,
+                        key: index,
+                      })
+                    )}
+                  />
+                </Form.Group>
+              </Row>
+              <Form.Group className="consent-select">
+                <Form.Label style={{ color: inputColor }}>
+                  I consent to:
+                </Form.Label>
+                {item.extra.consentOptions.map((option, index) => (
+                  <label
+                    className="check"
+                    key={index}
+                    style={{ color: optionColor }}
+                  >
+                    {option.label}
+                    <input
+                      type="checkbox"
+                      checked={index === 0}
+                      disabled={!isEdit}
+                    />
+                    <span
+                      className="checkmark"
+                      style={
+                        index === 0
+                          ? {
+                              borderColor: inputColor,
+                              backgroundColor: inputColor,
+                            }
+                          : { borderColor: optionColor }
+                      }
+                    ></span>
+                  </label>
+                ))}
+              </Form.Group>
+              <div
+                className="page-copyright"
+                style={{
+                  pointerEvents: isEdit ? "auto" : "none",
+                  color: optionColor,
+                }}
+                dangerouslySetInnerHTML={{ __html: item.extra.cookiePolicy }}
+              />
+            </div>
           </div>
-        </div>
+        )
       );
+    }
     default:
       return null;
   }

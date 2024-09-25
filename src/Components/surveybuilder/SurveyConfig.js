@@ -1,4 +1,4 @@
-import React, { useState, useEffect ,useRef} from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Button, Col, Form, Row, Tab, Tabs } from "react-bootstrap";
 import { saveAsDraft } from "./CommonFunctions/CommonFunction";
 import { useNavigate, Link } from "react-router-dom";
@@ -17,11 +17,18 @@ const SurveyConfig = (props) => {
   const [surveyLink, setSurveyLink] = useState("");
   const navigate = useNavigate();
 
+  const selectOptions = [
+    { value: 1, label: "Prefill registered user consent data" },
+    { value: 2, label: "Don’t prefill registered user consent data" },
+  ];
+
   const [formData, setFormData] = useState({
     selectedThumbnailFilePath: null,
     surveyLinkTitle: "",
     surveyLinkDescription: "",
-    consentType: "", // default value
+    consentType: "No consent needed (anonymous)", // default value
+    informedEmail:selectOptions[0],
+    informedGo:selectOptions[1],
   });
 
   const fileInputRef = useRef(null);
@@ -31,17 +38,21 @@ const SurveyConfig = (props) => {
 
   const fetchSurveyListing = () => {
     setSurveyLink(surveyValues?.unique_code ?? "");
-    setFormData((prevData) => ({
-      ...prevData,
-      surveyLinkTitle:
-        surveyValues?.surveyConfigData?.survey_link_title ||
-        surveyValues?.setUpData?.survey_title,
-      selectedThumbnailFilePath:
-        surveyValues?.surveyConfigData?.survey_thumbnail || "",
-      surveyLinkDescription:
-        surveyValues?.surveyConfigData?.survey_link_description || "",
-      consentType: surveyValues?.surveyConfigData?.survey_consent,
-    }));
+    if (surveyValues?.surveyConfigData) {
+      setFormData((prevData) => ({
+        ...prevData,
+        surveyLinkTitle:
+          surveyValues?.surveyConfigData?.survey_link_title ||
+          surveyValues?.setUpData?.survey_title,
+        selectedThumbnailFilePath:
+          surveyValues?.surveyConfigData?.survey_thumbnail || "",
+        surveyLinkDescription:
+          surveyValues?.surveyConfigData?.survey_link_description || "",
+        consentType: surveyValues?.surveyConfigData?.survey_consent,
+        informedEmail: surveyValues?.surveyConfigData?.informedEmail == 1 ? selectOptions[0] : selectOptions[1],
+        informedGo: surveyValues?.surveyConfigData?.informedGo == 1 ? selectOptions[0] : selectOptions[1]
+      }));
+    }
   };
 
   useEffect(() => {
@@ -79,8 +90,7 @@ const SurveyConfig = (props) => {
   const handleThumbnailFileChange = async (e) => {
     const file = e.target.files[0];
     try {
-      if (file && (file.type.startsWith('image/') )){
- 
+      if (file && file.type.startsWith("image/")) {
         const uploadFormData = new FormData();
         uploadFormData.append("file", file);
 
@@ -100,9 +110,9 @@ const SurveyConfig = (props) => {
           selectedThumbnailFilePath: response?.data?.data,
         }));
         if (fileInputRef.current) {
-          fileInputRef.current.value = '';
+          fileInputRef.current.value = "";
         }
-      }else{
+      } else {
         toast.error("Please select valid image file");
       }
       loader("hide");
@@ -130,8 +140,60 @@ const SurveyConfig = (props) => {
       [field]: e.target.value,
     }));
   };
+
+//   const handleDropdownchange=(e,selectType)=>{
+// console.log(e)
+//     if(selectType === "informed Email"){
+//       if(e.value === 1){
+//         setFormData((prevData) => ({
+//           ...prevData,
+//           informedEmail: e.value,
+//         }));
+//       }else{
+//         setFormData((prevData) => ({
+//           ...prevData,
+//           informedEmail: 0,
+//         }));
+//       }
+//     }else{
+//       if(e.value === 1){
+//         setFormData((prevData) => ({
+//           ...prevData,
+//           informedGo: e.value,
+//         }));
+//       }else{
+//         setFormData((prevData) => ({
+//           ...prevData,
+//           informedGo: 0,
+//         }));
+//       }
+//     }
+
+//   }
+
+const handleDropdownchange=(e,selectType)=>{
+  console.log(e)
+      if(selectType === "informed Email"){
+       
+          setFormData((prevData) => ({
+            ...prevData,
+            informedEmail: e,
+          }));
+        
+      }else{
+       
+          setFormData((prevData) => ({
+            ...prevData,
+            informedGo: e,
+          }));
+       
+      }
+  
+    }
+
   const nextButtonClicked = async (e) => {
     e.preventDefault();
+    console.log(formData)
 
     try {
       surveyValues = {
@@ -141,9 +203,10 @@ const SurveyConfig = (props) => {
           survey_thumbnail: formData.selectedThumbnailFilePath,
           survey_link_description: formData.surveyLinkDescription,
           survey_link_title: formData.surveyLinkTitle,
+          informedEmail: formData.consentType === "No consent needed (anonymous)" ?"" : formData.informedEmail.value,
+          informedGo: formData.consentType === "No consent needed (anonymous)" ?"" :formData.informedGo.value
         },
       };
-
       props.getSurveyData(surveyValues);
     } catch (error) {
       loader("hide");
@@ -152,10 +215,7 @@ const SurveyConfig = (props) => {
     }
   };
 
-  const selectOptions = [
-    { value: 1, label: "Prefill registered user consent data" },
-    { value: 2, label: "Don’t prefill registered user consent data" },
-  ];
+
   return (
     <Col className="right-sidebar custom-change survey-builder">
       <div className="container-fluid">
@@ -189,7 +249,8 @@ const SurveyConfig = (props) => {
                                 className="doc-link"
                                 target="_blank"
                               >
-                                https://informed.pro/Survey/Survey.html?Utmde={surveyLink}
+                                https://informed.pro/Survey/Survey.html?Utmde=
+                                {surveyLink}
                               </a>
                               <span className="copy-content">
                                 <img
@@ -245,7 +306,10 @@ const SurveyConfig = (props) => {
                                         }));
                                       }}
                                     >
-                                      <img src={path_image + 'delete-icon.svg'} alt=""/>
+                                      <img
+                                        src={path_image + "delete-icon.svg"}
+                                        alt=""
+                                      />
                                     </Button>
                                   )}
                                   <br />
@@ -332,10 +396,10 @@ const SurveyConfig = (props) => {
                                     <input
                                       type="radio"
                                       name="group1"
-                                      value="No consent needed"
+                                      value="No consent needed (anonymous)"
                                       checked={
                                         formData.consentType ===
-                                        "No consent needed"
+                                        "No consent needed (anonymous)"
                                       }
                                       onChange={(e) =>
                                         handleInputChange(e, "consentType")
@@ -364,12 +428,22 @@ const SurveyConfig = (props) => {
                                     alt=""
                                   />
                                 </Form.Label>
-                                <Select
-                                  aria-label="Survey consent"
-                                  className="dropdown-basic-button split-button-dropup"
-                                  name="surveyConsent"
-                                  options={selectOptions}
-                                />
+                                {formData.consentType ===
+                                "No consent needed (anonymous)" ? (
+                                  formData.consentType
+                                ) : (
+                                  <Select
+                                    aria-label="Survey consent"
+                                    className="dropdown-basic-button split-button-dropup"
+                                    name="surveyConsent"
+                                    value={formData.informedEmail}
+                                    options={selectOptions}
+                                  
+                                    onChange={(e) =>
+                                      handleDropdownchange(e, "informed Email")
+                                      }
+                                  />
+                                )}
                               </div>
                               <div className="consent-choice d-flex align-items-center">
                                 <Form.Label>
@@ -379,12 +453,21 @@ const SurveyConfig = (props) => {
                                     alt=""
                                   />
                                 </Form.Label>
-                                <Select
-                                  aria-label="Survey consent"
-                                  className="dropdown-basic-button split-button-dropup"
-                                  name="surveyConsent"
-                                  options={selectOptions}
-                                />
+                                {formData.consentType ===
+                                "No consent needed (anonymous)" ? (
+                                  formData.consentType
+                                ) : (
+                                  <Select
+                                    aria-label="Survey consent"
+                                    className="dropdown-basic-button split-button-dropup"
+                                    name="surveyConsent"
+                                    options={selectOptions}
+                                    value={formData.informedGo}
+                                     onChange={(e) =>
+                                      handleDropdownchange(e)
+                                      }
+                                  />
+                                )}
                               </div>
                               <div className="consent-choice d-flex align-items-center">
                                 <Form.Label>
@@ -394,7 +477,7 @@ const SurveyConfig = (props) => {
                                     alt=""
                                   />
                                 </Form.Label>
-                                <p>Mandatory consent</p>
+                                <p>{formData.consentType}</p>
                               </div>
                               <div className="consent-choice d-flex align-items-center">
                                 <Form.Label>
@@ -404,7 +487,7 @@ const SurveyConfig = (props) => {
                                     alt=""
                                   />
                                 </Form.Label>
-                                <p>Mandatory consent</p>
+                                <p>{formData.consentType}</p>
                               </div>
                               <div className="consent-choice d-flex align-items-center">
                                 <Form.Label>
@@ -414,7 +497,7 @@ const SurveyConfig = (props) => {
                                     alt=""
                                   />
                                 </Form.Label>
-                                <p>No consent needed (anonymous)</p>
+                                <p>{formData.consentType}</p>
                               </div>
                               <div className="consent-choice d-flex align-items-center">
                                 <Form.Label>
@@ -424,7 +507,7 @@ const SurveyConfig = (props) => {
                                     alt=""
                                   />
                                 </Form.Label>
-                                <p>No consent needed (anonymous)</p>
+                                <p>{formData.consentType}</p>
                               </div>
                             </div>
                           </div>
@@ -572,7 +655,8 @@ const SurveyConfig = (props) => {
                         className="survey-config-link no-click"
                         href={`https://informed.pro/Survey/Survey.html?Utmde=${surveyLink}`}
                       >
-                       https://informed.pro/Survey/Survey.html?Utmde={surveyLink}
+                        https://informed.pro/Survey/Survey.html?Utmde=
+                        {surveyLink}
                       </a>
                     </div>
                   </div>

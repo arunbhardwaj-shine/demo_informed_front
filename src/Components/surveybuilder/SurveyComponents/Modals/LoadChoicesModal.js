@@ -35,7 +35,7 @@ const LoadChoicesModal = ({ show, onClose, handleAddBulkElements }) => {
           onClose(false);
           resetState();
         }else{
-          setError( { customChoice: "please Enter at least one option"})
+          setError( { customChoice: "Please enter at least one option"})
         }
     
     } else {
@@ -51,7 +51,7 @@ const LoadChoicesModal = ({ show, onClose, handleAddBulkElements }) => {
         resetState();
         setTextAreaValue(selectedList.join("\n"));
       }else{
-        setError( { choices: "please Select at least one choice from list"})
+        setError( { choices: "Please select at least one choice from list"})
       }
     }
   };

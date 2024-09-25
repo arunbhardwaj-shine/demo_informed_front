@@ -10,6 +10,7 @@ import { saveAsDraft } from "../CommonFunctions/CommonFunction";
 import { Modal } from "react-bootstrap";
 
 import {
+ 
   emptySurveyReduxStates,
   addElement,
   copyElement,
@@ -55,7 +56,7 @@ const SurveyPreview = (props) => {
     setIsChecked(!isChecked);
   };
 
-  let { surveyRef, isEdit, nextHandler, navigateFunction } = props;
+  let { surveyRef, isEdit, nextHandler, navigateFunction, consentOption } = props;
 
   const custom_html = surveyValues?.formBuilderData?.custom_html?.[0];
 
@@ -583,10 +584,9 @@ const SurveyPreview = (props) => {
                                       index,
                                       optionColor: templateData.bodyTextColor,
                                       isEdit,
-                                      inputColor:
-                                        templateData.question_answer_color,
-                                      page_background_color:
-                                        templateData.page_background_color,
+                                      inputColor:templateData.question_answer_color,
+                                      page_background_color:templateData.page_background_color,
+                                      consentOption:consentOption
                                     }}
                                   />
                                 }{" "}
