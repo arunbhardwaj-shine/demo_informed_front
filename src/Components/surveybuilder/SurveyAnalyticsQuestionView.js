@@ -1,8 +1,8 @@
-import React, { useState,memo, useEffect } from "react";
+import React, { useState, memo, useEffect } from "react";
 import { Spinner } from "react-activity";
 import SurveyAnalyticsQuestionPieChart from "./SurveyAnalyticsQuestionPieChart";
 
-const SurveyAnalyticsQuestionView =memo(({index, item, colors,type }) => {
+const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
     let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
     const [whichTypeGraph, setWhichTypeGraph] = useState({ [index]: "pie" })
     const [whichTypeMatrixGraph, setWhichTypeMatrixGraph] = useState({})
@@ -10,7 +10,6 @@ const SurveyAnalyticsQuestionView =memo(({index, item, colors,type }) => {
     const [loaderIndex, setLoaderIndex] = useState()
     const [sectionLoader, setSectionLoader] = useState(false);
     const [show, setShow] = useState(false);
-
 
     useState(() => {
         if (item?.type == "matrix") {
@@ -29,13 +28,11 @@ const SurveyAnalyticsQuestionView =memo(({index, item, colors,type }) => {
         let type = { ...whichTypeGraph }
         type[index] = e?.target?.checked ? "bar" : "pie"
 
-
         setTimeout(() => {
             setWhichTypeGraph(type)
             setApiStatus(false)
             setSectionLoader(false)
         }, 500);
-
     }
 
     const changeGraphMatrixType = (e, id) => {
@@ -105,7 +102,6 @@ const SurveyAnalyticsQuestionView =memo(({index, item, colors,type }) => {
                                 </div>
                                 <div className="answer-options">
                                     {data?.answers?.map((ans, i) => {
-
                                         return (<>
                                             <div className="answer">
                                                 <div className="choices">
@@ -121,7 +117,6 @@ const SurveyAnalyticsQuestionView =memo(({index, item, colors,type }) => {
                                             </div>
                                         </>)
                                     })}
-
                                 </div>
                             </div>
                             <div className="question-preview-right">
@@ -148,21 +143,8 @@ const SurveyAnalyticsQuestionView =memo(({index, item, colors,type }) => {
                                     </div>
 
                                 </div>
-                                {(apiStatus && loaderIndex == data?.id) ?
-                                    // <div className="accordion-loader">
-                                    //     <div
-                                    //         className={
-                                    //             "loader tab-inside " +
-                                    //             (sectionLoader ? "show" : "")
-                                    //         }
-                                    //         id="custom_loader"
-                                    //     >
-                                    //         <div className="loader_show">
-                                    //             <span className="loader-view"> </span>
-                                    //         </div>
-                                    //     </div>
-                                    // </div>
-
+                                {(apiStatus && loaderIndex == data?.id)
+                                    ?
                                     <div
                                         className="load_more"
                                         style={{
@@ -175,9 +157,8 @@ const SurveyAnalyticsQuestionView =memo(({index, item, colors,type }) => {
                                     </div>
                                     :
                                     <div className="pie-chart-outer-layout">
-
-
-                                        {whichTypeMatrixGraph[data?.id] == "bar" ?
+                                        {whichTypeMatrixGraph[data?.id] == "bar"
+                                            ?
                                             <SurveyAnalyticsQuestionPieChart
                                                 key={data?.id}
                                                 data={{
@@ -228,7 +209,7 @@ const SurveyAnalyticsQuestionView =memo(({index, item, colors,type }) => {
                                         </div>
                                         <div className="respondents">
                                             <span>{ans?.count}</span>
-                                            <span className="respondents-percent">(<span>{ans?.percentage?ans?.percentage:"00"}%</span>)</span>
+                                            <span className="respondents-percent">(<span>{ans?.percentage ? ans?.percentage : "00"}%</span>)</span>
                                         </div>
                                     </div>
                                 </>)
@@ -260,21 +241,8 @@ const SurveyAnalyticsQuestionView =memo(({index, item, colors,type }) => {
                             </div>
 
                         </div>
-                        {(apiStatus && loaderIndex == index) ?
-                            // <div className="accordion-loader">
-                            //     <div
-                            //         className={
-                            //             "loader tab-inside " +
-                            //             (sectionLoader ? "show" : "")
-                            //         }
-                            //         id="custom_loader"
-                            //     >
-                            //         <div className="loader_show">
-                            //             <span className="loader-view"> </span>
-                            //         </div>
-                            //     </div>
-                            // </div>
-
+                        {(apiStatus && loaderIndex == index)
+                            ?
                             <div
                                 className="load_more"
                                 style={{

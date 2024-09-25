@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState ,memo} from "react";
+import React, { useEffect, useRef, useState, memo } from "react";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import { Spinner } from 'react-activity';
@@ -48,7 +48,7 @@ const SurveyAnalyticsQuestionPieChart = memo(({ key, data, show, type }) => {
                 });
 
                 // Calculate the percentage for the current point
-                var percentage = total!=0?((this.point.y / total) * 100).toFixed(0):0;
+                var percentage = total != 0 ? ((this.point.y / total) * 100).toFixed(0) : 0;
 
                 // Return the tooltip string with both the name and percentage of this.point.y
                 return this.point.name + ' : <b>' + this.point.y + '</b> (' + percentage + '%)';
@@ -187,7 +187,7 @@ const SurveyAnalyticsQuestionPieChart = memo(({ key, data, show, type }) => {
         tooltip: {
             formatter: function () {
                 var pcnt = this.point.p.toFixed(0);
-                return '<b>' + this.series.name + ":" + '</b><br/>' + pcnt + "%";
+                return '<b>' + this.series.name + ":" + this.point.y + '</b> (' + pcnt + "%)";
             },
         },
         plotOptions: {
@@ -272,8 +272,6 @@ const SurveyAnalyticsQuestionPieChart = memo(({ key, data, show, type }) => {
         }
     });
 
-
-
     useEffect(() => {
         const options = data?.ans?.map((item) => item?.value) || [];
         const seriesData = [{
@@ -286,8 +284,7 @@ const SurveyAnalyticsQuestionPieChart = memo(({ key, data, show, type }) => {
             name: "",
             data: "",
             color: "",
-            y: ""
-
+            y: "",
         }]
 
         if (data?.graphType == "pie") {
@@ -300,7 +297,6 @@ const SurveyAnalyticsQuestionPieChart = memo(({ key, data, show, type }) => {
                     color: colors[index],
                     drilldown: item?.drilldown,
                 })
-
             })
             const drilldownData = data?.ans?.filter(question => question?.drillDownData?.length > 0).map(question => ({
                 id: question.drilldown,
@@ -324,7 +320,6 @@ const SurveyAnalyticsQuestionPieChart = memo(({ key, data, show, type }) => {
                     color: colors[index],
                     answer: item?.count
                 })
-
             })
             setBarChartOptions({
                 ...barChartOptions, xAxis: {
@@ -333,39 +328,35 @@ const SurveyAnalyticsQuestionPieChart = memo(({ key, data, show, type }) => {
                 },
                 series: barSeriesData?.slice(1)
             })
-
         }
-
     }, [data?.graphType])
-
-
     return (<>
         <div className="graph-box">
-            
-            
-            
-            {(data?.graphType == "pie" ) ?
-            (<>
-           
-            { data?.ans?.length?
-            
-                <HighchartsReact
-                    key={"pie"}
-                    highcharts={Highcharts}
-                    options={pieChartOptions}
-                />:<div className="no_found">
-                <img src={path_image + "default-bar-chart.png"} alt="" />
 
-            </div>}
+
+
+            {(data?.graphType == "pie") ?
+                (<>
+
+                    {data?.ans?.length ?
+
+                        <HighchartsReact
+                            key={"pie"}
+                            highcharts={Highcharts}
+                            options={pieChartOptions}
+                        /> : <div className="no_found">
+                            <img src={path_image + "default-bar-chart.png"} alt="" />
+
+                        </div>}
                 </>)
                 : (data?.graphType == "bar" && data?.ans?.length) ?
-                (<>
-               
-                    <HighchartsReact
-                        key={"bar"}
-                        highcharts={Highcharts}
-                        options={barChartOptions}
-                    />
+                    (<>
+
+                        <HighchartsReact
+                            key={"bar"}
+                            highcharts={Highcharts}
+                            options={barChartOptions}
+                        />
                     </>)
                     :
                     <div className="no_found">

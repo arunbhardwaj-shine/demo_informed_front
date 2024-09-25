@@ -49,15 +49,17 @@ const SurveyAnalyticsDetail = () => {
     const [surveyTakerTableData, setSurveyTakerTableData] = useState([])
     const [surveyTakerTableDataBackup, setSurveyTakerTableDataBackup] = useState([])
     const [surveyTakerShowQuestions, setSurveyTakerShowQuestions] = useState()
+    const [surveyTakerShowQuestionFold, setSurveyTakerQuestionFold] = useState(false)
     const [surveyTakerShowQuestionsData, setSurveyTakerShowQuestionsData] = useState([])
     const [tempQuestionData, setTempQuestionData] = useState([])
     const buttonRef = useRef(null);
     const filterRef = useRef(null);
     const survey_taker = useRef(null)
+    const [completedCountryData, setCompletedCountryData] = useState([])
     // const [whichTypeMatrixGraph, setWhichTypeMatrixGraph] = useState({})
     // const [show, setShow] = useState(false);
-    // const [whichTypeGraph, setWhichTypeGraph] = useState({})
-    // const [sectionLoader, setSectionLoader] = useState(false);
+    const [whichTypeGraph, setWhichTypeGraph] = useState()
+    const [sectionLoader, setSectionLoader] = useState(false);
     const [loaderIndex, setLoaderIndex] = useState()
     const [options, setOptions] = useState({
         chart: {
@@ -350,13 +352,95 @@ const SurveyAnalyticsDetail = () => {
             if (surveyTakerTableData?.length == 0) {
                 const res = await surveyAxiosInstance.post("/survey/survey-takers-status", {
                     // survey_id: stateData?.survey_id
-                    survey_id:72
+                    survey_id: 72
                 });
-                
-                const countries = res?.data?.data?.map((item) => item?.country)
+
+                let userdata = [
+                    {
+                        "user_id": 0,
+                        "name": "Varun Verma",
+                        "email": "",
+                        status: "completed",
+                        "country": "India",
+                        "date": "2024-09-24T06:02:29.000Z",
+                        "ip_address": "192.168.0.101",
+                        "temp_token": "eOd1UkW2rcCm",
+
+                    },
+                    {
+                        "user_id": 0,
+                        "name": "Susheel sharma",
+                        "email": "",
+                        status: "ignored",
+                        "country": "Pakistan",
+                        "date": "2024-09-24T06:02:29.000Z",
+                        "ip_address": "192.168.0.101",
+                        "temp_token": "eOd1UkW2rcCm"
+                    },
+                    {
+                        "user_id": 0,
+                        "name": "Mahima Saini",
+                        "email": "",
+                        status: "drop-off",
+                        "country": "Australia",
+                        "date": "2024-09-24T06:02:29.000Z",
+                        "ip_address": "192.168.0.101",
+                        "temp_token": "eOd1UkW2rcCm"
+                    },
+                    {
+                        "user_id": 0,
+                        "name": "Amir Saleem lone",
+                        "email": "",
+                        status: "completed",
+                        "country": "India",
+                        "date": "2024-09-24T06:02:29.000Z",
+                        "ip_address": "192.168.0.101",
+                        "temp_token": "eOd1UkW2rcCm"
+                    },
+                    {
+                        "user_id": 0,
+                        "name": "Shivam ",
+                        "email": "",
+                        status: "completed",
+                        "country": "Australia",
+                        "date": "2024-09-24T06:02:29.000Z",
+                        "ip_address": "192.168.0.101",
+                        "temp_token": "eOd1UkW2rcCm"
+                    }
+
+                ]
+
+                // const countries = res?.data?.data?.map((item) => item?.country)
+                // setFilterData((prev) => ({ ...prev, country: countries }))
+                // setSurveyTakerTableData(res?.data?.data)
+                // setSurveyTakerTableDataBackup(res?.data?.data)
+
+
+                //  const countries = data?.map((item) => item?.country)
+                let countries = []
+                let newObj = {}
+                userdata.forEach((item) => {
+                    countries.push(item?.country)
+                    if (item?.status == "completed") {
+                        if (!newObj[item?.country]) {
+                            newObj[item?.country] = 1
+                        } else {
+                            console.log("new obj", newObj);
+                            newObj[item?.country] = newObj[item?.country] + 1
+                        }
+                    }
+                })
+                let data = []
+                for (const country in newObj) {
+                    data.push({ value: country, count: newObj[country] });
+                }
+                setWhichTypeGraph("pie")
+                setCompletedCountryData(data)
+
+                console.log("final--->", newObj)
                 setFilterData((prev) => ({ ...prev, country: countries }))
-                setSurveyTakerTableData(res?.data?.data)
-                setSurveyTakerTableDataBackup(res?.data?.data)
+                setSurveyTakerTableData(userdata)
+                setSurveyTakerTableDataBackup(userdata)
                 setTimeout(() => {
                     survey_taker?.current?.focus()
                 }, 500);
@@ -400,9 +484,11 @@ const SurveyAnalyticsDetail = () => {
             let id = userId != 0 ? userId : temp_token
             if (surveyTakerShowQuestions == id) {
                 setSurveyTakerShowQuestions()
+                setSurveyTakerQuestionFold(!surveyTakerShowQuestionFold)
                 // setSurveyTakerShowQuestionsData([])
                 return
             } else {
+                setSurveyTakerQuestionFold(true)
                 setSurveyTakerShowQuestions(id)
                 setSectionApiStatus(true)
                 setLoaderIndex(id)
@@ -412,7 +498,6 @@ const SurveyAnalyticsDetail = () => {
                     survey_id: 72
                 })
                 setSurveyTakerShowQuestionsData(res?.data?.data)
-                console.log("res--->", res)
             }
 
         } catch (err) {
@@ -434,7 +519,6 @@ const SurveyAnalyticsDetail = () => {
                 finalData.Status = item?.status ? item?.status : "NA";
                 return finalData;
             });
-
             const worksheet = XLSX.utils.json_to_sheet(data);
             const workbook = XLSX.utils.book_new();
             // Set column widths dynamically based on the content
@@ -467,27 +551,14 @@ const SurveyAnalyticsDetail = () => {
         }
     };
 
-    // const changeGraphType = (e, index) => {
-    //     console.log("index-->", index)
-
-    //     setApiStatus(true)
-    //     setLoaderIndex(index)
-    //     setSectionLoader(true)
-    //     console.log("before type--->", whichTypeGraph, e?.target?.checked);
-    //     let type = { ...whichTypeGraph }
-    //     type[index] = e?.target?.checked ? "bar" : "pie"
-    //     console.log(" type--->", type);
-
-    //     setTimeout(() => {
-
-    //         setWhichTypeGraph(type)
-
-    //         setApiStatus(false)
-    //         setSectionLoader(false)
-    //         console.log("After type--->", whichTypeGraph);
-    //     }, 500);
-
-    // }
+    const changeGraphType = (e) => {
+        setSectionLoader(true)
+        let type = e?.target?.checked ? "bar" : "pie"
+        setTimeout(() => {
+            setWhichTypeGraph(type)
+            setSectionLoader(false)
+        }, 500);
+    }
 
     return (
         <>
@@ -588,11 +659,9 @@ const SurveyAnalyticsDetail = () => {
                                                 </div>
                                             </div>
                                         </div>
-
                                         {tempQuestionData?.map((item, index) => {
-                                            if (item?.type === "multiple" ||item?.type==="dropdown"|| item?.type === "checkbox" || item?.type == "matrix") {
-                                                
-                                                item?.answer?.forEach((obj)=>{
+                                            if (item?.type === "multiple" || item?.type === "dropdown" || item?.type === "checkbox" || item?.type == "matrix") {
+                                                item?.answer?.forEach((obj) => {
                                                     obj.percentage = item.total_count > 0 ? JSON.parse(((obj.count / item.total_count).toFixed(2)) * 100) : 0;
                                                 })
                                                 return (
@@ -607,7 +676,6 @@ const SurveyAnalyticsDetail = () => {
                                             else if (item?.type === "freeText") {
                                                 return (
                                                     <SurveyAnalyticsFreeTextView
-
                                                         index={index}
                                                         item={item}
                                                     />
@@ -618,16 +686,9 @@ const SurveyAnalyticsDetail = () => {
                                                 // let totalCount = item?.answer?.reduce((sum, obj) => sum + obj.count, 0);
                                                 let totalWeightedValue = 0
                                                 let totalRatings = 0
-                                                // item.totalCount=totalCount
                                                 for (let i = 5; i >= 1; i--) {
-
-                                                    // Find if the value already exists
                                                     let existingItem = item.answer.find(obj => obj.value === i.toString());
-
                                                     if (!existingItem) {
-                                                        // If the item exists, you can update it as needed
-
-                                                        // If the item doesn't exist, create a new one
                                                         item.answer.push({
                                                             "answerId": null,
                                                             "value": i.toString(),
@@ -640,8 +701,6 @@ const SurveyAnalyticsDetail = () => {
                                                     obj.percentage = item.total_count > 0 ? JSON.parse(((obj.count / item.total_count).toFixed(2)) * 100) : 0;
                                                     totalWeightedValue += parseInt(obj.value) * obj.count;
                                                     totalRatings += obj.count > 0 ? 1 : 0
-
-
                                                 });
                                                 item.totalRatings = totalRatings
                                                 let overallRating = item.total_count > 0 ? totalWeightedValue / item.total_count : 0;
@@ -649,15 +708,6 @@ const SurveyAnalyticsDetail = () => {
                                                 item?.answer?.sort((a, b) => parseInt(b.value) - parseInt(a.value))
 
                                                 return (
-                                                    // <ProgressBar style={{ flex: 1, margin: "0 10px" }}>
-                                                    //     <ProgressBar
-                                                    //         now={item?.value}
-                                                    //         style={{
-                                                    //             // backgroundColor: item.color[colorIndex],
-                                                    //             backgroundColor: colors[index],
-                                                    //         }}
-                                                    //     />
-                                                    // </ProgressBar>
                                                     <SurveyAnalyticsRatingView
                                                         index={index}
                                                         item={item}
@@ -1032,7 +1082,6 @@ const SurveyAnalyticsDetail = () => {
                                                                                             <Accordion.Header className="card-header">
                                                                                                 {key == "training_status_code" ? "Status" : key == "user_type" ? "Role" : key == "site_number" ? "Site" : key}
                                                                                             </Accordion.Header>
-
                                                                                             <Accordion.Body className="card-body">
                                                                                                 <ul>
                                                                                                     {filterdata[key]?.length
@@ -1129,13 +1178,10 @@ const SurveyAnalyticsDetail = () => {
                                                             <button className="btn print" onClick={() => downloadExcelUsers(surveyTakerTableData, "survey_taker")}>
                                                                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M18.3335 13.125C18.1125 13.125 17.9005 13.2128 17.7442 13.3691C17.588 13.5254 17.5002 13.7373 17.5002 13.9583V15.1775C17.4995 15.7933 17.2546 16.3836 16.8192 16.819C16.3838 17.2544 15.7934 17.4993 15.1777 17.5H4.82266C4.2069 17.4993 3.61655 17.2544 3.18114 16.819C2.74573 16.3836 2.50082 15.7933 2.50016 15.1775V13.9583C2.50016 13.7373 2.41237 13.5254 2.25609 13.3691C2.0998 13.2128 1.88784 13.125 1.66683 13.125C1.44582 13.125 1.23385 13.2128 1.07757 13.3691C0.921293 13.5254 0.833496 13.7373 0.833496 13.9583V15.1775C0.834599 16.2351 1.25524 17.2492 2.00311 17.997C2.75099 18.7449 3.76501 19.1656 4.82266 19.1667H15.1777C16.2353 19.1656 17.2493 18.7449 17.9972 17.997C18.7451 17.2492 19.1657 16.2351 19.1668 15.1775V13.9583C19.1668 13.7373 19.079 13.5254 18.9228 13.3691C18.7665 13.2128 18.5545 13.125 18.3335 13.125Z" fill="#0066BE"></path><path d="M14.7456 9.20249C14.5893 9.04626 14.3774 8.9585 14.1564 8.9585C13.9355 8.9585 13.7235 9.04626 13.5673 9.20249L10.8231 11.9467L10.8333 1.77108C10.8333 1.55006 10.7455 1.3381 10.5893 1.18182C10.433 1.02554 10.221 0.937744 10 0.937744C9.77899 0.937744 9.56702 1.02554 9.41074 1.18182C9.25446 1.3381 9.16667 1.55006 9.16667 1.77108L9.15643 11.9467L6.41226 9.20249C6.25509 9.05069 6.04459 8.96669 5.82609 8.96859C5.60759 8.97049 5.39858 9.05813 5.24408 9.21264C5.08957 9.36715 5.00193 9.57615 5.00003 9.79465C4.99813 10.0131 5.08213 10.2236 5.23393 10.3808L9.40059 14.5475C9.478 14.6251 9.56996 14.6867 9.6712 14.7287C9.77245 14.7707 9.88098 14.7923 9.99059 14.7923C10.1002 14.7923 10.2087 14.7707 10.31 14.7287C10.4112 14.6867 10.5032 14.6251 10.5806 14.5475L14.7473 10.3808C14.9033 10.2243 14.9907 10.0123 14.9904 9.79131C14.9901 9.57034 14.902 9.35854 14.7456 9.20249Z" fill="#0066BE"></path></svg>
                                                             </button>
-
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div
-                                                    className="survey_data_details"
-                                                >
+                                                <div className="survey_data_details">
                                                     <div className="survey_data_accordion_heading">
                                                         {Object.keys(filterObject)?.length !== 0 &&
                                                             filterApplyflag > 0 ? (
@@ -1223,11 +1269,11 @@ const SurveyAnalyticsDetail = () => {
                                                                                         </clipPath>
                                                                                     </defs>
                                                                                 </svg>
-                                                                            </button></span></th>
-
+                                                                            </button>
+                                                                        </span>
+                                                                    </th>
                                                                     <th className="sort_option">
                                                                         <span onClick={(e) => handleSort("email")}>
-
                                                                             Email
                                                                             <button
                                                                                 className={`event_sort_btn ${sortBy == "email" ?
@@ -1257,11 +1303,11 @@ const SurveyAnalyticsDetail = () => {
                                                                                         </clipPath>
                                                                                     </defs>
                                                                                 </svg>
-                                                                            </button></span></th>
-
+                                                                            </button>
+                                                                        </span>
+                                                                    </th>
                                                                     <th className="sort_option">
                                                                         <span onClick={(e) => handleSort("region")}>
-
                                                                             Region
                                                                             <button
                                                                                 className={`event_sort_btn ${sortBy == "region" ?
@@ -1294,10 +1340,8 @@ const SurveyAnalyticsDetail = () => {
                                                                             </button>
                                                                         </span>
                                                                     </th>
-
                                                                     <th className="sort_option">
                                                                         <span onClick={(e) => handleSort("country")}>
-
                                                                             Country
                                                                             <button
                                                                                 className={`event_sort_btn ${sortBy == "country" ?
@@ -1327,11 +1371,11 @@ const SurveyAnalyticsDetail = () => {
                                                                                         </clipPath>
                                                                                     </defs>
                                                                                 </svg>
-                                                                            </button></span></th>
-
+                                                                            </button>
+                                                                        </span>
+                                                                    </th>
                                                                     <th className="sort_option">
                                                                         <span onClick={(e) => handleSort("date")}>
-
                                                                             Date
                                                                             <button
                                                                                 className={`event_sort_btn ${sortBy == "date" ?
@@ -1341,7 +1385,6 @@ const SurveyAnalyticsDetail = () => {
                                                                                     : ""
                                                                                     }`}
                                                                                 onClick={(e) => handleSort("date")}
-
                                                                             >
                                                                                 <svg
                                                                                     xmlns="http://www.w3.org/2000/svg"
@@ -1362,7 +1405,9 @@ const SurveyAnalyticsDetail = () => {
                                                                                         </clipPath>
                                                                                     </defs>
                                                                                 </svg>
-                                                                            </button></span></th>
+                                                                            </button>
+                                                                        </span>
+                                                                    </th>
 
                                                                     <th className="sort_option">
                                                                         <span onClick={(e) => handleSort("status")}>
@@ -1395,7 +1440,9 @@ const SurveyAnalyticsDetail = () => {
                                                                                         </clipPath>
                                                                                     </defs>
                                                                                 </svg>
-                                                                            </button></span></th>
+                                                                            </button>
+                                                                        </span>
+                                                                    </th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
@@ -1405,7 +1452,6 @@ const SurveyAnalyticsDetail = () => {
                                                                     sortData(surveyTakerTableData, sortBy, sortOrder)?.map((item, index) => {
                                                                         // surveyTakerTableData?.map((item, index) => {
                                                                         return (<>
-
                                                                             <tr key={index}
                                                                                 className={`view ${surveyTakerShowQuestions == item?.user_id != 0
                                                                                     ? item?.user_id
@@ -1422,12 +1468,10 @@ const SurveyAnalyticsDetail = () => {
                                                                                 <td>{item?.country}</td>
                                                                                 <td>{moment(item?.date).format("DD MMM. YYYY")}</td>
                                                                                 <td className={item?.status}>{item?.status}</td>
-
-
                                                                             </tr>
                                                                             {(sectionApiStatus && (loaderIndex == item?.user_id ||
-                                                                                loaderIndex == item?.temp_token)) ?
-
+                                                                                loaderIndex == item?.temp_token))
+                                                                                ?
                                                                                 <div
                                                                                     className="load_more"
                                                                                     style={{
@@ -1442,7 +1486,7 @@ const SurveyAnalyticsDetail = () => {
                                                                                     surveyTakerShowQuestions == item?.temp_token) ?
 
                                                                                     (<>
-                                                                                        {(surveyTakerShowQuestionsData?.length)
+                                                                                        {(surveyTakerShowQuestionsData?.length&&surveyTakerShowQuestionFold)
                                                                                             ?
                                                                                             <tr className="fold" >
                                                                                                 {console.log("data--->", surveyTakerShowQuestionsData)}
@@ -1521,8 +1565,9 @@ const SurveyAnalyticsDetail = () => {
                                                                                             <div className="no_found"><p>No Data Found</p></div>
                                                                                         }
                                                                                     </>)
-                                                                                    : null}
-
+                                                                                    :
+                                                                                    null
+                                                                            }
 
                                                                             <tr className="blank">
                                                                                 <td colSpan="6" style={{ height: "10px" }}>
@@ -1530,120 +1575,154 @@ const SurveyAnalyticsDetail = () => {
                                                                                 </td>
                                                                             </tr>
                                                                         </>)
-                                                                    }) : !apiStatus ? <div className="no_found"><p>No Data Found</p></div> : null}
-
-
+                                                                    }) : !apiStatus ? <div className="no_found"><p>No Data Found</p></div>
+                                                                        : null
+                                                                }
                                                             </tbody>
                                                         </Table>
                                                     </div>
                                                 </div>
-                                            </div>  </>) : null}
-                                        <div className="survey-question-listing country-by">
-                                            <div className="survey-question-top d-flex align-items-center justify-content-between">
-                                                <div className="page-title">
-                                                    <h4>Survey Takers (Completed) According to country</h4>
-                                                </div>
-                                                <div className="question-status">
-                                                    <div className="total-answered">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                                            <path d="M8.29511 6.80015C10.1732 6.80015 11.6953 5.27769 11.6953 3.39993C11.6953 1.52217 10.1729 0 8.29511 0C6.41736 0 4.89432 1.52246 4.89432 3.40022C4.89432 5.27797 6.41736 6.80015 8.29511 6.80015ZM9.73743 7.0319H6.85222C4.45164 7.0319 2.49866 8.98517 2.49866 11.3858V14.9141L2.50763 14.9694L2.75066 15.0455C5.04159 15.7613 7.0319 16 8.67009 16C11.8698 16 13.7244 15.0877 13.8387 15.0296L14.0658 14.9147H14.0901V11.3858C14.091 8.98517 12.138 7.0319 9.73743 7.0319Z" fill="#004A89" />
-                                                        </svg>
-                                                        <span>83</span>
-                                                    </div>
-
-                                                </div>
                                             </div>
-                                            <div className="question-preview-block">
-                                                <div className="question-preview-right">
-                                                    <div className="rd-training-block-right d-flex justify-content-end align-items-center">
-                                                        <div className="switch6">
-                                                            <label className="switch6-light">
-                                                                <input
-                                                                    type="checkbox"
-                                                                //checked={whichTypeGraph}
-                                                                // onChange={() => {
-                                                                // loader("show");
-
-                                                                // setTimeout(() => {
-                                                                //     setWhichTypeGraph(!whichTypeGraph);
-                                                                //     loader("hide");
-                                                                // }, 500);
-                                                                // }}
-                                                                />
-                                                                <span>
-                                                                    <span>
-                                                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g clipPath="url(#clip0_5227_2027)"><path d="M11.2048 1.54687C11.2048 1.27073 10.9808 1.04571 10.7049 1.05803C9.10037 1.12967 7.52788 1.54559 6.095 2.27982C4.51361 3.09016 3.14762 4.26499 2.10978 5.70733C1.07194 7.14967 0.39202 8.81816 0.126141 10.5751C-0.139738 12.332 0.0160486 14.127 0.580642 15.8118C1.14524 17.4966 2.10245 19.023 3.37326 20.265C4.64407 21.507 6.19204 22.4289 7.8894 22.9547C9.58676 23.4805 11.3848 23.595 13.1352 23.2889C14.7211 23.0115 16.2267 22.3959 17.5505 21.4863C17.7781 21.3299 17.8212 21.0154 17.6548 20.795L11.3057 12.3854C11.2402 12.2986 11.2048 12.1928 11.2048 12.0841V1.54687Z" fill="#39CABC"></path><path d="M23.5106 12.7847C23.7868 12.7847 24.0118 13.0087 23.9995 13.2846C23.9293 14.8565 23.5287 16.398 22.8216 17.8078C22.1141 19.2186 21.5564 19.844 20.4209 20.7231C20.2107 20.8858 19.9098 20.8496 19.7397 20.6452L13.8814 13.6045C13.6103 13.2788 13.842 12.7847 14.2657 12.7847H23.5106Z" fill="#0066BE"></path><path d="M22.9765 11.1825C23.2526 11.1825 23.4776 10.9586 23.4653 10.6827C23.4072 9.38195 23.1228 8.09995 22.6236 6.89467C22.0605 5.53524 21.2351 4.30004 20.1947 3.25958C19.1542 2.21912 17.919 1.39378 16.5596 0.830691C15.3595 0.333593 14.4241 0.057651 13.209 -0.000201631C12.9332 -0.0133342 12.709 0.212139 12.709 0.488281V10.6825C12.709 10.9587 12.9328 11.1825 13.209 11.1825H22.9765Z" fill="#8A4E9C"></path></g><defs><clipPath id="clip0_5227_2027"><rect width="24" height="24" fill="white"></rect></clipPath></defs></svg>
-                                                                    </span>
-                                                                    <span>
-                                                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" > <rect x="24" width="6" height="24" rx="1" transform="rotate(90 24 0)" fill="#0066BE" /> <rect x="13.2617" y="9.14258" width="5.71429" height="13.2632" rx="1" transform="rotate(90 13.2617 9.14258)" fill="#8A4E9C" /> <rect x="19" y="18" width="6" height="19" rx="1" transform="rotate(90 19 18)" fill="#39CABC" /> </svg>
-                                                                    </span>
-                                                                </span>
-                                                                <a className="btn"></a>
-                                                            </label>
+                                            <div className="survey-question-listing country-by">
+                                                <div className="survey-question-top d-flex align-items-center justify-content-between">
+                                                    <div className="page-title">
+                                                        <h4>Survey Takers (Completed) According to country</h4>
+                                                    </div>
+                                                    <div className="question-status">
+                                                        <div className="total-answered">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                                                <path d="M8.29511 6.80015C10.1732 6.80015 11.6953 5.27769 11.6953 3.39993C11.6953 1.52217 10.1729 0 8.29511 0C6.41736 0 4.89432 1.52246 4.89432 3.40022C4.89432 5.27797 6.41736 6.80015 8.29511 6.80015ZM9.73743 7.0319H6.85222C4.45164 7.0319 2.49866 8.98517 2.49866 11.3858V14.9141L2.50763 14.9694L2.75066 15.0455C5.04159 15.7613 7.0319 16 8.67009 16C11.8698 16 13.7244 15.0877 13.8387 15.0296L14.0658 14.9147H14.0901V11.3858C14.091 8.98517 12.138 7.0319 9.73743 7.0319Z" fill="#004A89" />
+                                                            </svg>
+                                                            <span>83</span>
                                                         </div>
-                                                        <Dropdown>
-                                                            <Dropdown.Toggle id="dropdown-basic">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="6" height="24" viewBox="0 0 6 24" fill="none" > <path fillRule="evenodd" clipRule="evenodd" d="M6 3C6 4.65685 4.65685 6 3 6C1.34315 6 0 4.65685 0 3C0 1.34315 1.34315 0 3 0C4.65685 0 6 1.34315 6 3ZM6 12C6 13.6569 4.65685 15 3 15C1.34315 15 0 13.6569 0 12C0 10.3431 1.34315 9 3 9C4.65685 9 6 10.3431 6 12ZM3 24C4.65685 24 6 22.6569 6 21C6 19.3431 4.65685 18 3 18C1.34315 18 0 19.3431 0 21C0 22.6569 1.34315 24 3 24Z" fill="#0066BE" /> </svg>
-                                                            </Dropdown.Toggle>
 
-                                                            <Dropdown.Menu>
-                                                                <Dropdown.Item
-                                                                // onClick={() =>
-                                                                // handleDownload(
-                                                                //     "PNG",
-                                                                //     whichTypeGraph == 0
-                                                                //     ? countryBarRef
-                                                                //     : countryPieRef
-                                                                // )
-                                                                // }
-                                                                >
-                                                                    Download PNG
-                                                                </Dropdown.Item>
-                                                                <Dropdown.Item
-                                                                // onClick={() =>
-                                                                // handleDownload(
-                                                                //     "JPEG",
-                                                                //     whichTypeGraph == 0
-                                                                //     ? countryBarRef
-                                                                //     : countryPieRef
-                                                                // )
-                                                                // }
-                                                                >
-                                                                    Download JPEG
-                                                                </Dropdown.Item>
-                                                                <Dropdown.Item
-                                                                // onClick={() =>
-                                                                // handleDownload(
-                                                                //     "PDF",
-                                                                //     whichTypeGraph == 0
-                                                                //     ? countryBarRef
-                                                                //     : countryPieRef
-                                                                // )
-                                                                // }
-                                                                >
-                                                                    Download PDF
-                                                                </Dropdown.Item>
-                                                                <Dropdown.Item
-                                                                // onClick={() =>
-                                                                // handleDownload(
-                                                                //     "SVG",
-                                                                //     whichTypeGraph == 0
-                                                                //     ? countryBarRef
-                                                                //     : countryPieRef
-                                                                // )
-                                                                // }
-                                                                >
-                                                                    Download SVG
-                                                                </Dropdown.Item>
-                                                            </Dropdown.Menu>
-                                                        </Dropdown>
                                                     </div>
-                                                    <div className="question-preview-chart">
-                                                        <img src={path_image + "dummy-pie.png"} alt="" />
+                                                </div>
+                                                <div className="question-preview-block">
+                                                    <div className="question-preview-right">
+                                                        <div className="rd-training-block-right d-flex justify-content-end align-items-center">
+                                                            <div className="switch6">
+                                                                <label className="switch6-light">
+                                                                    <input
+                                                                        type="checkbox"
+                                                                        checked={whichTypeGraph == "bar" ? true : false}
+                                                                        onChange={(e) => {
+                                                                            changeGraphType(e)
+                                                                        }}
+                                                                    />
+                                                                    <span>
+                                                                        <span>
+                                                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g clipPath="url(#clip0_5227_2027)"><path d="M11.2048 1.54687C11.2048 1.27073 10.9808 1.04571 10.7049 1.05803C9.10037 1.12967 7.52788 1.54559 6.095 2.27982C4.51361 3.09016 3.14762 4.26499 2.10978 5.70733C1.07194 7.14967 0.39202 8.81816 0.126141 10.5751C-0.139738 12.332 0.0160486 14.127 0.580642 15.8118C1.14524 17.4966 2.10245 19.023 3.37326 20.265C4.64407 21.507 6.19204 22.4289 7.8894 22.9547C9.58676 23.4805 11.3848 23.595 13.1352 23.2889C14.7211 23.0115 16.2267 22.3959 17.5505 21.4863C17.7781 21.3299 17.8212 21.0154 17.6548 20.795L11.3057 12.3854C11.2402 12.2986 11.2048 12.1928 11.2048 12.0841V1.54687Z" fill="#39CABC"></path><path d="M23.5106 12.7847C23.7868 12.7847 24.0118 13.0087 23.9995 13.2846C23.9293 14.8565 23.5287 16.398 22.8216 17.8078C22.1141 19.2186 21.5564 19.844 20.4209 20.7231C20.2107 20.8858 19.9098 20.8496 19.7397 20.6452L13.8814 13.6045C13.6103 13.2788 13.842 12.7847 14.2657 12.7847H23.5106Z" fill="#0066BE"></path><path d="M22.9765 11.1825C23.2526 11.1825 23.4776 10.9586 23.4653 10.6827C23.4072 9.38195 23.1228 8.09995 22.6236 6.89467C22.0605 5.53524 21.2351 4.30004 20.1947 3.25958C19.1542 2.21912 17.919 1.39378 16.5596 0.830691C15.3595 0.333593 14.4241 0.057651 13.209 -0.000201631C12.9332 -0.0133342 12.709 0.212139 12.709 0.488281V10.6825C12.709 10.9587 12.9328 11.1825 13.209 11.1825H22.9765Z" fill="#8A4E9C"></path></g><defs><clipPath id="clip0_5227_2027"><rect width="24" height="24" fill="white"></rect></clipPath></defs></svg>
+                                                                        </span>
+                                                                        <span>
+                                                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" > <rect x="24" width="6" height="24" rx="1" transform="rotate(90 24 0)" fill="#0066BE" /> <rect x="13.2617" y="9.14258" width="5.71429" height="13.2632" rx="1" transform="rotate(90 13.2617 9.14258)" fill="#8A4E9C" /> <rect x="19" y="18" width="6" height="19" rx="1" transform="rotate(90 19 18)" fill="#39CABC" /> </svg>
+                                                                        </span>
+                                                                    </span>
+                                                                    <a className="btn"></a>
+                                                                </label>
+                                                            </div>
+                                                            <Dropdown>
+                                                                <Dropdown.Toggle id="dropdown-basic">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="6" height="24" viewBox="0 0 6 24" fill="none" > <path fillRule="evenodd" clipRule="evenodd" d="M6 3C6 4.65685 4.65685 6 3 6C1.34315 6 0 4.65685 0 3C0 1.34315 1.34315 0 3 0C4.65685 0 6 1.34315 6 3ZM6 12C6 13.6569 4.65685 15 3 15C1.34315 15 0 13.6569 0 12C0 10.3431 1.34315 9 3 9C4.65685 9 6 10.3431 6 12ZM3 24C4.65685 24 6 22.6569 6 21C6 19.3431 4.65685 18 3 18C1.34315 18 0 19.3431 0 21C0 22.6569 1.34315 24 3 24Z" fill="#0066BE" /> </svg>
+                                                                </Dropdown.Toggle>
+
+                                                                <Dropdown.Menu>
+                                                                    <Dropdown.Item
+                                                                    // onClick={() =>
+                                                                    // handleDownload(
+                                                                    //     "PNG",
+                                                                    //     whichTypeGraph == 0
+                                                                    //     ? countryBarRef
+                                                                    //     : countryPieRef
+                                                                    // )
+                                                                    // }
+                                                                    >
+                                                                        Download PNG
+                                                                    </Dropdown.Item>
+                                                                    <Dropdown.Item
+                                                                    // onClick={() =>
+                                                                    // handleDownload(
+                                                                    //     "JPEG",
+                                                                    //     whichTypeGraph == 0
+                                                                    //     ? countryBarRef
+                                                                    //     : countryPieRef
+                                                                    // )
+                                                                    // }
+                                                                    >
+                                                                        Download JPEG
+                                                                    </Dropdown.Item>
+                                                                    <Dropdown.Item
+                                                                    // onClick={() =>
+                                                                    // handleDownload(
+                                                                    //     "PDF",
+                                                                    //     whichTypeGraph == 0
+                                                                    //     ? countryBarRef
+                                                                    //     : countryPieRef
+                                                                    // )
+                                                                    // }
+                                                                    >
+                                                                        Download PDF
+                                                                    </Dropdown.Item>
+                                                                    <Dropdown.Item
+                                                                    // onClick={() =>
+                                                                    // handleDownload(
+                                                                    //     "SVG",
+                                                                    //     whichTypeGraph == 0
+                                                                    //     ? countryBarRef
+                                                                    //     : countryPieRef
+                                                                    // )
+                                                                    // }
+                                                                    >
+                                                                        Download SVG
+                                                                    </Dropdown.Item>
+                                                                </Dropdown.Menu>
+                                                            </Dropdown>
+                                                        </div>
+                                                        <div className="question-preview-chart">
+                                                            {/* <img src={path_image + "dummy-pie.png"} alt="" /> */}
+                                                            {console.log("completedCountryData-->", completedCountryData)}
+                                                            {sectionLoader ?
+                                                                <div
+                                                                    className="load_more"
+                                                                    style={{
+                                                                        margin: "10 auto",
+                                                                        justifyContent: "center",
+                                                                        display: "flex",
+                                                                        height: 225
+                                                                    }}
+                                                                >
+                                                                    <Spinner color="#53aff4" size={32} speed={1} animating={true} />
+                                                                </div> :
+
+                                                                whichTypeGraph == "pie" ?
+                                                                    <SurveyAnalyticsQuestionPieChart
+                                                                        key="pie"
+                                                                        data={{
+                                                                            // questionId: index,
+                                                                            graphType: "pie",
+                                                                            ans: completedCountryData,
+                                                                        }}
+                                                                        type="analytics"
+
+                                                                    /> :
+                                                                    <SurveyAnalyticsQuestionPieChart
+                                                                        key="bar"
+                                                                        data={{
+
+                                                                            graphType: "bar",
+                                                                            ans: completedCountryData,
+                                                                        }}
+                                                                        type="analytics"
+
+                                                                    />
+
+                                                            }
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </>)
+                                            : null}
 
                                     </Col>
                                 </Row>
