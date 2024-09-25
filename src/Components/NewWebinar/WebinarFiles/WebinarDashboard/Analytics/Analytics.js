@@ -3,7 +3,6 @@ import {
   Accordion,
   Button,
   Col,
-  Container,
   Dropdown,
   Modal,
   Row,
@@ -36,6 +35,7 @@ import HighchartsMap from "highcharts/modules/map";
 import axios from "axios";
 import drilldown from "highcharts/modules/drilldown.js";
 import { useNavigate } from "react-router-dom";
+const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 HighchartsMap(Highcharts);
 
@@ -56,7 +56,6 @@ const customLoader = (functionName, e = null) => {
   }, 300);
 };
 const Analytics = (props) => {
-  const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   let menuItemDefinitions = {
     menuItemDefinitions: {
       downloadPNG: {
@@ -103,16 +102,10 @@ const Analytics = (props) => {
       },
     },
   };
-  const { eventIdContext, handleEventId } = useSidebar();
+  const { eventIdContext } = useSidebar();
   const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"));
-  const [eventId, setEventId] = useState(
-    eventIdContext?.eventId || localStorageEvent?.eventId
-  );
-  const [eventTitle, setEventTitle] = useState(
-    eventIdContext?.eventTitle
-      ? eventIdContext?.eventTitle
-      : localStorageEvent?.eventTitle
-  );
+  const eventId=eventIdContext?.eventId || localStorageEvent?.eventId;
+  const eventTitle = eventIdContext?.eventTitle ? eventIdContext?.eventTitle: localStorageEvent?.eventTitle;
   const navigate = useNavigate();
   if (!eventTitle) {
     toast.warning("Please Select Event First!");
@@ -130,12 +123,8 @@ const Analytics = (props) => {
   const registeredGraphRef = useRef(null);
   const overviewTableRef = useRef(null);
   const attendedUsersRef = useRef(null);
-  const [eventStatus, setEventStatus] = useState(
-    localStorageEvent?.eventStatus
-  );
-  const [isOneSourceEvent, setIsOneSourceEvent] = useState(
-    localStorageEvent?.isOneSourceEvent
-  );
+  const eventStatus=localStorageEvent?.eventStatus
+  const isOneSourceEvent = localStorageEvent?.isOneSourceEvent
 
   const commonPieOptions = {
     chart: {
@@ -215,7 +204,6 @@ const Analytics = (props) => {
   const [showFilter, setShowFilter] = useState(false);
   const [filterdata, setFilterData] = useState({});
   const [appliedFilter, setAppliedFilter] = useState({});
-  const [filterObject, setFilterObject] = useState({});
   const [eventData, setEventData] = useState({});
   const countryBarRef = useRef(null);
   const countryPieRef = useRef(null);
@@ -225,19 +213,8 @@ const Analytics = (props) => {
   const regionPieEmailRef = useRef(null);
 
   const [emailListData, setEmailListData] = useState([]);
-  const [localStorageUserId, setLocalStorageUserId] = useState(
-    localStorage.getItem("user_id")
-  );
+  const localStorageUserId=localStorage.getItem("user_id")
   const [newOptions, setNewOptions] = useState([]);
-  // const colorArray = [
-  //   "#0E9B8E",
-  //   "#00003C",
-  //   "#FFBE2C",
-  //   "#FFBE2C",
-  //   "#F58289",
-  //   "#D61975",
-  //   "#0066BE",
-  // ];
   const colorArray = [
     "#349b8e",
     "#4184cc",
@@ -428,8 +405,6 @@ const Analytics = (props) => {
           "<span ><div className=" +
           this.series.name +
           ">" +
-          // <span style="font-weight: bold">'
-          // this.x +
           " <strong >" +
           ":" +
           Highcharts.numberFormat(this.y, 0) +
@@ -485,25 +460,18 @@ const Analytics = (props) => {
     setTimeout(() => {
       setAppliedFilter({});
       setApifilterObject({});
-      setFilterObject({});
       if (activeTable == "totalRegistrations") {
         setUsersData(usersDataOriginal);
       } else if (activeTable == "overView") {
         setOverViewData(usersDataOriginal);
       }
       setUsersData(usersDataOriginal);
-      // setEmailListData([]);
-      // setTotalEmailListData([])
-      // getWebinarCompaignList()
       setShowFilter(false);
       loader("hide");
     }, 500);
   };
   const applyFilter = (e) => {
     e.preventDefault();
-
-    // loader("show");
-
     setTimeout(() => {
       const filteredData = usersDataOriginal.filter((item) => {
         for (const key in appliedFilter) {
@@ -539,9 +507,6 @@ const Analytics = (props) => {
         setOverViewData(filteredData);
         setUsersData(null);
       }
-      // setEmailListData([]);
-      setFilterObject(appliedFilter);
-      // getWebinarCompaignList(appliedFilter);
       setShowFilter(false);
       loader("hide");
     }, 500);
@@ -1197,12 +1162,6 @@ const Analytics = (props) => {
                 credits: {
                   enabled: false,
                 },
-                // exporting: {
-                //   enabled:false,
-                //   showHighchart: true,
-                //   showTable: false,
-                //   tableCaption: "",
-                // },
                 yAxis: {
                   min: 0,
                   title: {
@@ -1335,7 +1294,6 @@ const Analytics = (props) => {
         return order === "asc" ? valueA - valueB : valueB - valueA;
       }
 
-      // Handle different data types (numbers, strings)
       if (typeof valueA === "number" && typeof valueB === "number") {
         return order === "asc" ? valueA - valueB : valueB - valueA;
       } else {
@@ -1631,22 +1589,7 @@ const Analytics = (props) => {
                               downloadExcel(usersData, "Total Registrations")
                             }
                           >
-                            <svg
-                              width="20"
-                              height="20"
-                              viewBox="0 0 20 20"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path
-                                d="M18.3335 13.125C18.1125 13.125 17.9005 13.2128 17.7442 13.3691C17.588 13.5254 17.5002 13.7373 17.5002 13.9583V15.1775C17.4995 15.7933 17.2546 16.3836 16.8192 16.819C16.3838 17.2544 15.7934 17.4993 15.1777 17.5H4.82266C4.2069 17.4993 3.61655 17.2544 3.18114 16.819C2.74573 16.3836 2.50082 15.7933 2.50016 15.1775V13.9583C2.50016 13.7373 2.41237 13.5254 2.25609 13.3691C2.0998 13.2128 1.88784 13.125 1.66683 13.125C1.44582 13.125 1.23385 13.2128 1.07757 13.3691C0.921293 13.5254 0.833496 13.7373 0.833496 13.9583V15.1775C0.834599 16.2351 1.25524 17.2492 2.00311 17.997C2.75099 18.7449 3.76501 19.1656 4.82266 19.1667H15.1777C16.2353 19.1656 17.2493 18.7449 17.9972 17.997C18.7451 17.2492 19.1657 16.2351 19.1668 15.1775V13.9583C19.1668 13.7373 19.079 13.5254 18.9228 13.3691C18.7665 13.2128 18.5545 13.125 18.3335 13.125Z"
-                                fill="#0066BE"
-                              ></path>
-                              <path
-                                d="M14.7456 9.20249C14.5893 9.04626 14.3774 8.9585 14.1564 8.9585C13.9355 8.9585 13.7235 9.04626 13.5673 9.20249L10.8231 11.9467L10.8333 1.77108C10.8333 1.55006 10.7455 1.3381 10.5893 1.18182C10.433 1.02554 10.221 0.937744 10 0.937744C9.77899 0.937744 9.56702 1.02554 9.41074 1.18182C9.25446 1.3381 9.16667 1.55006 9.16667 1.77108L9.15643 11.9467L6.41226 9.20249C6.25509 9.05069 6.04459 8.96669 5.82609 8.96859C5.60759 8.97049 5.39858 9.05813 5.24408 9.21264C5.08957 9.36715 5.00193 9.57615 5.00003 9.79465C4.99813 10.0131 5.08213 10.2236 5.23393 10.3808L9.40059 14.5475C9.478 14.6251 9.56996 14.6867 9.6712 14.7287C9.77245 14.7707 9.88098 14.7923 9.99059 14.7923C10.1002 14.7923 10.2087 14.7707 10.31 14.7287C10.4112 14.6867 10.5032 14.6251 10.5806 14.5475L14.7473 10.3808C14.9033 10.2243 14.9907 10.0123 14.9904 9.79131C14.9901 9.57034 14.902 9.35854 14.7456 9.20249Z"
-                                fill="#0066BE"
-                              ></path>
-                            </svg>
+                            <img src={path_image + "download.svg"} alt="Download" />
                           </Button>
                         </div>
                       </div>
@@ -1670,29 +1613,7 @@ const Analytics = (props) => {
                                     }`}
                                     onClick={() => handleSort("name")}
                                   >
-                                    <svg
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      width="8"
-                                      height="8"
-                                      viewBox="0 0 8 8"
-                                      fill="none"
-                                    >
-                                      <g clip-path="url(#clip0_3722_6611)">
-                                        <path
-                                          d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
-                                          fill="#97B6CF"
-                                        />
-                                      </g>
-                                      <defs>
-                                        <clipPath id="clip0_3722_6611">
-                                          <rect
-                                            width="8"
-                                            height="8"
-                                            fill="white"
-                                          />
-                                        </clipPath>
-                                      </defs>
-                                    </svg>
+                                    <img src={path_image + "arrow-sort.svg"} alt="email-sort" />
                                   </button>
                                 </span>
                               </th>
@@ -1709,29 +1630,7 @@ const Analytics = (props) => {
                                     }`}
                                     onClick={() => handleSort("email")}
                                   >
-                                    <svg
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      width="8"
-                                      height="8"
-                                      viewBox="0 0 8 8"
-                                      fill="none"
-                                    >
-                                      <g clip-path="url(#clip0_3722_6611)">
-                                        <path
-                                          d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
-                                          fill="#97B6CF"
-                                        />
-                                      </g>
-                                      <defs>
-                                        <clipPath id="clip0_3722_6611">
-                                          <rect
-                                            width="8"
-                                            height="8"
-                                            fill="white"
-                                          />
-                                        </clipPath>
-                                      </defs>
-                                    </svg>
+                                    <img src={path_image + "arrow-sort.svg"} alt="email-sort" />
                                   </button>
                                 </span>
                               </th>
@@ -1748,29 +1647,7 @@ const Analytics = (props) => {
                                     }`}
                                     onClick={() => handleSort("province")}
                                   >
-                                    <svg
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      width="8"
-                                      height="8"
-                                      viewBox="0 0 8 8"
-                                      fill="none"
-                                    >
-                                      <g clip-path="url(#clip0_3722_6611)">
-                                        <path
-                                          d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
-                                          fill="#97B6CF"
-                                        />
-                                      </g>
-                                      <defs>
-                                        <clipPath id="clip0_3722_6611">
-                                          <rect
-                                            width="8"
-                                            height="8"
-                                            fill="white"
-                                          />
-                                        </clipPath>
-                                      </defs>
-                                    </svg>
+                                   <img src={path_image + "arrow-sort.svg"} alt="email-sort" />
                                   </button>
                                 </span>
                               </th>
@@ -1787,29 +1664,7 @@ const Analytics = (props) => {
                                     }`}
                                     onClick={() => handleSort("country")}
                                   >
-                                    <svg
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      width="8"
-                                      height="8"
-                                      viewBox="0 0 8 8"
-                                      fill="none"
-                                    >
-                                      <g clip-path="url(#clip0_3722_6611)">
-                                        <path
-                                          d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
-                                          fill="#97B6CF"
-                                        />
-                                      </g>
-                                      <defs>
-                                        <clipPath id="clip0_3722_6611">
-                                          <rect
-                                            width="8"
-                                            height="8"
-                                            fill="white"
-                                          />
-                                        </clipPath>
-                                      </defs>
-                                    </svg>
+                                    <img src={path_image + "arrow-sort.svg"} alt="email-sort" />
                                   </button>
                                 </span>
                               </th>
@@ -1828,29 +1683,7 @@ const Analytics = (props) => {
                                     }`}
                                     onClick={() => handleSort("register_time")}
                                   >
-                                    <svg
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      width="8"
-                                      height="8"
-                                      viewBox="0 0 8 8"
-                                      fill="none"
-                                    >
-                                      <g clip-path="url(#clip0_3722_6611)">
-                                        <path
-                                          d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
-                                          fill="#97B6CF"
-                                        />
-                                      </g>
-                                      <defs>
-                                        <clipPath id="clip0_3722_6611">
-                                          <rect
-                                            width="8"
-                                            height="8"
-                                            fill="white"
-                                          />
-                                        </clipPath>
-                                      </defs>
-                                    </svg>
+                                   <img src={path_image + "arrow-sort.svg"} alt="email-sort" />
                                   </button>
                                 </span>
                               </th>
@@ -1867,29 +1700,7 @@ const Analytics = (props) => {
                                     }`}
                                     onClick={() => handleSort("last_email")}
                                   >
-                                    <svg
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      width="8"
-                                      height="8"
-                                      viewBox="0 0 8 8"
-                                      fill="none"
-                                    >
-                                      <g clip-path="url(#clip0_3722_6611)">
-                                        <path
-                                          d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
-                                          fill="#97B6CF"
-                                        />
-                                      </g>
-                                      <defs>
-                                        <clipPath id="clip0_3722_6611">
-                                          <rect
-                                            width="8"
-                                            height="8"
-                                            fill="white"
-                                          />
-                                        </clipPath>
-                                      </defs>
-                                    </svg>
+                                    <img src={path_image + "arrow-sort.svg"} alt="email-sort" />
                                   </button>
                                 </span>
                               </th>
@@ -1906,29 +1717,7 @@ const Analytics = (props) => {
                                     }`}
                                     onClick={() => handleSort("hcp_status")}
                                   >
-                                    <svg
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      width="8"
-                                      height="8"
-                                      viewBox="0 0 8 8"
-                                      fill="none"
-                                    >
-                                      <g clip-path="url(#clip0_3722_6611)">
-                                        <path
-                                          d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
-                                          fill="#97B6CF"
-                                        />
-                                      </g>
-                                      <defs>
-                                        <clipPath id="clip0_3722_6611">
-                                          <rect
-                                            width="8"
-                                            height="8"
-                                            fill="white"
-                                          />
-                                        </clipPath>
-                                      </defs>
-                                    </svg>
+                                    <img src={path_image + "arrow-sort.svg"} alt="email-sort" />
                                   </button>
                                 </span>
                               </th>
@@ -2156,22 +1945,6 @@ const Analytics = (props) => {
                               </Dropdown.Item>
                             </Dropdown.Menu>
                           </Dropdown>
-                          {/* <Button>
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="6"
-                            height="24"
-                            viewBox="0 0 6 24"
-                            fill="none"
-                          >
-                            <path
-                              fill-rule="evenodd"
-                              clip-rule="evenodd"
-                              d="M6 3C6 4.65685 4.65685 6 3 6C1.34315 6 0 4.65685 0 3C0 1.34315 1.34315 0 3 0C4.65685 0 6 1.34315 6 3ZM6 12C6 13.6569 4.65685 15 3 15C1.34315 15 0 13.6569 0 12C0 10.3431 1.34315 9 3 9C4.65685 9 6 10.3431 6 12ZM3 24C4.65685 24 6 22.6569 6 21C6 19.3431 4.65685 18 3 18C1.34315 18 0 19.3431 0 21C0 22.6569 1.34315 24 3 24Z"
-                              fill="#0066BE"
-                            />
-                          </svg>
-                        </Button> */}
                         </div>
                       </div>
                       <div className="graph-view">
@@ -3198,22 +2971,7 @@ const Analytics = (props) => {
                               downloadExcel(overViewData, "Overview")
                             }
                           >
-                            <svg
-                              width="20"
-                              height="20"
-                              viewBox="0 0 20 20"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path
-                                d="M18.3335 13.125C18.1125 13.125 17.9005 13.2128 17.7442 13.3691C17.588 13.5254 17.5002 13.7373 17.5002 13.9583V15.1775C17.4995 15.7933 17.2546 16.3836 16.8192 16.819C16.3838 17.2544 15.7934 17.4993 15.1777 17.5H4.82266C4.2069 17.4993 3.61655 17.2544 3.18114 16.819C2.74573 16.3836 2.50082 15.7933 2.50016 15.1775V13.9583C2.50016 13.7373 2.41237 13.5254 2.25609 13.3691C2.0998 13.2128 1.88784 13.125 1.66683 13.125C1.44582 13.125 1.23385 13.2128 1.07757 13.3691C0.921293 13.5254 0.833496 13.7373 0.833496 13.9583V15.1775C0.834599 16.2351 1.25524 17.2492 2.00311 17.997C2.75099 18.7449 3.76501 19.1656 4.82266 19.1667H15.1777C16.2353 19.1656 17.2493 18.7449 17.9972 17.997C18.7451 17.2492 19.1657 16.2351 19.1668 15.1775V13.9583C19.1668 13.7373 19.079 13.5254 18.9228 13.3691C18.7665 13.2128 18.5545 13.125 18.3335 13.125Z"
-                                fill="#0066BE"
-                              ></path>
-                              <path
-                                d="M14.7456 9.20249C14.5893 9.04626 14.3774 8.9585 14.1564 8.9585C13.9355 8.9585 13.7235 9.04626 13.5673 9.20249L10.8231 11.9467L10.8333 1.77108C10.8333 1.55006 10.7455 1.3381 10.5893 1.18182C10.433 1.02554 10.221 0.937744 10 0.937744C9.77899 0.937744 9.56702 1.02554 9.41074 1.18182C9.25446 1.3381 9.16667 1.55006 9.16667 1.77108L9.15643 11.9467L6.41226 9.20249C6.25509 9.05069 6.04459 8.96669 5.82609 8.96859C5.60759 8.97049 5.39858 9.05813 5.24408 9.21264C5.08957 9.36715 5.00193 9.57615 5.00003 9.79465C4.99813 10.0131 5.08213 10.2236 5.23393 10.3808L9.40059 14.5475C9.478 14.6251 9.56996 14.6867 9.6712 14.7287C9.77245 14.7707 9.88098 14.7923 9.99059 14.7923C10.1002 14.7923 10.2087 14.7707 10.31 14.7287C10.4112 14.6867 10.5032 14.6251 10.5806 14.5475L14.7473 10.3808C14.9033 10.2243 14.9907 10.0123 14.9904 9.79131C14.9901 9.57034 14.902 9.35854 14.7456 9.20249Z"
-                                fill="#0066BE"
-                              ></path>
-                            </svg>
+                            <img src={path_image + "download.svg"} alt="Download" />
                           </Button>
                         </div>
                       </div>
@@ -3237,29 +2995,7 @@ const Analytics = (props) => {
                                     }`}
                                     onClick={() => handleSort("name")}
                                   >
-                                    <svg
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      width="8"
-                                      height="8"
-                                      viewBox="0 0 8 8"
-                                      fill="none"
-                                    >
-                                      <g clip-path="url(#clip0_3722_6611)">
-                                        <path
-                                          d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
-                                          fill="#97B6CF"
-                                        />
-                                      </g>
-                                      <defs>
-                                        <clipPath id="clip0_3722_6611">
-                                          <rect
-                                            width="8"
-                                            height="8"
-                                            fill="white"
-                                          />
-                                        </clipPath>
-                                      </defs>
-                                    </svg>
+                                   <img src={path_image + "arrow-sort.svg"} alt="email-sort" />
                                   </button>
                                 </span>
                               </th>
@@ -3276,29 +3012,7 @@ const Analytics = (props) => {
                                     }`}
                                     onClick={() => handleSort("email")}
                                   >
-                                    <svg
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      width="8"
-                                      height="8"
-                                      viewBox="0 0 8 8"
-                                      fill="none"
-                                    >
-                                      <g clip-path="url(#clip0_3722_6611)">
-                                        <path
-                                          d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
-                                          fill="#97B6CF"
-                                        />
-                                      </g>
-                                      <defs>
-                                        <clipPath id="clip0_3722_6611">
-                                          <rect
-                                            width="8"
-                                            height="8"
-                                            fill="white"
-                                          />
-                                        </clipPath>
-                                      </defs>
-                                    </svg>
+                                  <img src={path_image + "arrow-sort.svg"} alt="email-sort" />
                                   </button>
                                 </span>
                               </th>
@@ -3315,29 +3029,7 @@ const Analytics = (props) => {
                                     }`}
                                     onClick={() => handleSort("region")}
                                   >
-                                    <svg
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      width="8"
-                                      height="8"
-                                      viewBox="0 0 8 8"
-                                      fill="none"
-                                    >
-                                      <g clip-path="url(#clip0_3722_6611)">
-                                        <path
-                                          d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
-                                          fill="#97B6CF"
-                                        />
-                                      </g>
-                                      <defs>
-                                        <clipPath id="clip0_3722_6611">
-                                          <rect
-                                            width="8"
-                                            height="8"
-                                            fill="white"
-                                          />
-                                        </clipPath>
-                                      </defs>
-                                    </svg>
+                                    <img src={path_image + "arrow-sort.svg"} alt="email-sort" />
                                   </button>
                                 </span>
                               </th>
@@ -3354,29 +3046,7 @@ const Analytics = (props) => {
                                     }`}
                                     onClick={() => handleSort("country")}
                                   >
-                                    <svg
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      width="8"
-                                      height="8"
-                                      viewBox="0 0 8 8"
-                                      fill="none"
-                                    >
-                                      <g clip-path="url(#clip0_3722_6611)">
-                                        <path
-                                          d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
-                                          fill="#97B6CF"
-                                        />
-                                      </g>
-                                      <defs>
-                                        <clipPath id="clip0_3722_6611">
-                                          <rect
-                                            width="8"
-                                            height="8"
-                                            fill="white"
-                                          />
-                                        </clipPath>
-                                      </defs>
-                                    </svg>
+                                    <img src={path_image + "arrow-sort.svg"} alt="email-sort" />
                                   </button>
                                 </span>
                               </th>
@@ -3395,29 +3065,7 @@ const Analytics = (props) => {
                                     }`}
                                     onClick={() => handleSort("register_time")}
                                   >
-                                    <svg
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      width="8"
-                                      height="8"
-                                      viewBox="0 0 8 8"
-                                      fill="none"
-                                    >
-                                      <g clip-path="url(#clip0_3722_6611)">
-                                        <path
-                                          d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
-                                          fill="#97B6CF"
-                                        />
-                                      </g>
-                                      <defs>
-                                        <clipPath id="clip0_3722_6611">
-                                          <rect
-                                            width="8"
-                                            height="8"
-                                            fill="white"
-                                          />
-                                        </clipPath>
-                                      </defs>
-                                    </svg>
+                                    <img src={path_image + "arrow-sort.svg"} alt="email-sort" />
                                   </button>
                                 </span>
                               </th>
@@ -3434,29 +3082,7 @@ const Analytics = (props) => {
                                     }`}
                                     onClick={() => handleSort("Attended")}
                                   >
-                                    <svg
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      width="8"
-                                      height="8"
-                                      viewBox="0 0 8 8"
-                                      fill="none"
-                                    >
-                                      <g clip-path="url(#clip0_3722_6611)">
-                                        <path
-                                          d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
-                                          fill="#97B6CF"
-                                        />
-                                      </g>
-                                      <defs>
-                                        <clipPath id="clip0_3722_6611">
-                                          <rect
-                                            width="8"
-                                            height="8"
-                                            fill="white"
-                                          />
-                                        </clipPath>
-                                      </defs>
-                                    </svg>
+                                    <img src={path_image + "arrow-sort.svg"} alt="email-sort" />
                                   </button>
                                 </span>
                               </th>
