@@ -10659,10 +10659,15 @@ button.event_sort_btn.svg_active svg path {
   fill: var(--dark-blue);
 }
 
-button.event_sort_btn.svg_active svg {
+button.event_sort_btn.svg_active svg, button.event_sort_btn.svg_active >img {
   transform: rotate(180deg);
 }
-
+table thead th.sort_option span button.event_sort_btn > img{
+opacity: 0.5;
+}
+table thead th.sort_option span button.event_sort_btn.svg_active >img{
+  opacity: 1;
+  }
 .invitee table td {
   color: var(--dark-gray);
   font-size: 13px;
