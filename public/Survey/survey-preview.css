@@ -332,8 +332,8 @@ input[type="radio"]:checked ~ .checkmark {
 }
 
 .table-responsive {
-  overflow-x: auto;
   -webkit-overflow-scrolling: touch;
+  overflow-x: auto;
 }
 
 .survey-image img {
