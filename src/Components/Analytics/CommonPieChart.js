@@ -19,10 +19,10 @@ const CommonPieChart = ({ data, value }) => {
       "#9C9CA2",
       "#91817e",
       "#2b6570",
-
       "#4f4566",
       "#00D4C0",
       "#32a1d1",
+      "#ea7e1e",
     ],
   });
   const series = [];

@@ -1,40 +1,58 @@
-import React, { useState } from "react";
+import React, { useState, memo, useEffect } from "react";
 import { Spinner } from "react-activity";
 import SurveyAnalyticsQuestionPieChart from "./SurveyAnalyticsQuestionPieChart";
 
-const SurveyAnalyticsQuestionView = ({ index, item, colors }) => {
+const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
     let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
     const [whichTypeGraph, setWhichTypeGraph] = useState({ [index]: "pie" })
+    const [whichTypeMatrixGraph, setWhichTypeMatrixGraph] = useState({})
     const [apiStatus, setApiStatus] = useState(false)
     const [loaderIndex, setLoaderIndex] = useState()
     const [sectionLoader, setSectionLoader] = useState(false);
     const [show, setShow] = useState(false);
 
-    console.log("child-->", index)
-
+    useState(() => {
+        if (item?.type == "matrix") {
+            let matrixType = { ...whichTypeMatrixGraph }
+            item?.answer?.map((data) => {
+                matrixType[data?.id] = "pie"
+            })
+            setWhichTypeMatrixGraph((prev) => ({ ...prev, ...matrixType }))
+        }
+    }, [])
     const changeGraphType = (e, index) => {
-        console.log("index-->", index)
-        // loader("show");
         setApiStatus(true)
         setLoaderIndex(index)
         setSectionLoader(true)
-        console.log("before type--->", whichTypeGraph, e?.target?.checked);
+
         let type = { ...whichTypeGraph }
         type[index] = e?.target?.checked ? "bar" : "pie"
-        console.log(" type--->", type);
 
         setTimeout(() => {
-            // setWhichTypeGraph((prev) => ({ ...prev, whichTypeGraph[index]:e?.target?.checked }));
             setWhichTypeGraph(type)
-            // loader("hide");
             setApiStatus(false)
             setSectionLoader(false)
-            console.log("After type--->", whichTypeGraph);
         }, 500);
-
     }
+
+    const changeGraphMatrixType = (e, id) => {
+        setApiStatus(true)
+        setLoaderIndex(id)
+        setSectionLoader(true)
+
+        let type = { ...whichTypeMatrixGraph }
+        type[id] = e?.target?.checked ? "bar" : "pie"
+
+
+        setTimeout(() => {
+            setWhichTypeMatrixGraph(type)
+            setApiStatus(false)
+            setSectionLoader(false)
+        }, 500);
+    }
+
     return (<>
-        <div className="survey-question-listing">
+        <div key={index} className="survey-question-listing">
             <div className="survey-question-top d-flex align-items-center">
                 <div className="survey-question-num">
                     <div className="question-type">
@@ -69,12 +87,14 @@ const SurveyAnalyticsQuestionView = ({ index, item, colors }) => {
             </div>
             {item?.type == "matrix" ?
                 item?.answer?.map((data, index) => {
+                    // matrixTypeGraph(data?.id)
                     return (<>
-                        <div className="question-preview-block">
+                        <div key={index} className="question-preview-block">
                             <div className="question-preview">
+                                {data?.title}
                                 <div className="d-flex align-items-center justify-content-between question-preview-options">
                                     <div>
-                                        Choices
+                                        Choices matrix
                                     </div>
                                     <div>
                                         Respondents
@@ -92,12 +112,11 @@ const SurveyAnalyticsQuestionView = ({ index, item, colors }) => {
                                                 </div>
                                                 <div className="respondents">
                                                     <span>{ans?.count}</span>
-                                                    <span className="respondents-percent">(<span>00%</span>)</span>
+                                                    <span className="respondents-percent">(<span>{ans?.percentage}%</span>)</span>
                                                 </div>
                                             </div>
                                         </>)
                                     })}
-
                                 </div>
                             </div>
                             <div className="question-preview-right">
@@ -106,9 +125,9 @@ const SurveyAnalyticsQuestionView = ({ index, item, colors }) => {
                                         <label className="switch6-light">
                                             <input
                                                 type="checkbox"
-                                                checked={whichTypeGraph[index] == "bar" ? true : false}
+                                                checked={whichTypeMatrixGraph[data?.id] == "bar" ? true : false}
                                                 onChange={(e) => {
-                                                    changeGraphType(e, index)
+                                                    changeGraphMatrixType(e, data?.id)
                                                 }}
                                             />
                                             <span>
@@ -124,21 +143,8 @@ const SurveyAnalyticsQuestionView = ({ index, item, colors }) => {
                                     </div>
 
                                 </div>
-                                {(apiStatus && loaderIndex == index) ?
-                                    // <div className="accordion-loader">
-                                    //     <div
-                                    //         className={
-                                    //             "loader tab-inside " +
-                                    //             (sectionLoader ? "show" : "")
-                                    //         }
-                                    //         id="custom_loader"
-                                    //     >
-                                    //         <div className="loader_show">
-                                    //             <span className="loader-view"> </span>
-                                    //         </div>
-                                    //     </div>
-                                    // </div>
-
+                                {(apiStatus && loaderIndex == data?.id)
+                                    ?
                                     <div
                                         className="load_more"
                                         style={{
@@ -151,24 +157,23 @@ const SurveyAnalyticsQuestionView = ({ index, item, colors }) => {
                                     </div>
                                     :
                                     <div className="pie-chart-outer-layout">
-
-
-                                        {whichTypeGraph[index] == "pie" ?
+                                        {whichTypeMatrixGraph[data?.id] == "bar"
+                                            ?
                                             <SurveyAnalyticsQuestionPieChart
-                                                key={index}
+                                                key={data?.id}
                                                 data={{
-                                                    questionId: index,
-                                                    graphType: "pie",
+                                                    questionId: data?.id,
+                                                    graphType: "bar",
                                                     ans: data?.answers,
                                                 }}
                                                 type="analytics"
                                                 show={show}
                                             />
                                             : <SurveyAnalyticsQuestionPieChart
-                                                key={index}
+                                                key={data?.id}
                                                 data={{
-                                                    questionId: index,
-                                                    graphType: "bar",
+                                                    questionId: data?.id,
+                                                    graphType: "pie",
                                                     ans: data?.answers,
                                                 }}
                                                 type="analytics"
@@ -195,7 +200,7 @@ const SurveyAnalyticsQuestionView = ({ index, item, colors }) => {
                         <div className="answer-options">
                             {item?.answer?.map((ans, i) => {
                                 return (<>
-                                    <div className="answer">
+                                    <div key={i} className="answer">
                                         <div className="choices">
                                             <span className="bullet-color" style={{ background: colors[i] }}>&nbsp;</span>
                                             <div dangerouslySetInnerHTML={{
@@ -204,7 +209,7 @@ const SurveyAnalyticsQuestionView = ({ index, item, colors }) => {
                                         </div>
                                         <div className="respondents">
                                             <span>{ans?.count}</span>
-                                            <span className="respondents-percent">(<span>00%</span>)</span>
+                                            <span className="respondents-percent">(<span>{ans?.percentage ? ans?.percentage : "00"}%</span>)</span>
                                         </div>
                                     </div>
                                 </>)
@@ -236,21 +241,8 @@ const SurveyAnalyticsQuestionView = ({ index, item, colors }) => {
                             </div>
 
                         </div>
-                        {(apiStatus && loaderIndex == index) ?
-                            // <div className="accordion-loader">
-                            //     <div
-                            //         className={
-                            //             "loader tab-inside " +
-                            //             (sectionLoader ? "show" : "")
-                            //         }
-                            //         id="custom_loader"
-                            //     >
-                            //         <div className="loader_show">
-                            //             <span className="loader-view"> </span>
-                            //         </div>
-                            //     </div>
-                            // </div>
-
+                        {(apiStatus && loaderIndex == index)
+                            ?
                             <div
                                 className="load_more"
                                 style={{
@@ -293,5 +285,5 @@ const SurveyAnalyticsQuestionView = ({ index, item, colors }) => {
             }
         </div>
     </>)
-}
+})
 export default SurveyAnalyticsQuestionView
