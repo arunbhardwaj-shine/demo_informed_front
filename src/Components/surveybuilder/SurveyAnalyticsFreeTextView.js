@@ -43,14 +43,12 @@ const SurveyAnalyticsFreeTextView = ({ index, item }) => {
                 </div>
             </div>
             <div className="question-preview-block">
-
                 <div className="question-preview-right">
                     <div className="rd-training-block-right d-flex justify-content-end align-items-center">
                         <Dropdown>
                             <Dropdown.Toggle id="dropdown-basic">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="6" height="24" viewBox="0 0 6 24" fill="none" > <path fillRule="evenodd" clipRule="evenodd" d="M6 3C6 4.65685 4.65685 6 3 6C1.34315 6 0 4.65685 0 3C0 1.34315 1.34315 0 3 0C4.65685 0 6 1.34315 6 3ZM6 12C6 13.6569 4.65685 15 3 15C1.34315 15 0 13.6569 0 12C0 10.3431 1.34315 9 3 9C4.65685 9 6 10.3431 6 12ZM3 24C4.65685 24 6 22.6569 6 21C6 19.3431 4.65685 18 3 18C1.34315 18 0 19.3431 0 21C0 22.6569 1.34315 24 3 24Z" fill="#0066BE" /> </svg>
                             </Dropdown.Toggle>
-
                             <Dropdown.Menu>
                                 <Dropdown.Item
                                 // onClick={() =>
@@ -106,7 +104,7 @@ const SurveyAnalyticsFreeTextView = ({ index, item }) => {
                     <div className="free-text-section">
                         {item?.answer?.length ? item?.answer?.map((data, index) => {
                             return (<>
-                                <div className="free-text-block">
+                                <div key={index} className="free-text-block">
                                     <p>{data?.username}</p>
                                     <div className="user-message">
                                         <p dangerouslySetInnerHTML={{ __html: data?.value }}></p>
@@ -143,7 +141,6 @@ const SurveyAnalyticsFreeTextView = ({ index, item }) => {
                     </div>
                 </div>
             </div>
-
         </div>
     </>)
 

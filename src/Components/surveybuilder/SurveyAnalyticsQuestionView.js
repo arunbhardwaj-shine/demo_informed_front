@@ -2,7 +2,7 @@ import React, { useState, memo, useEffect } from "react";
 import { Spinner } from "react-activity";
 import SurveyAnalyticsQuestionPieChart from "./SurveyAnalyticsQuestionPieChart";
 
-const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
+const SurveyAnalyticsQuestionView = memo(({index, item, colors, type }) => {
     let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
     const [whichTypeGraph, setWhichTypeGraph] = useState({ [index]: "pie" })
     const [whichTypeMatrixGraph, setWhichTypeMatrixGraph] = useState({})
@@ -103,7 +103,7 @@ const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
                                 <div className="answer-options">
                                     {data?.answers?.map((ans, i) => {
                                         return (<>
-                                            <div className="answer">
+                                            <div key={i} className="answer">
                                                 <div className="choices">
                                                     <span className="bullet-color" style={{ background: colors[i] }}>&nbsp;</span>
                                                     <div dangerouslySetInnerHTML={{
@@ -141,7 +141,6 @@ const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
                                             <a className="btn"></a>
                                         </label>
                                     </div>
-
                                 </div>
                                 {(apiStatus && loaderIndex == data?.id)
                                     ?
@@ -151,6 +150,7 @@ const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
                                             margin: "10 auto",
                                             justifyContent: "center",
                                             display: "flex",
+                                            height:225
                                         }}
                                     >
                                         <Spinner color="#53aff4" size={32} speed={1} animating={true} />
@@ -166,6 +166,7 @@ const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
                                                     graphType: "bar",
                                                     ans: data?.answers,
                                                 }}
+                                                colors={colors}
                                                 type="analytics"
                                                 show={show}
                                             />
@@ -176,6 +177,7 @@ const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
                                                     graphType: "pie",
                                                     ans: data?.answers,
                                                 }}
+                                                colors={colors}
                                                 type="analytics"
                                                 show={show}
                                             />
@@ -249,6 +251,7 @@ const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
                                     margin: "10 auto",
                                     justifyContent: "center",
                                     display: "flex",
+                                    height:225
                                 }}
                             >
                                 <Spinner color="#53aff4" size={32} speed={1} animating={true} />
@@ -259,22 +262,22 @@ const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
 
                                 {whichTypeGraph[index] == "pie" ?
                                     <SurveyAnalyticsQuestionPieChart
-                                        key={index}
                                         data={{
                                             questionId: index,
                                             graphType: "pie",
                                             ans: item?.answer,
                                         }}
+                                        colors={colors}
                                         type="analytics"
                                         show={show}
                                     />
                                     : <SurveyAnalyticsQuestionPieChart
-                                        key={index}
                                         data={{
                                             questionId: index,
                                             graphType: "bar",
                                             ans: item?.answer,
                                         }}
+                                        colors={colors}
                                         type="analytics"
                                         show={show}
                                     />

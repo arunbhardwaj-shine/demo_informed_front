@@ -1,30 +1,9 @@
 import React, { useEffect, useRef, useState, memo } from "react";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
-import { Spinner } from 'react-activity';
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
-const SurveyAnalyticsQuestionPieChart = memo(({ key, data, show, type }) => {
 
-    const colors = [
-        "#39CABC",
-        "#FAC755",
-        "#F58289",
-        "#8A4E9C",
-        "#0442A2",
-        "#00D4C0",
-        "#BCA9F5",
-        "#D61975",
-        "#9af5b2",
-        "#0066BE",
-        "#FFBE2C",
-        "#7cb0dd",
-        "#7c00ad",
-        "#ACB5F5",
-        "#009739",
-        "#db6f2c",
-        "#9C9CA2",
-        "#00003C",
-    ];
+const SurveyAnalyticsQuestionPieChart = memo(({ key, data, show, type,colors }) => {   
     const baseOptions = {
         chart: {
             plotBackgroundColor: null,
