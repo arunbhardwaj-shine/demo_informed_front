@@ -42,6 +42,7 @@ const SurveyAnalyticsDetail = () => {
     const [filter, setFilter] = useState("");
     const [data, setData] = useState({});
     const [apiStatus, setApiStatus] = useState(false)
+    const [sectionApiStatus, setSectionApiStatus] = useState(false)
     const [flag, setFlag] = useState({ survey_taker: false })
     const [sortBy, setSortBy] = useState(''); // Initial sort key
     const [sortOrder, setSortOrder] = useState('');
@@ -131,29 +132,6 @@ const SurveyAnalyticsDetail = () => {
         "#00003C",
     ];
 
-    let QuestionData = [
-        {
-            ques: "Lorem sollicitudin faucibus Pulvinar ultricies neque praesent mauris, arcu viverra aliquam massa pretium sit arcu curabitur fringilla egestas massa?",
-            ans: [
-                { name: "Masuismod phartra donec faucibus", y: 8 },
-                { name: "Masuismod phartra donec faucibus quisque nuneque", y: 12 },
-                { name: "Masuismod phartra donec faucibus quisque nuneque mote condi ment", y: 15 },
-                { name: "Masuismod phartra donec faucibus quisque", y: 30 },
-                { name: "Masuismod phartra donec faucibus quisque nuneque mote", y: 108 }
-            ]
-        },
-        {
-            ques:
-                "Which of the following is the largest planet in our solar system?",
-            ans: [
-                { name: "Earth", y: 5 },
-                { name: "Mars", y: 8 },
-                { name: "Jupiter", y: 9 },
-                { name: "Saturn", y: 7 },
-                { name: "Venus", y: 3 }
-            ]
-        }
-    ]
 
     useEffect(() => {
         getSurveyDetail()
@@ -165,8 +143,8 @@ const SurveyAnalyticsDetail = () => {
             loader("show")
             setApiStatus(true)
             const res = await surveyAxiosInstance.post("/survey/qns-analytics", {
-                survey_id: stateData?.survey_id
-                // survey_id: 65
+                // survey_id: stateData?.survey_id
+                survey_id: 72
             });
             let data = res?.data?.data
             if (data != "undefined") {
@@ -210,8 +188,8 @@ const SurveyAnalyticsDetail = () => {
             // })
             // setWhichTypeGraph(type)
             const res = await surveyAxiosInstance.post("/survey/analytic-qns-detail", {
-                survey_id: stateData?.survey_id
-                // survey_id: 65
+                // survey_id: stateData?.survey_id
+                survey_id: 72
             });
             const data = res?.data?.data?.allData
 
@@ -371,14 +349,10 @@ const SurveyAnalyticsDetail = () => {
             setApiStatus(true)
             if (surveyTakerTableData?.length == 0) {
                 const res = await surveyAxiosInstance.post("/survey/survey-takers-status", {
-                    survey_id: stateData?.survey_id
-                    // survey_id:34
+                    // survey_id: stateData?.survey_id
+                    survey_id:72
                 });
-                // let data = [
-                //     { name: "shine", email: "shinedezign@infonet.com", region: "asia", country: "india", date: new Date().toUTCString(), status: "completed" },
-                //     { name: "informed", email: "informed@docintel.com", region: "asia", country: "india", date: new Date().toUTCString(), status: "drop-off" },
-                //     { name: "docintel", email: "docintel@informed.com", region: "EU", country: "England", date: new Date().toUTCString(), status: "ignored" }
-                // ]
+                
                 const countries = res?.data?.data?.map((item) => item?.country)
                 setFilterData((prev) => ({ ...prev, country: countries }))
                 setSurveyTakerTableData(res?.data?.data)
@@ -421,24 +395,21 @@ const SurveyAnalyticsDetail = () => {
         });
     };
 
-    const surveyTakerShowData = async (e, index, userId, ip) => {
-        // if (surveyTakerShowQuestions == index) {
-        //     setSurveyTakerShowQuestions()
-        // } else {
-        //     setSurveyTakerShowQuestions(index)
-        // }
+    const surveyTakerShowData = async (e, index, userId, temp_token) => {
         try {
-            let id = userId != 0 ? userId : ip
+            let id = userId != 0 ? userId : temp_token
             if (surveyTakerShowQuestions == id) {
                 setSurveyTakerShowQuestions()
+                // setSurveyTakerShowQuestionsData([])
                 return
             } else {
                 setSurveyTakerShowQuestions(id)
-                setApiStatus(true)
+                setSectionApiStatus(true)
                 setLoaderIndex(id)
                 const res = await surveyAxiosInstance.post("/survey/takers-responses-detail", {
                     user_id: id,
-                    survey_id: stateData?.survey_id
+                    // survey_id: stateData?.survey_id
+                    survey_id: 72
                 })
                 setSurveyTakerShowQuestionsData(res?.data?.data)
                 console.log("res--->", res)
@@ -447,7 +418,7 @@ const SurveyAnalyticsDetail = () => {
         } catch (err) {
             console.log("--err", err);
         } finally {
-            setApiStatus(false)
+            setSectionApiStatus(false)
         }
     }
 
@@ -619,7 +590,11 @@ const SurveyAnalyticsDetail = () => {
                                         </div>
 
                                         {tempQuestionData?.map((item, index) => {
-                                            if (item?.type === "multiple" || item?.type === "checkbox" || item?.type == "matrix") {
+                                            if (item?.type === "multiple" ||item?.type==="dropdown"|| item?.type === "checkbox" || item?.type == "matrix") {
+                                                
+                                                item?.answer?.forEach((obj)=>{
+                                                    obj.percentage = item.total_count > 0 ? JSON.parse(((obj.count / item.total_count).toFixed(2)) * 100) : 0;
+                                                })
                                                 return (
                                                     <SurveyAnalyticsQuestionView
                                                         index={index}
@@ -1432,14 +1407,14 @@ const SurveyAnalyticsDetail = () => {
                                                                         return (<>
 
                                                                             <tr key={index}
-                                                                                className={`view ${surveyTakerShowQuestions == item?.user_id!=0 
-                                                                                    ?item?.user_id
-                                                                                    :item?.ip_address
-                                                                                    ? "show"
-                                                                                    : ""
+                                                                                className={`view ${surveyTakerShowQuestions == item?.user_id != 0
+                                                                                    ? item?.user_id
+                                                                                    : item?.temp_token
+                                                                                        ? "show"
+                                                                                        : ""
                                                                                     }`}
                                                                                 onClick={(e) =>
-                                                                                    surveyTakerShowData(e, index, item?.user_id, item?.ip_address)
+                                                                                    surveyTakerShowData(e, index, item?.user_id, item?.temp_token)
                                                                                 } >
                                                                                 <td>{item?.name}</td>
                                                                                 <td>{item?.email}</td>
@@ -1448,25 +1423,11 @@ const SurveyAnalyticsDetail = () => {
                                                                                 <td>{moment(item?.date).format("DD MMM. YYYY")}</td>
                                                                                 <td className={item?.status}>{item?.status}</td>
 
+
                                                                             </tr>
-                                                                            {
-                                                                                (apiStatus &&(loaderIndex ==(item?.user_id!=0 
-                                                                                    ?item?.user_id
-                                                                                    :item?.ip_address))) ?
-                                                                                // <div className="accordion-loader">
-                                                                                //     <div
-                                                                                //         className={
-                                                                                //             "loader tab-inside " +
-                                                                                //             (sectionLoader ? "show" : "")
-                                                                                //         }
-                                                                                //         id="custom_loader"
-                                                                                //     >
-                                                                                //         <div className="loader_show">
-                                                                                //             <span className="loader-view"> </span>
-                                                                                //         </div>
-                                                                                //     </div>
-                                                                                // </div>
-                                            
+                                                                            {(sectionApiStatus && (loaderIndex == item?.user_id ||
+                                                                                loaderIndex == item?.temp_token)) ?
+
                                                                                 <div
                                                                                     className="load_more"
                                                                                     style={{
@@ -1476,85 +1437,92 @@ const SurveyAnalyticsDetail = () => {
                                                                                     }}
                                                                                 >
                                                                                     <Spinner color="#53aff4" size={32} speed={1} animating={true} />
-                                                                                </div>:
-                                                                            (surveyTakerShowQuestionsData?.length>0&&surveyTakerShowQuestions == item?.user_id!=0 
-                                                                            ?item?.user_id
-                                                                            :item?.ip_address)
-                                                                            ?
-                                                                                <tr className="fold" >
-                                                                                    <td colSpan="6">
-                                                                                        <div className="survey-data">
-                                                                                            <div className="question-type">
-                                                                                                <img src={path_image + 'multiple-choices.png'} alt="" />
-                                                                                            </div>
-                                                                                            <div>
-                                                                                                <h6>
-                                                                                                    Q1 | Faucibus qmasuismod phartra donec faucibus quisque nuneque mote condi ment zcsum nudolor nibhcudolmasa euismod phartra donec mat?
-                                                                                                </h6>
-                                                                                                <p>
-                                                                                                    Survey takers answer choice dolor sit amet consect ltrices vitae
-                                                                                                </p>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                        <div className="survey-data">
-                                                                                            <div className="question-type">
-                                                                                                <img src={path_image + 'dropdown-choice.png'} alt="" />
-                                                                                            </div>
-                                                                                            <div>
-                                                                                                <h6>
-                                                                                                    Q2 | Faucibus qmasuismod phartra donec faucibus quisque nuneque mote condi ment zcsum nudolor nibhcudolmasa euismod phartra?
-                                                                                                </h6>
-                                                                                                <p>
-                                                                                                    Survey takers answer choice dolor
-                                                                                                </p>
-                                                                                            </div>
+                                                                                </div> :
+                                                                                (surveyTakerShowQuestions == item?.user_id ||
+                                                                                    surveyTakerShowQuestions == item?.temp_token) ?
 
-                                                                                        </div>
-                                                                                        <div className="survey-data">
-                                                                                            <div className="question-type">
-                                                                                                <img src={path_image + 'star-rating.png'} alt="" />
-                                                                                            </div>
-                                                                                            <div>
-                                                                                                <h6>
-                                                                                                    Q3 | Faucibus qmasuismod phartra donec faucibus quisque nuneque mote condi ment zcsum nudolor nibhcudolmasa?
-                                                                                                </h6>
-                                                                                                <p>
-                                                                                                    Survey takers answer choice dolor
-                                                                                                </p>
-                                                                                            </div>
+                                                                                    (<>
+                                                                                        {(surveyTakerShowQuestionsData?.length)
+                                                                                            ?
+                                                                                            <tr className="fold" >
+                                                                                                {console.log("data--->", surveyTakerShowQuestionsData)}
+                                                                                                {console.log("ques--->", surveyTakerShowQuestions)}
+                                                                                                <td colSpan="6">
+                                                                                                    <div className="survey-data">
+                                                                                                        <div className="question-type">
+                                                                                                            <img src={path_image + 'multiple-choices.png'} alt="" />
+                                                                                                        </div>
+                                                                                                        <div>
+                                                                                                            <h6>
+                                                                                                                Q1 | Faucibus qmasuismod phartra donec faucibus quisque nuneque mote condi ment zcsum nudolor nibhcudolmasa euismod phartra donec mat?
+                                                                                                            </h6>
+                                                                                                            <p>
+                                                                                                                Survey takers answer choice dolor sit amet consect ltrices vitae
+                                                                                                            </p>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <div className="survey-data">
+                                                                                                        <div className="question-type">
+                                                                                                            <img src={path_image + 'dropdown-choice.png'} alt="" />
+                                                                                                        </div>
+                                                                                                        <div>
+                                                                                                            <h6>
+                                                                                                                Q2 | Faucibus qmasuismod phartra donec faucibus quisque nuneque mote condi ment zcsum nudolor nibhcudolmasa euismod phartra?
+                                                                                                            </h6>
+                                                                                                            <p>
+                                                                                                                Survey takers answer choice dolor
+                                                                                                            </p>
+                                                                                                        </div>
 
-                                                                                        </div>
-                                                                                        <div className="survey-data">
-                                                                                            <div className="question-type">
-                                                                                                <img src={path_image + 'matrix.png'} alt="" />
-                                                                                            </div>
-                                                                                            <div>
-                                                                                                <h6>
-                                                                                                    Q4 | Faucibus qmasuismod phartra donec faucibus quisque nuneque mote condi ment zcsum nudolor nibhcudolmasa euismod phartra donec?
-                                                                                                </h6>
-                                                                                                <p>
-                                                                                                    Survey takers answer choice dolor sit amet consect ltrices vitae
-                                                                                                </p>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                        <div className="survey-data">
-                                                                                            <div className="question-type">
-                                                                                                <img src={path_image + 'free-text.png'} alt="" />
-                                                                                            </div>
-                                                                                            <div>
-                                                                                                <h6>
-                                                                                                    Q5 | Faucibus qmasuismod phartra donec faucibus quisque nuneque mote condi ment zcsum nudolor?
-                                                                                                </h6>
-                                                                                                <p>
-                                                                                                    Survey takers answer choice dolor sit amet consect ltrices vitae
-                                                                                                </p>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </td>
-                                                                                </tr> 
-                                                                                : !apiStatus
-                                                                                ?
-                                                                            <div className="no_found"><p>No Data Found</p></div>:null}
+                                                                                                    </div>
+                                                                                                    <div className="survey-data">
+                                                                                                        <div className="question-type">
+                                                                                                            <img src={path_image + 'star-rating.png'} alt="" />
+                                                                                                        </div>
+                                                                                                        <div>
+                                                                                                            <h6>
+                                                                                                                Q3 | Faucibus qmasuismod phartra donec faucibus quisque nuneque mote condi ment zcsum nudolor nibhcudolmasa?
+                                                                                                            </h6>
+                                                                                                            <p>
+                                                                                                                Survey takers answer choice dolor
+                                                                                                            </p>
+                                                                                                        </div>
+
+                                                                                                    </div>
+                                                                                                    <div className="survey-data">
+                                                                                                        <div className="question-type">
+                                                                                                            <img src={path_image + 'matrix.png'} alt="" />
+                                                                                                        </div>
+                                                                                                        <div>
+                                                                                                            <h6>
+                                                                                                                Q4 | Faucibus qmasuismod phartra donec faucibus quisque nuneque mote condi ment zcsum nudolor nibhcudolmasa euismod phartra donec?
+                                                                                                            </h6>
+                                                                                                            <p>
+                                                                                                                Survey takers answer choice dolor sit amet consect ltrices vitae
+                                                                                                            </p>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <div className="survey-data">
+                                                                                                        <div className="question-type">
+                                                                                                            <img src={path_image + 'free-text.png'} alt="" />
+                                                                                                        </div>
+                                                                                                        <div>
+                                                                                                            <h6>
+                                                                                                                Q5 | Faucibus qmasuismod phartra donec faucibus quisque nuneque mote condi ment zcsum nudolor?
+                                                                                                            </h6>
+                                                                                                            <p>
+                                                                                                                Survey takers answer choice dolor sit amet consect ltrices vitae
+                                                                                                            </p>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </td>
+                                                                                            </tr>
+                                                                                            :
+                                                                                            <div className="no_found"><p>No Data Found</p></div>
+                                                                                        }
+                                                                                    </>)
+                                                                                    : null}
+
 
                                                                             <tr className="blank">
                                                                                 <td colSpan="6" style={{ height: "10px" }}>

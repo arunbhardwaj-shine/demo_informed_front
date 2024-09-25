@@ -116,7 +116,7 @@ const SurveyAnalyticsQuestionView =memo(({index, item, colors,type }) => {
                                                 </div>
                                                 <div className="respondents">
                                                     <span>{ans?.count}</span>
-                                                    <span className="respondents-percent">(<span>00%</span>)</span>
+                                                    <span className="respondents-percent">(<span>{ans?.percentage}%</span>)</span>
                                                 </div>
                                             </div>
                                         </>)
@@ -228,7 +228,7 @@ const SurveyAnalyticsQuestionView =memo(({index, item, colors,type }) => {
                                         </div>
                                         <div className="respondents">
                                             <span>{ans?.count}</span>
-                                            <span className="respondents-percent">(<span>00%</span>)</span>
+                                            <span className="respondents-percent">(<span>{ans?.percentage?ans?.percentage:"00"}%</span>)</span>
                                         </div>
                                     </div>
                                 </>)
