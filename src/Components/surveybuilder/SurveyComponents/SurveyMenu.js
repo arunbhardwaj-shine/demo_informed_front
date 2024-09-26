@@ -893,7 +893,7 @@ const SurveyMenu = ({ menuRef, consentOption }) => {
                    
                         if (
                           item.label === "Consent" &&
-                          consentOption === "No consent needed (anonymous)"
+                          consentOption == "No consent needed (anonymous)"
                         ) {
                           return;
                         } else {
