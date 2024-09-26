@@ -4517,7 +4517,8 @@ body {
 
         .question-preview-block {
             display: flex;
-            align-items: flex-start;
+            // align-items: center;
+            height:100%;
 
             &.matrix {
                 border-bottom: 1px dashed $light-gray;
@@ -4529,6 +4530,7 @@ body {
                 .question-preview {
                     padding-top: 13px;
                     padding-bottom: 16px;
+                    
                 }
             }
 
@@ -4536,6 +4538,9 @@ body {
                 width: 597px;
                 padding: 40px 16px;
                 border-right: 1px dashed $light-gray;
+                flex-direction: column;
+                display: flex;
+                justify-content: center;
 
                 &>span {
                     color: $dark-blue;
@@ -4594,12 +4599,12 @@ body {
                                 color: $dark-blue;
                                 font-size: 13px;
                                 font-weight: 500;
-                                min-width: 16px;
+                                min-width: 18px;
                                 text-align: center;
 
                                 &.respondents-percent {
                                     color: $dark-gray;
-
+                                    min-width: 43px;
                                     span {
                                         color: $dark-blue;
                                     }
@@ -4645,7 +4650,7 @@ body {
             .question-preview-right {
                 flex: 1 1;
                 padding: 16px;
-
+                
                 .rd-training-block-right {
                     gap: 16px;
 
@@ -4752,6 +4757,13 @@ body {
                             &.survey-rating-number{
                                 font-weight: 500;
                                 color: #004A89;
+                            }
+                        }
+                        .progress{
+                            background: #EAF0F5;
+                            border-radius: 20px;
+                            .progress-bar{
+                                border-radius: 20px;
                             }
                         }
                     }
