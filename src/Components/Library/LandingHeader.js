@@ -125,7 +125,6 @@ const LandingHeader = () => {
           localStorage.removeItem("uname");
           localStorage.removeItem("pass");
         }
-
         localStorage.setItem("user_id", res?.data?.data?.userToken);
         localStorage.setItem("group_id", res?.data?.data?.groupId);
         localStorage.setItem("webinar_flag", res?.data?.data?.webinar_flag);
@@ -135,7 +134,11 @@ const LandingHeader = () => {
         if (res?.data?.data?.loginCounter == 0) {
           navigate("/change-password");
         } else {
-          navigate("/home");
+          if (res?.data?.data?.userToken === "56Ek4feL/1A8mZgIKQWEqg==") {
+            navigate("/home-timeline")
+          } else {
+            navigate("/home");
+          }
         }
       } catch (err) {
         console.log(err);
