@@ -78,6 +78,7 @@ const SurveyMenu = ({ menuRef, consentOption }) => {
   const dispatch = useDispatch();
 
   const [accordionType, setAccordionType] = useState("0");
+  
   const handleAddElement = (type) => {
     dispatch(addElement(type));
   };
@@ -889,7 +890,7 @@ const SurveyMenu = ({ menuRef, consentOption }) => {
                   <div className={`top-right-action menu`}>
                     <div className="d-flex flex-column">
                       {SidebarCommonItems.map((item, index) => {
-                      console.log(item.label)
+                   
                         if (
                           item.label === "Consent" &&
                           consentOption == "No consent needed (anonymous)"

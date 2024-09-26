@@ -24,7 +24,7 @@ const SurveyConfig = (props) => {
 
   const [formData, setFormData] = useState({
     selectedThumbnailFilePath: null,
-    surveyLinkTitle: "",
+    surveyLinkTitle:  surveyValues?.setUpData?.survey_title,
     surveyLinkDescription: "",
     consentType: "No consent needed (anonymous)", // default value
     informedEmail:selectOptions[0],
@@ -38,7 +38,7 @@ const SurveyConfig = (props) => {
 
   const fetchSurveyListing = () => {
     setSurveyLink(surveyValues?.unique_code ?? "");
-    if (surveyValues?.surveyConfigData) {
+    if (surveyValues.surveyConfigData) {
       setFormData((prevData) => ({
         ...prevData,
         surveyLinkTitle:
