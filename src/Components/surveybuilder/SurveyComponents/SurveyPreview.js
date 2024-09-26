@@ -11,6 +11,8 @@ import { Modal } from "react-bootstrap";
 
 import {
   emptySurveyReduxStates,
+  toggleEditMode,
+  updateCurrentElementIndex,
   addElement,
   copyElement,
   setCurrentElementIndex,
@@ -32,12 +34,28 @@ import { updateLiveFlag } from "../CommonFunctions/CommonFunction";
 var surveyValues = {};
 const SurveyPreview = (props) => {
   let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
-  const obj = useSelector((state) => state.surveyData);
-
-
+  let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const { currentElementIndex, elements, isAddClicked } = useSelector(
     (state) => state.surveyData
   );
+  const [questionDeleteCount, setQuestionDeleteCount] = useState(0);
+  console.log(elements);
+
+  const updatedSurveyData = {
+    ...surveyValues,
+    question_data: elements,
+  };
+
+  const updateQuestioData = async () => {
+    if (questionDeleteCount > 0) {
+      console.log("inside updatequestion of effect");
+      await props.getSurveyData(updatedSurveyData);
+    }
+  };
+
+  useEffect(() => {
+    updateQuestioData();
+  }, [questionDeleteCount]);
 
   const [isChecked, setIsChecked] = useState(false);
   const [specificIndex, setSpecificIndex] = useState("");
@@ -46,11 +64,11 @@ const SurveyPreview = (props) => {
     setIsChecked(!isChecked);
   };
 
-  let { surveyRef, isEdit, nextHandler, navigateFunction } = props;
+  let { surveyRef, isEdit, nextHandler, navigateFunction, consentOption } =
+    props;
 
   const custom_html = surveyValues?.formBuilderData?.custom_html?.[0];
 
-  let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
@@ -114,14 +132,19 @@ const SurveyPreview = (props) => {
   useEffect(() => {
     const shouldFetchQuestions =
       survey_id &&
+      survey_id != 0 &&
       (surveyValues?.question_data === undefined ||
         surveyValues?.question_data === "" ||
         elements.length === 0);
-
+    console.log("side effect");
     if (shouldFetchQuestions) {
+      console.log("side effect fetch questio");
       fetchQuestiondetails();
     } else if (surveyValues?.question_data) {
+      console.log("side effect from local storage");
       dispatch(addResQuestions(surveyValues.question_data));
+    } else {
+      dispatch(updateCurrentElementIndex());
     }
   }, [survey_id, dispatch]);
 
@@ -162,9 +185,10 @@ const SurveyPreview = (props) => {
     }
   };
 
-  const UpdateQuestion = async (questionId) => {
+  const UpdateQuestion = async (e, questionId) => {
     try {
       loader("show");
+
       if (questionId != 0) {
         const response = surveyAxiosInstance.post(
           "/survey/delete-survey-question",
@@ -174,6 +198,7 @@ const SurveyPreview = (props) => {
         );
       }
       setConfirmationPopup(false);
+      setQuestionDeleteCount(questionDeleteCount + 1);
       loader("hide");
     } catch (error) {
       loader("hide");
@@ -455,116 +480,107 @@ const SurveyPreview = (props) => {
                   <div className="d-flex flex-column">
                     {elements?.map((item, index) => {
                       let questionIndex = index;
-        
-                      return (
-                        <div
-                          className={`dragable-box ${
-                            index == currentElementIndex ? "active" : ""
-                          }`}
-                          style={
-                            isEdit
-                              ? { padding: "60px 20px 4px 5px" }
-                              : {
-                                  backgroundColor:
-                                    templateData.page_background_color,
-                                  padding: "50px 20px 4px 5px",
-                                }
-                          }
-                          draggable={isEdit} // Only make it draggable if isEdit is true
-                          key={index}
-                          onClick={(e) => {
-                            if (isEdit) {
-                              e.stopPropagation();
-                              dispatch(setCurrentElementIndex(index));
+
+                      if (
+                        consentOption === "No consent needed (anonymous)" &&
+                        item.type === "consent"
+                      ) {
+                        return;
+                      } else {
+                        return (
+                          <div
+                            className={`dragable-box ${
+                              index == currentElementIndex ? "active" : ""
+                            }`}
+                            style={
+                              isEdit
+                                ? { padding: "60px 20px 4px 5px" }
+                                : {
+                                    backgroundColor:
+                                      templateData.page_background_color,
+                                    padding: "50px 20px 4px 5px",
+                                  }
                             }
-                          }}
-                          onDragStart={(e) => {
-                            if (isEdit) {
-                              handleQuestionDragStart(e, index);
-                            }
-                          }}
-                          onDragOver={(e) => {
-                            if (isEdit) {
-                              handleQuestionDragOver(e);
-                            }
-                          }}
-                          onDrop={(e) => {
-                            if (isEdit) {
-                              handleQuestionDrop(e, index);
-                            }
-                          }}
-                        >
-                          {index == currentElementIndex && (
-                            <div className="active-drag">
-                              {" "}
-                              <img
-                                src={path_image + "drag-drop.png"}
-                                alt="Drag"
-                              />{" "}
-                            </div>
-                          )}
-                          <div>
-                            {item.accordionType == "questionTypes" ? (
-                              <div
-                                style={
-                                  isEdit
-                                    ? {}
-                                    : {
-                                        backgroundColor:
-                                          templateData.page_background_color,
-                                      }
-                                }
-                              >
-                                <div className="d-flex question-title">
-                                  {item.question.length > 0 && (
-                                    <p
+                            draggable={isEdit} // Only make it draggable if isEdit is true
+                            key={index}
+                            onClick={(e) => {
+                              if (isEdit) {
+                                e.stopPropagation();
+                                dispatch(setCurrentElementIndex(index));
+                              }
+                            }}
+                            onDragStart={(e) => {
+                              if (isEdit) {
+                                handleQuestionDragStart(e, index);
+                              }
+                            }}
+                            onDragOver={(e) => {
+                              if (isEdit) {
+                                handleQuestionDragOver(e);
+                              }
+                            }}
+                            onDrop={(e) => {
+                              if (isEdit) {
+                                handleQuestionDrop(e, index);
+                              }
+                            }}
+                          >
+                            {index == currentElementIndex && (
+                              <div className="active-drag">
+                                {" "}
+                                <img
+                                  src={path_image + "drag-drop.png"}
+                                  alt="Drag"
+                                />{" "}
+                              </div>
+                            )}
+                            <div>
+                              {item.accordionType == "questionTypes" ? (
+                                <div
+                                  style={
+                                    isEdit
+                                      ? {}
+                                      : {
+                                          backgroundColor:
+                                            templateData.page_background_color,
+                                        }
+                                  }
+                                >
+                                  <div className="d-flex question-title">
+                                    {item.question.length > 0 && (
+                                      <p
+                                        style={{
+                                          color:
+                                            templateData.question_answer_color,
+                                        }}
+                                        dangerouslySetInnerHTML={{
+                                          __html: item.question,
+                                        }}
+                                      />
+                                    )}
+                                    <span
+                                      style={{
+                                        color: templateData.bodyTextColor,
+                                      }}
+                                    >
+                                      {" "}
+                                      {item.isOptional
+                                        ? item.optionalLabel
+                                        : ""}{" "}
+                                    </span>
+                                  </div>
+                                  {item.questionDescriptionEnabled && (
+                                    <span
+                                      className="helper-text"
                                       style={{
                                         color:
                                           templateData.question_answer_color,
                                       }}
-                                      dangerouslySetInnerHTML={{
-                                        __html: item.question,
-                                      }}
-                                    />
+                                    >
+                                      {" "}
+                                      {item.questionDescription}{" "}
+                                    </span>
                                   )}
-                                  <span
-                                    style={{
-                                      color: templateData.bodyTextColor,
-                                    }}
-                                  >
-                                    {" "}
-                                    {item.isOptional
-                                      ? item.optionalLabel
-                                      : ""}{" "}
-                                  </span>
-                                </div>
-                                {item.questionDescriptionEnabled && (
-                                  <span
-                                    className="helper-text"
-                                    style={{
-                                      color: templateData.question_answer_color,
-                                    }}
-                                  >
-                                    {" "}
-                                    {item.questionDescription}{" "}
-                                  </span>
-                                )}
-                                <RenderOptions
-                                  {...{
-                                    item,
-                                    index,
-                                    optionColor: templateData.bodyTextColor,
-                                    isEdit,
-                                    inputColor:
-                                      templateData.question_answer_color,
-                                    page_background_color:
-                                      templateData.page_background_color,
-                                  }}
-                                />
-                              </div>
-                            ) : (
-                              <>
-                                {
                                   <RenderOptions
                                     {...{
                                       item,
@@ -577,162 +593,189 @@ const SurveyPreview = (props) => {
                                         templateData.page_background_color,
                                     }}
                                   />
-                                }{" "}
-                                {item.questionDescriptionEnabled && (
-                                  <span
-                                    style={{
-                                      color: templateData.bodyTextColor,
+                                </div>
+                              ) : (
+                                <>
+                                  {
+                                    <RenderOptions
+                                      {...{
+                                        item,
+                                        index,
+                                        optionColor: templateData.bodyTextColor,
+                                        isEdit,
+                                        inputColor:
+                                          templateData.question_answer_color,
+                                        page_background_color:
+                                          templateData.page_background_color,
+                                        consentOption: consentOption,
+                                      }}
+                                    />
+                                  }{" "}
+                                  {item.questionDescriptionEnabled && (
+                                    <span
+                                      style={{
+                                        color:
+                                          templateData.question_answer_color,
+                                      }}
+                                      className="helper-text"
+                                    >
+                                      {item.questionDescription}
+                                    </span>
+                                  )}
+                                </>
+                              )}
+                            </div>
+                            {index == currentElementIndex && (
+                              <>
+                                <div className="drag-actions">
+                                  <Button
+                                    onClick={(e) => {
+                                      setConfirmationPopup(true);
                                     }}
-                                    className="helper-text"
                                   >
-                                    {item.questionDescription}
-                                  </span>
+                                    {" "}
+                                    <img
+                                      src={`${path_image}delete-survey.svg`}
+                                      alt="Delete"
+                                      title="Delete"
+                                    />{" "}
+                                  </Button>
+                                  <Button
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      dispatch(copyElement(index));
+                                    }}
+                                  >
+                                    {" "}
+                                    <img
+                                      src={`${path_image}copy-survey.svg`}
+                                      alt="Copy"
+                                      title="Duplicate"
+                                    />{" "}
+                                  </Button>
+                                  <Button
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      dispatch(toggleAddClicked());
+                                    }}
+                                  >
+                                    {" "}
+                                    <img
+                                      src={`${path_image}add-survey.svg`}
+                                      alt="Add"
+                                      title="Add"
+                                    />{" "}
+                                  </Button>
+
+                                  <div className="delete">
+                                    <Modal
+                                      className="modal send-confirm"
+                                      id="delete-confirm"
+                                      show={confirmationpopup}
+                                    >
+                                      <Modal.Header>
+                                        {/* <Modal.Title>Heading Text</Modal.Title>*/}
+                                        <button
+                                          type="button"
+                                          className="btn-close"
+                                          data-bs-dismiss="modal"
+                                          onClick={(e) =>
+                                            hideConfirmationModal()
+                                          }
+                                        ></button>
+                                      </Modal.Header>
+
+                                      <Modal.Body>
+                                        <img src={path + "alert.png"} alt="" />
+                                        <h4>
+                                          This question will be deleted.
+                                          <br />
+                                          Are you sure you wish to go ahead?
+                                        </h4>
+                                        <div className="modal-buttons">
+                                          <button
+                                            type="button"
+                                            className="btn btn-primary btn-filled"
+                                            onClick={async (e) => {
+                                              e.stopPropagation();
+                                              dispatch(deleteElement(index));
+                                              UpdateQuestion(
+                                                e,
+                                                item.questionId
+                                              );
+                                            }}
+                                          >
+                                            Yes Please!
+                                          </button>
+                                          <button
+                                            type="button"
+                                            className="btn btn-primary btn-bordered light"
+                                            onClick={(e) =>
+                                              hideConfirmationModal()
+                                            }
+                                          >
+                                            Cancel
+                                          </button>
+                                        </div>
+                                      </Modal.Body>
+                                    </Modal>
+                                  </div>
+                                </div>
+                                {isAddClicked && (
+                                  <div className="preview-menu">
+                                    <span>Questions Types</span>
+                                    <div className="preview-menu-bunch">
+                                      {SidebarItems.map((item, index) => (
+                                        <div
+                                          key={index}
+                                          className="sidebar-item"
+                                          onClick={(e) => {
+                                            e.stopPropagation();
+                                            handleAddElement(
+                                              item.type,
+                                              questionIndex
+                                            );
+                                          }}
+                                        >
+                                          {item.icon && (
+                                            <div className="options-svg">
+                                              {item.svg}
+                                            </div>
+                                          )}
+                                          {item.label}
+                                        </div>
+                                      ))}
+                                    </div>
+                                    <span>Common Elements</span>
+                                    <div className="preview-menu-bunch">
+                                      {SidebarCommonItems.map((item, index) => (
+                                        <div
+                                          key={index}
+                                          className="sidebar-item"
+                                          onClick={(e) => {
+                                            e.stopPropagation();
+                                            handleAddElement(
+                                              item.type,
+                                              questionIndex
+                                            );
+                                          }}
+                                        >
+                                          {item.icon && (
+                                            <div className="options-svg">
+                                              {item.svg}
+                                            </div>
+                                          )}
+                                          {item.label}
+                                        </div>
+                                      ))}
+                                    </div>
+                                  </div>
                                 )}
                               </>
                             )}
                           </div>
-                          {index == currentElementIndex && (
-                            <>
-                              <div className="drag-actions">
-                                <Button
-                                  onClick={(e) => {
-                                    setConfirmationPopup(true);
-                                  }}
-                                >
-                                  {" "}
-                                  <img
-                                    src={`${path_image}delete-survey.svg`}
-                                    alt="Delete"
-                                  />{" "}
-                                </Button>
-                                <Button
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    dispatch(copyElement(index));
-                                  }}
-                                >
-                                  {" "}
-                                  <img
-                                    src={`${path_image}copy-survey.svg`}
-                                    alt="Copy"
-                                  />{" "}
-                                </Button>
-                                <Button
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    dispatch(toggleAddClicked());
-                                  }}
-                                >
-                                  {" "}
-                                  <img
-                                    src={`${path_image}add-survey.svg`}
-                                    alt="Add"
-                                  />{" "}
-                                </Button>
-
-                                <div className="delete">
-                                  <Modal
-                                    className="modal send-confirm"
-                                    id="delete-confirm"
-                                    show={confirmationpopup}
-                                  >
-                                    <Modal.Header>
-                                      {/* <Modal.Title>Heading Text</Modal.Title>*/}
-                                      <button
-                                        type="button"
-                                        className="btn-close"
-                                        data-bs-dismiss="modal"
-                                        onClick={(e) => hideConfirmationModal()}
-                                      ></button>
-                                    </Modal.Header>
-
-                                    <Modal.Body>
-                                      <img src={path + "alert.png"} alt="" />
-                                      <h4>
-                                        This question will be deleted.
-                                        <br />
-                                        Are you sure you wish to go ahead?
-                                      </h4>
-                                      <div className="modal-buttons">
-                                        <button
-                                          type="button"
-                                          className="btn btn-primary btn-filled"
-                                          onClick={(e) => {
-                                            e.stopPropagation();
-                                            dispatch(deleteElement(index));
-                                            UpdateQuestion(item.questionId);
-                                          }}
-                                        >
-                                          Yes Please!
-                                        </button>
-                                        <button
-                                          type="button"
-                                          className="btn btn-primary btn-bordered light"
-                                          onClick={(e) =>
-                                            hideConfirmationModal()
-                                          }
-                                        >
-                                          Cancel
-                                        </button>
-                                      </div>
-                                    </Modal.Body>
-                                  </Modal>
-                                </div>
-                              </div>
-                              {isAddClicked && (
-                                <div className="preview-menu">
-                                  <span>Questions Types</span>
-                                  <div className="preview-menu-bunch">
-                                    {SidebarItems.map((item, index) => (
-                                      <div
-                                        key={index}
-                                        className="sidebar-item"
-                                        onClick={(e) => {
-                                          e.stopPropagation();
-                                          handleAddElement(
-                                            item.type,
-                                            questionIndex
-                                          );
-                                        }}
-                                      >
-                                        {item.icon && (
-                                          <div className="options-svg">
-                                            {item.svg}
-                                          </div>
-                                        )}
-                                        {item.label}
-                                      </div>
-                                    ))}
-                                  </div>
-                                  <span>Common Elements</span>
-                                  <div className="preview-menu-bunch">
-                                    {SidebarCommonItems.map((item, index) => (
-                                      <div
-                                        key={index}
-                                        className="sidebar-item"
-                                        onClick={(e) => {
-                                          e.stopPropagation();
-                                          handleAddElement(
-                                            item.type,
-                                            questionIndex
-                                          );
-                                        }}
-                                      >
-                                        {item.icon && (
-                                          <div className="options-svg">
-                                            {item.svg}
-                                          </div>
-                                        )}
-                                        {item.label}
-                                      </div>
-                                    ))}
-                                  </div>
-                                </div>
-                              )}
-                            </>
-                          )}
-                        </div>
-                      );
+                        );
+                      }
                     })}
                   </div>
                   <div className="form-footer">
