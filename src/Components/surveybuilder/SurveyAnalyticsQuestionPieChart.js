@@ -9,7 +9,7 @@ const SurveyAnalyticsQuestionPieChart = memo(({ key, data, show, type,colors }) 
             plotBackgroundColor: null,
             plotBorderWidth: null,
             plotShadow: false,
-            height: 225,
+            height: 193,
             type: 'pie',
             animation: {
                 duration: 0 // Set the animation duration to 0
@@ -135,7 +135,7 @@ const SurveyAnalyticsQuestionPieChart = memo(({ key, data, show, type,colors }) 
     const baseBarChartOptions = {
         chart: {
             type: "bar",
-            height: 225
+            height: 193
         },
         title: {
             text: "",

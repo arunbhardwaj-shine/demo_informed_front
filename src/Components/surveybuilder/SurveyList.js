@@ -164,8 +164,7 @@ const SurveyList = (props) => {
       );
 
       if (response) {
-        await fetchSurveyListing();
-        setDuplicateCounter(duplicateCounter + 1);
+        window.location.reload(); 
       }
       loader("hide");
     } catch (error) {
