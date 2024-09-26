@@ -145,8 +145,8 @@ const SurveyAnalyticsDetail = () => {
             loader("show")
             setApiStatus(true)
             const res = await surveyAxiosInstance.post("/survey/qns-analytics", {
-                // survey_id: stateData?.survey_id
-                survey_id: 72
+                survey_id: stateData?.survey_id
+                // survey_id: 72
             });
             let data = res?.data?.data
             if (data != "undefined") {
@@ -190,8 +190,8 @@ const SurveyAnalyticsDetail = () => {
             // })
             // setWhichTypeGraph(type)
             const res = await surveyAxiosInstance.post("/survey/analytic-qns-detail", {
-                // survey_id: stateData?.survey_id
-                survey_id: 72
+                survey_id: stateData?.survey_id
+                // survey_id: 72
             });
             const data = res?.data?.data?.allData
 
@@ -351,8 +351,8 @@ const SurveyAnalyticsDetail = () => {
             setApiStatus(true)
             if (surveyTakerTableData?.length == 0) {
                 const res = await surveyAxiosInstance.post("/survey/survey-takers-status", {
-                    // survey_id: stateData?.survey_id
-                    survey_id: 72
+                    survey_id: stateData?.survey_id
+                    // survey_id: 72
                 });
 
                 let userdata = [
@@ -495,8 +495,8 @@ const SurveyAnalyticsDetail = () => {
                 setLoaderIndex(id)
                 const res = await surveyAxiosInstance.post("/survey/takers-responses-detail", {
                     user_id: id,
-                    // survey_id: stateData?.survey_id
-                    survey_id: 72
+                    survey_id: stateData?.survey_id
+                    // survey_id: 72
                 })
                 setSurveyTakerShowQuestionsData(res?.data?.data)
             }
