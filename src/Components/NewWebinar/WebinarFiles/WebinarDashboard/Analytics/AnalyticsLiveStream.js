@@ -17,16 +17,16 @@ import { useSidebar } from "../../../../CommonComponent/LoginLayout";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 
 const AnalyticsLiveStream = ({ handleAttendedUserCountryWise }) => {
-  const chartHeight= 270;
+  const chartHeight = 270;
   const [userIds, setUserIds] = useState([]);
   const [firstTimeStatus, setFirstTimeStatus] = useState(false);
   const [firstTime, setFirstTime] = useState(true);
-  const eventIdContext= useSidebar();
+  const eventIdContext = useSidebar();
   const [tempSlotsCategory, setTempSlotsCategory] = useState([]);
   const [topCountries, setTopCountries] = useState([]);
   const [apiStatus, setApiStatus] = useState(false);
   const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"));
-  const eventId = 
+  const eventId =
     eventIdContext?.eventId
       ? eventIdContext?.eventId
       : localStorageEvent?.eventId
@@ -227,11 +227,11 @@ const AnalyticsLiveStream = ({ handleAttendedUserCountryWise }) => {
       },
       labels: {
         enabled: true,
-      style: {
-        fontSize: "9px",
-        color: "#97B6CF",
+        style: {
+          fontSize: "9px",
+          color: "#97B6CF",
+        },
       },
-     },
       lineColor: "rgba(151, 182, 207, 0.30)", // Y-axis line color
       lineWidth: 2, // Y-axis line width
       allowDecimals: false, // Ensure y-axis labels are integers
@@ -304,7 +304,7 @@ const AnalyticsLiveStream = ({ handleAttendedUserCountryWise }) => {
   const [fixSlotsValue, setFixSlotsValue] = useState([]);
   const [insertFlag, setInsertFlag] = useState(false);
   const [tempSlotsValue, setTempSlotsValue] = useState([]);
-  const maxDataPoints=10; // Maximum number of data points to display
+  const maxDataPoints = 10; // Maximum number of data points to display
 
   useEffect(() => {
     setLineChartOptions((prevOptions) => ({
@@ -365,7 +365,9 @@ const AnalyticsLiveStream = ({ handleAttendedUserCountryWise }) => {
 
   const getEventRegisterReadersGraph = async (searchVal = "", userids = []) => {
     try {
-     
+      if (!eventId) {
+        return
+      }
       let body = {
         eventId: eventId,
         type: "graph",
@@ -431,11 +433,11 @@ const AnalyticsLiveStream = ({ handleAttendedUserCountryWise }) => {
       // if (attendeesTab == "online" || attendeesTab == "offline") {
       //   setAttendees(data);
       // }
-      
-      
+
+
     } catch (err) {
-      
-      
+
+
       console.log(err);
     }
   };
@@ -456,6 +458,9 @@ const AnalyticsLiveStream = ({ handleAttendedUserCountryWise }) => {
 
   const getLiveStreamData = async () => {
     try {
+      if (!eventId) {
+        return
+      }
       // Prepare request body
       const body = {
         eventId: eventId,
@@ -493,7 +498,9 @@ const AnalyticsLiveStream = ({ handleAttendedUserCountryWise }) => {
   // Assuming postData and ENDPOINT are defined elsewhere in your code
 
   const getOnlineReadersGraph = async () => {
-    console.log("Function call for interval");
+    if (!eventId) {
+      return
+    }
     try {
       let body = {
         eventId: eventId,
@@ -516,12 +523,12 @@ const AnalyticsLiveStream = ({ handleAttendedUserCountryWise }) => {
           return newOptions;
         });
       }
-      
-      
+
+
     } catch (err) {
       console.log("--err", err);
-      
-      
+
+
     }
   };
 
@@ -541,11 +548,11 @@ const AnalyticsLiveStream = ({ handleAttendedUserCountryWise }) => {
           <div className="rd-analytics-top align-items-center d-flex justify-content-between">
             {!apiStatus ? (
               <>
-                <h6 className="mr-auto" style={{color:"#39CABC"}}>
+                <h6 className="mr-auto" style={{ color: "#39CABC" }}>
                   <Skeleton width={130} height={20} />
                 </h6>
                 <div className="d-flex">
-                  <div className="count-number" style={{color:"#39CABC"}}>
+                  <div className="count-number" style={{ color: "#39CABC" }}>
                     <Skeleton width={20} height={20} />
                   </div>
                   {/* <Skeleton width={20} height={20} /> */}
@@ -657,20 +664,20 @@ const AnalyticsLiveStream = ({ handleAttendedUserCountryWise }) => {
                 <Table>
                   {topCountries?.topCounties?.length
                     ? topCountries?.topCounties?.map((item, index) => (
-                        <tr key={index}>
-                          <td>{`${index + 1}. ${item.country}`}</td>
-                          <td>{item.user_count}</td>
-                        </tr>
-                      ))
+                      <tr key={index}>
+                        <td>{`${index + 1}. ${item.country}`}</td>
+                        <td>{item.user_count}</td>
+                      </tr>
+                    ))
                     : apiStatus && (
-                        <tr>
-                          <td colSpan="2">
-                            <div className="no_found">
-                              <p>No Data Found</p>
-                            </div>
-                          </td>
-                        </tr>
-                      )}
+                      <tr>
+                        <td colSpan="2">
+                          <div className="no_found">
+                            <p>No Data Found</p>
+                          </div>
+                        </td>
+                      </tr>
+                    )}
                 </Table>
                 <div className="rd-box-export">
                   <img src={path_image + "arrow-export.svg"} alt="" onClick={handleAttendedUserCountryWise} />
