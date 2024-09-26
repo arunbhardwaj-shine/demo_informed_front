@@ -27,8 +27,12 @@ const ChangePassword = () => {
       }
       loader("show");
       await postData(ENDPOINT.CHANGE_PASSWORD, user);
-      loader("hide");
-      navigate("/home");
+      loader("hide");     
+      if(localStorage.getItem('user_id')==="56Ek4feL/1A8mZgIKQWEqg=="){
+        navigate("/home-timeline");
+      }else{
+        navigate("/home");
+      }
     } catch (err) {
       loader("hide");
       console.log("- imher", err);
