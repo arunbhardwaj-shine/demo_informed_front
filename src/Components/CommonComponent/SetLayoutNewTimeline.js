@@ -10,6 +10,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+let loadData = 0;
 
 const SetLayoutNewTimeline = () => {
 
@@ -64,6 +65,7 @@ const SetLayoutNewTimeline = () => {
   const [showfilter, setShowFilter] = useState(false);
   const buttonRef = useRef(null);
   const filterRef = useRef(null);
+  const scrollableDivRef = useRef(null);
   const [filterObject, setFilterObject] = useState({});
   const [filterApplyflag, setFilterApplyflag] = useState(0);
   useEffect(() => {
@@ -210,6 +212,7 @@ const SetLayoutNewTimeline = () => {
     } catch (err) {
       console.log("--err", err)
     } finally {
+      loadData = 0;
       setError({})
       setApiStatus(true)
       setSectionLoader(false)
@@ -312,6 +315,30 @@ const SetLayoutNewTimeline = () => {
       return role?.[pdf_id] || 'N/A';
   }
 
+  useEffect(() => {
+    const currentDiv = scrollableDivRef.current;
+
+    if (currentDiv) {
+      currentDiv.addEventListener('scroll', handleScroll);
+    }
+
+    return () => {
+      if (currentDiv) {
+        currentDiv.removeEventListener('scroll', handleScroll);
+      }
+    };
+  }, [loadMore?.nextDate]);
+
+  const handleScroll = () => {
+    const { scrollTop, scrollHeight, clientHeight } = scrollableDivRef.current;
+    if ((scrollHeight - scrollTop <= clientHeight + 1) && loadData == 0 && loadMore?.isLoadMore && loadMore?.nextDate != null) {
+      loadData = 1;
+      handleLoadMore();
+      console.log("Reached bottom of the scrollable container");
+    }
+  };
+
+
   return (
     <>
       <meta
@@ -347,7 +374,7 @@ const SetLayoutNewTimeline = () => {
               </Row>
             </div>
             <div className="timeline-layout">
-              <div className="timeline-layout-inset">              
+              <div className="timeline-layout-inset" ref={scrollableDivRef}>
                 <div className="timeline-right-list">
                   <div className="timeline-right-header">
                     <div className="timeline-indicator">
@@ -1287,7 +1314,7 @@ const SetLayoutNewTimeline = () => {
                             })
                             }
                           </div>
-                          {
+                          {/* {
                             !loadMore?.showLoader ?
                               loadMore?.isLoadMore ?
                                 <div className="text-center load_more">
@@ -1297,7 +1324,7 @@ const SetLayoutNewTimeline = () => {
                                 </div>
                                 : ""
                               : ""
-                          }
+                          } */}
 
                           {loadMore?.showLoader == true ? (
                             <div
