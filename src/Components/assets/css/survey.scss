@@ -4739,6 +4739,44 @@ body {
                 .question-preview-chart {
                     text-align: center;
                     margin: 10px 0 0px;
+                    gap: 65px;
+                    .survey-rating-detail{
+                        h5{
+                            display: flex;
+                            align-items: center;
+                            gap: 4px;
+                            color: #97B6CF;
+                            font-size: 13px;
+                            font-weight: 400;
+                            margin-right: 4px;
+                            &.survey-rating-number{
+                                font-weight: 500;
+                                color: #004A89;
+                            }
+                        }
+                    }
+                    .question-preview-chart-result {
+                        color: #70899E;
+                        font-size: 16px;
+                        font-weight: 400;
+                        font-family: 'Roboto';
+                        display: flex;
+                        align-items: center;
+                        gap: 8px;
+                        span {
+                            font-size: 24px;
+                            color: #004A89;
+                            font-weight: 500;
+                        }
+                        svg {
+                            width: 20px;
+                            height: 20px;
+                        }
+                         b {
+                            font-size: 20px;
+                            font-weight: 500;
+                        }
+                    }
                 }
 
                 .free-text-section {
