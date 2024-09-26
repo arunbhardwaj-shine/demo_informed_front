@@ -160,7 +160,7 @@ export const menuType = {
     visible: true,
     question: "",
     style: {
-      color: "#004A89",
+      color: "",
     },
     answer: []
   },
@@ -174,7 +174,7 @@ export const menuType = {
     style: {
       lineStyle: "solid",
       lineWidth: 1,
-      color: "#004A89",
+      color: "",
       width: 100,
       height: 5,
     },
@@ -185,7 +185,7 @@ export const menuType = {
     type: "image",
     visible: true,
     questionId: 0,
-    question: path_image+"add-img.png",
+    question: "",
     extra: {
       altText: "Image",
     },

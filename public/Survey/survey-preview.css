@@ -18,6 +18,10 @@ p {
 
 body {
   margin: 0;
+  
+}
+body, html {
+  height: 100%;
 }
 
 .informed-survey-text p {
@@ -95,7 +99,7 @@ body {
 .divider {
   border-top: 1px dashed var(--dark-blue);
   margin: 5px 0;
-  height: initial;
+  height: 0;
 }
 
 p {
@@ -127,7 +131,7 @@ p {
 }
 
 #survey-form {
-  gap: 40px;
+  gap: 60px;
   display: flex;
   flex-direction: column;
   margin: 60px 0 0;
@@ -189,7 +193,15 @@ input[type="checkbox"] ~ span.checkmark {
 input[type="radio"] ~ span.checkmark {
   border-radius: 50%;
 }
-
+input[type="radio"] ~ span.checkmark span{
+top: 2px;
+left: 2px;
+width: 10px;
+height: 10px;
+border-radius: 50%;
+background: inherit;
+position: absolute;
+}
 /*       
 input[type="checkbox"]:checked~.checkmark:after {
   left: 4px;
@@ -207,7 +219,7 @@ input[type="checkbox"]:checked~.checkmark:after {
 .survey-question h2, .survey-question h3 {
   margin: 0;
 }
-input[type="radio"]:checked ~ .checkmark:after {
+/* input[type="radio"]:checked ~ .checkmark:after {
   top: 2px;
   left: 2px;
   width: 10px;
@@ -216,14 +228,14 @@ input[type="radio"]:checked ~ .checkmark:after {
   background: var(--dark-blue);
   content: "";
   position: absolute;
-}
+} */
 
 input[type="radio"]:checked ~ .checkmark {
   border-color: var(--dark-blue);
 }
-input[type="checkbox"]:checked ~ .checkmark {
+/* input[type="checkbox"]:checked ~ .checkmark {
   background: var(--dark-blue);
-}
+} */
 .informed-survey-header h2 {
   font-size: 20px;
 }
@@ -275,8 +287,8 @@ input[type="checkbox"]:checked ~ .checkmark {
 .modal-header .modal-title {
   -webkit-text-fill-color: transparent;
   background: linear-gradient(109deg, #0066be 12.9%, #004a89 87.1%);
-  background-clip: text;
   -webkit-background-clip: text;
+  background-clip: text;
   color: #001489;
   font-size: 20px;
   font-weight: 600;
@@ -288,7 +300,7 @@ input[type="checkbox"]:checked ~ .checkmark {
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  margin: 25px 0 0;
+  margin: 2px 0 0;
 }
 
 .form-footer button {
@@ -320,8 +332,8 @@ input[type="checkbox"]:checked ~ .checkmark {
 }
 
 .table-responsive {
-  overflow-x: auto;
   -webkit-overflow-scrolling: touch;
+  overflow-x: auto;
 }
 
 .survey-image img {
@@ -338,7 +350,12 @@ input[type="checkbox"]:checked ~ .checkmark {
 .survey-paragraph p {
   font-size: 12px;
   line-height: 132%;
-  color: #70899e;
+  /* color: #70899e; */
+}
+
+.survey-paragraph p a {
+  color: inherit;
+  text-decoration: none;
 }
 
 .survey-paragraph ol,
@@ -374,6 +391,7 @@ input[type="checkbox"]:checked ~ .checkmark {
   position: relative;
   min-height: 16px;
   word-break: break-word;
+  cursor: pointer;
 }
 
 input[type="checkbox"],
@@ -504,7 +522,7 @@ textarea:focus-visible {
 
 .select-dropdown__button span {
   font-size: 12px;
-  font-weight: 300;
+  font-weight: 400;
   color: #004A89;
 }
 
@@ -619,22 +637,22 @@ textarea:focus-visible {
 }
 
 ::-webkit-input-placeholder {
-  color: rgb(112, 137, 158);
+  color: rgba(112, 137, 158, 0.5);
   opacity: 1;
 }
 
 ::-moz-placeholder {
-  color: rgb(112, 137, 158);
+  color: rgba(112, 137, 158, 0.5);
   opacity: 1;
 }
 
 :-ms-input-placeholder {
-  color: rgb(112, 137, 158);
+  color: rgba(112, 137, 158, 0.5);
   opacity: 1;
 }
 
 :-moz-placeholder {
-  color: rgb(112, 137, 158);
+  color: rgba(112, 137, 158, 0.5);
   opacity: 1;
 }
 
@@ -890,8 +908,8 @@ table {
     var(--dark-blue) 12.9%,
     var(--dark-blue) 87.1%
   );
-  background-clip: text;
   -webkit-background-clip: text;
+  background-clip: text;
   color: #00a993;
   font-size: 16px;
   font-weight: 500;
@@ -1038,7 +1056,7 @@ label.form-label {
 }
 .input-error,
 .form-section .form-group .input-error,
-.form-section .form-group select.input-error {
+.form-section .form-group select.input-error, .form-section .form-group .input-error + .select-dropdown__button {
   box-shadow: 0 0 8px #ca2a48;
 }
 
@@ -1091,6 +1109,7 @@ label.form-label {
   .form-section .form-group:nth-child(2n) .error-message {
     padding: 0 0;
 }
+
 .informed-survey-header {
   min-height: 100px;
 }
@@ -1260,3 +1279,216 @@ padding-top: 0;
   transform: translateX(100%);
 }
 
+.no-found {
+  min-height: 100vh;
+  align-items: center;
+  padding: 90px 0 115px;
+  background: url(../componentAssets/images/not_404.jpg) no-repeat;
+  background-size: cover;
+  position: relative;
+  display: flex; /* d-flex */
+  flex-direction: column; /* flex-column */
+  justify-content: space-between; /* justify-content-between */
+}
+
+.no-found::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  background: url(../componentAssets/images/notfound-bg-circle.svg) no-repeat;
+  background-size: 100%;
+  width: 774px;
+  height: 553px;
+  background-position: right bottom;
+  right: 50px;
+}
+
+.no-found .page-logo img {
+  max-width: 212px;
+  width: 100%;
+}
+
+.no-found .not-found-character {
+  display: flex;
+  gap: 35px;
+  padding: 100px 0 90px;
+}
+
+.no-found .not-found-character span:last-child {
+  transform: rotate(0deg) translate(64px, 75px);
+}
+
+.no-found .not-found-txt {
+  text-align: center;
+  z-index: 1;
+}
+
+.no-found .not-found-txt h3 {
+  color: white; /* Assuming $white is white */
+  font-size: 32px;
+  font-weight: 500;
+  margin: 0 0 9px;
+}
+
+.no-found .not-found-txt h4 {
+  color: white; /* Assuming $white is white */
+  font-size: 24px;
+  font-weight: 300;
+  margin: 0 0 32px;
+  text-transform: unset;
+}
+
+.no-found .not-found-txt a.btn-white {
+  background-color: white; /* Assuming $white is white */
+  border: 0;
+  color: #0066BE; /* Replace with actual primary color */
+  box-shadow: 0px 1px 8px 0px rgba(0, 102, 190, 0.32);
+  min-width: 175px;
+  border-radius: 30px;
+  font-size: 16px;
+  font-weight: 500;
+  text-transform: capitalize;
+  padding: 8px 30px;
+  display: inline-block;
+  text-decoration: none;
+  line-height: 150%;
+}
+
+.no-found .not-found-txt a.btn-white:hover {
+  background-color: #0066BE; /* Replace with actual primary color */
+  color: white; /* Assuming $white is white */
+}
+
+
+@media (max-width: 1550px) {
+  .no-found {
+      padding: 40px 0 55px;
+  }
+
+  .no-found .not-found-character svg {
+      width: 190px;
+  }
+}
+
+@media (max-width: 1440px) {
+  .no-found {
+      padding: 40px 0 50px;
+  }
+
+  .no-found .not-found-character {
+      padding: 40px 0 35px;
+  }
+
+  .no-found .not-found-character svg {
+      width: 160px;
+      height: auto;
+  }
+
+  .no-found .not-found-character span:last-child {
+      transform: rotate(4deg) translate(34px, 54px);
+  }
+
+  .no-found .not-found-txt h3 {
+      font-size: 30px;
+  }
+
+  .no-found .not-found-txt h4 {
+      font-size: 22px;
+  }
+
+  .no-found::after {
+      background-size: 79%;
+      width: 664px;
+      height: 443px;
+  }
+}
+
+
+
+@media (max-width: 1365px) {
+  .no-found {
+      padding: 40px 0 40px;
+  }
+
+  .no-found .not-found-character svg {
+      width: 140px;
+      height: auto;
+  }
+
+  .no-found::after {
+      background-size: 77%;
+      width: 634px;
+      height: 363px;
+  }
+}
+
+@media (max-width: 991px) {
+  .no-found {
+      justify-content: center !important;
+  }
+
+  .no-found .not-found-character {
+      padding: 220px 0 135px;
+  }
+
+  .no-found::after {
+      background-size: 77%;
+      width: 634px;
+      height: 363px;
+  }
+}
+
+
+@media (max-width: 767px) {
+  .no-found {
+      padding: 80px 31px 90px;
+      justify-content: center !important;
+      background-position: top center;
+      background: url(../componentAssets/images/not-found-mob.png) no-repeat;
+      background-size: 100%;
+
+      .page-logo {
+          img {
+              max-width: 152px;
+          }
+      }
+
+      .not-found-txt {
+          h3 {
+              font-size: 24px;
+              line-height: normal;
+              margin: 0 0 16px;
+          }
+
+          h4 {
+              font-size: 16px;
+              margin: 0 0 44px;
+          }
+      }
+
+      .not-found-character {
+          padding: 170px 0 75px;
+          gap: 13px;
+
+          svg {
+              width: 74px;
+          }
+
+          span {
+              &:last-child {
+                  transform: rotate(0deg) translate(18px, 28px);
+              }
+          }
+      }
+
+      &:after {
+          background-size: 100%;
+          width: 270px;
+          height: 270px;
+          bottom: 20%;
+          transform: rotate(-90deg);
+          right: 0;
+
+      }
+  }
+}

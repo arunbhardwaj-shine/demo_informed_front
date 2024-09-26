@@ -3,7 +3,7 @@ import { Col, Accordion, Button, Modal } from "react-bootstrap";
 import { useSidebar } from "../../../../CommonComponent/LoginLayout";
 import { Link, useNavigate } from "react-router-dom";
 import { loader } from "../../../../../loader";
-import { postData } from "../../../../../axios/apiHelper";
+import { postData, postFormData } from "../../../../../axios/apiHelper";
 import { ENDPOINT } from "../../../../../axios/apiConfig";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
@@ -834,6 +834,65 @@ const WebinarEmail = (props) => {
       });
   };
 
+  const getDownloadData = async (viewEmailData) => {
+    try {
+      // Display loader
+      loader("show");
+  
+      // Ensure viewEmailData is defined and contains the necessary properties
+      if (!viewEmailData || !viewEmailData.id) {
+        throw new Error("Invalid viewEmailData: campaign_id is required");
+      }
+      const labels=[]
+       if(viewEmailData.labels){
+
+      Object.entries(viewEmailData.labels).map(([label,value])=>{
+      if(viewEmailData.labels_value && viewEmailData.labels_value[label]){
+        labels.push({click_key:label,click_name:value})
+      }
+    })
+
+       }
+      // Prepare the payload data safely
+      const data = {
+        campaignId: viewEmailData.id,
+        eventId: eventId,
+        emailAutoResponserId: viewEmailData.auto_id,
+        linksClicked: labels,
+        subject: viewEmailData.subject
+      };
+  
+      // Make API request
+      const res = await postFormData(ENDPOINT.WEBINAR_EMAIL_STATS_DOWNLOAD, data, {
+        responseType: "blob",
+      });
+  
+      // Ensure response contains data
+      if (!res?.data) {
+        throw new Error("No data received from the server");
+      }
+  
+      // Create a downloadable link for the blob data
+      const url = URL.createObjectURL(res.data);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `${viewEmailData.subject??"webinar_email_stats"}.xlsx`;
+      document.body.appendChild(link); // Required for some browsers to work
+      link.click();
+  
+      // Clean up the URL object and remove the link from DOM
+      URL.revokeObjectURL(url);
+      document.body.removeChild(link);
+  
+    } catch (err) {
+      // Log the error for debugging
+      console.error("Error in getDownloadData:", err.message || err);
+  
+    } finally {
+      // Always hide loader, regardless of success or failure
+      loader("hide");
+    }
+  };
   return (
     <>
       <Col className="right-sidebar custom-change">
@@ -1589,6 +1648,31 @@ const WebinarEmail = (props) => {
                         <path fill-rule="evenodd" clip-rule="evenodd" d="M16.5963 8.3H18.4615C18.8952 8.3 19.3118 8.46771 19.6194 8.7676C19.927 9.06757 20.1 9.47489 20.1 9.9V16.5C20.1 17.3862 19.3642 18.1 18.4615 18.1H5.53846C4.63579 18.1 3.9 17.3862 3.9 16.5V9.9C3.9 9.47489 4.07298 9.06757 4.38065 8.7676C4.68823 8.46771 5.10478 8.3 5.53846 8.3H7.4037C7.47384 8.3 7.53879 8.26556 7.57717 8.2097L8.67004 6.61137C8.97401 6.16652 9.48587 5.9 10.0326 5.9H13.9674C14.5141 5.9 15.026 6.1665 15.33 6.61137L16.4228 8.20961C16.4611 8.26552 16.5261 8.3 16.5963 8.3ZM9.85906 7.3904L8.76624 8.98866C8.46169 9.43342 7.94989 9.7 7.4037 9.7H5.53846C5.48265 9.7 5.42956 9.72164 5.39042 9.7592C5.35199 9.79727 5.33077 9.84786 5.33077 9.9V16.5C5.33077 16.608 5.42144 16.7 5.53846 16.7H18.4615C18.5786 16.7 18.6692 16.608 18.6692 16.5V9.9C18.6692 9.84787 18.648 9.79729 18.6096 9.75923C18.5705 9.72165 18.5174 9.7 18.4615 9.7H16.5963C16.0501 9.7 15.5383 9.43347 15.2338 8.98871L14.1409 7.3904C14.1026 7.33449 14.0376 7.3 13.9674 7.3H10.0326C9.96249 7.3 9.89744 7.33457 9.85906 7.3904Z" fill="#0066BE"/>
                        </svg>
                       </button>
+                      {viewEmailData.id !=0 &&
+                      <button
+                        className="btn print"
+                        title="Download stats"
+                        onClick={() => {
+                          getDownloadData(viewEmailData);
+                        }}
+                      >
+                        <svg
+                          width="25"
+                          height="20"
+                          viewBox="0 0 20 20"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M18.3335 13.125C18.1125 13.125 17.9005 13.2128 17.7442 13.3691C17.588 13.5254 17.5002 13.7373 17.5002 13.9583V15.1775C17.4995 15.7933 17.2546 16.3836 16.8192 16.819C16.3838 17.2544 15.7934 17.4993 15.1777 17.5H4.82266C4.2069 17.4993 3.61655 17.2544 3.18114 16.819C2.74573 16.3836 2.50082 15.7933 2.50016 15.1775V13.9583C2.50016 13.7373 2.41237 13.5254 2.25609 13.3691C2.0998 13.2128 1.88784 13.125 1.66683 13.125C1.44582 13.125 1.23385 13.2128 1.07757 13.3691C0.921293 13.5254 0.833496 13.7373 0.833496 13.9583V15.1775C0.834599 16.2351 1.25524 17.2492 2.00311 17.997C2.75099 18.7449 3.76501 19.1656 4.82266 19.1667H15.1777C16.2353 19.1656 17.2493 18.7449 17.9972 17.997C18.7451 17.2492 19.1657 16.2351 19.1668 15.1775V13.9583C19.1668 13.7373 19.079 13.5254 18.9228 13.3691C18.7665 13.2128 18.5545 13.125 18.3335 13.125Z"
+                            fill="#0066BE"
+                          />
+                          <path
+                            d="M14.7456 9.20249C14.5893 9.04626 14.3774 8.9585 14.1564 8.9585C13.9355 8.9585 13.7235 9.04626 13.5673 9.20249L10.8231 11.9467L10.8333 1.77108C10.8333 1.55006 10.7455 1.3381 10.5893 1.18182C10.433 1.02554 10.221 0.937744 10 0.937744C9.77899 0.937744 9.56702 1.02554 9.41074 1.18182C9.25446 1.3381 9.16667 1.55006 9.16667 1.77108L9.15643 11.9467L6.41226 9.20249C6.25509 9.05069 6.04459 8.96669 5.82609 8.96859C5.60759 8.97049 5.39858 9.05813 5.24408 9.21264C5.08957 9.36715 5.00193 9.57615 5.00003 9.79465C4.99813 10.0131 5.08213 10.2236 5.23393 10.3808L9.40059 14.5475C9.478 14.6251 9.56996 14.6867 9.6712 14.7287C9.77245 14.7707 9.88098 14.7923 9.99059 14.7923C10.1002 14.7923 10.2087 14.7707 10.31 14.7287C10.4112 14.6867 10.5032 14.6251 10.5806 14.5475L14.7473 10.3808C14.9033 10.2243 14.9907 10.0123 14.9904 9.79131C14.9901 9.57034 14.902 9.35854 14.7456 9.20249Z"
+                            fill="#0066BE"
+                          />
+                        </svg>
+                      </button>}
                     </div>
                   </div>
                   <div className="mailbox-table">
