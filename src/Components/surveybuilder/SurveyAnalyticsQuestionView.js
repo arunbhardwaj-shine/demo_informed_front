@@ -55,12 +55,24 @@ const SurveyAnalyticsQuestionView = memo(({index, item, colors, type }) => {
         }, 500);
     }
 
+    const image = (type) => {
+        const imgArr = {
+            "multiple": "multiple-choices.png",
+            "dropdown": "dropdown-choice.png",
+            "rating": "star-rating.png",
+            "matrix": "matrix.png",
+            "freeText": "free-text.png",
+        }
+
+        return imgArr?.[type] || "multiple-choices.png";
+    }
+
     return (<>
         <div key={index} className="survey-question-listing">
             <div className="survey-question-top d-flex align-items-center">
                 <div className="survey-question-num">
                     <div className="question-type">
-                        <img src={path_image + "multiple-choices.png"} alt="" />
+                        <img src={path_image +image(item?.type)} alt="" />
                     </div>
                     <div className="question-number">
                         <h4>{`Q${index + 1}`}</h4>
@@ -94,7 +106,7 @@ const SurveyAnalyticsQuestionView = memo(({index, item, colors, type }) => {
                     // matrixTypeGraph(data?.id)
                     let hasMatrixCount=data?.answers?.some((item)=>item?.count)
                     return (<>
-                        <div key={index} className="question-preview-block">
+                        <div key={index} className="question-preview-block matrix">
                             <div className="question-preview">
                                 {data?.title}
                                 <div className="d-flex align-items-center justify-content-between question-preview-options">
@@ -155,7 +167,7 @@ const SurveyAnalyticsQuestionView = memo(({index, item, colors, type }) => {
                                             margin: "10 auto",
                                             justifyContent: "center",
                                             display: "flex",
-                                            height:225
+                                            height:193
                                         }}
                                     >
                                         <Spinner color="#53aff4" size={32} speed={1} animating={true} />
@@ -259,7 +271,7 @@ const SurveyAnalyticsQuestionView = memo(({index, item, colors, type }) => {
                                     margin: "10 auto",
                                     justifyContent: "center",
                                     display: "flex",
-                                    height:225
+                                    height:193
                                 }}
                             >
                                 <Spinner color="#53aff4" size={32} speed={1} animating={true} />
