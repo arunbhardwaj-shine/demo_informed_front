@@ -184,17 +184,11 @@ const SurveyAnalyticsDetail = () => {
 
     const getTempQuestionData = async () => {
         try {
-            // let type = {}
-            // QuestionData?.forEach((item, index) => {
-            //     type[index] = "pie"
-            // })
-            // setWhichTypeGraph(type)
             const res = await surveyAxiosInstance.post("/survey/analytic-qns-detail", {
                 survey_id: stateData?.survey_id
                 // survey_id: 72
             });
             const data = res?.data?.data?.allData
-
             setTempQuestionData(data)
         } catch (err) {
             console.log("--err", err);
@@ -426,7 +420,6 @@ const SurveyAnalyticsDetail = () => {
                         if (!newObj[item?.country]) {
                             newObj[item?.country] = 1
                         } else {
-                            console.log("new obj", newObj);
                             newObj[item?.country] = newObj[item?.country] + 1
                         }
                     }
@@ -437,8 +430,6 @@ const SurveyAnalyticsDetail = () => {
                 }
                 setWhichTypeGraph("pie")
                 setCompletedCountryData(data)
-
-                console.log("final--->", newObj)
                 setFilterData((prev) => ({ ...prev, country: countries }))
                 // setSurveyTakerTableData(userdata)
                 // setSurveyTakerTableDataBackup(userdata)
@@ -674,6 +665,7 @@ const SurveyAnalyticsDetail = () => {
                                         </div>
                                         {tempQuestionData?.map((item, index) => {
                                             if (item?.type === "multiple" || item?.type === "dropdown" || item?.type === "checkbox" || item?.type == "matrix") {
+                                                
                                                 item?.answer?.forEach((obj) => {
                                                     obj.percentage = item.total_count > 0 ? JSON.parse(((obj.count / item.total_count).toFixed(2)) * 100) : 0;
                                                 })
@@ -1387,7 +1379,6 @@ const SurveyAnalyticsDetail = () => {
                                                         </div>
                                                         <div className="question-preview-chart">
                                                             {/* <img src={path_image + "dummy-pie.png"} alt="" /> */}
-                                                            {console.log("completedCountryData-->", completedCountryData)}
                                                             {sectionLoader ?
                                                                 <div
                                                                     className="load_more"

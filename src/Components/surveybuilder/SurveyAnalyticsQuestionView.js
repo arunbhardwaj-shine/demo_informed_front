@@ -10,6 +10,7 @@ const SurveyAnalyticsQuestionView = memo(({index, item, colors, type }) => {
     const [loaderIndex, setLoaderIndex] = useState()
     const [sectionLoader, setSectionLoader] = useState(false);
     const [show, setShow] = useState(false);
+    const [hasCount,setHasCount]=useState(false)
 
     useState(() => {
         if (item?.type == "matrix") {
@@ -18,6 +19,9 @@ const SurveyAnalyticsQuestionView = memo(({index, item, colors, type }) => {
                 matrixType[data?.id] = "pie"
             })
             setWhichTypeMatrixGraph((prev) => ({ ...prev, ...matrixType }))
+        }
+        else{
+            setHasCount(()=>item?.answer?.some((data)=>data?.count))
         }
     }, [])
     const changeGraphType = (e, index) => {
@@ -88,6 +92,7 @@ const SurveyAnalyticsQuestionView = memo(({index, item, colors, type }) => {
             {item?.type == "matrix" ?
                 item?.answer?.map((data, index) => {
                     // matrixTypeGraph(data?.id)
+                    let hasMatrixCount=data?.answers?.some((item)=>item?.count)
                     return (<>
                         <div key={index} className="question-preview-block">
                             <div className="question-preview">
@@ -157,6 +162,7 @@ const SurveyAnalyticsQuestionView = memo(({index, item, colors, type }) => {
                                     </div>
                                     :
                                     <div className="pie-chart-outer-layout">
+                                        
                                         {whichTypeMatrixGraph[data?.id] == "bar"
                                             ?
                                             <SurveyAnalyticsQuestionPieChart
@@ -164,7 +170,7 @@ const SurveyAnalyticsQuestionView = memo(({index, item, colors, type }) => {
                                                 data={{
                                                     questionId: data?.id,
                                                     graphType: "bar",
-                                                    ans: data?.answers,
+                                                    ans:hasMatrixCount? data?.answers:[],
                                                 }}
                                                 colors={colors}
                                                 type="analytics"
@@ -175,7 +181,7 @@ const SurveyAnalyticsQuestionView = memo(({index, item, colors, type }) => {
                                                 data={{
                                                     questionId: data?.id,
                                                     graphType: "pie",
-                                                    ans: data?.answers,
+                                                    ans:hasMatrixCount? data?.answers:[],
                                                 }}
                                                 colors={colors}
                                                 type="analytics"
@@ -189,6 +195,7 @@ const SurveyAnalyticsQuestionView = memo(({index, item, colors, type }) => {
                 })
 
                 :
+                
                 <div className="question-preview-block">
                     <div className="question-preview">
                         <div className="d-flex align-items-center justify-content-between question-preview-options">
@@ -201,6 +208,7 @@ const SurveyAnalyticsQuestionView = memo(({index, item, colors, type }) => {
                         </div>
                         <div className="answer-options">
                             {item?.answer?.map((ans, i) => {
+                               
                                 return (<>
                                     <div key={i} className="answer">
                                         <div className="choices">
@@ -260,12 +268,13 @@ const SurveyAnalyticsQuestionView = memo(({index, item, colors, type }) => {
                             <div className="pie-chart-outer-layout">
 
 
-                                {whichTypeGraph[index] == "pie" ?
+                                { 
+                                whichTypeGraph[index] == "pie" ?
                                     <SurveyAnalyticsQuestionPieChart
                                         data={{
                                             questionId: index,
                                             graphType: "pie",
-                                            ans: item?.answer,
+                                            ans: hasCount?item?.answer:[],
                                         }}
                                         colors={colors}
                                         type="analytics"
@@ -275,7 +284,7 @@ const SurveyAnalyticsQuestionView = memo(({index, item, colors, type }) => {
                                         data={{
                                             questionId: index,
                                             graphType: "bar",
-                                            ans: item?.answer,
+                                            ans:hasCount? item?.answer:[],
                                         }}
                                         colors={colors}
                                         type="analytics"
