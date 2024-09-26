@@ -1911,6 +1911,7 @@ span {
             }
             &:hover{
                 border:0;
+                background: $primary-color;
                 img{
                     filter: brightness(0) invert(1);
                 }
@@ -2869,7 +2870,6 @@ span {
                 }
             }
             .informed-survey-question{
-                margin: 0px 0 0;
                 form{
                     span{
                         &.heading{

@@ -15,7 +15,8 @@ import {
   ADD_RES_QUESTION,
   EMPTY_REDUX_STATES,
   UPDATE_EDIT_DISABLE,
-  ADD_AT_POSITION
+  ADD_AT_POSITION,
+  UPDATE_CURRENT_ELEMENT_INDEX
 } from "../actions/surveyActions";
 import { menuType } from "./menuType";
 
@@ -412,6 +413,14 @@ export const surveyReducer = (state = initialState, action) => {
       return updateEditDisable(state, action);
       case ADD_AT_POSITION:
         return addElementAtPosition(state, action);
+    case UPDATE_CURRENT_ELEMENT_INDEX:
+      return {
+        ...state,
+        currentElementIndex: null,
+        isEditModeOn: false,
+        isAddClicked: false,
+        disableEdit: false,
+      }
     default:
       return state;
   }
