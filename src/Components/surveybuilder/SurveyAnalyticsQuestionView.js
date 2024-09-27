@@ -77,6 +77,7 @@ const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
         handleDownload
     }) => {
         const formats = ["PNG", "JPEG", "PDF", "SVG"];
+        console.log("which graph-->",whichTypeGraph," graph ref-->",graphRef[whichTypeGraph])
         return (
             <Dropdown>
                 <Dropdown.Toggle id="dropdown-basic">
@@ -119,6 +120,7 @@ const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
     ) => {
         let chart = ref.current && ref.current.chart;
         console.log("defaultName-->",defaultName)
+        console.log("ref.current-->",ref.current)
 
         if (chart) {
             switch (format) {
@@ -245,7 +247,7 @@ const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
                                     </div>
                                     <DownloadDropdown
                                         graphRef={[countryBarRef, countryPieRef]}
-                                        whichTypeGraph={whichTypeGraph == "bar" ? 0 : 1}
+                                        whichTypeGraph={whichTypeMatrixGraph[data?.id] == "bar" ? 0 : 1}
                                         title={item?.type}
                                         handleDownload={handleDownload}
 
@@ -357,7 +359,7 @@ const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
                             </div>
                             <DownloadDropdown
                                 graphRef={[countryBarRef, countryPieRef]}
-                                whichTypeGraph={whichTypeGraph == "bar" ? 0 : 1}
+                                whichTypeGraph={whichTypeGraph[index] == "bar" ? 0 : 1}
                                 title={item?.type}
                                 handleDownload={handleDownload}
 

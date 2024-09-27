@@ -48,31 +48,71 @@ const SurveyAnalyticsQuestionPieChart = memo(({ key, data, show, type,colors,cha
             enabled: false
         },
         plotOptions: {
-            series: {
-                // borderRadius: 5,
-                allowPointSelect: true,
-                cursor: "pointer",
-                dataLabels: [
-                    {
-                        enabled: true,
-                        distance: -40,
-                        format: "{point.percentage:.1f}%",
-                        style: {
-                            fontSize: "1.2em",
-                            textOutline: "none",
-                            opacity: 0.7,
-                        },
-                    },
-                ],
-            },
+            // series: {
+            //     borderRadius: 5,
+            //     pointWidth:10,
+            //     allowPointSelect: true,
+            //     cursor: "pointer",
+            //     dataLabels: [
+            //         {
+            //             enabled: true,
+            //             distance: 30,
+            //             format: "{point.percentage:.1f}%",
+            //             style: {
+            //                 fontSize: "1.2em",
+            //                 textOutline: "none",
+            //                 opacity: 0.7,
+            //             },
+            //         },
+            //     ],
+            // },
+            // pie: {
+            //     showInLegend: true,
+            //     size: "100%",
+            //     dataLabels: {
+            //         enabled: false,
+            //     },
+            //     borderWidth: 1,
+            // }
+
             pie: {
                 showInLegend: true,
                 size: "100%",
                 dataLabels: {
-                    enabled: false,
+                    enabled: true, // Enable data labels
+                    format: "<b>{point.name}</b>: {point.y:.1f} ({point.percentage:.1f}%)", // Show name, value, and percentage
+                    style: {
+                        fontWeight: "bold",
+                        color: "#000", // Text color
+                        textOutline: "none", // No text outline
+                        fontSize: "12px",
+                    },
+                    distance: 30, // Set distance from pie slice (optional)
                 },
                 borderWidth: 1,
-            }
+            },
+
+            // pie: {
+            //     size: "90%",
+            //     dataLabels: {
+            //       enabled: true,
+            //       format: "<b>{point.name}</b>: {point.percentage:.1f} %",
+            //       style: {
+            //         fontWeight: "bold",
+            //         color: "#0066be",
+            //         textOutline: "none",
+            //         fontSize: "14px",
+            //       },
+            //       distance: 30, // Set distance from pie slice
+            //       connectorPadding: 0,
+            //     },
+            //     animation: {
+            //       duration: 1000,
+            //     },
+            //     enableMouseTracking: true,
+            //     showInLegend: true,
+            //     borderWidth: 0,
+            //   },
         },
         series: [],
     };
