@@ -4717,6 +4717,8 @@ body {
                         height: 32px;
                         min-width: 32px;
                         text-transform: capitalize;
+                        z-index: 1;
+                        position: relative;
 
                         &:after {
                             display: none;

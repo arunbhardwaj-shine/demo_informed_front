@@ -193,7 +193,7 @@ const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
                     return (<>
                         <div key={index} className="question-preview-block matrix">
                             <div className="question-preview">
-                                {data?.title}
+                                <span>{data?.title}</span>
                                 <div className="d-flex align-items-center justify-content-between question-preview-options">
                                     <div>
                                         Choices matrix
