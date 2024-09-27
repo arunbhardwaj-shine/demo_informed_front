@@ -472,7 +472,9 @@ background: #8A4E9C;
   position: relative;
   z-index: 8;
 }
-
+.question-preview-block .filter-by button{
+z-index: 5;
+}
 .filter-by button:focus,
 .table-title .selected-hcp-table-action .filter-by button:focus {
   background: var(--white);

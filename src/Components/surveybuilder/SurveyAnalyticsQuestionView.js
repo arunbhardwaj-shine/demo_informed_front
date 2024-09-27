@@ -1,8 +1,9 @@
-import React, { useState, memo, useEffect } from "react";
+import React, { useState, memo, useRef } from "react";
 import { Spinner } from "react-activity";
+import { Dropdown } from "react-bootstrap";
 import SurveyAnalyticsQuestionPieChart from "./SurveyAnalyticsQuestionPieChart";
 
-const SurveyAnalyticsQuestionView = memo(({index, item, colors, type }) => {
+const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
     let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
     const [whichTypeGraph, setWhichTypeGraph] = useState({ [index]: "pie" })
     const [whichTypeMatrixGraph, setWhichTypeMatrixGraph] = useState({})
@@ -10,7 +11,9 @@ const SurveyAnalyticsQuestionView = memo(({index, item, colors, type }) => {
     const [loaderIndex, setLoaderIndex] = useState()
     const [sectionLoader, setSectionLoader] = useState(false);
     const [show, setShow] = useState(false);
-    const [hasCount,setHasCount]=useState(false)
+    const [hasCount, setHasCount] = useState(false)
+    const countryBarRef = useRef(null);
+    const countryPieRef = useRef(null);
 
     useState(() => {
         if (item?.type == "matrix") {
@@ -20,8 +23,8 @@ const SurveyAnalyticsQuestionView = memo(({index, item, colors, type }) => {
             })
             setWhichTypeMatrixGraph((prev) => ({ ...prev, ...matrixType }))
         }
-        else{
-            setHasCount(()=>item?.answer?.some((data)=>data?.count))
+        else {
+            setHasCount(() => item?.answer?.some((data) => data?.count))
         }
     }, [])
     const changeGraphType = (e, index) => {
@@ -55,12 +58,106 @@ const SurveyAnalyticsQuestionView = memo(({index, item, colors, type }) => {
         }, 500);
     }
 
+    const image = (type) => {
+        const imgArr = {
+            "multiple": "multiple-choices.png",
+            "dropdown": "dropdown-choice.png",
+            "rating": "star-rating.png",
+            "matrix": "matrix.png",
+            "freeText": "free-text.png",
+        }
+
+        return imgArr?.[type] || "multiple-choices.png";
+    }
+
+    const DownloadDropdown = ({
+        graphRef,
+        whichTypeGraph,
+        title,
+        handleDownload
+    }) => {
+        const formats = ["PNG", "JPEG", "PDF", "SVG"];
+        return (
+            <Dropdown>
+                <Dropdown.Toggle id="dropdown-basic">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="6"
+                        height="24"
+                        viewBox="0 0 6 24"
+                        fill="none"
+                    >
+                        <path
+                            fillRule="evenodd"
+                            clipRule="evenodd"
+                            d="M6 3C6 4.65685 4.65685 6 3 6C1.34315 6 0 4.65685 0 3C0 1.34315 1.34315 0 3 0C4.65685 0 6 1.34315 6 3ZM6 12C6 13.6569 4.65685 15 3 15C1.34315 15 0 13.6569 0 12C0 10.3431 1.34315 9 3 9C4.65685 9 6 10.3431 6 12ZM3 24C4.65685 24 6 22.6569 6 21C6 19.3431 4.65685 18 3 18C1.34315 18 0 19.3431 0 21C0 22.6569 1.34315 24 3 24Z"
+                            fill="#0066BE"
+                        />
+                    </svg>
+                </Dropdown.Toggle>
+
+                <Dropdown.Menu>
+                    {formats.map((format) => (
+                        <Dropdown.Item
+                            key={format}
+                            onClick={() =>
+                                handleDownload(format, graphRef[whichTypeGraph], title)
+                            }
+                        >
+                            Download {format}
+                        </Dropdown.Item>
+                    ))}
+                </Dropdown.Menu>
+            </Dropdown>
+        );
+    };
+
+    const handleDownload = (
+        format,
+        ref,
+        defaultName = "survey_question"
+    ) => {
+        let chart = ref.current && ref.current.chart;
+        console.log("defaultName-->",defaultName)
+
+        if (chart) {
+            switch (format) {
+                case "PNG":
+                    chart.exportChart({
+                        type: "image/png",
+                        filename: defaultName,
+                    });
+                    break;
+                case "JPEG":
+                    chart.exportChart({
+                        type: "image/jpeg",
+                        filename: defaultName ,
+                    });
+                    break;
+                case "PDF":
+                    chart.exportChart({
+                        type: "application/pdf",
+                        filename: defaultName ,
+                    });
+                    break;
+                case "SVG":
+                    chart.exportChart({
+                        type: "image/svg+xml",
+                        filename: defaultName,
+                    });
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
+
     return (<>
         <div key={index} className="survey-question-listing">
             <div className="survey-question-top d-flex align-items-center">
                 <div className="survey-question-num">
                     <div className="question-type">
-                        <img src={path_image + "multiple-choices.png"} alt="" />
+                        <img src={path_image + image(item?.type)} alt="" />
                     </div>
                     <div className="question-number">
                         <h4>{`Q${index + 1}`}</h4>
@@ -92,11 +189,11 @@ const SurveyAnalyticsQuestionView = memo(({index, item, colors, type }) => {
             {item?.type == "matrix" ?
                 item?.answer?.map((data, index) => {
                     // matrixTypeGraph(data?.id)
-                    let hasMatrixCount=data?.answers?.some((item)=>item?.count)
+                    let hasMatrixCount = data?.answers?.some((item) => item?.count)
                     return (<>
-                        <div key={index} className="question-preview-block">
+                        <div key={index} className="question-preview-block matrix">
                             <div className="question-preview">
-                                {data?.title}
+                                <span>{data?.title}</span>
                                 <div className="d-flex align-items-center justify-content-between question-preview-options">
                                     <div>
                                         Choices matrix
@@ -146,6 +243,13 @@ const SurveyAnalyticsQuestionView = memo(({index, item, colors, type }) => {
                                             <a className="btn"></a>
                                         </label>
                                     </div>
+                                    <DownloadDropdown
+                                        graphRef={[countryBarRef, countryPieRef]}
+                                        whichTypeGraph={whichTypeGraph == "bar" ? 0 : 1}
+                                        title={item?.type}
+                                        handleDownload={handleDownload}
+
+                                    />
                                 </div>
                                 {(apiStatus && loaderIndex == data?.id)
                                     ?
@@ -155,14 +259,14 @@ const SurveyAnalyticsQuestionView = memo(({index, item, colors, type }) => {
                                             margin: "10 auto",
                                             justifyContent: "center",
                                             display: "flex",
-                                            height:225
+                                            height: 193
                                         }}
                                     >
                                         <Spinner color="#53aff4" size={32} speed={1} animating={true} />
                                     </div>
                                     :
                                     <div className="pie-chart-outer-layout">
-                                        
+
                                         {whichTypeMatrixGraph[data?.id] == "bar"
                                             ?
                                             <SurveyAnalyticsQuestionPieChart
@@ -170,22 +274,24 @@ const SurveyAnalyticsQuestionView = memo(({index, item, colors, type }) => {
                                                 data={{
                                                     questionId: data?.id,
                                                     graphType: "bar",
-                                                    ans:hasMatrixCount? data?.answers:[],
+                                                    ans: hasMatrixCount ? data?.answers : [],
                                                 }}
                                                 colors={colors}
-                                                type="analytics"
+                                                // type="analytics"
                                                 show={show}
+                                                chartRef={countryBarRef}
                                             />
                                             : <SurveyAnalyticsQuestionPieChart
                                                 key={data?.id}
                                                 data={{
                                                     questionId: data?.id,
                                                     graphType: "pie",
-                                                    ans:hasMatrixCount? data?.answers:[],
+                                                    ans: hasMatrixCount ? data?.answers : [],
                                                 }}
                                                 colors={colors}
-                                                type="analytics"
+                                                // type="analytics"
                                                 show={show}
+                                                chartRef={countryPieRef}
                                             />
                                         }
                                     </div>}
@@ -195,7 +301,7 @@ const SurveyAnalyticsQuestionView = memo(({index, item, colors, type }) => {
                 })
 
                 :
-                
+
                 <div className="question-preview-block">
                     <div className="question-preview">
                         <div className="d-flex align-items-center justify-content-between question-preview-options">
@@ -208,7 +314,7 @@ const SurveyAnalyticsQuestionView = memo(({index, item, colors, type }) => {
                         </div>
                         <div className="answer-options">
                             {item?.answer?.map((ans, i) => {
-                               
+
                                 return (<>
                                     <div key={i} className="answer">
                                         <div className="choices">
@@ -249,7 +355,13 @@ const SurveyAnalyticsQuestionView = memo(({index, item, colors, type }) => {
                                     <a className="btn"></a>
                                 </label>
                             </div>
+                            <DownloadDropdown
+                                graphRef={[countryBarRef, countryPieRef]}
+                                whichTypeGraph={whichTypeGraph == "bar" ? 0 : 1}
+                                title={item?.type}
+                                handleDownload={handleDownload}
 
+                            />
                         </div>
                         {(apiStatus && loaderIndex == index)
                             ?
@@ -259,7 +371,7 @@ const SurveyAnalyticsQuestionView = memo(({index, item, colors, type }) => {
                                     margin: "10 auto",
                                     justifyContent: "center",
                                     display: "flex",
-                                    height:225
+                                    height: 193
                                 }}
                             >
                                 <Spinner color="#53aff4" size={32} speed={1} animating={true} />
@@ -267,29 +379,30 @@ const SurveyAnalyticsQuestionView = memo(({index, item, colors, type }) => {
                             :
                             <div className="pie-chart-outer-layout">
 
-
-                                { 
-                                whichTypeGraph[index] == "pie" ?
-                                    <SurveyAnalyticsQuestionPieChart
-                                        data={{
-                                            questionId: index,
-                                            graphType: "pie",
-                                            ans: hasCount?item?.answer:[],
-                                        }}
-                                        colors={colors}
-                                        type="analytics"
-                                        show={show}
-                                    />
-                                    : <SurveyAnalyticsQuestionPieChart
-                                        data={{
-                                            questionId: index,
-                                            graphType: "bar",
-                                            ans:hasCount? item?.answer:[],
-                                        }}
-                                        colors={colors}
-                                        type="analytics"
-                                        show={show}
-                                    />
+                                {
+                                    whichTypeGraph[index] == "pie" ?
+                                        <SurveyAnalyticsQuestionPieChart
+                                            data={{
+                                                questionId: index,
+                                                graphType: "pie",
+                                                ans: hasCount ? item?.answer : [],
+                                            }}
+                                            colors={colors}
+                                            // type="analytics"
+                                            show={show}
+                                            chartRef={countryPieRef}
+                                        />
+                                        : <SurveyAnalyticsQuestionPieChart
+                                            data={{
+                                                questionId: index,
+                                                graphType: "bar",
+                                                ans: hasCount ? item?.answer : [],
+                                            }}
+                                            colors={colors}
+                                            // type="analytics"
+                                            show={show}
+                                            chartRef={countryBarRef}
+                                        />
                                 }
                             </div>}
                     </div>

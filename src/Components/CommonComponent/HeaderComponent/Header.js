@@ -160,7 +160,11 @@ const Header = () => {
   const homeClicked = (e) => {
     e.preventDefault();
     localStorage.removeItem("switch_account_detail")
-    navigate("/home")
+    if (localStorage.getItem('user_id') === "56Ek4feL/1A8mZgIKQWEqg==") {
+      navigate("/home-timeline")
+    } else {
+      navigate("/home")
+    }
   }
   let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
@@ -265,17 +269,17 @@ const Header = () => {
                       : "nav-item"
                   } onClick={handleMenuItemClick}
                 >
-                  <Link className="nav-link" 
-                  to={"/library-content"}
+                  <Link className="nav-link"
+                    to={"/library-content"}
                   >
                     LIBRARY
                   </Link>
                 </li>
 
-                
+
                 <li
                   className={
-                    window.location.pathname == "/readers-view" || window.location.pathname == "/new-readers-reviews" ||window.location.pathname == "/IRT-Mandatory" ||
+                    window.location.pathname == "/readers-view" || window.location.pathname == "/new-readers-reviews" || window.location.pathname == "/IRT-Mandatory" ||
                       window.location.pathname == "/readers-list" ||
                       window.location.pathname == "/reader-add" ||
                       window.location.pathname == "/reader-edit" ||
@@ -291,10 +295,10 @@ const Header = () => {
                       : "nav-item"
                   } onClick={handleMenuItemClick}
                 >
-                  <Link className="nav-link" 
-                  to={(localStorage.getItem("user_id")=="56Ek4feL/1A8mZgIKQWEqg=="
-                    ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
-                    ?"/IRT-Mandatory":"/readers-view"}
+                  <Link className="nav-link"
+                    to={(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+                      || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                      ? "/IRT-Mandatory" : "/readers-view"}
                   // to={"/readers-view"} 
                   >
                     CRM
@@ -331,7 +335,7 @@ const Header = () => {
                       window.location.pathname == "/LEX-210-analytics" ||
                       window.location.pathname == "/trial-analytics" ||
                       window.location.pathname == "/feedback" ||
-                      window.location.pathname == "/content-analytics" ||  window.location.pathname == "/survey/survey-data" 
+                      window.location.pathname == "/content-analytics" || window.location.pathname == "/survey/survey-data"
                       ? "nav-item active active-main"
                       : "nav-item"
                   } onClick={handleMenuItemClick}
@@ -359,11 +363,11 @@ const Header = () => {
                               "56Ek4feL/1A8mZgIKQWEqg=="
                               ? "/LEX-210-analytics"
                               :
-                              localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" 
-                              ? "/trial-analytics"
-                              : "/content-analytics"
+                              localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+                                ? "/trial-analytics"
+                                : "/content-analytics"
                     }
-                    
+
                   >
                     ANALYTICS
                   </Link>
@@ -391,16 +395,16 @@ const Header = () => {
                       window.location.pathname == "/EmailStatss" ||
                       window.location.pathname == "/blocked-users" ||
                       window.location.pathname == "/bounced-email" ||
-                      window.location.pathname == "/get-details"||
+                      window.location.pathname == "/get-details" ||
                       window.location.pathname == "/IRTRole"
                       ? "nav-item active active-main"
                       : "nav-item"
                   } onClick={handleMenuItemClick}
                 >
-                  <Link className="nav-link" 
-                  // to={localStorage.getItem("user_id")=="56Ek4feL/1A8mZgIKQWEqg=="?"/IRTRole":"/EmailList"}
-                  to={"/EmailList"}
-                   > 
+                  <Link className="nav-link"
+                    // to={localStorage.getItem("user_id")=="56Ek4feL/1A8mZgIKQWEqg=="?"/IRTRole":"/EmailList"}
+                    to={"/EmailList"}
+                  >
                     EMAIL
                   </Link>
                 </li>
@@ -429,7 +433,7 @@ const Header = () => {
                         : "nav-item"
                     } onClick={handleMenuItemClick}
                   >
-                    <Link className="nav-link" to={"/license-content"} > 
+                    <Link className="nav-link" to={"/license-content"} >
                       LICENSED
                     </Link>
                   </li>
@@ -437,52 +441,52 @@ const Header = () => {
 
                 {typeof localStorage.getItem("webinar_flag") !== "undefined" &&
                   localStorage.getItem("webinar_flag") == 1
-                   ||
+                  ||
                   localStorage.getItem("user_id") === "IJype v19WASFcSlrfRENQ=="
                   //  &&
                   // localStorage.getItem("user_id") !=
                   // "56Ek4feL/1A8mZgIKQWEqg=="
-                   ? (
-                  <li className={
-                    window.location.pathname == "/webinar/live-stream/settings" ||
-                      window.location.pathname == "/webinar/invitees" ||
-                      window.location.pathname == "/webinar/registration" ||
-                      window.location.pathname == "/webinar/email" ||
-                      window.location.pathname == "/webinar/live-stream" ||
-                      window.location.pathname == "/webinar/live-stream/polls-layout" ||
-                      window.location.pathname == "/webinar/live-stream/contact-dm" ||
-                      window.location.pathname == "/webinar/live-stream/speaker-zone" ||
+                  ? (
+                    <li className={
                       window.location.pathname == "/webinar/live-stream/settings" ||
-                      window.location.pathname == "/webinar/live-stream/chat-link" || window.location.pathname == "/webinar/live-stream/survey/question-data" ||
-                      window.location.pathname == "/webinar/analytics" ||
-                      window.location.pathname == "/webinar/event-listing" ||
-                      window.location.pathname == "/webinar/email/auto-emails" ||
-                      window.location.pathname == "/webinar/email/smartlist" ||
-                      window.location.pathname == "/webinar/email/create-new-email" ||
-                      window.location.pathname == "/webinar/email/selectHCP" ||
-                      window.location.pathname == "/webinar/email/verifyHCP" ||
-                      window.location.pathname == "/webinar/email/selectSmartList" ||
-                      window.location.pathname == "/webinar/email/selectSmartListUsers" ||
-                      window.location.pathname == "/webinar/email/verifyMAIL" ||
-                      window.location.pathname == "/webinar/email/verifyHcpMAIL" ||
-                      window.location.pathname == "/webinar/email/smartlist/editlist" ||
-                      window.location.pathname == "/webinar/email/smartlist/createsmartlist" ||
-                      window.location.pathname == "/webinar/email/smartlist/smartlistfilter" ||
-                      window.location.pathname == "/webinar/analytics/analytics-attendees" ||
-                      window.location.pathname == "/webinar/analytics/analytics-questions" ||
-                      window.location.pathname == "/webinar/analytics/analytics-poll" ||
-                      window.location.pathname == "/webinar/analytics/analytics-emails" ||
-                      window.location.pathname == "/webinar/analytics/analytics-regions" ||
-                      window.location.pathname == "/webinar/analytics/question-data" ||
-                      window.location.pathname == "/webinar/email/smartlist/uploadsmartlist"||
-                      window.location.pathname =="/webinar/email/smartlist/viewlist"
-                      ? "nav-item active active-main"
-                      : "nav-item"
-                  }>
-                    <Link className="nav-link" to={"/webinar/event-listing"} onClick={handleMenuItemClick}>
-                      WEBINAR
-                    </Link>
-                    {/* <a
+                        window.location.pathname == "/webinar/invitees" ||
+                        window.location.pathname == "/webinar/registration" ||
+                        window.location.pathname == "/webinar/email" ||
+                        window.location.pathname == "/webinar/live-stream" ||
+                        window.location.pathname == "/webinar/live-stream/polls-layout" ||
+                        window.location.pathname == "/webinar/live-stream/contact-dm" ||
+                        window.location.pathname == "/webinar/live-stream/speaker-zone" ||
+                        window.location.pathname == "/webinar/live-stream/settings" ||
+                        window.location.pathname == "/webinar/live-stream/chat-link" || window.location.pathname == "/webinar/live-stream/survey/question-data" ||
+                        window.location.pathname == "/webinar/analytics" ||
+                        window.location.pathname == "/webinar/event-listing" ||
+                        window.location.pathname == "/webinar/email/auto-emails" ||
+                        window.location.pathname == "/webinar/email/smartlist" ||
+                        window.location.pathname == "/webinar/email/create-new-email" ||
+                        window.location.pathname == "/webinar/email/selectHCP" ||
+                        window.location.pathname == "/webinar/email/verifyHCP" ||
+                        window.location.pathname == "/webinar/email/selectSmartList" ||
+                        window.location.pathname == "/webinar/email/selectSmartListUsers" ||
+                        window.location.pathname == "/webinar/email/verifyMAIL" ||
+                        window.location.pathname == "/webinar/email/verifyHcpMAIL" ||
+                        window.location.pathname == "/webinar/email/smartlist/editlist" ||
+                        window.location.pathname == "/webinar/email/smartlist/createsmartlist" ||
+                        window.location.pathname == "/webinar/email/smartlist/smartlistfilter" ||
+                        window.location.pathname == "/webinar/analytics/analytics-attendees" ||
+                        window.location.pathname == "/webinar/analytics/analytics-questions" ||
+                        window.location.pathname == "/webinar/analytics/analytics-poll" ||
+                        window.location.pathname == "/webinar/analytics/analytics-emails" ||
+                        window.location.pathname == "/webinar/analytics/analytics-regions" ||
+                        window.location.pathname == "/webinar/analytics/question-data" ||
+                        window.location.pathname == "/webinar/email/smartlist/uploadsmartlist" ||
+                        window.location.pathname == "/webinar/email/smartlist/viewlist"
+                        ? "nav-item active active-main"
+                        : "nav-item"
+                    }>
+                      <Link className="nav-link" to={"/webinar/event-listing"} onClick={handleMenuItemClick}>
+                        WEBINAR
+                      </Link>
+                      {/* <a
                       className="nav-link"
                       target="_blank"
                       href={
@@ -492,12 +496,12 @@ const Header = () => {
                     >
                       WEBINAR
                     </a> */}
-                  </li>
-                  
-                ) : (
-                  ""
-                )}
-          {    localStorage.getItem("user_id") =="rjiGlqA9DXJVH7bDDTX0Lg=="  &&   ( <li className={window.location.pathname == "/survey/survey-list" || window.location.pathname == "/survey/survey-sublink" || window.location.pathname == "/survey/survey-analytics" || window.location.pathname == "/survey/survey-analytics-detail" || window.location.pathname == "/survey/survey-setup" || window.location.pathname == "/survey/survey-builder" || window.location.pathname == "/survey/survey-configure" || window.location.pathname == "/survey/form-builder" || window.location.pathname == "/survey/thank-you" || window.location.pathname == "/survey/survey-preview"
+                    </li>
+
+                  ) : (
+                    ""
+                  )}
+                {localStorage.getItem("user_id") == "rjiGlqA9DXJVH7bDDTX0Lg==" && (<li className={window.location.pathname == "/survey/survey-list" || window.location.pathname == "/survey/survey-sublink" || window.location.pathname == "/survey/survey-analytics" || window.location.pathname == "/survey/survey-analytics-detail" || window.location.pathname == "/survey/survey-setup" || window.location.pathname == "/survey/survey-builder" || window.location.pathname == "/survey/survey-configure" || window.location.pathname == "/survey/form-builder" || window.location.pathname == "/survey/thank-you" || window.location.pathname == "/survey/survey-preview"
                   ? "nav-item active active-main"
                   : "nav-item"
                 } onClick={handleMenuItemClick}>
@@ -649,7 +653,7 @@ const Header = () => {
           </div>
         </div>
       </div>
-      
+
     </>
   );
 };

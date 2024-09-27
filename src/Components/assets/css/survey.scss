@@ -787,7 +787,7 @@ span {
                                                 .tox-tbtn__select-label{
                                                     width:auto;
                                                     font-size: 14px;
-                                                    color:#004A89;
+                                                    color:$dark-blue;
                                                 }
                                             }
                                             .tox-tbtn__select-chevron{
@@ -803,7 +803,7 @@ span {
                                         span {
                                             svg {
                                                 path {
-                                                    fill: #70899E;
+                                                    fill: $dark-gray;
                                                 }
                                             }
                                         }
@@ -819,7 +819,7 @@ span {
                                                 span {
                                                     svg {
                                                         path {
-                                                            fill: #004A89;
+                                                            fill: $dark-blue;
                                                         }
                                                     }
                                                 }
@@ -2223,7 +2223,7 @@ span {
 
                 .word-limit {
                     font-size: 11px;
-                    color: #70899E;
+                    color: $dark-gray;
                     font-weight: 500;
                     gap: 2px;
                     line-height: normal;
@@ -2706,7 +2706,7 @@ span {
             p {
                 &.start-title {
                     margin: 0 0 30px;
-                    color:#004A89;
+                    color:$dark-blue;
                 }
 
                 a {
@@ -4517,7 +4517,8 @@ body {
 
         .question-preview-block {
             display: flex;
-            align-items: flex-start;
+            // align-items: center;
+            height:100%;
 
             &.matrix {
                 border-bottom: 1px dashed $light-gray;
@@ -4529,6 +4530,7 @@ body {
                 .question-preview {
                     padding-top: 13px;
                     padding-bottom: 16px;
+                    
                 }
             }
 
@@ -4536,6 +4538,9 @@ body {
                 width: 597px;
                 padding: 40px 16px;
                 border-right: 1px dashed $light-gray;
+                flex-direction: column;
+                display: flex;
+                justify-content: center;
 
                 &>span {
                     color: $dark-blue;
@@ -4594,12 +4599,12 @@ body {
                                 color: $dark-blue;
                                 font-size: 13px;
                                 font-weight: 500;
-                                min-width: 16px;
+                                min-width: 18px;
                                 text-align: center;
 
                                 &.respondents-percent {
                                     color: $dark-gray;
-
+                                    min-width: 43px;
                                     span {
                                         color: $dark-blue;
                                     }
@@ -4645,7 +4650,7 @@ body {
             .question-preview-right {
                 flex: 1 1;
                 padding: 16px;
-
+                
                 .rd-training-block-right {
                     gap: 16px;
 
@@ -4712,6 +4717,8 @@ body {
                         height: 32px;
                         min-width: 32px;
                         text-transform: capitalize;
+                        z-index: 1;
+                        position: relative;
 
                         &:after {
                             display: none;
@@ -4751,12 +4758,19 @@ body {
                             margin-right: 4px;
                             &.survey-rating-number{
                                 font-weight: 500;
-                                color: #004A89;
+                                color: $dark-blue;
+                            }
+                        }
+                        .progress{
+                            background: #EAF0F5;
+                            border-radius: 20px;
+                            .progress-bar{
+                                border-radius: 20px;
                             }
                         }
                     }
                     .question-preview-chart-result {
-                        color: #70899E;
+                        color: $dark-gray;
                         font-size: 16px;
                         font-weight: 400;
                         font-family: 'Roboto';
@@ -4765,14 +4779,14 @@ body {
                         gap: 8px;
                         span {
                             font-size: 24px;
-                            color: #004A89;
+                            color: $dark-blue;
                             font-weight: 500;
                         }
                         svg {
                             width: 20px;
                             height: 20px;
                         }
-                         b {
+                        b {
                             font-size: 20px;
                             font-weight: 500;
                         }
@@ -5061,7 +5075,7 @@ header.-top-24~div .survey-builder .survey-engine .left-setup{
     color: $dark-blue!important;
 }
 .tox .tox-tbtn__select-chevron svg {
-    fill: #70899E;
+    fill: $dark-gray;
 }
 .text-editor .tox .tox-tbtn--select {
     width: auto!important;
@@ -5083,7 +5097,7 @@ header.-top-24~div .survey-builder .survey-engine .left-setup{
 .text-editor .tox .tox-tbtn--select .tox-tbtn__select-label {
     width: auto!important;
     font-size: 14px;
-    color:#004A89;
+    color:$dark-blue;
 }
                                          
 .tox-tbtn__select-chevron{

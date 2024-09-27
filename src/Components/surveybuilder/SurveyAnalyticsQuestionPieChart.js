@@ -3,13 +3,13 @@ import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
-const SurveyAnalyticsQuestionPieChart = memo(({ key, data, show, type,colors }) => {   
+const SurveyAnalyticsQuestionPieChart = memo(({ key, data, show, type,colors,chartRef }) => {   
     const baseOptions = {
         chart: {
             plotBackgroundColor: null,
             plotBorderWidth: null,
             plotShadow: false,
-            height: 225,
+            height: 193,
             type: 'pie',
             animation: {
                 duration: 0 // Set the animation duration to 0
@@ -128,14 +128,14 @@ const SurveyAnalyticsQuestionPieChart = memo(({ key, data, show, type,colors }) 
     } : {
         ...baseOptions,
         exporting: {
-            enabled: true,
+            enabled: false,
         }
     });
 
     const baseBarChartOptions = {
         chart: {
             type: "bar",
-            height: 225
+            height: 193
         },
         title: {
             text: "",
@@ -311,16 +311,12 @@ const SurveyAnalyticsQuestionPieChart = memo(({ key, data, show, type,colors }) 
     }, [data?.graphType])
     return (<>
         <div className="graph-box">
-
-
-
             {(data?.graphType == "pie") ?
                 (<>
-
                     {data?.ans?.length ?
-
                         <HighchartsReact
                             key={"pie"}
+                            ref={chartRef}
                             highcharts={Highcharts}
                             options={pieChartOptions}
                         /> : <div className="no_found">
@@ -330,9 +326,9 @@ const SurveyAnalyticsQuestionPieChart = memo(({ key, data, show, type,colors }) 
                 </>)
                 : (data?.graphType == "bar" && data?.ans?.length) ?
                     (<>
-
                         <HighchartsReact
                             key={"bar"}
+                            ref={chartRef}
                             highcharts={Highcharts}
                             options={barChartOptions}
                         />
