@@ -25,6 +25,7 @@ import { Spinner } from "react-activity";
 import SurveyAnalyticsQuestionView from "./SurveyAnalyticsQuestionView";
 import SurveyAnalyticsFreeTextView from "./SurveyAnalyticsFreeTextView";
 import SurveyAnalyticsRatingView from "./SurveyAnalyticsRatingView";
+import CommonSurveyStarRating from "./CommonSurveyStarRating";
 exporting(Highcharts);
 exportData(Highcharts);
 const SurveyAnalyticsDetail = () => {
@@ -485,7 +486,8 @@ const SurveyAnalyticsDetail = () => {
                 setSectionApiStatus(true)
                 setLoaderIndex(id)
                 const res = await surveyAxiosInstance.post("/survey/takers-responses-detail", {
-                    user_id: id,
+                    // user_id: id,
+                    user_id: "zPRuJ91HUwsm",
                     // survey_id: stateData?.survey_id
                     survey_id: 22
                 })
@@ -609,7 +611,7 @@ const SurveyAnalyticsDetail = () => {
                                                 </div>
                                                 <div className="survey-takers-status col">
                                                     <p>Survey Takers status</p>
-                                                {/* <img src={path_image + "survey-takers-status.png"} alt="" /> */}
+                                                    {/* <img src={path_image + "survey-takers-status.png"} alt="" /> */}
 
                                                     {options?.series?.length > 0 ? (<>
                                                         <HighchartsReact
@@ -665,7 +667,7 @@ const SurveyAnalyticsDetail = () => {
                                         </div>
                                         {tempQuestionData?.map((item, index) => {
                                             if (item?.type === "multiple" || item?.type === "dropdown" || item?.type === "checkbox" || item?.type == "matrix") {
-                                                
+
                                                 item?.answer?.forEach((obj) => {
                                                     obj.percentage = item.total_count > 0 ? JSON.parse(((obj.count / item.total_count).toFixed(2)) * 100) : 0;
                                                 })
@@ -1191,11 +1193,10 @@ const SurveyAnalyticsDetail = () => {
                                                                     sortData(surveyTakerTableData, sortBy, sortOrder)?.map((item, index) => {
                                                                         return (<>
                                                                             <tr key={index}
-                                                                                className={`view ${surveyTakerShowQuestions == item?.user_id != 0
-                                                                                    ? item?.user_id
-                                                                                    : item?.temp_token
-                                                                                        ? "show"
-                                                                                        : ""
+                                                                                className={`view ${(surveyTakerShowQuestions == item?.user_id
+                                                                                    || surveyTakerShowQuestions == item?.temp_token)
+                                                                                    ? "show"
+                                                                                    : ""
                                                                                     }`}
                                                                                 onClick={(e) =>
                                                                                     surveyTakerShowData(e, index, item?.user_id, item?.temp_token)
@@ -1208,64 +1209,71 @@ const SurveyAnalyticsDetail = () => {
                                                                                 <td className={item?.status}>{item?.status}</td>
                                                                             </tr>
                                                                             {((surveyTakerShowQuestions == item?.user_id ||
-                                                                                    surveyTakerShowQuestions == item?.temp_token)
-                                                                                    && surveyTakerShowQuestionFold
-                                                                                )
-                                                                                 ?
-                                                                                    (<>
-                                                                                        <tr className="fold" >
-                                                                                            <td colSpan="6">
-                                                                                                {(sectionApiStatus && (loaderIndex == item?.user_id ||
-                                                                                                    loaderIndex == item?.temp_token))
-                                                                                                    ?
-                                                                                                    <div
-                                                                                                        className="load_more"
-                                                                                                        style={{
-                                                                                                            margin: "10 auto",
-                                                                                                            justifyContent: "center",
-                                                                                                            display: "flex",
-                                                                                                            height: 225
-                                                                                                        }}
-                                                                                                    >
-                                                                                                        <Spinner color="#53aff4" size={32} speed={1} animating={true} />
-                                                                                                    </div>
-                                                                                                    :
-                                                                                                    surveyTakerShowQuestionsData?.length ? surveyTakerShowQuestionsData?.map((data, index) => {
-                                                                                                        return (<>
-                                                                                                            <div key={index} className="survey-data">
-                                                                                                                <div className="question-type">
-                                                                                                                    <img src={path_image + image(data?.type)} alt="" />
-                                                                                                                </div>
-                                                                                                                <div>
-                                                                                                                    <h6 dangerouslySetInnerHTML={{ __html: `Q${index + 1}|${data?.question_text}` }}>
+                                                                                surveyTakerShowQuestions == item?.temp_token)
+                                                                                && surveyTakerShowQuestionFold
+                                                                            )
+                                                                                ?
+                                                                                (<>
+                                                                                    <tr className="fold" >
+                                                                                        <td colSpan="6">
+                                                                                            {(sectionApiStatus && (loaderIndex == item?.user_id ||
+                                                                                                loaderIndex == item?.temp_token))
+                                                                                                ?
+                                                                                                <div
+                                                                                                    className="load_more"
+                                                                                                    style={{
+                                                                                                        margin: "10 auto",
+                                                                                                        justifyContent: "center",
+                                                                                                        display: "flex",
+                                                                                                        height: 225
+                                                                                                    }}
+                                                                                                >
+                                                                                                    <Spinner color="#53aff4" size={32} speed={1} animating={true} />
+                                                                                                </div>
+                                                                                                :
+                                                                                                surveyTakerShowQuestionsData?.length ? surveyTakerShowQuestionsData?.map((data, index) => {
+                                                                                                    return (<>
+                                                                                                        <div key={index} className="survey-data">
+                                                                                                            <div className="question-type">
+                                                                                                                <img src={path_image + image(data?.type)} alt="" />
+                                                                                                            </div>
+                                                                                                            <div>
+                                                                                                                <h6 dangerouslySetInnerHTML={{ __html: `Q${index + 1}|${data?.question_text}` }}>
 
-                                                                                                                    </h6>
-                                                                                                                    {data?.type == "rating" ?
-                                                                                                                        "hello"
-                                                                                                                        :
-                                                                                                                        data?.question_detail?.length
-                                                                                                                            ? data?.question_detail?.map((ans, i) => {
-                                                                                                                                return (<>
+                                                                                                                </h6>
+                                                                                                                {data?.type == "rating" ?
+                                                                                                                
+                                                                                                                   <CommonSurveyStarRating data={data?.comment}/>
+                                                                                                                   
+                                                                                                                    :
+                                                                                                                    data?.question_detail?.length
+                                                                                                                        ? data?.question_detail?.map((ans, i) => {
+                                                                                                                            return (<>
+                                                                                                                                {data?.type == "matrix" ? (<>
+                                                                                                                                    <p dangerouslySetInnerHTML={{ __html: `${ans?.question_text}` }}></p><p>{ans?.option_text}</p></>)
+                                                                                                                                    :
                                                                                                                                     <p>
                                                                                                                                         {ans?.option_text}
                                                                                                                                     </p>
-                                                                                                                                </>)
-                                                                                                                            }) :
-                                                                                                                            <p>{data?.comment}</p>
-                                                                                                                    }
+                                                                                                                                }
 
-                                                                                                                </div>
+                                                                                                                            </>)
+                                                                                                                        }) :
+                                                                                                                        <p>{data?.comment}</p>
+                                                                                                                }
+
                                                                                                             </div>
-                                                                                                        </>)
-                                                                                                    })
-                                                                                                : <div className="no_found"><p>No Data Found</p></div>
+                                                                                                        </div>
+                                                                                                    </>)
+                                                                                                })
+                                                                                                    : <div className="no_found"><p>No Data Found</p></div>
 
-                                                                                                }                                                                                               
-                                                                                            </td>
-                                                                                        </tr>                                                                                       
-                                                                                    </>)
-                                                                                    :
-                                                                                    null
+                                                                                            }
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                </>)
+                                                                                :
+                                                                                null
                                                                             }
 
                                                                             <tr className="blank">
