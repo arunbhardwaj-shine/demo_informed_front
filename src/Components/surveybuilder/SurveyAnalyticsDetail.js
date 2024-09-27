@@ -25,6 +25,7 @@ import { Spinner } from "react-activity";
 import SurveyAnalyticsQuestionView from "./SurveyAnalyticsQuestionView";
 import SurveyAnalyticsFreeTextView from "./SurveyAnalyticsFreeTextView";
 import SurveyAnalyticsRatingView from "./SurveyAnalyticsRatingView";
+import CommonSurveyStarRating from "./CommonSurveyStarRating";
 exporting(Highcharts);
 exportData(Highcharts);
 const SurveyAnalyticsDetail = () => {
@@ -1192,11 +1193,10 @@ const SurveyAnalyticsDetail = () => {
                                                                     sortData(surveyTakerTableData, sortBy, sortOrder)?.map((item, index) => {
                                                                         return (<>
                                                                             <tr key={index}
-                                                                                className={`view ${surveyTakerShowQuestions == item?.user_id != 0
-                                                                                    ? item?.user_id
-                                                                                    : item?.temp_token
-                                                                                        ? "show"
-                                                                                        : ""
+                                                                                className={`view ${(surveyTakerShowQuestions == item?.user_id
+                                                                                    || surveyTakerShowQuestions == item?.temp_token)
+                                                                                    ? "show"
+                                                                                    : ""
                                                                                     }`}
                                                                                 onClick={(e) =>
                                                                                     surveyTakerShowData(e, index, item?.user_id, item?.temp_token)
@@ -1242,7 +1242,9 @@ const SurveyAnalyticsDetail = () => {
 
                                                                                                                 </h6>
                                                                                                                 {data?.type == "rating" ?
-                                                                                                                    "hello"
+                                                                                                                
+                                                                                                                   <CommonSurveyStarRating data={data?.comment}/>
+                                                                                                                   
                                                                                                                     :
                                                                                                                     data?.question_detail?.length
                                                                                                                         ? data?.question_detail?.map((ans, i) => {
