@@ -104,25 +104,14 @@ const SurveyList = (props) => {
   };
   const showDeleteButtons = () => {
     setDeleteStatus(!deletestatus);
-    // // if (deletestatus) {
-    // //   setDeleteStatus(false);
-    // // } else {
-    // //   setDeleteStatus(true);
-    // // }
-    // if (!deletestatus) {
-    //   setDeleteStatus(!deletestatus);
-    // }else{
-    //   setDeleteStatus(!deletestatus);
-    // }
+  
   };
 
   const getFilterAppliedData = async () => {
-    console.log(filter)
-    if (filter?.Survey?.length > 0 ) {
+    if (filter?.Survey?.length > 0) {
       let filteredData = getoriginalSurveylistdata.filter((item) => {
         return filter.Survey.includes(parseInt(item.is_draft));
       });
-
       // Further filter based on search if there is any search text
       if (search.trim().length > 0) {
         console.log("insdie search");
@@ -130,14 +119,13 @@ const SurveyList = (props) => {
           return item.survey_title.toLowerCase().includes(search.toLowerCase());
         });
       }
-
       // Set the final filtered data
       setIsData(filteredData);
     } else if (search.trim().length > 0) {
       const filteredData = getoriginalSurveylistdata.filter((item) => {
         return item.survey_title.toLowerCase().includes(search.toLowerCase());
       });
-      setIsData(filteredData)
+      setIsData(filteredData);
     } else {
       setIsData(getoriginalSurveylistdata);
     }
