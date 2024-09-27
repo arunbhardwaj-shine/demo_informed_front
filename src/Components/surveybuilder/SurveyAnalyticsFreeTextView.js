@@ -1,4 +1,5 @@
-import React from 'react'
+import React,{useRef} from 'react'
+import html2canvas from "html2canvas";
 import {
     Accordion,
     Button,
@@ -10,8 +11,106 @@ import {
     Table,
 } from "react-bootstrap";
 
-const SurveyAnalyticsFreeTextView = ({ index, item }) => {
+const SurveyAnalyticsFreeTextView = ({ index, item}) => {
     let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+    const freeTextRef=useRef(null)
+
+    const DownloadDropdown = ({
+       
+        title,
+        handleDownload
+    }) => {
+        const formats = ["PNG", "JPEG", "PDF", "SVG"];
+        return (
+            <Dropdown>
+                <Dropdown.Toggle id="dropdown-basic">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="6"
+                        height="24"
+                        viewBox="0 0 6 24"
+                        fill="none"
+                    >
+                        <path
+                            fillRule="evenodd"
+                            clipRule="evenodd"
+                            d="M6 3C6 4.65685 4.65685 6 3 6C1.34315 6 0 4.65685 0 3C0 1.34315 1.34315 0 3 0C4.65685 0 6 1.34315 6 3ZM6 12C6 13.6569 4.65685 15 3 15C1.34315 15 0 13.6569 0 12C0 10.3431 1.34315 9 3 9C4.65685 9 6 10.3431 6 12ZM3 24C4.65685 24 6 22.6569 6 21C6 19.3431 4.65685 18 3 18C1.34315 18 0 19.3431 0 21C0 22.6569 1.34315 24 3 24Z"
+                            fill="#0066BE"
+                        />
+                    </svg>
+                </Dropdown.Toggle>
+
+                <Dropdown.Menu>
+                    {formats.map((format) => (
+                        <Dropdown.Item
+                            key={format}
+                            onClick={() =>
+                                handleDownload(format, freeTextRef, title)
+                            }
+                        >
+                            Download {format}
+                        </Dropdown.Item>
+                    ))}
+                </Dropdown.Menu>
+            </Dropdown>
+        );
+    };
+    const handleDownload = async (format, ref, defaultName = "survey_question", isHtml = true) => {
+        if (isHtml) {
+            // For HTML content (like a div with text or progress bars)
+            const element = ref.current; // Reference to the div element
+            if (element) {
+                const canvas = await html2canvas(element);
+                const dataURL = canvas.toDataURL(`image/${format.toLowerCase()}`);
+    
+                // Create a link to download the image
+                const link = document.createElement("a");
+                link.href = dataURL;
+                link.download = `${defaultName}.${format.toLowerCase()}`;
+                link.click();
+            }
+        }
+    }
+
+    // const handleDownload = (
+    //     format,
+    //     ref,
+    //     defaultName = "survey_question"
+    // ) => {
+    //     let chart = ref.current && ref.current.chart;
+    //     console.log("defaultName-->",defaultName)
+
+    //     if (chart) {
+    //         switch (format) {
+    //             case "PNG":
+    //                 chart.exportChart({
+    //                     type: "image/png",
+    //                     filename: defaultName,
+    //                 });
+    //                 break;
+    //             case "JPEG":
+    //                 chart.exportChart({
+    //                     type: "image/jpeg",
+    //                     filename: defaultName ,
+    //                 });
+    //                 break;
+    //             case "PDF":
+    //                 chart.exportChart({
+    //                     type: "application/pdf",
+    //                     filename: defaultName ,
+    //                 });
+    //                 break;
+    //             case "SVG":
+    //                 chart.exportChart({
+    //                     type: "image/svg+xml",
+    //                     filename: defaultName,
+    //                 });
+    //                 break;
+    //             default:
+    //                 break;
+    //         }
+    //     }
+    // };
     return (<>
         <div key={index} className="survey-question-listing">
             <div className="survey-question-top d-flex align-items-center">
@@ -45,7 +144,7 @@ const SurveyAnalyticsFreeTextView = ({ index, item }) => {
             <div className="question-preview-block">
                 <div className="question-preview-right">
                     <div className="rd-training-block-right d-flex justify-content-end align-items-center">
-                        <Dropdown>
+                        {/* <Dropdown>
                             <Dropdown.Toggle id="dropdown-basic">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="6" height="24" viewBox="0 0 6 24" fill="none" > <path fillRule="evenodd" clipRule="evenodd" d="M6 3C6 4.65685 4.65685 6 3 6C1.34315 6 0 4.65685 0 3C0 1.34315 1.34315 0 3 0C4.65685 0 6 1.34315 6 3ZM6 12C6 13.6569 4.65685 15 3 15C1.34315 15 0 13.6569 0 12C0 10.3431 1.34315 9 3 9C4.65685 9 6 10.3431 6 12ZM3 24C4.65685 24 6 22.6569 6 21C6 19.3431 4.65685 18 3 18C1.34315 18 0 19.3431 0 21C0 22.6569 1.34315 24 3 24Z" fill="#0066BE" /> </svg>
                             </Dropdown.Toggle>
@@ -99,9 +198,16 @@ const SurveyAnalyticsFreeTextView = ({ index, item }) => {
                                     Download SVG
                                 </Dropdown.Item>
                             </Dropdown.Menu>
-                        </Dropdown>
+                        </Dropdown> */}
+                         <DownloadDropdown
+                                        // graphRef={[countryBarRef, countryPieRef]}
+                                        // whichTypeGraph={whichTypeGraph == "bar" ? 0 : 1}
+                                        title={item?.type}
+                                        handleDownload={handleDownload}
+
+                                    />
                     </div>
-                    <div className="free-text-section">
+                    <div className="free-text-section" ref={freeTextRef}>
                         {item?.answer?.length ? item?.answer?.map((data, index) => {
                             return (<>
                                 <div key={index} className="free-text-block">

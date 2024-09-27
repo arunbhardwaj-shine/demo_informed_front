@@ -67,7 +67,7 @@ const SurveyAnalyticsDetail = () => {
             height: 300,
         },
         title: {
-            text: "Survey Taker Status",
+            text: "",
         },
         xAxis: {
             categories: [],
@@ -145,8 +145,8 @@ const SurveyAnalyticsDetail = () => {
             loader("show")
             setApiStatus(true)
             const res = await surveyAxiosInstance.post("/survey/qns-analytics", {
-                survey_id: stateData?.survey_id
-                // survey_id: 72
+                // survey_id: stateData?.survey_id
+                survey_id: 22
             });
             let data = res?.data?.data
             if (data != "undefined") {
@@ -185,8 +185,8 @@ const SurveyAnalyticsDetail = () => {
     const getTempQuestionData = async () => {
         try {
             const res = await surveyAxiosInstance.post("/survey/analytic-qns-detail", {
-                survey_id: stateData?.survey_id
-                // survey_id: 72
+                // survey_id: stateData?.survey_id
+                survey_id: 22
             });
             const data = res?.data?.data?.allData
             setTempQuestionData(data)
@@ -345,8 +345,8 @@ const SurveyAnalyticsDetail = () => {
             setApiStatus(true)
             if (surveyTakerTableData?.length == 0) {
                 const res = await surveyAxiosInstance.post("/survey/survey-takers-status", {
-                    survey_id: stateData?.survey_id
-                    // survey_id: 72
+                    // survey_id: stateData?.survey_id
+                    survey_id: 22
                 });
 
                 let userdata = [
@@ -486,8 +486,8 @@ const SurveyAnalyticsDetail = () => {
                 setLoaderIndex(id)
                 const res = await surveyAxiosInstance.post("/survey/takers-responses-detail", {
                     user_id: id,
-                    survey_id: stateData?.survey_id
-                    // survey_id: 72
+                    // survey_id: stateData?.survey_id
+                    survey_id: 22
                 })
                 setSurveyTakerShowQuestionsData(res?.data?.data)
             }
@@ -608,8 +608,8 @@ const SurveyAnalyticsDetail = () => {
                                                     <img src={path_image + "survey-takers.png"} alt="" />
                                                 </div>
                                                 <div className="survey-takers-status col">
-                                                    {/* <p>Survey Takers status</p>
-                                                <img src={path_image + "survey-takers-status.png"} alt="" /> */}
+                                                    <p>Survey Takers status</p>
+                                                {/* <img src={path_image + "survey-takers-status.png"} alt="" /> */}
 
                                                     {options?.series?.length > 0 ? (<>
                                                         <HighchartsReact
