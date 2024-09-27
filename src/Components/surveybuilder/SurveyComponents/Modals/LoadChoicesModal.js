@@ -62,6 +62,9 @@ const LoadChoicesModal = ({ show, onClose, handleAddBulkElements }) => {
     setTextAreaValue("");
     setSelectedValue(null);
   };
+  const handleSetYourOwn =()=>{
+    setAddYourOwn(false);
+  }
 
   return (
     <Modal
@@ -123,7 +126,7 @@ const LoadChoicesModal = ({ show, onClose, handleAddBulkElements }) => {
                 Add
         </Button>
         {addYourOwn && (
-          <Button className="btn btn-primary save btn-bordered" onClick={handleClose}>
+          <Button className="btn btn-primary save btn-bordered" onClick={handleSetYourOwn}>
             Close
           </Button>
         )}

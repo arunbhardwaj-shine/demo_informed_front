@@ -13,7 +13,7 @@
       href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
       rel="stylesheet"
     />
-    <!-- <title>Survey Preview</title> -->
+ 
   </head>
 
   <body>
@@ -359,39 +359,31 @@
         });
       };
 
-      function addMetaTag(name, content) {
-        switch (name) {
-          case "description":
-            const metaTag = document.createElement("meta");
-            metaTag.setAttribute("name", name);
-            metaTag.setAttribute("content", content);
-            document.head.appendChild(metaTag);
-            break;
+    function generateMetaTags(data,Utmde) {
+  
+  const metaTags = [
+    { name: "description", content:  data.data[0].survey_info.survey_link_description || "" },
+    { property: "og:image", content:   data.data[0].survey_info.survey_thumbnail || "" },
+    { name: "title", content:   data.data[0].survey_info.survey_link_title || "" },
+    { property: "og:url", content: `https://informed.pro/Survey/Survey.html?Utmde=${Utmde}` || "" }
+  ];
 
-          case "og:image":
-            const ogMetaTag = document.createElement("meta");
-            ogMetaTag.setAttribute("property", name);
-            ogMetaTag.setAttribute("content", content);
-            document.head.appendChild(ogMetaTag);
-            break;
+  metaTags.forEach(tag => {
+    const metaTag = document.createElement("meta");
+    if (tag.name) {
+      metaTag.setAttribute("name", tag.name);
+    }
+    if (tag.property) {
+      metaTag.setAttribute("property", tag.property);
+    }
+    metaTag.setAttribute("content", tag.content);
+    document.head.appendChild(metaTag);
+  });
 
-          case "title":
-            const titleTag = document.createElement("title");
-            titleTag.innerHTML = content;
-            document.head.appendChild(titleTag);
-            break;
-
-          case "og-url":
-            const ogUrlTag = document.createElement("meta");
-            ogUrlTag.setAttribute("property", name);
-            ogUrlTag.setAttribute("content", content);
-            document.head.appendChild(ogUrlTag);
-            break;
-
-          default:
-            console.log("Unsupported meta tag:", name);
-        }
-      }
+  const titleTag = document.createElement("title");
+  titleTag.innerHTML = data.data[0].survey_info.survey_link_title || "";
+  document.head.appendChild(titleTag);
+}
 
       const handleIndividualCheckboxChange = (
         questionNo,
@@ -467,7 +459,7 @@
           pageNotFound();
           return;
         }
-        const apiUrl = "https://informedback.shinedezign.pro/survey/fetch-preview-data";
+        const apiUrl = "http://192.168.0.231:3001/survey/fetch-preview-data";
         const payload = {
           Utmde,
           user_id: user_id,
@@ -539,26 +531,28 @@
           pageNotFound();
           return;
         }
+
+        await generateMetaTags(data,Utmde)
         const survey_id = data.data[0].survey_info.id;
         const customHtml = await JSON.parse(
           data.data[0].survey_info.custom_html
         )[0];
-        await addMetaTag(
-          "description",
-          data.data[0].survey_info.survey_link_description ?? ""
-        );
-        await addMetaTag(
-          "og:image",
-          data.data[0].survey_info.survey_thumbnail ?? ""
-        );
-        await addMetaTag(
-          "title",
-          data.data[0].survey_info.survey_link_title ?? ""
-        );
-        await addMetaTag(
-          "og-url",
-          `https://informed.pro/Survey/Survey.html?Utmde=${Utmde}` ?? ""
-        );
+        // await addMetaTag(
+        //   "description",
+        //   data.data[0].survey_info.survey_link_description ?? ""
+        // );
+        // await addMetaTag(
+        //   "og:image",
+        //   data.data[0].survey_info.survey_thumbnail ?? ""
+        // );
+        // await addMetaTag(
+        //   "title",
+        //   data.data[0].survey_info.survey_link_title ?? ""
+        // );
+        // await addMetaTag(
+        //   "og-url",
+        //   `https://informed.pro/Survey/Survey.html?Utmde=${Utmde}` ?? ""
+        // );
 
         let surveyHtml = `
           <div class="informed-survey-header" style="${
@@ -2027,7 +2021,7 @@
               loader("show");
 
               const submitApiUrl =
-                "https://informedback.shinedezign.pro/survey/insert-user-responses";
+                "http://192.168.0.231:3001/survey/insert-user-responses";
 
               const submitResponse = await fetch(submitApiUrl, {
                 method: "POST",
