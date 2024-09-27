@@ -4879,6 +4879,13 @@ body {
 
                 tbody {
                     tr {
+                        &.view{
+                            td{
+                                &:first-child{
+                                    border-radius: 9px 0 0 9px;
+                                }
+                            }
+                        }
                         td {
                             color: $dark-gray;
                             font-weight: 400;

@@ -36,7 +36,7 @@ a {
   fill: var(--white);
 }
 
-/* .filter-by.nav-item.dropdown > button:hover, .filter-by.highlight > button {background: var(--light-blue);color: var(--white);} */
+
 .filter-by.nav-item.dropdown>button:hover,
 .table-title .selected-hcp-table-action .filter-by.nav-item.dropdown>button:hover {
   background: var(--light-blue);
