@@ -36,7 +36,7 @@ a {
   fill: var(--white);
 }
 
-/* .filter-by.nav-item.dropdown > button:hover, .filter-by.highlight > button {background: var(--light-blue);color: var(--white);} */
+
 .filter-by.nav-item.dropdown>button:hover,
 .table-title .selected-hcp-table-action .filter-by.nav-item.dropdown>button:hover {
   background: var(--light-blue);
@@ -472,7 +472,9 @@ background: #8A4E9C;
   position: relative;
   z-index: 8;
 }
-
+.question-preview-block .filter-by button{
+z-index: 5;
+}
 .filter-by button:focus,
 .table-title .selected-hcp-table-action .filter-by button:focus {
   background: var(--white);
@@ -3147,7 +3149,18 @@ form .input-group {
   background: transparent;
   padding: 1px;
 }
-
+.survey_data_accordion_heading table tbody tr.fold{
+  border-radius: 0 0 8px 8px;
+  background: rgba(0, 102, 190, 0.03);
+ }
+ .survey_data_accordion_heading table tbody tr.fold td {
+  border-top:1px dashed #97b6cf;
+   border-radius: 0 0 9px 9px;
+ }
+ .survey_data_accordion_heading table tbody .view.show {
+  border-radius: 9px 9px 0 0;
+  box-shadow: 0px 1px 6px 0px rgba(0, 102, 190, 0.20);
+}
 .table td[contenteditable="true"] span {
   background: #97b6cf7a;
   color: var(--light-gray);
