@@ -742,7 +742,7 @@ const SurveyAnalyticsDetail = () => {
                                         </div>
                                         {tempQuestionData?.map((item, index) => {
                                             if (item?.type === "multiple" || item?.type === "dropdown" || item?.type === "checkbox" || item?.type == "matrix") {
-
+                                                
                                                 item?.answer?.forEach((obj) => {
                                                     obj.percentage = item.total_count > 0 ? JSON.parse(((obj.count / item.total_count).toFixed(2)) * 100) : 0;
                                                 })
