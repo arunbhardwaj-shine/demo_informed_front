@@ -175,7 +175,10 @@ const SurveyAnalyticsRatingView = ({ index, item, colors }) => {
                         />
                         
                     </div>
-                    <div className="question-preview-chart d-flex justify-content-center align-items-center" ref={progressBarRef}>
+                    <div 
+                    className="question-preview-chart d-flex justify-content-center align-items-center" 
+                    // ref={progressBarRef}
+                    >
                         <div className='question-preview-chart-details'>
                         {item.answer.map((data, index) => (
                                 <div key={index} className="survey-rating-detail" style={{display:"flex",width:"275px"}}>

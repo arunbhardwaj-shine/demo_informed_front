@@ -2,6 +2,8 @@ import React, { useState, memo, useRef } from "react";
 import { Spinner } from "react-activity";
 import { Dropdown } from "react-bootstrap";
 import SurveyAnalyticsQuestionPieChart from "./SurveyAnalyticsQuestionPieChart";
+import html2canvas from "html2canvas";
+
 const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
     let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
     const [whichTypeGraph, setWhichTypeGraph] = useState({ [index]: "pie" })
@@ -112,46 +114,104 @@ const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
         );
     };
 
-    const handleDownload = (
-        format,
-        ref,
-        defaultName = "survey_question"
-    ) => {
-        let chart = ref.current && ref.current.chart;
-        if (chart) {
-            switch (format) {
-                case "PNG":
-                    chart.exportChart({
-                        type: "image/png",
-                        filename: defaultName,
-                    });
-                    break;
-                case "JPEG":
-                    chart.exportChart({
-                        type: "image/jpeg",
-                        filename: defaultName,
-                    });
-                    break;
-                case "PDF":
-                    chart.exportChart({
-                        type: "application/pdf",
-                        filename: defaultName,
-                    });
-                    break;
-                case "SVG":
-                    chart.exportChart({
-                        type: "image/svg+xml",
-                        filename: defaultName,
-                    });
-                    break;
-                default:
-                    break;
+    // const handleDownload = (
+    //     format,
+    //     ref,
+    //     defaultName = "survey_question"
+    // ) => {
+    //     let chart = ref.current && ref.current.chart;
+    //     if (chart) {
+    //         switch (format) {
+    //             case "PNG":
+    //                 chart.exportChart({
+    //                     type: "image/png",
+    //                     filename: defaultName,
+    //                 });
+    //                 break;
+    //             case "JPEG":
+    //                 chart.exportChart({
+    //                     type: "image/jpeg",
+    //                     filename: defaultName,
+    //                 });
+    //                 break;
+    //             case "PDF":
+    //                 chart.exportChart({
+    //                     type: "application/pdf",
+    //                     filename: defaultName,
+    //                 });
+    //                 break;
+    //             case "SVG":
+    //                 chart.exportChart({
+    //                     type: "image/svg+xml",
+    //                     filename: defaultName,
+    //                 });
+    //                 break;
+    //             default:
+    //                 break;
+    //         }
+    //     }
+    // };
+
+    const handleDownload = async (format, ref, defaultName = "survey_question", isHtml = true) => {
+        if (isHtml) {
+            const element = ref.current; // Reference to the div element
+
+            if (!element) return;
+            console.log("element-->", element)
+
+            // if (format.toLowerCase() === 'pdf') {
+            //     // For PDF format
+            //     const canvas = await html2canvas(element);
+            //     const imgData = canvas.toDataURL("image/png");
+
+            //     // Create a PDF using jsPDF
+            //     const pdf = new jsPDF();
+            //     // const imgWidth = 210; // A4 size width in mm
+            //     // const imgHeight = (canvas.height * imgWidth) / canvas.width; // Maintain aspect ratio
+
+            //     const imgWidth = canvas.width;
+            //     const imgHeight = canvas.height;
+
+            //     pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+            //     pdf.save(`${defaultName}.pdf`);
+            // } else
+             if (format.toLowerCase() === 'svg') {
+                // For SVG format
+                const canvas = await html2canvas(element);
+                const imgData = canvas.toDataURL("image/png");
+
+                // Create the SVG string
+                const svgContent = `
+                <svg xmlns="http://www.w3.org/2000/svg" width="${canvas.width}" height="${canvas.height}">
+                    <image href="${imgData}" width="${canvas.width}" height="${canvas.height}" />
+                </svg>`;
+
+                // Create a Blob from the SVG content
+                const svgBlob = new Blob([svgContent], { type: "image/svg+xml;charset=utf-8" });
+                const svgURL = URL.createObjectURL(svgBlob);
+
+                // Create a link to download the SVG
+                const link = document.createElement("a");
+                link.href = svgURL;
+                link.download = `${defaultName}.svg`;
+                link.click();
+                URL.revokeObjectURL(svgURL); // Clean up the URL object
+
+            } else {
+                // For PNG and JPEG (the original code you already have)
+                const canvas = await html2canvas(element);
+                const dataURL = canvas.toDataURL(`image/${format.toLowerCase()}`);
+
+                // Create a link to download the image
+                const link = document.createElement("a");
+                link.href = dataURL;
+                link.download = `${defaultName}.${format.toLowerCase()}`;
+                link.click();
             }
         }
     };
-
     return (<>
-        <div key={index} className="survey-question-listing">
+        <div key={index} className="survey-question-listing" ref={countryBarRef}>
             <div className="survey-question-top d-flex align-items-center">
                 <div className="survey-question-num">
                     <div className="question-type">
@@ -183,6 +243,14 @@ const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
                         <span>1</span>
                     </div>
                 </div>
+                <DownloadDropdown
+                                        graphRef={[countryBarRef, countryPieRef]}
+                                        // whichTypeGraph={whichTypeMatrixGraph[data?.id] == "bar" ? 0 : 0}
+                                        whichTypeGraph="0"
+                                        title={item?.type}
+                                        handleDownload={handleDownload}
+
+                                    />
             </div>
             {item?.type == "matrix" ?
                 item?.answer?.map((data, index) => {
@@ -195,7 +263,7 @@ const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
                     // })
 
                     return (<>
-                        <div key={index} className="question-preview-block matrix">
+                        <div key={index} className="question-preview-block matrix"  >
                             <div className="question-preview">
                                 <span>{data?.title}</span>
                                 <div className="d-flex align-items-center justify-content-between question-preview-options">
@@ -256,13 +324,13 @@ const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
                                             <a className="btn"></a>
                                         </label>
                                     </div>
-                                    <DownloadDropdown
+                                    {/* <DownloadDropdown
                                         graphRef={[countryBarRef, countryPieRef]}
-                                        whichTypeGraph={whichTypeMatrixGraph[data?.id] == "bar" ? 0 : 1}
+                                        whichTypeGraph={whichTypeMatrixGraph[data?.id] == "bar" ? 0 : 0}
                                         title={item?.type}
                                         handleDownload={handleDownload}
 
-                                    />
+                                    /> */}
                                 </div>
                                 {(apiStatus && loaderIndex == data?.id)
                                     ?
@@ -292,7 +360,7 @@ const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
                                                 colors={colors}
                                                 // type="analytics"
                                                 show={show}
-                                                chartRef={countryBarRef}
+                                                // chartRef={countryBarRef}
                                             />
                                             : <SurveyAnalyticsQuestionPieChart
                                                 key={data?.id}
@@ -304,7 +372,7 @@ const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
                                                 colors={colors}
                                                 // type="analytics"
                                                 show={show}
-                                                chartRef={countryPieRef}
+                                                // chartRef={countryPieRef}
                                             />
                                         }
                                     </div>}
@@ -371,7 +439,7 @@ const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
                             </div>
                             <DownloadDropdown
                                 graphRef={[countryBarRef, countryPieRef]}
-                                whichTypeGraph={whichTypeGraph[index] == "bar" ? 0 : 1}
+                                whichTypeGraph={whichTypeGraph[index] == "bar" ? 0 : 0}
                                 title={item?.type}
                                 handleDownload={handleDownload}
 
@@ -404,7 +472,7 @@ const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
                                             colors={colors}
                                             // type="analytics"
                                             show={show}
-                                            chartRef={countryPieRef}
+                                            // chartRef={countryPieRef}
                                         />
                                         : <SurveyAnalyticsQuestionPieChart
                                             data={{
@@ -415,7 +483,7 @@ const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
                                             colors={colors}
                                             // type="analytics"
                                             show={show}
-                                            chartRef={countryBarRef}
+                                            // chartRef={countryBarRef}
                                         />
                                 }
                             </div>}
