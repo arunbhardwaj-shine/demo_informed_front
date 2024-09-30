@@ -431,7 +431,8 @@ const RenderOptions = ({
       return (
         <p
           className="paragraph"
-          style={{ color: item.style.color || optionColor }}
+          style={{ color: item.style.color || optionColor, fontWeight: "400" }}
+
           dangerouslySetInnerHTML={{
             __html: item.question,
           }}

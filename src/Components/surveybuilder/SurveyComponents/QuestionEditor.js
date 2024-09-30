@@ -21,6 +21,8 @@ const QuestionEditor = ({
             editor.execCommand('Bold');
             
           }
+        
+          
         }}
 
         initialValue={

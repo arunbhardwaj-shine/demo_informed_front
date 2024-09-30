@@ -146,7 +146,7 @@ export const menuType = {
     type: "heading",
     questionId: 0,
     visible: true,
-    question: "",
+    question: "Headline Lorem ipsum dolor sit amet consectetur",
     questionDescriptionEnabled: false,
     questionDescription: "",
     style: {},
@@ -158,7 +158,7 @@ export const menuType = {
     type: "paragraph",
     questionId: 0,
     visible: true,
-    question: "",
+    question: "Paragraph",
     style: {
       color: "",
     },

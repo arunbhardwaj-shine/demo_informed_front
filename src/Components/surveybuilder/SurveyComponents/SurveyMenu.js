@@ -78,10 +78,22 @@ const SurveyMenu = ({ menuRef, consentOption }) => {
   const dispatch = useDispatch();
 
   const [accordionType, setAccordionType] = useState("0");
-  
+
   const handleAddElement = (type) => {
+    if (type === "consent") {
+      const result = elements.filter((item) => {
+        return item.type === "consent";
+      });
+      console.log(result);
+      if (result.length > 0) {
+        toast.warning("Consent already added");
+        return;
+      }
+    }
+
     dispatch(addElement(type));
   };
+
   const handleDragStart = (e, type) => {
     e.dataTransfer.setData("type", type);
   };
@@ -459,62 +471,69 @@ const SurveyMenu = ({ menuRef, consentOption }) => {
         </div>
         {children}
         {item.accordionType === "questionTypes" && (
-          <div className="steps">
-            {item.accordionType === "questionTypes" && (
-              <div className="d-flex align-items-center justify-content-between">
-                <p className="option-heading" style={{ margin: "0" }}>
-                  Make this question optional{" "}
-                  <img src={path_image + "info_circle_icon.svg"} alt="" />
-                </p>
-                <Form.Check
-                  type="switch"
-                  id="custom-switch"
-                  checked={item.isOptional}
-                  onChange={() => toggleDescription(index, "isOptional")}
-                />
-              </div>
-            )}
+          <>
+            <div className="steps">
+              {item.accordionType === "questionTypes" && (
+                <div className="d-flex align-items-center justify-content-between">
+                  <p className="option-heading" style={{ margin: "0" }}>
+                    Make this question optional{" "}
+                    <img src={path_image + "info_circle_icon.svg"} alt="" />
+                  </p>
+                  <Form.Check
+                    type="switch"
+                    id="custom-switch"
+                    checked={item.isOptional}
+                    onChange={() => toggleDescription(index, "isOptional")}
+                  />
+                </div>
+              )}
 
-            {item.isOptional ? (
-              <div
-                className="d-flex align-items-center w-100"
-                id="isoptinal-scroll-view"
-              >
-                <Form.Label>Label</Form.Label>
-                <Form.Control
-                  type="text"
-                  value={item.optionalLabel}
-                  onChange={(e) =>
-                    handleUpdateElement(index, "optionalLabel", e.target.value)
-                  }
-                />
-              </div>
-            ) : (
-              ""
-            )}
-
+              {item.isOptional ? (
+                <div
+                  className="d-flex align-items-center w-100"
+                  id="isoptinal-scroll-view"
+                >
+                  <Form.Label>Label</Form.Label>
+                  <Form.Control
+                    type="text"
+                    value={item.optionalLabel}
+                    onChange={(e) =>
+                      handleUpdateElement(
+                        index,
+                        "optionalLabel",
+                        e.target.value
+                      )
+                    }
+                  />
+                </div>
+              ) : (
+                ""
+              )}
+            </div>
             {item.extra?.allowMultipleAnswer !== undefined && (
-              <div className="d-flex align-items-center justify-content-between">
-                <p className="option-heading" style={{ margin: "0" }}>
-                  Allow multiple answers per row{" "}
-                  <img src={path_image + "info_circle_icon.svg"} alt="" />
-                </p>
-                <Form.Check
-                  type="switch"
-                  id="custom-switch"
-                  checked={item.extra.allowMultipleAnswer}
-                  onChange={() =>
-                    handleExtraAndStyle(
-                      index,
-                      !elements[index].extra.allowMultipleAnswer,
-                      "allowMultipleAnswer",
-                      "extra"
-                    )
-                  }
-                />
+              <div className="steps">
+                <div className="d-flex align-items-center justify-content-between">
+                  <p className="option-heading" style={{ margin: "0" }}>
+                    Allow multiple answers per row{" "}
+                    <img src={path_image + "info_circle_icon.svg"} alt="" />
+                  </p>
+                  <Form.Check
+                    type="switch"
+                    id="custom-switch"
+                    checked={item.extra.allowMultipleAnswer}
+                    onChange={() =>
+                      handleExtraAndStyle(
+                        index,
+                        !elements[index].extra.allowMultipleAnswer,
+                        "allowMultipleAnswer",
+                        "extra"
+                      )
+                    }
+                  />
+                </div>
               </div>
             )}
-          </div>
+          </>
         )}
 
         {item?.extra?.addAllOfTheAbove !== undefined && (
@@ -890,7 +909,6 @@ const SurveyMenu = ({ menuRef, consentOption }) => {
                   <div className={`top-right-action menu`}>
                     <div className="d-flex flex-column">
                       {SidebarCommonItems.map((item, index) => {
-                   
                         if (
                           item.label === "Consent" &&
                           consentOption == "No consent needed (anonymous)"
