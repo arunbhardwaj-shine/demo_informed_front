@@ -459,12 +459,12 @@ const SurveyMenu = ({ menuRef, consentOption }) => {
         </div>
         {children}
         {item.accordionType === "questionTypes" && (
-          <div className="steps">
+          <div className="steps question-optional">
             {item.accordionType === "questionTypes" && (
               <div className="d-flex align-items-center justify-content-between">
                 <p className="option-heading" style={{ margin: "0" }}>
                   Make this question optional{" "}
-                  <img src={path_image + "info_circle_icon.svg"} alt="" />
+                  {/* <img src={path_image + "info_circle_icon.svg"} alt="" /> */}
                 </p>
                 <Form.Check
                   type="switch"
@@ -518,11 +518,11 @@ const SurveyMenu = ({ menuRef, consentOption }) => {
         )}
 
         {item?.extra?.addAllOfTheAbove !== undefined && (
-          <div className="steps">
+          <div className="steps all-above">
             <div className="d-flex align-items-center justify-content-between">
               <p className="option-heading" style={{ margin: "0" }}>
                 Add “All of the above” choice{" "}
-                <img src={path_image + "info_circle_icon.svg"} alt="" />
+                {/* <img src={path_image + "info_circle_icon.svg"} alt="" /> */}
               </p>
               <Form.Check
                 type="switch"
@@ -560,7 +560,7 @@ const SurveyMenu = ({ menuRef, consentOption }) => {
             <div className="d-flex align-items-center justify-content-between">
               <p className="option-heading" style={{ margin: "0" }}>
                 Add “Other” choice{" "}
-                <img src={path_image + "info_circle_icon.svg"} alt="" />
+                {/* <img src={path_image + "info_circle_icon.svg"} alt="" /> */}
               </p>
               <Form.Check
                 type="switch"
