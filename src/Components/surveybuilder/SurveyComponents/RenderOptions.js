@@ -393,7 +393,8 @@ const RenderOptions = ({
                         value={isStar ? undefined : numberIndex}
                         // disabled={!isEdit}
                       />
-                      <label htmlFor={inputId} className={labelClass}>
+                      <span style={{background:inputColor}}className="rating-number"></span>
+                      <label htmlFor={inputId} className={labelClass}  style={{color:inputColor}}>
                         {labelContent}
                       </label>
                     </React.Fragment>

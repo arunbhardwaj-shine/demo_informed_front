@@ -2313,6 +2313,7 @@ span {
                     font-weight: 400;
                     font-size: 12px;
                     line-height: 132%;
+
                     &.checkmark{
                        
                         span{
@@ -2474,10 +2475,23 @@ span {
 
                     &.numeric {
                         justify-content: flex-end;
+                        .rating-number {
+                            width: 24px;
+                            height: 24px;
+                            border-radius: 39px;
+                            margin: 0px;
+                            // transform: translateX(46px);
+                            margin-left: -46px;
+                            opacity: 0.08;
+                            &:hover {
+                                background: inherit;
+                                color: $white;
+                            }
+                        }
 
                         label {
                             border-radius: 32px;
-                            background: rgba(0, 74, 137, 0.08);
+                            // background: rgba(0, 74, 137, 0.08);
                             color: $dark-blue;
                             font-size: 12px;
                             font-weight: 400;
@@ -4459,6 +4473,7 @@ body {
             padding: 16px;
             border-bottom: 1px dashed $light-gray;
             gap: 16px;
+            background: $white;
 
             .survey-question-num {
                 @include flex-align-center;
@@ -4543,6 +4558,7 @@ body {
             display: flex;
             // align-items: center;
             height:100%;
+            background: $white;
 
             &.matrix {
                 border-bottom: 1px dashed $light-gray;
