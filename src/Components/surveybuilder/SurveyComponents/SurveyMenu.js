@@ -472,7 +472,7 @@ const SurveyMenu = ({ menuRef, consentOption }) => {
         {children}
         {item.accordionType === "questionTypes" && (
           <>
-            <div className="steps">
+            <div className="steps question-optional">
               {item.accordionType === "questionTypes" && (
                 <div className="d-flex align-items-center justify-content-between">
                   <p className="option-heading" style={{ margin: "0" }}>
