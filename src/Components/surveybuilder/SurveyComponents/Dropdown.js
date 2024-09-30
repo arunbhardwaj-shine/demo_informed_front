@@ -14,6 +14,7 @@ export default function Dropdown({
   addOptionInMiddle,
 }) {
   const [showModal, setShowModal] = useState(false);
+  
   const handleAddBulkElements = (elements) => {
 
     const updatedOptions = [...item.answer];
