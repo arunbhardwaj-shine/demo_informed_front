@@ -250,10 +250,15 @@ const handleDropdownchange=(e,selectType)=>{
                           <div className="steps">
                             <p className="option-heading">
                               Survey Link{" "}
-                              <img
-                                src={path_image + "info_circle_icon.svg"}
-                                alt=""
-                              />
+                              <LinkWithTooltip tooltip="The link of the survey will work after publishing the survey.">
+                                  <img
+                                    src={
+                                        path_image +
+                                        "info_circle_icon.svg"
+                                    }
+                                    alt="refresh-btn"
+                                    />
+                                </LinkWithTooltip>
                             </p>
                             <div className="tab-content-links">
                               <a
