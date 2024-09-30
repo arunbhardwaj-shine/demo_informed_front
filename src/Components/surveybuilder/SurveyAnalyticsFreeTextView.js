@@ -1,22 +1,13 @@
-import React,{useRef} from 'react'
+import React, { useRef } from 'react'
 import html2canvas from "html2canvas";
-import {
-    Accordion,
-    Button,
-    Col,
-    Container,
-    Dropdown,
-    Modal,
-    Row,
-    Table,
-} from "react-bootstrap";
+import { Dropdown } from "react-bootstrap";
+import { jsPDF } from 'jspdf'
 
-const SurveyAnalyticsFreeTextView = ({ index, item}) => {
+const SurveyAnalyticsFreeTextView = ({ index, item }) => {
     let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
-    const freeTextRef=useRef(null)
+    const freeTextRef = useRef(null)
 
     const DownloadDropdown = ({
-       
         title,
         handleDownload
     }) => {
@@ -55,14 +46,57 @@ const SurveyAnalyticsFreeTextView = ({ index, item}) => {
             </Dropdown>
         );
     };
+
+
     const handleDownload = async (format, ref, defaultName = "survey_question", isHtml = true) => {
         if (isHtml) {
-            // For HTML content (like a div with text or progress bars)
             const element = ref.current; // Reference to the div element
-            if (element) {
+
+            if (!element) return;
+            console.log("element-->", element)
+
+            if (format.toLowerCase() === 'pdf') {
+                // For PDF format
+                const canvas = await html2canvas(element);
+                const imgData = canvas.toDataURL("image/png");
+
+                // Create a PDF using jsPDF
+                const pdf = new jsPDF();
+                // const imgWidth = 210; // A4 size width in mm
+                // const imgHeight = (canvas.height * imgWidth) / canvas.width; // Maintain aspect ratio
+
+                const imgWidth = canvas.width;
+                const imgHeight = canvas.height;
+
+                pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+                pdf.save(`${defaultName}.pdf`);
+            } else if (format.toLowerCase() === 'svg') {
+                // For SVG format
+                const canvas = await html2canvas(element);
+                const imgData = canvas.toDataURL("image/png");
+
+                // Create the SVG string
+                const svgContent = `
+                <svg xmlns="http://www.w3.org/2000/svg" width="${canvas.width}" height="${canvas.height}">
+                    <image href="${imgData}" width="${canvas.width}" height="${canvas.height}" />
+                </svg>`;
+
+                // Create a Blob from the SVG content
+                const svgBlob = new Blob([svgContent], { type: "image/svg+xml;charset=utf-8" });
+                const svgURL = URL.createObjectURL(svgBlob);
+
+                // Create a link to download the SVG
+                const link = document.createElement("a");
+                link.href = svgURL;
+                link.download = `${defaultName}.svg`;
+                link.click();
+                URL.revokeObjectURL(svgURL); // Clean up the URL object
+
+            } else {
+                // For PNG and JPEG (the original code you already have)
                 const canvas = await html2canvas(element);
                 const dataURL = canvas.toDataURL(`image/${format.toLowerCase()}`);
-    
+
                 // Create a link to download the image
                 const link = document.createElement("a");
                 link.href = dataURL;
@@ -70,47 +104,8 @@ const SurveyAnalyticsFreeTextView = ({ index, item}) => {
                 link.click();
             }
         }
-    }
+    };
 
-    // const handleDownload = (
-    //     format,
-    //     ref,
-    //     defaultName = "survey_question"
-    // ) => {
-    //     let chart = ref.current && ref.current.chart;
-    //     console.log("defaultName-->",defaultName)
-
-    //     if (chart) {
-    //         switch (format) {
-    //             case "PNG":
-    //                 chart.exportChart({
-    //                     type: "image/png",
-    //                     filename: defaultName,
-    //                 });
-    //                 break;
-    //             case "JPEG":
-    //                 chart.exportChart({
-    //                     type: "image/jpeg",
-    //                     filename: defaultName ,
-    //                 });
-    //                 break;
-    //             case "PDF":
-    //                 chart.exportChart({
-    //                     type: "application/pdf",
-    //                     filename: defaultName ,
-    //                 });
-    //                 break;
-    //             case "SVG":
-    //                 chart.exportChart({
-    //                     type: "image/svg+xml",
-    //                     filename: defaultName,
-    //                 });
-    //                 break;
-    //             default:
-    //                 break;
-    //         }
-    //     }
-    // };
     return (<>
         <div key={index} className="survey-question-listing">
             <div className="survey-question-top d-flex align-items-center">
@@ -144,70 +139,15 @@ const SurveyAnalyticsFreeTextView = ({ index, item}) => {
             <div className="question-preview-block">
                 <div className="question-preview-right">
                     <div className="rd-training-block-right d-flex justify-content-end align-items-center">
-                        {/* <Dropdown>
-                            <Dropdown.Toggle id="dropdown-basic">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="6" height="24" viewBox="0 0 6 24" fill="none" > <path fillRule="evenodd" clipRule="evenodd" d="M6 3C6 4.65685 4.65685 6 3 6C1.34315 6 0 4.65685 0 3C0 1.34315 1.34315 0 3 0C4.65685 0 6 1.34315 6 3ZM6 12C6 13.6569 4.65685 15 3 15C1.34315 15 0 13.6569 0 12C0 10.3431 1.34315 9 3 9C4.65685 9 6 10.3431 6 12ZM3 24C4.65685 24 6 22.6569 6 21C6 19.3431 4.65685 18 3 18C1.34315 18 0 19.3431 0 21C0 22.6569 1.34315 24 3 24Z" fill="#0066BE" /> </svg>
-                            </Dropdown.Toggle>
-                            <Dropdown.Menu>
-                                <Dropdown.Item
-                                // onClick={() =>
-                                // handleDownload(
-                                //     "PNG",
-                                //     whichTypeGraph == 0
-                                //     ? countryBarRef
-                                //     : countryPieRef
-                                // )
-                                // }
-                                >
-                                    Download PNG
-                                </Dropdown.Item>
-                                <Dropdown.Item
-                                // onClick={() =>
-                                // handleDownload(
-                                //     "JPEG",
-                                //     whichTypeGraph == 0
-                                //     ? countryBarRef
-                                //     : countryPieRef
-                                // )
-                                // }
-                                >
-                                    Download JPEG
-                                </Dropdown.Item>
-                                <Dropdown.Item
-                                // onClick={() =>
-                                // handleDownload(
-                                //     "PDF",
-                                //     whichTypeGraph == 0
-                                //     ? countryBarRef
-                                //     : countryPieRef
-                                // )
-                                // }
-                                >
-                                    Download PDF
-                                </Dropdown.Item>
-                                <Dropdown.Item
-                                // onClick={() =>
-                                // handleDownload(
-                                //     "SVG",
-                                //     whichTypeGraph == 0
-                                //     ? countryBarRef
-                                //     : countryPieRef
-                                // )
-                                // }
-                                >
-                                    Download SVG
-                                </Dropdown.Item>
-                            </Dropdown.Menu>
-                        </Dropdown> */}
-                         <DownloadDropdown
-                                        // graphRef={[countryBarRef, countryPieRef]}
-                                        // whichTypeGraph={whichTypeGraph == "bar" ? 0 : 1}
-                                        title={item?.type}
-                                        handleDownload={handleDownload}
+                        <DownloadDropdown
+                            // graphRef={[countryBarRef, countryPieRef]}
+                            // whichTypeGraph={whichTypeGraph == "bar" ? 0 : 1}
+                            title={item?.type}
+                            handleDownload={handleDownload}
 
-                                    />
+                        />
                     </div>
-                    <div className="free-text-section" ref={freeTextRef}>
+                    <div className="free-text-section" ref={freeTextRef} >
                         {item?.answer?.length ? item?.answer?.map((data, index) => {
                             return (<>
                                 <div key={index} className="free-text-block">
@@ -220,30 +160,6 @@ const SurveyAnalyticsFreeTextView = ({ index, item}) => {
 
                         }) : <div className='no_found'><p>No Data Found</p></div>}
 
-                        {/* <div className="free-text-block">
-                            <p>Username</p>
-                            <div className="user-message">
-                                <p>User messages masuismod phartra donec faucibus quisque nuneque mote condi ment zcsum nudolor nibhcudolmasa euismod phartra donec mas faucibus quisque nuneque ipsum quamodio.........................</p>
-                            </div>
-                        </div>
-                        <div className="free-text-block">
-                            <p>Username</p>
-                            <div className="user-message">
-                                <p>User messages masuismod phartra donec faucibus quisque nuneque mote condi ment zcsum nudolor nibhcudolmasa euismod phartra donec mas faucibus quisque nuneque ipsum quamodio.........................</p>
-                            </div>
-                        </div>
-                        <div className="free-text-block">
-                            <p>Username</p>
-                            <div className="user-message">
-                                <p>User messages masuismod phartra donec faucibus quisque nuneque mote condi ment zcsum nudolor nibhcudolmasa euismod phartra donec mas faucibus quisque nuneque ipsum quamodio.........................</p>
-                            </div>
-                        </div>
-                        <div className="free-text-block">
-                            <p>Username</p>
-                            <div className="user-message">
-                                <p>User messages masuismod phartra donec faucibus quisque nuneque mote condi ment zcsum nudolor nibhcudolmasa euismod phartra donec mas faucibus quisque nuneque ipsum quamodio.........................</p>
-                            </div>
-                        </div> */}
                     </div>
                 </div>
             </div>
