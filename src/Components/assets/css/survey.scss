@@ -2472,7 +2472,11 @@ span {
                     width: auto;
                     gap: 22px;
                     justify-content: flex-end;
-
+                    &.stars{
+                        .rating-number{
+                            display: none;
+                        }
+                    }
                     &.numeric {
                         justify-content: flex-end;
                         .rating-number {
@@ -2480,12 +2484,13 @@ span {
                             height: 24px;
                             border-radius: 39px;
                             margin: 0px;
-                            // transform: translateX(46px);
+                            transform: translateX(46px);
                             margin-left: -46px;
                             opacity: 0.08;
                             &:hover {
                                 background: inherit;
                                 color: $white;
+                                opacity: 1;
                             }
                         }
 
@@ -2502,14 +2507,20 @@ span {
                             justify-content: center;
                             line-height: 1;
                             cursor: pointer;
+                            z-index: 1;
 
                             &:hover {
-                                background: $dark-blue;
-                                color: $white;
+                                &~.rating-number{
+                                    background: inherit;
+                                    opacity: 1;
+                                    color: $white!important;
+                                }
+                                background: transparent;
+                                color: $white!important;
 
                                 &~label {
-                                    background: $dark-blue;
-                                    color: $white;
+                                    // background: $dark-blue;
+                                    color: $white!important;
 
                                 }
                             }
@@ -2518,8 +2529,13 @@ span {
 
                         input {
                             &:checked~label {
-                                background: $dark-blue;
+                                // background: $dark-blue;
+                                color: $white!important;
+                            }
+                            &:checked~.rating-number {
+                                background:inherit;
                                 color: $white;
+                                opacity: 1;
                             }
                         }
                     }
@@ -2529,14 +2545,18 @@ span {
                         height: 100%;
                         width: 100%;
                        
-                        &:checked~label {
-                            svg {
-                                path {
-                                    fill: inherit;
-                                    fill-opacity: 1;
-                                }
-                            }
-                        }
+                        // &:checked~label {
+                        //     svg {
+                        //         path {
+                        //             fill: inherit;
+                        //             fill-opacity: 1;
+                        //         }
+                        //     }
+                        // }
+                        // &:checked~.rating-number {
+                        //     background:red;
+                        //     color: $white;
+                        // }
                     }
 
                     label {
