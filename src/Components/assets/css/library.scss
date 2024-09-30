@@ -14305,7 +14305,7 @@ svg.pencil_icon {
 /***Print css***/
 @media print {
   .timeline-left-user h5 {
-    font-size: 18px;
+    font-size: 16px;
     line-height: 20px;
     margin: 0 0 18px;
   }
@@ -14324,22 +14324,22 @@ svg.pencil_icon {
     padding-right: 10px;
   }
 
-  .timeline-box {
-    padding-left: 90px;
-    margin: 0 0 20px 20px;
-  }
+  // .timeline-box {
+  //   padding-left: 90px;
+  //   margin: 0 0 20px 20px;
+  // }
 
   .timeline-left-user {
-    width: 350px;
+    width: 100%;
+    min-width: 100%;
+    max-width: 100%;
+    margin:0 0 30px;
   }
-
+  .vertical-timeline {
+    flex-direction: column;
+}
   .timeline-article-details-overall .data-main-box .timeline-article-details-boxes .media {
     flex: 0 0 48%;
-  }
-
-  .timeline-layout.crm-timeline {
-    margin-left: 30px !important;
-    margin-bottom: 20px;
   }
 
   .timeline-layout .timeline-block {
@@ -14351,11 +14351,11 @@ svg.pencil_icon {
     position: static;
   }
 
-  .timeline-layout.crm-timeline .timeline-layout-inset {
-    overflow-y: hidden;
-    height: auto;
-    padding-right: 0px;
-  }
+  // .timeline-layout.crm-timeline .timeline-layout-inset {
+  //   overflow-y: hidden;
+  //   height: auto;
+  //   padding-right: 0px;
+  // }
 
   .timeline-layout.crm-timeline .timeline-right-list .timeline-box:nth-child(n+1) .timeline-sticky::after {
     left: 44px;
@@ -14385,10 +14385,10 @@ svg.pencil_icon {
 
   }
 
-  .timeline-layout.crm-timeline {
-    overflow: hidden;
-    padding-bottom: 120px;
-  }
+  // .timeline-layout.crm-timeline {
+  //   overflow: hidden;
+  //   padding-bottom: 120px;
+  // }
 
   .timeline-layout .timeline-right-list .timeline-box:last-child {
     padding-bottom: 60px;
@@ -14411,7 +14411,26 @@ svg.pencil_icon {
     border-right: 0;
     border-bottom: 1px dashed rgba(151, 182, 207, 0.5);
   }
+//   .timeline-layout.crm-timeline {
+//     height: 100%;
+//     padding: 0 0 0 23px;
+// }
+
+.timeline-layout.crm-timeline {
+  height: auto;
+  overflow: auto;
+  padding:0 10px 10px
 }
+.timeline-layout.crm-timeline .timeline-layout-inset {
+  overflow-y: auto;
+  height: auto;
+  padding-right: 0px;
+}
+}
+
+
+
+
 
 .submit-button {
   text-align: end;
