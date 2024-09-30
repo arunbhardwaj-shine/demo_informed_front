@@ -494,11 +494,11 @@ const SurveyPreview = (props) => {
                             }`}
                             style={
                               isEdit
-                                ? { padding: "60px 20px 4px 5px" }
+                                ? { padding: "60px 6px 4px 6px" }
                                 : {
                                     backgroundColor:
                                       templateData.page_background_color,
-                                    padding: "50px 20px 4px 5px",
+                                    padding: "50px 6px 4px 6px",
                                   }
                             }
                             draggable={isEdit} // Only make it draggable if isEdit is true
