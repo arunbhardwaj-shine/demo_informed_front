@@ -1,7 +1,7 @@
 import React, { useRef } from 'react'
 import html2canvas from "html2canvas";
 import { Dropdown } from "react-bootstrap";
-import { jsPDF } from 'jspdf'
+// import { jsPDF } from 'jspdf'
 
 const SurveyAnalyticsFreeTextView = ({ index, item }) => {
     let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -11,7 +11,8 @@ const SurveyAnalyticsFreeTextView = ({ index, item }) => {
         title,
         handleDownload
     }) => {
-        const formats = ["PNG", "JPEG", "PDF", "SVG"];
+        // const formats = ["PNG", "JPEG", "PDF", "SVG"];
+        const formats = ["PNG", "JPEG", "SVG"];
         return (
             <Dropdown>
                 <Dropdown.Toggle id="dropdown-basic">
@@ -55,22 +56,23 @@ const SurveyAnalyticsFreeTextView = ({ index, item }) => {
             if (!element) return;
             console.log("element-->", element)
 
-            if (format.toLowerCase() === 'pdf') {
-                // For PDF format
-                const canvas = await html2canvas(element);
-                const imgData = canvas.toDataURL("image/png");
+            // if (format.toLowerCase() === 'pdf') {
+            //     // For PDF format
+            //     const canvas = await html2canvas(element);
+            //     const imgData = canvas.toDataURL("image/png");
 
-                // Create a PDF using jsPDF
-                const pdf = new jsPDF();
-                // const imgWidth = 210; // A4 size width in mm
-                // const imgHeight = (canvas.height * imgWidth) / canvas.width; // Maintain aspect ratio
+            //     // Create a PDF using jsPDF
+            //     const pdf = new jsPDF();
+            //     // const imgWidth = 210; // A4 size width in mm
+            //     // const imgHeight = (canvas.height * imgWidth) / canvas.width; // Maintain aspect ratio
 
-                const imgWidth = canvas.width;
-                const imgHeight = canvas.height;
+            //     const imgWidth = canvas.width;
+            //     const imgHeight = canvas.height;
 
-                pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
-                pdf.save(`${defaultName}.pdf`);
-            } else if (format.toLowerCase() === 'svg') {
+            //     pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+            //     pdf.save(`${defaultName}.pdf`);
+            // } else
+             if (format.toLowerCase() === 'svg') {
                 // For SVG format
                 const canvas = await html2canvas(element);
                 const imgData = canvas.toDataURL("image/png");

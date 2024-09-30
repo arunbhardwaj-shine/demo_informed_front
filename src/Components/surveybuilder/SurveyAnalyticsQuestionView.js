@@ -74,7 +74,8 @@ const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
         title,
         handleDownload
     }) => {
-        const formats = ["PNG", "JPEG", "PDF", "SVG"];
+        // const formats = ["PNG", "JPEG", "PDF", "SVG"];
+        const formats = ["PNG", "JPEG", "SVG"];
         console.log("which graph-->", whichTypeGraph, " graph ref-->", graphRef[whichTypeGraph])
         return (
             <Dropdown>

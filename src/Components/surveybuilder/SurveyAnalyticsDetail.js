@@ -29,6 +29,7 @@ const SurveyAnalyticsDetail = () => {
     let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
     const location = useLocation()
     const [stateData, setStateData] = useState(location?.state?.item)
+    console.log("state data--->",stateData)
     const [filterdata, setFilterData] = useState({
         'status': ['completed', 'drop-off', 'ignored']
     });
@@ -143,8 +144,8 @@ const SurveyAnalyticsDetail = () => {
             loader("show")
             setApiStatus(true)
             const res = await surveyAxiosInstance.post("/survey/qns-analytics", {
-                // survey_id: stateData?.survey_id
-                survey_id: 22
+                survey_id: stateData?.survey_id
+                // survey_id: 22
             });
             let data = res?.data?.data
             if (data != "undefined") {
@@ -183,8 +184,8 @@ const SurveyAnalyticsDetail = () => {
     const getTempQuestionData = async () => {
         try {
             const res = await surveyAxiosInstance.post("/survey/analytic-qns-detail", {
-                // survey_id: stateData?.survey_id
-                survey_id: 22
+                survey_id: stateData?.survey_id
+                // survey_id: 22
             });
             const data = res?.data?.data?.allData
             setTempQuestionData(data)
@@ -347,8 +348,8 @@ const SurveyAnalyticsDetail = () => {
             setApiStatus(true)
             if (surveyTakerTableData?.length == 0) {
                 const res = await surveyAxiosInstance.post("/survey/survey-takers-status", {
-                    // survey_id: stateData?.survey_id
-                    survey_id: 22
+                    survey_id: stateData?.survey_id
+                    // survey_id: 22
                 });
 
                 let userdata = [
@@ -482,8 +483,8 @@ const SurveyAnalyticsDetail = () => {
                 const res = await surveyAxiosInstance.post("/survey/takers-responses-detail", {
                     // user_id: id,
                     user_id: "zPRuJ91HUwsm",
-                    // survey_id: stateData?.survey_id
-                    survey_id: 22
+                    survey_id: stateData?.survey_id
+                    // survey_id: 22
                 })
                 setSurveyTakerShowQuestionsData(res?.data?.data)
             }
@@ -566,7 +567,8 @@ const SurveyAnalyticsDetail = () => {
         title,
         handleDownload
     }) => {
-        const formats = ["PNG", "JPEG", "PDF", "SVG"];
+        // const formats = ["PNG", "JPEG", "PDF", "SVG"];
+        const formats = ["PNG", "JPEG", "SVG"];
         return (
             <Dropdown>
                 <Dropdown.Toggle id="dropdown-basic">
@@ -649,8 +651,8 @@ const SurveyAnalyticsDetail = () => {
                         <Row>
                             <div className="top-header analytics_header sticky">
                                 <div className="page-title d-flex flex-column align-items-start">
-                                    <h2>Headline Lorem ipsum pretium id libero dolorsit amet consectetur Orci </h2>
-                                    <p>April. 22. 2024</p>
+                                    <h2>{stateData?.Title} </h2>
+                                    <p>{moment(stateData?.CreatedDate).format("MMM. DD. YYYY")}</p>
                                 </div>
                                 <Button title="Download Site Engagements" className="download filled">
                                     Summary (Excel)
