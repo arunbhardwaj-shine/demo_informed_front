@@ -9,6 +9,7 @@ const SurveyAnalyticsRatingView = ({ index, item, colors }) => {
     const progressBarRef=useRef(null)
     const DownloadDropdown = ({
         title,
+        index,
         handleDownload
     }) => {
         // const formats = ["PNG", "JPEG", "PDF", "SVG"];
@@ -37,7 +38,7 @@ const SurveyAnalyticsRatingView = ({ index, item, colors }) => {
                         <Dropdown.Item
                             key={format}
                             onClick={() =>
-                                handleDownload(format, progressBarRef, title)
+                                handleDownload(format, progressBarRef, title,index)
                             }
                         >
                             Download {format}
@@ -49,30 +50,12 @@ const SurveyAnalyticsRatingView = ({ index, item, colors }) => {
     };
 
 
-    const handleDownload = async (format, ref, defaultName = "survey_question", isHtml = true) => {
+    const handleDownload = async (format, ref, defaultName = "survey_question",index, isHtml = true) => {
         if (isHtml) {
-            const element = ref.current; // Reference to the div element
+            const element = document.getElementById(`survey-question-listing-${index}`)
 
             if (!element) return;
-            console.log("element-->", element)
-
-            // if (format.toLowerCase() === 'pdf') {
-            //     // For PDF format
-            //     const canvas = await html2canvas(element);
-            //     const imgData = canvas.toDataURL("image/png");
-
-            //     // Create a PDF using jsPDF
-            //     const pdf = new jsPDF();
-            //     // const imgWidth = 210; // A4 size width in mm
-            //     // const imgHeight = (canvas.height * imgWidth) / canvas.width; // Maintain aspect ratio
-
-            //     const imgWidth = canvas.width; // A4 size width in mm
-            //     const imgHeight = canvas.height;
-
-            //     pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
-            //     pdf.save(`${defaultName}.pdf`);
-            // } 
-            // else
+            console.log("element-->", element)           
              if (format.toLowerCase() === 'svg') {
                 // For SVG format
                 const canvas = await html2canvas(element);
@@ -112,7 +95,7 @@ const SurveyAnalyticsRatingView = ({ index, item, colors }) => {
 
 
     return (<>
-        <div key={index} className="survey-question-listing">
+        <div key={index} className="survey-question-listing" id={`survey-question-listing-${index}`}>
             <div className="survey-question-top d-flex align-items-center">
                 <div className="survey-question-num">
                     <div className="question-type">
@@ -130,7 +113,7 @@ const SurveyAnalyticsRatingView = ({ index, item, colors }) => {
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
                             <path d="M8.29511 6.80015C10.1732 6.80015 11.6953 5.27769 11.6953 3.39993C11.6953 1.52217 10.1729 0 8.29511 0C6.41736 0 4.89432 1.52246 4.89432 3.40022C4.89432 5.27797 6.41736 6.80015 8.29511 6.80015ZM9.73743 7.0319H6.85222C4.45164 7.0319 2.49866 8.98517 2.49866 11.3858V14.9141L2.50763 14.9694L2.75066 15.0455C5.04159 15.7613 7.0319 16 8.67009 16C11.8698 16 13.7244 15.0877 13.8387 15.0296L14.0658 14.9147H14.0901V11.3858C14.091 8.98517 12.138 7.0319 9.73743 7.0319Z" fill="#004A89" />
                         </svg>
-                        <span>83</span>
+                        <span>{item?.total_count}</span>
                     </div>
                     <div className="total-ignored">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
@@ -140,6 +123,11 @@ const SurveyAnalyticsRatingView = ({ index, item, colors }) => {
                         <span>1</span>
                     </div>
                 </div>
+                <DownloadDropdown 
+                        title={item?.type}
+                        index={index}
+                        handleDownload={handleDownload}
+                        />
             </div>
             <div className="question-preview-block">
                 <div className="question-preview">
@@ -169,10 +157,10 @@ const SurveyAnalyticsRatingView = ({ index, item, colors }) => {
                 </div>
                 <div className="question-preview-right">
                     <div className="rd-training-block-right d-flex justify-content-end align-items-center">
-                        <DownloadDropdown 
+                        {/* <DownloadDropdown 
                         title={item?.type}
                         handleDownload={handleDownload}
-                        />
+                        /> */}
                         
                     </div>
                     <div 
