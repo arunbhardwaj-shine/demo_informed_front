@@ -4494,6 +4494,7 @@ body {
             border-bottom: 1px dashed $light-gray;
             gap: 16px;
             background: $white;
+            border-radius: 12px 12px 0 0;
 
             .survey-question-num {
                 @include flex-align-center;
@@ -4894,7 +4895,9 @@ body {
                     }
                 }
             }
-
+            &:last-child{
+                border-radius: 0 0 12px 12px;
+            }
         }
 
         &.country-by {
