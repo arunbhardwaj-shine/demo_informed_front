@@ -118,9 +118,6 @@ const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
         defaultName = "survey_question"
     ) => {
         let chart = ref.current && ref.current.chart;
-        console.log("defaultName-->", defaultName)
-        console.log("ref.current-->", ref.current)
-
         if (chart) {
             switch (format) {
                 case "PNG":

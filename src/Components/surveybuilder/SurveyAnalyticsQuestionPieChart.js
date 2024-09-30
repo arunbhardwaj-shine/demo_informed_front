@@ -80,7 +80,8 @@ const SurveyAnalyticsQuestionPieChart = memo(({ key, data, show, type,colors,cha
                 size: "100%",
                 dataLabels: {
                     enabled: true, // Enable data labels
-                    format: "<b>{point.name}</b>: {point.y:.1f} ({point.percentage:.1f}%)", // Show name, value, and percentage
+                    // format: "<b>{point.name}</b>: {point.y:.1f} ({point.percentage:.1f}%)", // Show name, value, and percentage
+                    format: "({point.percentage:.1f}%)", // Show name, value, and percentage
                     style: {
                         fontWeight: "bold",
                         color: "#000", // Text color
