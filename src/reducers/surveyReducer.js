@@ -99,7 +99,7 @@ const addElement = (state, action) => {
 
   // Clone the elements array to avoid direct modification of state
   const updatedElements = [...state.elements];
-  console.log(action.payload.index);
+ 
   // Insert the copied element at the specified index if provided
   if (action.payload.index !== undefined) {
     updatedElements.splice(action.payload.index + 1, 0, newElement);

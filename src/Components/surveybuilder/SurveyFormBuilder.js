@@ -1626,8 +1626,8 @@ const SurveyFormBuilder = (props) => {
   const [error, setError] = useState({});
   const [savednewCustomTempflag, setsavednewCustomTempflag] = useState(0);
 
-  const updateTemplatesData = (updatedTemp, saveNewTemplate) => {
-    if (customHtmlData && Object.keys(customHtmlData).length > 0) {
+  const updateTemplatesData = async(updatedTemp, saveNewTemplate) => {
+    if (customHtmlData && Object.keys(customHtmlData).length > 0 && saveNewTemplate !== 1) {
       const updatedData = updatedTemp.map((template) => {
         if (surveyValues?.formBuilderData?.template_id == template.id) {
           return { ...template, default_values: customHtmlData };
@@ -1652,10 +1652,8 @@ const SurveyFormBuilder = (props) => {
       // setCustomHtml(customHtmlData ?? {});
       // }
     } else {
-      setTemplates(updatedTemp);
-      if (saveNewTemplate != 2 && !saveNewTemplate) {
+        setTemplates(updatedTemp);
         setSelectedTemplateId(1);
-      }
     }
   };
 
@@ -2002,13 +2000,10 @@ const SurveyFormBuilder = (props) => {
           setCustomHtml({});
           customHtmlData = {};
         }
-        setCustomHtml({});
-        customHtmlData = {};
+
         setTimeout(async () => {
           if (id == selectedTemplateId) {
             await fetchTemplate();
-          } else {
-            await fetchTemplate(2);
           }
         }, 2000);
       }

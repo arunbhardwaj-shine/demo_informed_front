@@ -393,7 +393,8 @@ const RenderOptions = ({
                         value={isStar ? undefined : numberIndex}
                         // disabled={!isEdit}
                       />
-                      <label htmlFor={inputId} className={labelClass}>
+                      <span style={{background:inputColor}}className="rating-number"></span>
+                      <label htmlFor={inputId} className={labelClass}  style={{color:inputColor}}>
                         {labelContent}
                       </label>
                     </React.Fragment>
@@ -431,7 +432,8 @@ const RenderOptions = ({
       return (
         <p
           className="paragraph"
-          style={{ color: item.style.color || optionColor }}
+          style={{ color: item.style.color || optionColor, fontWeight: "400" }}
+
           dangerouslySetInnerHTML={{
             __html: item.question,
           }}

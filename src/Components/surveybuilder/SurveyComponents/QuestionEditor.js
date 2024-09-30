@@ -16,19 +16,18 @@ const QuestionEditor = ({
       <Editor
         apiKey="gpl" // Replace with your TinyMCE API key if needed
         tinymceScriptSrc={window.location.origin + "/tinymce/tinymce.min.js"} // Ensure this path is correct
-        onInit={(evt, editor) =>{ (editorRef.current = editor)
+        onInit={(evt, editor) => {
+          editorRef.current = editor;
           if (headingBoldFlag) {
-            editor.execCommand('Bold');
-            
+            editor.execCommand("Bold");
           }
         }}
-
         initialValue={
           headingBoldFlag ? `<strong>${editorValue}</strong>` : editorValue
         }
         init={{
           height: "120px",
-          branding: false, 
+          branding: false,
           menubar: false,
           plugins: "link",
           toolbar:
@@ -40,6 +39,7 @@ const QuestionEditor = ({
           auto_focus: false,
           fontsize_formats: "8px 10px 12px 14px 18px 24px 36px", // Optional: Customize font sizes
           placeholder: Placeholder,
+          link_default_target: '_blank'
         }}
         onEditorChange={(content) => {
           handleUpdateElement(index, "question", content);
@@ -50,5 +50,3 @@ const QuestionEditor = ({
 };
 
 export default QuestionEditor;
-
-

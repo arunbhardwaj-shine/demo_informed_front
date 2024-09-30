@@ -3,17 +3,43 @@ import { Button, Modal } from "react-bootstrap";
 import Select from "react-select";
 import dropdownList from "./dropdownList";
 
-const LoadChoicesModal = ({ show, onClose, handleAddBulkElements }) => {
+const LoadChoicesModal = ({
+  show,
+  onClose,
+  handleAddBulkElements,
+  fromMultiple,
+}) => {
   const pathImage = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [error, setError] = useState({});
   const [addYourOwn, setAddYourOwn] = useState(false);
   const [selectedValue, setSelectedValue] = useState(null);
   const [textAreaValue, setTextAreaValue] = useState("");
 
-  const selectChoices = [
-    { value: 'Countries', label: 'Countries' },
-    // { value: 'States', label: 'States' },
-  ];
+  const selectChoices = fromMultiple
+    ? [
+        { value: "Agree_Disagree", label: "Agree_Disagree" },
+        { value: "Always_Never", label: "Always_Never" },
+        { value: "Satisfied_Dissatisfied", label: "Satisfied_Dissatisfied" },
+        {
+          value: "Very_Likely_Not_Very_Likely",
+          label: "Very_Likely_Not_Very_Likely",
+        },
+        { value: "Frequently_Rarely", label: "Frequently_Rarely" },
+        { value: "Daily_Yearly", label: "Daily_Yearly" },
+        { value: "Effective_Ineffective", label: "Effective_Ineffective" },
+        { value: "Clear_Unclear", label: "Clear_Unclear" },
+        { value: "Easy_Difficult", label: "Easy_Difficult" },
+        { value: "Happy_Unhappy", label: "Happy_Unhappy" },
+        {
+          value: "High_Quality_Low_Quality",
+          label: "High_Quality_Low_Quality",
+        },
+        { value: "Helpful_Unhelpful", label: "Helpful_Unhelpful" },
+      ]
+    : [
+        { value: "Countries", label: "Countries" },
+        // { value: 'States', label: 'States' },
+      ];
 
   const handleClose = () => {
     onClose(false);
@@ -23,35 +49,34 @@ const LoadChoicesModal = ({ show, onClose, handleAddBulkElements }) => {
   const handleSave = (e) => {
     e.preventDefault();
     if (addYourOwn) {
-     
       const choices = textAreaValue
         .split(/\r?\n/)
-        .map(choice => choice.trim())
-        .filter(choice => choice);
+        .map((choice) => choice.trim())
+        .filter((choice) => choice);
 
-        if(choices.length > 0){
-          setError({})
-          handleAddBulkElements(choices);
-          onClose(false);
-          resetState();
-        }else{
-          setError( { customChoice: "Please enter at least one option"})
-        }
-    
+      if (choices.length > 0) {
+        setError({});
+        handleAddBulkElements(choices);
+        onClose(false);
+        resetState();
+      } else {
+        setError({ customChoice: "Please enter at least one option" });
+      }
     } else {
-      if(selectedValue){
-        setError({})
+      if (selectedValue) {
+        setError({});
         const selectedList = dropdownList[selectedValue.value];
-        const choices = selectedList.join("\n")
-        .split(/\r?\n/)
-        .map(choice => choice.trim())
-        .filter(choice => choice);
-         handleAddBulkElements(choices);
+        const choices = selectedList
+          .join("\n")
+          .split(/\r?\n/)
+          .map((choice) => choice.trim())
+          .filter((choice) => choice);
+        handleAddBulkElements(choices);
         onClose(false);
         resetState();
         setTextAreaValue(selectedList.join("\n"));
-      }else{
-        setError( { choices: "Please select at least one choice from list"})
+      } else {
+        setError({ choices: "Please select at least one choice from list" });
       }
     }
   };
@@ -62,9 +87,9 @@ const LoadChoicesModal = ({ show, onClose, handleAddBulkElements }) => {
     setTextAreaValue("");
     setSelectedValue(null);
   };
-  const handleSetYourOwn =()=>{
+  const handleSetYourOwn = () => {
     setAddYourOwn(false);
-  }
+  };
 
   return (
     <Modal
@@ -77,8 +102,15 @@ const LoadChoicesModal = ({ show, onClose, handleAddBulkElements }) => {
       centered
     >
       <Modal.Header>
-          <h5 className="modal-title" id="staticBackdropLabel">Load Choices</h5>
-          <button type="button" onClick={handleClose} className="btn-close" aria-label="Close"></button>
+        <h5 className="modal-title" id="staticBackdropLabel">
+          Load Choices
+        </h5>
+        <button
+          type="button"
+          onClick={handleClose}
+          className="btn-close"
+          aria-label="Close"
+        ></button>
       </Modal.Header>
       <Modal.Body>
         {!addYourOwn ? (
@@ -87,12 +119,19 @@ const LoadChoicesModal = ({ show, onClose, handleAddBulkElements }) => {
               <Select
                 name="choices"
                 placeholder="Select your choices list"
-                className={`dropdown-basic-button split-button-dropup selectcountry${error?.inputType ? ' error' : ''}`}
+                className={`dropdown-basic-button split-button-dropup selectcountry${
+                  error?.inputType ? " error" : ""
+                }`}
                 options={selectChoices}
                 onChange={(selectedOption) => setSelectedValue(selectedOption)}
               />
-              {error?.choices && <div className="login-validation">{error.choices}</div>}
-              <p className="load-choice-txt d-flex align-items-center" onClick={() => setAddYourOwn(true)}>
+              {error?.choices && (
+                <div className="login-validation">{error.choices}</div>
+              )}
+              <p
+                className="load-choice-txt d-flex align-items-center"
+                onClick={() => setAddYourOwn(true)}
+              >
                 +Add your own choices in bulk
                 <img src={`${pathImage}info_circle_icon.svg`} alt="info-icon" />
               </p>
@@ -117,16 +156,24 @@ const LoadChoicesModal = ({ show, onClose, handleAddBulkElements }) => {
                 </div>
               </div>
             </div>
-            {error?.customChoice && <div className="login-validation">{error.customChoice}</div>}
+            {error?.customChoice && (
+              <div className="login-validation">{error.customChoice}</div>
+            )}
           </div>
         )}
       </Modal.Body>
       <Modal.Footer>
-        <Button className="btn btn-primary save btn-filled" onClick={handleSave}>
-                Add
+        <Button
+          className="btn btn-primary save btn-filled"
+          onClick={handleSave}
+        >
+          Add
         </Button>
         {addYourOwn && (
-          <Button className="btn btn-primary save btn-bordered" onClick={handleSetYourOwn}>
+          <Button
+            className="btn btn-primary save btn-bordered"
+            onClick={handleSetYourOwn}
+          >
             Close
           </Button>
         )}

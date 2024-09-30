@@ -18,21 +18,11 @@ const SurveySetup = (props) => {
   const [isSelected, setIsSelected] = useState(false);
   const [show, setShow] = useState(false);
   const [modalCounter, setModalCounter] = useState(0);
-  const handleClose = () => {
-    resetState(setNewTag);
-    setShow(false);
-  };
+
   const [count, setCount] = useState(0);
-  const handleShow = () => {
-    setShow(true);
-    setModalCounter(modalCounter + 1);
-  };
 
   const [view, setView] = useState(false);
-  const handleBlock = () => {
-    resetState(setAddCreator);
-    setView(false);
-  };
+
   const handleView = () => setView(true);
 
   const [error, setError] = useState({});
@@ -78,9 +68,8 @@ const SurveySetup = (props) => {
 
   useEffect(() => {
     // Update the formData when existingCreator changes
- 
+
     if (count > 0 && existingCreator.length >= 1) {
-      
       setformData((prev) => ({
         ...prev,
         surveyCreator: {
@@ -96,16 +85,27 @@ const SurveySetup = (props) => {
   }, [count, existingCreator.length]);
 
   function generateRandomAlphanumericCode(length) {
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+    const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     const charactersLength = characters.length;
-    let result = '';
+    let result = "";
     for (let i = 0; i < length; i++) {
       const randomIndex = Math.floor(Math.random() * charactersLength);
       result += characters.charAt(randomIndex);
     }
     return result;
   }
- 
+  const handleBlock = () => {
+     
+    setAddCreator({
+      label: "",
+      value: "",
+    });
+    setView(false);
+    setError((prev) => ({
+      ...prev,
+      addCreator: "",
+    }));
+  };
 
   const changeHandler = (e) => {
     const { name, value } = e.target;
@@ -122,6 +122,10 @@ const SurveySetup = (props) => {
   function resetState(setfun) {
     setfun("");
   }
+  const handleShow = () => {
+    setShow(true);
+    setModalCounter(modalCounter + 1);
+  };
 
   const selectedCreator = (selectedOption) => {
     setformData((prev) => ({
@@ -171,7 +175,8 @@ const SurveySetup = (props) => {
 
   const insertSurveyCreator = async (e) => {
     e.preventDefault();
-    if (addCreater?.label === "") {
+
+    if (addCreater?.label === "" || addCreater.label === "undefined") {
       setError((prev) => ({
         ...prev,
         addCreator: "Please enter a creator name",
@@ -198,6 +203,16 @@ const SurveySetup = (props) => {
     }
   };
 
+  const handleClose = () => {
+    resetState(setNewTag);
+    setShow(false);
+    setError((prev)=>({
+      ...prev,
+      newTag:""
+  }))
+    
+  };
+
   const fetchCreaters = async () => {
     try {
       loader("show");
@@ -206,7 +221,6 @@ const SurveySetup = (props) => {
       });
 
       if (res) {
-         
         const creators = res.data.data.map((creator) => ({
           label: creator.creator_name,
           value: creator.id,
@@ -233,10 +247,6 @@ const SurveySetup = (props) => {
     fetchCreaters();
   }, []);
 
-
-
-
-
   const handleCancel = () => {
     navigate("/survey/survey-list");
   };
@@ -245,7 +255,7 @@ const SurveySetup = (props) => {
     const tags = tagClickedFirst;
 
     tags.splice(index, 1);
-   
+
     setTagClickedFirst(tags);
     setFinalTags(tags);
     setTagsReRender(tagsReRender + 1);
@@ -259,12 +269,11 @@ const SurveySetup = (props) => {
       return "";
     }
 
-
-
     try {
- 
-  
-      const randomCode =surveySetupData?.unique_code != undefined ? surveySetupData.unique_code : generateRandomAlphanumericCode(8) ;
+      const randomCode =
+        surveySetupData?.unique_code != undefined
+          ? surveySetupData.unique_code
+          : generateRandomAlphanumericCode(8);
 
       const currentPageData = {
         survey_title: formData?.surveyTitle,
@@ -280,9 +289,9 @@ const SurveySetup = (props) => {
         ...surveySetupData,
         setUpData: { ...currentPageData },
         creator_name: formData.surveyCreator.label,
-        unique_code: randomCode
+        unique_code: randomCode,
       });
- 
+
       navigate("/survey/survey-builder");
     } catch (error) {
       loader("hide");
@@ -345,7 +354,6 @@ const SurveySetup = (props) => {
         alltemp_tags = alltemp_tags?.map((data) => {
           return data.toLowerCase();
         });
-      
       }
 
       if (
@@ -386,7 +394,6 @@ const SurveySetup = (props) => {
     handleClose();
   };
 
- 
   return (
     <>
       <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -419,8 +426,20 @@ const SurveySetup = (props) => {
                     </Col>
                     <Col md={2}>
                       <div className="header-btn">
-                        <Link className="btn btn-primary btn-bordered move-draft" to="/survey/survey-list">Cancel</Link>
-                        <Button className="btn btn-primary btn-filled next" onClick={(e) => { onNextClick(e); }}>Next</Button>
+                        <Link
+                          className="btn btn-primary btn-bordered move-draft"
+                          to="/survey/survey-list"
+                        >
+                          Cancel
+                        </Link>
+                        <Button
+                          className="btn btn-primary btn-filled next"
+                          onClick={(e) => {
+                            onNextClick(e);
+                          }}
+                        >
+                          Next
+                        </Button>
                       </div>
                     </Col>
                   </Row>
@@ -434,7 +453,13 @@ const SurveySetup = (props) => {
                     <Form.Label>
                       Survey Title <span>*</span>
                     </Form.Label>
-                    <Form.Control type="email" name="surveyTitle" value={formData.surveyTitle} onChange={(e) => changeHandler(e)} placeholder="Type your survey title" />
+                    <Form.Control
+                      type="email"
+                      name="surveyTitle"
+                      value={formData.surveyTitle}
+                      onChange={(e) => changeHandler(e)}
+                      placeholder="Type your survey title"
+                    />
                     <div className="login-validation">
                       {error?.surveyTitle ? error.surveyTitle : ""}
                     </div>
@@ -452,7 +477,7 @@ const SurveySetup = (props) => {
                       onChange={selectedCreator}
                       placeholder="Type Creator's name"
                     />
-                    <div className="d-flex justify-content-between"> 
+                    <div className="d-flex justify-content-between">
                       <div className="login-validation">
                         {error?.surveyCreator ? error.surveyCreator : ""}
                       </div>
@@ -676,7 +701,7 @@ const SurveySetup = (props) => {
         </Modal.Body>
         <Modal.Footer>
           <Button
-            onClick={insertSurveyCreator}
+            onClick={(e) => insertSurveyCreator(e)}
             type="button"
             className="btn btn-primary save btn-filled"
           >
@@ -690,7 +715,7 @@ const SurveySetup = (props) => {
 
 const mapStateToProps = (state) => {
   surveySetupData = state?.getSurveyData;
- 
+
   return state;
 };
 
