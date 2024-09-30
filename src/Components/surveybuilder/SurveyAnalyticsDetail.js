@@ -3,12 +3,9 @@ import {
     Accordion,
     Button,
     Col,
-    Container,
     Dropdown,
-    Modal,
     Row,
     Table,
-    ProgressBar
 } from "react-bootstrap";
 import { useLocation } from "react-router-dom";
 import { surveyAxiosInstance } from "./CommonFunctions/CommonFunction";
@@ -32,6 +29,7 @@ const SurveyAnalyticsDetail = () => {
     let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
     const location = useLocation()
     const [stateData, setStateData] = useState(location?.state?.item)
+    console.log("state data--->",stateData)
     const [filterdata, setFilterData] = useState({
         'status': ['completed', 'drop-off', 'ignored']
     });
@@ -56,9 +54,9 @@ const SurveyAnalyticsDetail = () => {
     const buttonRef = useRef(null);
     const filterRef = useRef(null);
     const survey_taker = useRef(null)
+    const countryBarRef = useRef(null);
+    const countryPieRef = useRef(null);
     const [completedCountryData, setCompletedCountryData] = useState([])
-    // const [whichTypeMatrixGraph, setWhichTypeMatrixGraph] = useState({})
-    // const [show, setShow] = useState(false);
     const [whichTypeGraph, setWhichTypeGraph] = useState()
     const [sectionLoader, setSectionLoader] = useState(false);
     const [loaderIndex, setLoaderIndex] = useState()
@@ -146,8 +144,8 @@ const SurveyAnalyticsDetail = () => {
             loader("show")
             setApiStatus(true)
             const res = await surveyAxiosInstance.post("/survey/qns-analytics", {
-                // survey_id: stateData?.survey_id
-                survey_id: 22
+                survey_id: stateData?.survey_id
+                // survey_id: 22
             });
             let data = res?.data?.data
             if (data != "undefined") {
@@ -186,8 +184,8 @@ const SurveyAnalyticsDetail = () => {
     const getTempQuestionData = async () => {
         try {
             const res = await surveyAxiosInstance.post("/survey/analytic-qns-detail", {
-                // survey_id: stateData?.survey_id
-                survey_id: 22
+                survey_id: stateData?.survey_id
+                // survey_id: 22
             });
             const data = res?.data?.data?.allData
             setTempQuestionData(data)
@@ -206,12 +204,16 @@ const SurveyAnalyticsDetail = () => {
             setFilterObject({});
             setSurveyTakerTableData(surveyTakerTableDataBackup)
         }
+        setSurveyTakerQuestionFold(false)
+        setSurveyTakerShowQuestionsData([])
         setShowFilter(false);
     };
 
     const applyFilter = () => {
         setFilterApplyflag(1);
         setSurveyTakerTableData([]);
+        setSurveyTakerQuestionFold(false)
+        setSurveyTakerShowQuestionsData([])
         setFilterObject(appliedFilter);
         const hasAllNonEmptyValues = Object.keys(otherFilter).every(key => {
             const value = filter[key];
@@ -346,8 +348,8 @@ const SurveyAnalyticsDetail = () => {
             setApiStatus(true)
             if (surveyTakerTableData?.length == 0) {
                 const res = await surveyAxiosInstance.post("/survey/survey-takers-status", {
-                    // survey_id: stateData?.survey_id
-                    survey_id: 22
+                    survey_id: stateData?.survey_id
+                    // survey_id: 22
                 });
 
                 let userdata = [
@@ -402,17 +404,11 @@ const SurveyAnalyticsDetail = () => {
                         "ip_address": "192.168.0.101",
                         "temp_token": "eOd1UkW2rcCm"
                     }
-
                 ]
 
-                // const countries = res?.data?.data?.map((item) => item?.country)
-                // setFilterData((prev) => ({ ...prev, country: countries }))
                 setSurveyTakerTableData(res?.data?.data)
                 setSurveyTakerTableDataBackup(res?.data?.data)
 
-
-
-                //  const countries = data?.map((item) => item?.country)
                 let countries = []
                 let newObj = {}
                 res?.data?.data.forEach((item) => {
@@ -475,10 +471,9 @@ const SurveyAnalyticsDetail = () => {
     const surveyTakerShowData = async (e, index, userId, temp_token) => {
         try {
             let id = userId != 0 ? userId : temp_token
+            setShowFilter(false)
             if (surveyTakerShowQuestions == id) {
-                // setSurveyTakerShowQuestions()
                 setSurveyTakerQuestionFold(!surveyTakerShowQuestionFold)
-                // setSurveyTakerShowQuestionsData([])
                 return
             } else {
                 setSurveyTakerQuestionFold(true)
@@ -488,8 +483,8 @@ const SurveyAnalyticsDetail = () => {
                 const res = await surveyAxiosInstance.post("/survey/takers-responses-detail", {
                     // user_id: id,
                     user_id: "zPRuJ91HUwsm",
-                    // survey_id: stateData?.survey_id
-                    survey_id: 22
+                    survey_id: stateData?.survey_id
+                    // survey_id: 22
                 })
                 setSurveyTakerShowQuestionsData(res?.data?.data)
             }
@@ -566,6 +561,88 @@ const SurveyAnalyticsDetail = () => {
         return imgArr?.[type] || "multiple-choices.png";
     }
 
+    const DownloadDropdown = ({
+        graphRef,
+        whichTypeGraph,
+        title,
+        handleDownload
+    }) => {
+        // const formats = ["PNG", "JPEG", "PDF", "SVG"];
+        const formats = ["PNG", "JPEG", "SVG"];
+        return (
+            <Dropdown>
+                <Dropdown.Toggle id="dropdown-basic">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="6"
+                        height="24"
+                        viewBox="0 0 6 24"
+                        fill="none"
+                    >
+                        <path
+                            fillRule="evenodd"
+                            clipRule="evenodd"
+                            d="M6 3C6 4.65685 4.65685 6 3 6C1.34315 6 0 4.65685 0 3C0 1.34315 1.34315 0 3 0C4.65685 0 6 1.34315 6 3ZM6 12C6 13.6569 4.65685 15 3 15C1.34315 15 0 13.6569 0 12C0 10.3431 1.34315 9 3 9C4.65685 9 6 10.3431 6 12ZM3 24C4.65685 24 6 22.6569 6 21C6 19.3431 4.65685 18 3 18C1.34315 18 0 19.3431 0 21C0 22.6569 1.34315 24 3 24Z"
+                            fill="#0066BE"
+                        />
+                    </svg>
+                </Dropdown.Toggle>
+
+                <Dropdown.Menu>
+                    {formats.map((format) => (
+                        <Dropdown.Item
+                            key={format}
+                            onClick={() =>
+                                handleDownload(format, graphRef[whichTypeGraph], title)
+                            }
+                        >
+                            Download {format}
+                        </Dropdown.Item>
+                    ))}
+                </Dropdown.Menu>
+            </Dropdown>
+        );
+    };
+
+    const handleDownload = (
+        format,
+        ref,
+        defaultName = "survey_question"
+    ) => {
+        let chart = ref.current && ref.current.chart;
+       
+        if (chart) {
+            switch (format) {
+                case "PNG":
+                    chart.exportChart({
+                        type: "image/png",
+                        filename: defaultName,
+                    });
+                    break;
+                case "JPEG":
+                    chart.exportChart({
+                        type: "image/jpeg",
+                        filename: defaultName ,
+                    });
+                    break;
+                case "PDF":
+                    chart.exportChart({
+                        type: "application/pdf",
+                        filename: defaultName ,
+                    });
+                    break;
+                case "SVG":
+                    chart.exportChart({
+                        type: "image/svg+xml",
+                        filename: defaultName,
+                    });
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
+
     return (
         <>
             <Col className="right-sidebar custom-change">
@@ -574,8 +651,8 @@ const SurveyAnalyticsDetail = () => {
                         <Row>
                             <div className="top-header analytics_header sticky">
                                 <div className="page-title d-flex flex-column align-items-start">
-                                    <h2>Headline Lorem ipsum pretium id libero dolorsit amet consectetur Orci </h2>
-                                    <p>April. 22. 2024</p>
+                                    <h2>{stateData?.Title} </h2>
+                                    <p>{moment(stateData?.CreatedDate).format("MMM. DD. YYYY")}</p>
                                 </div>
                                 <Button title="Download Site Engagements" className="download filled">
                                     Summary (Excel)
@@ -667,7 +744,7 @@ const SurveyAnalyticsDetail = () => {
                                         </div>
                                         {tempQuestionData?.map((item, index) => {
                                             if (item?.type === "multiple" || item?.type === "dropdown" || item?.type === "checkbox" || item?.type == "matrix") {
-
+                                                
                                                 item?.answer?.forEach((obj) => {
                                                     obj.percentage = item.total_count > 0 ? JSON.parse(((obj.count / item.total_count).toFixed(2)) * 100) : 0;
                                                 })
@@ -1193,8 +1270,8 @@ const SurveyAnalyticsDetail = () => {
                                                                     sortData(surveyTakerTableData, sortBy, sortOrder)?.map((item, index) => {
                                                                         return (<>
                                                                             <tr key={index}
-                                                                                className={`view ${(surveyTakerShowQuestions == item?.user_id
-                                                                                    || surveyTakerShowQuestions == item?.temp_token)
+                                                                                className={`view ${((surveyTakerShowQuestions == item?.user_id
+                                                                                    || surveyTakerShowQuestions == item?.temp_token)&&surveyTakerShowQuestionFold)
                                                                                     ? "show"
                                                                                     : ""
                                                                                     }`}
@@ -1242,9 +1319,9 @@ const SurveyAnalyticsDetail = () => {
 
                                                                                                                 </h6>
                                                                                                                 {data?.type == "rating" ?
-                                                                                                                
-                                                                                                                   <CommonSurveyStarRating data={data?.comment}/>
-                                                                                                                   
+
+                                                                                                                    <CommonSurveyStarRating data={data?.comment} />
+
                                                                                                                     :
                                                                                                                     data?.question_detail?.length
                                                                                                                         ? data?.question_detail?.map((ans, i) => {
@@ -1328,62 +1405,12 @@ const SurveyAnalyticsDetail = () => {
                                                                     <a className="btn"></a>
                                                                 </label>
                                                             </div>
-                                                            <Dropdown>
-                                                                <Dropdown.Toggle id="dropdown-basic">
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="6" height="24" viewBox="0 0 6 24" fill="none" > <path fillRule="evenodd" clipRule="evenodd" d="M6 3C6 4.65685 4.65685 6 3 6C1.34315 6 0 4.65685 0 3C0 1.34315 1.34315 0 3 0C4.65685 0 6 1.34315 6 3ZM6 12C6 13.6569 4.65685 15 3 15C1.34315 15 0 13.6569 0 12C0 10.3431 1.34315 9 3 9C4.65685 9 6 10.3431 6 12ZM3 24C4.65685 24 6 22.6569 6 21C6 19.3431 4.65685 18 3 18C1.34315 18 0 19.3431 0 21C0 22.6569 1.34315 24 3 24Z" fill="#0066BE" /> </svg>
-                                                                </Dropdown.Toggle>
-
-                                                                <Dropdown.Menu>
-                                                                    <Dropdown.Item
-                                                                    // onClick={() =>
-                                                                    // handleDownload(
-                                                                    //     "PNG",
-                                                                    //     whichTypeGraph == 0
-                                                                    //     ? countryBarRef
-                                                                    //     : countryPieRef
-                                                                    // )
-                                                                    // }
-                                                                    >
-                                                                        Download PNG
-                                                                    </Dropdown.Item>
-                                                                    <Dropdown.Item
-                                                                    // onClick={() =>
-                                                                    // handleDownload(
-                                                                    //     "JPEG",
-                                                                    //     whichTypeGraph == 0
-                                                                    //     ? countryBarRef
-                                                                    //     : countryPieRef
-                                                                    // )
-                                                                    // }
-                                                                    >
-                                                                        Download JPEG
-                                                                    </Dropdown.Item>
-                                                                    <Dropdown.Item
-                                                                    // onClick={() =>
-                                                                    // handleDownload(
-                                                                    //     "PDF",
-                                                                    //     whichTypeGraph == 0
-                                                                    //     ? countryBarRef
-                                                                    //     : countryPieRef
-                                                                    // )
-                                                                    // }
-                                                                    >
-                                                                        Download PDF
-                                                                    </Dropdown.Item>
-                                                                    <Dropdown.Item
-                                                                    // onClick={() =>
-                                                                    // handleDownload(
-                                                                    //     "SVG",
-                                                                    //     whichTypeGraph == 0
-                                                                    //     ? countryBarRef
-                                                                    //     : countryPieRef
-                                                                    // )
-                                                                    // }
-                                                                    >
-                                                                        Download SVG
-                                                                    </Dropdown.Item>
-                                                                </Dropdown.Menu>
-                                                            </Dropdown>
+                                                            <DownloadDropdown
+                                                                graphRef={[countryBarRef, countryPieRef]}
+                                                                whichTypeGraph={whichTypeGraph == "bar" ? 0 : 1}
+                                                                title="Survey Takers (Completed) According to country"
+                                                                handleDownload={handleDownload}
+                                                            />
                                                         </div>
                                                         <div className="question-preview-chart">
                                                             {/* <img src={path_image + "dummy-pie.png"} alt="" /> */}
@@ -1410,6 +1437,7 @@ const SurveyAnalyticsDetail = () => {
                                                                         }}
                                                                         colors={colors}
                                                                         type="analytics"
+                                                                        chartRef={countryPieRef}
 
 
                                                                     /> :
@@ -1421,7 +1449,7 @@ const SurveyAnalyticsDetail = () => {
                                                                         }}
                                                                         colors={colors}
                                                                         type="analytics"
-
+                                                                        chartRef={countryBarRef}
                                                                     />
 
                                                             }

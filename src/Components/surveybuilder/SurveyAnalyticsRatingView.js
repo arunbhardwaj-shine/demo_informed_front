@@ -1,8 +1,116 @@
-import React, { useEffect } from 'react'
+import React, { useRef } from 'react'
 import { Dropdown, ProgressBar } from 'react-bootstrap'
+import html2canvas from 'html2canvas';
+// import {jsPDF} from 'jspdf'
 
 const SurveyAnalyticsRatingView = ({ index, item, colors }) => {
     let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+
+    const progressBarRef=useRef(null)
+    const DownloadDropdown = ({
+        title,
+        handleDownload
+    }) => {
+        // const formats = ["PNG", "JPEG", "PDF", "SVG"];
+        const formats = ["PNG", "JPEG", "SVG"];
+        return (
+            <Dropdown>
+                <Dropdown.Toggle id="dropdown-basic">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="6"
+                        height="24"
+                        viewBox="0 0 6 24"
+                        fill="none"
+                    >
+                        <path
+                            fillRule="evenodd"
+                            clipRule="evenodd"
+                            d="M6 3C6 4.65685 4.65685 6 3 6C1.34315 6 0 4.65685 0 3C0 1.34315 1.34315 0 3 0C4.65685 0 6 1.34315 6 3ZM6 12C6 13.6569 4.65685 15 3 15C1.34315 15 0 13.6569 0 12C0 10.3431 1.34315 9 3 9C4.65685 9 6 10.3431 6 12ZM3 24C4.65685 24 6 22.6569 6 21C6 19.3431 4.65685 18 3 18C1.34315 18 0 19.3431 0 21C0 22.6569 1.34315 24 3 24Z"
+                            fill="#0066BE"
+                        />
+                    </svg>
+                </Dropdown.Toggle>
+
+                <Dropdown.Menu>
+                    {formats.map((format) => (
+                        <Dropdown.Item
+                            key={format}
+                            onClick={() =>
+                                handleDownload(format, progressBarRef, title)
+                            }
+                        >
+                            Download {format}
+                        </Dropdown.Item>
+                    ))}
+                </Dropdown.Menu>
+            </Dropdown>
+        );
+    };
+
+
+    const handleDownload = async (format, ref, defaultName = "survey_question", isHtml = true) => {
+        if (isHtml) {
+            const element = ref.current; // Reference to the div element
+
+            if (!element) return;
+            console.log("element-->", element)
+
+            // if (format.toLowerCase() === 'pdf') {
+            //     // For PDF format
+            //     const canvas = await html2canvas(element);
+            //     const imgData = canvas.toDataURL("image/png");
+
+            //     // Create a PDF using jsPDF
+            //     const pdf = new jsPDF();
+            //     // const imgWidth = 210; // A4 size width in mm
+            //     // const imgHeight = (canvas.height * imgWidth) / canvas.width; // Maintain aspect ratio
+
+            //     const imgWidth = canvas.width; // A4 size width in mm
+            //     const imgHeight = canvas.height;
+
+            //     pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+            //     pdf.save(`${defaultName}.pdf`);
+            // } 
+            // else
+             if (format.toLowerCase() === 'svg') {
+                // For SVG format
+                const canvas = await html2canvas(element);
+                const imgData = canvas.toDataURL("image/png");
+
+                // Create the SVG string
+                const svgContent = `
+                <svg xmlns="http://www.w3.org/2000/svg" width="${canvas.width}" height="${canvas.height}">
+                    <image href="${imgData}" width="${canvas.width}" height="${canvas.height}" />
+                </svg>`;
+
+                // Create a Blob from the SVG content
+                const svgBlob = new Blob([svgContent], { type: "image/svg+xml;charset=utf-8" });
+                const svgURL = URL.createObjectURL(svgBlob);
+
+                // Create a link to download the SVG
+                const link = document.createElement("a");
+                link.href = svgURL;
+                link.download = `${defaultName}.svg`;
+                link.click();
+                URL.revokeObjectURL(svgURL); // Clean up the URL object
+            
+        } else {
+            // For PNG and JPEG (the original code you already have)
+            const canvas = await html2canvas(element);
+            const dataURL = canvas.toDataURL(`image/${format.toLowerCase()}`);
+
+            // Create a link to download the image
+            const link = document.createElement("a");
+            link.href = dataURL;
+            link.download = `${defaultName}.${format.toLowerCase()}`;
+            link.click();
+        }
+    }
+};
+
+
+
     return (<>
         <div key={index} className="survey-question-listing">
             <div className="survey-question-top d-flex align-items-center">
@@ -48,7 +156,7 @@ const SurveyAnalyticsRatingView = ({ index, item, colors }) => {
                             <div key={index} className="answer">
                                 <div className="choices">
                                     <span className="bullet-color" style={{ background: colors[index] }}>&nbsp;</span>
-                                    <div><img src={`${path_image}star-rating-${JSON.parse(data?.value)}.svg`} alt="" /></div>
+                                    {/* <div><img src={`${path_image}star-rating-${JSON.parse(data?.value)}.svg`} alt="" /></div> */}
                                 </div>
                                 <div className="respondents">
                                     <span>{data?.count}</span>
@@ -61,64 +169,13 @@ const SurveyAnalyticsRatingView = ({ index, item, colors }) => {
                 </div>
                 <div className="question-preview-right">
                     <div className="rd-training-block-right d-flex justify-content-end align-items-center">
-                        <Dropdown>
-                            <Dropdown.Toggle id="dropdown-basic">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="6" height="24" viewBox="0 0 6 24" fill="none" > <path fillRule="evenodd" clipRule="evenodd" d="M6 3C6 4.65685 4.65685 6 3 6C1.34315 6 0 4.65685 0 3C0 1.34315 1.34315 0 3 0C4.65685 0 6 1.34315 6 3ZM6 12C6 13.6569 4.65685 15 3 15C1.34315 15 0 13.6569 0 12C0 10.3431 1.34315 9 3 9C4.65685 9 6 10.3431 6 12ZM3 24C4.65685 24 6 22.6569 6 21C6 19.3431 4.65685 18 3 18C1.34315 18 0 19.3431 0 21C0 22.6569 1.34315 24 3 24Z" fill="#0066BE" /> </svg>
-                            </Dropdown.Toggle>
-
-                            <Dropdown.Menu>
-                                <Dropdown.Item
-                                // onClick={() =>
-                                // handleDownload(
-                                //     "PNG",
-                                //     whichTypeGraph == 0
-                                //     ? countryBarRef
-                                //     : countryPieRef
-                                // )
-                                // }
-                                >
-                                    Download PNG
-                                </Dropdown.Item>
-                                <Dropdown.Item
-                                // onClick={() =>
-                                // handleDownload(
-                                //     "JPEG",
-                                //     whichTypeGraph == 0
-                                //     ? countryBarRef
-                                //     : countryPieRef
-                                // )
-                                // }
-                                >
-                                    Download JPEG
-                                </Dropdown.Item>
-                                <Dropdown.Item
-                                // onClick={() =>
-                                // handleDownload(
-                                //     "PDF",
-                                //     whichTypeGraph == 0
-                                //     ? countryBarRef
-                                //     : countryPieRef
-                                // )
-                                // }
-                                >
-                                    Download PDF
-                                </Dropdown.Item>
-                                <Dropdown.Item
-                                // onClick={() =>
-                                // handleDownload(
-                                //     "SVG",
-                                //     whichTypeGraph == 0
-                                //     ? countryBarRef
-                                //     : countryPieRef
-                                // )
-                                // }
-                                >
-                                    Download SVG
-                                </Dropdown.Item>
-                            </Dropdown.Menu>
-                        </Dropdown>
+                        <DownloadDropdown 
+                        title={item?.type}
+                        handleDownload={handleDownload}
+                        />
+                        
                     </div>
-                    <div className="question-preview-chart d-flex justify-content-center align-items-center">
+                    <div className="question-preview-chart d-flex justify-content-center align-items-center" ref={progressBarRef}>
                         <div className='question-preview-chart-details'>
                         {item.answer.map((data, index) => (
                                 <div key={index} className="survey-rating-detail" style={{display:"flex",width:"275px"}}>

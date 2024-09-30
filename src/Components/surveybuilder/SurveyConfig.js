@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Button, Col, Form, Row, Tab, Tabs } from "react-bootstrap";
+import { Button, Col, Form, Row, Tab, Tabs, Tooltip } from "react-bootstrap";
 import { saveAsDraft } from "./CommonFunctions/CommonFunction";
 import { useNavigate, Link } from "react-router-dom";
 import Select from "react-select";
@@ -9,6 +9,7 @@ import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import { loader } from "../../loader";
 import { surveyAxiosInstance } from "./CommonFunctions/CommonFunction";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 var surveyValues = {};
 const SurveyConfig = (props) => {
   const [elements, setElements] = useState([]);
@@ -140,7 +141,18 @@ const SurveyConfig = (props) => {
       [field]: e.target.value,
     }));
   };
-
+  function LinkWithTooltip({ id, children, href, tooltip }) {
+    return (
+      <OverlayTrigger
+        overlay={<Tooltip id={id}>{tooltip}</Tooltip>}
+        placement="top"
+        delayShow={300}
+        delayHide={150}
+      >
+        <a href={href}>{children}</a>
+      </OverlayTrigger>
+    );
+}
 //   const handleDropdownchange=(e,selectType)=>{
 // console.log(e)
 //     if(selectType === "informed Email"){
@@ -238,10 +250,15 @@ const handleDropdownchange=(e,selectType)=>{
                           <div className="steps">
                             <p className="option-heading">
                               Survey Link{" "}
-                              <img
-                                src={path_image + "info_circle_icon.svg"}
-                                alt=""
-                              />
+                              <LinkWithTooltip tooltip="The link of the survey will work after publishing the survey.">
+                                  <img
+                                    src={
+                                        path_image +
+                                        "info_circle_icon.svg"
+                                    }
+                                    alt="refresh-btn"
+                                    />
+                                </LinkWithTooltip>
                             </p>
                             <div className="tab-content-links">
                               <a
@@ -352,10 +369,15 @@ const handleDropdownchange=(e,selectType)=>{
                             <div className="d-flex align-items-start flex-column">
                               <p className="option-heading survey-consent">
                                 Survey Consent Type{" "}
-                                <img
-                                  src={path_image + "info_circle_icon.svg"}
-                                  alt=""
-                                />
+                                <LinkWithTooltip tooltip="You choose whether you want HCPs to register or not. You can also choose to require registration based on the delivery channel they use to access.">
+                                  <img
+                                    src={
+                                        path_image +
+                                        "info_circle_icon.svg"
+                                    }
+                                    alt="refresh-btn"
+                                    />
+                                </LinkWithTooltip>
                               </p>
                               <div className="check-group">
                                 <Form.Group className="d-flex flex-column">
@@ -414,19 +436,19 @@ const handleDropdownchange=(e,selectType)=>{
                           <div className="steps">
                             <p className="option-heading">
                               Survey delivery channels:{" "}
-                              <img
+                              {/* <img
                                 src={path_image + "info_circle_icon.svg"}
                                 alt=""
-                              />
+                              /> */}
                             </p>
                             <div className="choice-option consent-listed">
                               <div className="consent-choice d-flex align-items-center">
                                 <Form.Label>
                                   InforMed Email{" "}
-                                  <img
+                                  {/* <img
                                     src={path_image + "info_circle_icon.svg"}
                                     alt=""
-                                  />
+                                  /> */}
                                 </Form.Label>
                                 {formData.consentType ===
                                 "No consent needed (anonymous)" ? (
@@ -448,10 +470,10 @@ const handleDropdownchange=(e,selectType)=>{
                               <div className="consent-choice d-flex align-items-center">
                                 <Form.Label>
                                   InforMedGo{" "}
-                                  <img
+                                  {/* <img
                                     src={path_image + "info_circle_icon.svg"}
                                     alt=""
-                                  />
+                                  /> */}
                                 </Form.Label>
                                 {formData.consentType ===
                                 "No consent needed (anonymous)" ? (
@@ -472,40 +494,40 @@ const handleDropdownchange=(e,selectType)=>{
                               <div className="consent-choice d-flex align-items-center">
                                 <Form.Label>
                                   QR{" "}
-                                  <img
+                                  {/* <img
                                     src={path_image + "info_circle_icon.svg"}
                                     alt=""
-                                  />
+                                  /> */}
                                 </Form.Label>
                                 <p>{formData.consentType}</p>
                               </div>
                               <div className="consent-choice d-flex align-items-center">
                                 <Form.Label>
                                   Webpage{" "}
-                                  <img
+                                  {/* <img
                                     src={path_image + "info_circle_icon.svg"}
                                     alt=""
-                                  />
+                                  /> */}
                                 </Form.Label>
                                 <p>{formData.consentType}</p>
                               </div>
                               <div className="consent-choice d-flex align-items-center">
                                 <Form.Label>
                                   Direct{" "}
-                                  <img
+                                  {/* <img
                                     src={path_image + "info_circle_icon.svg"}
                                     alt=""
-                                  />
+                                  /> */}
                                 </Form.Label>
                                 <p>{formData.consentType}</p>
                               </div>
                               <div className="consent-choice d-flex align-items-center">
                                 <Form.Label>
                                   Social media{" "}
-                                  <img
+                                  {/* <img
                                     src={path_image + "info_circle_icon.svg"}
                                     alt=""
-                                  />
+                                  /> */}
                                 </Form.Label>
                                 <p>{formData.consentType}</p>
                               </div>

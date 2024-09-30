@@ -2,7 +2,6 @@ import React, { useState, memo, useRef } from "react";
 import { Spinner } from "react-activity";
 import { Dropdown } from "react-bootstrap";
 import SurveyAnalyticsQuestionPieChart from "./SurveyAnalyticsQuestionPieChart";
-
 const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
     let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
     const [whichTypeGraph, setWhichTypeGraph] = useState({ [index]: "pie" })
@@ -50,7 +49,6 @@ const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
         let type = { ...whichTypeMatrixGraph }
         type[id] = e?.target?.checked ? "bar" : "pie"
 
-
         setTimeout(() => {
             setWhichTypeMatrixGraph(type)
             setApiStatus(false)
@@ -76,7 +74,9 @@ const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
         title,
         handleDownload
     }) => {
-        const formats = ["PNG", "JPEG", "PDF", "SVG"];
+        // const formats = ["PNG", "JPEG", "PDF", "SVG"];
+        const formats = ["PNG", "JPEG", "SVG"];
+        console.log("which graph-->", whichTypeGraph, " graph ref-->", graphRef[whichTypeGraph])
         return (
             <Dropdown>
                 <Dropdown.Toggle id="dropdown-basic">
@@ -118,8 +118,6 @@ const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
         defaultName = "survey_question"
     ) => {
         let chart = ref.current && ref.current.chart;
-        console.log("defaultName-->",defaultName)
-
         if (chart) {
             switch (format) {
                 case "PNG":
@@ -131,13 +129,13 @@ const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
                 case "JPEG":
                     chart.exportChart({
                         type: "image/jpeg",
-                        filename: defaultName ,
+                        filename: defaultName,
                     });
                     break;
                 case "PDF":
                     chart.exportChart({
                         type: "application/pdf",
-                        filename: defaultName ,
+                        filename: defaultName,
                     });
                     break;
                 case "SVG":
@@ -189,7 +187,13 @@ const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
             {item?.type == "matrix" ?
                 item?.answer?.map((data, index) => {
                     // matrixTypeGraph(data?.id)
-                    let hasMatrixCount = data?.answers?.some((item) => item?.count)
+                    // let hasMatrixCount = data?.answers?.some((item) => item?.count)
+                    let totalCount = data?.answers?.reduce((sum, item) => sum + (item?.count || 0), 0);
+                    // let totalCount=0
+                    // data?.answers?.forEach((item, i) => {
+                    //     item.percentage = totalCount > 0 ? JSON.parse(((item.count / totalCount).toFixed(2)) * 100) : 0
+                    // })
+
                     return (<>
                         <div key={index} className="question-preview-block matrix">
                             <div className="question-preview">
@@ -204,6 +208,7 @@ const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
                                 </div>
                                 <div className="answer-options">
                                     {data?.answers?.map((ans, i) => {
+
                                         return (<>
                                             <div key={i} className="answer">
                                                 <div className="choices">
@@ -214,11 +219,19 @@ const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
                                                 </div>
                                                 <div className="respondents">
                                                     <span>{ans?.count}</span>
-                                                    <span className="respondents-percent">(<span>{ans?.percentage}%</span>)</span>
+                                                    <span className="respondents-percent">(<span>{ totalCount > 0 ? JSON.parse(((ans?.count / totalCount).toFixed(2)) * 100) : "00"}%</span>)</span>
                                                 </div>
                                             </div>
+
                                         </>)
                                     })}
+                                </div>
+                                <div className="avg-view">
+                                    <div className="dispaly-avg-view d-flex justify-content-between align-items-center">
+                                        <p>Display the AVG  <img src={path_image + 'avg-arrow.svg'} /></p>
+                                        <div className="result-view">{totalCount > 0 ? totalCount / item?.answer?.length : 0}
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div className="question-preview-right">
@@ -245,7 +258,7 @@ const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
                                     </div>
                                     <DownloadDropdown
                                         graphRef={[countryBarRef, countryPieRef]}
-                                        whichTypeGraph={whichTypeGraph == "bar" ? 0 : 1}
+                                        whichTypeGraph={whichTypeMatrixGraph[data?.id] == "bar" ? 0 : 1}
                                         title={item?.type}
                                         handleDownload={handleDownload}
 
@@ -274,7 +287,7 @@ const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
                                                 data={{
                                                     questionId: data?.id,
                                                     graphType: "bar",
-                                                    ans: hasMatrixCount ? data?.answers : [],
+                                                    ans: totalCount > 0 ? data?.answers : [],
                                                 }}
                                                 colors={colors}
                                                 // type="analytics"
@@ -286,7 +299,7 @@ const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
                                                 data={{
                                                     questionId: data?.id,
                                                     graphType: "pie",
-                                                    ans: hasMatrixCount ? data?.answers : [],
+                                                    ans: totalCount > 0 ? data?.answers : [],
                                                 }}
                                                 colors={colors}
                                                 // type="analytics"
@@ -297,6 +310,7 @@ const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
                                     </div>}
                             </div>
                         </div>
+
                     </>)
                 })
 
@@ -352,12 +366,12 @@ const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
                                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" > <rect x="24" width="6" height="24" rx="1" transform="rotate(90 24 0)" fill="#0066BE" /> <rect x="13.2617" y="9.14258" width="5.71429" height="13.2632" rx="1" transform="rotate(90 13.2617 9.14258)" fill="#8A4E9C" /> <rect x="19" y="18" width="6" height="19" rx="1" transform="rotate(90 19 18)" fill="#39CABC" /> </svg>
                                         </span>
                                     </span>
-                                    <a className="btn"></a>
+                                    {/* <a className="btn"></a> */}
                                 </label>
                             </div>
                             <DownloadDropdown
                                 graphRef={[countryBarRef, countryPieRef]}
-                                whichTypeGraph={whichTypeGraph == "bar" ? 0 : 1}
+                                whichTypeGraph={whichTypeGraph[index] == "bar" ? 0 : 1}
                                 title={item?.type}
                                 handleDownload={handleDownload}
 
