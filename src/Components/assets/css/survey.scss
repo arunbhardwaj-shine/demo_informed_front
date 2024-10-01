@@ -4116,7 +4116,18 @@ body {
     .survey_data_accordion_heading {
         table {
             border-spacing: 0 5px;
-
+            &#survey-analytics{
+                thead {
+                    tr {
+                        th {
+                            min-width: 106px;
+                            &:last-child{
+                                min-width: auto;
+                            }
+                        }
+                    }
+                }
+            }
             thead {
                 tr {
                     th {
@@ -4502,6 +4513,22 @@ body {
                             color: $light-pink;
                         }
                     }
+                }
+            }
+            @media (max-width:1500px){
+                .survey-full-info {
+                    flex: 0 0 290px;
+                    gap: 12px;
+                    padding: 11px 22px 12px 12px;
+                    .survey-info{
+                        div {
+                            font-size: 13px;
+                        }
+                        .survey-value {
+                            font-size: 18px;
+    
+                        }
+                    } 
                 }
             }
         }
@@ -4930,29 +4957,42 @@ body {
                     // margin: 10px 0 0px;
                     gap: 65px;
                     height: 100%;
-                    .survey-rating-detail{
-                        h5{
-                            display: flex;
-                            align-items: center;
-                            gap: 4px;
-                            color: #97B6CF;
-                            font-size: 13px;
-                            font-weight: 400;
-                            margin-right: 4px;
-                            &.survey-rating-number{
-                                font-weight: 500;
-                                color: $dark-blue;
+                    
+                    .question-preview-chart-details{
+                        .survey-rating-detail{
+                            h5{
+                                display: flex;
+                                align-items: center;
+                                gap: 4px;
+                                color: #97B6CF;
+                                font-size: 13px;
+                                font-weight: 400;
+                                margin-right: 4px;
+                                &.survey-rating-number{
+                                    font-weight: 500;
+                                    color: $dark-blue;
+                                }
+                                span{
+                                    line-height: 1;
+                                }
                             }
-                            span{
-                                line-height: 1;
+                            .progress{
+                                background: #EAF0F5;
+                                border-radius: 20px;
+                                .progress-bar{
+                                    border-radius: 20px;
+                                }
                             }
                         }
-                        .progress{
-                            background: #EAF0F5;
-                            border-radius: 20px;
-                            .progress-bar{
-                                border-radius: 20px;
-                            }
+                    }
+                    @media (max-width:1400px){
+                        .question-preview-chart-details{
+                            width:50%;
+                        }
+                    }
+                    @media (max-width:1365px){
+                        .question-preview-chart-details{
+                            width:100%;
                         }
                     }
                     .question-preview-chart-result {
@@ -4982,6 +5022,11 @@ body {
                                 }
                             }
                         }
+                        @media (max-width:1400px){
+                            span {
+                                font-size: 20px;
+                            }
+                        }
                         svg {
                             width: 20px;
                             height: 20px;
@@ -4991,9 +5036,25 @@ body {
                             font-weight: 500;
                             margin-right: -4px;
                         }
+                        @media (max-width:1400px){
+                            b {
+                                font-size: 16px;
+                            }
+                        }
+                    }
+                    @media (max-width:1400px){
+                        .question-preview-chart-result {
+                            color: $dark-gray;
+                            font-size: 13px;
+                        }
                     }
                 }
-
+                @media (max-width:1365px){
+                .question-preview-chart {
+                    flex-direction: column;
+                        gap: 10px;
+                    }
+                }
                 .free-text-section {
                     gap: 24px;
                     @include flex-column;
@@ -5005,7 +5066,8 @@ body {
                     .free-text-block {
                         border-radius: 9px;
                         background: $white;
-                        box-shadow: 0px 1px 6px 0px rgba(0, 102, 190, 0.20);
+                        // box-shadow: 0px 1px 6px 0px rgba(0, 102, 190, 0.20);
+                        filter: drop-shadow(0px 1px 4px rgba(0, 102, 190, 0.2));
                         padding: 6px 12px 12px;
 
                         p {
@@ -5092,7 +5154,7 @@ body {
                         td {
                             color: $dark-gray;
                             font-weight: 400;
-
+                           
                             &.completed {
                                 color: $secondary-green;
                             }
@@ -5103,6 +5165,9 @@ body {
 
                             &.ignored {
                                 color: $light-pink;
+                            }
+                            .no_found {
+                                min-height: 240px;
                             }
                         }
 
