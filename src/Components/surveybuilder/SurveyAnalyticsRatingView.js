@@ -61,7 +61,6 @@ const SurveyAnalyticsRatingView = ({ index, item, colors }) => {
             const element = document.getElementById(`survey-question-listing-${index}`)
 
             if (!element) return;
-            console.log("element-->", element)
             if (format.toLowerCase() === 'svg') {
                 // For SVG format
                 const canvas = await html2canvas(element);
@@ -226,6 +225,7 @@ return (<>
                         )
                         )}
                     </div>
+                   
                     <div className='question-preview-chart-result'>
                         <span>{item?.overallRating?.toFixed(1)}</span> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <g clipPath="url(#clip0_5227_4798)">
@@ -236,7 +236,7 @@ return (<>
                                     <rect width="24" height="24" fill="white" />
                                 </clipPath>
                             </defs>
-                        </svg> <span className='divide-line'>|</span> <b>{item?.totalRatings}</b> ratings
+                        </svg> <span className='divide-line'>|</span> <b>{item?.total_count}</b> ratings
                     </div>
                 </div>
             </div>

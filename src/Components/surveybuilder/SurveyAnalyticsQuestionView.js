@@ -81,7 +81,6 @@ const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
     }) => {
         // const formats = ["PNG", "JPEG", "PDF", "SVG"];
         const formats = ["PNG", "JPEG", "SVG"];
-        console.log("which graph-->", whichTypeGraph, " graph ref-->", graphRef[whichTypeGraph])
         return (
             <Dropdown>
                 <Dropdown.Toggle id="dropdown-basic">
@@ -165,7 +164,6 @@ const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
             const element = document.getElementById(`survey-question-listing-${index}`)
 
             if (!element) return;
-            console.log("element-->", element)
             const canvas = await html2canvas(element, { cacheBust: true });
             if (format.toLowerCase() === 'svg') {
                 // For SVG format

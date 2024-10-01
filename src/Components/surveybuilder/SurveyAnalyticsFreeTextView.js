@@ -60,7 +60,6 @@ const SurveyAnalyticsFreeTextView = ({ index, item }) => {
             }
             const element = document.getElementById(`survey-question-listing-${index}`)
             if (!element) return;
-            console.log("element-->", element)
 
             // if (format.toLowerCase() === 'pdf') {
             //     // For PDF format
