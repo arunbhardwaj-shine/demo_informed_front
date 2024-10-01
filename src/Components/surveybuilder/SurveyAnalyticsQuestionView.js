@@ -81,7 +81,6 @@ const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
     }) => {
         // const formats = ["PNG", "JPEG", "PDF", "SVG"];
         const formats = ["PNG", "JPEG", "SVG"];
-        console.log("which graph-->", whichTypeGraph, " graph ref-->", graphRef[whichTypeGraph])
         return (
             <Dropdown>
                 <Dropdown.Toggle id="dropdown-basic">
@@ -158,14 +157,13 @@ const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
     const handleDownload = async (format, ref, defaultName = "survey_question", index) => {
         try {
             loader("show")
-            const dropdownId=document.getElementById(`dropdown-${index}`)
-            if(dropdownId){
-                dropdownId.style.display="none"
+            const dropdownId = document.getElementById(`dropdown-${index}`)
+            if (dropdownId) {
+                dropdownId.style.display = "none"
             }
             const element = document.getElementById(`survey-question-listing-${index}`)
-            
+
             if (!element) return;
-            console.log("element-->", element)
             const canvas = await html2canvas(element, { cacheBust: true });
             if (format.toLowerCase() === 'svg') {
                 // For SVG format
@@ -200,7 +198,7 @@ const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
                 link.download = `${defaultName}.${format.toLowerCase()}`;
                 link.click();
             }
-             dropdownId.style.display="block"
+            dropdownId.style.display = "block"
             loader("hide")
         } catch (err) {
             loader("hide");
@@ -250,16 +248,16 @@ const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
                     </div>
                 </div>
                 <div id={`dropdown-${index}`}>
-                <DownloadDropdown 
-                    graphRef={[countryBarRef, countryPieRef]}
-                    // whichTypeGraph={whichTypeMatrixGraph[data?.id] == "bar" ? 0 : 0}
-                    whichTypeGraph="0"
-                    title={item?.type}
-                    index={index}
-                    handleDownload={handleDownload}
-                />
+                    <DownloadDropdown
+                        graphRef={[countryBarRef, countryPieRef]}
+                        // whichTypeGraph={whichTypeMatrixGraph[data?.id] == "bar" ? 0 : 0}
+                        whichTypeGraph="0"
+                        title={item?.type}
+                        index={index}
+                        handleDownload={handleDownload}
+                    />
                 </div>
-                
+
             </div>
             {item?.type == "matrix" ?
                 item?.answer?.map((data, index) => {
@@ -274,7 +272,9 @@ const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
                     return (<>
                         <div key={index} className="question-preview-block matrix"  >
                             <div className="question-preview">
-                                <span>{data?.title}</span>
+                                <span dangerouslySetInnerHTML={{
+                                    __html: data?.title,
+                                }}></span>
                                 <div className="d-flex align-items-center justify-content-between question-preview-options">
                                     <div>
                                         Choices matrix
