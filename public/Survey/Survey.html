@@ -13,7 +13,8 @@
       href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
       rel="stylesheet"
     />
- 
+
+  
   </head>
 
   <body>
@@ -156,7 +157,7 @@
         document.querySelectorAll("input").forEach((element) => {
           if (element.id === "matrix") {
             const span = element.nextElementSibling; // Select the corresponding span
-            console.log("matrix span", span);
+    
             if (span) {
               const innerSpan = span.querySelector("span"); // Select the inner <span>
               if (innerSpan) {
@@ -275,7 +276,7 @@
         color,
         bodyTextColor
       ) => {
-        console.log(inputname, inputType, color);
+ 
 
         if (inputType === "checkbox") {
           const checkedInputs = document.querySelectorAll(
@@ -397,7 +398,7 @@
         const checkboxesArray = Array.from(checkboxes);
 
         checkboxesArray.forEach((checkbox) => {
-          console.log(checkbox.id);
+         
           if (checkbox.checked) {
             const span = checkbox.nextElementSibling;
             span.style.borderColor = borderColor;
@@ -426,7 +427,7 @@
           .every((checkbox) => checkbox.checked);
 
         if (!allOtherChecked) {
-          console.log("inside checkbox");
+          
           if (allOfTheAboveCheckbox) {
             const span = allOfTheAboveCheckbox.nextElementSibling;
             span.style.borderColor = bodyTextColor;
@@ -537,23 +538,7 @@
         const customHtml = await JSON.parse(
           data.data[0].survey_info.custom_html
         )[0];
-        // await addMetaTag(
-        //   "description",
-        //   data.data[0].survey_info.survey_link_description ?? ""
-        // );
-        // await addMetaTag(
-        //   "og:image",
-        //   data.data[0].survey_info.survey_thumbnail ?? ""
-        // );
-        // await addMetaTag(
-        //   "title",
-        //   data.data[0].survey_info.survey_link_title ?? ""
-        // );
-        // await addMetaTag(
-        //   "og-url",
-        //   `https://informed.pro/Survey/Survey.html?Utmde=${Utmde}` ?? ""
-        // );
-
+       
         let surveyHtml = `
           <div class="informed-survey-header" style="${
             customHtml.header_background_type === "color"

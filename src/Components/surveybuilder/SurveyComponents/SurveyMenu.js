@@ -84,7 +84,7 @@ const SurveyMenu = ({ menuRef, consentOption }) => {
       const result = elements.filter((item) => {
         return item.type === "consent";
       });
-      console.log(result);
+       
       if (result.length > 0) {
         toast.warning("Consent already added");
         return;
@@ -180,7 +180,7 @@ const SurveyMenu = ({ menuRef, consentOption }) => {
 
         // Call handleUpdateElement with the correct parameters
         handleUpdateElement(itemIndex, "answer", updatedOptions);
-        console.log(deletedids, "from delete column");
+ 
         if (optionId != 0) {
           if (deletedids.length > 0) {
             await deleteOptions(deletedids);

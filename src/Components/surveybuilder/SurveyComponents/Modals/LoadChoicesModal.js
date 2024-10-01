@@ -17,24 +17,24 @@ const LoadChoicesModal = ({
 
   const selectChoices = fromMultiple
     ? [
-        { value: "Agree_Disagree", label: "Agree_Disagree" },
-        { value: "Always_Never", label: "Always_Never" },
-        { value: "Satisfied_Dissatisfied", label: "Satisfied_Dissatisfied" },
+        { value: "Agree-Disagree", label: "Agree-Disagree" },
+        { value: "Always-Never", label: "Always-Never" },
+        { value: "Satisfied-Dissatisfied", label: "Satisfied-Dissatisfied" },
         {
-          value: "Very_Likely_Not_Very_Likely",
-          label: "Very_Likely_Not_Very_Likely",
+          value: "Very-Likely-Not-Very-Likely",
+          label: "Very-Likely-Not-Very-Likely",
         },
-        { value: "Frequently_Rarely", label: "Frequently_Rarely" },
-        { value: "Daily_Yearly", label: "Daily_Yearly" },
-        { value: "Effective_Ineffective", label: "Effective_Ineffective" },
-        { value: "Clear_Unclear", label: "Clear_Unclear" },
-        { value: "Easy_Difficult", label: "Easy_Difficult" },
-        { value: "Happy_Unhappy", label: "Happy_Unhappy" },
+        { value: "Frequently-Rarely", label: "Frequently-Rarely" },
+        { value: "Daily-Yearly", label: "Daily-Yearly" },
+        { value: "Effective-Ineffective", label: "Effective-Ineffective" },
+        { value: "Clear-Unclear", label: "Clear-Unclear" },
+        { value: "Easy-Difficult", label: "Easy-Difficult" },
+        { value: "Happy-Unhappy", label: "Happy-Unhappy" },
         {
-          value: "High_Quality_Low_Quality",
-          label: "High_Quality_Low_Quality",
+          value: "High-Quality-Low-Quality",
+          label: "High-Quality-Low-Quality",
         },
-        { value: "Helpful_Unhelpful", label: "Helpful_Unhelpful" },
+        { value: "Helpful-Unhelpful", label: "Helpful-Unhelpful" },
       ]
     : [
         { value: "Countries", label: "Countries" },
