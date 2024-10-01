@@ -4558,7 +4558,8 @@ body {
                 @include flex-align-center;
                 border-radius: 6px;
                 background: $white;
-                box-shadow: 0px 1px 6px 0px rgba(0, 102, 190, 0.20);
+                // box-shadow: 0px 1px 6px 0px rgba(0, 102, 190, 0.20);
+                filter: drop-shadow(0px 0px 3px rgba(0, 102, 190, 0.20));
                 padding: 2px 8px;
                 width: 158px;
 
@@ -4569,36 +4570,51 @@ body {
 
                 .total-answered {
                     @include flex-align-center;
-                    gap: 16px;
+                    gap: 7px;
                     width: 50%;
                     border-right: 1px dashed $light-gray;
                     background: $white;
 
                     svg {
-                        border-right: 1px solid $light-gray;
-                        padding-right: 8px;
+                        // border-right: 1px solid $light-gray;
+                        // padding-right: 8px;
                         width: 24px;
+                        display: flex;
+                        flex:0 0 24px;
+                        height: 16px;
+                        
                     }
 
                     span {
                         color: $dark-blue;
+                        border-left: 1px solid $light-gray;
+                        padding-left: 8px;
+                        min-width: 30px;
+                        text-align: center;
                     }
                 }
 
                 .total-ignored {
                     @include flex-align-center;
-                    gap: 16px;
+                    gap: 7px;
                     width: 50%;
-                    padding-left: 12px;
+                    padding-left: 7px;
                     background: $white;
                     svg {
-                        border-right: 1px solid $light-gray;
-                        padding-right: 8px;
+                        // border-right: 1px solid $light-gray;
+                        // padding-right: 8px;
                         width: 24px;
+                        display: flex;
+                        flex:0 0 24px;
+                        height: 16px;
                     }
 
                     span {
                         color: $light-pink;
+                        border-left: 1px solid $light-gray;
+                        padding-left: 8px;
+                        min-width: 30px;
+                        text-align: center;
                     }
                 }
             }
@@ -4699,8 +4715,9 @@ body {
 
                 .answer-options {
                     border-radius: 8px;
-                    -webkit-box-shadow: 0px 0px 6px 0px rgba(0, 102, 190, 0.20);
-                    box-shadow: 0px 0px 6px 0px rgba(0, 102, 190, 0.20);
+                    // -webkit-box-shadow: 0px 0px 6px 0px rgba(0, 102, 190, 0.20);
+                    // box-shadow: 0px 0px 6px 0px rgba(0, 102, 190, 0.20);
+                    filter: drop-shadow(0px 0px 6px rgba(0, 102, 190, 0.20));
                     padding: 12px;
                     gap: 16px;
                     @include vertical-list;
@@ -4708,13 +4725,11 @@ body {
                     position: relative;
                     background: $white;
                     // border: 1px solid rgba(0, 102, 190, 0.2);
-                    display: block;
                     
                     .answer {
                         @include flex-space-between;
                         width: 100%;
                         background: $white;
-                        padding-bottom: 16px;
                         .choices {
                             @include flex-align-center;
 
@@ -4753,9 +4768,6 @@ body {
                                 }
                             }
                         }
-                        &:last-child{
-                            padding-bottom: 0;
-                        }
                     }
                 }
 
@@ -4766,11 +4778,13 @@ body {
                     margin-top: -4px;
 
                     .dispaly-avg-view {
-                        p {
+                        button {
                             color: $white;
                             font-size: 11px;
                             text-transform: capitalize;
                             gap: 6px;
+                            border:0;
+                            background: transparent;
                             @include flex-middle;
 
                             &.active {
