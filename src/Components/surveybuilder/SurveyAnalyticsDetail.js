@@ -1399,7 +1399,9 @@ const SurveyAnalyticsDetail = () => {
                                                                                                         </div>
                                                                                                     </>)
                                                                                                 })
-                                                                                                    : <div className="no_found"><p>No Data Found</p></div>
+                                                                                                    :
+                                                                                                    
+                                                                                                    <tr><td colSpan={6}><div className="no_found"><p>No Data Found</p></div></td></tr>
 
                                                                                             }
                                                                                         </td>
