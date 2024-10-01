@@ -90,7 +90,7 @@ const SurveyAnalyticsQuestionPieChart = memo(({ key, data, show, type,colors,cha
                     },
                     distance: 30, // Set distance from pie slice (optional)
                 },
-                borderWidth: 1,
+                borderWidth: 0,
             },
 
             // pie: {
@@ -194,6 +194,10 @@ const SurveyAnalyticsQuestionPieChart = memo(({ key, data, show, type,colors,cha
             },
             stackLabels: {
                 enabled: true,
+            },
+            labels: {
+                enabled: true, // enable Y-axis labels
+                color: "#0442A2"
             },
         },
         exporting: {

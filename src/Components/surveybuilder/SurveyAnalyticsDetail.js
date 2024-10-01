@@ -774,7 +774,7 @@ const SurveyAnalyticsDetail = () => {
                                                             {data?.surveyTakerDetails?.[1]?.key}
                                                         </div>
                                                         <div className="survey-value">
-                                                            {data?.surveyTakerDetails?.[1]?.value} <small>sec</small>
+                                                            {data?.surveyTakerDetails?.[1]?.value} <small>min</small>
                                                         </div>
                                                     </div>
 
