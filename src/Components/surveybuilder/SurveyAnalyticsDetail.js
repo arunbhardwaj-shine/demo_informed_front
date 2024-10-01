@@ -136,7 +136,6 @@ const SurveyAnalyticsDetail = () => {
 
     useEffect(() => {
         getSurveyDetail()
-
     }, [])
 
     const getSurveyDetail = async () => {
@@ -144,33 +143,30 @@ const SurveyAnalyticsDetail = () => {
             loader("show")
             setApiStatus(true)
             const res = await surveyAxiosInstance.post("/survey/qns-analytics", {
-                survey_id: stateData?.survey_id
-                // survey_id: 22
+                // survey_id: stateData?.survey_id
+                survey_id: 186
             });
             let data = res?.data?.data
-            if (data != "undefined") {
-                let valueupdate = options;
-                valueupdate.xAxis.categories = ["Opened", "Completed", "Drop-off"]
-                valueupdate.series = [
-                    {
-                        name: "Opened",
-                        data: [{ y: data?.userOpenings, color: colors[4] }],
-                        color: colors[4]
-
-                    },
-                    {
-                        name: "Completed",
-                        data: [{ y: data?.completed_count, color: colors[0] }],
-
-                    },
-                    {
-                        name: "Drop-off",
-                        data: [{ y: data?.Dropoff, color: colors[1] }],
-
-                    }
-                ];
-                setOptions(valueupdate)
+            console.log("data--->",data)
+            let valueupdate = {...options};
+            let categories=[]
+            let barSeries=[]
+            if (data != "undefined"&&data?.surveyTakerStatus?.length>0) {
+                                
+                data?.surveyTakerStatus?.forEach((item,index)=>{
+                    categories.push(item?.key)
+                    barSeries.push({
+                        name: item?.key,
+                        data: [{y: item?.value }],
+                        color: item?.key=="Opened"?colors[4]:item?.key=="Completed"?colors[0]:colors[index],
+                    })
+                })
+               
             }
+            valueupdate.xAxis.categories=categories
+            valueupdate.series=barSeries
+           
+            setOptions(valueupdate)
             setData(data)
             await getTempQuestionData()
         } catch (err) {
@@ -184,8 +180,8 @@ const SurveyAnalyticsDetail = () => {
     const getTempQuestionData = async () => {
         try {
             const res = await surveyAxiosInstance.post("/survey/analytic-qns-detail", {
-                survey_id: stateData?.survey_id
-                // survey_id: 22
+                // survey_id: stateData?.survey_id
+                survey_id: 186
             });
             const data = res?.data?.data?.allData
             setTempQuestionData(data)
@@ -348,8 +344,8 @@ const SurveyAnalyticsDetail = () => {
             setApiStatus(true)
             if (surveyTakerTableData?.length == 0) {
                 const res = await surveyAxiosInstance.post("/survey/survey-takers-status", {
-                    survey_id: stateData?.survey_id
-                    // survey_id: 22
+                    // survey_id: stateData?.survey_id
+                    survey_id: 186
                 });
 
                 let userdata = [
@@ -483,8 +479,8 @@ const SurveyAnalyticsDetail = () => {
                 const res = await surveyAxiosInstance.post("/survey/takers-responses-detail", {
                     // user_id: id,
                     user_id: "zPRuJ91HUwsm",
-                    survey_id: stateData?.survey_id
-                    // survey_id: 22
+                    // survey_id: stateData?.survey_id
+                    survey_id: 186
                 })
                 setSurveyTakerShowQuestionsData(res?.data?.data)
             }
@@ -674,7 +670,7 @@ const SurveyAnalyticsDetail = () => {
                                                     <p>Completion</p>
                                                     <div className="survey-completion-info">
                                                         <div></div>
-                                                        <h2>{data?.completed_count}</h2>
+                                                        <h2>{data?.surveyTakerStatus?.[1]?.value ? data?.surveyTakerStatus?.[1]?.value:0}</h2>
                                                         <div className="completed-survey">
                                                             <p>
                                                                 <img src={path_image + "user-gray.svg"} alt="" />Completed the survey
@@ -696,6 +692,7 @@ const SurveyAnalyticsDetail = () => {
                                                             options={options}
                                                         /></>)
                                                         : ""}
+                                                        {data?.surveyTakerStatus?.some((item)=>item?.value!=0)?
                                                     <div className="rd-box-export">
                                                         <img src={path_image + "arrow-export.svg"}
                                                             alt=""
@@ -704,50 +701,54 @@ const SurveyAnalyticsDetail = () => {
                                                             }}
                                                         />
                                                     </div>
+                                                    :null}
                                                 </div>
                                                 <div className="survey-full-info col d-flex flex-column">
                                                     <div className="survey-info takers">
                                                         <div>
-                                                            <img src={path_image + "user-blue.png"} alt="" />Survey takers
+                                                            <img src={path_image + "user-blue.png"} alt="" />
+                                                            {data?.surveyTakerDetails?.[0]?.key}
                                                         </div>
                                                         <div className="survey-value">
-                                                            {data?.completed_count}
+                                                        {data?.surveyTakerDetails?.[0]?.value}
                                                         </div>
                                                     </div>
                                                     <div className="survey-info avg">
                                                         <div>
-                                                            <img src={path_image + "timer.png"} alt="" />AVG completion time
+                                                            <img src={path_image + "timer.png"} alt="" />
+                                                             {data?.surveyTakerDetails?.[1]?.key}
                                                         </div>
                                                         <div className="survey-value">
-                                                            {data?.averageCompletionTime} <small>sec</small>
+                                                        {data?.surveyTakerDetails?.[1]?.value} <small>sec</small>
                                                         </div>
                                                     </div>
 
                                                     <div className="survey-info question">
                                                         <div>
-                                                            <img src={path_image + "question.png"} alt="" />Survey Questions
+                                                            <img src={path_image + "question.png"} alt="" />
+                                                            {data?.surveyTakerDetails?.[2]?.key}
                                                         </div>
                                                         <div className="survey-value">
-                                                            {data?.survey_questions}
+                                                        {data?.surveyTakerDetails?.[2]?.value}
                                                         </div>
                                                     </div>
-                                                    <div className="survey-info no-answer">
+                                                    {/* <div className="survey-info no-answer">
                                                         <div>
                                                             <img src={path_image + "question-not.png"} alt="" />Not answered Questions
                                                         </div>
                                                         <div className="survey-value">
                                                             2
                                                         </div>
-                                                    </div>
+                                                    </div> */}
                                                 </div>
                                             </div>
                                         </div>
                                         {tempQuestionData?.map((item, index) => {
                                             if (item?.type === "multiple" || item?.type === "dropdown" || item?.type === "checkbox" || item?.type == "matrix") {
                                                 
-                                                item?.answer?.forEach((obj) => {
-                                                    obj.percentage = item.total_count > 0 ? JSON.parse(((obj.count / item.total_count).toFixed(2)) * 100) : 0;
-                                                })
+                                                // item?.answer?.forEach((obj) => {
+                                                //     obj.percentage = item.total_count > 0 ? JSON.parse(((obj.count / item.total_count).toFixed(2)) * 100) : 0;
+                                                // })
                                                 return (
                                                     <SurveyAnalyticsQuestionView
                                                         index={index}

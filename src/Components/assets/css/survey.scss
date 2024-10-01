@@ -2313,6 +2313,7 @@ span {
                     font-weight: 400;
                     font-size: 12px;
                     line-height: 132%;
+
                     &.checkmark{
                        
                         span{
@@ -2471,13 +2472,31 @@ span {
                     width: auto;
                     gap: 22px;
                     justify-content: flex-end;
-
+                    &.stars{
+                        .rating-number{
+                            display: none;
+                        }
+                    }
                     &.numeric {
                         justify-content: flex-end;
+                        .rating-number {
+                            width: 24px;
+                            height: 24px;
+                            border-radius: 39px;
+                            margin: 0px;
+                            transform: translateX(46px);
+                            margin-left: -46px;
+                            opacity: 0.08;
+                            &:hover {
+                                background: inherit;
+                                color: $white;
+                                opacity: 1;
+                            }
+                        }
 
                         label {
                             border-radius: 32px;
-                            background: rgba(0, 74, 137, 0.08);
+                            // background: rgba(0, 74, 137, 0.08);
                             color: $dark-blue;
                             font-size: 12px;
                             font-weight: 400;
@@ -2488,14 +2507,20 @@ span {
                             justify-content: center;
                             line-height: 1;
                             cursor: pointer;
+                            z-index: 1;
 
                             &:hover {
-                                background: $dark-blue;
-                                color: $white;
+                                &~.rating-number{
+                                    background: inherit;
+                                    opacity: 1;
+                                    color: $white!important;
+                                }
+                                background: transparent;
+                                color: $white!important;
 
                                 &~label {
-                                    background: $dark-blue;
-                                    color: $white;
+                                    // background: $dark-blue;
+                                    color: $white!important;
 
                                 }
                             }
@@ -2504,8 +2529,13 @@ span {
 
                         input {
                             &:checked~label {
-                                background: $dark-blue;
+                                // background: $dark-blue;
+                                color: $white!important;
+                            }
+                            &:checked~.rating-number {
+                                background:inherit;
                                 color: $white;
+                                opacity: 1;
                             }
                         }
                     }
@@ -2515,14 +2545,18 @@ span {
                         height: 100%;
                         width: 100%;
                        
-                        &:checked~label {
-                            svg {
-                                path {
-                                    fill: inherit;
-                                    fill-opacity: 1;
-                                }
-                            }
-                        }
+                        // &:checked~label {
+                        //     svg {
+                        //         path {
+                        //             fill: inherit;
+                        //             fill-opacity: 1;
+                        //         }
+                        //     }
+                        // }
+                        // &:checked~.rating-number {
+                        //     background:red;
+                        //     color: $white;
+                        // }
                     }
 
                     label {
@@ -4459,6 +4493,8 @@ body {
             padding: 16px;
             border-bottom: 1px dashed $light-gray;
             gap: 16px;
+            background: $white;
+            border-radius: 12px 12px 0 0;
 
             .survey-question-num {
                 @include flex-align-center;
@@ -4508,6 +4544,7 @@ body {
                     gap: 16px;
                     width: 50%;
                     border-right: 1px dashed $light-gray;
+                    background: $white;
 
                     svg {
                         border-right: 1px solid $light-gray;
@@ -4525,7 +4562,7 @@ body {
                     gap: 16px;
                     width: 50%;
                     padding-left: 12px;
-
+                    background: $white;
                     svg {
                         border-right: 1px solid $light-gray;
                         padding-right: 8px;
@@ -4543,6 +4580,7 @@ body {
             display: flex;
             // align-items: center;
             height:100%;
+            background: $white;
 
             &.matrix {
                 border-bottom: 1px dashed $light-gray;
@@ -4585,18 +4623,20 @@ body {
 
                 .answer-options {
                     border-radius: 8px;
-                    background: $white;
+                    -webkit-box-shadow: 0px 0px 6px 0px rgba(0, 102, 190, 0.20);
                     box-shadow: 0px 0px 6px 0px rgba(0, 102, 190, 0.20);
                     padding: 12px;
                     gap: 16px;
                     @include vertical-list;
                     align-items: flex-start;
                     position: relative;
-
+                    background: $white;
+                    border: 1px solid rgba(0, 102, 190, 0.2);
+                    
                     .answer {
                         @include flex-space-between;
                         width: 100%;
-
+                        background: $white;
                         .choices {
                             @include flex-align-center;
 
@@ -4858,7 +4898,9 @@ body {
                     }
                 }
             }
-
+            &:last-child{
+                border-radius: 0 0 12px 12px;
+            }
         }
 
         &.country-by {
