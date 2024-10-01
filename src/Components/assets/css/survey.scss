@@ -4125,6 +4125,11 @@ body {
                                 min-width: auto;
                             }
                         }
+                        @media (max-width:1365px){
+                            th {
+                                min-width: 95px;
+                            }
+                        }
                     }
                 }
             }
@@ -4407,7 +4412,18 @@ body {
                     }
                 }
             }
-
+            @media (max-width:1500px){
+                .survey-completion {
+                    width: 200px;
+                    flex: 0 0 200px;
+                    padding: 11px 10px 22px 20px;
+                    .survey-completion-info{
+                        h2 {
+                            font-size: 80px;
+                        }
+                    } 
+                }
+            }
             .survey-takers {
                 border-right: 1px dashed $light-gray;
                 padding: 11px 40px 16px;
@@ -4418,7 +4434,11 @@ body {
                 }
 
             }
-
+            @media (max-width:1500px){
+                .survey-takers {
+                    padding: 11px 20px 16px;
+                }
+            }
             .survey-takers-status {
                 border-right: 1px dashed $light-gray;
                 padding: 11px 40px 1px;
@@ -4433,27 +4453,27 @@ body {
                     .highcharts-root{
                         .highcharts-legend-item{
                             text{
-                                    color:#70899E!important;
+                                    color:$dark-gray!important;
                                     font-weight: 400!important;
                                     font-size: 13px!important;
-                                    fill: #70899E !important;
+                                    fill: $dark-gray !important;
                             }
                         }
                     }
                     .highcharts-data-labels{
                         .highcharts-label{
                             text{
-                                color:#0066BE!important;
+                                color:$primary-color!important;
                                 font-weight: 500!important;
                                 font-size: 14px!important;
-                                fill: #0066BE !important;
+                                fill: $primary-color !important;
                             }  
                         }
                     }
                     .highcharts-axis-labels{
                         text{
-                           color:#97B6CF!important; 
-                           fill: #97B6CF!important; 
+                           color:$light-gray!important; 
+                           fill: $light-gray!important; 
                         }
                     }
                 } 
@@ -4469,7 +4489,19 @@ body {
                     }
                 }
             }
-
+            @media (max-width:1500px){
+                .survey-takers-status {
+                    padding: 11px 20px 1px;
+                    flex: 0 0 350px;
+                    width: 350px;
+                }
+            }
+            @media (max-width:1365px){
+                .survey-takers-status {
+                    flex: 0 0 280px;
+                    width: 280px;
+                }
+            }
             .survey-full-info {
                 padding: 11px 24px 12px;
                 flex: 0 0 320px;
@@ -4530,6 +4562,19 @@ body {
     
                         }
                     } 
+                }
+            }
+            @media (max-width:1365px){
+                .survey-full-info {
+                    flex: 0 0 260px;
+                    padding: 11px 22px 12px 12px;
+                    .survey-info{
+                        .survey-value {
+                            min-width: 52px;
+                            font-size: 17px;
+                        }
+                    }
+                    
                 }
             }
         }
@@ -4762,6 +4807,8 @@ body {
                         background: $white;
                         .choices {
                             @include flex-align-center;
+                            flex: 1 1;
+                            padding-right: 10px;
 
                             span {
                                 &.bullet-color {
@@ -4769,6 +4816,7 @@ body {
                                     margin-right: 8px;
                                     height: 10px;
                                     border-radius: 30px;
+                                    flex: 0 0 10px;
                                 }
                             }
 
@@ -4906,6 +4954,15 @@ body {
                             }  
                         }
                     }
+                    @media (max-width:1400px){
+                        .graph-box{
+                            .no_found{
+                                img{
+                                    max-width: 200px;
+                                }
+                            }
+                        } 
+                    }
                 }
                 .dropdown {
                     button {
@@ -4967,7 +5024,7 @@ body {
                                 display: flex;
                                 align-items: center;
                                 gap: 4px;
-                                color: #97B6CF;
+                                color: $light-gray;
                                 font-size: 13px;
                                 font-weight: 400;
                                 margin-right: 4px;
@@ -5020,7 +5077,7 @@ body {
                                     left:0;
                                     height:32px;
                                     width: 1px;
-                                    background: #97B6CF;
+                                    background: $light-gray;
                                     position: absolute;
                                 }
                             }
@@ -5123,7 +5180,6 @@ body {
                     }
                 }
             }
-
         }
     }
 
