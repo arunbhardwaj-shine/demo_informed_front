@@ -1428,6 +1428,7 @@ const SurveyAnalyticsDetail = () => {
                                                     <div className="page-title">
                                                         <h4>Survey Takers (Completed) According to country</h4>
                                                     </div>
+                                                    <div className="d-flex align-items-center survey-result-graph">
                                                     <div className="question-status">
                                                         <div className="total-answered">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
@@ -1446,6 +1447,7 @@ const SurveyAnalyticsDetail = () => {
                                                             title="Survey Takers (Completed) According to country"
                                                             handleDownload={handleDownload}
                                                         />
+                                                    </div>
                                                     </div>
                                                 </div>
                                                 <div className="question-preview-block">

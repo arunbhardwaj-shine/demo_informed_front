@@ -4474,6 +4474,7 @@ body {
                 padding: 11px 24px 12px;
                 flex: 0 0 320px;
                 gap: 16px;
+                justify-content: center;
 
                 .survey-info {
                     border-radius: 8px;
@@ -4550,7 +4551,9 @@ body {
             gap: 16px;
             background: $white;
             border-radius: 12px 12px 0 0;
-
+            .survey-result-graph{
+                gap:16px;
+            }
             .survey-question-num {
                 @include flex-align-center;
                 gap: 5px;
