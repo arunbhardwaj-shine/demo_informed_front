@@ -830,7 +830,7 @@ templateIdRef.current=res?.data?.data?.popupTempId
                     </div>
                   )}
 
-                  {articleId && timeList.length > 0 && (
+                  {articleId && timeList.length > 0 && selectOptions.consentType != 'Online' && (
                     <div className="template_language">
                       <span>
                         Time
