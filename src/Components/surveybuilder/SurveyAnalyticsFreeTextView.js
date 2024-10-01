@@ -169,7 +169,7 @@ const SurveyAnalyticsFreeTextView = ({ index, item }) => {
                         {item?.answer?.length ? item?.answer?.map((data, index) => {
                             return (<>
                                 <div key={index} className="free-text-block">
-                                    <p>{data?.username}</p>
+                                    <p>{data?.username?data?.username:"N/A"}</p>
                                     <div className="user-message">
                                         <p dangerouslySetInnerHTML={{ __html: data?.value }}></p>
                                     </div>

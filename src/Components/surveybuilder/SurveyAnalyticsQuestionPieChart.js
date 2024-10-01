@@ -335,12 +335,12 @@ const SurveyAnalyticsQuestionPieChart = memo(({ key, data, show, type,colors,cha
             })
         } else if (data?.graphType == "bar") {
             let totalAnswer = data?.ans?.map(item => item.count) // Extracting the 'y' values
-                .reduce((total, yValue) => total + yValue, 1);
+                .reduce((total, yValue) => total + yValue, 0);
 
             data?.ans?.map((item, index) => {
                 barSeriesData.push({
                     name: item?.value,
-                    data: [{ p: (item?.count / totalAnswer) * 100, y: item?.count }],
+                    data: [{ p:totalAnswer>0? ((item?.count / totalAnswer) * 100):0, y: item?.count }],
                     color: colors[index],
                     answer: item?.count
                 })
