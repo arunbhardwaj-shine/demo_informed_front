@@ -39,7 +39,7 @@ const SurveyPreview = (props) => {
     (state) => state.surveyData
   );
   const [questionDeleteCount, setQuestionDeleteCount] = useState(0);
-  console.log(elements);
+ 
 
   const updatedSurveyData = {
     ...surveyValues,
@@ -48,7 +48,7 @@ const SurveyPreview = (props) => {
 
   const updateQuestioData = async () => {
     if (questionDeleteCount > 0) {
-      console.log("inside updatequestion of effect");
+     
       await props.getSurveyData(updatedSurveyData);
     }
   };
@@ -105,7 +105,7 @@ const SurveyPreview = (props) => {
       const result = elements.filter((item) => {
         return item.type === "consent";
       });
-      console.log(result);
+     
       if (result.length > 0) {
         toast.warning("Consent already added");
         return;
@@ -147,12 +147,12 @@ const SurveyPreview = (props) => {
       (surveyValues?.question_data === undefined ||
         surveyValues?.question_data === "" ||
         elements.length === 0);
-    console.log("side effect");
+  
     if (shouldFetchQuestions) {
-      console.log("side effect fetch questio");
+     
       fetchQuestiondetails();
     } else if (surveyValues?.question_data) {
-      console.log("side effect from local storage");
+     
       dispatch(addResQuestions(surveyValues.question_data));
     } else {
       dispatch(updateCurrentElementIndex());
@@ -168,7 +168,7 @@ const SurveyPreview = (props) => {
       const result = elements.filter((item) => {
         return item.type === "consent";
       });
-      console.log(result);
+   
       if (result.length > 0) {
         toast.warning("Consent already added");
         return;

@@ -289,54 +289,66 @@ const dropdownList = {
     "Lakshadweep",
     "Puducherry",
   ],
-  Agree_Disagree: [
+  "Agree-Disagree": [
     "Strongly Agree",
     "Agree",
     "Neutral",
     "Disagree",
     "Strongly Disagree",
   ],
-  Always_Never: ["Always", "Often", "Sometimes", "Rarely", "Never"],
-  Satisfied_Dissatisfied: [
+  "Always-Never": ["Always", "Often", "Sometimes", "Rarely", "Never"],
+  "Satisfied-Dissatisfied": [
     "Very Satisfied",
     "Satisfied",
     "Neutral",
     "Dissatisfied",
     "Very Dissatisfied",
   ],
-  Very_Likely_Not_Very_Likely: [
+  "Very-Likely-Not-Very-Likely": [
     "Extremely Likely",
     "Very Likely",
     "Somewhat Likely",
     "Not Very Likely",
     "Not at All Likely",
   ],
-  Frequently_Rarely: [
+  "Frequently-Rarely": [
     "Very Frequently",
     "Frequently",
     "Occasionally",
     "Rarely",
     "Never",
   ],
-  Daily_Yearly: ["Daily", "Weekly", "Monthly", "Quarterly", "Yearly"],
-  Effective_Ineffective: [
+  "Daily-Yearly": ["Daily", "Weekly", "Monthly", "Quarterly", "Yearly"],
+  "Effective-Ineffective": [
     "Very Effective",
     "Effective",
     "Neutral",
     "Ineffective",
     "Very Ineffective",
   ],
-  Clear_Unclear: ["Very Clear", "Clear", "Neutral", "Unclear", "Very Unclear"],
-  Easy_Difficult: ["Easy", "Moderately Easy", "Difficult", "Very Difficult"],
-  Happy_Unhappy: ["Very Happy", "Happy", "Neutral", "Unhappy", "Very Unhappy"],
-  High_Quality_Low_Quality: [
+  "Clear-Unclear": [
+    "Very Clear",
+    "Clear",
+    "Neutral",
+    "Unclear",
+    "Very Unclear",
+  ],
+  "Easy-Difficult": ["Easy", "Moderately Easy", "Difficult", "Very Difficult"],
+  "Happy-Unhappy": [
+    "Very Happy",
+    "Happy",
+    "Neutral",
+    "Unhappy",
+    "Very Unhappy",
+  ],
+  "High-Quality-Low-Quality": [
     "High Quality",
     "Above Average Quality",
     "Average Quality",
     "Below Average Quality",
     "Low Quality",
   ],
-  Helpful_Unhelpful: [
+  "Helpful-Unhelpful": [
     "Essential",
     "Helpful",
     "Neutral",

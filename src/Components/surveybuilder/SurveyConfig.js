@@ -184,7 +184,7 @@ const SurveyConfig = (props) => {
 //   }
 
 const handleDropdownchange=(e,selectType)=>{
-  console.log(e)
+ 
       if(selectType === "informed Email"){
        
           setFormData((prevData) => ({
