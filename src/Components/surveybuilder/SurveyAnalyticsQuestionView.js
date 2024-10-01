@@ -445,7 +445,7 @@ const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
                                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" > <rect x="24" width="6" height="24" rx="1" transform="rotate(90 24 0)" fill="#0066BE" /> <rect x="13.2617" y="9.14258" width="5.71429" height="13.2632" rx="1" transform="rotate(90 13.2617 9.14258)" fill="#8A4E9C" /> <rect x="19" y="18" width="6" height="19" rx="1" transform="rotate(90 19 18)" fill="#39CABC" /> </svg>
                                         </span>
                                     </span>
-                                    {/* <a className="btn"></a> */}
+                                    <a className="btn"></a>
                                 </label>
                             </div>
                             {/* <DownloadDropdown

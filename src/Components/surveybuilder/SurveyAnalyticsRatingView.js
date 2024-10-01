@@ -225,7 +225,7 @@ const SurveyAnalyticsRatingView = ({ index, item, colors }) => {
                                         <rect width="24" height="24" fill="white" />
                                     </clipPath>
                                 </defs>
-                            </svg> | <b>{item?.totalRatings}</b> ratings
+                            </svg> <span className='divide-line'>|</span> <b>{item?.totalRatings}</b> ratings
                         </div>
                     </div>
                 </div>

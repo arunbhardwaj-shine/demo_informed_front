@@ -63,7 +63,7 @@ const SurveyAnalyticsDetail = () => {
     const [options, setOptions] = useState({
         chart: {
             type: "bar",
-            height: 200,
+            height: 238,
         },
         title: {
             text: "",
@@ -72,6 +72,7 @@ const SurveyAnalyticsDetail = () => {
             categories: [],
             labels: {
                 enabled: false,
+                 color: "#0442A2"
             },
         },
         yAxis: {
@@ -80,6 +81,7 @@ const SurveyAnalyticsDetail = () => {
             },
             labels: {
                 enabled: true, // Disable Y-axis labels
+                 color: "#0442A2"
             },
             gridLineWidth: 1, // Remove grid lines (optional)
         },
@@ -89,6 +91,7 @@ const SurveyAnalyticsDetail = () => {
             layout: "horizontal",
             x: 0,
             y: 0,
+            color: "#0442A2"
         },
         exporting: {
             enabled: false,

@@ -4130,7 +4130,7 @@ body {
                         }
 
                         &:nth-child(2) {
-                            width: 35%;
+                            width: 33%;
                         }
 
                         &:nth-last-child(3) {
@@ -4369,7 +4369,7 @@ body {
                 width: 238px;
                 flex: 0 0 238px;
                 border-right: 1px dashed $light-gray;
-                padding: 11px 20px 16px;
+                padding: 11px 20px 22px;
 
                 .survey-completion-info {
                     height: calc(100% - 16px);
@@ -4410,7 +4410,7 @@ body {
 
             .survey-takers-status {
                 border-right: 1px dashed $light-gray;
-                padding: 11px 40px 16px;
+                padding: 11px 40px 1px;
                 flex: 0 0 423px;
                 position: relative;
 
@@ -4418,6 +4418,34 @@ body {
                     max-width: 351px;
                     width: 100%;
                 }
+                .highcharts-container{
+                    .highcharts-root{
+                        .highcharts-legend-item{
+                            text{
+                                    color:#70899E!important;
+                                    font-weight: 400!important;
+                                    font-size: 13px!important;
+                                    fill: #70899E !important;
+                            }
+                        }
+                    }
+                    .highcharts-data-labels{
+                        .highcharts-label{
+                            text{
+                                color:#0066BE!important;
+                                font-weight: 500!important;
+                                font-size: 14px!important;
+                                fill: #0066BE !important;
+                            }  
+                        }
+                    }
+                    .highcharts-axis-labels{
+                        text{
+                           color:#97B6CF!important; 
+                           fill: #97B6CF!important; 
+                        }
+                    }
+                } 
 
                 .rd-box-export {
                     bottom: 15px;
@@ -4574,6 +4602,54 @@ body {
                     }
                 }
             }
+            .dropdown {
+                button {
+                    padding: 7px;
+                    background-color: $white;
+                    border: 0;
+                    border-radius: 30px;
+                    color: $light-gray;
+                    -webkit-filter: drop-shadow(0 1px 6px rgba(0, 102, 190, .2));
+                    filter: drop-shadow(0 1px 6px rgba(0, 102, 190, .2));
+                    font-size: 14px;
+                    font-weight: 400;
+                    line-height: 16px;
+                    width: 32px;
+                    height: 32px;
+                    min-width: 32px;
+                    text-transform: capitalize;
+                    z-index: 1;
+                    position: relative;
+
+                    &:after {
+                        display: none;
+                    }
+
+                    svg {
+                        width: 16px;
+                        height: 16px;
+                        ;
+                    }
+                }
+
+                .dropdown-menu {
+                    border-color: $light-gray;
+                    padding: 4px 0;
+
+                    a {
+                        color: $dark-gray;
+                        font-size: 13px;
+
+                    }
+                }
+                @media (max-width:1500px){
+                    .dropdown-menu {
+                        left: auto!important;
+                        right: 0!important;     
+                    }
+                }
+            }
+
         }
 
         .question-preview-block {
@@ -4631,12 +4707,14 @@ body {
                     align-items: flex-start;
                     position: relative;
                     background: $white;
-                    border: 1px solid rgba(0, 102, 190, 0.2);
+                    // border: 1px solid rgba(0, 102, 190, 0.2);
+                    display: block;
                     
                     .answer {
                         @include flex-space-between;
                         width: 100%;
                         background: $white;
+                        padding-bottom: 16px;
                         .choices {
                             @include flex-align-center;
 
@@ -4656,7 +4734,7 @@ body {
                         }
 
                         .respondents {
-                            gap: 12px;
+                            gap: 8px;
                             @include flex-align-center;
 
                             span {
@@ -4675,13 +4753,16 @@ body {
                                 }
                             }
                         }
+                        &:last-child{
+                            padding-bottom: 0;
+                        }
                     }
                 }
 
                 .avg-view {
                     background: $light-gray;
                     border-radius: 0 0 8px 8px;
-                    padding: 10px 50px 5px 12px;
+                    padding: 10px 70px 5px 12px;
                     margin-top: -4px;
 
                     .dispaly-avg-view {
@@ -4744,7 +4825,13 @@ body {
                                     }
                                 }
                             }
-
+                            &> span{
+                                span{
+                                    &:last-child {
+                                        left: 48%;
+                                    }
+                                }
+                            } 
                             input {
                                 &:checked {
                                     ~a {
@@ -4764,7 +4851,18 @@ body {
                         }
                     }
                 }
-
+                .pie-chart-outer-layout{
+                    .highcharts-data-labels{
+                        .highcharts-label{
+                            text{
+                                color:#004A89!important;
+                                font-weight: 500!important;
+                                font-size: 13px!important;
+                                fill: #004A89 !important;
+                            }  
+                        }
+                    }
+                }
                 .dropdown {
                     button {
                         padding: 7px;
@@ -4815,8 +4913,9 @@ body {
 
                 .question-preview-chart {
                     text-align: center;
-                    margin: 10px 0 0px;
+                    // margin: 10px 0 0px;
                     gap: 65px;
+                    height: 100%;
                     .survey-rating-detail{
                         h5{
                             display: flex;
@@ -4829,6 +4928,9 @@ body {
                             &.survey-rating-number{
                                 font-weight: 500;
                                 color: $dark-blue;
+                            }
+                            span{
+                                line-height: 1;
                             }
                         }
                         .progress{
@@ -4851,6 +4953,20 @@ body {
                             font-size: 24px;
                             color: $dark-blue;
                             font-weight: 500;
+                            &.divide-line{
+                                color: transparent;
+                                position: relative;
+                                line-height: 32px;
+                                width: 1px;
+                                &::before{
+                                    content: "";
+                                    left:0;
+                                    height:32px;
+                                    width: 1px;
+                                    background: #97B6CF;
+                                    position: absolute;
+                                }
+                            }
                         }
                         svg {
                             width: 20px;
@@ -4859,6 +4975,7 @@ body {
                         b {
                             font-size: 20px;
                             font-weight: 500;
+                            margin-right: -4px;
                         }
                     }
                 }

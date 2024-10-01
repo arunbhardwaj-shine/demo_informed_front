@@ -460,7 +460,7 @@
           pageNotFound();
           return;
         }
-        const apiUrl = "http://192.168.0.231:3001/survey/fetch-preview-data";
+        const apiUrl = "https://informedback.shinedezign.pro/survey/fetch-preview-data";
         const payload = {
           Utmde,
           user_id: user_id,
@@ -2005,7 +2005,7 @@
 
               loader("show");
 
-              const submitApiUrl ="http://192.168.0.231:3001/survey/insert-user-responses";
+              const submitApiUrl ="https://informedback.shinedezign.pro/survey/insert-user-responses";
 
               const submitResponse = await fetch(submitApiUrl, {
                 method: "POST",
