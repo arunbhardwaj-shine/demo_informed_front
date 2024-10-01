@@ -4369,7 +4369,7 @@ body {
                 width: 238px;
                 flex: 0 0 238px;
                 border-right: 1px dashed $light-gray;
-                padding: 11px 20px 16px;
+                padding: 11px 20px 22px;
 
                 .survey-completion-info {
                     height: calc(100% - 16px);
@@ -4410,7 +4410,7 @@ body {
 
             .survey-takers-status {
                 border-right: 1px dashed $light-gray;
-                padding: 11px 40px 16px;
+                padding: 11px 40px 1px;
                 flex: 0 0 423px;
                 position: relative;
 
@@ -4418,6 +4418,34 @@ body {
                     max-width: 351px;
                     width: 100%;
                 }
+                .highcharts-container{
+                    .highcharts-root{
+                        .highcharts-legend-item{
+                            text{
+                                    color:#70899E!important;
+                                    font-weight: 400!important;
+                                    font-size: 13px!important;
+                                    fill: #70899E !important;
+                            }
+                        }
+                    }
+                    .highcharts-data-labels{
+                        .highcharts-label{
+                            text{
+                                color:#0066BE!important;
+                                font-weight: 500!important;
+                                font-size: 14px!important;
+                                fill: #0066BE !important;
+                            }  
+                        }
+                    }
+                    .highcharts-axis-labels{
+                        text{
+                           color:#97B6CF!important; 
+                           fill: #97B6CF!important; 
+                        }
+                    }
+                } 
 
                 .rd-box-export {
                     bottom: 15px;
@@ -4680,11 +4708,13 @@ body {
                     position: relative;
                     background: $white;
                     // border: 1px solid rgba(0, 102, 190, 0.2);
+                    display: block;
                     
                     .answer {
                         @include flex-space-between;
                         width: 100%;
                         background: $white;
+                        padding-bottom: 16px;
                         .choices {
                             @include flex-align-center;
 
@@ -4722,6 +4752,9 @@ body {
                                     }
                                 }
                             }
+                        }
+                        &:last-child{
+                            padding-bottom: 0;
                         }
                     }
                 }
@@ -4792,7 +4825,13 @@ body {
                                     }
                                 }
                             }
-
+                            &> span{
+                                span{
+                                    &:last-child {
+                                        left: 48%;
+                                    }
+                                }
+                            } 
                             input {
                                 &:checked {
                                     ~a {
@@ -4812,7 +4851,18 @@ body {
                         }
                     }
                 }
-
+                .pie-chart-outer-layout{
+                    .highcharts-data-labels{
+                        .highcharts-label{
+                            text{
+                                color:#004A89!important;
+                                font-weight: 500!important;
+                                font-size: 13px!important;
+                                fill: #004A89 !important;
+                            }  
+                        }
+                    }
+                }
                 .dropdown {
                     button {
                         padding: 7px;
