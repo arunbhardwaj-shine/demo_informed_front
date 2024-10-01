@@ -58,7 +58,7 @@ const SurveyList = (props) => {
 
   const submitHandler = (event) => {
     event.preventDefault();
-    console.log("inside submit");
+   
     setShowFilter(false);
     getFilterAppliedData();
     setSubmiHandle(1);
@@ -114,7 +114,7 @@ const SurveyList = (props) => {
       });
       // Further filter based on search if there is any search text
       if (search.trim().length > 0) {
-        console.log("insdie search");
+       
         filteredData = filteredData.filter((item) => {
           return item.survey_title.toLowerCase().includes(search.toLowerCase());
         });
@@ -414,10 +414,7 @@ const SurveyList = (props) => {
     let up = updateflag + 1;
     setUpdateFlag(up);
   };
-
-  console.log(filtercampaign, "from Survey");
-  console.log(filter, "fromfilter");
-  console.log(updateflag, "from update flag");
+ 
 
   const handleOnFilterCreator = (fcreator) => {
     let tag_index = filtercreator.indexOf(fcreator);

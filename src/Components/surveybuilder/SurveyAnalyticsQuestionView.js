@@ -15,6 +15,7 @@ const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
     const [hasCount, setHasCount] = useState(false)
     const countryBarRef = useRef(null);
     const countryPieRef = useRef(null);
+    const [displayAvg,setDisplayAvg]=useState({})
 
     useState(() => {
         if (item?.type == "matrix") {
@@ -104,7 +105,7 @@ const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
                         <Dropdown.Item
                             key={format}
                             onClick={() =>
-                                handleDownload(format, graphRef[whichTypeGraph], title,index)
+                                handleDownload(format, graphRef[whichTypeGraph], title, index)
                             }
                         >
                             Download {format}
@@ -153,13 +154,13 @@ const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
     //     }
     // };
 
-    const handleDownload = async (format, ref, defaultName = "survey_question", index,isHtml = true) => {
+    const handleDownload = async (format, ref, defaultName = "survey_question", index, isHtml = true) => {
         if (isHtml) {
             const element = document.getElementById(`survey-question-listing-${index}`)
 
             if (!element) return;
-            console.log("element-->", element)           
-             if (format.toLowerCase() === 'svg') {
+            console.log("element-->", element)
+            if (format.toLowerCase() === 'svg') {
                 // For SVG format
                 const canvas = await html2canvas(element);
                 const imgData = canvas.toDataURL("image/png");
@@ -194,6 +195,13 @@ const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
             }
         }
     };
+
+    const DisplayAvg=(index)=>{
+        // let avg={...displayAvg}
+        // avg[index]=true
+        setDisplayAvg((prev)=>({...prev,[index]:!displayAvg[index]}))
+
+    }
     return (<>
         <div key={index} className="survey-question-listing" id={`survey-question-listing-${index}`}>
             <div className="survey-question-top d-flex align-items-center">
@@ -228,15 +236,15 @@ const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
                     </div>
                 </div>
                 <DownloadDropdown
-                                        graphRef={[countryBarRef, countryPieRef]}
-                                        // whichTypeGraph={whichTypeMatrixGraph[data?.id] == "bar" ? 0 : 0}
-                                        whichTypeGraph="0"
-                                        title={item?.type}
-                                        index={index}
-                                        handleDownload={handleDownload}
-                                       
+                    graphRef={[countryBarRef, countryPieRef]}
+                    // whichTypeGraph={whichTypeMatrixGraph[data?.id] == "bar" ? 0 : 0}
+                    whichTypeGraph="0"
+                    title={item?.type}
+                    index={index}
+                    handleDownload={handleDownload}
 
-                                    />
+
+                />
             </div>
             {item?.type == "matrix" ?
                 item?.answer?.map((data, index) => {
@@ -273,7 +281,7 @@ const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
                                                 </div>
                                                 <div className="respondents">
                                                     <span>{ans?.count}</span>
-                                                    <span className="respondents-percent">(<span>{ totalCount > 0 ? JSON.parse(((ans?.count / totalCount).toFixed(2)) * 100) : "00"}%</span>)</span>
+                                                    <span className="respondents-percent">(<span>{totalCount > 0 ? JSON.parse(((ans?.count / totalCount).toFixed(2)) * 100) : "00"}%</span>)</span>
                                                 </div>
                                             </div>
 
@@ -282,8 +290,12 @@ const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
                                 </div>
                                 <div className="avg-view">
                                     <div className="dispaly-avg-view d-flex justify-content-between align-items-center">
-                                        <p>Display the AVG  <img src={path_image + 'avg-arrow.svg'} /></p>
-                                        <div className="result-view">{totalCount > 0 ? totalCount / item?.answer?.length : 0}
+                                        <button onClick={() => DisplayAvg(index)}>Display the AVG  <img src={path_image + 'avg-arrow.svg'} /></button>
+                                        <div className="result-view">
+                                            {totalCount > 0
+                                                ? displayAvg[index] ? (totalCount / item?.answer?.length).toFixed(1)
+                                                    : null
+                                                : 0}
                                         </div>
                                     </div>
                                 </div>
@@ -346,7 +358,7 @@ const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
                                                 colors={colors}
                                                 // type="analytics"
                                                 show={show}
-                                                // chartRef={countryBarRef}
+                                            // chartRef={countryBarRef}
                                             />
                                             : <SurveyAnalyticsQuestionPieChart
                                                 key={data?.id}
@@ -358,7 +370,7 @@ const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
                                                 colors={colors}
                                                 // type="analytics"
                                                 show={show}
-                                                // chartRef={countryPieRef}
+                                            // chartRef={countryPieRef}
                                             />
                                         }
                                     </div>}
@@ -458,7 +470,7 @@ const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
                                             colors={colors}
                                             // type="analytics"
                                             show={show}
-                                            // chartRef={countryPieRef}
+                                        // chartRef={countryPieRef}
                                         />
                                         : <SurveyAnalyticsQuestionPieChart
                                             data={{
@@ -469,7 +481,7 @@ const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
                                             colors={colors}
                                             // type="analytics"
                                             show={show}
-                                            // chartRef={countryBarRef}
+                                        // chartRef={countryBarRef}
                                         />
                                 }
                             </div>}

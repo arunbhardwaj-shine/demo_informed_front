@@ -63,7 +63,7 @@ const SurveyAnalyticsDetail = () => {
     const [options, setOptions] = useState({
         chart: {
             type: "bar",
-            height: 300,
+            height: 200,
         },
         title: {
             text: "",
@@ -79,7 +79,7 @@ const SurveyAnalyticsDetail = () => {
                 text: null // No title for the Y-axis
             },
             labels: {
-                enabled: false, // Disable Y-axis labels
+                enabled: true, // Disable Y-axis labels
             },
             gridLineWidth: 1, // Remove grid lines (optional)
         },
@@ -103,7 +103,7 @@ const SurveyAnalyticsDetail = () => {
         },
         plotOptions: {
             series: {
-                pointWidth: 30,
+                pointWidth: 15,
                 dataLabels: {
                     enabled: true,
                     format: "{point.y}",

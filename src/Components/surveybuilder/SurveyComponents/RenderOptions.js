@@ -126,7 +126,7 @@ const RenderOptions = ({
     }));
   };
 
-  console.log(checkMarkCount);
+ 
 
   switch (item.type) {
     case "multiple":
