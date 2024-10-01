@@ -1368,7 +1368,7 @@ const SurveyAnalyticsDetail = () => {
                                                                                                     return (<>
                                                                                                         <div key={index} className="survey-data">
                                                                                                             <div className="question-type">
-                                                                                                                <img src={path_image + image(data?.type)} alt="" />
+                                                                                                                <img src={path_image + image(data?.type)} alt="" title={item?.type}/>
                                                                                                             </div>
                                                                                                             <div>
                                                                                                                 <h6 dangerouslySetInnerHTML={{ __html: `Q${index + 1}|${data?.question_text}` }}>

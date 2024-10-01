@@ -219,7 +219,7 @@ const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
             <div className="survey-question-top d-flex align-items-center">
                 <div className="survey-question-num">
                     <div className="question-type">
-                        <img src={path_image + image(item?.type)} alt="" />
+                        <img src={path_image + image(item?.type)} alt="" title={item?.type}/>
                     </div>
                     <div className="question-number">
                         <h4>{`Q${index + 1}`}</h4>

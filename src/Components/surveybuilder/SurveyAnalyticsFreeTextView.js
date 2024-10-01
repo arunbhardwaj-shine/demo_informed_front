@@ -124,7 +124,7 @@ const SurveyAnalyticsFreeTextView = ({ index, item }) => {
             <div className="survey-question-top d-flex align-items-center">
                 <div className="survey-question-num">
                     <div className="question-type">
-                        <img src={path_image + "free-text.png"} alt="" />
+                        <img src={path_image + "free-text.png"} alt="" title={item?.type}/>
                     </div>
                     <div className="question-number">
                         <h4 >Q{index + 1}</h4>
