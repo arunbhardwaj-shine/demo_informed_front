@@ -1518,7 +1518,7 @@ const SurveyAnalyticsDetail = () => {
                                                                             ans: completedCountryData,
                                                                         }}
                                                                         colors={colors}
-                                                                        type="analytics"
+                                                                        // type="analytics"
                                                                     // chartRef={countryBarRef}
                                                                     />
 
