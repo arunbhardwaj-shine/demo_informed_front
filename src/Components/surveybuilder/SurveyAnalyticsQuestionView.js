@@ -158,7 +158,10 @@ const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
     const handleDownload = async (format, ref, defaultName = "survey_question", index) => {
         try {
             loader("show")
-           
+            const dropdownId=document.getElementById(`dropdown-${index}`)
+            if(dropdownId){
+                dropdownId.style.display="none"
+            }
             const element = document.getElementById(`survey-question-listing-${index}`)
             
             if (!element) return;
@@ -197,6 +200,7 @@ const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
                 link.download = `${defaultName}.${format.toLowerCase()}`;
                 link.click();
             }
+             dropdownId.style.display="block"
             loader("hide")
         } catch (err) {
             loader("hide");
@@ -245,7 +249,7 @@ const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
                         <span>1</span>
                     </div>
                 </div>
-                
+                <div id={`dropdown-${index}`}>
                 <DownloadDropdown 
                     graphRef={[countryBarRef, countryPieRef]}
                     // whichTypeGraph={whichTypeMatrixGraph[data?.id] == "bar" ? 0 : 0}
@@ -253,9 +257,8 @@ const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
                     title={item?.type}
                     index={index}
                     handleDownload={handleDownload}
-
-
                 />
+                </div>
                 
             </div>
             {item?.type == "matrix" ?

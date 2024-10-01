@@ -1,6 +1,7 @@
 import React, { useRef } from 'react'
 import html2canvas from "html2canvas";
 import { Dropdown } from "react-bootstrap";
+import { loader } from '../../loader';
 // import { jsPDF } from 'jspdf'
 
 const SurveyAnalyticsFreeTextView = ({ index, item }) => {
@@ -51,9 +52,13 @@ const SurveyAnalyticsFreeTextView = ({ index, item }) => {
 
 
     const handleDownload = async (format, ref, defaultName = "survey_question", index, isHtml = true) => {
-        if (isHtml) {
+        try {
+            loader("show")
+            const dropdownId = document.getElementById(`dropdown-${index}`)
+            if(dropdownId){
+                dropdownId.style.display = "none"
+            }
             const element = document.getElementById(`survey-question-listing-${index}`)
-
             if (!element) return;
             console.log("element-->", element)
 
@@ -106,7 +111,13 @@ const SurveyAnalyticsFreeTextView = ({ index, item }) => {
                 link.download = `${defaultName}.${format.toLowerCase()}`;
                 link.click();
             }
+             dropdownId.style.display = "block"
+            loader("hide")
+        } catch (err) {
+            loader("hide")
+            console.log("--err", err)
         }
+
     };
 
     return (<>
@@ -138,11 +149,13 @@ const SurveyAnalyticsFreeTextView = ({ index, item }) => {
                         <span>1</span>
                     </div>
                 </div>
+                <div id={`dropdown-${index}`}>
                 <DownloadDropdown
                     title={item?.type}
                     index={index}
                     handleDownload={handleDownload}
                 />
+                </div>
             </div>
             <div className="question-preview-block">
                 <div className="question-preview-right">
