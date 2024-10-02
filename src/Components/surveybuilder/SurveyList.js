@@ -58,7 +58,7 @@ const SurveyList = (props) => {
 
   const submitHandler = (event) => {
     event.preventDefault();
-   
+  
     setShowFilter(false);
     getFilterAppliedData();
     setSubmiHandle(1);
@@ -262,7 +262,7 @@ const SurveyList = (props) => {
     if (selectedSublink) {
       navigator.clipboard
         .writeText(
-          `https://informed.pro/Survey/Survey.html?Utmde=${selectedSublink.label}`
+          `https://survey.docintel.app/survey.html?Utmde=${selectedSublink.label}`
         )
         .then(() => {
           toast.success("Sublink copied to clipboard!");
@@ -283,7 +283,7 @@ const SurveyList = (props) => {
       loader("show");
       setQr({
         ...qrState,
-        value: `https://informed.pro/Survey/Survey.html?Utmde=${selectedSublink.label}&dl=qr`,
+        value: `https://survey.docintel.app/survey.html?Utmde=${selectedSublink.label}&dl=qr`,
       });
       setTimeout(function () {
         downloadQRCode();
@@ -1225,7 +1225,7 @@ navigate("/survey/survey-analytics-detail",{state:{item}})
                                         <div className="tab-panel">
                                           <div class="tab-content-links">
                                             <a
-                                              href={`/Survey/Survey.html?Utmde=${data.unique_code}`}
+                                              href={`https://survey.docintel.app/survey.html?Utmde=${data.unique_code}`}
                                               class={
                                                 data?.is_draft != null &&
                                                 data?.is_draft == "0"
@@ -1234,7 +1234,7 @@ navigate("/survey/survey-analytics-detail",{state:{item}})
                                               }
                                               target="_blank"
                                             >
-                                              https://informed.pro/Survey/Survey.html?Utmde=
+                                              https://survey.docintel.app/survey.html?Utmde=
                                               {data.unique_code}
                                             </a>
                                             {data.is_draft ? (
@@ -1242,7 +1242,7 @@ navigate("/survey/survey-analytics-detail",{state:{item}})
                                                 class="copy-content"
                                                 onClick={() =>
                                                   copyHandler(
-                                                    `https://informed.pro/Survey/Survey.html?Utmde=${data.unique_code}`
+                                                    `https://survey.docintel.app/survey.html?Utmde=${data.unique_code}`
                                                   )
                                                 }
                                               >
@@ -1271,7 +1271,7 @@ navigate("/survey/survey-analytics-detail",{state:{item}})
                                                 onClick={() => {
                                                   setQr({
                                                     ...qrState,
-                                                    value: `https://informed.pro/Survey/Survey.html?Utmde=${data.unique_code}&dl=qr`,
+                                                    value: `https://survey.docintel.app/survey.html?Utmde=${data.unique_code}&dl=qr`,
                                                   });
                                                   setTimeout(function () {
                                                     downloadQRCode();
@@ -1648,7 +1648,7 @@ navigate("/survey/survey-analytics-detail",{state:{item}})
                                               }
                                               onClick={(e) => {
                                                 window.open(
-                                                  `https://informed.pro/Survey/Survey.html?Utmde=${data.unique_code}`,
+                                                  `https://survey.docintel.app/survey.html?Utmde=${data.unique_code}`,
                                                   "_blank"
                                                 );
                                               }}

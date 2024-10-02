@@ -126,7 +126,7 @@ const SurveyConfig = (props) => {
 
   const copyHandler = () => {
     navigator.clipboard
-      .writeText(`https://informed.pro/Survey/Survey.html?Utmde=${surveyLink}`)
+      .writeText(`https://survey.docintel.app/survey.html?Utmde=${surveyLink}`)
       .then(() => {
         toast.success("Survey Link Copied");
       })
@@ -262,11 +262,11 @@ const handleDropdownchange=(e,selectType)=>{
                             </p>
                             <div className="tab-content-links">
                               <a
-                                href={`https://informed.pro/Survey/Survey.html?Utmde=${surveyLink}`}
+                                href={`https://survey.docintel.app/survey.html?Utmde=${surveyLink}`}
                                 className="doc-link"
                                 target="_blank"
                               >
-                                https://informed.pro/Survey/Survey.html?Utmde=
+                                https://survey.docintel.app/survey.html?Utmde=
                                 {surveyLink}
                               </a>
                               <span className="copy-content">
@@ -675,9 +675,9 @@ const handleDropdownchange=(e,selectType)=>{
                       </p>
                       <a
                         className="survey-config-link no-click"
-                        href={`https://informed.pro/Survey/Survey.html?Utmde=${surveyLink}`}
+                        href={`https://survey.docintel.app/survey.html?Utmde=${surveyLink}`}
                       >
-                        https://informed.pro/Survey/Survey.html?Utmde=
+                        https://survey.docintel.app/survey.html?Utmde=
                         {surveyLink}
                       </a>
                     </div>

@@ -473,7 +473,7 @@ const SurveySublink = () => {
                                                 <div className="tab-panel">
                                                   <div class="tab-content-links">
                                                     <a>
-                                                      https://informed.pro/Survey/Survey.html?Utmde={data.unique_code}
+                                                      https://survey.docintel.app/survey.html?Utmde={data.unique_code}
                                                     </a>
                                                     {data?.is_draft ? (
                                                       <span
@@ -930,7 +930,7 @@ const SurveySublink = () => {
                                             >
                                               <div className="survey_tabs_data survey-setting">
                                                 <div class="d-flex align-items-center justify-content-start">
-                                                  {data?.is_draft && (
+                                                  {data?.is_draft ? (
                                                     <>
                                                       {" "}
                                                       <p class="option-heading">
@@ -959,7 +959,7 @@ const SurveySublink = () => {
                                                         />
                                                       </div>
                                                     </>
-                                                  )}
+                                                  ):""}
                                                 </div>
                                                 <div class="mailbox-buttons justify-content-end">
                                                   <div className="send_new">
