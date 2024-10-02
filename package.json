@@ -28,10 +28,13 @@
 		"canvas2image": "^1.0.5",
 		"capturejs": "^0.3.0",
 		"chart.js": "^3.7.1",
+		"cors": "^2.8.5",
 		"dom-to-image": "^2.6.0",
 		"dotenv": "^16.0.0",
+		"express": "^4.21.0",
 		"firebase": "^10.0.0",
 		"formik": "^2.2.9",
+		"fs": "^0.0.1-security",
 		"fs-extra": "^10.1.0",
 		"google-maps-react": "^2.0.6",
 		"he": "^1.2.0",
@@ -47,9 +50,12 @@
 		"json5": "^2.2.3",
 		"jszip": "^3.10.1",
 		"moment": "^2.29.4",
+		"node-fetch": "^3.3.2",
 		"npm": "^8.6.0",
+		"path": "^0.12.7",
 		"pdfjs-dist": "^2.16.105",
 		"proj4": "^2.9.0",
+		"puppeteer": "^23.4.1",
 		"qrcode": "^1.5.3",
 		"qrcode.react": "^3.1.0",
 		"query-string": "^7.1.1",
@@ -137,6 +143,8 @@
 	},
 	"devDependencies": {
 		"@ckeditor/ckeditor5-alignment": "^34.0.0",
-		"@types/react-google-recaptcha": "^2.1.5"
+		"@types/react-google-recaptcha": "^2.1.5",
+		"http-proxy-middleware": "^3.0.2"
 	}
+	 
 }

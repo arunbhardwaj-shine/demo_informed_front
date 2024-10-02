@@ -1,14 +1,113 @@
-import React, { useEffect } from 'react'
+import React, { useRef } from 'react'
 import { Dropdown, ProgressBar } from 'react-bootstrap'
+import html2canvas from 'html2canvas';
+import { loader } from '../../loader';
+// import {jsPDF} from 'jspdf'
 
 const SurveyAnalyticsRatingView = ({ index, item, colors }) => {
     let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+
+    const progressBarRef = useRef(null)
+    const DownloadDropdown = ({
+        title,
+        index,
+        handleDownload
+    }) => {
+        // const formats = ["PNG", "JPEG", "PDF", "SVG"];
+        const formats = ["PNG", "JPEG", "SVG"];
+        return (
+            <Dropdown>
+                <Dropdown.Toggle id="dropdown-basic">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="6"
+                        height="24"
+                        viewBox="0 0 6 24"
+                        fill="none"
+                    >
+                        <path
+                            fillRule="evenodd"
+                            clipRule="evenodd"
+                            d="M6 3C6 4.65685 4.65685 6 3 6C1.34315 6 0 4.65685 0 3C0 1.34315 1.34315 0 3 0C4.65685 0 6 1.34315 6 3ZM6 12C6 13.6569 4.65685 15 3 15C1.34315 15 0 13.6569 0 12C0 10.3431 1.34315 9 3 9C4.65685 9 6 10.3431 6 12ZM3 24C4.65685 24 6 22.6569 6 21C6 19.3431 4.65685 18 3 18C1.34315 18 0 19.3431 0 21C0 22.6569 1.34315 24 3 24Z"
+                            fill="#0066BE"
+                        />
+                    </svg>
+                </Dropdown.Toggle>
+
+                <Dropdown.Menu>
+                    {formats.map((format) => (
+                        <Dropdown.Item
+                            key={format}
+                            onClick={() =>
+                                handleDownload(format, progressBarRef, title, index)
+                            }
+                        >
+                            Download {format}
+                        </Dropdown.Item>
+                    ))}
+                </Dropdown.Menu>
+            </Dropdown>
+        );
+    };
+
+
+    const handleDownload = async (format, ref, defaultName = "survey_question", index, isHtml = true) => {
+        try {
+            loader("show")
+            const dropdownId = document.getElementById(`dropdown-${index}`)
+            if (dropdownId) {
+                dropdownId.style.display = "none"
+            }
+            const element = document.getElementById(`survey-question-listing-${index}`)
+
+            if (!element) return;
+            if (format.toLowerCase() === 'svg') {
+                // For SVG format
+                const canvas = await html2canvas(element);
+                const imgData = canvas.toDataURL("image/png");
+
+                // Create the SVG string
+                const svgContent = `
+                <svg xmlns="http://www.w3.org/2000/svg" width="${canvas.width}" height="${canvas.height}">
+                    <image href="${imgData}" width="${canvas.width}" height="${canvas.height}" />
+                </svg>`;
+
+                // Create a Blob from the SVG content
+                const svgBlob = new Blob([svgContent], { type: "image/svg+xml;charset=utf-8" });
+                const svgURL = URL.createObjectURL(svgBlob);
+
+                // Create a link to download the SVG
+                const link = document.createElement("a");
+                link.href = svgURL;
+                link.download = `${defaultName}.svg`;
+                link.click();
+                URL.revokeObjectURL(svgURL); // Clean up the URL object
+
+            } else {
+                // For PNG and JPEG (the original code you already have)
+                const canvas = await html2canvas(element);
+                const dataURL = canvas.toDataURL(`image/${format.toLowerCase()}`);
+
+                // Create a link to download the image
+                const link = document.createElement("a");
+                link.href = dataURL;
+                link.download = `${defaultName}.${format.toLowerCase()}`;
+                link.click();
+            }
+            dropdownId.style.display = "block"
+            loader("hide")
+        } catch (err) {
+            loader("hide")
+            console.log("--err", err)
+        }
+    };
+
     return (<>
-        <div key={index} className="survey-question-listing">
+        <div key={index} className="survey-question-listing" id={`survey-question-listing-${index}`}>
             <div className="survey-question-top d-flex align-items-center">
                 <div className="survey-question-num">
                     <div className="question-type">
-                        <img src={path_image + "star-rating.png"} alt="" />
+                        <img src={path_image + "star-rating.png"} alt="" title={item?.type} />
                     </div>
                     <div className="question-number">
                         <h4>Q{index + 1}</h4>
@@ -22,7 +121,7 @@ const SurveyAnalyticsRatingView = ({ index, item, colors }) => {
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
                             <path d="M8.29511 6.80015C10.1732 6.80015 11.6953 5.27769 11.6953 3.39993C11.6953 1.52217 10.1729 0 8.29511 0C6.41736 0 4.89432 1.52246 4.89432 3.40022C4.89432 5.27797 6.41736 6.80015 8.29511 6.80015ZM9.73743 7.0319H6.85222C4.45164 7.0319 2.49866 8.98517 2.49866 11.3858V14.9141L2.50763 14.9694L2.75066 15.0455C5.04159 15.7613 7.0319 16 8.67009 16C11.8698 16 13.7244 15.0877 13.8387 15.0296L14.0658 14.9147H14.0901V11.3858C14.091 8.98517 12.138 7.0319 9.73743 7.0319Z" fill="#004A89" />
                         </svg>
-                        <span>83</span>
+                        <span>{item?.total_count}</span>
                     </div>
                     <div className="total-ignored">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
@@ -31,6 +130,13 @@ const SurveyAnalyticsRatingView = ({ index, item, colors }) => {
                         </svg>
                         <span>1</span>
                     </div>
+                </div>
+                <div id={`dropdown-${index}`}>
+                    <DownloadDropdown
+                        title={item?.type}
+                        index={index}
+                        handleDownload={handleDownload}
+                    />
                 </div>
             </div>
             <div className="question-preview-block">
@@ -48,7 +154,15 @@ const SurveyAnalyticsRatingView = ({ index, item, colors }) => {
                             <div key={index} className="answer">
                                 <div className="choices">
                                     <span className="bullet-color" style={{ background: colors[index] }}>&nbsp;</span>
-                                    <div><img src={`${path_image}star-rating-${JSON.parse(data?.value)}.svg`} alt="" /></div>
+
+                                    <div>
+                                        {item?.extra?.ratingType == "stars"
+                                            ? <img src={`${path_image}star-rating-${JSON.parse(data?.value)}.svg`} alt="" />
+                                            : [...Array(parseInt(data?.value))].map((_, i) => {
+                                                return ` ${i + 1}`
+                                            })
+                                        }
+                                    </div>
                                 </div>
                                 <div className="respondents">
                                     <span>{data?.count}</span>
@@ -61,67 +175,19 @@ const SurveyAnalyticsRatingView = ({ index, item, colors }) => {
                 </div>
                 <div className="question-preview-right">
                     <div className="rd-training-block-right d-flex justify-content-end align-items-center">
-                        <Dropdown>
-                            <Dropdown.Toggle id="dropdown-basic">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="6" height="24" viewBox="0 0 6 24" fill="none" > <path fillRule="evenodd" clipRule="evenodd" d="M6 3C6 4.65685 4.65685 6 3 6C1.34315 6 0 4.65685 0 3C0 1.34315 1.34315 0 3 0C4.65685 0 6 1.34315 6 3ZM6 12C6 13.6569 4.65685 15 3 15C1.34315 15 0 13.6569 0 12C0 10.3431 1.34315 9 3 9C4.65685 9 6 10.3431 6 12ZM3 24C4.65685 24 6 22.6569 6 21C6 19.3431 4.65685 18 3 18C1.34315 18 0 19.3431 0 21C0 22.6569 1.34315 24 3 24Z" fill="#0066BE" /> </svg>
-                            </Dropdown.Toggle>
+                        {/* <DownloadDropdown 
+                        title={item?.type}
+                        handleDownload={handleDownload}
+                        /> */}
 
-                            <Dropdown.Menu>
-                                <Dropdown.Item
-                                // onClick={() =>
-                                // handleDownload(
-                                //     "PNG",
-                                //     whichTypeGraph == 0
-                                //     ? countryBarRef
-                                //     : countryPieRef
-                                // )
-                                // }
-                                >
-                                    Download PNG
-                                </Dropdown.Item>
-                                <Dropdown.Item
-                                // onClick={() =>
-                                // handleDownload(
-                                //     "JPEG",
-                                //     whichTypeGraph == 0
-                                //     ? countryBarRef
-                                //     : countryPieRef
-                                // )
-                                // }
-                                >
-                                    Download JPEG
-                                </Dropdown.Item>
-                                <Dropdown.Item
-                                // onClick={() =>
-                                // handleDownload(
-                                //     "PDF",
-                                //     whichTypeGraph == 0
-                                //     ? countryBarRef
-                                //     : countryPieRef
-                                // )
-                                // }
-                                >
-                                    Download PDF
-                                </Dropdown.Item>
-                                <Dropdown.Item
-                                // onClick={() =>
-                                // handleDownload(
-                                //     "SVG",
-                                //     whichTypeGraph == 0
-                                //     ? countryBarRef
-                                //     : countryPieRef
-                                // )
-                                // }
-                                >
-                                    Download SVG
-                                </Dropdown.Item>
-                            </Dropdown.Menu>
-                        </Dropdown>
                     </div>
-                    <div className="question-preview-chart d-flex justify-content-center align-items-center">
+                    <div
+                        className="question-preview-chart d-flex justify-content-center align-items-center"
+                    // ref={progressBarRef}
+                    >
                         <div className='question-preview-chart-details'>
-                        {item.answer.map((data, index) => (
-                                <div key={index} className="survey-rating-detail" style={{display:"flex",width:"275px"}}>
+                            {item.answer.map((data, index) => (
+                                <div key={index} className="survey-rating-detail" style={{ display: "flex", width: "275px" }}>
                                     <h5>
                                         <span>{data?.value}{" "}</span>
                                         {/* {item.type === "rating" && ( */}
@@ -165,8 +231,9 @@ const SurveyAnalyticsRatingView = ({ index, item, colors }) => {
                                     </h5>
                                 </div>
                             )
-                        )}
+                            )}
                         </div>
+
                         <div className='question-preview-chart-result'>
                             <span>{item?.overallRating?.toFixed(1)}</span> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <g clipPath="url(#clip0_5227_4798)">
@@ -177,7 +244,7 @@ const SurveyAnalyticsRatingView = ({ index, item, colors }) => {
                                         <rect width="24" height="24" fill="white" />
                                     </clipPath>
                                 </defs>
-                            </svg> | <b>{item?.totalRatings}</b> ratings
+                            </svg> <span className='divide-line'>|</span> <b>{item?.total_count}</b> ratings
                         </div>
                     </div>
                 </div>

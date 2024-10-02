@@ -126,7 +126,7 @@ const RenderOptions = ({
     }));
   };
 
-  console.log(checkMarkCount);
+ 
 
   switch (item.type) {
     case "multiple":
@@ -393,9 +393,10 @@ const RenderOptions = ({
                         value={isStar ? undefined : numberIndex}
                         // disabled={!isEdit}
                       />
-                      <label htmlFor={inputId} className={labelClass}>
+                      <label htmlFor={inputId} className={labelClass}  style={{color:inputColor}}>
                         {labelContent}
                       </label>
+                      <span style={{background:inputColor}}className="rating-number"></span>
                     </React.Fragment>
                   );
                 }
@@ -431,7 +432,8 @@ const RenderOptions = ({
       return (
         <p
           className="paragraph"
-          style={{ color: item.style.color || optionColor }}
+          style={{ color: item.style.color || optionColor, fontWeight: "400" }}
+
           dangerouslySetInnerHTML={{
             __html: item.question,
           }}

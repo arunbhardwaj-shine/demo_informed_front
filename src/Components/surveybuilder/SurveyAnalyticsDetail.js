@@ -3,12 +3,9 @@ import {
     Accordion,
     Button,
     Col,
-    Container,
     Dropdown,
-    Modal,
     Row,
     Table,
-    ProgressBar
 } from "react-bootstrap";
 import { useLocation } from "react-router-dom";
 import { surveyAxiosInstance } from "./CommonFunctions/CommonFunction";
@@ -25,6 +22,8 @@ import { Spinner } from "react-activity";
 import SurveyAnalyticsQuestionView from "./SurveyAnalyticsQuestionView";
 import SurveyAnalyticsFreeTextView from "./SurveyAnalyticsFreeTextView";
 import SurveyAnalyticsRatingView from "./SurveyAnalyticsRatingView";
+import CommonSurveyStarRating from "./CommonSurveyStarRating";
+import html2canvas from 'html2canvas';
 exporting(Highcharts);
 exportData(Highcharts);
 const SurveyAnalyticsDetail = () => {
@@ -55,24 +54,25 @@ const SurveyAnalyticsDetail = () => {
     const buttonRef = useRef(null);
     const filterRef = useRef(null);
     const survey_taker = useRef(null)
+    const countryBarRef = useRef(null);
+    const countryPieRef = useRef(null);
     const [completedCountryData, setCompletedCountryData] = useState([])
-    // const [whichTypeMatrixGraph, setWhichTypeMatrixGraph] = useState({})
-    // const [show, setShow] = useState(false);
     const [whichTypeGraph, setWhichTypeGraph] = useState()
     const [sectionLoader, setSectionLoader] = useState(false);
     const [loaderIndex, setLoaderIndex] = useState()
     const [options, setOptions] = useState({
         chart: {
             type: "bar",
-            height: 300,
+            height: 238,
         },
         title: {
-            text: "Survey Taker Status",
+            text: "",
         },
         xAxis: {
             categories: [],
             labels: {
                 enabled: false,
+                color: "#0442A2"
             },
         },
         yAxis: {
@@ -80,7 +80,8 @@ const SurveyAnalyticsDetail = () => {
                 text: null // No title for the Y-axis
             },
             labels: {
-                enabled: false, // Disable Y-axis labels
+                enabled: true, // Disable Y-axis labels
+                color: "#0442A2"
             },
             gridLineWidth: 1, // Remove grid lines (optional)
         },
@@ -90,6 +91,7 @@ const SurveyAnalyticsDetail = () => {
             layout: "horizontal",
             x: 0,
             y: 0,
+            color: "#0442A2"
         },
         exporting: {
             enabled: false,
@@ -104,7 +106,7 @@ const SurveyAnalyticsDetail = () => {
         },
         plotOptions: {
             series: {
-                pointWidth: 30,
+                pointWidth: 15,
                 dataLabels: {
                     enabled: true,
                     format: "{point.y}",
@@ -137,7 +139,6 @@ const SurveyAnalyticsDetail = () => {
 
     useEffect(() => {
         getSurveyDetail()
-
     }, [])
 
     const getSurveyDetail = async () => {
@@ -146,32 +147,28 @@ const SurveyAnalyticsDetail = () => {
             setApiStatus(true)
             const res = await surveyAxiosInstance.post("/survey/qns-analytics", {
                 survey_id: stateData?.survey_id
-                // survey_id: 72
+                
             });
             let data = res?.data?.data
-            if (data != "undefined") {
-                let valueupdate = options;
-                valueupdate.xAxis.categories = ["Opened", "Completed", "Drop-off"]
-                valueupdate.series = [
-                    {
-                        name: "Opened",
-                        data: [{ y: data?.userOpenings, color: colors[4] }],
-                        color: colors[4]
+            let valueupdate = { ...options };
+            let categories = []
+            let barSeries = []
+            if (data != "undefined" && data?.surveyTakerStatus?.length > 0) {
 
-                    },
-                    {
-                        name: "Completed",
-                        data: [{ y: data?.completed_count, color: colors[0] }],
+                data?.surveyTakerStatus?.forEach((item, index) => {
+                    categories.push(item?.key)
+                    barSeries.push({
+                        name: item?.key,
+                        data: [{ y: item?.value }],
+                        color: item?.key == "Opened" ? colors[4] : item?.key == "Completed" ? colors[0] : colors[index],
+                    })
+                })
 
-                    },
-                    {
-                        name: "Drop-off",
-                        data: [{ y: data?.Dropoff, color: colors[1] }],
-
-                    }
-                ];
-                setOptions(valueupdate)
             }
+            valueupdate.xAxis.categories = categories
+            valueupdate.series = barSeries
+
+            setOptions(valueupdate)
             setData(data)
             await getTempQuestionData()
         } catch (err) {
@@ -186,7 +183,7 @@ const SurveyAnalyticsDetail = () => {
         try {
             const res = await surveyAxiosInstance.post("/survey/analytic-qns-detail", {
                 survey_id: stateData?.survey_id
-                // survey_id: 72
+                
             });
             const data = res?.data?.data?.allData
             setTempQuestionData(data)
@@ -205,12 +202,16 @@ const SurveyAnalyticsDetail = () => {
             setFilterObject({});
             setSurveyTakerTableData(surveyTakerTableDataBackup)
         }
+        setSurveyTakerQuestionFold(false)
+        setSurveyTakerShowQuestionsData([])
         setShowFilter(false);
     };
 
     const applyFilter = () => {
         setFilterApplyflag(1);
         setSurveyTakerTableData([]);
+        setSurveyTakerQuestionFold(false)
+        setSurveyTakerShowQuestionsData([])
         setFilterObject(appliedFilter);
         const hasAllNonEmptyValues = Object.keys(otherFilter).every(key => {
             const value = filter[key];
@@ -346,7 +347,7 @@ const SurveyAnalyticsDetail = () => {
             if (surveyTakerTableData?.length == 0) {
                 const res = await surveyAxiosInstance.post("/survey/survey-takers-status", {
                     survey_id: stateData?.survey_id
-                    // survey_id: 72
+                    
                 });
 
                 let userdata = [
@@ -401,17 +402,11 @@ const SurveyAnalyticsDetail = () => {
                         "ip_address": "192.168.0.101",
                         "temp_token": "eOd1UkW2rcCm"
                     }
-
                 ]
 
-                // const countries = res?.data?.data?.map((item) => item?.country)
-                // setFilterData((prev) => ({ ...prev, country: countries }))
                 setSurveyTakerTableData(res?.data?.data)
                 setSurveyTakerTableDataBackup(res?.data?.data)
 
-
-
-                //  const countries = data?.map((item) => item?.country)
                 let countries = []
                 let newObj = {}
                 res?.data?.data.forEach((item) => {
@@ -474,10 +469,9 @@ const SurveyAnalyticsDetail = () => {
     const surveyTakerShowData = async (e, index, userId, temp_token) => {
         try {
             let id = userId != 0 ? userId : temp_token
+            setShowFilter(false)
             if (surveyTakerShowQuestions == id) {
-                // setSurveyTakerShowQuestions()
                 setSurveyTakerQuestionFold(!surveyTakerShowQuestionFold)
-                // setSurveyTakerShowQuestionsData([])
                 return
             } else {
                 setSurveyTakerQuestionFold(true)
@@ -485,9 +479,9 @@ const SurveyAnalyticsDetail = () => {
                 setSectionApiStatus(true)
                 setLoaderIndex(id)
                 const res = await surveyAxiosInstance.post("/survey/takers-responses-detail", {
-                    user_id: id,
+                    user_id: id,                    
                     survey_id: stateData?.survey_id
-                    // survey_id: 72
+                    
                 })
                 setSurveyTakerShowQuestionsData(res?.data?.data)
             }
@@ -564,6 +558,141 @@ const SurveyAnalyticsDetail = () => {
         return imgArr?.[type] || "multiple-choices.png";
     }
 
+    const DownloadDropdown = ({
+        graphRef,
+        whichTypeGraph,
+        title,
+        handleDownload
+    }) => {
+        // const formats = ["PNG", "JPEG", "PDF", "SVG"];
+        const formats = ["PNG", "JPEG", "SVG"];
+        return (
+            <Dropdown>
+                <Dropdown.Toggle id="dropdown-basic">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="6"
+                        height="24"
+                        viewBox="0 0 6 24"
+                        fill="none"
+                    >
+                        <path
+                            fillRule="evenodd"
+                            clipRule="evenodd"
+                            d="M6 3C6 4.65685 4.65685 6 3 6C1.34315 6 0 4.65685 0 3C0 1.34315 1.34315 0 3 0C4.65685 0 6 1.34315 6 3ZM6 12C6 13.6569 4.65685 15 3 15C1.34315 15 0 13.6569 0 12C0 10.3431 1.34315 9 3 9C4.65685 9 6 10.3431 6 12ZM3 24C4.65685 24 6 22.6569 6 21C6 19.3431 4.65685 18 3 18C1.34315 18 0 19.3431 0 21C0 22.6569 1.34315 24 3 24Z"
+                            fill="#0066BE"
+                        />
+                    </svg>
+                </Dropdown.Toggle>
+
+                <Dropdown.Menu>
+                    {formats.map((format) => (
+                        <Dropdown.Item
+                            key={format}
+                            onClick={() =>
+                                handleDownload(format, graphRef[whichTypeGraph], title)
+                            }
+                        >
+                            Download {format}
+                        </Dropdown.Item>
+                    ))}
+                </Dropdown.Menu>
+            </Dropdown>
+        );
+    };
+
+    // const handleDownload = (
+    //     format,
+    //     ref,
+    //     defaultName = "survey_question"
+    // ) => {
+    //     let chart = ref.current && ref.current.chart;
+
+    //     if (chart) {
+    //         switch (format) {
+    //             case "PNG":
+    //                 chart.exportChart({
+    //                     type: "image/png",
+    //                     filename: defaultName,
+    //                 });
+    //                 break;
+    //             case "JPEG":
+    //                 chart.exportChart({
+    //                     type: "image/jpeg",
+    //                     filename: defaultName ,
+    //                 });
+    //                 break;
+    //             case "PDF":
+    //                 chart.exportChart({
+    //                     type: "application/pdf",
+    //                     filename: defaultName ,
+    //                 });
+    //                 break;
+    //             case "SVG":
+    //                 chart.exportChart({
+    //                     type: "image/svg+xml",
+    //                     filename: defaultName,
+    //                 });
+    //                 break;
+    //             default:
+    //                 break;
+    //         }
+    //     }
+    // };
+
+    const handleDownload = async (format, ref, defaultName = "survey_question", index, isHtml = true) => {
+        try {
+            loader("show")
+            const dropdownId = document.getElementById("dropdown-completed-country")
+            if (dropdownId) {
+                dropdownId.style.display = "none"
+            }
+            const element = document.getElementById("survey-question-listing country-by")
+            if (!element) {
+                loader("hide")
+                return;
+            }
+            const canvas = await html2canvas(element);
+            if (format.toLowerCase() === 'svg') {
+                // For SVG format
+
+                const imgData = canvas.toDataURL("image/png");
+
+                // Create the SVG string
+                const svgContent = `
+                <svg xmlns="http://www.w3.org/2000/svg" width="${canvas.width}" height="${canvas.height}">
+                    <image href="${imgData}" width="${canvas.width}" height="${canvas.height}" />
+                </svg>`;
+
+                // Create a Blob from the SVG content
+                const svgBlob = new Blob([svgContent], { type: "image/svg+xml;charset=utf-8" });
+                const svgURL = URL.createObjectURL(svgBlob);
+
+                // Create a link to download the SVG
+                const link = document.createElement("a");
+                link.href = svgURL;
+                link.download = `${defaultName}.svg`;
+                link.click();
+                URL.revokeObjectURL(svgURL); // Clean up the URL object
+
+            } else {
+                // For PNG and JPEG (the original code you already have)
+
+                const dataURL = canvas.toDataURL(`image/${format.toLowerCase()}`);
+
+                // Create a link to download the image
+                const link = document.createElement("a");
+                link.href = dataURL;
+                link.download = `${defaultName}.${format.toLowerCase()}`;
+                link.click();
+            }
+            dropdownId.style.display = "block"
+            loader("hide")
+        } catch (err) {
+            loader("hide")
+            console.log("--err", err)
+        }
+    };
     return (
         <>
             <Col className="right-sidebar custom-change">
@@ -572,8 +701,8 @@ const SurveyAnalyticsDetail = () => {
                         <Row>
                             <div className="top-header analytics_header sticky">
                                 <div className="page-title d-flex flex-column align-items-start">
-                                    <h2>Headline Lorem ipsum pretium id libero dolorsit amet consectetur Orci </h2>
-                                    <p>April. 22. 2024</p>
+                                    <h2>{stateData?.Title} </h2>
+                                    <p>{moment(stateData?.CreatedDate).format("MMM. DD. YYYY")}</p>
                                 </div>
                                 <Button title="Download Site Engagements" className="download filled">
                                     Summary (Excel)
@@ -595,7 +724,7 @@ const SurveyAnalyticsDetail = () => {
                                                     <p>Completion</p>
                                                     <div className="survey-completion-info">
                                                         <div></div>
-                                                        <h2>{data?.completed_count}</h2>
+                                                        <h2>{data?.surveyTakerStatus?.[1]?.value ? data?.surveyTakerStatus?.[1]?.value : 0}</h2>
                                                         <div className="completed-survey">
                                                             <p>
                                                                 <img src={path_image + "user-gray.svg"} alt="" />Completed the survey
@@ -608,8 +737,8 @@ const SurveyAnalyticsDetail = () => {
                                                     <img src={path_image + "survey-takers.png"} alt="" />
                                                 </div>
                                                 <div className="survey-takers-status col">
-                                                    {/* <p>Survey Takers status</p>
-                                                <img src={path_image + "survey-takers-status.png"} alt="" /> */}
+                                                    <p>Survey Takers status</p>
+                                                    {/* <img src={path_image + "survey-takers-status.png"} alt="" /> */}
 
                                                     {options?.series?.length > 0 ? (<>
                                                         <HighchartsReact
@@ -617,58 +746,63 @@ const SurveyAnalyticsDetail = () => {
                                                             options={options}
                                                         /></>)
                                                         : ""}
-                                                    <div className="rd-box-export">
-                                                        <img src={path_image + "arrow-export.svg"}
-                                                            alt=""
-                                                            onClick={() => {
-                                                                surveyTakerfn();
-                                                            }}
-                                                        />
-                                                    </div>
+                                                    {data?.surveyTakerStatus?.some((item) => item?.value != 0) ?
+                                                        <div className="rd-box-export">
+                                                            <img src={path_image + "arrow-export.svg"}
+                                                                alt=""
+                                                                onClick={() => {
+                                                                    surveyTakerfn();
+                                                                }}
+                                                            />
+                                                        </div>
+                                                        : null}
                                                 </div>
                                                 <div className="survey-full-info col d-flex flex-column">
                                                     <div className="survey-info takers">
                                                         <div>
-                                                            <img src={path_image + "user-blue.png"} alt="" />Survey takers
+                                                            <img src={path_image + "user-blue.png"} alt="" />
+                                                            {data?.surveyTakerDetails?.[0]?.key}
                                                         </div>
                                                         <div className="survey-value">
-                                                            {data?.completed_count}
+                                                            {data?.surveyTakerDetails?.[0]?.value}
                                                         </div>
                                                     </div>
                                                     <div className="survey-info avg">
                                                         <div>
-                                                            <img src={path_image + "timer.png"} alt="" />AVG completion time
+                                                            <img src={path_image + "timer.png"} alt="" />
+                                                            {data?.surveyTakerDetails?.[1]?.key}
                                                         </div>
                                                         <div className="survey-value">
-                                                            {data?.averageCompletionTime} <small>sec</small>
+                                                            {data?.surveyTakerDetails?.[1]?.value} <small>min</small>
                                                         </div>
                                                     </div>
 
                                                     <div className="survey-info question">
                                                         <div>
-                                                            <img src={path_image + "question.png"} alt="" />Survey Questions
+                                                            <img src={path_image + "question.png"} alt="" />
+                                                            {data?.surveyTakerDetails?.[2]?.key}
                                                         </div>
                                                         <div className="survey-value">
-                                                            {data?.survey_questions}
+                                                            {data?.surveyTakerDetails?.[2]?.value}
                                                         </div>
                                                     </div>
-                                                    <div className="survey-info no-answer">
+                                                    {/* <div className="survey-info no-answer">
                                                         <div>
                                                             <img src={path_image + "question-not.png"} alt="" />Not answered Questions
                                                         </div>
                                                         <div className="survey-value">
                                                             2
                                                         </div>
-                                                    </div>
+                                                    </div> */}
                                                 </div>
                                             </div>
                                         </div>
                                         {tempQuestionData?.map((item, index) => {
                                             if (item?.type === "multiple" || item?.type === "dropdown" || item?.type === "checkbox" || item?.type == "matrix") {
-                                                
-                                                item?.answer?.forEach((obj) => {
-                                                    obj.percentage = item.total_count > 0 ? JSON.parse(((obj.count / item.total_count).toFixed(2)) * 100) : 0;
-                                                })
+
+                                                // item?.answer?.forEach((obj) => {
+                                                //     obj.percentage = item.total_count > 0 ? JSON.parse(((obj.count / item.total_count).toFixed(2)) * 100) : 0;
+                                                // })
                                                 return (
                                                     <SurveyAnalyticsQuestionView
                                                         index={index}
@@ -711,7 +845,7 @@ const SurveyAnalyticsDetail = () => {
                                                 let overallRating = item.total_count > 0 ? totalWeightedValue / item.total_count : 0;
                                                 item.overallRating = overallRating
                                                 item?.answer?.sort((a, b) => parseInt(b.value) - parseInt(a.value))
-
+                                                
                                                 return (
                                                     <SurveyAnalyticsRatingView
                                                         index={index}
@@ -1191,11 +1325,10 @@ const SurveyAnalyticsDetail = () => {
                                                                     sortData(surveyTakerTableData, sortBy, sortOrder)?.map((item, index) => {
                                                                         return (<>
                                                                             <tr key={index}
-                                                                                className={`view ${surveyTakerShowQuestions == item?.user_id != 0
-                                                                                    ? item?.user_id
-                                                                                    : item?.temp_token
-                                                                                        ? "show"
-                                                                                        : ""
+                                                                                className={`view ${((surveyTakerShowQuestions == item?.user_id
+                                                                                    || surveyTakerShowQuestions == item?.temp_token) && surveyTakerShowQuestionFold)
+                                                                                    ? "show"
+                                                                                    : ""
                                                                                     }`}
                                                                                 onClick={(e) =>
                                                                                     surveyTakerShowData(e, index, item?.user_id, item?.temp_token)
@@ -1208,64 +1341,73 @@ const SurveyAnalyticsDetail = () => {
                                                                                 <td className={item?.status}>{item?.status}</td>
                                                                             </tr>
                                                                             {((surveyTakerShowQuestions == item?.user_id ||
-                                                                                    surveyTakerShowQuestions == item?.temp_token)
-                                                                                    && surveyTakerShowQuestionFold
-                                                                                )
-                                                                                 ?
-                                                                                    (<>
-                                                                                        <tr className="fold" >
-                                                                                            <td colSpan="6">
-                                                                                                {(sectionApiStatus && (loaderIndex == item?.user_id ||
-                                                                                                    loaderIndex == item?.temp_token))
-                                                                                                    ?
-                                                                                                    <div
-                                                                                                        className="load_more"
-                                                                                                        style={{
-                                                                                                            margin: "10 auto",
-                                                                                                            justifyContent: "center",
-                                                                                                            display: "flex",
-                                                                                                            height: 225
-                                                                                                        }}
-                                                                                                    >
-                                                                                                        <Spinner color="#53aff4" size={32} speed={1} animating={true} />
-                                                                                                    </div>
-                                                                                                    :
-                                                                                                    surveyTakerShowQuestionsData?.length ? surveyTakerShowQuestionsData?.map((data, index) => {
-                                                                                                        return (<>
-                                                                                                            <div key={index} className="survey-data">
-                                                                                                                <div className="question-type">
-                                                                                                                    <img src={path_image + image(data?.type)} alt="" />
-                                                                                                                </div>
-                                                                                                                <div>
-                                                                                                                    <h6 dangerouslySetInnerHTML={{ __html: `Q${index + 1}|${data?.question_text}` }}>
+                                                                                surveyTakerShowQuestions == item?.temp_token)
+                                                                                && surveyTakerShowQuestionFold
+                                                                            )
+                                                                                ?
+                                                                                (<>
+                                                                                    <tr className="fold" >
+                                                                                        <td colSpan="6">
+                                                                                            {(sectionApiStatus && (loaderIndex == item?.user_id ||
+                                                                                                loaderIndex == item?.temp_token))
+                                                                                                ?
+                                                                                                <div
+                                                                                                    className="load_more"
+                                                                                                    style={{
+                                                                                                        margin: "10 auto",
+                                                                                                        justifyContent: "center",
+                                                                                                        display: "flex",
+                                                                                                        height: 225
+                                                                                                    }}
+                                                                                                >
+                                                                                                    <Spinner color="#53aff4" size={32} speed={1} animating={true} />
+                                                                                                </div>
+                                                                                                :
+                                                                                                surveyTakerShowQuestionsData?.length ? surveyTakerShowQuestionsData?.map((data, index) => {
+                                                                                                    return (<>
+                                                                                                        <div key={index} className="survey-data">
+                                                                                                            <div className="question-type">
+                                                                                                                <img src={path_image + image(data?.type)} alt="" title={item?.type}/>
+                                                                                                            </div>
+                                                                                                            <div>
+                                                                                                                <h6 dangerouslySetInnerHTML={{ __html: `Q${index + 1}|${data?.question_text}` }}>
 
-                                                                                                                    </h6>
-                                                                                                                    {data?.type == "rating" ?
-                                                                                                                        "hello"
-                                                                                                                        :
-                                                                                                                        data?.question_detail?.length
-                                                                                                                            ? data?.question_detail?.map((ans, i) => {
-                                                                                                                                return (<>
+                                                                                                                </h6>
+                                                                                                                {data?.type == "rating" ?
+
+                                                                                                                    <CommonSurveyStarRating data={data?.comment} />
+
+                                                                                                                    :
+                                                                                                                    data?.question_detail?.length
+                                                                                                                        ? data?.question_detail?.map((ans, i) => {
+                                                                                                                            return (<>
+                                                                                                                                {data?.type == "matrix" ? (<>
+                                                                                                                                    <p dangerouslySetInnerHTML={{ __html: `${ans?.question_text}` }}></p><p>{ans?.option_text}</p></>)
+                                                                                                                                    :
                                                                                                                                     <p>
                                                                                                                                         {ans?.option_text}
                                                                                                                                     </p>
-                                                                                                                                </>)
-                                                                                                                            }) :
-                                                                                                                            <p>{data?.comment}</p>
-                                                                                                                    }
+                                                                                                                                }
 
-                                                                                                                </div>
+                                                                                                                            </>)
+                                                                                                                        }) :
+                                                                                                                        <p>{data?.comment}</p>
+                                                                                                                }
+
                                                                                                             </div>
-                                                                                                        </>)
-                                                                                                    })
-                                                                                                : <div className="no_found"><p>No Data Found</p></div>
+                                                                                                        </div>
+                                                                                                    </>)
+                                                                                                })
+                                                                                                    :
 
-                                                                                                }                                                                                               
-                                                                                            </td>
-                                                                                        </tr>                                                                                       
-                                                                                    </>)
-                                                                                    :
-                                                                                    null
+                                                                                                    <div className="no_found"><p>No Data Found</p></div>
+
+                                                                                            }
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                </>)
+                                                                                :
+                                                                                null
                                                                             }
 
                                                                             <tr className="blank">
@@ -1274,7 +1416,7 @@ const SurveyAnalyticsDetail = () => {
                                                                                 </td>
                                                                             </tr>
                                                                         </>)
-                                                                    }) : !apiStatus ? <div className="no_found"><p>No Data Found</p></div>
+                                                                    }) : !apiStatus ?<tr><td colSpan={6}> <div className="no_found"><p>No Data Found</p></div></td></tr>
                                                                         : null
                                                                 }
                                                             </tbody>
@@ -1282,19 +1424,31 @@ const SurveyAnalyticsDetail = () => {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div className="survey-question-listing country-by">
+                                            <div className="survey-question-listing country-by" id="survey-question-listing country-by">
                                                 <div className="survey-question-top d-flex align-items-center justify-content-between">
                                                     <div className="page-title">
                                                         <h4>Survey Takers (Completed) According to country</h4>
                                                     </div>
-                                                    <div className="question-status">
-                                                        <div className="total-answered">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                                                <path d="M8.29511 6.80015C10.1732 6.80015 11.6953 5.27769 11.6953 3.39993C11.6953 1.52217 10.1729 0 8.29511 0C6.41736 0 4.89432 1.52246 4.89432 3.40022C4.89432 5.27797 6.41736 6.80015 8.29511 6.80015ZM9.73743 7.0319H6.85222C4.45164 7.0319 2.49866 8.98517 2.49866 11.3858V14.9141L2.50763 14.9694L2.75066 15.0455C5.04159 15.7613 7.0319 16 8.67009 16C11.8698 16 13.7244 15.0877 13.8387 15.0296L14.0658 14.9147H14.0901V11.3858C14.091 8.98517 12.138 7.0319 9.73743 7.0319Z" fill="#004A89" />
-                                                            </svg>
-                                                            <span>83</span>
-                                                        </div>
+                                                    <div className="d-flex align-items-center survey-result-graph">
+                                                        <div className="question-status">
+                                                            <div className="total-answered">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                                                    <path d="M8.29511 6.80015C10.1732 6.80015 11.6953 5.27769 11.6953 3.39993C11.6953 1.52217 10.1729 0 8.29511 0C6.41736 0 4.89432 1.52246 4.89432 3.40022C4.89432 5.27797 6.41736 6.80015 8.29511 6.80015ZM9.73743 7.0319H6.85222C4.45164 7.0319 2.49866 8.98517 2.49866 11.3858V14.9141L2.50763 14.9694L2.75066 15.0455C5.04159 15.7613 7.0319 16 8.67009 16C11.8698 16 13.7244 15.0877 13.8387 15.0296L14.0658 14.9147H14.0901V11.3858C14.091 8.98517 12.138 7.0319 9.73743 7.0319Z" fill="#004A89" />
+                                                                </svg>
+                                                                <span>{completedCountryData?.length > 0 ? completedCountryData?.reduce((acc, item) => acc + item?.count, 0) : 0}</span>
 
+                                                            </div>
+
+                                                        </div>
+                                                        <div id="dropdown-completed-country">
+
+                                                            <DownloadDropdown
+                                                                graphRef={[countryBarRef, countryPieRef]}
+                                                                whichTypeGraph={whichTypeGraph == "bar" ? 0 : 1}
+                                                                title="Survey Takers (Completed) According to country"
+                                                                handleDownload={handleDownload}
+                                                            />
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div className="question-preview-block">
@@ -1320,62 +1474,12 @@ const SurveyAnalyticsDetail = () => {
                                                                     <a className="btn"></a>
                                                                 </label>
                                                             </div>
-                                                            <Dropdown>
-                                                                <Dropdown.Toggle id="dropdown-basic">
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="6" height="24" viewBox="0 0 6 24" fill="none" > <path fillRule="evenodd" clipRule="evenodd" d="M6 3C6 4.65685 4.65685 6 3 6C1.34315 6 0 4.65685 0 3C0 1.34315 1.34315 0 3 0C4.65685 0 6 1.34315 6 3ZM6 12C6 13.6569 4.65685 15 3 15C1.34315 15 0 13.6569 0 12C0 10.3431 1.34315 9 3 9C4.65685 9 6 10.3431 6 12ZM3 24C4.65685 24 6 22.6569 6 21C6 19.3431 4.65685 18 3 18C1.34315 18 0 19.3431 0 21C0 22.6569 1.34315 24 3 24Z" fill="#0066BE" /> </svg>
-                                                                </Dropdown.Toggle>
-
-                                                                <Dropdown.Menu>
-                                                                    <Dropdown.Item
-                                                                    // onClick={() =>
-                                                                    // handleDownload(
-                                                                    //     "PNG",
-                                                                    //     whichTypeGraph == 0
-                                                                    //     ? countryBarRef
-                                                                    //     : countryPieRef
-                                                                    // )
-                                                                    // }
-                                                                    >
-                                                                        Download PNG
-                                                                    </Dropdown.Item>
-                                                                    <Dropdown.Item
-                                                                    // onClick={() =>
-                                                                    // handleDownload(
-                                                                    //     "JPEG",
-                                                                    //     whichTypeGraph == 0
-                                                                    //     ? countryBarRef
-                                                                    //     : countryPieRef
-                                                                    // )
-                                                                    // }
-                                                                    >
-                                                                        Download JPEG
-                                                                    </Dropdown.Item>
-                                                                    <Dropdown.Item
-                                                                    // onClick={() =>
-                                                                    // handleDownload(
-                                                                    //     "PDF",
-                                                                    //     whichTypeGraph == 0
-                                                                    //     ? countryBarRef
-                                                                    //     : countryPieRef
-                                                                    // )
-                                                                    // }
-                                                                    >
-                                                                        Download PDF
-                                                                    </Dropdown.Item>
-                                                                    <Dropdown.Item
-                                                                    // onClick={() =>
-                                                                    // handleDownload(
-                                                                    //     "SVG",
-                                                                    //     whichTypeGraph == 0
-                                                                    //     ? countryBarRef
-                                                                    //     : countryPieRef
-                                                                    // )
-                                                                    // }
-                                                                    >
-                                                                        Download SVG
-                                                                    </Dropdown.Item>
-                                                                </Dropdown.Menu>
-                                                            </Dropdown>
+                                                            {/* <DownloadDropdown
+                                                                graphRef={[countryBarRef, countryPieRef]}
+                                                                whichTypeGraph={whichTypeGraph == "bar" ? 0 : 1}
+                                                                title="Survey Takers (Completed) According to country"
+                                                                handleDownload={handleDownload}
+                                                            /> */}
                                                         </div>
                                                         <div className="question-preview-chart">
                                                             {/* <img src={path_image + "dummy-pie.png"} alt="" /> */}
@@ -1401,7 +1505,8 @@ const SurveyAnalyticsDetail = () => {
                                                                             ans: completedCountryData,
                                                                         }}
                                                                         colors={colors}
-                                                                        type="analytics"
+                                                                    // type="analytics"
+                                                                    // chartRef={countryPieRef}
 
 
                                                                     /> :
@@ -1412,8 +1517,8 @@ const SurveyAnalyticsDetail = () => {
                                                                             ans: completedCountryData,
                                                                         }}
                                                                         colors={colors}
-                                                                        type="analytics"
-
+                                                                        // type="analytics"
+                                                                    // chartRef={countryBarRef}
                                                                     />
 
                                                             }

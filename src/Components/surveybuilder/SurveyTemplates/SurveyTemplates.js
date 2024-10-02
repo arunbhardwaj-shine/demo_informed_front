@@ -129,7 +129,7 @@ const templates = [
       main_footer: "Lorem ipsum dolor sit amet consectetur 2024",
       logo: path_image + "Informed-logo-image.png",
       button_text: "Submit",
-      button_color: "#004A8",
+      button_color: "#004A89",
       question_answer_color: "#004A89",
       bodyTextColor: "#70899E",
       page_background_color: "#ffffff",
