@@ -2730,7 +2730,7 @@ form .input-group {
   font-size: 13px;
   line-height: 15px;
   color: var(--light-gray);
-  font-weight: 300;
+  /* font-weight: 300; */
   padding: 18px 10px;
   border: 0;
   background: var(--white);

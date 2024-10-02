@@ -1,12 +1,13 @@
 import React, { useRef } from 'react'
 import { Dropdown, ProgressBar } from 'react-bootstrap'
 import html2canvas from 'html2canvas';
+import { loader } from '../../loader';
 // import {jsPDF} from 'jspdf'
 
 const SurveyAnalyticsRatingView = ({ index, item, colors }) => {
     let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
-    const progressBarRef=useRef(null)
+    const progressBarRef = useRef(null)
     const DownloadDropdown = ({
         title,
         index,
@@ -38,7 +39,7 @@ const SurveyAnalyticsRatingView = ({ index, item, colors }) => {
                         <Dropdown.Item
                             key={format}
                             onClick={() =>
-                                handleDownload(format, progressBarRef, title,index)
+                                handleDownload(format, progressBarRef, title, index)
                             }
                         >
                             Download {format}
@@ -50,13 +51,17 @@ const SurveyAnalyticsRatingView = ({ index, item, colors }) => {
     };
 
 
-    const handleDownload = async (format, ref, defaultName = "survey_question",index, isHtml = true) => {
-        if (isHtml) {
+    const handleDownload = async (format, ref, defaultName = "survey_question", index, isHtml = true) => {
+        try {
+            loader("show")
+            const dropdownId = document.getElementById(`dropdown-${index}`)
+            if (dropdownId) {
+                dropdownId.style.display = "none"
+            }
             const element = document.getElementById(`survey-question-listing-${index}`)
 
             if (!element) return;
-            console.log("element-->", element)           
-             if (format.toLowerCase() === 'svg') {
+            if (format.toLowerCase() === 'svg') {
                 // For SVG format
                 const canvas = await html2canvas(element);
                 const imgData = canvas.toDataURL("image/png");
@@ -77,29 +82,32 @@ const SurveyAnalyticsRatingView = ({ index, item, colors }) => {
                 link.download = `${defaultName}.svg`;
                 link.click();
                 URL.revokeObjectURL(svgURL); // Clean up the URL object
-            
-        } else {
-            // For PNG and JPEG (the original code you already have)
-            const canvas = await html2canvas(element);
-            const dataURL = canvas.toDataURL(`image/${format.toLowerCase()}`);
 
-            // Create a link to download the image
-            const link = document.createElement("a");
-            link.href = dataURL;
-            link.download = `${defaultName}.${format.toLowerCase()}`;
-            link.click();
+            } else {
+                // For PNG and JPEG (the original code you already have)
+                const canvas = await html2canvas(element);
+                const dataURL = canvas.toDataURL(`image/${format.toLowerCase()}`);
+
+                // Create a link to download the image
+                const link = document.createElement("a");
+                link.href = dataURL;
+                link.download = `${defaultName}.${format.toLowerCase()}`;
+                link.click();
+            }
+            dropdownId.style.display = "block"
+            loader("hide")
+        } catch (err) {
+            loader("hide")
+            console.log("--err", err)
         }
-    }
-};
-
-
+    };
 
     return (<>
         <div key={index} className="survey-question-listing" id={`survey-question-listing-${index}`}>
             <div className="survey-question-top d-flex align-items-center">
                 <div className="survey-question-num">
                     <div className="question-type">
-                        <img src={path_image + "star-rating.png"} alt="" />
+                        <img src={path_image + "star-rating.png"} alt="" title={item?.type} />
                     </div>
                     <div className="question-number">
                         <h4>Q{index + 1}</h4>
@@ -123,11 +131,13 @@ const SurveyAnalyticsRatingView = ({ index, item, colors }) => {
                         <span>1</span>
                     </div>
                 </div>
-                <DownloadDropdown 
+                <div id={`dropdown-${index}`}>
+                    <DownloadDropdown
                         title={item?.type}
                         index={index}
                         handleDownload={handleDownload}
-                        />
+                    />
+                </div>
             </div>
             <div className="question-preview-block">
                 <div className="question-preview">
@@ -144,7 +154,15 @@ const SurveyAnalyticsRatingView = ({ index, item, colors }) => {
                             <div key={index} className="answer">
                                 <div className="choices">
                                     <span className="bullet-color" style={{ background: colors[index] }}>&nbsp;</span>
-                                    {/* <div><img src={`${path_image}star-rating-${JSON.parse(data?.value)}.svg`} alt="" /></div> */}
+
+                                    <div>
+                                        {item?.extra?.ratingType == "stars"
+                                            ? <img src={`${path_image}star-rating-${JSON.parse(data?.value)}.svg`} alt="" />
+                                            : [...Array(parseInt(data?.value))].map((_, i) => {
+                                                return ` ${i + 1}`
+                                            })
+                                        }
+                                    </div>
                                 </div>
                                 <div className="respondents">
                                     <span>{data?.count}</span>
@@ -161,15 +179,15 @@ const SurveyAnalyticsRatingView = ({ index, item, colors }) => {
                         title={item?.type}
                         handleDownload={handleDownload}
                         /> */}
-                        
+
                     </div>
-                    <div 
-                    className="question-preview-chart d-flex justify-content-center align-items-center" 
+                    <div
+                        className="question-preview-chart d-flex justify-content-center align-items-center"
                     // ref={progressBarRef}
                     >
                         <div className='question-preview-chart-details'>
-                        {item.answer.map((data, index) => (
-                                <div key={index} className="survey-rating-detail" style={{display:"flex",width:"275px"}}>
+                            {item.answer.map((data, index) => (
+                                <div key={index} className="survey-rating-detail" style={{ display: "flex", width: "275px" }}>
                                     <h5>
                                         <span>{data?.value}{" "}</span>
                                         {/* {item.type === "rating" && ( */}
@@ -213,8 +231,9 @@ const SurveyAnalyticsRatingView = ({ index, item, colors }) => {
                                     </h5>
                                 </div>
                             )
-                        )}
+                            )}
                         </div>
+
                         <div className='question-preview-chart-result'>
                             <span>{item?.overallRating?.toFixed(1)}</span> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <g clipPath="url(#clip0_5227_4798)">
@@ -225,7 +244,7 @@ const SurveyAnalyticsRatingView = ({ index, item, colors }) => {
                                         <rect width="24" height="24" fill="white" />
                                     </clipPath>
                                 </defs>
-                            </svg> <span className='divide-line'>|</span> <b>{item?.totalRatings}</b> ratings
+                            </svg> <span className='divide-line'>|</span> <b>{item?.total_count}</b> ratings
                         </div>
                     </div>
                 </div>

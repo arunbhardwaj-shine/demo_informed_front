@@ -4116,7 +4116,23 @@ body {
     .survey_data_accordion_heading {
         table {
             border-spacing: 0 5px;
-
+            &#survey-analytics{
+                thead {
+                    tr {
+                        th {
+                            min-width: 106px;
+                            &:last-child{
+                                min-width: auto;
+                            }
+                        }
+                        @media (max-width:1365px){
+                            th {
+                                min-width: 95px;
+                            }
+                        }
+                    }
+                }
+            }
             thead {
                 tr {
                     th {
@@ -4369,7 +4385,7 @@ body {
                 width: 238px;
                 flex: 0 0 238px;
                 border-right: 1px dashed $light-gray;
-                padding: 11px 20px 16px;
+                padding: 11px 20px 22px;
 
                 .survey-completion-info {
                     height: calc(100% - 16px);
@@ -4396,7 +4412,18 @@ body {
                     }
                 }
             }
-
+            @media (max-width:1500px){
+                .survey-completion {
+                    width: 200px;
+                    flex: 0 0 200px;
+                    padding: 11px 10px 22px 20px;
+                    .survey-completion-info{
+                        h2 {
+                            font-size: 80px;
+                        }
+                    } 
+                }
+            }
             .survey-takers {
                 border-right: 1px dashed $light-gray;
                 padding: 11px 40px 16px;
@@ -4407,10 +4434,14 @@ body {
                 }
 
             }
-
+            @media (max-width:1500px){
+                .survey-takers {
+                    padding: 11px 20px 16px;
+                }
+            }
             .survey-takers-status {
                 border-right: 1px dashed $light-gray;
-                padding: 11px 40px 16px;
+                padding: 11px 40px 1px;
                 flex: 0 0 423px;
                 position: relative;
 
@@ -4418,6 +4449,34 @@ body {
                     max-width: 351px;
                     width: 100%;
                 }
+                .highcharts-container{
+                    .highcharts-root{
+                        .highcharts-legend-item{
+                            text{
+                                    color:$dark-gray!important;
+                                    font-weight: 400!important;
+                                    font-size: 13px!important;
+                                    fill: $dark-gray !important;
+                            }
+                        }
+                    }
+                    .highcharts-data-labels{
+                        .highcharts-label{
+                            text{
+                                color:$primary-color!important;
+                                font-weight: 500!important;
+                                font-size: 14px!important;
+                                fill: $primary-color !important;
+                            }  
+                        }
+                    }
+                    .highcharts-axis-labels{
+                        text{
+                           color:$light-gray!important; 
+                           fill: $light-gray!important; 
+                        }
+                    }
+                } 
 
                 .rd-box-export {
                     bottom: 15px;
@@ -4430,11 +4489,24 @@ body {
                     }
                 }
             }
-
+            @media (max-width:1500px){
+                .survey-takers-status {
+                    padding: 11px 20px 1px;
+                    flex: 0 0 350px;
+                    width: 350px;
+                }
+            }
+            @media (max-width:1365px){
+                .survey-takers-status {
+                    flex: 0 0 280px;
+                    width: 280px;
+                }
+            }
             .survey-full-info {
                 padding: 11px 24px 12px;
                 flex: 0 0 320px;
                 gap: 16px;
+                justify-content: center;
 
                 .survey-info {
                     border-radius: 8px;
@@ -4476,6 +4548,35 @@ body {
                     }
                 }
             }
+            @media (max-width:1500px){
+                .survey-full-info {
+                    flex: 0 0 290px;
+                    gap: 12px;
+                    padding: 11px 22px 12px 12px;
+                    .survey-info{
+                        div {
+                            font-size: 13px;
+                        }
+                        .survey-value {
+                            font-size: 18px;
+    
+                        }
+                    } 
+                }
+            }
+            @media (max-width:1365px){
+                .survey-full-info {
+                    flex: 0 0 260px;
+                    padding: 11px 22px 12px 12px;
+                    .survey-info{
+                        .survey-value {
+                            min-width: 52px;
+                            font-size: 17px;
+                        }
+                    }
+                    
+                }
+            }
         }
     }
 
@@ -4495,7 +4596,9 @@ body {
             gap: 16px;
             background: $white;
             border-radius: 12px 12px 0 0;
-
+            .survey-result-graph{
+                gap:16px;
+            }
             .survey-question-num {
                 @include flex-align-center;
                 gap: 5px;
@@ -4530,7 +4633,8 @@ body {
                 @include flex-align-center;
                 border-radius: 6px;
                 background: $white;
-                box-shadow: 0px 1px 6px 0px rgba(0, 102, 190, 0.20);
+                // box-shadow: 0px 1px 6px 0px rgba(0, 102, 190, 0.20);
+                filter: drop-shadow(0px 0px 3px rgba(0, 102, 190, 0.20));
                 padding: 2px 8px;
                 width: 158px;
 
@@ -4541,36 +4645,51 @@ body {
 
                 .total-answered {
                     @include flex-align-center;
-                    gap: 16px;
+                    gap: 7px;
                     width: 50%;
                     border-right: 1px dashed $light-gray;
                     background: $white;
 
                     svg {
-                        border-right: 1px solid $light-gray;
-                        padding-right: 8px;
+                        // border-right: 1px solid $light-gray;
+                        // padding-right: 8px;
                         width: 24px;
+                        display: flex;
+                        flex:0 0 24px;
+                        height: 16px;
+                        
                     }
 
                     span {
                         color: $dark-blue;
+                        border-left: 1px solid $light-gray;
+                        padding-left: 8px;
+                        min-width: 30px;
+                        text-align: center;
                     }
                 }
 
                 .total-ignored {
                     @include flex-align-center;
-                    gap: 16px;
+                    gap: 7px;
                     width: 50%;
-                    padding-left: 12px;
+                    padding-left: 7px;
                     background: $white;
                     svg {
-                        border-right: 1px solid $light-gray;
-                        padding-right: 8px;
+                        // border-right: 1px solid $light-gray;
+                        // padding-right: 8px;
                         width: 24px;
+                        display: flex;
+                        flex:0 0 24px;
+                        height: 16px;
                     }
 
                     span {
                         color: $light-pink;
+                        border-left: 1px solid $light-gray;
+                        padding-left: 8px;
+                        min-width: 30px;
+                        text-align: center;
                     }
                 }
             }
@@ -4671,8 +4790,9 @@ body {
 
                 .answer-options {
                     border-radius: 8px;
-                    -webkit-box-shadow: 0px 0px 6px 0px rgba(0, 102, 190, 0.20);
-                    box-shadow: 0px 0px 6px 0px rgba(0, 102, 190, 0.20);
+                    // -webkit-box-shadow: 0px 0px 6px 0px rgba(0, 102, 190, 0.20);
+                    // box-shadow: 0px 0px 6px 0px rgba(0, 102, 190, 0.20);
+                    filter: drop-shadow(0px 0px 6px rgba(0, 102, 190, 0.20));
                     padding: 12px;
                     gap: 16px;
                     @include vertical-list;
@@ -4687,6 +4807,8 @@ body {
                         background: $white;
                         .choices {
                             @include flex-align-center;
+                            flex: 1 1;
+                            padding-right: 10px;
 
                             span {
                                 &.bullet-color {
@@ -4694,6 +4816,7 @@ body {
                                     margin-right: 8px;
                                     height: 10px;
                                     border-radius: 30px;
+                                    flex: 0 0 10px;
                                 }
                             }
 
@@ -4729,15 +4852,17 @@ body {
                 .avg-view {
                     background: $light-gray;
                     border-radius: 0 0 8px 8px;
-                    padding: 10px 70px 5px 12px;
+                    padding: 10px 59px 5px 12px;
                     margin-top: -4px;
 
                     .dispaly-avg-view {
-                        p {
+                        button {
                             color: $white;
                             font-size: 11px;
                             text-transform: capitalize;
                             gap: 6px;
+                            border:0;
+                            background: transparent;
                             @include flex-middle;
 
                             &.active {
@@ -4792,7 +4917,13 @@ body {
                                     }
                                 }
                             }
-
+                            &> span{
+                                span{
+                                    &:last-child {
+                                        left: 48%;
+                                    }
+                                }
+                            } 
                             input {
                                 &:checked {
                                     ~a {
@@ -4812,7 +4943,27 @@ body {
                         }
                     }
                 }
-
+                .pie-chart-outer-layout{
+                    .highcharts-data-labels{
+                        .highcharts-label{
+                            text{
+                                color:#004A89!important;
+                                font-weight: 500!important;
+                                font-size: 13px!important;
+                                fill: #004A89 !important;
+                            }  
+                        }
+                    }
+                    @media (max-width:1400px){
+                        .graph-box{
+                            .no_found{
+                                img{
+                                    max-width: 200px;
+                                }
+                            }
+                        } 
+                    }
+                }
                 .dropdown {
                     button {
                         padding: 7px;
@@ -4866,29 +5017,42 @@ body {
                     // margin: 10px 0 0px;
                     gap: 65px;
                     height: 100%;
-                    .survey-rating-detail{
-                        h5{
-                            display: flex;
-                            align-items: center;
-                            gap: 4px;
-                            color: #97B6CF;
-                            font-size: 13px;
-                            font-weight: 400;
-                            margin-right: 4px;
-                            &.survey-rating-number{
-                                font-weight: 500;
-                                color: $dark-blue;
+                    
+                    .question-preview-chart-details{
+                        .survey-rating-detail{
+                            h5{
+                                display: flex;
+                                align-items: center;
+                                gap: 4px;
+                                color: $light-gray;
+                                font-size: 13px;
+                                font-weight: 400;
+                                margin-right: 4px;
+                                &.survey-rating-number{
+                                    font-weight: 500;
+                                    color: $dark-blue;
+                                }
+                                span{
+                                    line-height: 1;
+                                }
                             }
-                            span{
-                                line-height: 1;
+                            .progress{
+                                background: #EAF0F5;
+                                border-radius: 20px;
+                                .progress-bar{
+                                    border-radius: 20px;
+                                }
                             }
                         }
-                        .progress{
-                            background: #EAF0F5;
-                            border-radius: 20px;
-                            .progress-bar{
-                                border-radius: 20px;
-                            }
+                    }
+                    @media (max-width:1400px){
+                        .question-preview-chart-details{
+                            width:50%;
+                        }
+                    }
+                    @media (max-width:1365px){
+                        .question-preview-chart-details{
+                            width:100%;
                         }
                     }
                     .question-preview-chart-result {
@@ -4913,9 +5077,14 @@ body {
                                     left:0;
                                     height:32px;
                                     width: 1px;
-                                    background: #97B6CF;
+                                    background: $light-gray;
                                     position: absolute;
                                 }
+                            }
+                        }
+                        @media (max-width:1400px){
+                            span {
+                                font-size: 20px;
                             }
                         }
                         svg {
@@ -4927,9 +5096,25 @@ body {
                             font-weight: 500;
                             margin-right: -4px;
                         }
+                        @media (max-width:1400px){
+                            b {
+                                font-size: 16px;
+                            }
+                        }
+                    }
+                    @media (max-width:1400px){
+                        .question-preview-chart-result {
+                            color: $dark-gray;
+                            font-size: 13px;
+                        }
                     }
                 }
-
+                @media (max-width:1365px){
+                .question-preview-chart {
+                    flex-direction: column;
+                        gap: 10px;
+                    }
+                }
                 .free-text-section {
                     gap: 24px;
                     @include flex-column;
@@ -4941,7 +5126,8 @@ body {
                     .free-text-block {
                         border-radius: 9px;
                         background: $white;
-                        box-shadow: 0px 1px 6px 0px rgba(0, 102, 190, 0.20);
+                        // box-shadow: 0px 1px 6px 0px rgba(0, 102, 190, 0.20);
+                        filter: drop-shadow(0px 1px 4px rgba(0, 102, 190, 0.2));
                         padding: 6px 12px 12px;
 
                         p {
@@ -4994,7 +5180,6 @@ body {
                     }
                 }
             }
-
         }
     }
 
@@ -5028,7 +5213,7 @@ body {
                         td {
                             color: $dark-gray;
                             font-weight: 400;
-
+                           
                             &.completed {
                                 color: $secondary-green;
                             }
@@ -5039,6 +5224,9 @@ body {
 
                             &.ignored {
                                 color: $light-pink;
+                            }
+                            .no_found {
+                                min-height: 240px;
                             }
                         }
 

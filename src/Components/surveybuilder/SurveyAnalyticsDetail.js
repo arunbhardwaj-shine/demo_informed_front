@@ -23,13 +23,13 @@ import SurveyAnalyticsQuestionView from "./SurveyAnalyticsQuestionView";
 import SurveyAnalyticsFreeTextView from "./SurveyAnalyticsFreeTextView";
 import SurveyAnalyticsRatingView from "./SurveyAnalyticsRatingView";
 import CommonSurveyStarRating from "./CommonSurveyStarRating";
+import html2canvas from 'html2canvas';
 exporting(Highcharts);
 exportData(Highcharts);
 const SurveyAnalyticsDetail = () => {
     let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
     const location = useLocation()
     const [stateData, setStateData] = useState(location?.state?.item)
-    console.log("state data--->",stateData)
     const [filterdata, setFilterData] = useState({
         'status': ['completed', 'drop-off', 'ignored']
     });
@@ -63,7 +63,7 @@ const SurveyAnalyticsDetail = () => {
     const [options, setOptions] = useState({
         chart: {
             type: "bar",
-            height: 200,
+            height: 238,
         },
         title: {
             text: "",
@@ -72,6 +72,7 @@ const SurveyAnalyticsDetail = () => {
             categories: [],
             labels: {
                 enabled: false,
+                color: "#0442A2"
             },
         },
         yAxis: {
@@ -80,6 +81,7 @@ const SurveyAnalyticsDetail = () => {
             },
             labels: {
                 enabled: true, // Disable Y-axis labels
+                color: "#0442A2"
             },
             gridLineWidth: 1, // Remove grid lines (optional)
         },
@@ -89,6 +91,7 @@ const SurveyAnalyticsDetail = () => {
             layout: "horizontal",
             x: 0,
             y: 0,
+            color: "#0442A2"
         },
         exporting: {
             enabled: false,
@@ -143,29 +146,28 @@ const SurveyAnalyticsDetail = () => {
             loader("show")
             setApiStatus(true)
             const res = await surveyAxiosInstance.post("/survey/qns-analytics", {
-                // survey_id: stateData?.survey_id
-                survey_id: 186
+                survey_id: stateData?.survey_id
+                
             });
             let data = res?.data?.data
-            console.log("data--->",data)
-            let valueupdate = {...options};
-            let categories=[]
-            let barSeries=[]
-            if (data != "undefined"&&data?.surveyTakerStatus?.length>0) {
-                                
-                data?.surveyTakerStatus?.forEach((item,index)=>{
+            let valueupdate = { ...options };
+            let categories = []
+            let barSeries = []
+            if (data != "undefined" && data?.surveyTakerStatus?.length > 0) {
+
+                data?.surveyTakerStatus?.forEach((item, index) => {
                     categories.push(item?.key)
                     barSeries.push({
                         name: item?.key,
-                        data: [{y: item?.value }],
-                        color: item?.key=="Opened"?colors[4]:item?.key=="Completed"?colors[0]:colors[index],
+                        data: [{ y: item?.value }],
+                        color: item?.key == "Opened" ? colors[4] : item?.key == "Completed" ? colors[0] : colors[index],
                     })
                 })
-               
+
             }
-            valueupdate.xAxis.categories=categories
-            valueupdate.series=barSeries
-           
+            valueupdate.xAxis.categories = categories
+            valueupdate.series = barSeries
+
             setOptions(valueupdate)
             setData(data)
             await getTempQuestionData()
@@ -180,8 +182,8 @@ const SurveyAnalyticsDetail = () => {
     const getTempQuestionData = async () => {
         try {
             const res = await surveyAxiosInstance.post("/survey/analytic-qns-detail", {
-                // survey_id: stateData?.survey_id
-                survey_id: 186
+                survey_id: stateData?.survey_id
+                
             });
             const data = res?.data?.data?.allData
             setTempQuestionData(data)
@@ -344,8 +346,8 @@ const SurveyAnalyticsDetail = () => {
             setApiStatus(true)
             if (surveyTakerTableData?.length == 0) {
                 const res = await surveyAxiosInstance.post("/survey/survey-takers-status", {
-                    // survey_id: stateData?.survey_id
-                    survey_id: 186
+                    survey_id: stateData?.survey_id
+                    
                 });
 
                 let userdata = [
@@ -477,10 +479,9 @@ const SurveyAnalyticsDetail = () => {
                 setSectionApiStatus(true)
                 setLoaderIndex(id)
                 const res = await surveyAxiosInstance.post("/survey/takers-responses-detail", {
-                    // user_id: id,
-                    user_id: "zPRuJ91HUwsm",
-                    // survey_id: stateData?.survey_id
-                    survey_id: 186
+                    user_id: id,                    
+                    survey_id: stateData?.survey_id
+                    
                 })
                 setSurveyTakerShowQuestionsData(res?.data?.data)
             }
@@ -600,45 +601,98 @@ const SurveyAnalyticsDetail = () => {
         );
     };
 
-    const handleDownload = (
-        format,
-        ref,
-        defaultName = "survey_question"
-    ) => {
-        let chart = ref.current && ref.current.chart;
-       
-        if (chart) {
-            switch (format) {
-                case "PNG":
-                    chart.exportChart({
-                        type: "image/png",
-                        filename: defaultName,
-                    });
-                    break;
-                case "JPEG":
-                    chart.exportChart({
-                        type: "image/jpeg",
-                        filename: defaultName ,
-                    });
-                    break;
-                case "PDF":
-                    chart.exportChart({
-                        type: "application/pdf",
-                        filename: defaultName ,
-                    });
-                    break;
-                case "SVG":
-                    chart.exportChart({
-                        type: "image/svg+xml",
-                        filename: defaultName,
-                    });
-                    break;
-                default:
-                    break;
+    // const handleDownload = (
+    //     format,
+    //     ref,
+    //     defaultName = "survey_question"
+    // ) => {
+    //     let chart = ref.current && ref.current.chart;
+
+    //     if (chart) {
+    //         switch (format) {
+    //             case "PNG":
+    //                 chart.exportChart({
+    //                     type: "image/png",
+    //                     filename: defaultName,
+    //                 });
+    //                 break;
+    //             case "JPEG":
+    //                 chart.exportChart({
+    //                     type: "image/jpeg",
+    //                     filename: defaultName ,
+    //                 });
+    //                 break;
+    //             case "PDF":
+    //                 chart.exportChart({
+    //                     type: "application/pdf",
+    //                     filename: defaultName ,
+    //                 });
+    //                 break;
+    //             case "SVG":
+    //                 chart.exportChart({
+    //                     type: "image/svg+xml",
+    //                     filename: defaultName,
+    //                 });
+    //                 break;
+    //             default:
+    //                 break;
+    //         }
+    //     }
+    // };
+
+    const handleDownload = async (format, ref, defaultName = "survey_question", index, isHtml = true) => {
+        try {
+            loader("show")
+            const dropdownId = document.getElementById("dropdown-completed-country")
+            if (dropdownId) {
+                dropdownId.style.display = "none"
             }
+            const element = document.getElementById("survey-question-listing country-by")
+            if (!element) {
+                loader("hide")
+                return;
+            }
+            const canvas = await html2canvas(element);
+            if (format.toLowerCase() === 'svg') {
+                // For SVG format
+
+                const imgData = canvas.toDataURL("image/png");
+
+                // Create the SVG string
+                const svgContent = `
+                <svg xmlns="http://www.w3.org/2000/svg" width="${canvas.width}" height="${canvas.height}">
+                    <image href="${imgData}" width="${canvas.width}" height="${canvas.height}" />
+                </svg>`;
+
+                // Create a Blob from the SVG content
+                const svgBlob = new Blob([svgContent], { type: "image/svg+xml;charset=utf-8" });
+                const svgURL = URL.createObjectURL(svgBlob);
+
+                // Create a link to download the SVG
+                const link = document.createElement("a");
+                link.href = svgURL;
+                link.download = `${defaultName}.svg`;
+                link.click();
+                URL.revokeObjectURL(svgURL); // Clean up the URL object
+
+            } else {
+                // For PNG and JPEG (the original code you already have)
+
+                const dataURL = canvas.toDataURL(`image/${format.toLowerCase()}`);
+
+                // Create a link to download the image
+                const link = document.createElement("a");
+                link.href = dataURL;
+                link.download = `${defaultName}.${format.toLowerCase()}`;
+                link.click();
+            }
+            dropdownId.style.display = "block"
+            loader("hide")
+        } catch (err) {
+            loader("hide")
+            console.log("--err", err)
         }
     };
-
     return (
         <>
             <Col className="right-sidebar custom-change">
@@ -670,7 +724,7 @@ const SurveyAnalyticsDetail = () => {
                                                     <p>Completion</p>
                                                     <div className="survey-completion-info">
                                                         <div></div>
-                                                        <h2>{data?.surveyTakerStatus?.[1]?.value ? data?.surveyTakerStatus?.[1]?.value:0}</h2>
+                                                        <h2>{data?.surveyTakerStatus?.[1]?.value ? data?.surveyTakerStatus?.[1]?.value : 0}</h2>
                                                         <div className="completed-survey">
                                                             <p>
                                                                 <img src={path_image + "user-gray.svg"} alt="" />Completed the survey
@@ -692,16 +746,16 @@ const SurveyAnalyticsDetail = () => {
                                                             options={options}
                                                         /></>)
                                                         : ""}
-                                                        {data?.surveyTakerStatus?.some((item)=>item?.value!=0)?
-                                                    <div className="rd-box-export">
-                                                        <img src={path_image + "arrow-export.svg"}
-                                                            alt=""
-                                                            onClick={() => {
-                                                                surveyTakerfn();
-                                                            }}
-                                                        />
-                                                    </div>
-                                                    :null}
+                                                    {data?.surveyTakerStatus?.some((item) => item?.value != 0) ?
+                                                        <div className="rd-box-export">
+                                                            <img src={path_image + "arrow-export.svg"}
+                                                                alt=""
+                                                                onClick={() => {
+                                                                    surveyTakerfn();
+                                                                }}
+                                                            />
+                                                        </div>
+                                                        : null}
                                                 </div>
                                                 <div className="survey-full-info col d-flex flex-column">
                                                     <div className="survey-info takers">
@@ -710,16 +764,16 @@ const SurveyAnalyticsDetail = () => {
                                                             {data?.surveyTakerDetails?.[0]?.key}
                                                         </div>
                                                         <div className="survey-value">
-                                                        {data?.surveyTakerDetails?.[0]?.value}
+                                                            {data?.surveyTakerDetails?.[0]?.value}
                                                         </div>
                                                     </div>
                                                     <div className="survey-info avg">
                                                         <div>
                                                             <img src={path_image + "timer.png"} alt="" />
-                                                             {data?.surveyTakerDetails?.[1]?.key}
+                                                            {data?.surveyTakerDetails?.[1]?.key}
                                                         </div>
                                                         <div className="survey-value">
-                                                        {data?.surveyTakerDetails?.[1]?.value} <small>sec</small>
+                                                            {data?.surveyTakerDetails?.[1]?.value} <small>min</small>
                                                         </div>
                                                     </div>
 
@@ -729,7 +783,7 @@ const SurveyAnalyticsDetail = () => {
                                                             {data?.surveyTakerDetails?.[2]?.key}
                                                         </div>
                                                         <div className="survey-value">
-                                                        {data?.surveyTakerDetails?.[2]?.value}
+                                                            {data?.surveyTakerDetails?.[2]?.value}
                                                         </div>
                                                     </div>
                                                     {/* <div className="survey-info no-answer">
@@ -745,7 +799,7 @@ const SurveyAnalyticsDetail = () => {
                                         </div>
                                         {tempQuestionData?.map((item, index) => {
                                             if (item?.type === "multiple" || item?.type === "dropdown" || item?.type === "checkbox" || item?.type == "matrix") {
-                                                
+
                                                 // item?.answer?.forEach((obj) => {
                                                 //     obj.percentage = item.total_count > 0 ? JSON.parse(((obj.count / item.total_count).toFixed(2)) * 100) : 0;
                                                 // })
@@ -791,7 +845,7 @@ const SurveyAnalyticsDetail = () => {
                                                 let overallRating = item.total_count > 0 ? totalWeightedValue / item.total_count : 0;
                                                 item.overallRating = overallRating
                                                 item?.answer?.sort((a, b) => parseInt(b.value) - parseInt(a.value))
-
+                                                
                                                 return (
                                                     <SurveyAnalyticsRatingView
                                                         index={index}
@@ -1272,7 +1326,7 @@ const SurveyAnalyticsDetail = () => {
                                                                         return (<>
                                                                             <tr key={index}
                                                                                 className={`view ${((surveyTakerShowQuestions == item?.user_id
-                                                                                    || surveyTakerShowQuestions == item?.temp_token)&&surveyTakerShowQuestionFold)
+                                                                                    || surveyTakerShowQuestions == item?.temp_token) && surveyTakerShowQuestionFold)
                                                                                     ? "show"
                                                                                     : ""
                                                                                     }`}
@@ -1313,7 +1367,7 @@ const SurveyAnalyticsDetail = () => {
                                                                                                     return (<>
                                                                                                         <div key={index} className="survey-data">
                                                                                                             <div className="question-type">
-                                                                                                                <img src={path_image + image(data?.type)} alt="" />
+                                                                                                                <img src={path_image + image(data?.type)} alt="" title={item?.type}/>
                                                                                                             </div>
                                                                                                             <div>
                                                                                                                 <h6 dangerouslySetInnerHTML={{ __html: `Q${index + 1}|${data?.question_text}` }}>
@@ -1344,7 +1398,9 @@ const SurveyAnalyticsDetail = () => {
                                                                                                         </div>
                                                                                                     </>)
                                                                                                 })
-                                                                                                    : <div className="no_found"><p>No Data Found</p></div>
+                                                                                                    :
+
+                                                                                                    <div className="no_found"><p>No Data Found</p></div>
 
                                                                                             }
                                                                                         </td>
@@ -1360,7 +1416,7 @@ const SurveyAnalyticsDetail = () => {
                                                                                 </td>
                                                                             </tr>
                                                                         </>)
-                                                                    }) : !apiStatus ? <div className="no_found"><p>No Data Found</p></div>
+                                                                    }) : !apiStatus ?<tr><td colSpan={6}> <div className="no_found"><p>No Data Found</p></div></td></tr>
                                                                         : null
                                                                 }
                                                             </tbody>
@@ -1368,19 +1424,31 @@ const SurveyAnalyticsDetail = () => {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div className="survey-question-listing country-by">
+                                            <div className="survey-question-listing country-by" id="survey-question-listing country-by">
                                                 <div className="survey-question-top d-flex align-items-center justify-content-between">
                                                     <div className="page-title">
                                                         <h4>Survey Takers (Completed) According to country</h4>
                                                     </div>
-                                                    <div className="question-status">
-                                                        <div className="total-answered">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                                                <path d="M8.29511 6.80015C10.1732 6.80015 11.6953 5.27769 11.6953 3.39993C11.6953 1.52217 10.1729 0 8.29511 0C6.41736 0 4.89432 1.52246 4.89432 3.40022C4.89432 5.27797 6.41736 6.80015 8.29511 6.80015ZM9.73743 7.0319H6.85222C4.45164 7.0319 2.49866 8.98517 2.49866 11.3858V14.9141L2.50763 14.9694L2.75066 15.0455C5.04159 15.7613 7.0319 16 8.67009 16C11.8698 16 13.7244 15.0877 13.8387 15.0296L14.0658 14.9147H14.0901V11.3858C14.091 8.98517 12.138 7.0319 9.73743 7.0319Z" fill="#004A89" />
-                                                            </svg>
-                                                            <span>83</span>
-                                                        </div>
+                                                    <div className="d-flex align-items-center survey-result-graph">
+                                                        <div className="question-status">
+                                                            <div className="total-answered">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                                                    <path d="M8.29511 6.80015C10.1732 6.80015 11.6953 5.27769 11.6953 3.39993C11.6953 1.52217 10.1729 0 8.29511 0C6.41736 0 4.89432 1.52246 4.89432 3.40022C4.89432 5.27797 6.41736 6.80015 8.29511 6.80015ZM9.73743 7.0319H6.85222C4.45164 7.0319 2.49866 8.98517 2.49866 11.3858V14.9141L2.50763 14.9694L2.75066 15.0455C5.04159 15.7613 7.0319 16 8.67009 16C11.8698 16 13.7244 15.0877 13.8387 15.0296L14.0658 14.9147H14.0901V11.3858C14.091 8.98517 12.138 7.0319 9.73743 7.0319Z" fill="#004A89" />
+                                                                </svg>
+                                                                <span>{completedCountryData?.length > 0 ? completedCountryData?.reduce((acc, item) => acc + item?.count, 0) : 0}</span>
 
+                                                            </div>
+
+                                                        </div>
+                                                        <div id="dropdown-completed-country">
+
+                                                            <DownloadDropdown
+                                                                graphRef={[countryBarRef, countryPieRef]}
+                                                                whichTypeGraph={whichTypeGraph == "bar" ? 0 : 1}
+                                                                title="Survey Takers (Completed) According to country"
+                                                                handleDownload={handleDownload}
+                                                            />
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div className="question-preview-block">
@@ -1406,12 +1474,12 @@ const SurveyAnalyticsDetail = () => {
                                                                     <a className="btn"></a>
                                                                 </label>
                                                             </div>
-                                                            <DownloadDropdown
+                                                            {/* <DownloadDropdown
                                                                 graphRef={[countryBarRef, countryPieRef]}
                                                                 whichTypeGraph={whichTypeGraph == "bar" ? 0 : 1}
                                                                 title="Survey Takers (Completed) According to country"
                                                                 handleDownload={handleDownload}
-                                                            />
+                                                            /> */}
                                                         </div>
                                                         <div className="question-preview-chart">
                                                             {/* <img src={path_image + "dummy-pie.png"} alt="" /> */}
@@ -1437,8 +1505,8 @@ const SurveyAnalyticsDetail = () => {
                                                                             ans: completedCountryData,
                                                                         }}
                                                                         colors={colors}
-                                                                        type="analytics"
-                                                                        chartRef={countryPieRef}
+                                                                    // type="analytics"
+                                                                    // chartRef={countryPieRef}
 
 
                                                                     /> :
@@ -1449,8 +1517,8 @@ const SurveyAnalyticsDetail = () => {
                                                                             ans: completedCountryData,
                                                                         }}
                                                                         colors={colors}
-                                                                        type="analytics"
-                                                                        chartRef={countryBarRef}
+                                                                        // type="analytics"
+                                                                    // chartRef={countryBarRef}
                                                                     />
 
                                                             }

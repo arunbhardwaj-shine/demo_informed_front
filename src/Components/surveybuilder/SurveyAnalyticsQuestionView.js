@@ -3,6 +3,7 @@ import { Spinner } from "react-activity";
 import { Dropdown } from "react-bootstrap";
 import SurveyAnalyticsQuestionPieChart from "./SurveyAnalyticsQuestionPieChart";
 import html2canvas from "html2canvas";
+import { loader } from "../../loader";
 
 const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
     let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -15,7 +16,7 @@ const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
     const [hasCount, setHasCount] = useState(false)
     const countryBarRef = useRef(null);
     const countryPieRef = useRef(null);
-    const [displayAvg,setDisplayAvg]=useState({})
+    const [displayAvg, setDisplayAvg] = useState({})
 
     useState(() => {
         if (item?.type == "matrix") {
@@ -80,7 +81,6 @@ const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
     }) => {
         // const formats = ["PNG", "JPEG", "PDF", "SVG"];
         const formats = ["PNG", "JPEG", "SVG"];
-        console.log("which graph-->", whichTypeGraph, " graph ref-->", graphRef[whichTypeGraph])
         return (
             <Dropdown>
                 <Dropdown.Toggle id="dropdown-basic">
@@ -154,15 +154,20 @@ const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
     //     }
     // };
 
-    const handleDownload = async (format, ref, defaultName = "survey_question", index, isHtml = true) => {
-        if (isHtml) {
+    const handleDownload = async (format, ref, defaultName = "survey_question", index) => {
+        try {
+            loader("show")
+            const dropdownId = document.getElementById(`dropdown-${index}`)
+            if (dropdownId) {
+                dropdownId.style.display = "none"
+            }
             const element = document.getElementById(`survey-question-listing-${index}`)
 
             if (!element) return;
-            console.log("element-->", element)
+            const canvas = await html2canvas(element, { cacheBust: true });
             if (format.toLowerCase() === 'svg') {
                 // For SVG format
-                const canvas = await html2canvas(element);
+                // const canvas = await html2canvas(element,{ cacheBust: true});
                 const imgData = canvas.toDataURL("image/png");
 
                 // Create the SVG string
@@ -184,7 +189,7 @@ const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
 
             } else {
                 // For PNG and JPEG (the original code you already have)
-                const canvas = await html2canvas(element);
+                // const canvas = await html2canvas(element);
                 const dataURL = canvas.toDataURL(`image/${format.toLowerCase()}`);
 
                 // Create a link to download the image
@@ -193,13 +198,20 @@ const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
                 link.download = `${defaultName}.${format.toLowerCase()}`;
                 link.click();
             }
+            dropdownId.style.display = "block"
+            loader("hide")
+        } catch (err) {
+            loader("hide");
+            console.log(err);
+
         }
+
     };
 
-    const DisplayAvg=(index)=>{
+    const DisplayAvg = (index) => {
         // let avg={...displayAvg}
         // avg[index]=true
-        setDisplayAvg((prev)=>({...prev,[index]:!displayAvg[index]}))
+        setDisplayAvg((prev) => ({ ...prev, [index]: !displayAvg[index] }))
 
     }
     return (<>
@@ -207,7 +219,7 @@ const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
             <div className="survey-question-top d-flex align-items-center">
                 <div className="survey-question-num">
                     <div className="question-type">
-                        <img src={path_image + image(item?.type)} alt="" />
+                        <img src={path_image + image(item?.type)} alt="" title={item?.type} />
                     </div>
                     <div className="question-number">
                         <h4>{`Q${index + 1}`}</h4>
@@ -235,16 +247,17 @@ const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
                         <span>1</span>
                     </div>
                 </div>
-                <DownloadDropdown
-                    graphRef={[countryBarRef, countryPieRef]}
-                    // whichTypeGraph={whichTypeMatrixGraph[data?.id] == "bar" ? 0 : 0}
-                    whichTypeGraph="0"
-                    title={item?.type}
-                    index={index}
-                    handleDownload={handleDownload}
+                <div id={`dropdown-${index}`}>
+                    <DownloadDropdown
+                        graphRef={[countryBarRef, countryPieRef]}
+                        // whichTypeGraph={whichTypeMatrixGraph[data?.id] == "bar" ? 0 : 0}
+                        whichTypeGraph="0"
+                        title={item?.type}
+                        index={index}
+                        handleDownload={handleDownload}
+                    />
+                </div>
 
-
-                />
             </div>
             {item?.type == "matrix" ?
                 item?.answer?.map((data, index) => {
@@ -259,7 +272,9 @@ const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
                     return (<>
                         <div key={index} className="question-preview-block matrix"  >
                             <div className="question-preview">
-                                <span>{data?.title}</span>
+                                <span dangerouslySetInnerHTML={{
+                                    __html: data?.title,
+                                }}></span>
                                 <div className="d-flex align-items-center justify-content-between question-preview-options">
                                     <div>
                                         Choices matrix
@@ -281,7 +296,7 @@ const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
                                                 </div>
                                                 <div className="respondents">
                                                     <span>{ans?.count}</span>
-                                                    <span className="respondents-percent">(<span>{totalCount > 0 ? JSON.parse(((ans?.count / totalCount).toFixed(2)) * 100) : "00"}%</span>)</span>
+                                                    <span className="respondents-percent">(<span>{totalCount > 0 ? (((ans?.count / totalCount).toFixed(2)) * 100) : "00"}%</span>)</span>
                                                 </div>
                                             </div>
 
@@ -290,12 +305,14 @@ const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
                                 </div>
                                 <div className="avg-view">
                                     <div className="dispaly-avg-view d-flex justify-content-between align-items-center">
-                                        <button onClick={() => DisplayAvg(index)}>Display the AVG  <img src={path_image + 'avg-arrow.svg'} /></button>
+                                        <button className={displayAvg[index] ? "active" : ""}
+                                            onClick={() => DisplayAvg(index)}>Display the AVG  <img src={path_image + 'avg-arrow.svg'} /></button>
                                         <div className="result-view">
-                                            {totalCount > 0
-                                                ? displayAvg[index] ? (totalCount / item?.answer?.length).toFixed(1)
-                                                    : null
-                                                : 0}
+                                            {displayAvg[index]
+                                                ? totalCount > 0
+                                                    ? (totalCount / item?.answer?.length).toFixed(1)
+                                                    : 0
+                                                : null}
                                         </div>
                                     </div>
                                 </div>

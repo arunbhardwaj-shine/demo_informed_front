@@ -1,6 +1,7 @@
 import React, { useRef } from 'react'
 import html2canvas from "html2canvas";
 import { Dropdown } from "react-bootstrap";
+import { loader } from '../../loader';
 // import { jsPDF } from 'jspdf'
 
 const SurveyAnalyticsFreeTextView = ({ index, item }) => {
@@ -51,11 +52,14 @@ const SurveyAnalyticsFreeTextView = ({ index, item }) => {
 
 
     const handleDownload = async (format, ref, defaultName = "survey_question", index, isHtml = true) => {
-        if (isHtml) {
+        try {
+            loader("show")
+            const dropdownId = document.getElementById(`dropdown-${index}`)
+            if(dropdownId){
+                dropdownId.style.display = "none"
+            }
             const element = document.getElementById(`survey-question-listing-${index}`)
-
             if (!element) return;
-            console.log("element-->", element)
 
             // if (format.toLowerCase() === 'pdf') {
             //     // For PDF format
@@ -106,7 +110,13 @@ const SurveyAnalyticsFreeTextView = ({ index, item }) => {
                 link.download = `${defaultName}.${format.toLowerCase()}`;
                 link.click();
             }
+             dropdownId.style.display = "block"
+            loader("hide")
+        } catch (err) {
+            loader("hide")
+            console.log("--err", err)
         }
+
     };
 
     return (<>
@@ -114,7 +124,7 @@ const SurveyAnalyticsFreeTextView = ({ index, item }) => {
             <div className="survey-question-top d-flex align-items-center">
                 <div className="survey-question-num">
                     <div className="question-type">
-                        <img src={path_image + "free-text.png"} alt="" />
+                        <img src={path_image + "free-text.png"} alt="" title={item?.type}/>
                     </div>
                     <div className="question-number">
                         <h4 >Q{index + 1}</h4>
@@ -138,11 +148,13 @@ const SurveyAnalyticsFreeTextView = ({ index, item }) => {
                         <span>1</span>
                     </div>
                 </div>
+                <div id={`dropdown-${index}`}>
                 <DownloadDropdown
                     title={item?.type}
                     index={index}
                     handleDownload={handleDownload}
                 />
+                </div>
             </div>
             <div className="question-preview-block">
                 <div className="question-preview-right">
@@ -157,7 +169,7 @@ const SurveyAnalyticsFreeTextView = ({ index, item }) => {
                         {item?.answer?.length ? item?.answer?.map((data, index) => {
                             return (<>
                                 <div key={index} className="free-text-block">
-                                    <p>{data?.username}</p>
+                                    <p>{data?.username?data?.username:"N/A"}</p>
                                     <div className="user-message">
                                         <p dangerouslySetInnerHTML={{ __html: data?.value }}></p>
                                     </div>
