@@ -36,6 +36,16 @@ const BuildSurvey = (props) => {
   };
 
   const navigateFunction = () => {
+    const result = elements.filter((item) => {
+      return item.type === "consent";
+    });
+    if (
+      consentOption !== "No consent needed (anonymous)" &&
+      result.length <= 0
+    ) {
+      toast.warning("Please add consent in the survey");
+      return;
+    }
     navigate("/survey/thank-you");
   };
 

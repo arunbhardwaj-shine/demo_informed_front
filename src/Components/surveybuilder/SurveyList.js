@@ -44,10 +44,10 @@ const SurveyList = (props) => {
   const [search, setSearch] = useState("");
   const [submiHandle, setSubmiHandle] = useState("");
   const [SendListData, setSendListData] = useState([]);
-  const [filter, setFilter] = useState([]);
+  const [filter, setFilter] = useState({});
   const [confirmationpopup, setConfirmationPopup] = useState(false);
   const [deletecardid, setDeleteCardId] = useState();
-  const getoriginalsendlistdata = [];
+  const [getoriginalSurveylistdata, setOriginalSurveyData] = useState([]);
   const [isData, setIsData] = useState([]);
   const [isChecked, setIsChecked] = useState(true);
   const dispatch = useDispatch();
@@ -57,10 +57,12 @@ const SurveyList = (props) => {
   const navigate = useNavigate();
 
   const submitHandler = (event) => {
-    setShowFilter(false);
-    //getData("progress");
-    setSubmiHandle(1);
     event.preventDefault();
+   
+    setShowFilter(false);
+    getFilterAppliedData();
+    setSubmiHandle(1);
+
     return false;
   };
 
@@ -78,6 +80,7 @@ const SurveyList = (props) => {
       // }
 
       if (res) {
+        setOriginalSurveyData(survey_data);
         setIsData(survey_data);
       }
       loader("hide");
@@ -96,22 +99,63 @@ const SurveyList = (props) => {
   const searchChange = (e) => {
     setSearch(e.target.value);
     if (e.target.value === "") {
-      setSendListData(getoriginalsendlistdata);
+      setIsData(getoriginalSurveylistdata);
     }
   };
   const showDeleteButtons = () => {
     setDeleteStatus(!deletestatus);
-    // // if (deletestatus) {
-    // //   setDeleteStatus(false);
-    // // } else {
-    // //   setDeleteStatus(true);
-    // // }
-    // if (!deletestatus) {
-    //   setDeleteStatus(!deletestatus);
-    // }else{
-    //   setDeleteStatus(!deletestatus);
-    // }
+  
   };
+
+  const getFilterAppliedData = async () => {
+    if (filter?.Survey?.length > 0) {
+      let filteredData = getoriginalSurveylistdata.filter((item) => {
+        return filter.Survey.includes(parseInt(item.is_draft));
+      });
+      // Further filter based on search if there is any search text
+      if (search.trim().length > 0) {
+       
+        filteredData = filteredData.filter((item) => {
+          return item.survey_title.toLowerCase().includes(search.toLowerCase());
+        });
+      }
+      // Set the final filtered data
+      setIsData(filteredData);
+    } else if (search.trim().length > 0) {
+      const filteredData = getoriginalSurveylistdata.filter((item) => {
+        return item.survey_title.toLowerCase().includes(search.toLowerCase());
+      });
+      setIsData(filteredData);
+    } else {
+      setIsData(getoriginalSurveylistdata);
+    }
+  };
+
+  const removeindividualfilter = (src, item) => {
+    // setRemoveFlag(true);
+    loader("show");
+    // setloadmore(0);
+    if (src == "tag") {
+      handleOnFilterTags(item);
+    } else if (src == "Survey") {
+      handleOnFilterCampaign(item);
+    } else if (src == "date") {
+      handleOnFilterDate(item);
+    } else if (src == "role") {
+      handleOnFilterRole(item);
+    } else if (src == "creator") {
+      handleOnFilterCreator(item);
+    }
+    if (filterapplied) {
+      // getData("progress");
+      getFilterAppliedData();
+    } else {
+      loader("hide");
+    }
+    loader("hide");
+    setShowFilter(false);
+  };
+
   const clearFilter = () => {
     document.querySelectorAll("input").forEach((checkbox) => {
       checkbox.checked = false;
@@ -127,7 +171,7 @@ const SurveyList = (props) => {
     let up = updateflag + 1;
     setUpdateFlag(up);
     if (filterapplied) {
-      setSendListData(getoriginalsendlistdata);
+      setIsData(getoriginalSurveylistdata);
     }
     setShowFilter(false);
   };
@@ -137,7 +181,7 @@ const SurveyList = (props) => {
 
   const applyFilter = () => {
     setFilterApply(true);
-    //getData("progress");
+    getFilterAppliedData();
     setShowFilter(false);
   };
 
@@ -164,7 +208,7 @@ const SurveyList = (props) => {
       );
 
       if (response) {
-        window.location.reload(); 
+        window.location.reload();
       }
       loader("hide");
     } catch (error) {
@@ -361,15 +405,17 @@ const SurveyList = (props) => {
     }
 
     let getfilter = filter;
-    if (getfilter.hasOwnProperty("campaign")) {
-      getfilter.campaign = filtercampaign;
+    if (getfilter.hasOwnProperty("Survey")) {
+      getfilter.Survey = filtercampaign;
     } else {
-      getfilter = Object.assign({ campaign: filtercampaign }, filter);
+      getfilter = Object.assign({ Survey: filtercampaign }, filter);
     }
     setFilter(getfilter);
     let up = updateflag + 1;
     setUpdateFlag(up);
   };
+ 
+
   const handleOnFilterCreator = (fcreator) => {
     let tag_index = filtercreator.indexOf(fcreator);
     if (tag_index !== -1) {
@@ -772,7 +818,7 @@ const SurveyList = (props) => {
                         "56Ek4feL/1A8mZgIKQWEqg==" ? (
                           <Accordion.Item className="card" eventKey="3">
                             <Accordion.Header className="card-header">
-                              Campaign
+                              Survey
                             </Accordion.Header>
                             <Accordion.Body className="card-body">
                               <ul>
@@ -780,8 +826,8 @@ const SurveyList = (props) => {
                                   <label className="select-multiple-option">
                                     <input
                                       type="checkbox"
-                                      id={`custom-checkbox-campaign-0`}
-                                      name="campaign[]"
+                                      id={`custom-checkbox-Survey-0`}
+                                      name="Survey[]"
                                       value="Sent"
                                       checked={
                                         updateflag > 0 &&
@@ -790,7 +836,7 @@ const SurveyList = (props) => {
                                       }
                                       onChange={() => handleOnFilterCampaign(1)}
                                     />
-                                    Sent
+                                    Live
                                     <span className="checkmark"></span>
                                   </label>
                                 </li>
@@ -798,15 +844,15 @@ const SurveyList = (props) => {
                                   <label className="select-multiple-option">
                                     <input
                                       type="checkbox"
-                                      id={`custom-checkbox-campaign-1`}
-                                      name="campaign[]"
+                                      id={`custom-checkbox-Survey-1`}
+                                      name="Survey[]"
                                       value="Draft"
                                       checked={
                                         updateflag > 0 &&
                                         typeof filtercampaign !== "undefined" &&
-                                        filtercampaign.indexOf(2) !== -1
+                                        filtercampaign.indexOf(0) !== -1
                                       }
-                                      onChange={() => handleOnFilterCampaign(2)}
+                                      onChange={() => handleOnFilterCampaign(0)}
                                     />
                                     Draft
                                     <span className="checkmark"></span>
@@ -816,17 +862,17 @@ const SurveyList = (props) => {
                                   <label className="select-multiple-option">
                                     <input
                                       type="checkbox"
-                                      id={`custom-checkbox-campaign-2`}
-                                      name="campaign[]"
+                                      id={`custom-checkbox-Survey-2`}
+                                      name="Survey[]"
                                       value="draft-approved"
                                       checked={
                                         updateflag > 0 &&
                                         typeof filtercampaign !== "undefined" &&
-                                        filtercampaign.indexOf(3) !== -1
+                                        filtercampaign.indexOf(2) !== -1
                                       }
-                                      onChange={() => handleOnFilterCampaign(3)}
+                                      onChange={() => handleOnFilterCampaign(2)}
                                     />
-                                    Draft Approved
+                                    Completed
                                     <span className="checkmark"></span>
                                   </label>
                                 </li>
@@ -949,6 +995,155 @@ const SurveyList = (props) => {
                 </div>
               </div>
             </div>
+            {updateflag > 0 &&
+              (filtertags.length > 0 ||
+                filtercreator.length > 0 ||
+                filterdate.length > 0 ||
+                filterrole.length > 0 ||
+                filtercampaign.length > 0) && (
+                <div className="apply-filter">
+                  <h6>Applied filters</h6>
+                  <div className="filter-block">
+                    <div className="filter-block-left full">
+                      {filtertags.length > 0 && (
+                        <div className="filter-div">
+                          <div className="filter-div-title">
+                            <span>Tags |</span>
+                          </div>
+                          <div className="filter-div-list">
+                            {Object.entries(filtertags).map(([index, item]) => (
+                              <div
+                                className="filter-result"
+                                // onClick={(event) =>
+                                //   removeindividualfilter("tag", item)
+                                // }
+                              >
+                                {item}
+                                <img
+                                  src={path_image + "filter-close.svg"}
+                                  alt="Close-filter"
+                                />
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      {filtercreator.length > 0 && (
+                        <div className="filter-div">
+                          <div className="filter-div-title">
+                            <span>Creator |</span>
+                          </div>
+                          <div className="filter-div-list">
+                            {Object.entries(filtercreator).map(
+                              ([index, item]) => (
+                                <div
+                                  className="filter-result"
+                                  // onClick={(event) =>
+                                  //   removeindividualfilter("creator", item)
+                                  // }
+                                >
+                                  {item}
+                                  <img
+                                    src={path_image + "filter-close.svg"}
+                                    alt="Close-filter"
+                                  />
+                                </div>
+                              )
+                            )}
+                          </div>
+                        </div>
+                      )}
+
+                      {filterdate.length > 0 && (
+                        <div className="filter-div">
+                          <div className="filter-div-title">
+                            <span>Date |</span>
+                          </div>
+                          <div className="filter-div-list">
+                            {Object.entries(filterdate).map(([index, item]) => (
+                              <div
+                                className="filter-result"
+                                // onClick={(event) =>
+                                //   removeindividualfilter("date", item)
+                                // }
+                              >
+                                {item}
+                                <img
+                                  src={path_image + "filter-close.svg"}
+                                  alt="Close-filter"
+                                />
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      {filterrole.length > 0 && (
+                        <div className="filter-div">
+                          <div className="filter-div-title">
+                            <span>IRT Roles |</span>
+                          </div>
+                          <div className="filter-div-list">
+                            {Object.entries(filterrole).map(([index, item]) => (
+                              <div
+                                className="filter-result"
+                                // onClick={(event) =>
+                                //   removeindividualfilter("role", item)
+                                // }
+                              >
+                                {item}
+                                <img
+                                  src={path_image + "filter-close.svg"}
+                                  alt="Close-filter"
+                                />
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      {filtercampaign.length > 0 && (
+                        <div className="filter-div">
+                          <div className="filter-div-title">
+                            <span>Survey|</span>
+                          </div>
+                          <div className="filter-div-list">
+                            {Object.entries(filtercampaign).map(
+                              ([index, item]) => (
+                                <div
+                                  className="filter-result"
+                                  onClick={(event) =>
+                                    removeindividualfilter("Survey", item)
+                                  }
+                                >
+                                  {item == 2
+                                    ? "Completed"
+                                    : item == 0
+                                    ? "Draft"
+                                    : "Live"}
+                                  <img
+                                    src={path_image + "filter-close.svg"}
+                                    alt="Close-filter"
+                                  />
+                                </div>
+                              )
+                            )}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                    <div className="clear-filter">
+                      <button
+                        className="btn btn-outline-primary btn-bordered"
+                        onClick={clearFilter}
+                      >
+                        Remove All
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
             <div className="email-result survey-listing">
               <div className="col email-result-block library-content-box-layout">
                 {!deletestatus && (

@@ -16,10 +16,9 @@ import {
   EMPTY_REDUX_STATES,
   UPDATE_EDIT_DISABLE,
   ADD_AT_POSITION,
-  UPDATE_CURRENT_ELEMENT_INDEX
+  UPDATE_CURRENT_ELEMENT_INDEX,
 } from "../actions/surveyActions";
 import { menuType } from "./menuType";
-
 
 const initialState = {
   elements: [],
@@ -32,7 +31,6 @@ const initialState = {
 };
 
 const emptySurveyReduxStates = (state, action) => {
- 
   return {
     ...state,
     elements: [],
@@ -45,7 +43,6 @@ const emptySurveyReduxStates = (state, action) => {
 };
 
 const updateEditDisable = (state, action) => {
- 
   return {
     ...state,
     disableEdit: action.payload,
@@ -53,13 +50,12 @@ const updateEditDisable = (state, action) => {
 };
 
 const addResQuestions = (state, action) => {
- 
   const newData = action.payload;
   return {
     ...state,
     elements: newData,
     globalIndex: newData?.length + 1,
-    currentElementIndex:null,
+    currentElementIndex: null,
     isEditModeOn: false,
   };
 };
@@ -79,16 +75,11 @@ const addResQuestions = (state, action) => {
 //   };
 // };
 
-
 // const addElement = (state, action) => {
 
 //   const newElement = structuredClone({ ...menuType[action.payload.type] }); //used to make deep copy
 //   newElement.questionNo = state.globalIndex;
 //   newElement.survey_id = state.surveyId;
-
-
-  
- 
 
 //   return {
 //     ...state,
@@ -108,7 +99,7 @@ const addElement = (state, action) => {
 
   // Clone the elements array to avoid direct modification of state
   const updatedElements = [...state.elements];
-console.log(action.payload.index)
+ 
   // Insert the copied element at the specified index if provided
   if (action.payload.index !== undefined) {
     updatedElements.splice(action.payload.index + 1, 0, newElement);
@@ -117,44 +108,45 @@ console.log(action.payload.index)
     updatedElements.push(newElement);
   }
 
-  for(var i=0;i<updatedElements.length;i++){
-    updatedElements[i].questionNo=i+1;
+  for (var i = 0; i < updatedElements.length; i++) {
+    updatedElements[i].questionNo = i + 1;
   }
 
   // Return the updated state
   return {
     ...state,
     elements: updatedElements,
-    currentElementIndex: action.payload.index !== undefined ? action.payload.index + 1 : state.elements.length,
+    currentElementIndex:
+      action.payload.index !== undefined
+        ? action.payload.index + 1
+        : state.elements.length,
     globalIndex: state.globalIndex + 1,
     isAddClicked: false,
     isEditModeOn: true,
   };
 };
 
-
-const addElementAtPosition= (state, action) => {
-  const index=action.payload;
+const addElementAtPosition = (state, action) => {
+  const index = action.payload;
   const newElements = [...state.elements];
   // Insert the last element at the given index
-const elementToInsert = newElements.pop();
-newElements.splice(index, 0, elementToInsert);
+  const elementToInsert = newElements.pop();
+  newElements.splice(index, 0, elementToInsert);
 
-// Update question numbers
-const newUpdatedElements = newElements.map((item, idx) => {
-  return { ...item, questionNo: idx + 1 };
-});
- 
+  // Update question numbers
+  const newUpdatedElements = newElements.map((item, idx) => {
+    return { ...item, questionNo: idx + 1 };
+  });
+
   return {
     ...state,
-    elements:  newUpdatedElements,
+    elements: newUpdatedElements,
     currentElementIndex: index,
     globalIndex: state.elements.length + 1,
     isAddClicked: false,
     isEditModeOn: true,
   };
-}
-
+};
 
 const setExtraAndStyling = (state, action) => {
   const { outerkey, innerKey, value, index } = action.payload;
@@ -166,7 +158,7 @@ const setExtraAndStyling = (state, action) => {
       [innerKey]: value,
     },
   };
- 
+
   return {
     ...state,
     elements: updateElements,
@@ -174,7 +166,6 @@ const setExtraAndStyling = (state, action) => {
 };
 
 const updateElement = (state, action) => {
- 
   const { key, value, index } = action.payload;
   const updatedElements = [...state.elements];
   updatedElements[index] = {
@@ -198,45 +189,48 @@ const updateConsent = (state, action) => {
     ...value,
     questionNo: questionNo,
     survey_id: survey_id,
-    questionId:questionId
+    questionId: questionId,
   };
   return {
     ...state,
-    elements: updatedElements
-  }
+    elements: updatedElements,
+  };
 };
 
-
-
 const copyElement = (state, action) => {
- 
   // Copy the element to be duplicated
-  const copiedElement = structuredClone( { ...state.elements[action.payload.index] });
+  const copiedElement = structuredClone({
+    ...state.elements[action.payload.index],
+  });
   copiedElement.questionId = 0;
-  
+
   // Check if the element has answers and the type is not "matrix"
-  if (copiedElement.answer.length > 0 && copiedElement.type !== "matrix" && copiedElement.accordionType === "questionTypes") {
-      copiedElement.answer.forEach(option => {
-          option.answerId = 0;
-      });
-  } 
+  if (
+    copiedElement.answer.length > 0 &&
+    copiedElement.type !== "matrix" &&
+    copiedElement.accordionType === "questionTypes"
+  ) {
+    copiedElement.answer.forEach((option) => {
+      option.answerId = 0;
+    });
+  }
   // Check if the element is of type "matrix"
-  else if (copiedElement.answer.length > 0 && copiedElement.type === "matrix" ) {
-      copiedElement.answer.forEach(row => {
-          row.id = 0;
-          row.answer.forEach(column => {
-              column.answerId = 0;
-          });
+  else if (copiedElement.answer.length > 0 && copiedElement.type === "matrix") {
+    copiedElement.answer.forEach((row) => {
+      row.id = 0;
+      row.answer.forEach((column) => {
+        column.answerId = 0;
       });
+    });
   }
 
   // Clone the elements array to avoid direct modification of state
   const updatedElements = [...state.elements];
   // Insert the copied element at the specified index
-  updatedElements.splice(action.payload.index+1, 0, copiedElement);
+  updatedElements.splice(action.payload.index + 1, 0, copiedElement);
 
-  for(var i=0;i<updatedElements.length;i++){
-    updatedElements[i].questionNo=i+1;
+  for (var i = 0; i < updatedElements.length; i++) {
+    updatedElements[i].questionNo = i + 1;
   }
 
   return {
@@ -248,24 +242,18 @@ const copyElement = (state, action) => {
   };
 };
 
-
 const swapElements = (state, action) => {
- 
-  
   const { draggedElementIndex, destinationIndex } = action.payload;
   const swappedElements = [...state.elements];
 
-  const draggedItem=swappedElements.splice(draggedElementIndex,1);
+  const draggedItem = swappedElements.splice(draggedElementIndex, 1);
 
-  swappedElements.splice(destinationIndex,0,draggedItem[0]);
-  
+  swappedElements.splice(destinationIndex, 0, draggedItem[0]);
 
-  
-  let count=1;
-  const newUpdatedElements=swappedElements.map((item)=>{
-    return {...item,questionNo:count++}
-  })
- 
+  let count = 1;
+  const newUpdatedElements = swappedElements.map((item) => {
+    return { ...item, questionNo: count++ };
+  });
 
   return {
     ...state,
@@ -274,17 +262,7 @@ const swapElements = (state, action) => {
   };
 };
 
-
-
-
-
-
-
-
-
-
 const addOption = (state, action) => {
- 
   const { index: addOptionIndex, key: addOptionKey } = action.payload;
   const updatedElementsWithOption = state.elements.map((element, idx) => {
     if (idx === addOptionIndex) {
@@ -301,27 +279,26 @@ const addOption = (state, action) => {
   };
 };
 
-
-
-const deleteElement=(state,action)=>{
-const  updatedElements= state.elements.filter((_, index) => index !== action.payload)
-let count=1;
-const newUpdatedElements=updatedElements.map((item)=>{
-  return {...item,questionNo:count++}
-})
+const deleteElement = (state, action) => {
+  const updatedElements = state.elements.filter(
+    (_, index) => index !== action.payload
+  );
+  let count = 1;
+  const newUpdatedElements = updatedElements.map((item) => {
+    return { ...item, questionNo: count++ };
+  });
   return {
-        ...state,
-        elements:newUpdatedElements,
-        currentElementIndex: -1,
-        isEditModeOn: false,
-        isAddClicked: false,
-        globalIndex:count
-      };
-}
+    ...state,
+    elements: newUpdatedElements,
+    currentElementIndex: -1,
+    isEditModeOn: false,
+    isAddClicked: false,
+    globalIndex: count,
+  };
+};
 
 const sortOptions = (state, action) => {
-
-  if(state.elements[action.payload.index].type == "dropdown"){
+  if (state.elements[action.payload.index].type == "dropdown") {
     return {
       ...state,
       elements: state.elements.map((element, index) => {
@@ -331,7 +308,10 @@ const sortOptions = (state, action) => {
               ? a.localeCompare(b)
               : b.localeCompare(a);
           });
-          return { ...element, answer: [{...element.answer,value:sortedOptions}]};
+          return {
+            ...element,
+            answer: [{ ...element.answer, value: sortedOptions }],
+          };
         }
         return element;
       }),
@@ -354,8 +334,6 @@ const sortOptions = (state, action) => {
 };
 
 export const surveyReducer = (state = initialState, action) => {
- 
-
   switch (action.type) {
     case ADD_ELEMENT:
       return addElement(state, action);
@@ -387,13 +365,6 @@ export const surveyReducer = (state = initialState, action) => {
       return swapElements(state, action);
     case DELETE_ELEMENT:
       return deleteElement(state, action);
-      // return {
-      //   ...state,
-      //   elements: state.elements.filter((_, index) => index !== action.payload),
-      //   currentElementIndex: -1,
-      //   isEditModeOn: false,
-      //   isAddClicked: false,
-      // };
     case ADD_OPTION:
       return addOption(state, action);
     case SORT_OPTIONS:
@@ -411,8 +382,8 @@ export const surveyReducer = (state = initialState, action) => {
       return emptySurveyReduxStates(state, action);
     case UPDATE_EDIT_DISABLE:
       return updateEditDisable(state, action);
-      case ADD_AT_POSITION:
-        return addElementAtPosition(state, action);
+    case ADD_AT_POSITION:
+      return addElementAtPosition(state, action);
     case UPDATE_CURRENT_ELEMENT_INDEX:
       return {
         ...state,
@@ -420,7 +391,7 @@ export const surveyReducer = (state = initialState, action) => {
         isEditModeOn: false,
         isAddClicked: false,
         disableEdit: false,
-      }
+      };
     default:
       return state;
   }
