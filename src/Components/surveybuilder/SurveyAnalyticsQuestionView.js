@@ -219,7 +219,7 @@ const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
             <div className="survey-question-top d-flex align-items-center">
                 <div className="survey-question-num">
                     <div className="question-type">
-                        <img src={path_image + image(item?.type)} alt="" title={item?.type}/>
+                        <img src={path_image + image(item?.type)} alt="" title={item?.type} />
                     </div>
                     <div className="question-number">
                         <h4>{`Q${index + 1}`}</h4>
@@ -308,10 +308,11 @@ const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
                                         <button className={displayAvg[index] ? "active" : ""}
                                             onClick={() => DisplayAvg(index)}>Display the AVG  <img src={path_image + 'avg-arrow.svg'} /></button>
                                         <div className="result-view">
-                                            {totalCount > 0
-                                                ? displayAvg[index] ? (totalCount / item?.answer?.length).toFixed(1)
-                                                    : null
-                                                : 0}
+                                            {displayAvg[index]
+                                                ? totalCount > 0
+                                                    ? (totalCount / item?.answer?.length).toFixed(1)
+                                                    : 0
+                                                : null}
                                         </div>
                                     </div>
                                 </div>

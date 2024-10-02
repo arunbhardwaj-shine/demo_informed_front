@@ -156,7 +156,7 @@ const SurveyAnalyticsRatingView = ({ index, item, colors }) => {
                                     <span className="bullet-color" style={{ background: colors[index] }}>&nbsp;</span>
 
                                     <div>
-                                        {item?.extra?.ratingType !== "stars"
+                                        {item?.extra?.ratingType == "stars"
                                             ? <img src={`${path_image}star-rating-${JSON.parse(data?.value)}.svg`} alt="" />
                                             : [...Array(parseInt(data?.value))].map((_, i) => {
                                                 return ` ${i + 1}`

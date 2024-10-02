@@ -534,6 +534,8 @@
         }
 
         await generateMetaTags(data,Utmde)
+        const openingId = data.data[0].survey_info.openingId;
+
         const survey_id = data.data[0].survey_info.id;
         const customHtml = await JSON.parse(
           data.data[0].survey_info.custom_html
@@ -1989,6 +1991,7 @@
                 ...responses, // Spread the existing responses array
               ],
               completionTimeSeconds: Math.round(completionTimeSeconds),
+              openingId: openingId,
             };
 
             try {
