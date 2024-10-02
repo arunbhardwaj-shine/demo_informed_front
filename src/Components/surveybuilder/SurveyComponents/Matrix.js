@@ -14,9 +14,6 @@ export default function Matrix({
 }) {
 
 
-  
- 
-
   return (
     <div className="steps">
       <p className="option-heading">Row Labels</p>

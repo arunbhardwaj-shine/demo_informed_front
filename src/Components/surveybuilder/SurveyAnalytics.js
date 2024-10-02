@@ -548,19 +548,19 @@ const getSurveyAnalyticsDetail=async()=>{
                         <td className="blue">{moment(item?.CreatedDate).utc()?.format('MMM DD.YYYY | h:mm A')}  </td>
                         <td>
                           <img src={path_image + "completed-icon.svg"} alt="" />{" "}
-                          {item?.Completed} %
+                          {item?.Completed?item?.Completed:0} %
                         </td>
                         <td>
                           <img src={path_image + "drop-off-icon.svg"} alt="" />{" "}
-                          {item?.Dropoff}
+                          {item?.Dropoff?item?.Dropoff:0}
                         </td>
                         <td>
                           <img src={path_image + "avg-time-icon.svg"} alt="" />{" "}
-                          {item?.averageCompletionTime} sec
+                          {item?.averageCompletionTime?item?.averageCompletionTime:0} min
                         </td>
                         <td>
                           <img src={path_image + "question-icon.svg"} alt="" />{" "}
-                          {item?.questionCount}
+                          {item?.questionCount?item?.questionCount:0}
                         </td>
                         <td>
                         <Link to={"/survey/survey-analytics-detail"} state={{ item }}>

@@ -16,7 +16,11 @@ export default function Multiple({
   const [showModal, setShowModal] = useState(false);
  
   const handleAddBulkElements = (elements) => {
-    handleUpdateElement(index, "questionOptions", elements);
+
+    const addFromList=elements.map((item,index)=>{
+      return { value: item, answerId: 0 }
+    })
+    handleUpdateElement(index, "answer", addFromList);
   };
   return (
     <>
@@ -39,7 +43,7 @@ export default function Multiple({
               </Button>
             </p>
           </div>
-          {/* <div className="choice-load">
+          <div className="choice-load">
             <Button
               onClick={() => {
                 setShowModal(true);
@@ -52,7 +56,7 @@ export default function Multiple({
               src={path_image + "info_circle_icon.svg"}
               alt=""
             />
-          </div> */}
+          </div>
         </div>
         <div className="choice-option">
           {item.answer.map((option, idx) => (
@@ -100,6 +104,7 @@ export default function Multiple({
           setShowModal(false);
         }}
         handleAddBulkElements={handleAddBulkElements}
+        fromMultiple={1}
       />
     </>
   );

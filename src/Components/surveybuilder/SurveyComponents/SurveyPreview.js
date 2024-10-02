@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { surveyAxiosInstance } from "../CommonFunctions/CommonFunction";
-import { Button, Col, Form, Row } from "react-bootstrap";
+import { Button, Col, Form, Row, ToastHeader } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { SidebarItems } from "../surveyObjects/SidebarItems";
@@ -39,7 +39,7 @@ const SurveyPreview = (props) => {
     (state) => state.surveyData
   );
   const [questionDeleteCount, setQuestionDeleteCount] = useState(0);
-  console.log(elements);
+ 
 
   const updatedSurveyData = {
     ...surveyValues,
@@ -48,7 +48,7 @@ const SurveyPreview = (props) => {
 
   const updateQuestioData = async () => {
     if (questionDeleteCount > 0) {
-      console.log("inside updatequestion of effect");
+     
       await props.getSurveyData(updatedSurveyData);
     }
   };
@@ -101,6 +101,17 @@ const SurveyPreview = (props) => {
 
   const [draggedElementIndex, setDraggedElementIndex] = useState(null);
   const handleAddElement = (type, index) => {
+    if (type === "consent") {
+      const result = elements.filter((item) => {
+        return item.type === "consent";
+      });
+     
+      if (result.length > 0) {
+        toast.warning("Consent already added");
+        return;
+      }
+    }
+
     dispatch(addElement(type, index));
   };
 
@@ -136,12 +147,12 @@ const SurveyPreview = (props) => {
       (surveyValues?.question_data === undefined ||
         surveyValues?.question_data === "" ||
         elements.length === 0);
-    console.log("side effect");
+  
     if (shouldFetchQuestions) {
-      console.log("side effect fetch questio");
+     
       fetchQuestiondetails();
     } else if (surveyValues?.question_data) {
-      console.log("side effect from local storage");
+     
       dispatch(addResQuestions(surveyValues.question_data));
     } else {
       dispatch(updateCurrentElementIndex());
@@ -150,7 +161,19 @@ const SurveyPreview = (props) => {
 
   const handlePreviewDrop = (e) => {
     e.preventDefault();
+
     const type = e.dataTransfer.getData("type");
+
+    if (type === "consent") {
+      const result = elements.filter((item) => {
+        return item.type === "consent";
+      });
+   
+      if (result.length > 0) {
+        toast.warning("Consent already added");
+        return;
+      }
+    }
     if (type.trim()) {
       handleAddElement(type);
     }
@@ -179,6 +202,18 @@ const SurveyPreview = (props) => {
         setDraggedElementIndex(null);
       }
     } else {
+      const type = e.dataTransfer.getData("type");
+
+      if (type === "consent") {
+        const result = elements.filter((item) => {
+          return item.type === "consent";
+        });
+
+        if (result.length > 0) {
+          // toast.warning("Consent already added");
+          return;
+        }
+      }
       setTimeout(() => {
         dispatch(addElementAtPosition(index));
       });
@@ -494,11 +529,11 @@ const SurveyPreview = (props) => {
                             }`}
                             style={
                               isEdit
-                                ? { padding: "60px 20px 4px 5px" }
+                                ? { padding: "60px 6px 4px 6px" }
                                 : {
                                     backgroundColor:
                                       templateData.page_background_color,
-                                    padding: "50px 20px 4px 5px",
+                                    padding: "50px 6px 4px 6px",
                                   }
                             }
                             draggable={isEdit} // Only make it draggable if isEdit is true
@@ -748,26 +783,36 @@ const SurveyPreview = (props) => {
                                     </div>
                                     <span>Common Elements</span>
                                     <div className="preview-menu-bunch">
-                                      {SidebarCommonItems.map((item, index) => (
-                                        <div
-                                          key={index}
-                                          className="sidebar-item"
-                                          onClick={(e) => {
-                                            e.stopPropagation();
-                                            handleAddElement(
-                                              item.type,
-                                              questionIndex
-                                            );
-                                          }}
-                                        >
-                                          {item.icon && (
-                                            <div className="options-svg">
-                                              {item.svg}
+                                      {SidebarCommonItems.map((item, index) => {
+                                        if (
+                                          item.type === "consent" &&
+                                          consentOption ==
+                                            "No consent needed (anonymous)"
+                                        ) {
+                                          return;
+                                        } else {
+                                          return (
+                                            <div
+                                              key={index}
+                                              className="sidebar-item"
+                                              onClick={(e) => {
+                                                e.stopPropagation();
+                                                handleAddElement(
+                                                  item.type,
+                                                  questionIndex
+                                                );
+                                              }}
+                                            >
+                                              {item.icon && (
+                                                <div className="options-svg">
+                                                  {item.svg}
+                                                </div>
+                                              )}
+                                              {item.label}
                                             </div>
-                                          )}
-                                          {item.label}
-                                        </div>
-                                      ))}
+                                          );
+                                        }
+                                      })}
                                     </div>
                                   </div>
                                 )}
