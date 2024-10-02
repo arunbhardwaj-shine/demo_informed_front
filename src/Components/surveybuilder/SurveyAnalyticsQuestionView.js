@@ -296,7 +296,7 @@ const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
                                                 </div>
                                                 <div className="respondents">
                                                     <span>{ans?.count}</span>
-                                                    <span className="respondents-percent">(<span>{totalCount > 0 ? JSON.parse(((ans?.count / totalCount).toFixed(2)) * 100) : "00"}%</span>)</span>
+                                                    <span className="respondents-percent">(<span>{totalCount > 0 ? (((ans?.count / totalCount).toFixed(2)) * 100) : "00"}%</span>)</span>
                                                 </div>
                                             </div>
 
