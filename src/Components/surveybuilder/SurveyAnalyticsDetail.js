@@ -837,7 +837,7 @@ const SurveyAnalyticsDetail = () => {
                                                 }
                                                 item.answer.forEach(obj => {
                                                     // Avoid division by zero
-                                                    obj.percentage = item.total_count > 0 ? JSON.parse(((obj.count / item.total_count).toFixed(2)) * 100) : 0;
+                                                    obj.percentage = (item?.total_count> 0&&obj?.count>0 )? (((obj.count / item.total_count).toFixed(2)) * 100) : "00";
                                                     totalWeightedValue += parseInt(obj.value) * obj.count;
                                                     totalRatings += obj.count > 0 ? 1 : 0
                                                 });
