@@ -159,7 +159,7 @@ export const saveAsDraft = async (e, draft, pathname, navigate) => {
   }
 };
 
-export const uploadImageToServer = async (file) => {
+export const uploadImageToServer = async (file, fileInputRef) => {
   if (file) {
     try {
       const extension = file.name.split(".").pop().toLowerCase();
@@ -175,6 +175,9 @@ export const uploadImageToServer = async (file) => {
         "/survey/image-uploadaws",
         formData
       );
+      if (fileInputRef && fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
       if (res) {
         loader("hide");
         return res.data.data;

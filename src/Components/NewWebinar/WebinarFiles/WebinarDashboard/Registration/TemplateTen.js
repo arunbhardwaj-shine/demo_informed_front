@@ -40,7 +40,10 @@ const timeRange = `${convertedStartTime} - ${convertedEndTime}`;
   return (
     <>
       
-      <div className="wrapper emory">
+      <div 
+      // className="wrapper emory"
+      className={`wrapper emory ${localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" ? "gena" : ""}`}
+      >
         <section className="factor-season">
           <div className="container">
             <div className="row">
@@ -82,11 +85,20 @@ const timeRange = `${convertedStartTime} - ${convertedEndTime}`;
                             textTransform: "capitalize",
                             color:eventDataSample?.eventLocation?.color
                           }}
+                          // dangerouslySetInnerHTML={{
+                          //   __html: eventDataSample?.eventLocation?.value
+                          //   ? eventDataSample?.eventLocation?.value
+                          //   : eventData?.location
+                          // }}
+
                           dangerouslySetInnerHTML={{
                             __html: eventDataSample?.eventLocation?.value
-                            ? eventDataSample?.eventLocation?.value
-                            : eventData?.location
+                              ? eventDataSample?.eventLocation?.value
+                              // : eventData?.location
+                              // ? eventData?.location
+                              : ""
                           }}
+                          
                         />
                           {/* {eventDataSample?.eventLocation?.value
                             ? eventDataSample?.eventLocation?.value

@@ -13097,6 +13097,9 @@ table thead th.sort_option span button.event_sort_btn.svg_active >img{
   width: 15px;
   left: 8px;
 }
+.register-popup-view .gena  .factor-season-right::before {
+  left: -32px;
+}
 
 .register-popup-view .factor-season-right {
   padding-left: 14px;
@@ -13107,6 +13110,15 @@ table thead th.sort_option span button.event_sort_btn.svg_active >img{
   font-size: 16px;
 }
 
+.register-popup-view .gena .factor-season-right h3 {
+  padding: 0 8px 0 0px;
+  font-size: 12px;
+  line-height: 1.2;
+  margin-bottom: 23px;
+}
+.register-popup-view .gena .factor-season-right {
+  padding-left: 6px;
+}
 .register-popup-view .emory .consent-form-inner .center-sided h2 {
   font-size: 18px;
   line-height: 31px;

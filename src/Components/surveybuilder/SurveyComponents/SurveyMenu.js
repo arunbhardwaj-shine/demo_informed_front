@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   Accordion,
   Button,
@@ -46,6 +46,8 @@ const SurveyMenu = ({ menuRef, consentOption }) => {
 
   const validExtensions = ["png", "jpeg", "jpg", "gif"];
 
+  const fileInputRef = useRef();
+
   const menuTitles = {
     multiple: "Multiple choices",
     checkbox: "CheckBox",
@@ -84,7 +86,7 @@ const SurveyMenu = ({ menuRef, consentOption }) => {
       const result = elements.filter((item) => {
         return item.type === "consent";
       });
-       
+
       if (result.length > 0) {
         toast.warning("Consent already added");
         return;
@@ -180,7 +182,7 @@ const SurveyMenu = ({ menuRef, consentOption }) => {
 
         // Call handleUpdateElement with the correct parameters
         handleUpdateElement(itemIndex, "answer", updatedOptions);
- 
+
         if (optionId != 0) {
           if (deletedids.length > 0) {
             await deleteOptions(deletedids);
@@ -477,7 +479,7 @@ const SurveyMenu = ({ menuRef, consentOption }) => {
                 <div className="d-flex align-items-center justify-content-between">
                   <p className="option-heading" style={{ margin: "0" }}>
                     Make this question optional{" "}
-                    <img src={path_image + "info_circle_icon.svg"} alt="" />
+                    {/* <img src={path_image + "info_circle_icon.svg"} alt="" /> */}
                   </p>
                   <Form.Check
                     type="switch"
@@ -794,11 +796,15 @@ const SurveyMenu = ({ menuRef, consentOption }) => {
               </div>
               <div className="input-file-container">
                 <input
+                  ref={fileInputRef}
                   type="file"
                   name="file"
                   className="input-file"
                   onInput={async (e) => {
-                    const result = await uploadImageToServer(e.target.files[0]);
+                    const result = await uploadImageToServer(
+                      e.target.files[0],
+                      fileInputRef
+                    );
                     handleUpdateElement(index, "question", result);
                   }}
                 ></input>

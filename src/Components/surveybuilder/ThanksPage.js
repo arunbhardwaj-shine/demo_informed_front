@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { Col, Form, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { surveyAxiosInstance } from "./CommonFunctions/CommonFunction";
@@ -20,11 +20,14 @@ const ThanksPage = (props) => {
   const [thanksPageData, setThanksPageData] = useState({
     thanksImgPath: surveyValues?.thanksPageData?.thanku_image_path || "",
     imageWidth: surveyValues?.thanksPageData?.thanku_image_width || 20,
-    headline: surveyValues?.thanksPageData?.thanku_image_headline || "Thank You!",
+    headline:
+      surveyValues?.thanksPageData?.thanku_image_headline || "Thank You!",
     bodyText:
       surveyValues?.thanksPageData?.thanku_body_text ||
       "For taking the time for this survey. Your opinion matters greatly to us and we love learning from you",
   });
+
+  const fileInputRef = useRef();
 
   const [headingToogle, setHeadingtoogle] = useState(true);
 
@@ -48,7 +51,6 @@ const ThanksPage = (props) => {
     e.preventDefault();
 
     try {
-  
       surveyValues = {
         ...surveyValues,
         thanksPageData: {
@@ -58,15 +60,12 @@ const ThanksPage = (props) => {
           thanku_body_text: thanksPageData.bodyText,
         },
       };
-      props.getSurveyData({...surveyValues});
-      
+      props.getSurveyData({ ...surveyValues });
     } catch (error) {
       loader("hide");
       toast.error("Something went wrong");
     }
   };
-
- 
 
   return (
     <>
@@ -115,12 +114,13 @@ const ThanksPage = (props) => {
 
                               <div className="input-file-container">
                                 <input
+                                  ref={fileInputRef}
                                   type="file"
                                   name="file"
                                   className="input-file"
                                   onInput={async (e) => {
                                     const result = await uploadImageToServer(
-                                      e.target.files[0]
+                                      e.target.files[0],fileInputRef
                                     );
                                     updatePageData("thanksImgPath", result);
                                   }}
@@ -237,9 +237,8 @@ const ThanksPage = (props) => {
                           <button
                             className="btn btn-primary btn-bordered next"
                             onClick={async (e) => {
-                             await nextButtonClicked(e);
-                              saveAsDraft(e, 0,location.pathname,navigate);
-                             
+                              await nextButtonClicked(e);
+                              saveAsDraft(e, 0, location.pathname, navigate);
                             }}
                           >
                             Save As Draft
@@ -280,7 +279,6 @@ const ThanksPage = (props) => {
                         className="thanks-text"
                         style={{ textAlign: "center" }}
                       >
-                   
                         <h2
                           style={{
                             fontWeight: "500",
@@ -292,7 +290,7 @@ const ThanksPage = (props) => {
                         />
                         <p
                           style={{
-                            color: "#70899E"
+                            color: "#70899E",
                           }}
                         >
                           {thanksPageData.bodyText}
@@ -313,7 +311,7 @@ const ThanksPage = (props) => {
 
 const mapStateToProps = (state) => {
   surveyValues = state?.getSurveyData;
-   
+
   return state;
 };
 
