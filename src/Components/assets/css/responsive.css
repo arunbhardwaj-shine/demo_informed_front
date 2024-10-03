@@ -1806,6 +1806,22 @@
   .question-outer-layout .question-action {
     gap: 30px;
   }
+  .register-popup-view .gena .factor__logo img {
+    max-width: 180px;
+}
+.register-popup-view .gena footer .footer-copyright {
+  line-height: 1;
+}
+.register-popup-view .gena footer .footer-logo img {
+  width: 135px;
+}
+.register-popup-view .gena .footer-inner::after {
+  right: 175px;
+}
+.register-popup-view .gena .factor-season-right h3 {
+  font-size: 11px;
+  margin-left: -20px;
+}
     .search-hcp .email-unsubscribe .content_analytics_accordian button.accordion-button {
       font-size: 17px;
     }

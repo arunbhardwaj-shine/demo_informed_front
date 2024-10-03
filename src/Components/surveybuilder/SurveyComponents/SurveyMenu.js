@@ -479,7 +479,7 @@ const SurveyMenu = ({ menuRef, consentOption }) => {
                 <div className="d-flex align-items-center justify-content-between">
                   <p className="option-heading" style={{ margin: "0" }}>
                     Make this question optional{" "}
-                    <img src={path_image + "info_circle_icon.svg"} alt="" />
+                    {/* <img src={path_image + "info_circle_icon.svg"} alt="" /> */}
                   </p>
                   <Form.Check
                     type="switch"

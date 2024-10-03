@@ -405,7 +405,11 @@
     .informed-header ul.navbar-nav.mr-auto li a {
         margin-right: 15px;
     }
-
+    .gena .factor-season-right h3 {
+        padding: 0 16px 0 16px;
+        font-size: 18px;
+        line-height: 25px;
+    }
     .informed h1 {
         font-size: 34px;
         line-height: 42px;
@@ -745,7 +749,9 @@
     #pp-nav {
         display: none;
     }
-
+    .gena .factor-season-right h3 {
+        padding: 0px 14px 0 14px;
+    }
     .horizon-arrows .horizon {
         width: 60px;
     }
@@ -1077,7 +1083,29 @@
     .building-section .left-sec {
         padding-right: 15px;
     }
-
+    .gena .factor__logo img {
+        max-height: 55px;
+    }
+    .gena .factor-season-left {
+        padding: 20px 15px 11px 14px;
+    }
+    .gena .factor-season-left h2 {
+        font-size: 17px;
+    }
+    .gena .factor-season-right h3 {
+        padding: 0px 11px 0 9px;
+        font-size: 14px;
+        margin-bottom: 12px;
+    }
+    .gena footer .footer-inner {
+        border-radius: 20px;
+        padding: 25px 14px 15px;
+    }
+    .gena .footer-inner::after {
+        right: 100px;
+        width: 15px;
+        opacity: 0.4;
+    }
     .map_buttons {
         margin-top: 40px;
         left: 30px;

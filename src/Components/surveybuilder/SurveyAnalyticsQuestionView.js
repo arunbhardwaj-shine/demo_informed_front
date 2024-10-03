@@ -411,8 +411,6 @@ const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
                         </div>
                         <div className="answer-options">
                             {item?.answer?.map((ans, i) => {
-{console.log("ans-->",ans)}
-{console.log("item-->",item)}
                                 return (<>
                                     <div key={i} className="answer">
                                         <div className="choices">

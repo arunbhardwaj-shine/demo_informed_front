@@ -163,6 +163,7 @@ const RegistrationPage = ({ prevData,type }) => {
   }, [location, navigate]);
 
   const urlContainsAland = window.location.href.includes('Alandisland');
+  const urlGenna = window.location.href.includes('Gena22');
   
   const EventDataFun = async () => {
     try {
@@ -1534,7 +1535,7 @@ const RegistrationPage = ({ prevData,type }) => {
               <button
                 type="button"
                 // className="btn btn-primary btn-bordered"
-                className={`btn btn-primary btn-bordered ${urlContainsAland ? 'island' : ''}`}
+                className={`btn btn-primary btn-bordered ${urlContainsAland ? 'island' : ''} ${urlGenna ? "gena" : ""}`}
                 onClick={() => {
                   setModalIsOpen(false);
                   loader("show");
