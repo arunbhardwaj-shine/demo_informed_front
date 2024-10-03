@@ -2404,7 +2404,9 @@ ol.carousel-indicators.cst-tab li.active {
   border-radius: 0px 15px 0px 15px;
   height: auto !important;
 }
-
+.registration-popup .modal-body .modal-buttons button.gena {
+  background: #00A891;
+}
 #chartdiv .ampopup-content .ampopup-inside p.webinar_title {
   font-size: 18px;
   color: #434343;
@@ -3799,7 +3801,10 @@ input:-webkit-autofill:active {
   margin: 20px auto 0;
   background: #d7e9e8;
 }
-
+.gena .factor-season-inner {
+  padding: 0;
+  background-size: 100%;
+}
 .factor-season-left {
   padding: 48px 30px 10px 48px;
 }
@@ -3830,7 +3835,7 @@ input:-webkit-autofill:active {
   font-size: 32px;
 }
 
-l .vwd .factor-season-left h2 {
+.vwd .factor-season-left h2 {
   color: #f18e50;
   line-height: 37px;
   margin: 7px 0 21px;
@@ -3838,11 +3843,15 @@ l .vwd .factor-season-left h2 {
   font-family: 'Poppins';
   font-weight: 600;
 }
-
+.gena .factor-season-left h2 {
+  margin: 44px 0 16px;
+}
 .emory .factor-season-left {
   padding: 32px 30px 10px 48px;
 }
-
+.gena .factor-season-left h2 span:empty{
+  display: none;
+}
 .emory .factor__logo img {
   max-width: 420px;
 }
@@ -3855,11 +3864,16 @@ l .vwd .factor-season-left h2 {
   font-weight: 600;
   margin-bottom: 21px;
 }
-
+.gena .factor-season-right h3 {
+  padding:0 20px 0 20px;
+  text-align: left;
+}
 .emory .factor-season-right::before {
   background: #76B5AE;
 }
-
+.gena .factor-season-right::before {
+  background: #ffffff;
+}
 .factor-season-right {
   position: relative;
   height: 100%;
@@ -3991,7 +4005,9 @@ l .vwd .factor-season-left h2 {
   border-radius: 20px;
   max-width: 191px;
 }
-
+.gena .consent-form .btn#submit_registration {
+  background: #00A891;
+}
 .consent-form .btn#submit_registration:hover {
   box-shadow: 0px 5px 10px rgb(0 0 0 / 48%);
 }
@@ -4171,6 +4187,12 @@ l .vwd .factor-season-left h2 {
   background-color: var(--white);
   border-color: #FDC504;
 }
+.gena .consent-form-list.attend-sec li:hover input~.checkmark,
+.gena .consent-form-list.attend-sec li input:checked~.checkmark,
+.gena .consent-form-list.attend-sec li:hover input~.checkmark,
+.gena .consent-form-list.attend-sec li input:checked~.checkmark {
+  border-color: #E1DE33;
+}
 
 .consent-form-inner label {
   font-size: 16px;
@@ -4321,6 +4343,9 @@ l .vwd .factor-season-left h2 {
 
 .consent-form-list.country .help-block {
   flex: 0 0 100%;
+}
+.gena .consent-form-list.attend-sec li .checkmark::after {
+  background: #E1DE33;
 }
 
 .emory .consent-form-inner label {
@@ -5103,7 +5128,16 @@ footer .footer-inner {
   right: 370px;
   opacity: 0.5;
 }
-
+.gena .footer-inner::after {
+  background: #ffffff;
+  opacity: 1;
+}
+.gena .footer-inner::before {
+  display: none;
+  }
+  .gena input:-webkit-autofill {
+    -webkit-text-fill-color: rgb(0, 168, 145) !important;
+  }
 footer .footer-logo img {
   width: 255px;
 }
