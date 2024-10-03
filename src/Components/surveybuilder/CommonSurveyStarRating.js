@@ -1,12 +1,13 @@
 import React from "react";
 
-const CommonSurveyStarRating = ({ data }) => {
+const CommonSurveyStarRating = ({ data , type}) => {
   const totalStars = 5;
   const ratingValue = data || 0; // Default to 0 if no rating is available
 
   return (
     <div style={{ display: "flex" }}>
       {Array.from({ length: totalStars }, (_, index) => (
+        type==="stars" ?
         <svg
           key={index}
           xmlns="http://www.w3.org/2000/svg"
@@ -33,6 +34,7 @@ const CommonSurveyStarRating = ({ data }) => {
             </clipPath>
           </defs>
         </svg>
+        : ` ${index+1}`
       ))}
     </div>
   );
