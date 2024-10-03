@@ -1369,20 +1369,24 @@ const SurveyAnalyticsDetail = () => {
                                                                                                             <div className="question-type">
                                                                                                                 <img src={path_image + image(data?.type)} alt="" title={item?.type}/>
                                                                                                             </div>
-                                                                                                            <div>
-                                                                                                                <h6 dangerouslySetInnerHTML={{ __html: `Q${index + 1}|${data?.question_text}` }}>
-
-                                                                                                                </h6>
+                                                                                                            <div className ="survey-matrix">
+                                                                                                                <h6 dangerouslySetInnerHTML={{ __html: `Q${index + 1} ${data?.question_text}` }}></h6>
                                                                                                                 {data?.type == "rating" ?
 
-                                                                                                                    <CommonSurveyStarRating data={data?.comment} />
+                                                                                                                    <CommonSurveyStarRating data={data?.comment} type="number" />
 
                                                                                                                     :
-                                                                                                                    data?.question_detail?.length
+                                                                                                                    <Table>
+                                                                                                                        <tbody>
+                                                                                                                    {data?.question_detail?.length
                                                                                                                         ? data?.question_detail?.map((ans, i) => {
                                                                                                                             return (<>
                                                                                                                                 {data?.type == "matrix" ? (<>
-                                                                                                                                    <p dangerouslySetInnerHTML={{ __html: `${ans?.question_text}` }}></p><p>{ans?.option_text}</p></>)
+                                                                                                                                        <tr>
+                                                                                                                                            <td className="heading"><p dangerouslySetInnerHTML={{ __html: `${ans?.question_text}` }}></p></td>
+                                                                                                                                            <td><p>{ans?.option_text}</p></td>
+                                                                                                                                        </tr>
+                                                                                                                                    </>)
                                                                                                                                     :
                                                                                                                                     <p>
                                                                                                                                         {ans?.option_text}
@@ -1391,7 +1395,9 @@ const SurveyAnalyticsDetail = () => {
 
                                                                                                                             </>)
                                                                                                                         }) :
-                                                                                                                        <p>{data?.comment}</p>
+                                                                                                                        <p>{data?.comment}</p>}
+                                                                                                                        </tbody>
+                                                                                                                    </Table>
                                                                                                                 }
 
                                                                                                             </div>

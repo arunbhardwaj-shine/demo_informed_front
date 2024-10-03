@@ -2971,6 +2971,15 @@ a {
   color: var(--light-gray);
   font-size: 14px;
 }
+.modal.survey-choice .split-button-dropup>div:nth-child(3) div {
+  color: var(--light-blue);
+}
+.modal.survey-choice .split-button-dropup div:nth-child(3) > div div[class*=-placeholder] {
+  color: #97B6CF;
+}
+.modal.survey-choice .split-button-dropup>div:nth-child(3) div {
+  color: var(--light-blue);
+}
 
 .emory .split-button-dropup>div:nth-child(3) div {
   color: #263474;
@@ -3539,6 +3548,7 @@ input:-webkit-autofill:active {
   background: var(--white);
   border: 0.5px solid rgba(0, 102, 190, 0.06);
   box-shadow: 0px 0px 10px -3px rgba(0, 102, 190, 0.32);
+  -webkit-backdrop-filter: blur(0.5px);
   backdrop-filter: blur(0.5px);
   border-radius: 15px;
 }
