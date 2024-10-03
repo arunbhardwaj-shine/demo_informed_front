@@ -364,7 +364,7 @@ const SurveyAnalyticsQuestionPieChart = memo(({ key, data, show, type,colors,cha
                             ref={chartRef}
                             highcharts={Highcharts}
                             options={pieChartOptions}
-                        /> : <div className="no_found">
+                        /> : <div className={`no_found ${data?.questionId?"survey_default_chart":""}`}>
                             <img src={path_image + "default-bar-chart.png"} alt="" />
 
                         </div>}
@@ -379,7 +379,7 @@ const SurveyAnalyticsQuestionPieChart = memo(({ key, data, show, type,colors,cha
                         />
                     </>)
                     :
-                    <div className="no_found">
+                    <div className={`no_found ${data?.questionId?"survey_default_chart":""}`}>
                         <img src={path_image + "default-bar-chart.png"} alt="" />
 
                     </div>

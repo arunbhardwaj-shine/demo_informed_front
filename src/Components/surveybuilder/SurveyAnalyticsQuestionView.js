@@ -355,7 +355,7 @@ const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
                                             margin: "10 auto",
                                             justifyContent: "center",
                                             display: "flex",
-                                            height: 193
+                                            height: 148
                                         }}
                                     >
                                         <Spinner color="#53aff4" size={32} speed={1} animating={true} />

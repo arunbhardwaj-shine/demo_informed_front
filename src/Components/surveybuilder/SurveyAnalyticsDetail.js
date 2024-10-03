@@ -786,14 +786,14 @@ const SurveyAnalyticsDetail = () => {
                                                             {data?.surveyTakerDetails?.[2]?.value}
                                                         </div>
                                                     </div>
-                                                    {/* <div className="survey-info no-answer">
+                                                    <div className="survey-info no-answer">
                                                         <div>
                                                             <img src={path_image + "question-not.png"} alt="" />Not answered Questions
                                                         </div>
                                                         <div className="survey-value">
                                                             2
                                                         </div>
-                                                    </div> */}
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -1499,7 +1499,7 @@ const SurveyAnalyticsDetail = () => {
                                                                         margin: "10 auto",
                                                                         justifyContent: "center",
                                                                         display: "flex",
-                                                                        height: 225
+                                                                        height: 386
                                                                     }}
                                                                 >
                                                                     <Spinner color="#53aff4" size={32} speed={1} animating={true} />

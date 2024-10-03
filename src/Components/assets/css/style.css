@@ -12575,6 +12575,12 @@ table thead th.sort_option span button.event_sort_btn.svg_active >img{
   width: 100%;
 }
 
+.graph-box .survey_default_chart img {
+  max-width: 148px;
+  max-height: 148px;
+  /* width: 100%; */
+}
+
 .speaker-name button {
   background: var(--white);
   border-radius: 50%;
