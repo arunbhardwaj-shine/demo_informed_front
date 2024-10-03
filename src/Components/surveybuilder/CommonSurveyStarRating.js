@@ -34,7 +34,7 @@ const CommonSurveyStarRating = ({ data , type}) => {
             </clipPath>
           </defs>
         </svg>
-        : ` ${index+1}`
+        :<div className={index < ratingValue? "rating-filled":""}> {` ${index+1}`}</div>
       ))}
     </div>
   );
