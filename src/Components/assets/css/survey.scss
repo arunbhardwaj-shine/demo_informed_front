@@ -4146,7 +4146,7 @@ body {
                         }
 
                         &:nth-child(2) {
-                            width: 33%;
+                            width: 31%;
                         }
 
                         &:nth-last-child(3) {
@@ -4192,6 +4192,7 @@ body {
                     &.view {
                         td {
                             padding: 12px 8px;
+                            font-weight: 400;
 
                             img {
                                 padding-right: 5px;
@@ -4282,6 +4283,7 @@ body {
                                 .title-subheading {
                                     p {
                                         font-size: 13px;
+                                        font-weight: 400;
                                     }
                                 }
                             }
