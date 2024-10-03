@@ -40,7 +40,10 @@ const timeRange = `${convertedStartTime} - ${convertedEndTime}`;
   return (
     <>
       
-      <div className="wrapper emory">
+      <div 
+      // className="wrapper emory"
+      className={`wrapper emory ${localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" ? "gena" : ""}`}
+      >
         <section className="factor-season">
           <div className="container">
             <div className="row">
