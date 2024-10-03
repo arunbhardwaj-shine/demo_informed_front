@@ -748,7 +748,7 @@ const SetLayoutNewTimeline = () => {
                                                   </div>
                                                   <div className="timeline-article-detail">
                                                     <div className="timeline-title">
-                                                      <p>{item?.pdfTitle} ({item?.reader_mandatory==1?"Mondatory Content":"Non-Mandatory Content"})</p>
+                                                      <p>{item?.pdfTitle} ({item?.reader_mandatory==1?"Mandatory Content":"Non-Mandatory Content"})</p>
                                                     </div>
                                                     <div className="timeline-subtitle">
                                                       <p>{item?.subTitle ? item?.subTitle : "N/A"}</p>

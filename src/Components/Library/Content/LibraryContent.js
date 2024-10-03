@@ -195,7 +195,7 @@ const LibraryContent = (props) => {
     props.getSelectedSmartListData(null);
     props.getEmailData(null);
 
-    if (localStorage.getItem("user_id") == "b3APser7L8OELDIG8ee2HQ==") {
+    if (localStorage.getItem("user_id") == "b3APser7L8OELDIG8ee2HQ==" || localStorage.getItem("user_id") == "rOhdD02MgXkownQqcreqAw==") {
       const newObj = { value: "Sunshine USA", label: "Sunshine USA" };
       const updatedArray = [...types, newObj];
       setTypes(updatedArray);

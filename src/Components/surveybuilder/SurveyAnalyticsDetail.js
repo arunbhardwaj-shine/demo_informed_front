@@ -147,7 +147,7 @@ const SurveyAnalyticsDetail = () => {
             setApiStatus(true)
             const res = await surveyAxiosInstance.post("/survey/qns-analytics", {
                 survey_id: stateData?.survey_id
-                // survey_id: 192
+                
             });
             let data = res?.data?.data
             let valueupdate = { ...options };
@@ -183,7 +183,7 @@ const SurveyAnalyticsDetail = () => {
         try {
             const res = await surveyAxiosInstance.post("/survey/analytic-qns-detail", {
                 survey_id: stateData?.survey_id
-                // survey_id: 192
+                
             });
             const data = res?.data?.data?.allData
             setTempQuestionData(data)
@@ -347,7 +347,7 @@ const SurveyAnalyticsDetail = () => {
             if (surveyTakerTableData?.length == 0) {
                 const res = await surveyAxiosInstance.post("/survey/survey-takers-status", {
                     survey_id: stateData?.survey_id
-                    // survey_id: 192
+                    
                 });
 
                 let userdata = [
@@ -479,10 +479,9 @@ const SurveyAnalyticsDetail = () => {
                 setSectionApiStatus(true)
                 setLoaderIndex(id)
                 const res = await surveyAxiosInstance.post("/survey/takers-responses-detail", {
-                    // user_id: id,
-                    user_id: "zPRuJ91HUwsm",
+                    user_id: id,                    
                     survey_id: stateData?.survey_id
-                    // survey_id: 192
+                    
                 })
                 setSurveyTakerShowQuestionsData(res?.data?.data)
             }
@@ -838,7 +837,7 @@ const SurveyAnalyticsDetail = () => {
                                                 }
                                                 item.answer.forEach(obj => {
                                                     // Avoid division by zero
-                                                    obj.percentage = item.total_count > 0 ? JSON.parse(((obj.count / item.total_count).toFixed(2)) * 100) : 0;
+                                                    obj.percentage = (item?.total_count> 0&&obj?.count>0 )? (((obj.count / item.total_count).toFixed(2)) * 100) : "00";
                                                     totalWeightedValue += parseInt(obj.value) * obj.count;
                                                     totalRatings += obj.count > 0 ? 1 : 0
                                                 });
@@ -846,7 +845,7 @@ const SurveyAnalyticsDetail = () => {
                                                 let overallRating = item.total_count > 0 ? totalWeightedValue / item.total_count : 0;
                                                 item.overallRating = overallRating
                                                 item?.answer?.sort((a, b) => parseInt(b.value) - parseInt(a.value))
-
+                                                
                                                 return (
                                                     <SurveyAnalyticsRatingView
                                                         index={index}

@@ -112,7 +112,7 @@ const SetPopup = (props) => {
       setSelectedPDF("");
     }
 
-    if (localStorage.getItem("user_id") == "b3APser7L8OELDIG8ee2HQ==") {
+    if (localStorage.getItem("user_id") == "b3APser7L8OELDIG8ee2HQ==" || localStorage.getItem("user_id") == "rOhdD02MgXkownQqcreqAw==") {
       const newObj = { value: "Sunshine USA", label: "Sunshine USA" };
       const updatedArray = [...types, newObj];
       setTypes(updatedArray);
@@ -830,7 +830,7 @@ templateIdRef.current=res?.data?.data?.popupTempId
                     </div>
                   )}
 
-                  {articleId && timeList.length > 0 && (
+                  {articleId && timeList.length > 0 && selectOptions.consentType != 'Online' && (
                     <div className="template_language">
                       <span>
                         Time
@@ -1015,7 +1015,7 @@ templateIdRef.current=res?.data?.data?.popupTempId
                           content_style:
                             "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
                           content_css: [
-                            "https://docintel.app/react_informed.css?v=1.1",
+                            "https://docintel.app/react_informed.css?v=1.2",
                             "https://use.fontawesome.com/releases/v5.8.2/css/all.css",
                           ],
                           init_instance_callback: (editor)=>addTracking(editor),

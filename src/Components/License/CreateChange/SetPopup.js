@@ -119,7 +119,7 @@ const SetPopup = (props) => {
     } else {
       setSelectedPDF("");
     }
-    if (localStorage.getItem("user_id") == "b3APser7L8OELDIG8ee2HQ==") {
+    if (localStorage.getItem("user_id") == "b3APser7L8OELDIG8ee2HQ==" || localStorage.getItem("user_id") == "rOhdD02MgXkownQqcreqAw==") {
       const newObj = { value: "Sunshine USA", label: "Sunshine USA" };
       const updatedArray = [...types, newObj];
       setTypes(updatedArray);
@@ -721,7 +721,7 @@ const SetPopup = (props) => {
                     <div className="template_language">
                       <span>
                         Consent type
-                        <LinkWithTooltip tooltip="Select Popup Type.">
+                        <LinkWithTooltip tooltip="Please select if you want consent from the reader or not">
                           <img
                             src={path_image + "info_circle_icon.svg"}
                             alt="refresh-btn"
@@ -796,11 +796,11 @@ const SetPopup = (props) => {
                     </div>
                   )}
 
-                  {articleId && timeList.length > 0 && (
+                  {articleId && timeList.length > 0 && selectOptions.consentType != 'Online' &&  (
                     <div className="template_language">
                       <span>
                         Time
-                        <LinkWithTooltip tooltip="Select Popup Time.">
+                        <LinkWithTooltip tooltip="How much browsing time will the reader have before the pop-up shows?">
                           <img
                             src={path_image + "info_circle_icon.svg"}
                             alt="refresh-btn"
@@ -963,7 +963,7 @@ const SetPopup = (props) => {
                           content_style:
                             "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
                           content_css: [
-                            "https://docintel.app/react_informed.css",
+                            "https://docintel.app/react_informed.css?v=1.2",
                             "https://use.fontawesome.com/releases/v5.8.2/css/all.css",
                           ],
 

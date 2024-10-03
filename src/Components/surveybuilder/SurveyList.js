@@ -58,7 +58,7 @@ const SurveyList = (props) => {
 
   const submitHandler = (event) => {
     event.preventDefault();
-   
+  
     setShowFilter(false);
     getFilterAppliedData();
     setSubmiHandle(1);
@@ -262,7 +262,7 @@ const SurveyList = (props) => {
     if (selectedSublink) {
       navigator.clipboard
         .writeText(
-          `https://informed.pro/Survey/Survey.html?Utmde=${selectedSublink.label}`
+          `https://survey.docintel.app/survey.html?Utmde=${selectedSublink.label}`
         )
         .then(() => {
           toast.success("Sublink copied to clipboard!");
@@ -283,7 +283,7 @@ const SurveyList = (props) => {
       loader("show");
       setQr({
         ...qrState,
-        value: `https://informed.pro/Survey/Survey.html?Utmde=${selectedSublink.label}&dl=qr`,
+        value: `https://survey.docintel.app/survey.html?Utmde=${selectedSublink.label}&dl=qr`,
       });
       setTimeout(function () {
         downloadQRCode();
@@ -589,6 +589,15 @@ const SurveyList = (props) => {
     }
     navigate(path);
   };
+
+  const analyticButtonClicked=(data)=>{
+    let item={
+      Title:data?.survey_title,
+      survey_id:data?.survey_id,
+      CreatedDate:data?.date
+    }
+navigate("/survey/survey-analytics-detail",{state:{item}})
+  }
 
   return (
     <>
@@ -1216,7 +1225,7 @@ const SurveyList = (props) => {
                                         <div className="tab-panel">
                                           <div class="tab-content-links">
                                             <a
-                                              href={`/Survey/Survey.html?Utmde=${data.unique_code}`}
+                                              href={`https://survey.docintel.app/survey.html?Utmde=${data.unique_code}`}
                                               class={
                                                 data?.is_draft != null &&
                                                 data?.is_draft == "0"
@@ -1225,7 +1234,7 @@ const SurveyList = (props) => {
                                               }
                                               target="_blank"
                                             >
-                                              https://informed.pro/Survey/Survey.html?Utmde=
+                                              https://survey.docintel.app/survey.html?Utmde=
                                               {data.unique_code}
                                             </a>
                                             {data.is_draft ? (
@@ -1233,7 +1242,7 @@ const SurveyList = (props) => {
                                                 class="copy-content"
                                                 onClick={() =>
                                                   copyHandler(
-                                                    `https://informed.pro/Survey/Survey.html?Utmde=${data.unique_code}`
+                                                    `https://survey.docintel.app/survey.html?Utmde=${data.unique_code}`
                                                   )
                                                 }
                                               >
@@ -1262,7 +1271,7 @@ const SurveyList = (props) => {
                                                 onClick={() => {
                                                   setQr({
                                                     ...qrState,
-                                                    value: `https://informed.pro/Survey/Survey.html?Utmde=${data.unique_code}&dl=qr`,
+                                                    value: `https://survey.docintel.app/survey.html?Utmde=${data.unique_code}&dl=qr`,
                                                   });
                                                   setTimeout(function () {
                                                     downloadQRCode();
@@ -1602,15 +1611,21 @@ const SurveyList = (props) => {
                                         </div>
                                         <div class="mailbox-buttons">
                                           <div className="send_new">
-                                            <Button
+                                            {data?.is_draft==0?<Button
                                               className={
-                                                data.is_draft
-                                                  ? "btn-bordered send-new"
-                                                  : "btn-bordered send-new disabled"
+                                                
+                                                   "btn-bordered send-new disabled"
                                               }
                                             >
                                               Analytics
-                                            </Button>
+                                            </Button>:
+                                            <Button
+                                            className={"btn-bordered send-new"                                               
+                                            }
+                                            onClick={()=>analyticButtonClicked(data)}
+                                          >
+                                            Analytics
+                                          </Button>}
                                           </div>
                                           <div class="mailbox-buttons-list">
                                             <Button
@@ -1633,7 +1648,7 @@ const SurveyList = (props) => {
                                               }
                                               onClick={(e) => {
                                                 window.open(
-                                                  `https://informed.pro/Survey/Survey.html?Utmde=${data.unique_code}`,
+                                                  `https://survey.docintel.app/survey.html?Utmde=${data.unique_code}`,
                                                   "_blank"
                                                 );
                                               }}
