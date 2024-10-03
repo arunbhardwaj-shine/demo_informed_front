@@ -389,7 +389,7 @@ const SurveyPreview = (props) => {
                             await navigateFunction(e);
                           }
                         : (e) => {
-                            toast.error("please insert at least one question");
+                            toast.error("Please insert at least one question");
                           }
                     }
                   >

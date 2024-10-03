@@ -296,7 +296,7 @@ const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
                                                 </div>
                                                 <div className="respondents">
                                                     <span>{ans?.count}</span>
-                                                    <span className="respondents-percent">(<span>{totalCount > 0 ? (((ans?.count / totalCount).toFixed(2)) * 100) : "00"}%</span>)</span>
+                                                    <span className="respondents-percent">(<span>{(totalCount> 0 &&ans?.count> 0 ) ? (((ans?.count / totalCount).toFixed(2)) * 100) : "00"}%</span>)</span>
                                                 </div>
                                             </div>
 
@@ -355,7 +355,7 @@ const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
                                             margin: "10 auto",
                                             justifyContent: "center",
                                             display: "flex",
-                                            height: 193
+                                            height: 148
                                         }}
                                     >
                                         <Spinner color="#53aff4" size={32} speed={1} animating={true} />
@@ -411,7 +411,6 @@ const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
                         </div>
                         <div className="answer-options">
                             {item?.answer?.map((ans, i) => {
-
                                 return (<>
                                     <div key={i} className="answer">
                                         <div className="choices">
@@ -422,7 +421,8 @@ const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
                                         </div>
                                         <div className="respondents">
                                             <span>{ans?.count}</span>
-                                            <span className="respondents-percent">(<span>{ans?.percentage ? ans?.percentage : "00"}%</span>)</span>
+                                            {/* <span className="respondents-percent">(<span>{ans?.percentage ? ans?.percentage : "00"}%</span>)</span> */}
+                                            <span className="respondents-percent">(<span>{(item?.total_count>0&&ans?.count>0) ? (((ans?.count/item?.total_count).toFixed(2))*100) : "00"}%</span>)</span>
                                         </div>
                                     </div>
                                 </>)

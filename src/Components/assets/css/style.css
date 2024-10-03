@@ -3130,7 +3130,16 @@ form .input-group {
   font-weight: 500;
   margin: 0 0 6px;
 }
-
+.survey_data_accordion_heading table tbody tr.fold td .survey-data h6 >p {
+  display: inline-block;
+  margin: 0 1px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--dark-blue);
+  border-left: 1px solid #004A89;
+  line-height: 1;
+  padding-left: 5px;
+}
 .survey_data_accordion_heading table tbody tr.fold td .survey-data p {
   color: var(--dark-gray);
   font-size: 13px;
@@ -12566,6 +12575,12 @@ table thead th.sort_option span button.event_sort_btn.svg_active >img{
   width: 100%;
 }
 
+.graph-box .survey_default_chart img {
+  max-width: 148px;
+  max-height: 148px;
+  /* width: 100%; */
+}
+
 .speaker-name button {
   background: var(--white);
   border-radius: 50%;
@@ -13082,6 +13097,9 @@ table thead th.sort_option span button.event_sort_btn.svg_active >img{
   width: 15px;
   left: 8px;
 }
+.register-popup-view .gena  .factor-season-right::before {
+  left: -32px;
+}
 
 .register-popup-view .factor-season-right {
   padding-left: 14px;
@@ -13092,6 +13110,15 @@ table thead th.sort_option span button.event_sort_btn.svg_active >img{
   font-size: 16px;
 }
 
+.register-popup-view .gena .factor-season-right h3 {
+  padding: 0 8px 0 0px;
+  font-size: 12px;
+  line-height: 1.2;
+  margin-bottom: 23px;
+}
+.register-popup-view .gena .factor-season-right {
+  padding-left: 6px;
+}
 .register-popup-view .emory .consent-form-inner .center-sided h2 {
   font-size: 18px;
   line-height: 31px;

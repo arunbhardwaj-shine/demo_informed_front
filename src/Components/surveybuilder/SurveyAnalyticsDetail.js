@@ -147,7 +147,7 @@ const SurveyAnalyticsDetail = () => {
             setApiStatus(true)
             const res = await surveyAxiosInstance.post("/survey/qns-analytics", {
                 survey_id: stateData?.survey_id
-                
+
             });
             let data = res?.data?.data
             let valueupdate = { ...options };
@@ -183,7 +183,7 @@ const SurveyAnalyticsDetail = () => {
         try {
             const res = await surveyAxiosInstance.post("/survey/analytic-qns-detail", {
                 survey_id: stateData?.survey_id
-                
+
             });
             const data = res?.data?.data?.allData
             setTempQuestionData(data)
@@ -347,7 +347,7 @@ const SurveyAnalyticsDetail = () => {
             if (surveyTakerTableData?.length == 0) {
                 const res = await surveyAxiosInstance.post("/survey/survey-takers-status", {
                     survey_id: stateData?.survey_id
-                    
+
                 });
 
                 let userdata = [
@@ -479,9 +479,9 @@ const SurveyAnalyticsDetail = () => {
                 setSectionApiStatus(true)
                 setLoaderIndex(id)
                 const res = await surveyAxiosInstance.post("/survey/takers-responses-detail", {
-                    user_id: id,                    
+                    user_id: id,
                     survey_id: stateData?.survey_id
-                    
+
                 })
                 setSurveyTakerShowQuestionsData(res?.data?.data)
             }
@@ -786,14 +786,14 @@ const SurveyAnalyticsDetail = () => {
                                                             {data?.surveyTakerDetails?.[2]?.value}
                                                         </div>
                                                     </div>
-                                                    {/* <div className="survey-info no-answer">
+                                                    <div className="survey-info no-answer">
                                                         <div>
                                                             <img src={path_image + "question-not.png"} alt="" />Not answered Questions
                                                         </div>
                                                         <div className="survey-value">
                                                             2
                                                         </div>
-                                                    </div> */}
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -837,7 +837,7 @@ const SurveyAnalyticsDetail = () => {
                                                 }
                                                 item.answer.forEach(obj => {
                                                     // Avoid division by zero
-                                                    obj.percentage = item.total_count > 0 ? JSON.parse(((obj.count / item.total_count).toFixed(2)) * 100) : 0;
+                                                    obj.percentage = (item?.total_count > 0 && obj?.count > 0) ? (((obj.count / item.total_count).toFixed(2)) * 100) : "00";
                                                     totalWeightedValue += parseInt(obj.value) * obj.count;
                                                     totalRatings += obj.count > 0 ? 1 : 0
                                                 });
@@ -845,7 +845,7 @@ const SurveyAnalyticsDetail = () => {
                                                 let overallRating = item.total_count > 0 ? totalWeightedValue / item.total_count : 0;
                                                 item.overallRating = overallRating
                                                 item?.answer?.sort((a, b) => parseInt(b.value) - parseInt(a.value))
-                                                
+
                                                 return (
                                                     <SurveyAnalyticsRatingView
                                                         index={index}
@@ -1367,41 +1367,50 @@ const SurveyAnalyticsDetail = () => {
                                                                                                     return (<>
                                                                                                         <div key={index} className="survey-data">
                                                                                                             <div className="question-type">
-                                                                                                                <img src={path_image + image(data?.type)} alt="" title={item?.type}/>
+                                                                                                                <img src={path_image + image(data?.type)} alt="" title={item?.type} />
                                                                                                             </div>
-                                                                                                            <div>
-                                                                                                                <h6 dangerouslySetInnerHTML={{ __html: `Q${index + 1}|${data?.question_text}` }}>
-
-                                                                                                                </h6>
+                                                                                                            <div className="survey-matrix">
+                                                                                                                <h6 dangerouslySetInnerHTML={{ __html: `Q${index + 1} ${data?.question_text}` }}></h6>
                                                                                                                 {data?.type == "rating" ?
-
-                                                                                                                    <CommonSurveyStarRating data={data?.comment} />
-
+                                                                                                                    <CommonSurveyStarRating data={data?.comment} type={data?.extra} />
                                                                                                                     :
-                                                                                                                    data?.question_detail?.length
-                                                                                                                        ? data?.question_detail?.map((ans, i) => {
-                                                                                                                            return (<>
-                                                                                                                                {data?.type == "matrix" ? (<>
-                                                                                                                                    <p dangerouslySetInnerHTML={{ __html: `${ans?.question_text}` }}></p><p>{ans?.option_text}</p></>)
-                                                                                                                                    :
+                                                                                                                    data?.question_detail?.length>0
+                                                                                                                        ?
+                                                                                                                        data?.type == "matrix" ?
+                                                                                                                            <Table>
+                                                                                                                                <tbody>
+                                                                                                                                    {data?.question_detail?.map((ans, i) => {
+                                                                                                                                        return (<>
+                                                                                                                                            <tr>
+                                                                                                                                                <td className="heading"><p dangerouslySetInnerHTML={{ __html: `${ans?.question_text}` }}></p></td>
+                                                                                                                                                {ans?.option_text?.length>0
+                                                                                                                                                ?
+                                                                                                                                                ans?.option_text?.map((option)=>(<td><p>{option}</p></td>)):""}
+                                                                                                                                                
+                                                                                                                                            </tr>
+                                                                                                                                        </>)
+
+                                                                                                                                    })}
+                                                                                                                                </tbody>
+                                                                                                                            </Table>
+                                                                                                                            :
+                                                                                                                            data?.question_detail?.map((ans, i) => {
+                                                                                                                                return (<>                                                                                                                                   
                                                                                                                                     <p>
                                                                                                                                         {ans?.option_text}
                                                                                                                                     </p>
-                                                                                                                                }
-
-                                                                                                                            </>)
-                                                                                                                        }) :
+                                                                                                                                </>)
+                                                                                                                            })
+                                                                                                                        :
                                                                                                                         <p>{data?.comment}</p>
                                                                                                                 }
-
                                                                                                             </div>
                                                                                                         </div>
                                                                                                     </>)
                                                                                                 })
                                                                                                     :
-
-                                                                                                    <div className="no_found"><p>No Data Found</p></div>
-
+                                                                                                    <div className="no_found"><p>No Data Found</p>
+                                                                                                    </div>
                                                                                             }
                                                                                         </td>
                                                                                     </tr>
@@ -1416,7 +1425,7 @@ const SurveyAnalyticsDetail = () => {
                                                                                 </td>
                                                                             </tr>
                                                                         </>)
-                                                                    }) : !apiStatus ?<tr><td colSpan={6}> <div className="no_found"><p>No Data Found</p></div></td></tr>
+                                                                    }) : !apiStatus ? <tr><td colSpan={6}> <div className="no_found"><p>No Data Found</p></div></td></tr>
                                                                         : null
                                                                 }
                                                             </tbody>
@@ -1490,7 +1499,7 @@ const SurveyAnalyticsDetail = () => {
                                                                         margin: "10 auto",
                                                                         justifyContent: "center",
                                                                         display: "flex",
-                                                                        height: 225
+                                                                        height: 386
                                                                     }}
                                                                 >
                                                                     <Spinner color="#53aff4" size={32} speed={1} animating={true} />
@@ -1517,7 +1526,7 @@ const SurveyAnalyticsDetail = () => {
                                                                             ans: completedCountryData,
                                                                         }}
                                                                         colors={colors}
-                                                                        // type="analytics"
+                                                                    // type="analytics"
                                                                     // chartRef={countryBarRef}
                                                                     />
 
