@@ -85,11 +85,20 @@ const timeRange = `${convertedStartTime} - ${convertedEndTime}`;
                             textTransform: "capitalize",
                             color:eventDataSample?.eventLocation?.color
                           }}
+                          // dangerouslySetInnerHTML={{
+                          //   __html: eventDataSample?.eventLocation?.value
+                          //   ? eventDataSample?.eventLocation?.value
+                          //   : eventData?.location
+                          // }}
+
                           dangerouslySetInnerHTML={{
                             __html: eventDataSample?.eventLocation?.value
-                            ? eventDataSample?.eventLocation?.value
-                            : eventData?.location
+                              ? eventDataSample?.eventLocation?.value
+                              // : eventData?.location
+                              // ? eventData?.location
+                              : ""
                           }}
+                          
                         />
                           {/* {eventDataSample?.eventLocation?.value
                             ? eventDataSample?.eventLocation?.value
