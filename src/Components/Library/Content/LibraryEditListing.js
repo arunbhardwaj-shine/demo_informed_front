@@ -114,7 +114,7 @@ const LibraryEditListing = () => {
   const filterRef = useRef(null);
 
   useEffect(() => {
-    if (localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==") {
+    if (localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg=="  && localStorage.getItem("user_id") != "MXl8m36VZFYXpgFVz3Pg0g=="  && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==") {
       let linktype = types;
       linktype.push(
         { value: "Offline Offer", label: "Offline Offer" },
@@ -177,7 +177,7 @@ const LibraryEditListing = () => {
         // payload.Role = [role];
       }
 
-      if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg=="||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==") {
+      if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==") {
         if (location?.state?.flag === 'mandatory') {
           payload.Role = [role];
         }
@@ -365,14 +365,14 @@ const LibraryEditListing = () => {
       //   };
       // }
       let staticFilters = {};
-      if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg=="||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==") {
+      if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==") {
         staticFilters = {
           "IRT mandatory training": [irt],
           // Role: [role]
         };
       }
   
-      if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg=="||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==") {
+      if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==") {
         if (location?.state?.flag === 'mandatory') {
           staticFilters.Role = [role];
         }
@@ -529,7 +529,7 @@ const LibraryEditListing = () => {
     if (!tagClickedFirst.includes(dd)) {
       setTagClickedFirst((oldArray) => [...oldArray, dd]);
     } else {
-      {localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" ||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==" ?
+      {localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==" ?
         toast.error("Topic already in list."): toast.error("Tag already in list.");
        } 
     }
@@ -555,7 +555,7 @@ const LibraryEditListing = () => {
 
   const addTag = async () => {
     if (typeof newTag == "undefined" || newTag.trim().length == 0) {
-      {localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" ||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==" ?
+      {localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==" ?
         toast.error("Please input a topic"): toast.error("Please input a tag");
        } 
     } else {
@@ -582,7 +582,7 @@ const LibraryEditListing = () => {
           tags: newTag,
         };
       } else {
-        {localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" ||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==" ?
+        {localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==" ?
           toast.error("Topic already in list."): toast.error("Tag already in list.");
          } 
       }
@@ -699,15 +699,15 @@ const LibraryEditListing = () => {
                       : "/library-create"
                   }
                   state={{ 
-                    // title: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" 
+                    // title: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
                     // ? (location?.state?.title)
                     // : '' 
 
-                    flag : localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg=="||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==" ?(location?.state?.flag === "mandatory"
+                    flag : localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==" ?(location?.state?.flag === "mandatory"
                       ? "mandatory"
                       : location?.state?.flag === "Non-mandatory"
                       ? "Non-mandatory" : '') :'',
-                      title: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" ||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA=="
+                      title: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA=="
                       ? (location?.state?.title)
                       : ''
                 
@@ -1088,7 +1088,7 @@ const LibraryEditListing = () => {
                                   to="/library-edit"
                                   state={{ pdfid: data.id ,  
                                     // title : location?.state?.title,
-                                    title: localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg=="||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==" ? location?.state?.title : '',
+                                    title: localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==" ? location?.state?.title : '',
                                     flag: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" ||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA=="
                                     ? (location?.state?.flag === "Non-mandatory" ? 'Non-mandatory' : "mandatory")
                                     : '' 
@@ -1218,7 +1218,7 @@ const LibraryEditListing = () => {
                                     </li>
 
                                     {localStorage.getItem("user_id") !=
-                                    "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==" ? (
+                                    "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "MXl8m36VZFYXpgFVz3Pg0g=="   && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==" ? (
                                       <>
                                         <li>
                                           <h6 className="tab-content-title">
@@ -1928,7 +1928,7 @@ const LibraryEditListing = () => {
                                 </div>
                               </Tab>
                               {localStorage.getItem("user_id") !=
-                      "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==" ?<Tab
+                      "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "MXl8m36VZFYXpgFVz3Pg0g=="  && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==" ?<Tab
                                 className="change-tab flex-column justify-content-between"
                                 eventKey="change-tab"
                                 title="Change"
@@ -1970,7 +1970,7 @@ const LibraryEditListing = () => {
                               </Tab>:''}
 
                               {localStorage.getItem("user_id") !=
-                      "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==" ?<Tab
+                      "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "MXl8m36VZFYXpgFVz3Pg0g=="   && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==" ?<Tab
                                 eventKey="sales"
                                 title={
                                   localStorage.getItem("group_id") == "3"
@@ -2050,7 +2050,7 @@ const LibraryEditListing = () => {
                                     )}
 
                                     {localStorage.getItem("user_id") ==
-                                      "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" &&
+                                      "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" &&
                                     localStorage.getItem("group_id") == "3" ? (
                                       <>
                                         {/*<li>
@@ -2090,7 +2090,7 @@ const LibraryEditListing = () => {
                                     ) : null}
 
                                     {localStorage.getItem("user_id") !=
-                                    "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==" ? (
+                                    "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "MXl8m36VZFYXpgFVz3Pg0g=="   && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==" ? (
                                       <>
                                         <li>
                                           <h6 className="tab-content-title">

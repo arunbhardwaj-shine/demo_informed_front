@@ -43,7 +43,7 @@ import {
 
 const LibraryContent = (props) => {
   //-----All States-----//
-  const isRDAccount = localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id")==="sNl1hra39QmFk9HwvXETJA=="
+  const isRDAccount = localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id")==="sNl1hra39QmFk9HwvXETJA=="
   const deletButtonColor =isRDAccount  ? '#8A4E9C' : '#0066be'
   const [flag, setFlag] = useState(0);
   const [types, setTypes] = useState([
@@ -182,7 +182,7 @@ const LibraryContent = (props) => {
   ];
 
   useEffect(() => {
-    if (localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg=="&&localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==") {
+    if (localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg=="&& localStorage.getItem("user_id") != "MXl8m36VZFYXpgFVz3Pg0g=="  &&localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==") {
       let linktype = types;
       linktype.push(
         { value: "Offline Offer", label: "Offline Offer" },
@@ -250,12 +250,12 @@ const LibraryContent = (props) => {
         user_id: localStorage.getItem("user_id"),
       };
 
-      if (payload.user_id === "56Ek4feL/1A8mZgIKQWEqg==" || payload.user_id === "sNl1hra39QmFk9HwvXETJA==") {
+      if (payload.user_id ==="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") === "MXl8m36VZFYXpgFVz3Pg0g=="  || payload.user_id === "sNl1hra39QmFk9HwvXETJA==") {
         payload["IRT mandatory training"] = [irt];
         // payload.Role = [role];
       }
 
-      if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id")==="sNl1hra39QmFk9HwvXETJA==") {
+      if (localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") === "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id")==="sNl1hra39QmFk9HwvXETJA==") {
         if (location?.state?.flag === 'mandatory') {
           payload.Role = [role];
         }
@@ -335,7 +335,7 @@ const LibraryContent = (props) => {
       otherObj[key] = [];
     }
 
-    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
+    if (localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
       if (key == "IRT mandatory training") {
         if (newObj["Role"]) {
           delete newObj["Role"];
@@ -555,14 +555,14 @@ const LibraryContent = (props) => {
       };
     
     let staticFilters = {};
-    if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id")==="sNl1hra39QmFk9HwvXETJA==") {
+    if (localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") === "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id")==="sNl1hra39QmFk9HwvXETJA==") {
       staticFilters = {
         "IRT mandatory training": [irt],
         // Role: [role]
       };
     }
 
-    if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id")==="sNl1hra39QmFk9HwvXETJA==") {
+    if (localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") === "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id")==="sNl1hra39QmFk9HwvXETJA==") {
       if (location?.state?.flag === 'mandatory') {
         staticFilters.Role = [role];
       }
@@ -895,7 +895,7 @@ const LibraryContent = (props) => {
     if (!tagClickedFirst.includes(dd)) {
       setTagClickedFirst((oldArray) => [...oldArray, dd]);
     } else {
-      {localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" ||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==" ?
+      {localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" ||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==" ?
         toast.error("Topic already in list."): toast.error("Tag already in list.");
        } 
       
@@ -922,7 +922,7 @@ const LibraryContent = (props) => {
   const addTag = async () => {
     try {
       if (typeof newTag == "undefined" || newTag.trim().length == 0) {
-       {localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" ||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==" ?
+       {localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" ||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==" ?
         toast.error("Please input a topic"): toast.error("Please input a tag");
        } 
         
@@ -960,7 +960,7 @@ const LibraryContent = (props) => {
             tags: newTag,
           };
         } else {
-          {localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" ||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==" ?
+          {localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" ||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==" ?
             toast.error("Topic already in list."): toast.error("Tag already in list.");
            } 
         }
@@ -1063,7 +1063,7 @@ const LibraryContent = (props) => {
   };
 
   const nextClicked = async(id) => {
-    if(localStorage.getItem('user_id') == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="){
+    if(localStorage.getItem('user_id') =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="){
       if(mandatoryPdfId){
         let irtRoleObj = {
           "pdfId": mandatoryPdfId,
@@ -1146,7 +1146,7 @@ const LibraryContent = (props) => {
             <div className="top-sticky">
               <div className="top-header">
                 <div className="page-title">
-                  {localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id")==="sNl1hra39QmFk9HwvXETJA==" ? (
+                  {localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") === "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id")==="sNl1hra39QmFk9HwvXETJA==" ? (
                     location?.pathname === "/library-mandatory-content" ? (
                       <>
                         <Link className="btn btn-primary btn-bordered back-btn"
@@ -1178,7 +1178,7 @@ const LibraryContent = (props) => {
                   <h2>{location?.state?.data == "edit" ? "Edit" : ""}</h2>
                 </div>
                 <div className="top-right-action flex-wrap">
-                  {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" ? (
+                  {localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" ? (
 
                     <>
                       <div className="action-btn-add"style={{margin:"0"}}>
@@ -1664,7 +1664,7 @@ const LibraryContent = (props) => {
                               </div>
                             ) : null}
 
-                              {(localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==" ||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==") && location?.state?.data == "edit" || editstatus ? (
+                              {(localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") === "MXl8m36VZFYXpgFVz3Pg0g=="  ||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==") && location?.state?.data == "edit" || editstatus ? (
                               <div className="dlt_btn edit">
                                 <Link
                                   to="/library-edit"
@@ -1902,7 +1902,7 @@ const LibraryContent = (props) => {
 
 
                                     {(localStorage.getItem("user_id") ==
-                      "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") && localStorage.getItem("group_id") == 3 ? (
+                      "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") && localStorage.getItem("group_id") == 3 ? (
                                       <Button
                                         className="footer-btn"
                                         onClick={(e) =>
@@ -1914,7 +1914,7 @@ const LibraryContent = (props) => {
                                     ) : null}
 
                                       {localStorage.getItem("user_id") !=
-                      "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==" ?
+                      "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "MXl8m36VZFYXpgFVz3Pg0g=="  && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==" ?
                       <Button
                                         onClick={(e) => {
                                           commonModelFun(
@@ -2630,7 +2630,7 @@ const LibraryContent = (props) => {
                               </Tab>
 
                               {localStorage.getItem("user_id") !=
-                      "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==" ?<Tab
+                      "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "MXl8m36VZFYXpgFVz3Pg0g=="  && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==" ?<Tab
                                 className="change-tab flex-column justify-content-between"
                                 eventKey="change-tab"
                                 title="Change"
@@ -2725,8 +2725,8 @@ const LibraryContent = (props) => {
                                       // state={{ pdfid: data.id }}
                                       state={{ pdfid: data.id , 
                                         // title : location?.state?.title,
-                                        title: localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id")==="sNl1hra39QmFk9HwvXETJA==" ? location?.state?.title : '',
-                                        flag: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id")==="sNl1hra39QmFk9HwvXETJA=="
+                                        title: localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") === "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id")==="sNl1hra39QmFk9HwvXETJA==" ? location?.state?.title : '',
+                                        flag: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" || localStorage.getItem("user_id")==="sNl1hra39QmFk9HwvXETJA=="
                                         ? (location?.state?.flag === "Non-mandatory" ? 'Non-mandatory' : "mandatory")
                                         : '' 
                                       }}
@@ -2746,13 +2746,13 @@ const LibraryContent = (props) => {
                                     ) : null}
 
                                     {localStorage.getItem("user_id") !=
-                                      "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==" && (
+                                      "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "MXl8m36VZFYXpgFVz3Pg0g=="  && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==" && (
                                         <Link
                                           to="/library-sublink"
                                           state={{ pdfid: data.id }}
                                           // state={{ pdfid: data.id ,  
                                           //   // title : location?.state?.title,
-                                          //   title: localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id")==="sNl1hra39QmFk9HwvXETJA==" ? location?.state?.title : '',
+                                          //   title: localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") === "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id")==="sNl1hra39QmFk9HwvXETJA==" ? location?.state?.title : '',
                                           //   flag: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id")==="sNl1hra39QmFk9HwvXETJA=="
                                           //   ? (location?.state?.flag === "Non-mandatory" ? 'Non-mandatory' : "mandatory")
                                           //   : '' 
@@ -2767,7 +2767,7 @@ const LibraryContent = (props) => {
                               </Tab>:""}
 
                               {localStorage.getItem("user_id") !=
-                      "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==" ?<Tab
+                      "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "MXl8m36VZFYXpgFVz3Pg0g=="   && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==" ?<Tab
                                 eventKey="sales"
                                 title={
                                   localStorage.getItem("group_id") == "3"
@@ -2847,7 +2847,7 @@ const LibraryContent = (props) => {
                                     )}
                                     {localStorage.getItem("group_id") === "3" &&
                                       localStorage.getItem("user_id") !==
-                                      "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") !== "sNl1hra39QmFk9HwvXETJA==" ? (
+                                      "56Ek4feL/1A8mZgIKQWEqg=="&& localStorage.getItem("user_id") != "MXl8m36VZFYXpgFVz3Pg0g=="   && localStorage.getItem("user_id") !== "sNl1hra39QmFk9HwvXETJA==" ? (
                                       <>
                                         <li>
                                           <h6 className="tab-content-title">
@@ -2863,7 +2863,7 @@ const LibraryContent = (props) => {
                                     ) : null}
 
                                     {localStorage.getItem("user_id") ===
-                                      "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" &&
+                                      "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="|| localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" &&
                                       localStorage.getItem("group_id") === "3" ? (
                                       <>
                                         {/*<li>
@@ -3050,7 +3050,7 @@ const LibraryContent = (props) => {
         <Modal.Header>
           <h5 className="modal-title" id="staticBackdropLabel">
         { localStorage.getItem("user_id") ===
-          "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==" ? "Add Topics" : "Add Tags"}
+          "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="|| localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==" ? "Add Topics" : "Add Tags"}
           </h5>
           <button
             type="button"
@@ -3064,7 +3064,7 @@ const LibraryContent = (props) => {
           <div className="select-tags">
             <h6>
             { localStorage.getItem("user_id") ===
-          "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==" ? "Select Topic :" : "Select Tag :"}
+          "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" || localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==" ? "Select Topic :" : "Select Tag :"}
             </h6>
             <div className="tag-lists">
               <div className="tag-lists-view">
@@ -3086,7 +3086,7 @@ const LibraryContent = (props) => {
             <h6>
              
               { localStorage.getItem("user_id") ===
-          "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==" ? "Selected Topics" : "Selected Tag"}
+          "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" || localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==" ? "Selected Topics" : "Selected Tag"}
                <span> | {tagClickedFirst.length}</span>
             </h6>
 

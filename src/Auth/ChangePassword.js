@@ -28,7 +28,7 @@ const ChangePassword = () => {
       loader("show");
       await postData(ENDPOINT.CHANGE_PASSWORD, user);
       loader("hide");     
-      if(localStorage.getItem('user_id')==="56Ek4feL/1A8mZgIKQWEqg=="){
+      if(localStorage.getItem('user_id')==="56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" ){
         navigate("/home-timeline");
       }else{
         navigate("/home");

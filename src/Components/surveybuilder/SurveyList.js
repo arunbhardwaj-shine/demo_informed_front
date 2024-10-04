@@ -823,8 +823,8 @@ navigate("/survey/survey-analytics-detail",{state:{item}})
                               </Accordion.Body>
                             </Accordion.Item>
                           )}
-                        {localStorage.getItem("user_id") !=
-                        "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                        {(localStorage.getItem("user_id") !=
+                        "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "MXl8m36VZFYXpgFVz3Pg0g=="   )? (
                           <Accordion.Item className="card" eventKey="3">
                             <Accordion.Header className="card-header">
                               Survey

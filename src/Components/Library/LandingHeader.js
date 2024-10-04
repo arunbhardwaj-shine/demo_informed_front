@@ -134,7 +134,7 @@ const LandingHeader = () => {
         if (res?.data?.data?.loginCounter == 0) {
           navigate("/change-password");
         } else {
-          if (res?.data?.data?.userToken === "56Ek4feL/1A8mZgIKQWEqg==") {
+          if (res?.data?.data?.userToken === "56Ek4feL/1A8mZgIKQWEqg=="  || res?.data?.data?.userToken=="MXl8m36VZFYXpgFVz3Pg0g==") {
             navigate("/home-timeline")
           } else {
             navigate("/home");

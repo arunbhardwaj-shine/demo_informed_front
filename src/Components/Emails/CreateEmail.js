@@ -210,12 +210,12 @@ const CreateEmail = (props) => {
       country: "",
       countryIndex: "",
       role:
-        (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+        (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" 
         ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
           ? irtRole?.[0]?.value
           : "",
       optIRT:
-        (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+        (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" 
         ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
           ? "yes"
           : "",
@@ -297,7 +297,7 @@ const CreateEmail = (props) => {
 
   useEffect(() => {
     loader("show");
-    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") {
+    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") {
       axiosFun();
     }
     const getalCountry = async () => {
@@ -325,7 +325,7 @@ const CreateEmail = (props) => {
                 label: label,
               });
             });
-            if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") {
+            if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") {
               let investigator_type =
                 res?.data?.response?.data?.investigator_type;
               let newType = [];
@@ -400,7 +400,7 @@ const CreateEmail = (props) => {
     let siteContent = 0;
     if (
       pdf_id == 14 &&
-      (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+      (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
     ) {
       siteContent = 1;
       content_included = 0;
@@ -566,7 +566,7 @@ const CreateEmail = (props) => {
 
   const addMoreHcp = () => {
     const status = hpc.map((data) => {
-      if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") {
+      if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") {
         if (
           data?.email == "" ||
           data?.lastname == "" ||
@@ -606,12 +606,12 @@ const CreateEmail = (props) => {
           country: "",
           countryIndex: "",
           optIRT:
-            (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+            (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" 
             ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
               ? "yes"
               : "",
           role:
-            (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+            (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" 
             ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
               ? irtRole?.[0]?.value
               : "",
@@ -620,7 +620,7 @@ const CreateEmail = (props) => {
         },
       ]);
     } else {
-      if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") {
+      if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") {
         toast.warning("Please input the required fields.");
       } else {
         toast.warning("Please input the required fields.");
@@ -1420,12 +1420,12 @@ const CreateEmail = (props) => {
         country: "",
         countryIndex: "",
         role:
-          (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+          (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" 
           ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
             ? irtRole?.[0]?.value
             : "",
         optIRT:
-          (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+          (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" 
           ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
             ? "yes"
             : "",
@@ -1574,7 +1574,7 @@ const CreateEmail = (props) => {
       list[i].countryIndex = "";
       setHpc(list);
     } else {
-      if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") {
+      if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") {
         let consetValue = e.value;
         if (e.value == "B&H") {
           consetValue = "Bosnia and Herzegovina";
@@ -1639,7 +1639,7 @@ const CreateEmail = (props) => {
     if (activeManual == "active") {
  
  
-     const  isRdAndNorgianAcount=localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA=="
+     const  isRdAndNorgianAcount=localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA=="
       const body_data = hpc.map((data) => {
         if (isRdAndNorgianAcount) {
  
@@ -2456,7 +2456,7 @@ const CreateEmail = (props) => {
                       :
                       <>
                         {
-                          (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                          (localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
                           ? 
                             <>
                               {
@@ -3226,7 +3226,7 @@ const CreateEmail = (props) => {
                               </p>
 
                               {(localStorage.getItem("user_id") ===
-                                "56Ek4feL/1A8mZgIKQWEqg=="
+                                "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" 
                                 ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
                                 ? (
                                 <p className="send-hcp-box-title">
@@ -3589,13 +3589,13 @@ const CreateEmail = (props) => {
                     countryIndex: "",
                     role:
                       (localStorage.getItem("user_id") ==
-                        "56Ek4feL/1A8mZgIKQWEqg=="
+                        "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" 
                         ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
                         ? irtRole?.[0]?.value
                         : "",
                     optIRT:
                       (localStorage.getItem("user_id") ==
-                        "56Ek4feL/1A8mZgIKQWEqg=="
+                        "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" 
                         ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
                         ? "yes"
                         : "",
@@ -3630,7 +3630,7 @@ const CreateEmail = (props) => {
                                   <label htmlFor="">
                                     First name{" "}
                                     {(localStorage.getItem("user_id") ==
-                                      "56Ek4feL/1A8mZgIKQWEqg=="
+                                      "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" 
                                       ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
                                       && (
                                         <span>*</span>
@@ -3663,7 +3663,7 @@ const CreateEmail = (props) => {
                                   <label htmlFor="">
                                     Last name{" "}
                                     {(localStorage.getItem("user_id") ==
-                                      "56Ek4feL/1A8mZgIKQWEqg==" 
+                                      "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" 
                                       ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
                                       && (
                                         <span>*</span>
@@ -3722,7 +3722,7 @@ const CreateEmail = (props) => {
                               </div>
 
                               {(localStorage.getItem("user_id") ===
-                                "56Ek4feL/1A8mZgIKQWEqg=="
+                                "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" 
                                 ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
                                 ? (
                                 <>
@@ -3975,7 +3975,7 @@ const CreateEmail = (props) => {
                                   <label htmlFor="">
                                     Country{" "}
                                     {(localStorage.getItem("user_id") ==
-                                      "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") ==
+                                      "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") ==
                                       "m5JI5zEDY3xHFTZBnSGQZg==") && (
                                         <span>*</span>
                                       )}
@@ -4120,7 +4120,7 @@ const CreateEmail = (props) => {
                                 </div>
                               </div>*/}
                               {(localStorage.getItem("user_id") ===
-                                "56Ek4feL/1A8mZgIKQWEqg==" 
+                                "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
                                 ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
                                 ? (
                                 <>

@@ -92,7 +92,9 @@ const Table = (props, ref) => {
   ? "56Ek4feL/1A8mZgIKQWEqg=="
   : localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
       ? "sNl1hra39QmFk9HwvXETJA=="
-      : null);
+      : localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
+      ? "MXl8m36VZFYXpgFVz3Pg0g=="
+      :null);
 
   const [siteStreetAll, setSiteStreetAll] = useState([]);
   const [siteCityAll, setSiteCityAll] = useState([]);
@@ -122,7 +124,7 @@ const Table = (props, ref) => {
   );
 
   useEffect(() => {
-    if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") {
+    if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="||  localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" ||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") {
       axiosFun();
     }
     const getalCountry = async () => {
@@ -162,7 +164,7 @@ const Table = (props, ref) => {
 
             let arr = [];
 
-            if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") {
+            if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="||  localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") {
               user_type = res.data.response.data.investigator_type;
               sub_role = res.data.response.data.sub_role;
               blind_type = res.data.response.data.blind_type;
@@ -203,7 +205,7 @@ const Table = (props, ref) => {
               });
             });
 
-            if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") {
+            if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="||  localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" ||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") {
               Object.entries(site_number).map(([index, item]) => {
                 let label = item;
 
@@ -302,7 +304,7 @@ const Table = (props, ref) => {
             }
 
             setCountryall(arr);
-            if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") {
+            if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="||  localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" ||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") {
               setIrtRole(arrIrtUserType);
               setInstituions(arrinstitutions);
               setUserTypeAll(arrUserType);
@@ -341,23 +343,23 @@ const Table = (props, ref) => {
       country: "",
       countryIndex: "",
       siteIrt:
-        (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
+        (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="||  localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" ||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
           ? siteIrtAll?.find((item) => item?.value == "Yes")?.value
           : "",
       siteIrtIndex:
-        (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
+        (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="||  localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" ||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
           ? siteIrtAll?.findIndex((item) => item?.value == "Yes")
           : "",
       userType:
-        (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
+        (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="||  localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" ||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
           ? irtRole?.[0]?.value
           : "",
       roleIndex:
-        (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") ? 0 : "",
-        institute: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+        (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="||  localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" ||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") ? 0 : "",
+        institute: localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
         ? irtInstitutionType?.[0]?.value
         : "",
-      instituteIndex: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? 0 : "",
+      instituteIndex: localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? 0 : "",
       siteNumber: "",
       siteName: ""
     },
@@ -672,27 +674,27 @@ const Table = (props, ref) => {
         country: "",
         countryIndex: "",
         userType:
-          (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="
+          (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
           ||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
             ? irtRole?.[0]?.value
             : "",
         roleIndex:
-          (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="
+          (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="  || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
           ||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
             ? 0
             : "",
         siteIrt:
-          (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
+          (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="||  localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" ||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
             ? siteIrtAll?.find((item) => item?.value == "Yes")?.value
             : "",
         siteIrtIndex:
-          (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
+          (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="||  localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" ||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
             ? siteIrtAll?.findIndex((item) => item?.value == "Yes")
             : "",
-            institute: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+            institute: localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
             ? irtInstitutionType?.[0]?.value
             : "",
-          instituteIndex: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? 0 : "",
+          instituteIndex: localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? 0 : "",
           siteNumber: "",
           siteName: ""
       },
@@ -1175,7 +1177,7 @@ const Table = (props, ref) => {
     // console.log(hpc);
 
     // const status = hpc.map((data) => {
-    //   if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") {
+    //   if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="||  localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" ||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") {
     //     if (
     //       data.email == "" ||
     //       data.lastname == "" ||
@@ -1267,31 +1269,31 @@ const Table = (props, ref) => {
           country: "",
           countryIndex: "",
           userType:
-            (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
+            (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="||  localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" ||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
               ? irtRole?.[0]?.value
               : "",
           roleIndex:
-            (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
+            (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="||  localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" ||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
               ? 0
               : "",
           siteIrt:
-            (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
+            (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="||  localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" ||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
               ? siteIrtAll?.find((item) => item?.value == "Yes")?.value
               : "",
           siteIrtIndex:
-            (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
+            (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="||  localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" ||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
               ? siteIrtAll?.findIndex((item) => item?.value == "Yes")
               : "",
-              institute: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+              institute: localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
               ? irtInstitutionType?.[0]?.value
               : "",
-            instituteIndex: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? 0 : "",
+            instituteIndex: localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? 0 : "",
             siteNumber: "",
             siteName: ""
         },
       ]);
     } else {
-      if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" || localStorageUserId == "m5JI5zEDY3xHFTZBnSGQZg==") {
+      if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="||  localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" ||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" || localStorageUserId == "m5JI5zEDY3xHFTZBnSGQZg==") {
         toast.warning("Please input the required fields.");
       } else {
         toast.warning("Please input the email atleast.");
@@ -1421,7 +1423,7 @@ const Table = (props, ref) => {
       list[i].countryIndex = "";
       setHpc(list);
     } else {
-      if (localStorageUserId === "56Ek4feL/1A8mZgIKQWEqg=="||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") {
+      if (localStorageUserId === "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") {
         let consetValue = e.value;
         if (e.value == "B&H") {
           consetValue = "Bosnia and Herzegovina";
@@ -2172,7 +2174,7 @@ const Table = (props, ref) => {
                     </span>
                   </th>
                   {(localStorageUserId ==
-                    "56Ek4feL/1A8mZgIKQWEqg==" ||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")? (
+                    "56Ek4feL/1A8mZgIKQWEqg=="  || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")? (
                     <>
                       <th scope="col" className="sort_option">
                         <span onClick={() => handleSort('site_number')} >
@@ -2361,11 +2363,11 @@ const Table = (props, ref) => {
                         )}
                       </td>
                       {(localStorage.getItem("user_id") ==
-                        "56Ek4feL/1A8mZgIKQWEqg=="||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") && (<><td>{item?.site_number ? item?.site_number : "N/A"}</td></>)}
+                        "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") && (<><td>{item?.site_number ? item?.site_number : "N/A"}</td></>)}
                       <td>
                         {/*item.ibu*/}
                         {(localStorageUserId ==
-                          "56Ek4feL/1A8mZgIKQWEqg=="
+                          "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
                           ||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
                           ? item?.irt
                             ? "Yes"
@@ -2376,7 +2378,7 @@ const Table = (props, ref) => {
                       </td>
                       <td>
                         {(localStorageUserId ==
-                          "56Ek4feL/1A8mZgIKQWEqg=="
+                          "56Ek4feL/1A8mZgIKQWEqg=="  || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
                           ||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
                           ? (
                           <span>
@@ -2500,13 +2502,13 @@ const Table = (props, ref) => {
                             <td id="field_readers">NA</td>
                           ) : null*/}
                       {(localStorage.getItem("user_id") ==
-                        "56Ek4feL/1A8mZgIKQWEqg=="||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") && (<>
+                        "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") && (<>
                           <td id="field_site_number">
                             {item?.site_number ? item?.site_number : "N/A"}
                           </td></>)}
                       <td id="field_business_unit">
                         {(localStorageUserId ==
-                          "56Ek4feL/1A8mZgIKQWEqg=="
+                          "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
                           ||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
                           ? item?.irt
                             ? "Yes"
@@ -2517,7 +2519,7 @@ const Table = (props, ref) => {
                       </td>
                       <td id="field_interest">
                         {(localStorageUserId ==
-                          "56Ek4feL/1A8mZgIKQWEqg=="
+                          "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
                           ||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
                           ? (
                           <span>
@@ -2740,7 +2742,7 @@ const Table = (props, ref) => {
       </Modal>
 
       {/* add new hcps */}
-      {(localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") ? (
+      {(localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="||  localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" ||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") ? (
         <Modal
           id="add_hcp"
           show={isOpenAdd}
@@ -2773,33 +2775,33 @@ const Table = (props, ref) => {
                       countryIndex: "",
                       userType:
                         (localStorageUserId ==
-                          "56Ek4feL/1A8mZgIKQWEqg=="
+                          "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
                           ||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
                           ? irtRole?.[0]?.value
                           : "",
                       roleIndex:
                         (localStorageUserId ==
-                          "56Ek4feL/1A8mZgIKQWEqg=="
+                          "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
                           ||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
                           ? 0
                           : "",
                       siteIrt:
                         (localStorageUserId ==
-                          "56Ek4feL/1A8mZgIKQWEqg=="
+                          "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
                           ||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
                           ? siteIrtAll?.find((item) => item?.value == "Yes")
                             ?.value
                           : "",
                       siteIrtIndex:
                         (localStorageUserId ==
-                          "56Ek4feL/1A8mZgIKQWEqg=="
+                          "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
                           ||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
                           ? siteIrtAll?.indexOf((item) => item?.value == "Yes")
                           : "",
-                          institute: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+                          institute: localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
                           ? irtInstitutionType?.[0]?.value
                           : "",
-                        instituteIndex: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? 0 : "",
+                        instituteIndex: localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? 0 : "",
                         siteNumber: "",
                         siteName: ""
                     },
@@ -2830,7 +2832,7 @@ const Table = (props, ref) => {
                                     <label htmlFor="">
                                       First name{" "}
                                       {(localStorageUserId ==
-                                        "56Ek4feL/1A8mZgIKQWEqg==" 
+                                        "56Ek4feL/1A8mZgIKQWEqg=="  || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
                                         ||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
                                         && (
                                           <span>*</span>
@@ -2859,7 +2861,7 @@ const Table = (props, ref) => {
                                     <label htmlFor="">
                                       Last name{" "}
                                       {(localStorageUserId ==
-                                        "56Ek4feL/1A8mZgIKQWEqg==" 
+                                        "56Ek4feL/1A8mZgIKQWEqg=="  || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
                                         ||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
                                         && (
                                           <span>*</span>
@@ -2912,7 +2914,7 @@ const Table = (props, ref) => {
                                 </div>
 
                                 {(localStorageUserId !=
-                                  "56Ek4feL/1A8mZgIKQWEqg=="
+                                  "56Ek4feL/1A8mZgIKQWEqg=="&& localStorage.getItem("user_id") != "MXl8m36VZFYXpgFVz3Pg0g=="  
                                   &&localStorageUserId != "sNl1hra39QmFk9HwvXETJA==") ? (
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
@@ -2968,7 +2970,7 @@ const Table = (props, ref) => {
                                 ) : null}
 
                                 {(localStorageUserId !=
-                                  "56Ek4feL/1A8mZgIKQWEqg=="
+                                  "56Ek4feL/1A8mZgIKQWEqg=="&& localStorage.getItem("user_id") != "MXl8m36VZFYXpgFVz3Pg0g=="  
                                   &&localStorageUserId != "sNl1hra39QmFk9HwvXETJA==")
                                   ? (
                                   <div className="col-12 col-md-6">
@@ -3003,7 +3005,7 @@ const Table = (props, ref) => {
                                 ) : null}
 
                                 {(localStorageUserId ==
-                                  "56Ek4feL/1A8mZgIKQWEqg=="
+                                  "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
                                   ||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
                                   ? (
                                   <>
@@ -3179,7 +3181,7 @@ const Table = (props, ref) => {
                                         <label for="">
                                           country{" "}
                                           {(localStorageUserId ==
-                                            "56Ek4feL/1A8mZgIKQWEqg==" ||
+                                            "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" ||
                                             localStorageUserId == "sNl1hra39QmFk9HwvXETJA=="
                                             ||localStorageUserId ==
                                             "m5JI5zEDY3xHFTZBnSGQZg==")

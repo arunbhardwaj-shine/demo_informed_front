@@ -29,7 +29,7 @@ const TimelineDetail = (props) => {
   const [readerId, setReaderId] = useState(localStorage.getItem("myData"));
 
   const isRdAndNorgianAcount =
-    localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ||
+    localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  ||
     localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==";
 
   let obj = {

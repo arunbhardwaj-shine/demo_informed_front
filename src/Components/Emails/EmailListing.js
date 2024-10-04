@@ -23,7 +23,7 @@ const EmailList = (props) => {
   const location = useLocation();
   const navigate = useNavigate();
   const { state } = useLocation();
-  const isRND = (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem('user_id') == "sNl1hra39QmFk9HwvXETJA==")
+  const isRND = (localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem('user_id') == "sNl1hra39QmFk9HwvXETJA==")
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const colorArray = ['#0E9B8E', '#00003C', '#FFBE2C', '#FFBE2C', '#F58289', '#D61975', '#0066BE'];
@@ -74,7 +74,7 @@ const EmailList = (props) => {
     state?.IrtObj?.IRTFlag == 1 ? { role: [state?.IrtObj?.siteRole] } : {}
   );
   // const [filter, setFilter] = useState(initialFilterProp || {});
-  const deletButtonColor = (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ? '#8A4E9C' : '#0066be'
+  const deletButtonColor = (localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ? '#8A4E9C' : '#0066be'
   const [options_ch, setOptions_ch] = useState({
     chart: {
       type: "column",
@@ -997,7 +997,7 @@ const getDownloadData = async (viewEmailData) => {
                 </>)
                 : <h2>Emails</h2>}</div>
               <div className="top-right-action flex-wrap">
-              {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" ? (
+              {localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" ? (
                 <>
                   <div className="action-btn-add" style={{margin:"0"}}>
                     <Button className="btn-dashed"
@@ -1565,7 +1565,7 @@ const getDownloadData = async (viewEmailData) => {
                   filterrole.length == 0 &&
                   filtercampaign.length == 0 &&
                   !deletestatus && (
-                    localStorage.getItem("user_id") !== "56Ek4feL/1A8mZgIKQWEqg==" &&
+                    localStorage.getItem("user_id") !=="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") !== "MXl8m36VZFYXpgFVz3Pg0g=="  &&
                     localStorage.getItem("user_id") !== "sNl1hra39QmFk9HwvXETJA==" && (
                     <div className="email_box_block">
                       <div className="email-block-add">
@@ -2114,7 +2114,7 @@ const getDownloadData = async (viewEmailData) => {
                           </td>
                         </tr>
                         {
-                          (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem('user_id') == "sNl1hra39QmFk9HwvXETJA==") ?
+                          (localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem('user_id') == "sNl1hra39QmFk9HwvXETJA==") ?
                             <tr>
                               <th>IRTs </th>
                               <td>
