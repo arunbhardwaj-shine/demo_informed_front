@@ -201,7 +201,7 @@ const SetLayoutNew = () => {
                       <img src={path_image + "informed-circle-icon.svg"} alt="" />
                     </div>
                     <div className="timeline-date">
-                      <h3>LEX-210 Trial</h3>
+                      <h3>{localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" ?"GENA":"LEX-210 Trial"}</h3>
                       <p>July. 29. 2024 <span>|</span> 3:00 PM  <sub>last update</sub></p>
                     </div>
                   </div>

@@ -1210,7 +1210,7 @@ const RDAnalytics = () => {
               <div className="page-title d-flex">
                 <h2>
                   {
-                    location.pathname == '/LEX-210-analytics' ? "LEX-210" : "Trial Analytics"
+                    location.pathname == '/LEX-210-analytics' ? localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" ?"Gena":"LEX-210 " : "Trial Analytics"
                   }
 
                 </h2>

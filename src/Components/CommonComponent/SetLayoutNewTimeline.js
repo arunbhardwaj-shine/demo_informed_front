@@ -381,7 +381,7 @@ const SetLayoutNewTimeline = () => {
                       <img src={path_image + "informed-circle-icon.svg"} alt="" />
                     </div>
                     <div className="timeline-date">
-                      <h3>LEX-210 Trial</h3>
+                      <h3>{localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" ?"Gena":"LEX-210 Trial"}</h3>
                       {/* <p>{moment(loadMore?.lastUpdate).utc().format('MMMM. DD. YYYY | h:mm A')}  <sub>last update</sub></p> */}
                       {apiStatus?<p>
                         {loadMore?.lastUpdate ? moment(loadMore?.lastUpdate).utc().format('MMMM. DD. YYYY') : "N/A"}
