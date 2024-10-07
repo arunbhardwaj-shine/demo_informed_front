@@ -51,10 +51,7 @@ const SetLayout = () => {
     if (
       typeof localStorage.getItem("webinar_flag") !== "undefined" &&
       localStorage.getItem("webinar_flag") == 1 || localStorage.getItem("user_id") === "IJype v19WASFcSlrfRENQ=="
-      // localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==" &&
-      // localStorage.getItem("user_id") != "UbCJcnLM9fe HsRMgX8c1A==" &&
-      // localStorage.getItem("user_id") != "z2TunmZQf3QwCsICFTLGGQ==" &&
-      // localStorage.getItem("user_id") != "qDgwPdToP05Kgzc g2VjIQ=="
+
     ) {
       newdata.push({
         image: `${path_image}webinar-icon.svg`,
@@ -72,9 +69,6 @@ const SetLayout = () => {
     setActive(title);
     if (title == "Library") {
       navigate("/library-content");
-      // (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id")=="sNl1hra39QmFk9HwvXETJA==")
-      //  ? navigate("/library-mandatory")
-      //  :navigate("/library-content");
     } else if (title == "CRM") {
        (isLikeRdAccount)
        ?navigate("/IRT-Mandatory")

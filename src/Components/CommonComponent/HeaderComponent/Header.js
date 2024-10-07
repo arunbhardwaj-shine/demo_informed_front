@@ -407,7 +407,6 @@ const Header = () => {
                   } onClick={handleMenuItemClick}
                 >
                   <Link className="nav-link"
-                    // to={localStorage.getItem("user_id")=="56Ek4feL/1A8mZgIKQWEqg=="?"/IRTRole":"/EmailList"}
                     to={"/EmailList"}
                   >
                     EMAIL
@@ -448,9 +447,7 @@ const Header = () => {
                   localStorage.getItem("webinar_flag") == 1
                   ||
                   localStorage.getItem("user_id") === "IJype v19WASFcSlrfRENQ=="
-                  //  &&
-                  // localStorage.getItem("user_id") !=
-                  // "56Ek4feL/1A8mZgIKQWEqg=="
+
                   ? (
                     <li className={
                       window.location.pathname == "/webinar/live-stream/settings" ||
@@ -513,24 +510,6 @@ const Header = () => {
                   <Link className="nav-link" to={"/survey/survey-list"}>SURVEY
                   </Link>
                 </li>)}
-
-                {/* {localStorage.getItem("user_id") ==
-                  "56Ek4feL/1A8mZgIKQWEqg==" ? (
-                  <li className="nav-item">
-                    <a
-                      className="nav-link"
-                      target="_blank"
-                      href={
-                        "https://webinar.informed.pro/webinar/qa_survey?rdylr=" +
-                        localStorage.getItem("user_id")
-                      }
-                    >
-                      Q & POLL
-                    </a>
-                  </li>
-                ) : (
-                  ""
-                )} */}
 
                 {/* {localStorage.getItem("user_id") ==
                   "iSnEsKu5gB/DRlycxB6G4g==" ? (
