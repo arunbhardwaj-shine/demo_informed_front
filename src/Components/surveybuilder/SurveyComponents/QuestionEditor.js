@@ -40,6 +40,7 @@ const QuestionEditor = ({
           fontsize_formats: "8px 10px 12px 14px 18px 24px 36px", // Optional: Customize font sizes
           placeholder: Placeholder,
           link_default_target: '_blank'
+          
         }}
         onEditorChange={(content) => {
           handleUpdateElement(index, "question", content);
@@ -50,3 +51,4 @@ const QuestionEditor = ({
 };
 
 export default QuestionEditor;
+ 
