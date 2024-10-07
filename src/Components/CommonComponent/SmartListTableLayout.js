@@ -237,7 +237,7 @@ const SmartListTableLayout = ({ id, closeSmartListPopup }) => {
                                             </th>
 
                                             {(localStorage.getItem("user_id") ==
-                                                "56Ek4feL/1A8mZgIKQWEqg=="
+                                                "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" 
                                                 || localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
                                                 ? (
                                                     <>
@@ -371,12 +371,12 @@ const SmartListTableLayout = ({ id, closeSmartListPopup }) => {
                                                             <td>{rr?.bounce ? rr.bounce : "N/A"}</td>
                                                             <td>{rr?.country ? rr?.country : "N/A"}</td>
                                                             {(localStorage.getItem("user_id") ==
-                                                                "56Ek4feL/1A8mZgIKQWEqg=="
+                                                                "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" 
                                                                 || localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
                                                                 && (<><td>{rr.site_number ? rr.site_number : "N/A"}</td></>)}
                                                             <td>
                                                                 {(localStorage.getItem("user_id") ==
-                                                                    "56Ek4feL/1A8mZgIKQWEqg=="
+                                                                    "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" 
                                                                     || localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
 
                                                                     ? rr.irt
@@ -388,7 +388,7 @@ const SmartListTableLayout = ({ id, closeSmartListPopup }) => {
                                                             </td>
                                                             <td>
                                                                 {(localStorage.getItem("user_id") ==
-                                                                    "56Ek4feL/1A8mZgIKQWEqg=="
+                                                                    "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" 
                                                                     ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
                                                                     ? rr?.user_type != 0
                                                                         ? rr?.user_type

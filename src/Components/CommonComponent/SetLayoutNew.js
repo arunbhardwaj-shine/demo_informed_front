@@ -46,7 +46,7 @@ const SetLayoutNew = () => {
         subtitle: "All your licensed content in one place",
       });
     }
-    // if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+    // if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" ) {
     //   newdata.push({
     //     image: `${path_image}q-polling.svg`,
     //     title: "Q & Poll  ",
@@ -56,7 +56,7 @@ const SetLayoutNew = () => {
     if (
       typeof localStorage.getItem("webinar_flag") !== "undefined" &&
       localStorage.getItem("webinar_flag") == 1 || localStorage.getItem("user_id") === "IJype v19WASFcSlrfRENQ=="
-      // localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==" &&
+      // localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg=="  &&
       // localStorage.getItem("user_id") != "UbCJcnLM9fe HsRMgX8c1A==" &&
       // localStorage.getItem("user_id") != "z2TunmZQf3QwCsICFTLGGQ==" &&
       // localStorage.getItem("user_id") != "qDgwPdToP05Kgzc g2VjIQ=="
@@ -80,7 +80,7 @@ const SetLayoutNew = () => {
     if (title == "Library") {
       navigate("/library-content");
     } else if (title == "CRM") {
-      (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+      (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" 
         || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
         ? navigate("/new-readers-reviews")
         :
@@ -93,7 +93,7 @@ const SetLayoutNew = () => {
           ? navigate("/totalhcp")
           : localStorage.getItem("user_id") == "iSnEsKu5gB/DRlycxB6G4g=="
             ? navigate("/octalatch-totalhcp")
-            : (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+            : (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" 
               || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
               ? navigate("/LEX-210-analytics")
               : localStorage.getItem("user_id") == "wW0geGtDPvig5gF 6KbJrg=="
@@ -131,7 +131,7 @@ const SetLayoutNew = () => {
       // navigate("/license-content");
       navigate("/license-content");
     } else if (title == "Q&A/SURVEY") {
-      if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
+      if (localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
         window.open(
           "https://webinar.informed.pro/webinar/qa_survey?rdylr=" +
           localStorage.getItem("user_id"),
@@ -201,7 +201,7 @@ const SetLayoutNew = () => {
                       <img src={path_image + "informed-circle-icon.svg"} alt="" />
                     </div>
                     <div className="timeline-date">
-                      <h3>LEX-210 Trial</h3>
+                      <h3>{localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" ?"GENA":"LEX-210 Trial"}</h3>
                       <p>July. 29. 2024 <span>|</span> 3:00 PM  <sub>last update</sub></p>
                     </div>
                   </div>

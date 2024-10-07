@@ -54,7 +54,7 @@ const EmailArticleSelect = (props) => {
 
   useEffect(() => {
     const userId = localStorage.getItem("user_id");
-    if (userId === "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
+    if (userId ==="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") === "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
       setUpdateFlag(1);
     }
   }, []); 
@@ -63,7 +63,7 @@ const EmailArticleSelect = (props) => {
     let filterData = { ...filter };
     let data =  value?"":filterMandatory
     if (
-      localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" &&
+      localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" &&
       data
     ) {
       let obj = {
@@ -593,7 +593,7 @@ const EmailArticleSelect = (props) => {
                             )}
 
                           {localStorage.getItem("user_id") ==
-                            "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" &&
+                            "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="|| localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" &&
                             filterdata.hasOwnProperty("mandatory_training") &&
                             filterdata.mandatory_training.length > 0 && (
                               <Accordion.Item className="card" eventKey="4">
@@ -738,7 +738,7 @@ const EmailArticleSelect = (props) => {
                       )}
 
                       {localStorage.getItem("user_id") ==
-                        "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" && filterMandatory ? (
+                        "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" && filterMandatory ? (
                         <div className="filter-div">
                           <div className="filter-div-title">
                             <span>IRT Mandatory Training |</span>
@@ -848,7 +848,7 @@ const EmailArticleSelect = (props) => {
                   </div>
 
                   {/* {
-                localStorage.getItem('user_id') == "56Ek4feL/1A8mZgIKQWEqg==" && (
+                localStorage.getItem('user_id') =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  && (
                   <div className="col-12 col-md-4">
                     <div className="mail-content-select-box">
                       <div className="mail-content-select-top">

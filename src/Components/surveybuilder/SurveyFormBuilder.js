@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from "react";
 import { Button, Col, Form, Row, Tab, Tabs } from "react-bootstrap";
 import { toast } from "react-toastify";
@@ -25,9 +24,11 @@ const SurveyFormBuilder = (props) => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [currentTemplate, setCurrentTemplate] = useState(null);
   const [templateDefaultValues, setTemplateDefaultValues] = useState({});
-
   const [index, setIndex] = useState({});
   const [show, setShow] = useState(false);
+
+  const backgroundImgref = useRef();
+  const logoImgRef = useRef();
 
   const handleClose = () => {
     setShow(false);
@@ -44,7 +45,7 @@ const SurveyFormBuilder = (props) => {
   const survey_id = surveyValues?.survey_id;
   const navigate = useNavigate();
   let customHtmlData = surveyValues?.formBuilderData?.custom_html?.[0];
-  
+
   const [customHtml, setCustomHtml] = useState({});
   const [dynamicValues, setDynamicValues] = useState({});
   const [header_background_type, setHeaderBackgroundType] = useState(null);
@@ -63,8 +64,12 @@ const SurveyFormBuilder = (props) => {
   const [error, setError] = useState({});
   const [savednewCustomTempflag, setsavednewCustomTempflag] = useState(0);
 
-  const updateTemplatesData = async(updatedTemp, saveNewTemplate) => {
-    if (customHtmlData && Object.keys(customHtmlData).length > 0 && saveNewTemplate !== 1) {
+  const updateTemplatesData = async (updatedTemp, saveNewTemplate) => {
+    if (
+      customHtmlData &&
+      Object.keys(customHtmlData).length > 0 &&
+      saveNewTemplate !== 1
+    ) {
       const updatedData = updatedTemp.map((template) => {
         if (surveyValues?.formBuilderData?.template_id == template.id) {
           return { ...template, default_values: customHtmlData };
@@ -89,8 +94,8 @@ const SurveyFormBuilder = (props) => {
       // setCustomHtml(customHtmlData ?? {});
       // }
     } else {
-        setTemplates(updatedTemp);
-        setSelectedTemplateId(1);
+      setTemplates(updatedTemp);
+      setSelectedTemplateId(1);
     }
   };
 
@@ -166,7 +171,6 @@ const SurveyFormBuilder = (props) => {
 
   useEffect(() => {
     if (savednewCustomTempflag) {
-   
       setDynamicValues({});
       setTemplateDefaultValues({});
       setCustomHtml({});
@@ -217,11 +221,11 @@ const SurveyFormBuilder = (props) => {
   const editHandler = (e, tempId) => {
     e.preventDefault();
 
-    if(!(tempId == selectedTemplateId)){
-      toast.warning("Please select template to edit ")
+    if (!(tempId == selectedTemplateId)) {
+      toast.warning("Please select template to edit ");
       return;
     }
-    
+
     if (tempId == selectedTemplateId) {
       setCurrentTemplate(true);
     }
@@ -836,13 +840,15 @@ const SurveyFormBuilder = (props) => {
                                       </div>
                                       <div className="input-file-container">
                                         <input
+                                         ref={backgroundImgref}
                                           type="file"
                                           name="file"
                                           className="input-file"
                                           onInput={async (e) => {
                                             const result =
                                               await uploadImageToServer(
-                                                e.target.files[0]
+                                                e.target.files[0],
+                                                backgroundImgref
                                               );
                                             setDynamicValues((prevState) => ({
                                               ...prevState,
@@ -935,13 +941,15 @@ const SurveyFormBuilder = (props) => {
                                     </div>
                                     <div className="input-file-container">
                                       <input
+                                      ref={logoImgRef}
                                         type="file"
                                         name="file"
                                         className="input-file"
                                         onInput={async (e) => {
                                           const result =
                                             await uploadImageToServer(
-                                              e.target.files[0]
+                                              e.target.files[0],
+                                              logoImgRef
                                             );
                                           setDynamicValues((prevState) => ({
                                             ...prevState,

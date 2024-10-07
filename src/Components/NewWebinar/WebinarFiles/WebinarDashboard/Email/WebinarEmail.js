@@ -84,8 +84,8 @@ const WebinarEmail = (props) => {
   const [isActive, setIsActive] = useState({});
   const [sortBy, setSortBy] = useState('name'); // Initial sort key
   const [sortOrder, setSortOrder] = useState('asc');
-   const deletButtonColor = (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ? '#8A4E9C' : '#0066be'
-   const isRDAccount = (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id")==="sNl1hra39QmFk9HwvXETJA==")
+   const deletButtonColor = (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ? '#8A4E9C' : '#0066be'
+   const isRDAccount = (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id")==="sNl1hra39QmFk9HwvXETJA==")
  
 
   const [options, setOptions] = useState({
@@ -903,7 +903,7 @@ const WebinarEmail = (props) => {
                 <h2>Emails</h2>
               </div>
               <div className="top-right-action flex-wrap">
-              {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" ? (
+              {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  ? (
                 <>
                   <div className="action-btn-add" style={{margin:"0"}}>
                     {/* <Button className="btn-dashed"
@@ -1222,7 +1222,7 @@ const WebinarEmail = (props) => {
               <div className="col email-result-block">
                 {!deletestatus && (
                    localStorage.getItem("user_id") !== "56Ek4feL/1A8mZgIKQWEqg==" &&
-                   localStorage.getItem("user_id") !== "sNl1hra39QmFk9HwvXETJA==" && (
+                   localStorage.getItem("user_id") !== "sNl1hra39QmFk9HwvXETJA=="  && localStorage.getItem("user_id") != "MXl8m36VZFYXpgFVz3Pg0g=="  && (
                   <div className="email_box_block">
                     <div className="email-block-add">
                       <Link

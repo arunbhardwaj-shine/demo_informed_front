@@ -17,7 +17,7 @@ export const AddReaderValidation = (data, groupId, siteRole) => {
   //     error.primary_phone = "Phone number required with country code";
   //   }
   // }
-  if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
+  if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
     if (!data?.lastName) {
       error.lastName = "Last name required";
     }

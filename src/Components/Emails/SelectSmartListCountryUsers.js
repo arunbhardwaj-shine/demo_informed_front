@@ -37,8 +37,9 @@ const SelectSmartListCountryUsers = (props) => {
     const [readersNewlyAdded, setReadersNewlyAdded] = useState([]);
     const [reRender, setReRender] = useState(0);
     // const [userId, setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==");
-    const [userId, setUserId] = useState(localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA=="?"sNl1hra39QmFk9HwvXETJA==":"56Ek4feL/1A8mZgIKQWEqg==");
-    const [update, setUpdate] = useState(0);
+    const [userId, setUserId] = useState(localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+    ? "sNl1hra39QmFk9HwvXETJA==" : localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
+    ? "MXl8m36VZFYXpgFVz3Pg0g==":"56Ek4feL/1A8mZgIKQWEqg==");    const [update, setUpdate] = useState(0);
     const [activeManual, setActiveManual] = useState("active");
     const [activeExcel, setActiveExcel] = useState("");
     const [sortOrder, setSortOrder] = useState(true);
@@ -513,7 +514,7 @@ const SelectSmartListCountryUsers = (props) => {
             ).value;
 
             const contact_type_edit =
-                (localStorage.getItem("user_id") !== "56Ek4feL/1A8mZgIKQWEqg=="
+                (localStorage.getItem("user_id") !== "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "MXl8m36VZFYXpgFVz3Pg0g=="  
             &&localStorage.getItem("user_id") !== "sNl1hra39QmFk9HwvXETJA==")
                     ? document.getElementById("field_contact_type" + profile_user_id)
                         .value
@@ -820,7 +821,7 @@ const SelectSmartListCountryUsers = (props) => {
                     "field_index" + data.profile_user_id
                 ).value;
                 const contact_type_edit =
-                    (localStorage.getItem("user_id") !== "56Ek4feL/1A8mZgIKQWEqg=="
+                    (localStorage.getItem("user_id") !== "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "MXl8m36VZFYXpgFVz3Pg0g=="  
                     &&localStorage.getItem("user_id") !== "sNl1hra39QmFk9HwvXETJA==")
                         ? document.getElementById(
                             "field_contact_type" + data.profile_user_id
@@ -1340,7 +1341,7 @@ const SelectSmartListCountryUsers = (props) => {
                                                             <td>
                                                                 {/*rr?.ibu ? rr?.ibu : "N/A"*/}
                                                                 {(localStorage.getItem("user_id") ==
-                                                                    "56Ek4feL/1A8mZgIKQWEqg=="
+                                                                    "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
                                                                     ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
                                                                     ? rr?.irt
                                                                         ? "Yes"
@@ -1350,7 +1351,7 @@ const SelectSmartListCountryUsers = (props) => {
                                                                         : "N/A"}
                                                             </td>
                                                             {(localStorage.getItem("user_id") ==
-                                                                "56Ek4feL/1A8mZgIKQWEqg=="
+                                                                "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
                                                                 ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
                                                                 ? (
                                                                 <td>
@@ -1577,7 +1578,7 @@ const SelectSmartListCountryUsers = (props) => {
                                                                                 </td>
                                                                                 <td>
                                                                                     {(localStorage.getItem("user_id") ==
-                                                                                        "56Ek4feL/1A8mZgIKQWEqg==" 
+                                                                                        "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
                                                                                         ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
                                                                                         ? (
                                                                                         <span>
@@ -1682,7 +1683,7 @@ const SelectSmartListCountryUsers = (props) => {
                                                                     <label htmlFor="">
                                                                         First name{" "}
                                                                         {(localStorage.getItem("user_id") ==
-                                                                            "56Ek4feL/1A8mZgIKQWEqg==" 
+                                                                            "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
                                                                             ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
                                                                             && (
                                                                                 <span>*</span>
@@ -1714,7 +1715,7 @@ const SelectSmartListCountryUsers = (props) => {
                                                                     <label htmlFor="">
                                                                         Last name{" "}
                                                                         {(localStorage.getItem("user_id") ==
-                                                                            "56Ek4feL/1A8mZgIKQWEqg==" 
+                                                                            "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
                                                                             ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
                                                                             && (
                                                                                 <span>*</span>

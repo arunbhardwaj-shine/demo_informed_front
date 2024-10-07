@@ -410,7 +410,9 @@ const SurveyAnalyticsDetail = () => {
                 let countries = []
                 let newObj = {}
                 res?.data?.data.forEach((item) => {
-                    countries.push(item?.country)
+                    if(!countries?.includes(item?.country)){
+                        countries.push(item?.country)
+                    }
                     if (item?.status == "completed") {
                         if (!newObj[item?.country]) {
                             newObj[item?.country] = 1
@@ -786,14 +788,15 @@ const SurveyAnalyticsDetail = () => {
                                                             {data?.surveyTakerDetails?.[2]?.value}
                                                         </div>
                                                     </div>
-                                                    {/* <div className="survey-info no-answer">
+                                                    <div className="survey-info no-answer">
                                                         <div>
-                                                            <img src={path_image + "question-not.png"} alt="" />Not answered Questions
+                                                            <img src={path_image + "question-not.png"} alt="" />
+                                                           {data?.surveyTakerDetails?.[3]?.key}
                                                         </div>
                                                         <div className="survey-value">
-                                                            2
+                                                        {data?.surveyTakerDetails?.[3]?.value}
                                                         </div>
-                                                    </div> */}
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -1499,7 +1502,7 @@ const SurveyAnalyticsDetail = () => {
                                                                         margin: "10 auto",
                                                                         justifyContent: "center",
                                                                         display: "flex",
-                                                                        height: 225
+                                                                        height: 386
                                                                     }}
                                                                 >
                                                                     <Spinner color="#53aff4" size={32} speed={1} animating={true} />
@@ -1515,7 +1518,7 @@ const SurveyAnalyticsDetail = () => {
                                                                         }}
                                                                         colors={colors}
                                                                     // type="analytics"
-                                                                    // chartRef={countryPieRef}
+                                                                    chartRef="survey_completed_country_pie"
 
 
                                                                     /> :
@@ -1527,7 +1530,7 @@ const SurveyAnalyticsDetail = () => {
                                                                         }}
                                                                         colors={colors}
                                                                     // type="analytics"
-                                                                    // chartRef={countryBarRef}
+                                                                   chartRef="survey_completed_country_bar"
                                                                     />
 
                                                             }

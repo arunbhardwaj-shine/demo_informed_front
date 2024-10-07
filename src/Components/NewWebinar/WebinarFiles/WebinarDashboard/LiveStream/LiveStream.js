@@ -995,7 +995,10 @@ useEffect(() => {
                                               ? (localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg=='
                                               )
                                               ? "LEX-210" 
-                                              :localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+                                              :
+                                              localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" ?"Gena":
+                                              
+                                              localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
                                               ?"Norgine"
                                               : "Octapharma"
                                               : item?.name
@@ -1190,7 +1193,10 @@ useEffect(() => {
                                               ? (localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg==' 
                                              )
                                               ? "LEX-210" 
-                                              : localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+                                              
+                                              : 
+                                              localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" ?"Gena":
+                                              localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
                                               ? "Norgine"
                                               : "Octapharma"
                                               : item?.name
@@ -1381,7 +1387,9 @@ useEffect(() => {
                                               ? (localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg=='
                                              )
                                               ? "LEX-210" 
-                                              : localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+                                              :
+                                              localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" ?"Gena":
+                                              localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
                                               ? "Norgine"
                                               : "Octapharma"
                                               : item?.name
