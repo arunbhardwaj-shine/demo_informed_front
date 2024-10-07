@@ -673,7 +673,7 @@ const ReaderEdit = () => {
         };
         // await postData(ENDPOINT.READER_CREATE, data);
         loader("hide");
-        if(localStorage.getItem('user_id') =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="){
+        if(localStorage.getItem('user_id') == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="){
             if(state?.status){
               localStorage.setItem('irt_sec', 1);  
             }else{
@@ -889,7 +889,7 @@ const ReaderEdit = () => {
             />
           </Form.Group>
         </>)
-          : ((localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") && state?.siteRole)
+          : ((localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") && state?.siteRole)
             ?
             <Form.Group className="form-group">
               <Form.Label htmlFor="">
@@ -1042,7 +1042,7 @@ const ReaderEdit = () => {
               <Row className="justify-content-end align-items-center">
                 <Col md="1">
                   <div className="header-btn-left">
-                    {(localStorage.getItem("user_id") !=="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") !== "MXl8m36VZFYXpgFVz3Pg0g=="  && localStorage.getItem("user_id") !== "sNl1hra39QmFk9HwvXETJA==") ?
+                    {(localStorage.getItem("user_id") !== "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") !== "sNl1hra39QmFk9HwvXETJA==") ?
                       <Link
                         className="btn btn-primary btn-bordered back-btn"
                         // to="/readers-view"
@@ -1068,7 +1068,7 @@ const ReaderEdit = () => {
                 <Col md="9">
                   <ul className="tabnav-link">
                     <li className="active active-main">
-                      <a href="">{(localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                      <a href="">{(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
                         ? `Edit ${irtData?.includes(userInputs?.role) ? userInputs?.role : "CRM"}`
                         : "Edit CRM"}</a>
                     </li>
@@ -1082,7 +1082,7 @@ const ReaderEdit = () => {
                     {/* <button className="btn btn-primary btn-bordered move-draft">
                       Cancel
                     </button> */}
-                    {(localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ?
+                    {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ?
                       <button
                         className="btn btn-primary btn-bordered move-draft"
                         onClick={(e) => backButtonClicked(e)}

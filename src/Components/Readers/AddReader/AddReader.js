@@ -269,7 +269,7 @@ const ReaderAdd = () => {
     setGroupId(hasData?.data?.data?.user?.[0]?.group_id);
     setFlag(hasData?.data?.data?.user?.[0]?.flag);
     setPharmaData(hasData?.data?.data?.user?.[0]?.pharmaData);
-    if (localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
+    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
       setAddReaderInputs({
         ...userInputs,
         role: state?.siteRole ? state?.siteRole : hasData?.data?.data?.userIrtRoles?.[0]?.value,
@@ -434,7 +434,7 @@ const ReaderAdd = () => {
   };
 
   useEffect(() => {
-    if (localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
+    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
       axiosFun();
     }
     initalFun();
@@ -723,7 +723,7 @@ const ReaderAdd = () => {
         
         loader("hide");
         // console.log("state?.siteRole--->", state?.siteRole)
-        if(localStorage.getItem('user_id') =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="){
+        if(localStorage.getItem('user_id') == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="){
           localStorage.setItem('irt_sec', 1);
           navigate("/reader-review", {
             state: {
@@ -751,11 +751,11 @@ const ReaderAdd = () => {
     let link = document.createElement("a");
     if (user_id == "56Ek4feL/1A8mZgIKQWEqg=="||user_id == "sNl1hra39QmFk9HwvXETJA==") {
         if(state?.siteRole == 'Site User-Blinded'){
-            link.href = user_id =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  ? "https://webinar.informed.pro/Site_User.xlsx" :  "https://webinar.informed.pro/Norgine_Site_User.xlsx";
+            link.href = user_id == "56Ek4feL/1A8mZgIKQWEqg==" ? "https://webinar.informed.pro/Site_User.xlsx" :  "https://webinar.informed.pro/Norgine_Site_User.xlsx";
         }else if(state?.siteRole == 'Investigator-Blinded'){
-          link.href = user_id =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  ? "https://webinar.informed.pro/Investigator.xlsx" : "https://webinar.informed.pro/Norgine_Investigator.xlsx";
+          link.href = user_id == "56Ek4feL/1A8mZgIKQWEqg==" ? "https://webinar.informed.pro/Investigator.xlsx" : "https://webinar.informed.pro/Norgine_Investigator.xlsx";
         }else if(state?.siteRole == 'Site unblinded pharmacist' || state?.siteRole == 'Site Unblinded Pharmacist' || state?.siteRole == 'Site Unblinded pharmacist') {
-          link.href = user_id =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  ? "https://webinar.informed.pro/Pharmacist.xlsx" : "https://webinar.informed.pro/Norgine_Pharmacist.xlsx";
+          link.href = user_id == "56Ek4feL/1A8mZgIKQWEqg==" ? "https://webinar.informed.pro/Pharmacist.xlsx" : "https://webinar.informed.pro/Norgine_Pharmacist.xlsx";
         }else{
           link.href = "https://webinar.informed.pro/R_Dsample.xlsx";
         }

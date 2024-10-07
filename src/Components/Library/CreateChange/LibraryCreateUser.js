@@ -573,7 +573,7 @@ const LibraryCreateUser = () => {
         });
         loader("hide");
 
-        if (localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="   || localStorage.getItem("user_id")=="sNl1hra39QmFk9HwvXETJA==") {
+        if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="  || localStorage.getItem("user_id")=="sNl1hra39QmFk9HwvXETJA==") {
           if (
             userInputs?.docintelFormat == "video" ||
             userInputs?.docintelFormat == "Video"
@@ -3006,7 +3006,7 @@ const LibraryCreateUser = () => {
             <div className="form-group">
               <label htmlFor="new-tag">
                 {" "}
-                {localStorage.getItem("user_id") === "B7SHpAc XDXSH NXkN0rdQ==" || localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") === "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA=="
+                {localStorage.getItem("user_id") === "B7SHpAc XDXSH NXkN0rdQ==" || localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA=="
                   ? "New Topic"
                   : "New Tag"}{" "}
               </label>

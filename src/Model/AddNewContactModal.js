@@ -19,12 +19,10 @@ const AddNewContactModal = ({ show, closeClicked, activeManual, hpc, setHpc,
     matchFrom: "start",
   };
   const [userId, setUserId] = useState(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-  ? "56Ek4feL/1A8mZgIKQWEqg=="
-  : localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+    ? "56Ek4feL/1A8mZgIKQWEqg=="
+    : localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
       ? "sNl1hra39QmFk9HwvXETJA=="
-      : localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
-      ? "MXl8m36VZFYXpgFVz3Pg0g=="
-      :null);
+      : null);
 
   const onFirstNameChange = (e, i) => {
     const { value } = e.target;
@@ -313,7 +311,7 @@ const AddNewContactModal = ({ show, closeClicked, activeManual, hpc, setHpc,
         },
       ]);
     } else {
-      if (localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==") {
+      if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==") {
         toast.warning("Please input the required fields.");
       } else {
         toast.warning("Please input the valid email");
@@ -363,7 +361,7 @@ const AddNewContactModal = ({ show, closeClicked, activeManual, hpc, setHpc,
                                 <label htmlFor="">
                                   First name{" "}
                                   {(localStorage.getItem("user_id") ==
-                                    "56Ek4feL/1A8mZgIKQWEqg=="  || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
+                                    "56Ek4feL/1A8mZgIKQWEqg=="
                                     || localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
                                     && (
                                       <span>*</span>
@@ -396,7 +394,7 @@ const AddNewContactModal = ({ show, closeClicked, activeManual, hpc, setHpc,
                                 <label htmlFor="">
                                   Last name{" "}
                                   {(localStorage.getItem("user_id") ==
-                                    "56Ek4feL/1A8mZgIKQWEqg=="  || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
+                                    "56Ek4feL/1A8mZgIKQWEqg=="
                                     || localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
                                     && (
                                       <span>*</span>

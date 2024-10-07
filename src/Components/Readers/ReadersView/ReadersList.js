@@ -41,8 +41,8 @@ const NewReaders = () => {
   const [consetCountry, setConsetCountry] = useState({});
   const [isFlag, setFlag] = useState(0);
   const searchInputRef = useRef(null);
-  const deletButtonColor = (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||  localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ? '#8A4E9C' : '#0066be'
-  const isRDAccount = localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id")==="sNl1hra39QmFk9HwvXETJA=="
+  const deletButtonColor = (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ? '#8A4E9C' : '#0066be'
+  const isRDAccount = localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id")==="sNl1hra39QmFk9HwvXETJA=="
   const [isLoaded, setIsLoaded] = useState(false);
   const [page, setPage] = useState(1);
   const institutionData = [
@@ -189,7 +189,7 @@ const NewReaders = () => {
   const [defaultOwner, setDefaultOwner] = useState("");
 
   useEffect(() => {
-    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="  || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
+    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
       || localStorage.getItem("user_id") == "iSnEsKu5gB/DRlycxB6G4g=="
       || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
     ) {
@@ -298,7 +298,7 @@ const NewReaders = () => {
         limit: limit,
       };
       let payload = {};
-      if (localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
+      if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
         payload = {
           ...data,
           ...obj,
@@ -425,7 +425,7 @@ const NewReaders = () => {
           status: ["Registered"],
         };
       }
-      else if (localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
+      else if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
         payload = {
           ...data,
           ...obj,
@@ -491,7 +491,7 @@ const NewReaders = () => {
 
   const handleOnFilterChange = (e, item, index, key, data = []) => {
     let newObj = JSON.parse(JSON.stringify(appliedFilter));
-    if (localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
+    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
       if (key == "IRT mandatory training") {
         if (newObj["role"]) {
           delete newObj["role"];
@@ -692,7 +692,7 @@ const NewReaders = () => {
       };
       return newSelectedSiteNumber;
     });
-    if (localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
+    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
       let consent1 = {
         index: i,
         value: "",
@@ -1306,7 +1306,7 @@ const NewReaders = () => {
       let binded = "";
       let institute = "";
 
-      if (localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") === "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
+      if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
         const roleIndex = changeRoleType.findIndex(
           (el) => el.index === reader_id
         );
@@ -1603,7 +1603,7 @@ const NewReaders = () => {
       }
     } else if (
       key == "change-tab" &&
-      (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="  || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
+      (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
         || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
     ) {
       const res = await getData(ENDPOINT.READER_USER_DROP);
@@ -1645,9 +1645,8 @@ const NewReaders = () => {
 
   const axiosFun = async () => {
     try {
-      
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-      const result = await axios.get(`emailapi/get_site?uid=${localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? 2147536982 :localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" ? 2147537506 : 2147501188}`);
+      const result = await axios.get(`emailapi/get_site?uid=${localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? 2147536982 : 2147501188}`);
       let country = result?.data?.response?.data?.site_country_data;
       let arr = [];
       Object.entries(country).map(([index, item]) => {
@@ -1746,7 +1745,7 @@ const NewReaders = () => {
               <div className="top-header reader_list">
                 <div className="page-title">
                   {(localStorage.getItem("user_id") ==
-                    "56Ek4feL/1A8mZgIKQWEqg=="  || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
+                    "56Ek4feL/1A8mZgIKQWEqg=="
                     || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
                     ? (
                       <h2>
@@ -1852,7 +1851,7 @@ const NewReaders = () => {
 
                 <div className="top-right-action library_content_view">
                 {(localStorage.getItem("user_id") ==
-                    "56Ek4feL/1A8mZgIKQWEqg=="  || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
+                    "56Ek4feL/1A8mZgIKQWEqg=="
                     || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ?
                     <div className="clear-search">
                       <button
@@ -1987,7 +1986,7 @@ const NewReaders = () => {
                           {Object.keys(filterdata)?.map(function (key, index) {
                             const filteredRoles =
                               key === "role"
-                                ? (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="||  localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                                ? (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
                                   ? filterdata[key]
                                   :
                                   filterdata[key].filter(
@@ -2142,7 +2141,7 @@ const NewReaders = () => {
                   </div>
 
                   {(localStorage.getItem("user_id") !=
-                    "56Ek4feL/1A8mZgIKQWEqg=="&& localStorage.getItem("user_id") != "MXl8m36VZFYXpgFVz3Pg0g=="  
+                    "56Ek4feL/1A8mZgIKQWEqg=="
                     && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==") ?
                     <div className="clear-search">
                       <button
@@ -2320,7 +2319,7 @@ const NewReaders = () => {
               <div className="site-irt w-100">
                 <div className="page-title">
                   {(localStorage.getItem("user_id") ==
-                    "56Ek4feL/1A8mZgIKQWEqg=="  || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="|| localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ?
+                    "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ?
                     (
                       <h4>
                         Total HCPs |{" "}
@@ -2341,7 +2340,7 @@ const NewReaders = () => {
                         <div className="doc-content-header">
                           <div className="doc-content">
                             <h4>
-                              {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="  || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
+                              {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
                                 || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
                                 ? `${data?.first_name} ${data?.last_name} ` : data?.first_name ? data?.first_name : data?.name}
                             </h4>
@@ -2375,7 +2374,7 @@ const NewReaders = () => {
                                     ""
                                   )}
 
-                                  {(localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "MXl8m36VZFYXpgFVz3Pg0g=="  
+                                  {(localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg=="
                                     && localStorage.getItem("user_id") !== "sNl1hra39QmFk9HwvXETJA==")
                                     && localStorage.getItem("group_id") == 3 ?
                                     (
@@ -2425,7 +2424,7 @@ const NewReaders = () => {
 
 
                                   {(localStorage.getItem("user_id") ==
-                                    "56Ek4feL/1A8mZgIKQWEqg=="  || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
+                                    "56Ek4feL/1A8mZgIKQWEqg=="
                                     || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
                                     &&
                                     localStorage.getItem("group_id") == "3" ? (
@@ -2919,7 +2918,7 @@ const NewReaders = () => {
                                 <div className="data-main-box change-tab-main-box">
                                   <ul className="tab-mail-list data change">
                                     {(localStorage.getItem("user_id") ==
-                                      "56Ek4feL/1A8mZgIKQWEqg=="  || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
+                                      "56Ek4feL/1A8mZgIKQWEqg=="
                                       || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
                                       && change ? (
                                       <>

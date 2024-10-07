@@ -53,7 +53,7 @@ const LibrarySublink = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") != "MXl8m36VZFYXpgFVz3Pg0g=="  ) {
+    if (localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==") {
       let linktype = types;
       linktype.push(
         { value: "Offline Offer", label: "Offline Offer" },
@@ -357,11 +357,11 @@ const LibrarySublink = () => {
                     // ? (location?.state?.title)
                     // : '' 
 
-                    flag : localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="?(location?.state?.flag === "mandatory"
+                    flag : localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" ?(location?.state?.flag === "mandatory"
                       ? "mandatory"
                       : location?.state?.flag === "Non-mandatory"
                       ? "Non-mandatory" : '') :'',
-                      title: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
+                      title: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" 
                       ? (location?.state?.title)
                       : ''
                  
@@ -594,7 +594,7 @@ const LibrarySublink = () => {
                                             </h6>
                                           </li>
                                           {localStorage.getItem("user_id") !=
-                                          "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "MXl8m36VZFYXpgFVz3Pg0g=="   && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==" ? (
+                                          "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==" ? (
                                             <>
                                               <li>
                                                 <h6 className="tab-content-title">
@@ -1183,7 +1183,7 @@ const LibrarySublink = () => {
                                           )}
 
                                           {localStorage.getItem("user_id") ==
-                                            "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" &&
+                                            "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" &&
                                           localStorage.getItem("group_id") ==
                                             "3" ? (
                                             <>
@@ -1218,7 +1218,7 @@ const LibrarySublink = () => {
                                           ) : null}
 
                                           {localStorage.getItem("user_id") !=
-                                          "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "MXl8m36VZFYXpgFVz3Pg0g=="   && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==" ? (
+                                          "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==" ? (
                                             <>
                                               <li>
                                                 <h6 className="tab-content-title">

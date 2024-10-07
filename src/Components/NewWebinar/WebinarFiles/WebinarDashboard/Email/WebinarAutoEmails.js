@@ -155,7 +155,7 @@ const WebinarAutoEmail = () => {
 
             setCountryall(arr);
 
-            if (localStorageUserId =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") {
+            if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") {
               let investigator_type =
                 res?.data?.response?.data?.investigator_type;
               let newType = [];
@@ -216,7 +216,7 @@ const WebinarAutoEmail = () => {
   };
   useEffect(() => {
     loader("show");
-    if (localStorageUserId =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") {
+    if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") {
       axiosFun();
     }
 
