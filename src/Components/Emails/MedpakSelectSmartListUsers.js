@@ -254,7 +254,7 @@ const MedpakSelectSmartListUsers = (props) => {
                         });
                         setCountryall(arr);
 
-                        if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") {
+                        if (localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") {
                             let investigator_type =
                                 res?.data?.response?.data?.investigator_type;
                             let newType = [];
@@ -509,7 +509,7 @@ const MedpakSelectSmartListUsers = (props) => {
             list[i].countryIndex = "";
             setHpc(list);
         } else {
-            if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==" ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") {
+            if (localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") === "MXl8m36VZFYXpgFVz3Pg0g=="  ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") {
                 let consetValue = e.value;
                 if (e.value == "B&H") {
                     consetValue = "Bosnia and Herzegovina";
@@ -680,7 +680,7 @@ const MedpakSelectSmartListUsers = (props) => {
 
     const addMoreHcp = () => {
         const status = hpc.map((data) => {
-            if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") {
+            if (localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") {
                 if (
                     data?.email == "" ||
                     data?.institutionType == "" ||
@@ -725,7 +725,7 @@ const MedpakSelectSmartListUsers = (props) => {
                 },
             ]);
         } else {
-            if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") {
+            if (localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") {
                 toast.warning("Please input the required fields.");
             } else {
                 toast.warning("Please input the required fields.");
@@ -833,7 +833,7 @@ const MedpakSelectSmartListUsers = (props) => {
             }
 
             const contact_type_edit =
-                (localStorage.getItem("user_id") !== "56Ek4feL/1A8mZgIKQWEqg==" &&localStorage.getItem("user_id") !== "sNl1hra39QmFk9HwvXETJA==")
+                (localStorage.getItem("user_id") !=="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") !== "MXl8m36VZFYXpgFVz3Pg0g=="  &&localStorage.getItem("user_id") !== "sNl1hra39QmFk9HwvXETJA==")
                     ? document.getElementById("field_contact_type" + profile_user_id)
                         .value
                     : "";
@@ -1002,7 +1002,7 @@ const MedpakSelectSmartListUsers = (props) => {
 
         if (activeManual == "active") {
             const body_data = hpc.map((data) => {
-                if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") {
+                if (localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") {
                     return {
                         first_name: data.firstname,
                         last_name: data.lastname,

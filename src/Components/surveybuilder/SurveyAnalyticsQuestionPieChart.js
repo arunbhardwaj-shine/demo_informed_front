@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState, memo } from "react";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
-
 const SurveyAnalyticsQuestionPieChart = memo(({ key, data, show, type,colors,chartRef }) => {   
     const baseOptions = {
         chart: {
@@ -120,6 +119,7 @@ const SurveyAnalyticsQuestionPieChart = memo(({ key, data, show, type,colors,cha
 
     const [pieChartOptions, setPieChartOptions] = useState(type === "analytics" ? {
         ...baseOptions,
+
         exporting: {
             enabled: true,
             chartOptions: {
@@ -166,12 +166,22 @@ const SurveyAnalyticsQuestionPieChart = memo(({ key, data, show, type,colors,cha
                 }
             }
         }
-    } : {
+    } :
+    chartRef==="survey_completed_country_pie"?
+     {
+        ...baseOptions,
+        chart:{...baseOptions.chart,height:386},
+        exporting: {
+            enabled: false,
+        }
+    }:
+    {
         ...baseOptions,
         exporting: {
             enabled: false,
         }
-    });
+    }
+);
 
     const baseBarChartOptions = {
         chart: {
@@ -289,7 +299,16 @@ const SurveyAnalyticsQuestionPieChart = memo(({ key, data, show, type,colors,cha
                 }
             }
         }
-    } : {
+    } :
+    chartRef==="survey_completed_country_bar"?
+    {
+       ...baseBarChartOptions,
+       chart:{...baseBarChartOptions.chart,height:386},
+       exporting: {
+           enabled: false,
+       }
+   }
+    : {
         ...baseBarChartOptions,
         exporting: {
             enabled: false,
@@ -356,31 +375,33 @@ const SurveyAnalyticsQuestionPieChart = memo(({ key, data, show, type,colors,cha
     }, [data?.graphType])
     return (<>
         <div className="graph-box">
+          
             {(data?.graphType == "pie") ?
                 (<>
                     {data?.ans?.length ?
                         <HighchartsReact
-                            key={"pie"}
-                            ref={chartRef}
+                            key={data?.questionId ?`${data?.questionId}_pie`:chartRef}
+                            chartRef={chartRef}
                             highcharts={Highcharts}
                             options={pieChartOptions}
-                        /> : <div className="no_found">
-                            <img src={path_image + "default-bar-chart.png"} alt="" />
+                        /> : <div className={`${data?.questionId>=0?"survey_default_chart":"no_found"}`}>
+                            {/* <img src={path_image + "default-bar-chart.png"} alt="" /> */}
+                            <img src={path_image +`${data?.questionId>=0?"default-bar-chart-survey.png":"default-bar-chart.png"}` } alt="" />
 
                         </div>}
                 </>)
                 : (data?.graphType == "bar" && data?.ans?.length) ?
                     (<>
                         <HighchartsReact
-                            key={"bar"}
-                            ref={chartRef}
+                            key={data?.questionId ? `${data?.questionId}_bar`:chartRef}                            
                             highcharts={Highcharts}
                             options={barChartOptions}
+                            chartRef={chartRef}
                         />
                     </>)
                     :
-                    <div className="no_found">
-                        <img src={path_image + "default-bar-chart.png"} alt="" />
+                    <div className={`${data?.questionId>=0?"survey_default_chart":"no_found"}`}>
+                        <img src={path_image +`${data?.questionId>=0?"default-bar-chart-survey.png":"default-bar-chart.png"}` } alt="" />
 
                     </div>
             }

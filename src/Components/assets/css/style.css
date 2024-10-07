@@ -6994,7 +6994,8 @@ h2 {
 
 .email_box_block.no_found,
 .not_found,
-.no_found {
+.no_found,
+.survey_default_chart {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -12572,6 +12573,16 @@ table thead th.sort_option span button.event_sort_btn.svg_active >img{
 
 .graph-box .no_found img {
   max-width: 250px;
+  width: 100%;
+}
+
+.graph-box .survey_default_chart {
+  min-height: initial;
+}
+
+.graph-box .survey_default_chart img {
+  max-width: 148px;
+  max-height: 148px;
   width: 100%;
 }
 

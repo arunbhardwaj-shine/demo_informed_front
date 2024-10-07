@@ -909,7 +909,7 @@ const RDAnalytics = () => {
   const allEngagement = async () => {
     try {
       loader("show");
-      const response = await axios.get(`https://webinar.docintel.app/lmn/api/analytics/rd_all_site_engagement?uid=${localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? 2147536982 : 2147501188}`, {
+      const response = await axios.get(`https://webinar.docintel.app/lmn/api/analytics/rd_all_site_engagement?uid=${localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? 2147536982 : localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" ? 2147537506 : 2147501188}`, {
         responseType: 'blob',
       });
       // Create a blob and download the file
@@ -1210,7 +1210,7 @@ const RDAnalytics = () => {
               <div className="page-title d-flex">
                 <h2>
                   {
-                    location.pathname == '/LEX-210-analytics' ? "LEX-210" : "Trial Analytics"
+                    location.pathname == '/LEX-210-analytics' ? localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" ?"Gena":"LEX-210 " : "Trial Analytics"
                   }
 
                 </h2>

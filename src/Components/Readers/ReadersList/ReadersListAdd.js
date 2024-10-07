@@ -942,7 +942,7 @@ const ReadersListAdd = () => {
       // console.log(new_obj);
       await postData(ENDPOINT.INSERTBULKREADERS, new_obj);
       loader("hide");
-      if(localStorage.getItem('user_id') == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem('user_id') == "sNl1hra39QmFk9HwvXETJA=="){
+      if(localStorage.getItem('user_id') =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem('user_id') == "sNl1hra39QmFk9HwvXETJA=="){
         // navigate("/IRT-Mandatory");
         navigate("/IRT-Mandatory", {
           state: {
@@ -1225,7 +1225,7 @@ const ReadersListAdd = () => {
           data.institute = 'Study site';
           data.role = state?.siteRole;
         }
-        if (data.firtName == "" && (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")) {
+        if (data.firtName == "" && (localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")) {
           // return "Please enter the first name";
           setValidationError({
             newHcpFirstName: "Please enter the first name",
@@ -1233,7 +1233,7 @@ const ReadersListAdd = () => {
           });
           return;
         }
-        else if (data.lastName == "" && (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")) {
+        else if (data.lastName == "" && (localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")) {
           // return "Please enter the last name";
           setValidationError({
             newHcpLastName: "Please enter the last name",
@@ -1258,7 +1258,7 @@ const ReadersListAdd = () => {
           });
           return;
         }
-        else if (data.country == "" && (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")) {
+        else if (data.country == "" && (localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")) {
           // return "Please select Country";
           setValidationError({
             newHcpCountry: "Please select the country",
@@ -2001,7 +2001,7 @@ const ReadersListAdd = () => {
                                   && (<><td>{data?.siteNumber ? data?.siteNumber : "N/A"}</td></>)}
                                 <td>
                                   {
-                                    (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" 
+                                    (localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  
                                     ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
                                     ?
                                       data?.irt
@@ -2015,7 +2015,7 @@ const ReadersListAdd = () => {
 
                                 <td>
                                   {
-                                    (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" 
+                                    (localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  
                                     ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
                                     ?
                                       <span>{data?.role}</span>

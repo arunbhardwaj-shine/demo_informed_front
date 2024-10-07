@@ -246,7 +246,7 @@ const WebinarCreateNewEmail = (props) => {
 
     useEffect(() => {
         loader("show");
-        if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") {
+        if (localStorageUserId =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") {
             axiosFun();
         }
         getalCountry();
@@ -388,7 +388,7 @@ const WebinarCreateNewEmail = (props) => {
                         });
                     });
                     setCountryall(arr);
-                    if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") {
+                    if (localStorageUserId =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") {
                         let investigator_type =
                             res?.data?.response?.data?.investigator_type;
                         let newType = [];
@@ -680,7 +680,7 @@ const WebinarCreateNewEmail = (props) => {
         // tagClickedFirst.splice(index, 1);
     };
     const emailSubjectChanged = (e) => {
-        if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") {
+        if (localStorageUserId =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") {
             setemailCampaign(e?.target?.value);
             setEmailCreator("Octapharma R&D");
             setEmailDescription(e?.target?.value);

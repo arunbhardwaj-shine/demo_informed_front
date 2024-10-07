@@ -160,7 +160,7 @@ const Header = () => {
   const homeClicked = (e) => {
     e.preventDefault();
     localStorage.removeItem("switch_account_detail")
-    if (localStorage.getItem('user_id') === "56Ek4feL/1A8mZgIKQWEqg==") {
+    if (localStorage.getItem('user_id') === "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" ) {
       navigate("/home-timeline")
     } else {
       navigate("/home")
@@ -296,7 +296,7 @@ const Header = () => {
                   } onClick={handleMenuItemClick}
                 >
                   <Link className="nav-link"
-                    to={(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
+                    to={(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" 
                       || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
                       ? "/IRT-Mandatory" : "/readers-view"}
                   // to={"/readers-view"} 
@@ -360,7 +360,7 @@ const Header = () => {
                             "iSnEsKu5gB/DRlycxB6G4g=="
                             ? "/octalatch-totalhcp"
                             : localStorage.getItem("user_id") ==
-                              "56Ek4feL/1A8mZgIKQWEqg=="
+                              "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" 
                               ? "/LEX-210-analytics"
                               :
                               localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
@@ -445,7 +445,7 @@ const Header = () => {
                   localStorage.getItem("user_id") === "IJype v19WASFcSlrfRENQ=="
                   //  &&
                   // localStorage.getItem("user_id") !=
-                  // "56Ek4feL/1A8mZgIKQWEqg=="
+                  // "56Ek4feL/1A8mZgIKQWEqg==" 
                   ? (
                     <li className={
                       window.location.pathname == "/webinar/live-stream/settings" ||

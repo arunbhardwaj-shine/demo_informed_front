@@ -59,8 +59,8 @@ const NewEventCreate = () => {
   const [filterdata, setFilterData] = useState({
     Event: ["Live", "Coming", "End"],
   });
-   const deletButtonColor = (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ? '#8A4E9C' : '#0066be'
-   const isRDAccount = (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id")==="sNl1hra39QmFk9HwvXETJA==")
+   const deletButtonColor = (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ? '#8A4E9C' : '#0066be'
+   const isRDAccount = (localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id")==="sNl1hra39QmFk9HwvXETJA==")
 
   const [appliedFilter, setAppliedFilter] = useState({});
 
@@ -788,7 +788,7 @@ const [apiCallStatus,setApiCallStatus]=useState(false)
                   </div>
                 </>)
                   : null}
-                  {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" ? (
+                  {localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" ? (
                 <>
                   <div className="action-btn-add"  style={{margin:"0"}}>
                     <Button className="btn-dashed"
@@ -1278,7 +1278,7 @@ const [apiCallStatus,setApiCallStatus]=useState(false)
               <div
                className={`col email-result-block ${isRDAccount?"rd":""}`}
               >
-                { localStorage.getItem("user_id") !== "56Ek4feL/1A8mZgIKQWEqg==" &&
+                { localStorage.getItem("user_id") !=="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") !== "MXl8m36VZFYXpgFVz3Pg0g=="  &&
                     localStorage.getItem("user_id") !== "sNl1hra39QmFk9HwvXETJA==" &&(
                 <div className="email_box_block add-webinar">
                   <div
