@@ -3034,6 +3034,10 @@ form .input-group {
   word-break: break-all;
 }
 
+.survey-takers-state .survey_data_accordion_heading table tbody tr td:first-child{
+  border-radius: 9px 9px;
+}
+
 .survey_data_accordion_heading table thead tr th button {
   background: transparent;
   padding-left: 3px;

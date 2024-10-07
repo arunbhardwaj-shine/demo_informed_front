@@ -4171,7 +4171,7 @@ body {
                         }
 
                         &:nth-child(2) {
-                            width: 31%;
+                            width: 29%;
                         }
 
                         &:nth-last-child(3) {
@@ -4554,7 +4554,7 @@ body {
                     }
 
                     .survey-value {
-                        min-width: 65px;
+                        min-width: 70px;
                         text-align: center;
                         border-left: 1px solid $light-gray;
                         color: $primary-color;
@@ -4564,6 +4564,7 @@ body {
                         small {
                             font-size: 10px;
                             font-weight: 400;
+                            margin-left: -3px;
                         }
 
                     }
