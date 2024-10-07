@@ -18,6 +18,8 @@ import DropdownButton from "react-bootstrap/DropdownButton";
 import Select, { createFilter } from "react-select";
 import makeAnimated from "react-select/animated";
 const ViewTable = (props) => {
+  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
+  const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
   const [inEditMode, setInEditMode] = useState({
     status: false,
     rowKey: null,
@@ -28,8 +30,8 @@ const ViewTable = (props) => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   //let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   //let validator = new SimpleReactValidator();
-  const [userId, setUserId] = useState(localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
-    ? "sNl1hra39QmFk9HwvXETJA==" : "56Ek4feL/1A8mZgIKQWEqg==");
+  const [userId, setUserId] = useState(isLikeRdAccount?localStorage.getItem("user_id"): "56Ek4feL/1A8mZgIKQWEqg==");
+
   const [instituions, setInstituions] = useState([]);
   const [nonIrtInstitutionType, setNonIrtInstitutionType] = useState([])
   const [irtInstitutionType, setIrtInstitutionType] = useState([])
@@ -104,7 +106,7 @@ const ViewTable = (props) => {
   }, [props.data?.length]);
 
   useEffect(() => {
-    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
+    if (isLikeRdAccount) {
       axiosFun();
     }
     const getalCountry = async () => {
@@ -144,7 +146,7 @@ const ViewTable = (props) => {
 
             let arr = [];
 
-            if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
+            if (isLikeRdAccount) {
               user_type = res.data.response.data.investigator_type;
               sub_role = res.data.response.data.sub_role;
               blind_type = res.data.response.data.blind_type;
@@ -185,7 +187,7 @@ const ViewTable = (props) => {
               });
             });
 
-            if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
+            if (isLikeRdAccount) {
               Object.entries(site_number).map(([index, item]) => {
                 let label = item;
 
@@ -282,7 +284,7 @@ const ViewTable = (props) => {
             }
 
             setCountryall(arr);
-            if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
+            if (isLikeRdAccount) {
               setIrtRole(arrIrtUserType);
               setInstituions(arrinstitutions);
               setUserTypeAll(arrUserType);
@@ -341,11 +343,11 @@ const ViewTable = (props) => {
       country: "",
       countryIndex: "",
       userType:
-        (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+        (isLikeRdAccount)
           ? irtRole?.[0]?.value
           : "",
       roleIndex:
-        (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ? 0 : "",
+        (isLikeRdAccount) ? 0 : "",
       subUserType: "",
       siteNumber: "",
       subUserTypeIndex: "",
@@ -361,11 +363,11 @@ const ViewTable = (props) => {
       siteName: "",
       siteNameIndex: "",
       siteIrt:
-        (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+        (isLikeRdAccount)
           ? siteIrtAll?.find((item) => item?.value == "Yes")?.value
           : "",
       siteIrtIndex:
-        (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+        (isLikeRdAccount)
           ? siteIrtAll?.findIndex((item) => item?.value == "Yes")
           : "",
       institute: localStorage.getItem("user_id") == userId
@@ -407,19 +409,19 @@ const ViewTable = (props) => {
         country: "",
         countryIndex: "",
         userType:
-          (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+          (isLikeRdAccount)
             ? irtRole?.[0]?.value
             : "",
         roleIndex:
-          (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+          (isLikeRdAccount)
             ? 0
             : "",
         siteIrt:
-          (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+          (isLikeRdAccount)
             ? siteIrtAll?.find((item) => item?.value == "Yes")?.value
             : "",
         siteIrtIndex:
-          (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+          (isLikeRdAccount)
             ? siteIrtAll?.findIndex((item) => item?.value == "Yes")
             : "",
         siteDetails: [
@@ -719,11 +721,11 @@ const ViewTable = (props) => {
           country: "",
           countryIndex: "",
           userType:
-            (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+            (isLikeRdAccount)
               ? irtRole?.[0]?.value
               : "",
           roleIndex:
-            (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+            (isLikeRdAccount)
               ? 0
               : "",
           subUserType: "",
@@ -741,11 +743,11 @@ const ViewTable = (props) => {
           sitePostCodeIndex: "",
           siteCityIndex: "",
           siteIrt:
-            (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+            (isLikeRdAccount)
               ? siteIrtAll?.find((item) => item?.value == "Yes")?.value
               : "",
           siteIrtIndex:
-            (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+            (isLikeRdAccount)
               ? siteIrtAll?.findIndex((item) => item?.value == "Yes")
               : "",
           institute: localStorage.getItem("user_id") == userId
@@ -809,7 +811,7 @@ const ViewTable = (props) => {
           "field_index" + data.profile_user_id
         ).value;
         const contact_type_edit =
-          (localStorage.getItem("user_id") !== "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+          (!isLikeRdAccount)
             ? document.getElementById(
               "field_contact_type" + data.profile_user_id
             ).value
@@ -1012,7 +1014,7 @@ const ViewTable = (props) => {
         "field_country" + profile_user_id
       ).value;
       const contact_type_edit =
-        (localStorage.getItem("user_id") !== "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+        (!isLikeRdAccount)
           ? document.getElementById("field_contact_type" + profile_user_id)
             .value
           : "";
@@ -1311,7 +1313,7 @@ const ViewTable = (props) => {
       list[i].countryIndex = "";
       setHpc(list);
     } else {
-      if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
+      if (isLikeRdAccount) {
         let consetValue = e.value;
         if (e.value == "B&H") {
           consetValue = "Bosnia and Herzegovina";
@@ -1519,7 +1521,7 @@ const ViewTable = (props) => {
       const status = body.data.map((data, index) => {
         if (
           data.first_name == "" &&
-          (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+          (isLikeRdAccount)
         ) {
           setValidationError({
             firstName: "Please enter the first name",
@@ -1529,7 +1531,7 @@ const ViewTable = (props) => {
 
         } else if (
           data.last_name == "" &&
-          (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+          (isLikeRdAccount)
         ) {
           setValidationError({
             lastName: "Please enter the last name",
@@ -1544,7 +1546,7 @@ const ViewTable = (props) => {
           return;
         } else if (
           data.institution_type == "" &&
-          (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+          (isLikeRdAccount)
         ) {
           setValidationError({
             institutionType: "Please select the Institution type",
@@ -1553,7 +1555,7 @@ const ViewTable = (props) => {
           return;
         } else if (
           data.country == "" &&
-          (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ||
+          (isLikeRdAccount ||
             localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==")
         ) {
           setValidationError({
@@ -2005,8 +2007,7 @@ const ViewTable = (props) => {
                     </span>
                   </th>
 
-                  {(localStorage.getItem("user_id") ==
-                    "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ? (
+                  {(isLikeRdAccount) ? (
                     <>
                       <th scope="col" className="sort_option">
                         <span onClick={() => handleSort('site_number')} >
@@ -2189,12 +2190,11 @@ const ViewTable = (props) => {
                         <span>{item.country ? item.country : "N/A"}</span>
                       )}
                     </td>
-                    {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") && (<>
+                    {(isLikeRdAccount) && (<>
                       <td>{item?.site_number ? item?.site_number : "N/A"}
                       </td></>)}
                     <td>
-                      {(localStorage.getItem("user_id") ==
-                        "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                      {(isLikeRdAccount)
                         ? item?.irt
                           ? "Yes"
                           : "No"
@@ -2203,8 +2203,7 @@ const ViewTable = (props) => {
                           : "N/A"}
                     </td>
                     <td>
-                      {(localStorage.getItem("user_id") ==
-                        "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ? (
+                      {(isLikeRdAccount) ? (
                         <span>
                           {item.user_type != 0 ? item.user_type : "N/A"}
                         </span>
@@ -2310,12 +2309,10 @@ const ViewTable = (props) => {
                         <span>{item.country ? item.country : "N/A"}</span>
                       )}
                     </td>
-                    {(localStorage.getItem("user_id") ==
-                      "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") && (<><td id="field_site_number">{item?.site_number ? item?.site_number : "N/A"}</td></>)}
+                    {(isLikeRdAccount) && (<><td id="field_site_number">{item?.site_number ? item?.site_number : "N/A"}</td></>)}
                     <td id="field_business_unit">
                       {/*item.ibu*/}
-                      {(localStorage.getItem("user_id") ==
-                        "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                      {(isLikeRdAccount)
                         ? item?.irt
                           ? "Yes"
                           : "No"
@@ -2325,8 +2322,7 @@ const ViewTable = (props) => {
                     </td>
 
                     <td id="field_interest">
-                      {(localStorage.getItem("user_id") ==
-                        "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ? (
+                      {(isLikeRdAccount) ? (
                         <span>
                           {item.user_type != 0 ? item.user_type : "N/A"}
                         </span>
@@ -2481,25 +2477,18 @@ const ViewTable = (props) => {
                     contact_type: "",
                     country: "",
                     userType:
-                      (localStorage.getItem("user_id") ==
-                        "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                      (isLikeRdAccount)
                         ? irtRole?.[0]?.value
                         : "",
-                    roleIndex:
-                      (localStorage.getItem("user_id") ==
-                        "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                    roleIndex:isLikeRdAccount
                         ? 0
                         : "",
                     countryIndex: "",
-                    siteIrt:
-                      (localStorage.getItem("user_id") ==
-                        "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                    siteIrt:isLikeRdAccount
                         ? siteIrtAll?.find((item) => item?.value == "Yes")
                           ?.value
                         : "",
-                    siteIrtIndex:
-                      (localStorage.getItem("user_id") ==
-                        "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                    siteIrtIndex:isLikeRdAccount
                         ? siteIrtAll?.indexOf((item) => item?.value == "Yes")
                         : "",
                     institute: localStorage.getItem("user_id") == userId
@@ -2535,8 +2524,7 @@ const ViewTable = (props) => {
                                 <div className="form-group">
                                   <label htmlFor="">
                                     First name{" "}
-                                    {(localStorage.getItem("user_id") ==
-                                      "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") && (
+                                    {isLikeRdAccount&& (
                                         <span>*</span>
                                       )}{" "}
                                   </label>
@@ -2564,8 +2552,7 @@ const ViewTable = (props) => {
                                 <div className="form-group">
                                   <label htmlFor="">
                                     Last name{" "}
-                                    {(localStorage.getItem("user_id") ==
-                                      "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") && (
+                                    {isLikeRdAccount && (
                                         <span>*</span>
                                       )}
                                   </label>
@@ -2619,8 +2606,7 @@ const ViewTable = (props) => {
                                 </div>
                               </div>
 
-                              {(localStorage.getItem("user_id") !=
-                                "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==") ? (
+                              {(!isLikeRdAccount) ? (
                                 <div className="col-12 col-md-6">
                                   <div className="form-group">
                                     <label for="">Contact type</label>
@@ -2673,8 +2659,7 @@ const ViewTable = (props) => {
                                 </div>
                               ) : null}
 
-                              {(localStorage.getItem("user_id") !=
-                                "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==") ? (
+                              {!isLikeRdAccount ? (
                                 <div className="col-12 col-md-6">
                                   <div className="form-group">
                                     <label for="">Country
@@ -2716,8 +2701,7 @@ const ViewTable = (props) => {
                                 </div>
                               ) : null}
 
-                              {(localStorage.getItem("user_id") ==
-                                "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ? (
+                              {isLikeRdAccount? (
                                 <>
                                   <hr />
                                   <div className="col-12 col-md-6">
@@ -2896,8 +2880,7 @@ const ViewTable = (props) => {
                                     <div className="form-group">
                                       <label for="">
                                         Country{" "}
-                                        {(localStorage.getItem("user_id") ==
-                                          "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") && (
+                                        {isLikeRdAccount && (
                                             <span> *</span>
                                           )}
                                       </label>

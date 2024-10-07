@@ -3,10 +3,11 @@ import GetDetails from "../Distributes/GetDetails";
 import GetMedpakDetails from "../Distributes/GetMedpakDetails";
 
 const GetDetailsLayout = () => {
+    const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
+    const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
     return (
         <>
-            {(localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==" || localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" 
-            ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+            {(localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==" ||isLikeRdAccount)
             ? (<>
                 {/* {localStorage.getItem("user_id") == "B7SHpAc XDXSH NXkN0rdQ==" ? (<> */}
                 {/* {localStorage.getItem("user_id") == "rjiGlqA9DXJVH7bDDTX0Lg==" ? (<> */}

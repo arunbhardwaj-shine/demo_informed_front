@@ -14,7 +14,8 @@ import Accordion from "react-bootstrap/Accordion";
 var old_object = {};
 
 const SelectSmartListCountryUsers = (props) => {
-
+    const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
+    const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
     const [totalData, setTotalData] = useState({});
     const navigate = useNavigate();
     let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -512,9 +513,7 @@ const SelectSmartListCountryUsers = (props) => {
                 "field_country" + profile_user_id
             ).value;
 
-            const contact_type_edit =
-                (localStorage.getItem("user_id") !== "56Ek4feL/1A8mZgIKQWEqg=="
-            &&localStorage.getItem("user_id") !== "sNl1hra39QmFk9HwvXETJA==")
+            const contact_type_edit =!isLikeRdAccount
                     ? document.getElementById("field_contact_type" + profile_user_id)
                         .value
                     : "";
@@ -819,9 +818,7 @@ const SelectSmartListCountryUsers = (props) => {
                 const edit_index = document.getElementById(
                     "field_index" + data.profile_user_id
                 ).value;
-                const contact_type_edit =
-                    (localStorage.getItem("user_id") !== "56Ek4feL/1A8mZgIKQWEqg=="
-                    &&localStorage.getItem("user_id") !== "sNl1hra39QmFk9HwvXETJA==")
+                const contact_type_edit =!isLikeRdAccount
                         ? document.getElementById(
                             "field_contact_type" + data.profile_user_id
                         ).value
@@ -1339,9 +1336,7 @@ const SelectSmartListCountryUsers = (props) => {
                                                             </td>
                                                             <td>
                                                                 {/*rr?.ibu ? rr?.ibu : "N/A"*/}
-                                                                {(localStorage.getItem("user_id") ==
-                                                                    "56Ek4feL/1A8mZgIKQWEqg=="
-                                                                    ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                                                                {isLikeRdAccount
                                                                     ? rr?.irt
                                                                         ? "Yes"
                                                                         : "No"
@@ -1349,9 +1344,7 @@ const SelectSmartListCountryUsers = (props) => {
                                                                         ? rr.ibu
                                                                         : "N/A"}
                                                             </td>
-                                                            {(localStorage.getItem("user_id") ==
-                                                                "56Ek4feL/1A8mZgIKQWEqg=="
-                                                                ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                                                            {isLikeRdAccount
                                                                 ? (
                                                                 <td>
                                                                     {rr?.user_type != 0 ? rr.user_type : "N/A"}

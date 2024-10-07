@@ -26,6 +26,8 @@ var old_object = {};
 var selected_Data = [];
 var searched_Data=[]
 const VerifyHCP = (props) => {
+  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
+  const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
   const [totalData, setTotalData] = useState({});
   const { state } = useLocation();
   const [siteNumberAll, setSiteNumberAll] = useState([]);
@@ -93,14 +95,10 @@ const VerifyHCP = (props) => {
       contact_type: "",
       country: "",
       countryIndex: "",
-      role:
-        (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-        ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+      role:isLikeRdAccount
           ? irtRole?.[0]?.value
           : "",
-      optIrt:
-        (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-        ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+      optIrt:isLikeRdAccount
           ? "yes"
           : "",
           institutionType: localStorage.getItem("user_id")==userId?irtInstitutionType?.[0]?.value:"",
@@ -217,7 +215,7 @@ const VerifyHCP = (props) => {
   };
 
   useEffect(() => {
-    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") {
+    if (isLikeRdAccount) {
       axiosFun();
     //  if(state?.NextFlag==1){
     //    getRDMandatoryReaders()
@@ -252,7 +250,7 @@ const VerifyHCP = (props) => {
             });
             setCountryall(arr);
 
-            if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") {
+            if (isLikeRdAccount) {
               let investigator_type =
                 res?.data?.response?.data?.investigator_type;
               let newType = [];
@@ -394,7 +392,7 @@ const VerifyHCP = (props) => {
   const addNewHcp = () => {
     
     let setDefaultRole = irtRole?.[0]?.value ? irtRole?.[0]?.value : "";    
-    if(state?.IrtObj?.siteRole && (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")){
+    if(state?.IrtObj?.siteRole && isLikeRdAccount){
       const userRoleIndex = irtRole.findIndex(role => role.value.toLowerCase() === state?.IrtObj?.siteRole.toLowerCase());
       setDefaultRole = irtRole?.[userRoleIndex]?.value;
     }
@@ -411,13 +409,11 @@ const VerifyHCP = (props) => {
         country: "",
         countryIndex: "",
         role:
-          (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-          ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+          isLikeRdAccount
             ? setDefaultRole
             : "",
         optIrt:
-          (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-          ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+          isLikeRdAccount
             ? "yes"
             : "",
             institutionType: localStorage.getItem("user_id")==userId?irtInstitutionType?.[0]?.value:"",
@@ -604,7 +600,7 @@ const VerifyHCP = (props) => {
   const onIRTChange = (e, i) => {
 
     let setDefaultRole = irtRole?.[0]?.value ? irtRole?.[0]?.value : "";    
-		if(state?.IrtObj?.siteRole && (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")){
+		if(state?.IrtObj?.siteRole && isLikeRdAccount){
 		  const userRoleIndex = irtRole.findIndex(role => role.value.toLowerCase() === state?.IrtObj?.siteRole.toLowerCase());
 		  setDefaultRole = irtRole?.[userRoleIndex]?.value;
 		}
@@ -650,7 +646,7 @@ const VerifyHCP = (props) => {
       list[i].countryIndex = "";
       setHpc(list);
     } else {
-      if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==" ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") {
+      if (isLikeRdAccount) {
         let consetValue = e.value;
         if (e.value == "B&H") {
           consetValue = "Bosnia and Herzegovina";
@@ -1000,7 +996,7 @@ const VerifyHCP = (props) => {
 
   const addMoreHcp = () => {
     const status = hpc.map((data) => {
-      if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") {
+      if (isLikeRdAccount) {
         if(irtRoleObj?.IRTFlag){
             data.institutionType  = "Study site";
             if (
@@ -1045,7 +1041,7 @@ const VerifyHCP = (props) => {
     if (status.every((element) => element == "true")) {
 
       let setDefaultRole = irtRole?.[0]?.value ? irtRole?.[0]?.value : "";    
-      if(state?.IrtObj?.siteRole && (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")){
+      if(state?.IrtObj?.siteRole && isLikeRdAccount){
         const userRoleIndex = irtRole.findIndex(role => role.value.toLowerCase() === state?.IrtObj?.siteRole.toLowerCase());
         setDefaultRole = irtRole?.[userRoleIndex]?.value;
       }
@@ -1061,13 +1057,11 @@ const VerifyHCP = (props) => {
           country: "",
           countryIndex: "",
           role:
-            (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-            ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+            isLikeRdAccount
               ? setDefaultRole
               : "",
           optIrt:
-            (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-            ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+            isLikeRdAccount
               ? "yes"
               : "",
               institutionType: localStorage.getItem("user_id")==userId?irtInstitutionType?.[0]?.value:"",
@@ -1076,7 +1070,7 @@ const VerifyHCP = (props) => {
         },
       ]);
     } else {
-      if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") {
+      if (isLikeRdAccount) {
         toast.warning("Please input the required fields.");
       } else {
         toast.warning("Please input the required fields.");
@@ -1425,7 +1419,7 @@ const VerifyHCP = (props) => {
                       : 
                       <>
                         {
-                          (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                          (isLikeRdAccount)
                           ?
                             <>
                               {
@@ -1717,9 +1711,7 @@ const VerifyHCP = (props) => {
                                   </button>
                                 </span>
                                 </th>
-                              {(localStorage.getItem("user_id") ===
-                              "56Ek4feL/1A8mZgIKQWEqg==" 
-                              ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                              {isLikeRdAccount
                               ? (
                                 <>
                                 <th scope="col" className="sort_option">
@@ -2124,14 +2116,10 @@ const VerifyHCP = (props) => {
                                     <td>
                                       {users?.country ? users?.country : "N/A"}
                                     </td>
-                                    {(localStorage.getItem("user_id") ==
-                                            "56Ek4feL/1A8mZgIKQWEqg=="
-                                            ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                                    {isLikeRdAccount
                                             &&(<><td>{users?.site_number?users?.site_number:"N/A"}</td></>)}
                                     <td>
-                                      {(localStorage.getItem("user_id") ==
-                                      "56Ek4feL/1A8mZgIKQWEqg=="
-                                      ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                                      {isLikeRdAccount
                                         ? users?.irt
                                           ? "Yes"
                                           : "No"
@@ -2140,9 +2128,7 @@ const VerifyHCP = (props) => {
                                         : "N/A"}
                                     </td>
                                     <td>
-                                      {(localStorage.getItem("user_id") ===
-                                      "56Ek4feL/1A8mZgIKQWEqg=="
-                                      ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                                      {isLikeRdAccount
                                         ? users?.user_type!=0
                                           ? users?.user_type
                                           : "N/A"
@@ -2806,9 +2792,7 @@ const VerifyHCP = (props) => {
                                     data?.company,
                                     data?.country,
                                     data?.first_name + " " + data?.last_name,
-                                    (localStorage.getItem("user_id") ===
-                                      "56Ek4feL/1A8mZgIKQWEqg=="
-                                      ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                                    isLikeRdAccount
                                       ? data?.user_type
                                       : data?.contact_type
                                   )
@@ -3501,9 +3485,7 @@ const VerifyHCP = (props) => {
                                 </div>
                                 */}
 
-                              {(localStorage.getItem("user_id") ===
-                              "56Ek4feL/1A8mZgIKQWEqg==" 
-                              ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                              {isLikeRdAccount
                               ? (
                                 <>
                                   <div className="col-12 col-md-6">

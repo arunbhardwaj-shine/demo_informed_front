@@ -32,6 +32,8 @@ function useScrollDirection() {
 }
 
 const Header = () => {
+  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
+  const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
   const queryParams = queryString.parse(window.location.search);
   const scrollDirection = useScrollDirection();
   const [getUserName, setUserName] = useState("");
@@ -296,8 +298,7 @@ const Header = () => {
                   } onClick={handleMenuItemClick}
                 >
                   <Link className="nav-link"
-                    to={(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-                      || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                    to={isLikeRdAccount
                       ? "/IRT-Mandatory" : "/readers-view"}
                   // to={"/readers-view"} 
                   >
@@ -361,6 +362,10 @@ const Header = () => {
                             ? "/octalatch-totalhcp"
                             : localStorage.getItem("user_id") ==
                               "56Ek4feL/1A8mZgIKQWEqg=="
+                              ? "/LEX-210-analytics"
+                              :
+                              localStorage.getItem("user_id") ==
+                              "MXl8m36VZFYXpgFVz3Pg0g==" 
                               ? "/LEX-210-analytics"
                               :
                               localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="

@@ -31,6 +31,8 @@ var trainingUser = {};
 var searchedUser = {};
 var stateListData = {};
 const CreateEmail = (props) => {
+  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
+  const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
   const [progress, setProgress] = useState(0);
   const [percent, setPercent] = useState(0);
   const [showProgress, setShowProgress] = useState(false);
@@ -210,13 +212,11 @@ const CreateEmail = (props) => {
       country: "",
       countryIndex: "",
       role:
-        (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-        ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+        (isLikeRdAccount)
           ? irtRole?.[0]?.value
           : "",
       optIRT:
-        (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-        ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+        (isLikeRdAccount)
           ? "yes"
           : "",
       institutionType: "",
@@ -297,7 +297,7 @@ const CreateEmail = (props) => {
 
   useEffect(() => {
     loader("show");
-    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") {
+    if (isLikeRdAccount) {
       axiosFun();
     }
     const getalCountry = async () => {
@@ -325,7 +325,7 @@ const CreateEmail = (props) => {
                 label: label,
               });
             });
-            if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") {
+            if (isLikeRdAccount) {
               let investigator_type =
                 res?.data?.response?.data?.investigator_type;
               let newType = [];
@@ -400,7 +400,7 @@ const CreateEmail = (props) => {
     let siteContent = 0;
     if (
       pdf_id == 14 &&
-      (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+      (isLikeRdAccount)
     ) {
       siteContent = 1;
       content_included = 0;
@@ -424,8 +424,7 @@ const CreateEmail = (props) => {
 
 
         setTimeout(function () {
-          if ((localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg=='
-          ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+          if ((isLikeRdAccount)
           && [3968, 3970, 4521, '3968', '3970', '4521'].includes(pdf_id)) {
             let div_img = '';
             if (pdf_id == '3968') {
@@ -566,7 +565,7 @@ const CreateEmail = (props) => {
 
   const addMoreHcp = () => {
     const status = hpc.map((data) => {
-      if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") {
+      if (isLikeRdAccount) {
         if (
           data?.email == "" ||
           data?.lastname == "" ||
@@ -606,13 +605,11 @@ const CreateEmail = (props) => {
           country: "",
           countryIndex: "",
           optIRT:
-            (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-            ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+            (isLikeRdAccount)
               ? "yes"
               : "",
           role:
-            (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-            ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+            (isLikeRdAccount)
               ? irtRole?.[0]?.value
               : "",
           institutionType: "",
@@ -620,7 +617,7 @@ const CreateEmail = (props) => {
         },
       ]);
     } else {
-      if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") {
+      if (isLikeRdAccount) {
         toast.warning("Please input the required fields.");
       } else {
         toast.warning("Please input the required fields.");
@@ -1005,11 +1002,6 @@ const CreateEmail = (props) => {
   };
 
   const emailSubjectChanged = (e) => {
-    // if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
-    //   setemailCampaign(e.target.value);
-    //   setEmailCreator("Octapharma R&D");
-    //   setEmailDescription(e.target.value);
-    // }
     setEmailSubject(e.target.value);
   };
 
@@ -1420,13 +1412,11 @@ const CreateEmail = (props) => {
         country: "",
         countryIndex: "",
         role:
-          (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-          ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+          (isLikeRdAccount)
             ? irtRole?.[0]?.value
             : "",
         optIRT:
-          (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-          ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+          (isLikeRdAccount)
             ? "yes"
             : "",
         institutionType: "",
@@ -1574,7 +1564,7 @@ const CreateEmail = (props) => {
       list[i].countryIndex = "";
       setHpc(list);
     } else {
-      if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") {
+      if (isLikeRdAccount) {
         let consetValue = e.value;
         if (e.value == "B&H") {
           consetValue = "Bosnia and Herzegovina";
@@ -1639,7 +1629,7 @@ const CreateEmail = (props) => {
     if (activeManual == "active") {
  
  
-     const  isRdAndNorgianAcount=localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA=="
+     const  isRdAndNorgianAcount=isLikeRdAccount
       const body_data = hpc.map((data) => {
         if (isRdAndNorgianAcount) {
  
@@ -2417,17 +2407,11 @@ const CreateEmail = (props) => {
                     <li className="active active-main">
                       <a href="">Create Your Email</a>
                     </li>
-                    {/* <li className="">
-                      <a href="">
-                        {localStorage.getItem("user_id") == userId
-                          ? "Select Users"
-                          : "Select HCPs"}
-                      </a>
-                    </li> */}
+                 
                      {!irtRoleObj?.IRTFlag && (
                         <li className="">
                           <a href="">
-                            {(localStorage.getItem("user_id") == userId ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") ? "Select Users" : "Select HCPs"}
+                            {(isLikeRdAccount) ? "Select Users" : "Select HCPs"}
                           </a>
                         </li>
                       )}
@@ -2456,7 +2440,7 @@ const CreateEmail = (props) => {
                       :
                       <>
                         {
-                          (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                          (isLikeRdAccount)
                           ? 
                             <>
                               {
@@ -2562,8 +2546,7 @@ const CreateEmail = (props) => {
 
                   <div className="email-form padding-add">
                     <form>
-                      {/* {localStorage.getItem("user_id") !=
-                        "56Ek4feL/1A8mZgIKQWEqg==" ? ( */}
+        
                       <>
                         <div className="form-inline d-flex justify-content-between align-items-center">
                           <div className="form-group col-12 col-md-7 d-flex align-items-center">
@@ -3225,9 +3208,7 @@ const CreateEmail = (props) => {
                                 Email | <span>{data.email}</span>
                               </p>
 
-                              {(localStorage.getItem("user_id") ===
-                                "56Ek4feL/1A8mZgIKQWEqg=="
-                                ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                              {(isLikeRdAccount)
                                 ? (
                                 <p className="send-hcp-box-title">
                                   {" "}
@@ -3588,15 +3569,11 @@ const CreateEmail = (props) => {
                     country: "",
                     countryIndex: "",
                     role:
-                      (localStorage.getItem("user_id") ==
-                        "56Ek4feL/1A8mZgIKQWEqg=="
-                        ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                      (isLikeRdAccount)
                         ? irtRole?.[0]?.value
                         : "",
                     optIRT:
-                      (localStorage.getItem("user_id") ==
-                        "56Ek4feL/1A8mZgIKQWEqg=="
-                        ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                      (isLikeRdAccount)
                         ? "yes"
                         : "",
                     institutionType: "",
@@ -3629,9 +3606,7 @@ const CreateEmail = (props) => {
                                 <div className="form-group">
                                   <label htmlFor="">
                                     First name{" "}
-                                    {(localStorage.getItem("user_id") ==
-                                      "56Ek4feL/1A8mZgIKQWEqg=="
-                                      ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                                    {(isLikeRdAccount)
                                       && (
                                         <span>*</span>
                                       )}{" "}
@@ -3662,9 +3637,7 @@ const CreateEmail = (props) => {
                                 <div className="form-group">
                                   <label htmlFor="">
                                     Last name{" "}
-                                    {(localStorage.getItem("user_id") ==
-                                      "56Ek4feL/1A8mZgIKQWEqg==" 
-                                      ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                                    {isLikeRdAccount
                                       && (
                                         <span>*</span>
                                       )}
@@ -3721,9 +3694,7 @@ const CreateEmail = (props) => {
                                 </div>
                               </div>
 
-                              {(localStorage.getItem("user_id") ===
-                                "56Ek4feL/1A8mZgIKQWEqg=="
-                                ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                              {(isLikeRdAccount)
                                 ? (
                                 <>
                                   {" "}
@@ -3974,8 +3945,7 @@ const CreateEmail = (props) => {
                                 <div className="form-group">
                                   <label htmlFor="">
                                     Country{" "}
-                                    {(localStorage.getItem("user_id") ==
-                                      "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") ==
+                                    {(isLikeRdAccount || localStorage.getItem("user_id") ==
                                       "m5JI5zEDY3xHFTZBnSGQZg==") && (
                                         <span>*</span>
                                       )}
@@ -4119,9 +4089,7 @@ const CreateEmail = (props) => {
                                   )}
                                 </div>
                               </div>*/}
-                              {(localStorage.getItem("user_id") ===
-                                "56Ek4feL/1A8mZgIKQWEqg==" 
-                                ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                              {(isLikeRdAccount)
                                 ? (
                                 <>
                                   {" "}
@@ -4228,8 +4196,7 @@ const CreateEmail = (props) => {
                                     data-bs-toggle="tab"
                                     href="javascipt:;"
                                   >
-                                    {(localStorage.getItem("user_id") == userId
-                                    ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                                    {(isLikeRdAccount)
                                       ? "Add User +"
                                       : "Add HCP +"}
                                   </a>
@@ -4504,9 +4471,7 @@ const CreateEmail = (props) => {
                         </button>
                       </th>
 
-                      {(localStorage.getItem("user_id") ==
-                        "56Ek4feL/1A8mZgIKQWEqg==" 
-                        ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                      {(isLikeRdAccount)
                         ? (
                         <><th scope="col">Site number</th>
                           <th scope="col">IRT mandatory training</th>
@@ -4562,12 +4527,9 @@ const CreateEmail = (props) => {
                               <td>{rr?.email ? rr?.email : "N/A"}</td>
                               <td>{rr?.bounce ? rr.bounce : "N/A"}</td>
                               <td>{rr?.country ? rr?.country : "N/A"}</td>
-                              {(localStorage.getItem("user_id") ==
-                                "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") && (<><td>{rr?.site_number ? rr?.site_number : "N/A"}</td></>)}
+                              {(isLikeRdAccount) && (<><td>{rr?.site_number ? rr?.site_number : "N/A"}</td></>)}
                               <td>
-                                {(localStorage.getItem("user_id") ==
-                                  "56Ek4feL/1A8mZgIKQWEqg=="
-                                  ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                                {(isLikeRdAccount)
                                   ? rr.irt
                                     ? "Yes"
                                     : "No"
@@ -4577,9 +4539,7 @@ const CreateEmail = (props) => {
                                 {/*rr?.ibu ? rr?.ibu : "N/A"*/}
                               </td>
                               <td>
-                                {(localStorage.getItem("user_id") ==
-                                  "56Ek4feL/1A8mZgIKQWEqg=="
-                                  ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                                {(isLikeRdAccount)
                                   ? rr?.user_type != 0
                                     ? rr?.user_type
                                     : "N/A"

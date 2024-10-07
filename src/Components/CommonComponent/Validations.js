@@ -1,4 +1,6 @@
 export const createContent = (data, fileCheck, groupId = 2, retailer = 0) => {
+  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
+  const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
   let error = {};
   const regemail =
     /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -37,7 +39,7 @@ export const createContent = (data, fileCheck, groupId = 2, retailer = 0) => {
       }else{
         if (!item.uploadFile || !item.chapterTitle) {
           if (!error?.chapter?.[index]) {
-            if (localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") !== "sNl1hra39QmFk9HwvXETJA==") {
+            if (!isLikeRdAccount) {
               error.chapter = {
                 ...error.chapter,
                 [index]: "Chapter is required",

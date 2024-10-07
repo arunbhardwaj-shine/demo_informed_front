@@ -6,6 +6,8 @@ import { Spinner } from "react-activity";
 import { Modal } from "react-bootstrap";
 
 const SmartListTableLayout = ({ id, closeSmartListPopup }) => {
+    const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
+    const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
     const [getSmartListName, setSmartListName] = useState("");
     const [getReaderDetails, setReaderDetails] = useState({});
     const [showLessInfo, setShowLessInfo] = useState(true);
@@ -236,9 +238,7 @@ const SmartListTableLayout = ({ id, closeSmartListPopup }) => {
 
                                             </th>
 
-                                            {(localStorage.getItem("user_id") ==
-                                                "56Ek4feL/1A8mZgIKQWEqg=="
-                                                || localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                                            {(isLikeRdAccount)
                                                 ? (
                                                     <>
                                                         <th scope="col" className="sort_option">
@@ -370,14 +370,10 @@ const SmartListTableLayout = ({ id, closeSmartListPopup }) => {
                                                             <td>{rr?.email ? rr?.email : "N/A"}</td>
                                                             <td>{rr?.bounce ? rr.bounce : "N/A"}</td>
                                                             <td>{rr?.country ? rr?.country : "N/A"}</td>
-                                                            {(localStorage.getItem("user_id") ==
-                                                                "56Ek4feL/1A8mZgIKQWEqg=="
-                                                                || localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                                                            {(isLikeRdAccount)
                                                                 && (<><td>{rr.site_number ? rr.site_number : "N/A"}</td></>)}
                                                             <td>
-                                                                {(localStorage.getItem("user_id") ==
-                                                                    "56Ek4feL/1A8mZgIKQWEqg=="
-                                                                    || localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                                                                {(isLikeRdAccount)
 
                                                                     ? rr.irt
                                                                         ? "Yes"
@@ -387,9 +383,7 @@ const SmartListTableLayout = ({ id, closeSmartListPopup }) => {
                                                                         : "N/A"}
                                                             </td>
                                                             <td>
-                                                                {(localStorage.getItem("user_id") ==
-                                                                    "56Ek4feL/1A8mZgIKQWEqg=="
-                                                                    ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                                                                {(isLikeRdAccount)
                                                                     ? rr?.user_type != 0
                                                                         ? rr?.user_type
                                                                         : "N/A"

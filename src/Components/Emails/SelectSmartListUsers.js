@@ -17,6 +17,9 @@ import { getEmailData } from "../../actions";
 
 var old_object = {};
 const SelectSmartListUsers = (props) => {
+  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
+  const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
+  
   const [totalData, setTotalData] = useState({});
   const [siteNumberAll, setSiteNumberAll] = useState([]);
   const [siteNameAll, setSiteNameAll] = useState([]);
@@ -47,7 +50,7 @@ const SelectSmartListUsers = (props) => {
   const [unSubscribedUsers, setUnSubscribedUsers] = useState([]);
   const [readersNewlyAdded, setReadersNewlyAdded] = useState([]);
   const [reRender, setReRender] = useState(0);
-  const [userId, setUserId] = useState(localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA=="?"sNl1hra39QmFk9HwvXETJA==":"56Ek4feL/1A8mZgIKQWEqg==");
+  const [userId, setUserId] = useState(isLikeRdAccount?localStorage.getItem("user_id"): "56Ek4feL/1A8mZgIKQWEqg==");
   const [update, setUpdate] = useState(0);
   const [activeManual, setActiveManual] = useState("active");
   const [activeExcel, setActiveExcel] = useState("");
@@ -88,13 +91,11 @@ const SelectSmartListUsers = (props) => {
       country: "",
       countryIndex: "",
       role:
-        (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-        ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+        isLikeRdAccount
           ? irtRole?.[0]?.value
           : "",
       optIrt:
-        (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-        ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+        isLikeRdAccount
           ? "yes"
           : "",
       institutionType: localStorage.getItem("user_id")==userId?irtInstitutionType?.[0]?.value:"",
@@ -256,7 +257,7 @@ const SelectSmartListUsers = (props) => {
   };
 
   useEffect(() => {
-    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") {
+    if (isLikeRdAccount) {
       axiosFun();
     }
 
@@ -283,7 +284,7 @@ const SelectSmartListUsers = (props) => {
             });
             setCountryall(arr);
 
-            if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") {
+            if (isLikeRdAccount) {
               let investigator_type =
                 res?.data?.response?.data?.investigator_type;
               let newType = [];
@@ -560,7 +561,7 @@ const SelectSmartListUsers = (props) => {
       list[i].countryIndex = "";
       setHpc(list);
     } else {
-      if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==" ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") {
+      if (isLikeRdAccount) {
         let consetValue = e.value;
         if (e.value == "B&H") {
           consetValue = "Bosnia and Herzegovina";
@@ -659,14 +660,10 @@ const SelectSmartListUsers = (props) => {
         contact_type: "",
         country: "",
         countryIndex: "",
-        role:
-          (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-          ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+        role:isLikeRdAccount
             ? irtRole?.[0]?.value
             : "",
-        optIrt:
-          (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-          ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+        optIrt:isLikeRdAccount
             ? "yes"
             : "",
             institutionType: localStorage.getItem("user_id")==userId?irtInstitutionType?.[0]?.value:"",
@@ -721,7 +718,7 @@ const SelectSmartListUsers = (props) => {
   };
   const addMoreHcp = () => {
     const status = hpc.map((data) => {
-      if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") {
+      if (isLikeRdAccount) {
         if (
           data?.email == "" ||
           data?.institutionType == "" ||
@@ -770,7 +767,7 @@ const SelectSmartListUsers = (props) => {
         },
       ]);
     } else {
-      if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") {
+      if (isLikeRdAccount) {
         toast.warning("Please input the required fields.");
       } else {
         toast.warning("Please input the required fields.");
@@ -854,8 +851,7 @@ const SelectSmartListUsers = (props) => {
       {
       }
 
-      const contact_type_edit =
-        (localStorage.getItem("user_id") !== "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") !== "sNl1hra39QmFk9HwvXETJA==")
+      const contact_type_edit =!isLikeRdAccount
           ? document.getElementById("field_contact_type" + profile_user_id)
               .value
           : "";
@@ -1588,8 +1584,7 @@ const SelectSmartListUsers = (props) => {
                                     </span>
                                   </th>
 
-                                  {(localStorage.getItem("user_id") ==
-                                  "56Ek4feL/1A8mZgIKQWEqg==" ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") ? (
+                                  {isLikeRdAccount ? (
                                     <>
                                      <th scope="col" className="sort_option">
                                      <span onClick={() => handleSort("site_number")}>
@@ -1801,14 +1796,10 @@ const SelectSmartListUsers = (props) => {
                                               : "N/A"}
                                           </span>
                                         </td>
-                                        {(localStorage.getItem("user_id") ==
-                                        "56Ek4feL/1A8mZgIKQWEqg==" 
-                                        ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                                        {isLikeRdAccount
                                         &&(<><td>{user?.site_number?user?.site_number:"N/A"}</td></>)}
                                         <td>
-                                          {(localStorage.getItem("user_id") ===
-                                          "56Ek4feL/1A8mZgIKQWEqg=="
-                                          ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                                          {isLikeRdAccount
                                             ? user?.irt
                                               ? "Yes"
                                               : "No"
@@ -1816,9 +1807,7 @@ const SelectSmartListUsers = (props) => {
                                             ? user.ibu
                                             : "N/A"}
                                         </td>
-                                        {(localStorage.getItem("user_id") ===
-                                        "56Ek4feL/1A8mZgIKQWEqg=="
-                                        ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                                        {isLikeRdAccount
                                         ? (
                                           <td>
                                             {user?.user_type !== 0
@@ -2036,9 +2025,7 @@ const SelectSmartListUsers = (props) => {
                                   
                                      
 
-                                  {(localStorage.getItem("user_id") ==
-                                  "56Ek4feL/1A8mZgIKQWEqg==" 
-                                  ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                                  {isLikeRdAccount
                                   ? (
                                     <>
                                     <th scope="col" className="sort_option">

@@ -25,6 +25,8 @@ import optimizeImage from "../../../Utils/optimizeImage";
 
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const LibraryCreateUser = () => {
+  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
+  const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
   const titleFieldRef = useRef(null);
   const [counterFlag, setCounterFlag] = useState(0);
   const [spcType, setSpcType] = useState(0);
@@ -573,7 +575,7 @@ const LibraryCreateUser = () => {
         });
         loader("hide");
 
-        if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="  || localStorage.getItem("user_id")=="sNl1hra39QmFk9HwvXETJA==") {
+        if (isLikeRdAccount) {
           if (
             userInputs?.docintelFormat == "video" ||
             userInputs?.docintelFormat == "Video"
@@ -582,11 +584,11 @@ const LibraryCreateUser = () => {
               // state: { pdfId: res?.data?.data?.pdfId },
               state:{ 
                 pdfId: res?.data?.data?.pdfId,
-                flag : localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA=="  ?(location?.state?.flag === "mandatory"
+                flag :isLikeRdAccount ?(location?.state?.flag === "mandatory"
                   ? "mandatory"
                   : location?.state?.flag === "Non-mandatory"
                   ? "Non-mandatory" : '') :'',
-                  title: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA=="
+                  title: isLikeRdAccount
                   ? (location?.state?.title)
                   : ''
             
@@ -599,18 +601,18 @@ const LibraryCreateUser = () => {
                   pdfId: res?.data?.data?.pdfId,
                   isEdit: 0,
                   allowVideo: userInputs?.allowVideo,
-                  flag : localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA=="  ?(location?.state?.flag === "mandatory"
+                  flag : isLikeRdAccount  ?(location?.state?.flag === "mandatory"
                     ? "mandatory"
                     : location?.state?.flag === "Non-mandatory"
                     ? "Non-mandatory" : '') :'',
-                    title: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA=="
+                    title: isLikeRdAccount
                     ? (location?.state?.title)
                     : ''
                 },
               });
             } else {
               navigate("/preview-content", {
-                state: { pdfId: res?.data?.data?.pdfId, isEdit: 0 , title:location?.state?.title,flag: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA=="
+                state: { pdfId: res?.data?.data?.pdfId, isEdit: 0 , title:location?.state?.title,flag: isLikeRdAccount
                   ? (location?.state?.flag === "Non-mandatory" ? 'Non-mandatory' : "mandatory")
                   : '' },
               });
@@ -896,7 +898,7 @@ const LibraryCreateUser = () => {
     if (!tagClickedFirst.includes(dd)) {
       setTagClickedFirst((oldArray) => [...oldArray, dd]);
     } else {
-      {localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" ||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==" ?
+      {isLikeRdAccount ?
         toast.error("Topic already in list."): toast.error("Tag already in list.");
        } 
     }
@@ -954,7 +956,7 @@ const LibraryCreateUser = () => {
 
   const addTag = async () => {
     if (typeof newTag == "undefined" || newTag.trim().length == 0) {
-      {localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" ||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==" ?
+      {isLikeRdAccount ?
         toast.error("Please input a topic"): toast.error("Please input a tag");
        } 
     } else {
@@ -992,7 +994,7 @@ const LibraryCreateUser = () => {
             tags: newTag,
           };
         } else {
-          {localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" ||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==" ?
+          {isLikeRdAccount ?
             toast.error("Topic already in list."): toast.error("Tag already in list.");
            } 
         }
@@ -1385,7 +1387,7 @@ const LibraryCreateUser = () => {
               ) : null}
             </div>
 
-            {localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==" ? (
+            {!isLikeRdAccount ? (
               <>
                 <div className="col-12 col-md-6 d-flex justify-content- align-items-start right-change flex-column">
                   <div className="form-group justify-content-end ">
@@ -1681,15 +1683,13 @@ const LibraryCreateUser = () => {
                       <a href="">Create Your Content</a>
                     </li>
                     {(localStorage.getItem("user_id") ==
-                      "rjiGlqA9DXJVH7bDDTX0Lg==" || localStorage.getItem("user_id") ==
                       "iSnEsKu5gB/DRlycxB6G4g==" || localStorage.getItem("user_id") ==
-                      "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") && userInputs?.allowVideo ? (
+                      isLikeRdAccount) && userInputs?.allowVideo ? (
                       <li className="">
                         <a href="">[Embedding Video]</a>
                       </li>
                     ) : null}
-                    {localStorage.getItem("user_id") !=
-                      "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==" ? (
+                    {!isLikeRdAccount ? (
                       <li className="">
                         <a href="">Edit Consent Option</a>
                       </li>
@@ -1718,12 +1718,12 @@ const LibraryCreateUser = () => {
                         // ? (location?.state?.title)
                         // : '' 
 
-                        flag : localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==" ?(
+                        flag : isLikeRdAccount ?(
                           location?.state?.flag === "mandatory"
                           ? "mandatory"
                           : location?.state?.flag === "Non-mandatory"
                           ? "Non-mandatory" : '') :'',
-                          title: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA=="
+                          title: isLikeRdAccount
                           ? (location?.state?.title)
                           : '' 
                       }}
@@ -1877,8 +1877,7 @@ const LibraryCreateUser = () => {
 
                     {localStorage.getItem("user_id") !=
                       "iSnEsKu5gB/DRlycxB6G4g==" &&
-                      localStorage.getItem("user_id") !=
-                      "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==" ? (
+                     !isLikeRdAccount ? (
                       <div className="form-group">
                         <label htmlFor="">Author</label>
                         <input
@@ -2057,13 +2056,10 @@ const LibraryCreateUser = () => {
                     {userDetail?.user?.[0]?.flag == 1 &&
                       userDetail?.user?.[0]?.group_id == 3 ? (
                         <>
-                        {localStorage.getItem("user_id") !==
-                        "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") !==
-                        "sNl1hra39QmFk9HwvXETJA=="  ? 
+                        {!isLikeRdAccount  ? 
                         <div className="form-group">
                         <label htmlFor="setasdraft4">
-                          {localStorage.getItem("user_id") ==
-                            "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+                          {isLikeRdAccount
                             ? "Irt mandatory training"
                             : "Mandatory"}
                         </label>
@@ -2313,8 +2309,7 @@ const LibraryCreateUser = () => {
                                 {userInputs.docintelFormat == "ebookVideo" ? (<>
                                   <div className="d-flex align-items-center justify-content-start w-100 mb-3">
                                     <label htmlFor="">
-                                      {localStorage.getItem("user_id") !=
-                                        "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA=="
+                                      {!isLikeRdAccount
                                         ? "Chapter "
                                         : "File "}
                                       {i + 1} format
@@ -2375,8 +2370,7 @@ const LibraryCreateUser = () => {
                                 </>) : null
                                 }
                                 <label htmlFor="">
-                                  {localStorage.getItem("user_id") !=
-                                    "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA=="
+                                  {!isLikeRdAccount
                                     ? "Chapter "
                                     : "File "}
                                   {i + 1} title <span>*</span>
@@ -2585,8 +2579,7 @@ const LibraryCreateUser = () => {
                             <div className="form-group val chapter-title pdf-spc">
                               <div className="ebook-format">
                                 <label htmlFor="">
-                                  {localStorage.getItem("user_id") !=
-                                    "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA=="
+                                  {!isLikeRdAccount
                                     ? "Chapter "
                                     : "File "}{" "}
                                   title
@@ -2700,7 +2693,7 @@ const LibraryCreateUser = () => {
                     </div>
                   </Col>
 
-                  {localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==" ? (
+                  {!isLikeRdAccount ? (
                     <Col
                       md={6}
                       className="d-flex justify-content-end align-items-start right-change"
@@ -2728,8 +2721,7 @@ const LibraryCreateUser = () => {
                     (ebookFile?.length && userInputs.docintelFormat == "ebookVideo" && chapter.some((element) => element?.type == "pdf"))
                     && (localStorage.getItem("user_id") ==
                       "rjiGlqA9DXJVH7bDDTX0Lg==" || localStorage.getItem("user_id") ==
-                      "iSnEsKu5gB/DRlycxB6G4g==" || localStorage.getItem("user_id") ==
-                      "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ? (
+                      "iSnEsKu5gB/DRlycxB6G4g==" || isLikeRdAccount) ? (
                     <>
                       <div className="form-group">
                         <label htmlFor="">Include video</label>
@@ -3006,7 +2998,7 @@ const LibraryCreateUser = () => {
             <div className="form-group">
               <label htmlFor="new-tag">
                 {" "}
-                {localStorage.getItem("user_id") === "B7SHpAc XDXSH NXkN0rdQ==" || localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA=="
+                {localStorage.getItem("user_id") === "B7SHpAc XDXSH NXkN0rdQ==" ||isLikeRdAccount
                   ? "New Topic"
                   : "New Tag"}{" "}
               </label>

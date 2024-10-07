@@ -25,6 +25,8 @@ const Sidebar = () => {
   const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"));
 
   const { selectedItem, eventIdContext } = useSidebar();
+  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
+  const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
   // if(!eventIdContext){
   //   navigate("/webinar/event-listing");
   // }
@@ -441,7 +443,7 @@ const Sidebar = () => {
                 </Link>
               </li>
 
-              {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem('user_id')=="sNl1hra39QmFk9HwvXETJA==") ?
+              {(rdLikeArray) ?
                 <li
                   className={
                     location.pathname == "/IRTRole" ||
@@ -682,8 +684,7 @@ const Sidebar = () => {
                   <p>Email Results</p>
                 </Link>
               </li>
-              {/* {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-                || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+              {/* {(rdLikeArray)
                 ? (
                   <li
                     className={
@@ -793,13 +794,12 @@ const Sidebar = () => {
 
               <li
                 // className={
-                //   location.pathname == "/library-content" || (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="  || localStorage.getItem("user_id")=="sNl1hra39QmFk9HwvXETJA==" && (location?.state?.flag === "Non-mandatory")?location.pathname == "/library-edit-listing" || location.pathname == "/library-edit"  || location.pathname == "/library-create-user" || location.pathname == "/preview-content" || location.pathname == "/content-detail" || location.pathname == "/library-sublink" :'')    ? "active" : "side_li"
+                //   location.pathname == "/library-content" || (rdLikeArray" && (location?.state?.flag === "Non-mandatory")?location.pathname == "/library-edit-listing" || location.pathname == "/library-edit"  || location.pathname == "/library-create-user" || location.pathname == "/preview-content" || location.pathname == "/content-detail" || location.pathname == "/library-sublink" :'')    ? "active" : "side_li"
                 // }
                 className={
                   location.pathname === "/library-content" ||
                     (
-                      (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==" ||
-                        localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") &&
+                      (rdLikeArray) &&
                       location?.state?.flag === "Non-mandatory" &&
                       (
                         location.pathname === "/library-edit-listing" ||
@@ -817,14 +817,14 @@ const Sidebar = () => {
                 <Link
                   to={"/library-content"}
                   // state={{title : "Non-mandatory" ,
-                  //   flag: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" 
+                  //   flag: rdLikeArray
                   //   ?  "Non-mandatory" 
                   //   : '' 
                   // }}
 
                   state={{
-                    title: localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? "Non-mandatory" : '',
-                    flag: localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? "Non-mandatory" : ''
+                    title: rdLikeArray ? "Non-mandatory" : '',
+                    flag: rdLikeArray ? "Non-mandatory" : ''
                   }}
 
                 >
@@ -840,12 +840,12 @@ const Sidebar = () => {
                       fill="rgba(0, 102, 190, 0.6)"
                     />
                   </svg>
-                  <p>{localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? 'Non Mandatory' : 'Content'}</p>
+                  <p>{rdLikeArray? 'Non Mandatory' : 'Content'}</p>
                 </Link>
               </li>
 
 
-              {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ?
+              {rdLikeArray ?
                 <li
                   className={
                     location.pathname == "/library-mandatory" || location.pathname == "/library-mandatory-content" || (location?.state?.flag === "mandatory" ? location.pathname == "/library-edit-listing" || location.pathname == "/library-edit" || location.pathname == "/library-create-user" || location.pathname == "/preview-content" || location.pathname == "/content-detail" || location.pathname == "/library-sublink" || location.pathname == "/library-add-link" : '') ? "active" : "side_li"
@@ -887,7 +887,7 @@ const Sidebar = () => {
 
 
 
-              {localStorage.getItem("user_id") !== "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") !== "sNl1hra39QmFk9HwvXETJA==" ?
+              {!rdLikeArray ?
                 <li
                   className={
                     (location.pathname == "/library-create" ||
@@ -1048,9 +1048,7 @@ const Sidebar = () => {
                   </Link>
                 </li>
               ) : null}
-              {(localStorage.getItem("user_id") ==
-                "56Ek4feL/1A8mZgIKQWEqg=="
-                || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+              {(rdLikeArray)
                 ? null : localStorage.getItem(
                   "group_id"
                 ) == 2 ? null : (
@@ -1097,21 +1095,17 @@ const Sidebar = () => {
                         />
                       </svg>
                       {/* {localStorage.getItem("group_id") == 3 &&
-                    localStorage.getItem("user_id") !=
-                      "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                  !rdLikeArray ? (
                       <p>Products & Tags</p>
                     ) : (
                       <>
-                        {localStorage.getItem("user_id") ==
-                        "56Ek4feL/1A8mZgIKQWEqg==" ? (
+                        {rdLikeArray ? (
                           <p>Topics</p>
                         ) : null}
                       </>
                     )} */}
                       {localStorage.getItem("group_id") == 3 ? (
-                        (localStorage.getItem("user_id") ==
-                          "56Ek4feL/1A8mZgIKQWEqg=="
-                          || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                        (rdLikeArray)
                           ? (
                             <p>Topics</p>
                           ) : localStorage.getItem("user_id") ==
@@ -1184,7 +1178,7 @@ const Sidebar = () => {
             window.location.pathname == "/license/renew" ? (
             <ul>
 
-              {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ?
+              {rdLikeArray ?
                 <li
                   className={
                     location.pathname == "/library-content" || location.pathname == "/license-edit-listing" || location.pathname == "/library-edit" ? "active" : "side_li"
@@ -1355,7 +1349,7 @@ const Sidebar = () => {
             window.location.pathname == "/timeline-detail" ? (
             <ul>
 
-              {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ?
+              {(rdLikeArray) ?
                 (
                   <li
                     className={
@@ -1392,7 +1386,7 @@ const Sidebar = () => {
                 className={
                   (location.pathname == "/readers-view"
                     || (location.pathname == "/reader-edit" &&
-                      (localStorage.getItem('user_id') == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")) ||
+                      rdLikeArray) ||
                     ((location.pathname == "/timeline-detail" || location.pathname == "/reader-review" ) && (localStorage.getItem('irt_sec') != 1 && localStorage.getItem('irt_sec') != null)))
                     ? "active"
                     : "side_li"
@@ -1414,13 +1408,13 @@ const Sidebar = () => {
                   </svg>
                   <p>
                     {
-                      (localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg==' || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                      (rdLikeArray)
                         ? "HCPs"
                         : "CRM"
                     }</p>
                 </Link>
               </li>
-              {(localStorage.getItem('user_id') != '56Ek4feL/1A8mZgIKQWEqg==' && localStorage.getItem("user_id") !== "sNl1hra39QmFk9HwvXETJA==") ?
+              {(!rdLikeArray) ?
                 <li
                   className={
                     location.pathname == "/reader-add" ||
@@ -1459,8 +1453,7 @@ const Sidebar = () => {
                   </Link>
                 </li> : null}
 
-              {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-                || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+              {rdLikeArray
                 ? (
                   <li
                     className={
@@ -2885,15 +2878,12 @@ const Sidebar = () => {
                                 <p>Content Analytics</p>
                               </Link>
                             </li>
-                            {(localStorage.getItem("user_id") ==
-                              "56Ek4feL/1A8mZgIKQWEqg=="
-                              || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                            {rdLikeArray
                               ? null : localStorage.getItem(
                                 "group_id"
                               ) == 2 ? null : (
                                 <>
-                                  {
-                                    localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ?
+                                  {rdLikeArray ?
                                       <li
                                         className={
                                           location.pathname == "/LEX-210-analytics"
@@ -3783,17 +3773,14 @@ const Sidebar = () => {
                             </li>
                           </ul>
                         ) : null
-                      ) : (localStorage.getItem("user_id") ==
-                        "56Ek4feL/1A8mZgIKQWEqg=="
-                        || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                      ) : rdLikeArray
                         ? (
                           window.location.pathname == "/content-analytics" ||
                             window.location.pathname == "/feedback" ||
                             window.location.pathname == "/trial-analytics" ||
                             window.location.pathname == "/LEX-210-analytics" ? (
                             <ul>
-                              {
-                                localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ?
+                              {rdLikeArray ?
                                   <li
                                     className={
                                       location.pathname == "/LEX-210-analytics"
@@ -3975,7 +3962,7 @@ const Sidebar = () => {
                                 </Link>
                               </li>
                               {
-                                localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg==' ?
+                                rdLikeArray ?
                                   <li
                                     className={
                                       location.pathname == "/feedback"

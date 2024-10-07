@@ -22,6 +22,8 @@ exportData(Highcharts);
 const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const ContentAnalytics = () => {
+  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
+  const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
   const { state } = useLocation();
   const [isDataFound, setIsDataFound] = useState(false);
   const [filterPdfLinkData, setFilterPdfLinkData] = useState();
@@ -344,7 +346,7 @@ const ContentAnalytics = () => {
           <Row>
             {localStorage.getItem("group_id") == 2 ||
             (localStorage.getItem("group_id") == 3 &&
-              (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")) ? (
+            isLikeRdAccount) ? (
               ""
             ) : (
               <div className="top-header content_analytic">

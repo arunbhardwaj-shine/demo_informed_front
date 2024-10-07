@@ -41,8 +41,10 @@ const NewReaders = () => {
   const [consetCountry, setConsetCountry] = useState({});
   const [isFlag, setFlag] = useState(0);
   const searchInputRef = useRef(null);
-  const deletButtonColor = (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ? '#8A4E9C' : '#0066be'
-  const isRDAccount = localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id")==="sNl1hra39QmFk9HwvXETJA=="
+  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
+  const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
+  const deletButtonColor = isLikeRdAccount ? '#8A4E9C' : '#0066be'
+  const isRDAccount = isLikeRdAccount
   const [isLoaded, setIsLoaded] = useState(false);
   const [page, setPage] = useState(1);
   const institutionData = [
@@ -189,9 +191,7 @@ const NewReaders = () => {
   const [defaultOwner, setDefaultOwner] = useState("");
 
   useEffect(() => {
-    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-      || localStorage.getItem("user_id") == "iSnEsKu5gB/DRlycxB6G4g=="
-      || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+    if (isLikeRdAccount
     ) {
       setAppliedFilter({});
       setFilterObject({});
@@ -298,7 +298,7 @@ const NewReaders = () => {
         limit: limit,
       };
       let payload = {};
-      if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
+      if (isLikeRdAccount) {
         payload = {
           ...data,
           ...obj,
@@ -425,7 +425,7 @@ const NewReaders = () => {
           status: ["Registered"],
         };
       }
-      else if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
+      else if (isLikeRdAccount) {
         payload = {
           ...data,
           ...obj,
@@ -491,7 +491,7 @@ const NewReaders = () => {
 
   const handleOnFilterChange = (e, item, index, key, data = []) => {
     let newObj = JSON.parse(JSON.stringify(appliedFilter));
-    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
+    if (isLikeRdAccount) {
       if (key == "IRT mandatory training") {
         if (newObj["role"]) {
           delete newObj["role"];
@@ -692,7 +692,7 @@ const NewReaders = () => {
       };
       return newSelectedSiteNumber;
     });
-    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
+    if (isLikeRdAccount) {
       let consent1 = {
         index: i,
         value: "",
@@ -1306,7 +1306,7 @@ const NewReaders = () => {
       let binded = "";
       let institute = "";
 
-      if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
+      if (isLikeRdAccount) {
         const roleIndex = changeRoleType.findIndex(
           (el) => el.index === reader_id
         );
@@ -1475,7 +1475,7 @@ const NewReaders = () => {
           redirect: "",
         });
       } else {
-        // if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==") {
+        // if (isLikeRdAccount) {
         //   if (institute == "") {
         //     toast.warning("Please select insitute value");
         //   } else {
@@ -1603,8 +1603,7 @@ const NewReaders = () => {
       }
     } else if (
       key == "change-tab" &&
-      (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-        || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+      isLikeRdAccount
     ) {
       const res = await getData(ENDPOINT.READER_USER_DROP);
 
@@ -1744,9 +1743,7 @@ const NewReaders = () => {
             <div className="top-sticky">
               <div className="top-header reader_list">
                 <div className="page-title">
-                  {(localStorage.getItem("user_id") ==
-                    "56Ek4feL/1A8mZgIKQWEqg=="
-                    || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                  {isLikeRdAccount
                     ? (
                       <h2>
                         HCPs
@@ -1785,9 +1782,7 @@ const NewReaders = () => {
                           (Object.keys(filterObject)?.length <= 1 &&
                             filterObject?.["contact Type"]?.includes("HCP"))))
                       // ||
-                      // ((localStorage.getItem("user_id") ==
-                      //   "56Ek4feL/1A8mZgIKQWEqg=="
-                      //   || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                      // isLikeRdAccount
                       //   &&
                       //   Object.keys(filterObject)?.length <= 0
                       // ))
@@ -1805,8 +1800,7 @@ const NewReaders = () => {
                             "contact Type": "HCP",
                             "Content Owners": "All",
 
-                          } : (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-                            || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                          } : isLikeRdAccount
                             ?
                             {
                               status: "Registered",
@@ -1850,9 +1844,7 @@ const NewReaders = () => {
                 </div>
 
                 <div className="top-right-action library_content_view">
-                {(localStorage.getItem("user_id") ==
-                    "56Ek4feL/1A8mZgIKQWEqg=="
-                    || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ?
+                {isLikeRdAccount ?
                     <div className="clear-search">
                       <button
                         className="btn print"
@@ -1986,7 +1978,7 @@ const NewReaders = () => {
                           {Object.keys(filterdata)?.map(function (key, index) {
                             const filteredRoles =
                               key === "role"
-                                ? (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                                ? isLikeRdAccount
                                   ? filterdata[key]
                                   :
                                   filterdata[key].filter(
@@ -2140,9 +2132,7 @@ const NewReaders = () => {
                     )}
                   </div>
 
-                  {(localStorage.getItem("user_id") !=
-                    "56Ek4feL/1A8mZgIKQWEqg=="
-                    && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==") ?
+                  {!isLikeRdAccount ?
                     <div className="clear-search">
                       <button
                         className="btn print"
@@ -2318,8 +2308,7 @@ const NewReaders = () => {
 
               <div className="site-irt w-100">
                 <div className="page-title">
-                  {(localStorage.getItem("user_id") ==
-                    "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ?
+                  {isLikeRdAccount ?
                     (
                       <h4>
                         Total HCPs |{" "}
@@ -2340,8 +2329,7 @@ const NewReaders = () => {
                         <div className="doc-content-header">
                           <div className="doc-content">
                             <h4>
-                              {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-                                || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                              {isLikeRdAccount
                                 ? `${data?.first_name} ${data?.last_name} ` : data?.first_name ? data?.first_name : data?.name}
                             </h4>
                           </div>
@@ -2374,8 +2362,7 @@ const NewReaders = () => {
                                     ""
                                   )}
 
-                                  {(localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg=="
-                                    && localStorage.getItem("user_id") !== "sNl1hra39QmFk9HwvXETJA==")
+                                  {!isLikeRdAccount
                                     && localStorage.getItem("group_id") == 3 ?
                                     (
                                       <>
@@ -2423,9 +2410,7 @@ const NewReaders = () => {
 
 
 
-                                  {(localStorage.getItem("user_id") ==
-                                    "56Ek4feL/1A8mZgIKQWEqg=="
-                                    || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                                  {isLikeRdAccount
                                     &&
                                     localStorage.getItem("group_id") == "3" ? (
                                     <>
@@ -2917,9 +2902,7 @@ const NewReaders = () => {
                               <Tab eventKey="change-tab" title="Change">
                                 <div className="data-main-box change-tab-main-box">
                                   <ul className="tab-mail-list data change">
-                                    {(localStorage.getItem("user_id") ==
-                                      "56Ek4feL/1A8mZgIKQWEqg=="
-                                      || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                                    {isLikeRdAccount
                                       && change ? (
                                       <>
                                         {/*console.log(
