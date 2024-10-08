@@ -215,8 +215,8 @@ const handleDropdownchange=(e,selectType)=>{
           survey_thumbnail: formData.selectedThumbnailFilePath,
           survey_link_description: formData.surveyLinkDescription,
           survey_link_title: formData.surveyLinkTitle,
-          informedEmail: formData.consentType === "No consent needed (anonymous)" ?"" : formData.informedEmail.value,
-          informedGo: formData.consentType === "No consent needed (anonymous)" ?"" :formData.informedGo.value
+          informedEmail: formData.consentType === "No consent needed (anonymous)" ?2 : formData.informedEmail.value,
+          informedGo: formData.consentType === "No consent needed (anonymous)" ?2 :formData.informedGo.value
         },
       };
       props.getSurveyData(surveyValues);
