@@ -18,6 +18,8 @@ import { Spinner } from "react-activity";
 // } from "react-bootstrap";
 
 const TimelineDetail = (props) => {
+  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
+  const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const BrokenImage =
     "https://docintel.s3-eu-west-1.amazonaws.com/cover/default/default.png";
@@ -28,9 +30,7 @@ const TimelineDetail = (props) => {
 
   const [readerId, setReaderId] = useState(localStorage.getItem("myData"));
 
-  const isRdAndNorgianAcount =
-    localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ||
-    localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==";
+  const isRdAndNorgianAcount =isLikeRdAccount
 
   let obj = {
     em: "Email",
@@ -565,10 +565,7 @@ const TimelineDetail = (props) => {
                                   </>
                                 ) : null
                               }
-                              {localStorage.getItem("user_id") ==
-                                "56Ek4feL/1A8mZgIKQWEqg==" ||
-                                localStorage.getItem("user_id") ==
-                                "sNl1hra39QmFk9HwvXETJA==" ? (
+                              {isLikeRdAccount ? (
                                 <>
                                   <tr>
                                     <th>Consent</th>
@@ -643,7 +640,7 @@ const TimelineDetail = (props) => {
                                     />
                                   </div>
                                   <div className="timeline-date">
-                                    <h3>{timeLineData?.user?.name ? timeLineData?.user?.name : "LEX-210 Trial"}</h3>
+                                    <h3>{timeLineData?.user?.name ? timeLineData?.user?.name : localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" ?"Gena Trial": "LEX-210 Trial"}</h3>
                                     <p>
                                       {timeLineData?.timeline[
                                         Object.keys(timeLineData?.timeline)[0]

@@ -806,13 +806,7 @@ const LibraryCreateUser = () => {
         is_file_name_exists: 1,
 
       };
-      // if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==") {
-      //   obj = {
-      //     "IRT mandatory training": [irt],
-      //     Role: [role]
-      //   };
-      // }
-      // let body = { ...requestBody, filter: obj };
+   
       const response = await postData(ENDPOINT.LIBRARY, requestBody);
       // const response = await postData(ENDPOINT.LIBRARY_CONTENT, body);
       const hadData = response?.data?.data?.library || [];
@@ -1714,10 +1708,6 @@ const LibraryCreateUser = () => {
                       }
                      
                        state={{ 
-                        // title: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" 
-                        // ? (location?.state?.title)
-                        // : '' 
-
                         flag : isLikeRdAccount ?(
                           location?.state?.flag === "mandatory"
                           ? "mandatory"

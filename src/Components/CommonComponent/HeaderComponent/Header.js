@@ -366,7 +366,7 @@ const Header = () => {
                               :
                               localStorage.getItem("user_id") ==
                               "MXl8m36VZFYXpgFVz3Pg0g==" 
-                              ? "/LEX-210-analytics"
+                              ? "/trial-analytics"
                               :
                               localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
                                 ? "/trial-analytics"

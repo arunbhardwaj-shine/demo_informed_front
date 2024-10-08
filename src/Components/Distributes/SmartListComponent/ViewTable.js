@@ -18,6 +18,8 @@ import DropdownButton from "react-bootstrap/DropdownButton";
 import Select, { createFilter } from "react-select";
 import makeAnimated from "react-select/animated";
 const ViewTable = (props) => {
+  const accountMapping={"56Ek4feL/1A8mZgIKQWEqg==":2147501188,"sNl1hra39QmFk9HwvXETJA==":2147536982,"MXl8m36VZFYXpgFVz3Pg0g==":2147537506}
+
   const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
   const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
   const [inEditMode, setInEditMode] = useState({
@@ -28,10 +30,6 @@ const ViewTable = (props) => {
     matchFrom: "start",
   };
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
-  //let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
-  //let validator = new SimpleReactValidator();
-  const [userId, setUserId] = useState(isLikeRdAccount?localStorage.getItem("user_id"): "56Ek4feL/1A8mZgIKQWEqg==");
-
   const [instituions, setInstituions] = useState([]);
   const [nonIrtInstitutionType, setNonIrtInstitutionType] = useState([])
   const [irtInstitutionType, setIrtInstitutionType] = useState([])
@@ -370,10 +368,10 @@ const ViewTable = (props) => {
         (isLikeRdAccount)
           ? siteIrtAll?.findIndex((item) => item?.value == "Yes")
           : "",
-      institute: localStorage.getItem("user_id") == userId
+      institute: isLikeRdAccount
         ? irtInstitutionType?.[0]?.value
         : "",
-      instituteIndex: localStorage.getItem("user_id") == userId ? 0 : "",
+      instituteIndex: isLikeRdAccount ? 0 : "",
       siteNumber: "",
       siteName: ""
     },
@@ -433,10 +431,10 @@ const ViewTable = (props) => {
             siteCity: "",
           },
         ],
-        institute: localStorage.getItem("user_id") == userId
+        institute: isLikeRdAccount
           ? irtInstitutionType?.[0]?.value
           : "",
-        instituteIndex: localStorage.getItem("user_id") == userId ? 0 : "",
+        instituteIndex: isLikeRdAccount ? 0 : "",
         siteNumber: "",
         siteName: ""
       },
@@ -460,7 +458,7 @@ const ViewTable = (props) => {
 
   const axiosFun = async () => {
     try {
-      const result = await axios.get(`emailapi/get_site?uid=${localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? 2147536982 : 2147501188}`);
+      const result = await axios.get(`emailapi/get_site?uid=${accountMapping[localStorage.getItem("user_id")] || 2147501188}`);
 
       let country = result?.data?.response?.data?.site_country_data;
       let arr = [];
@@ -667,7 +665,7 @@ const ViewTable = (props) => {
   const addMoreHcp = (e) => {
     e.preventDefault();
     const status = hpc.map((data) => {
-      if (localStorage.getItem("user_id") == userId) {
+      if (isLikeRdAccount) {
         if (data.siteIrt == "Yes") {
           if (data.firstname == "" ||
             data.lastname == "" ||
@@ -750,15 +748,15 @@ const ViewTable = (props) => {
             (isLikeRdAccount)
               ? siteIrtAll?.findIndex((item) => item?.value == "Yes")
               : "",
-          institute: localStorage.getItem("user_id") == userId
+          institute: isLikeRdAccount
             ? irtInstitutionType?.[0]?.value
             : "",
-          instituteIndex: localStorage.getItem("user_id") == userId ? 0 : "",
+          instituteIndex: isLikeRdAccount ? 0 : "",
           siteNumber: "",
           siteName: ""
         },
       ]);
-    } else if (localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==" || localStorage.getItem("user_id") == userId) {
+    } else if (localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==" || isLikeRdAccount) {
       toast.warning("Please input the required fields");
     }
     else {
@@ -1563,13 +1561,13 @@ const ViewTable = (props) => {
             index: index,
           });
           return;
-        } else if (data.siteNumber == "" && data.siteIrt == 1 && localStorage.getItem("user_id") == userId) {
+        } else if (data.siteNumber == "" && data.siteIrt == 1 && isLikeRdAccount) {
           setValidationError({
             siteNumber: "Please select site number",
             index: index,
           });
           return;
-        } else if (data.siteName == "" && data.siteIrt == 1 && localStorage.getItem("user_id") == userId) {
+        } else if (data.siteName == "" && data.siteIrt == 1 && isLikeRdAccount) {
           setValidationError({
             siteName: "Please select site name",
             index: index,
@@ -2462,7 +2460,7 @@ const ViewTable = (props) => {
         >
           <div className="modal-header">
             <h5 className="modal-title" id="staticBackdropLabel">
-              {localStorage.getItem("user_id") == userId || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+              {isLikeRdAccount 
                 ? "Add New User +"
                 : "Add New HCP"}
             </h5>
@@ -2491,10 +2489,10 @@ const ViewTable = (props) => {
                     siteIrtIndex:isLikeRdAccount
                         ? siteIrtAll?.indexOf((item) => item?.value == "Yes")
                         : "",
-                    institute: localStorage.getItem("user_id") == userId
+                    institute: isLikeRdAccount
                       ? irtInstitutionType?.[0]?.value
                       : "",
-                    instituteIndex: localStorage.getItem("user_id") == userId ? 0 : "",
+                    instituteIndex: isLikeRdAccount ? 0 : "",
                     siteNumber: "",
                     siteName: ""
                   },
@@ -3304,7 +3302,7 @@ const ViewTable = (props) => {
                                     data-bs-toggle="tab"
                                     href="javascript:;"
                                   >
-                                    {(localStorage.getItem("user_id") == userId || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                                    {(isLikeRdAccount)
                                       ? "Add User +"
                                       : "Add HCP +"}
                                   </a>

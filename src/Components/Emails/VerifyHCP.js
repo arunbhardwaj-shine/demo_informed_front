@@ -26,6 +26,8 @@ var old_object = {};
 var selected_Data = [];
 var searched_Data=[]
 const VerifyHCP = (props) => {
+  const accountMapping={"56Ek4feL/1A8mZgIKQWEqg==":2147501188,"sNl1hra39QmFk9HwvXETJA==":2147536982,"MXl8m36VZFYXpgFVz3Pg0g==":2147537506}
+
   const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
   const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
   const [totalData, setTotalData] = useState({});
@@ -72,7 +74,7 @@ const VerifyHCP = (props) => {
   const [searchedUsers, setSearchedUsers] = useState(searched_Data?searched_Data:[]);
   const [editableData, setEditableData] = useState([]);
   const [sortingCount, setSortingCount] = useState(0);
-  const [userId, setUserId] = useState(localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA=="?"sNl1hra39QmFk9HwvXETJA==":"56Ek4feL/1A8mZgIKQWEqg==");
+  const [userId, setUserId] = useState(rdLikeArray?localStorage.getItem("user_id"):"56Ek4feL/1A8mZgIKQWEqg==");
   const navigate = useNavigate();
 
   const [selectedHcp, setSelectedHcp] = useState(
@@ -101,7 +103,7 @@ const VerifyHCP = (props) => {
       optIrt:isLikeRdAccount
           ? "yes"
           : "",
-          institutionType: localStorage.getItem("user_id")==userId?irtInstitutionType?.[0]?.value:"",
+          institutionType: isLikeRdAccount?irtInstitutionType?.[0]?.value:"",
           siteNumber:"",
           siteName:""
     },
@@ -118,7 +120,7 @@ const VerifyHCP = (props) => {
 
   const axiosFun = async () => {
     try {
-      const result = await axios.get(`emailapi/get_site?uid=${localStorage.getItem("user_id")=="sNl1hra39QmFk9HwvXETJA=="?2147536982:2147501188}`);
+      const result = await axios.get(`emailapi/get_site?uid=${accountMapping[localStorage.getItem("user_id")] || 2147501188}`);
 
       let country = result?.data?.response?.data?.site_country_data;
       let arr = [];
@@ -416,7 +418,7 @@ const VerifyHCP = (props) => {
           isLikeRdAccount
             ? "yes"
             : "",
-            institutionType: localStorage.getItem("user_id")==userId?irtInstitutionType?.[0]?.value:"",
+            institutionType: isLikeRdAccount?irtInstitutionType?.[0]?.value:"",
             siteNumber:"",
             siteName:""
       },
@@ -1064,7 +1066,7 @@ const VerifyHCP = (props) => {
             isLikeRdAccount
               ? "yes"
               : "",
-              institutionType: localStorage.getItem("user_id")==userId?irtInstitutionType?.[0]?.value:"",
+              institutionType: isLikeRdAccount?irtInstitutionType?.[0]?.value:"",
               siteNumber:"",
               siteName:"",
         },
@@ -1476,7 +1478,7 @@ const VerifyHCP = (props) => {
                 <div className="top-header">
                   <div className="page-title">
                     <h4>
-                      {localStorage.getItem("user_id") == userId
+                      {isLikeRdAccount
                         ? "Search For User By:"
                         : "Search For HCP By:"}
                     </h4>
@@ -1530,7 +1532,7 @@ const VerifyHCP = (props) => {
                             data-bs-target="#add_hcp"
                             onClick={addNewHcp}
                           >
-                            {localStorage.getItem("user_id") == userId
+                            {isLikeRdAccount
                               ? "Add User +"
                               : "Add HCP +"}
                           </button>
@@ -1538,7 +1540,7 @@ const VerifyHCP = (props) => {
                       </div>
                       : 
                       <div className="form-inline">
-                        {localStorage.getItem("user_id") == userId
+                        {isLikeRdAccount
                               ? <div className="d-flex justify-content-between align-items-end"><div className="select-irt">
                                   <h4>Select IRTs :</h4>
                                   <p>If you do not see the wanted IRTs here please go to CRM and check if they correctly added</p>
@@ -1551,7 +1553,7 @@ const VerifyHCP = (props) => {
                                       data-bs-target="#add_hcp"
                                       onClick={addNewHcp}
                                     >
-                                      {localStorage.getItem("user_id") == userId
+                                      {isLikeRdAccount
                                         ? "Add New IRT +"
                                         : "Add HCP +"}
                                     </button>
@@ -1566,7 +1568,7 @@ const VerifyHCP = (props) => {
                                   data-bs-target="#add_hcp"
                                   onClick={addNewHcp}
                                 >
-                                  {localStorage.getItem("user_id") == userId
+                                  {isLikeRdAccount
                                     ? "Add User +"
                                     : "Add HCP +"}
                                 </button>
@@ -2382,9 +2384,7 @@ const VerifyHCP = (props) => {
                             </span>
                             </th>
 
-                          {(localStorage.getItem("user_id") ===
-                          "56Ek4feL/1A8mZgIKQWEqg==" 
-                          ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                          {isLikeRdAccount
                           ? (
                             <>
                             <th scope="col" className="sort_option">
@@ -2831,15 +2831,11 @@ const VerifyHCP = (props) => {
                                     </span>
                                   )}
                                 </td>
-                                {(localStorage.getItem("user_id") ==
-                                        "56Ek4feL/1A8mZgIKQWEqg=="
-                                        ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                                {isLikeRdAccount
                                         &&(<><td>{data?.site_number?data?.site_number:"N/A"}</td></>)}
                                 <td>
                                   {/*data?.ibu ? data?.ibu : "N/A"*/}
-                                  {(localStorage.getItem("user_id") ==
-                                  "56Ek4feL/1A8mZgIKQWEqg=="
-                                  ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                                  {isLikeRdAccount
                                     ? data?.irt
                                       ? "Yes"
                                       : "No"
@@ -2848,9 +2844,7 @@ const VerifyHCP = (props) => {
                                     : "N/A"}
                                 </td>
                                 <td>
-                                  {(localStorage.getItem("user_id") ===
-                                  "56Ek4feL/1A8mZgIKQWEqg==" 
-                                  ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                                  {isLikeRdAccount
                                   ? (
                                     data?.user_type != 0 ? (
                                       data?.user_type
@@ -2948,7 +2942,7 @@ const VerifyHCP = (props) => {
 
           <Modal.Header>
             <h5 className="modal-title" id="staticBackdropLabel">
-              {localStorage.getItem("user_id") == userId
+              {isLikeRdAccount
                 ? "Add New IRT +"
                 : "Add New HCP"}
             </h5>
@@ -2975,9 +2969,7 @@ const VerifyHCP = (props) => {
                                 <div className="form-group">
                                   <label htmlFor="">
                                     First name{" "}
-                                    {(localStorage.getItem("user_id") ==
-                                      "56Ek4feL/1A8mZgIKQWEqg==" 
-                                      ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                                    {isLikeRdAccount
                                       && (
                                       <span>*</span>
                                     )}
@@ -3008,9 +3000,7 @@ const VerifyHCP = (props) => {
                                 <div className="form-group">
                                   <label htmlFor="">
                                     Last name{" "}
-                                    {(localStorage.getItem("user_id") ==
-                                      "56Ek4feL/1A8mZgIKQWEqg==" 
-                                      ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                                    {isLikeRdAccount
                                       && (
                                       <span>*</span>
                                     )}
@@ -3066,9 +3056,7 @@ const VerifyHCP = (props) => {
                                   ) : null}
                                 </div>
                               </div>
-                              {(localStorage.getItem("user_id") ===
-                              "56Ek4feL/1A8mZgIKQWEqg=="
-                              ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                              {isLikeRdAccount
                               ? (
                                 <>
                                   {
@@ -3341,9 +3329,7 @@ const VerifyHCP = (props) => {
                                 <div className="form-group">
                                   <label htmlFor="">
                                     Country{" "}
-                                    {(localStorage.getItem("user_id") ==
-                                      "56Ek4feL/1A8mZgIKQWEqg==" 
-                                      ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                                    {isLikeRdAccount
                                       && (
                                       <span>*</span>
                                     )}
@@ -3605,7 +3591,7 @@ const VerifyHCP = (props) => {
                                     data-bs-toggle="tab"
                                     href="javascript:;"
                                   >
-                                    {localStorage.getItem("user_id") == userId
+                                    {isLikeRdAccount
                                       ? "Add IRT +"
                                       : "Add HCP +"}
                                   </a>

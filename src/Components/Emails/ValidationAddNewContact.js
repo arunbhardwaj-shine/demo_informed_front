@@ -1,10 +1,12 @@
 export const ValidationAddNewContact=(data,selectedHcp,flag)=>{
+  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
+  const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
     console.log("data-->",data)
     const status=data?.map((data)=>{
         
 
    
-    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
+    if (isLikeRdAccount) {
         if (data.first_name == "") {
           return "Please enter the first name";
         } else if (data.last_name == "") {
@@ -81,7 +83,7 @@ export const ValidationAddNewContact=(data,selectedHcp,flag)=>{
           } else if (data?.institution_type == "") {
             return "Please select the institution type";
           }
-          if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==") {
+          if (isLikeRdAccount|| localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==") {
             if (data?.country == "") {
               return "Please select country";
             }

@@ -37,7 +37,6 @@ const SelectSmartListCountryUsers = (props) => {
     const [removedReaders, setRemovedReaders] = useState([]);
     const [readersNewlyAdded, setReadersNewlyAdded] = useState([]);
     const [reRender, setReRender] = useState(0);
-    // const [userId, setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==");
     const [userId, setUserId] = useState(localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA=="?"sNl1hra39QmFk9HwvXETJA==":"56Ek4feL/1A8mZgIKQWEqg==");
     const [update, setUpdate] = useState(0);
     const [activeManual, setActiveManual] = useState("active");
@@ -1569,9 +1568,7 @@ const SelectSmartListCountryUsers = (props) => {
                                                                                     }
                                                                                 </td>
                                                                                 <td>
-                                                                                    {(localStorage.getItem("user_id") ==
-                                                                                        "56Ek4feL/1A8mZgIKQWEqg==" 
-                                                                                        ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                                                                                    {isLikeRdAccount
                                                                                         ? (
                                                                                         <span>
                                                                                             {readers.user_type != 0
@@ -1674,9 +1671,7 @@ const SelectSmartListCountryUsers = (props) => {
                                                                 <div className="form-group">
                                                                     <label htmlFor="">
                                                                         First name{" "}
-                                                                        {(localStorage.getItem("user_id") ==
-                                                                            "56Ek4feL/1A8mZgIKQWEqg==" 
-                                                                            ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                                                                        {isLikeRdAccount
                                                                             && (
                                                                                 <span>*</span>
                                                                             )}{" "}
@@ -1706,9 +1701,7 @@ const SelectSmartListCountryUsers = (props) => {
                                                                 <div className="form-group">
                                                                     <label htmlFor="">
                                                                         Last name{" "}
-                                                                        {(localStorage.getItem("user_id") ==
-                                                                            "56Ek4feL/1A8mZgIKQWEqg==" 
-                                                                            ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                                                                        {isLikeRdAccount
                                                                             && (
                                                                                 <span>*</span>
                                                                             )}{" "}

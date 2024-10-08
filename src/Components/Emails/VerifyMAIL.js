@@ -21,6 +21,8 @@ import { buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 
 const VerifyMAIL = (props) => {
+  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
+  const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
   const location = useLocation();
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
@@ -57,7 +59,6 @@ const VerifyMAIL = (props) => {
     : props?.getDraftData?.PdfSelected;
 
   const [getpdfdata, setPdfData] = useState([]);
-  const [userId, setUserId] = useState(localStorage.getItem("user_id")=="56Ek4feL/1A8mZgIKQWEqg=="?"56Ek4feL/1A8mZgIKQWEqg==":"sNl1hra39QmFk9HwvXETJA==")
   const [getReaderDetails, setReaderDetails] = useState({});
   const [getSmartListName, setSmartListName] = useState("");
   const [getSmartListPopupStatus, setSmartListPopupStatus] = useState(false);
@@ -634,7 +635,7 @@ const VerifyMAIL = (props) => {
                       <Link to="/CreateEmail">Create Your Email</Link>
                     </li>
                     <li className="active">
-                      <Link to="/SelectSmartList">{localStorage.getItem("user_id") == userId  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? "Select Users" : "Select HCPs"}</Link>
+                      <Link to="/SelectSmartList">{isLikeRdAccount ? "Select Users" : "Select HCPs"}</Link>
                     </li>
 
                     {/*
@@ -664,8 +665,7 @@ const VerifyMAIL = (props) => {
                 </div>
                 <div className="col-12 col-md-3">
                   <div className="header-btn">
-                    {
-                      (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                    {isLikeRdAccount
                       ?
                         <Link to = {"/EmailList"}
                           className="btn btn-primary btn-bordered move-draft engine_cancel">
@@ -962,7 +962,7 @@ const VerifyMAIL = (props) => {
                             </>
                           )}
 
-                          {getSelectedPdfId == 14 && localStorage.getItem('user_id') == "56Ek4feL/1A8mZgIKQWEqg==" && (
+                          {getSelectedPdfId == 14 && isLikeRdAccount && (
                             <>
                               <div className="mail-content-select-box">
                                 <div className="mail-content-select-top">
@@ -1309,9 +1309,8 @@ const VerifyMAIL = (props) => {
                       </th>
 
                       {
-                      // (localStorage.getItem("user_id") ===
-                      //   "56Ek4feL/1A8mZgIKQWEqg=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ? 
-                      (localStorage.getItem("user_id") ===userId)?
+                   
+                      (isLikeRdAccount)?
                         (
                         <>
                           <th scope="col">IRT mandatory training</th>
@@ -1368,10 +1367,7 @@ const VerifyMAIL = (props) => {
                               <td>{rr.bounce}</td>
                               <td>{rr.country}</td>
                               <td>
-                                {
-                                // (localStorage.getItem("user_id") ==
-                                //   "56Ek4feL/1A8mZgIKQWEqg=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
-                                (localStorage.getItem("user_id") ==userId)
+                                {isLikeRdAccount
                                   ? rr?.irt
                                     ? "Yes"
                                     : "No"
@@ -1381,8 +1377,7 @@ const VerifyMAIL = (props) => {
                               </td>
                               <td>
                                 {
-                                // localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-                                (localStorage.getItem("user_id") ===userId)
+                                (isLikeRdAccount)
                                   ? rr.user_type != 0 ? rr.user_type : "N/A"
                                   : rr.contact_type
                                 }

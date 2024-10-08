@@ -184,7 +184,7 @@ const LibraryContent = (props) => {
   ];
 
   useEffect(() => {
-    if (!rdLikeArray) {
+    if (!isLikeRdAccount) {
       let linktype = types;
       linktype.push(
         { value: "Offline Offer", label: "Offline Offer" },
@@ -252,12 +252,12 @@ const LibraryContent = (props) => {
         user_id: localStorage.getItem("user_id"),
       };
 
-      if (rdLikeArray.includes(payload.user_id)) {
+      if (isLikeRdAccount) {
         payload["IRT mandatory training"] = [irt];
         // payload.Role = [role];
       }
 
-      if (rdLikeArray) {
+      if (isLikeRdAccount) {
         if (location?.state?.flag === 'mandatory') {
           payload.Role = [role];
         }
@@ -337,7 +337,7 @@ const LibraryContent = (props) => {
       otherObj[key] = [];
     }
 
-    if (rdLikeArray) {
+    if (isLikeRdAccount) {
       if (key == "IRT mandatory training") {
         if (newObj["Role"]) {
           delete newObj["Role"];
@@ -557,14 +557,14 @@ const LibraryContent = (props) => {
       };
     
     let staticFilters = {};
-    if (rdLikeArray) {
+    if (isLikeRdAccount) {
       staticFilters = {
         "IRT mandatory training": [irt],
         // Role: [role]
       };
     }
 
-    if (rdLikeArray) {
+    if (isLikeRdAccount) {
       if (location?.state?.flag === 'mandatory') {
         staticFilters.Role = [role];
       }
@@ -897,7 +897,7 @@ const LibraryContent = (props) => {
     if (!tagClickedFirst.includes(dd)) {
       setTagClickedFirst((oldArray) => [...oldArray, dd]);
     } else {
-      {rdLikeArray ?
+      {isLikeRdAccount ?
         toast.error("Topic already in list."): toast.error("Tag already in list.");
        } 
       
@@ -924,7 +924,7 @@ const LibraryContent = (props) => {
   const addTag = async () => {
     try {
       if (typeof newTag == "undefined" || newTag.trim().length == 0) {
-       {rdLikeArray ?
+       {isLikeRdAccount ?
         toast.error("Please input a topic"): toast.error("Please input a tag");
        } 
         
@@ -962,7 +962,7 @@ const LibraryContent = (props) => {
             tags: newTag,
           };
         } else {
-          {rdLikeArray ?
+          {isLikeRdAccount ?
             toast.error("Topic already in list."): toast.error("Tag already in list.");
            } 
         }
@@ -1065,7 +1065,7 @@ const LibraryContent = (props) => {
   };
 
   const nextClicked = async(id) => {
-    if(rdLikeArray){
+    if(isLikeRdAccount){
       if(mandatoryPdfId){
         let irtRoleObj = {
           "pdfId": mandatoryPdfId,
@@ -1148,7 +1148,7 @@ const LibraryContent = (props) => {
             <div className="top-sticky">
               <div className="top-header">
                 <div className="page-title">
-                  {rdLikeArray? (
+                  {isLikeRdAccount ? (
                     location?.pathname === "/library-mandatory-content" ? (
                       <>
                         <Link className="btn btn-primary btn-bordered back-btn"
@@ -1180,7 +1180,7 @@ const LibraryContent = (props) => {
                   <h2>{location?.state?.data == "edit" ? "Edit" : ""}</h2>
                 </div>
                 <div className="top-right-action flex-wrap">
-                  {rdLikeArray ? (
+                  {isLikeRdAccount ? (
 
                     <>
                       <div className="action-btn-add"style={{margin:"0"}}>
@@ -1666,14 +1666,14 @@ const LibraryContent = (props) => {
                               </div>
                             ) : null}
 
-                              {(rdLikeArray) && location?.state?.data == "edit" || editstatus ? (
+                              {(isLikeRdAccount) && location?.state?.data == "edit" || editstatus ? (
                               <div className="dlt_btn edit">
                                 <Link
                                   to="/library-edit"
                                   state={{ pdfid: data.id ,  
                                     // title : location?.state?.title,
-                                    title: rdLikeArray ? location?.state?.title : '',
-                                    flag: rdLikeArray
+                                    title:isLikeRdAccount? location?.state?.title : '',
+                                    flag: isLikeRdAccount
                                     ? (location?.state?.flag === "Non-mandatory" ? 'Non-mandatory' : "mandatory")
                                     : '' 
                                   }}
@@ -1796,7 +1796,7 @@ const LibraryContent = (props) => {
                                           : "No"}
                                       </h6>
                                     </li>
-                                    {!rdLikeArray ? (
+                                    {!isLikeRdAccount ? (
                                       <>
                                         <li>
                                           <h6 className="tab-content-title">
@@ -1902,7 +1902,7 @@ const LibraryContent = (props) => {
                                       )}
 
 
-                                    {(rdLikeArray) && localStorage.getItem("group_id") == 3 ? (
+                                    {isLikeRdAccount && localStorage.getItem("group_id") == 3 ? (
                                       <Button
                                         className="footer-btn"
                                         onClick={(e) =>
@@ -1913,7 +1913,7 @@ const LibraryContent = (props) => {
                                       </Button>
                                     ) : null}
 
-                                      {!rdLikeArray ?
+                                      {!isLikeRdAccount ?
                       <Button
                                         onClick={(e) => {
                                           commonModelFun(
@@ -2628,7 +2628,7 @@ const LibraryContent = (props) => {
                                 </div>
                               </Tab>
 
-                              {!rdLikeArray ?<Tab
+                              {!isLikeRdAccount ?<Tab
                                 className="change-tab flex-column justify-content-between"
                                 eventKey="change-tab"
                                 title="Change"
@@ -2723,8 +2723,9 @@ const LibraryContent = (props) => {
                                       // state={{ pdfid: data.id }}
                                       state={{ pdfid: data.id , 
                                         // title : location?.state?.title,
-                                        title: rdLikeArray ? location?.state?.title : '',
-                                        flag: rdLikeArray ? (location?.state?.flag === "Non-mandatory" ? 'Non-mandatory' : "mandatory")
+                                        title: isLikeRdAccount ? location?.state?.title : '',
+                                        flag: isLikeRdAccount
+                                        ? (location?.state?.flag === "Non-mandatory" ? 'Non-mandatory' : "mandatory")
                                         : '' 
                                       }}
                                       className="footer-btn"
@@ -2742,7 +2743,7 @@ const LibraryContent = (props) => {
                                       </Button>
                                     ) : null}
 
-                                    {!rdLikeArray&& (
+                                    {!isLikeRdAccount && (
                                         <Link
                                           to="/library-sublink"
                                           state={{ pdfid: data.id }}
@@ -2762,7 +2763,7 @@ const LibraryContent = (props) => {
                                 </div>
                               </Tab>:""}
 
-                              {!rdLikeArray?<Tab
+                              {!isLikeRdAccount ?<Tab
                                 eventKey="sales"
                                 title={
                                   localStorage.getItem("group_id") == "3"
@@ -2841,7 +2842,7 @@ const LibraryContent = (props) => {
                                       </>
                                     )}
                                     {localStorage.getItem("group_id") === "3" &&
-                                      !rdLikeArray? (
+                                      !isLikeRdAccount? (
                                       <>
                                         <li>
                                           <h6 className="tab-content-title">
@@ -2856,7 +2857,7 @@ const LibraryContent = (props) => {
                                       </>
                                     ) : null}
 
-                                    {rdLikeArray &&
+                                    {isLikeRdAccount &&
                                       localStorage.getItem("group_id") === "3" ? (
                                       <>
                                         {/*<li>
@@ -2895,7 +2896,7 @@ const LibraryContent = (props) => {
                                       </>
                                     ) : null}
 
-                                    {!rdLikeArray ? (
+                                    {!isLikeRdAccount ? (
                                       <>
                                         <li>
                                           <h6 className="tab-content-title">
@@ -3041,7 +3042,7 @@ const LibraryContent = (props) => {
       <Modal id="tagsModal" show={isOpen}>
         <Modal.Header>
           <h5 className="modal-title" id="staticBackdropLabel">
-        { rdLikeArray ? "Add Topics" : "Add Tags"}
+        { isLikeRdAccount ? "Add Topics" : "Add Tags"}
           </h5>
           <button
             type="button"
@@ -3054,7 +3055,7 @@ const LibraryContent = (props) => {
         <Modal.Body>
           <div className="select-tags">
             <h6>
-            { rdLikeArray? "Select Topic :" : "Select Tag :"}
+            {isLikeRdAccount ? "Select Topic :" : "Select Tag :"}
             </h6>
             <div className="tag-lists">
               <div className="tag-lists-view">
@@ -3075,7 +3076,7 @@ const LibraryContent = (props) => {
           <div className="selected-tags">
             <h6>
              
-              {rdLikeArray? "Selected Topics" : "Selected Tag"}
+              {isLikeRdAccount ? "Selected Topics" : "Selected Tag"}
                <span> | {tagClickedFirst.length}</span>
             </h6>
 
@@ -3101,7 +3102,7 @@ const LibraryContent = (props) => {
           <form>
             <div className="form-group">
               <label htmlFor="new-tag">
-              { rdLikeArray? "New Topic" : "New Tag"}
+              {isLikeRdAccount ? "New Topic" : "New Tag"}
 
               </label>
               <input

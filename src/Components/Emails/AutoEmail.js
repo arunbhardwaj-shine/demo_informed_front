@@ -17,6 +17,8 @@ import { ValidationAddNewContact } from "./ValidationAddNewContact";
 
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const AutoEmail = () => {
+  const accountMapping={"56Ek4feL/1A8mZgIKQWEqg==":2147501188,"sNl1hra39QmFk9HwvXETJA==":2147536982,"MXl8m36VZFYXpgFVz3Pg0g==":2147537506}
+
   const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
   const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
   const [getsearch, setSearch] = useState("");
@@ -54,7 +56,6 @@ const AutoEmail = () => {
 
   const [templateName, setTemplateName] = useState("");
   const [selectedListId, setSelectedListId] = useState(0);
-  const userId = "56Ek4feL/1A8mZgIKQWEqg==";
 
   const getTemplateLanguage = [
     { value: "0", label: "English" },
@@ -218,7 +219,7 @@ const AutoEmail = () => {
   }, []);
   const axiosFun = async () => {
     try {
-      const result = await axios.get(`emailapi/get_site?uid=${localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? 2147536982 : 2147501188}`);
+      const result = await axios.get(`emailapi/get_site?uid=${accountMapping[localStorage.getItem("user_id")] ||  2147501188}`);
 
       let country = result?.data?.response?.data?.site_country_data;
       let arr = [];

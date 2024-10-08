@@ -485,8 +485,7 @@ const PreviewContent = () => {
                           <a href="">[Embedding Video]</a>
                         </li>
                       ) : null}
-                      {localStorage.getItem("user_id") !=
-                      "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==" ? (
+                      {!isLikeRdAccount ? (
                         <li className="">
                           <a href="">Edit Consent Option</a>
                         </li>

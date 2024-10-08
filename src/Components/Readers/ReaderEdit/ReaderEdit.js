@@ -25,6 +25,9 @@ const ReaderLayout = () => {
   );
 };
 const ReaderEdit = () => {
+  const accountMapping={"56Ek4feL/1A8mZgIKQWEqg==":2147501188,"sNl1hra39QmFk9HwvXETJA==":2147536982,"MXl8m36VZFYXpgFVz3Pg0g==":2147537506}
+  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
+  const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
   const { state } = useLocation();
   const nameRef = useRef(null);
   const emailRef = useRef(null);
@@ -185,7 +188,7 @@ const ReaderEdit = () => {
   const axiosFun = async () => {
     try {
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-      const result = await axios.get(`emailapi/get_site?uid=${localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? 2147536982 : 2147501188}`);
+      const result = await axios.get(`emailapi/get_site?uid=${accountMapping[localStorage.getItem("user_id")] ||  2147501188}`);
       let country = result?.data?.response?.data?.site_country_data;
       let arr = [];
       Object.entries(country).map(([index, item]) => {
@@ -451,8 +454,7 @@ const ReaderEdit = () => {
   };
 
   useEffect(() => {
-    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-      || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+    if (isLikeRdAccount
     ) {
       axiosFun();
     }
@@ -673,7 +675,7 @@ const ReaderEdit = () => {
         };
         // await postData(ENDPOINT.READER_CREATE, data);
         loader("hide");
-        if(localStorage.getItem('user_id') == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="){
+        if(isLikeRdAccount){
             if(state?.status){
               localStorage.setItem('irt_sec', 1);  
             }else{
@@ -744,8 +746,7 @@ const ReaderEdit = () => {
 
             <Form.Group className="form-group">
               <Form.Label htmlFor="">
-                {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-                  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                {isLikeRdAccount
                   ? "IRT mandatory training"
                   : "IRT"}
               </Form.Label>
@@ -787,8 +788,7 @@ const ReaderEdit = () => {
           </> : null}
           <Form.Group className="form-group">
             <Form.Label htmlFor="">
-              {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-                || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+              {isLikeRdAccount
                 ? "IRT role"
                 : "Role"}{" "}
             </Form.Label>
@@ -855,8 +855,7 @@ const ReaderEdit = () => {
           </Form.Group>
           <Form.Group className="form-group">
             <Form.Label htmlFor="">
-              {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-                || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+              {isLikeRdAccount
                 ? "Study role"
                 : "Sub Role"}{" "}
             </Form.Label>
@@ -889,12 +888,11 @@ const ReaderEdit = () => {
             />
           </Form.Group>
         </>)
-          : ((localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") && state?.siteRole)
+          : (isLikeRdAccount && state?.siteRole)
             ?
             <Form.Group className="form-group">
               <Form.Label htmlFor="">
-                {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-                  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                {isLikeRdAccount
                   ? (<>IRT role <span>*</span></>)
                   : "Role"}{" "}
               </Form.Label>
@@ -1042,7 +1040,7 @@ const ReaderEdit = () => {
               <Row className="justify-content-end align-items-center">
                 <Col md="1">
                   <div className="header-btn-left">
-                    {(localStorage.getItem("user_id") !== "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") !== "sNl1hra39QmFk9HwvXETJA==") ?
+                    {!isLikeRdAccount ?
                       <Link
                         className="btn btn-primary btn-bordered back-btn"
                         // to="/readers-view"
@@ -1068,7 +1066,7 @@ const ReaderEdit = () => {
                 <Col md="9">
                   <ul className="tabnav-link">
                     <li className="active active-main">
-                      <a href="">{(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                      <a href="">{isLikeRdAccount
                         ? `Edit ${irtData?.includes(userInputs?.role) ? userInputs?.role : "CRM"}`
                         : "Edit CRM"}</a>
                     </li>
@@ -1082,7 +1080,7 @@ const ReaderEdit = () => {
                     {/* <button className="btn btn-primary btn-bordered move-draft">
                       Cancel
                     </button> */}
-                    {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ?
+                    {isLikeRdAccount ?
                       <button
                         className="btn btn-primary btn-bordered move-draft"
                         onClick={(e) => backButtonClicked(e)}
@@ -1160,8 +1158,7 @@ const ReaderEdit = () => {
                         </Form.Group>
                         <Form.Group className="form-group">
                           <Form.Label htmlFor="">
-                            Last name  {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-                              || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                            Last name  {isLikeRdAccount
                               ? <span>*</span> : null}
                           </Form.Label>
                           <input

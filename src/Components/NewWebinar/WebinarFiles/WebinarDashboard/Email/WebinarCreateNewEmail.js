@@ -22,6 +22,10 @@ var dxr = 0;
 var state_object = {};
 
 const WebinarCreateNewEmail = (props) => {
+    const accountMapping={"56Ek4feL/1A8mZgIKQWEqg==":2147501188,"sNl1hra39QmFk9HwvXETJA==":2147536982,"MXl8m36VZFYXpgFVz3Pg0g==":2147537506}
+
+    const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
+    const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
     let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
     const navigate = useNavigate();
     const location = useLocation();
@@ -39,11 +43,7 @@ const WebinarCreateNewEmail = (props) => {
             : localStorageEvent?.eventId
     );
     const [counter, setCounter] = useState(0);
-    const [userId, setUserId] = useState(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-        ? "56Ek4feL/1A8mZgIKQWEqg=="
-        : localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
-            ? "sNl1hra39QmFk9HwvXETJA=="
-            : null);
+
     const campaign_id = props?.getWebinarDraftData ? props?.getWebinarDraftData?.campaign_id : "";
     const [activeIndex, setActiveIndex] = useState(0);
     const syncActiveIndex = ({ item }) => setActiveIndex(item);
@@ -164,14 +164,14 @@ const WebinarCreateNewEmail = (props) => {
             country: "",
             countryIndex: "",
             role:
-                (localStorageUserId == userId)
+                (isLikeRdAccount)
                     ? irtRole?.[0]?.value
                     : "",
             optIrt:
-                (localStorageUserId == userId)
+                (isLikeRdAccount)
                     ? "yes"
                     : "",
-            institutionType: (localStorageUserId == userId)
+            institutionType: (isLikeRdAccount)
                 ? "Study site"
                 : "",
             siteNumber: "",
@@ -246,7 +246,7 @@ const WebinarCreateNewEmail = (props) => {
 
     useEffect(() => {
         loader("show");
-        if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") {
+        if (isLikeRdAccount) {
             axiosFun();
         }
         getalCountry();
@@ -346,7 +346,7 @@ const WebinarCreateNewEmail = (props) => {
 
     const axiosFun = async () => {
         try {
-            const result = await axios.get(`emailapi/get_site?uid=${localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? 2147536982 : 2147501188}`);
+            const result = await axios.get(`emailapi/get_site?uid=${accountMapping[localStorage.getItem("user_id")] ||  2147501188}`);
 
             let country = result?.data?.response?.data?.site_country_data;
             let arr = [];
@@ -388,7 +388,7 @@ const WebinarCreateNewEmail = (props) => {
                         });
                     });
                     setCountryall(arr);
-                    if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") {
+                    if (isLikeRdAccount) {
                         let investigator_type =
                             res?.data?.response?.data?.investigator_type;
                         let newType = [];
@@ -680,7 +680,7 @@ const WebinarCreateNewEmail = (props) => {
         // tagClickedFirst.splice(index, 1);
     };
     const emailSubjectChanged = (e) => {
-        if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") {
+        if (isLikeRdAccount) {
             setemailCampaign(e?.target?.value);
             setEmailCreator("Octapharma R&D");
             setEmailDescription(e?.target?.value);
@@ -1032,14 +1032,14 @@ const WebinarCreateNewEmail = (props) => {
                 country: "",
                 countryIndex: "",
                 role:
-                    (localStorageUserId == userId)
+                    (isLikeRdAccount)
                         ? irtRole?.[0]?.value
                         : "",
                 optIrt:
-                    (localStorageUserId == userId)
+                    (isLikeRdAccount)
                         ? "yes"
                         : "",
-                institutionType: (localStorageUserId == userId)
+                institutionType: (isLikeRdAccount)
                     ? "Study site"
                     : "",
                 siteNumber: "",
@@ -1189,17 +1189,13 @@ const WebinarCreateNewEmail = (props) => {
                 email: "",
                 contact_type: "",
                 country: "",
-                role:
-                    (localStorageUserId ==
-                        userId)
+                role:isLikeRdAccount
                         ? irtRole?.[0]?.value
                         : "",
-                optIrt:
-                    (localStorageUserId ==
-                        userId)
+                optIrt:isLikeRdAccount
                         ? "yes"
                         : "",
-                institutionType: (localStorageUserId == userId)
+                institutionType: (isLikeRdAccount)
                     ? "Study site"
                     : "",
                 siteNumber: "",
@@ -1217,7 +1213,7 @@ const WebinarCreateNewEmail = (props) => {
     const saveClicked = async () => {
         if (activeManual == "active") {
             const body_data = hpc?.map((data) => {
-                if (localStorageUserId == userId) {
+                if (isLikeRdAccount) {
                     return {
                         first_name: data?.firstname,
                         last_name: data?.lastname,
@@ -1250,7 +1246,7 @@ const WebinarCreateNewEmail = (props) => {
             };
 
             const status = body?.data?.map((data, index) => {
-                if (localStorageUserId == userId) {
+                if (isLikeRdAccount) {
                   if (data?.first_name == "") {
                     setValidationError({
                       newHcpFirstName: "Please enter the first name",
@@ -1721,7 +1717,7 @@ const WebinarCreateNewEmail = (props) => {
                                         </li>
                                         <li className="">
                                             <a href="javascript:void(0)">
-                                                {(localStorageUserId == userId || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                                                {(isLikeRdAccount || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
                                                     ? "Select Users"
                                                     : "Select HCPs"}
                                             </a>
@@ -1811,8 +1807,7 @@ const WebinarCreateNewEmail = (props) => {
 
                                     <div className="email-form padding-add">
                                         <form>
-                                            {(localStorageUserId !=
-                                                "56Ek4feL/1A8mZgIKQWEqg==" && localStorageUserId !== "sNl1hra39QmFk9HwvXETJA==") ? (
+                                            {!isLikeRdAccount ? (
                                                 <>
                                                     <div className="form-inline d-flex justify-content-between align-items-center">
                                                         <div className="form-group col-12 col-md-7 d-flex align-items-center">
@@ -2331,8 +2326,7 @@ const WebinarCreateNewEmail = (props) => {
                                                                 Email | <span>{data?.email}</span>
                                                             </p>
 
-                                                            {(localStorageUserId ===
-                                                                "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId === "sNl1hra39QmFk9HwvXETJA==") ? (
+                                                            {isLikeRdAccount ? (
                                                                 <p className="send-hcp-box-title">
                                                                     {" "}
                                                                     Role |{" "}
@@ -2890,8 +2884,7 @@ const WebinarCreateNewEmail = (props) => {
                                                 <th scope="col">Bounced</th>
                                                 <th scope="col">Country</th>
 
-                                                {(localStorageUserId ==
-                                                    "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") ? (
+                                                {isLikeRdAccount ? (
                                                     <>
                                                         <th scope="col">Site number</th>
                                                         <th scope="col">IRT mandatory training</th>
@@ -2926,13 +2919,11 @@ const WebinarCreateNewEmail = (props) => {
                                                                 <td>{rr?.email ? rr?.email : "N/A"}</td>
                                                                 <td>{rr?.bounce ? rr.bounce : "N/A"}</td>
                                                                 <td>{rr?.country ? rr?.country : "N/A"}</td>
-                                                                {(localStorage.getItem("user_id") ==
-                                                                    "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") &&
+                                                                {isLikeRdAccount &&
                                                                     (<><td>{rr?.site_number ? rr?.site_number : "N/A"}
                                                                     </td></>)}
                                                                 <td>
-                                                                    {(localStorageUserId ==
-                                                                        "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
+                                                                    {isLikeRdAccount
                                                                         ? rr.irt
                                                                             ? "Yes"
                                                                             : "No"
@@ -2942,8 +2933,7 @@ const WebinarCreateNewEmail = (props) => {
                                                                     {/*rr?.ibu ? rr?.ibu : "N/A"*/}
                                                                 </td>
                                                                 <td>
-                                                                    {(localStorageUserId ==
-                                                                        "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
+                                                                    {isLikeRdAccount
                                                                         ? rr?.user_type != 0
                                                                             ? rr?.user_type
                                                                             : "N/A"

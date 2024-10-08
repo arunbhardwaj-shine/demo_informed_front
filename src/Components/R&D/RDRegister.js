@@ -337,7 +337,7 @@ const RDRegister = () => {
               <div className="header-left">
                 <span>Welcome to the</span>
                 <h1>
-                  LEX-210 <span>Study</span>
+                 { localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" ?"Gena": "LEX-210" }<span>Study</span>
                 </h1>
               </div>
               <div className="header-right">
