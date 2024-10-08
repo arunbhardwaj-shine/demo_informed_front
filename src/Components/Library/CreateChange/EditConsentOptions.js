@@ -27,6 +27,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 var dxr = 0;
 var state_object = {};
 const EditConsentOptions = (props) => {
+  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
+  const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
   const [progress, setProgress] = useState(0);
   const [percent, setPercent] = useState(0);
   const [showProgress, setShowProgress] = useState(false);
@@ -94,7 +96,6 @@ const EditConsentOptions = (props) => {
   const [countryOption, setCountryOption] = useState(0);
   const [ibuOption, setIbuOption] = useState("");
   const [validator] = React.useState(new SimpleReactValidator());
-  const [userId, setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==");
   const [searchedUsers, setSearchedUsers] = useState([]);
   const [countryall, setCountryall] = useState([]);
   const [message, setMessage] = useState("");
@@ -2255,7 +2256,7 @@ const EditConsentOptions = (props) => {
                                     data-bs-toggle="tab"
                                     href="javascipt:;"
                                   >
-                                    {localStorage.getItem("user_id") == userId || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+                                    {isLikeRdAccount
                                       ? "Add User +"
                                       : "Add HCP +"}
                                   </a>

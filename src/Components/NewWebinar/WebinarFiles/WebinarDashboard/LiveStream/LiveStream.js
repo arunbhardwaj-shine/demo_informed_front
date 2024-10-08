@@ -28,7 +28,9 @@ import { saveAs } from "file-saver";
 
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
-const LiveStream = () => {
+const LiveStream = () => { 
+  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
+  const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
   const { eventIdContext, handleEventId } = useSidebar();
   const switch_account_detail = JSON.parse(localStorage.getItem("switch_account_detail"))
@@ -798,7 +800,7 @@ const LiveStream = () => {
         // finalData.ID = item?.id;
         finalData.Name = item?.name ? item?.name.trim() : "N/A";
         finalData.Country = item?.country ? item?.country.trim() : "N/A";
-        if(localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg=='||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="){
+        if(isLikeRdAccount){
           finalData.SiteNumber = item?.site_number ? item?.site_number : "N/A";
         }else{
           finalData.Email = item?.email ? item?.email.trim() : "N/A";
@@ -990,21 +992,23 @@ useEffect(() => {
                                     >
                                       <div className="live-stream-ques-header d-flex justify-content-between">
                                         <div className="live-stream-hcp">
-                                          <h4>
-                                            {item?.send_by == 1
-                                              ? (localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg=='
-                                              )
-                                              ? "LEX-210" 
-                                              :
-                                              localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" ?"Gena":
-                                              
-                                              localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
-                                              ?"Norgine"
-                                              : "Octapharma"
-                                              : item?.name
-                                              ? item?.name
-                                              : "Anonymous"}
-                                          </h4>
+                                        <h4>
+                                      {item?.send_by === 1 ? (
+                                        (() => {
+                                          const userId = localStorage.getItem('user_id');
+                                          switch (userId) {
+                                            case '56Ek4feL/1A8mZgIKQWEqg==':
+                                              return 'LEX-210';
+                                            case 'sNl1hra39QmFk9HwvXETJA==':
+                                              return 'Norgine';
+                                            case 'MXl8m36VZFYXpgFVz3Pg0g==':
+                                              return 'Gena';
+                                            default:
+                                              return 'Octapharma';
+                                          }
+                                        })()
+                                      ) : item?.name || 'Anonymous'}
+                                    </h4>
                                         </div>
                                         <div className="speaker-specialty">
                                           {item?.question_date}
@@ -1189,20 +1193,19 @@ useEffect(() => {
                                         <div className="live-stream-hcp">
                                           {/* <h4>{item?.name ? item?.name : "Anonymous"}</h4> */}
                                           <h4>
-                                            {item?.send_by == 1
-                                              ? (localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg==' 
-                                             )
-                                              ? "LEX-210" 
-                                              
-                                              : 
-                                              localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" ?"Gena":
-                                              localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
-                                              ? "Norgine"
-                                              : "Octapharma"
-                                              : item?.name
-                                              ? item?.name
-                                              : "Anonymous"}
+                                            {item?.send_by === 1 ? (
+                                              (() => {
+                                                const userId = localStorage.getItem('user_id');
+                                                const userNames = {
+                                                  '56Ek4feL/1A8mZgIKQWEqg==': 'LEX-210',
+                                                  'sNl1hra39QmFk9HwvXETJA==': 'Norgine',
+                                                  'MXl8m36VZFYXpgFVz3Pg0g==': 'Gena'
+                                                };
+                                                return userNames[userId] || 'Octapharma';
+                                              })()
+                                            ) : item?.name ? item.name : 'Anonymous'}
                                           </h4>
+
                                         </div>
                                         <div className="speaker-specialty">
                                           {item?.question_date}
@@ -1383,19 +1386,19 @@ useEffect(() => {
                                         <div className="live-stream-hcp">
                                           {/* <h4>{item?.name ? item?.name : "Anonymous"}</h4> */}
                                           <h4>
-                                            {item?.send_by == 1
-                                              ? (localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg=='
-                                             )
-                                              ? "LEX-210" 
-                                              :
-                                              localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" ?"Gena":
-                                              localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
-                                              ? "Norgine"
-                                              : "Octapharma"
-                                              : item?.name
-                                              ? item?.name
-                                              : "Anonymous"}
+                                            {item?.send_by === 1 ? (
+                                              (() => {
+                                                const userId = localStorage.getItem('user_id');
+                                                const userNames = {
+                                                  '56Ek4feL/1A8mZgIKQWEqg==': 'LEX-210',
+                                                  'sNl1hra39QmFk9HwvXETJA==': 'Norgine',
+                                                  'MXl8m36VZFYXpgFVz3Pg0g==': 'Gena'
+                                                };
+                                                return userNames[userId] || 'Octapharma';
+                                              })()
+                                            ) : item?.name || 'Anonymous'}
                                           </h4>
+
                                         </div>
                                         <div className="speaker-specialty">
                                           {item?.question_date}
@@ -1735,8 +1738,7 @@ useEffect(() => {
                                           <div className="hcp-detail-list">
                                             <ul>
                                               {
-                                                (localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg=='                                                 
-                                                ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                                                isLikeRdAccount
                                                 ?
                                                   <li>
                                                     <span>Site Number</span>
@@ -2093,8 +2095,7 @@ useEffect(() => {
                                           <div className="hcp-detail-list">
                                             <ul>
                                               {
-                                                (localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg==' 
-                                                ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                                                isLikeRdAccount
                                                 ?
                                                   <li>
                                                     <span>Site Number</span>
@@ -2457,9 +2458,7 @@ useEffect(() => {
                                                 <span>Email</span>
                                                 {item?.email}
                                               </li> */}
-                                              {
-                                                (localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg==' 
-                                                ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                                              {isLikeRdAccount
                                                 ?
                                                   <li>
                                                     <span>Site Number</span>

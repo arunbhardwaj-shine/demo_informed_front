@@ -25,6 +25,8 @@ import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 var dxr = 0;
 var state_object = {};
 const EditConsentOptions = (props) => {
+  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
+  const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
   const editorRef = useRef(null);
   const ref = useRef(null);
 
@@ -64,7 +66,6 @@ const EditConsentOptions = (props) => {
     { value: "Offline", label: "Offline" },
     { value: "Sunshine", label: "Sunshine" },
   ]);
-  const [userId,setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==")
   const [getTemplateTime, setTemplateTime] = useState([
     { value: "Online", label: "Online" },
     { value: "Offline", label: "Offline" },
@@ -2204,7 +2205,7 @@ const EditConsentOptions = (props) => {
                                     data-bs-toggle="tab"
                                     href="javascipt:;"
                                   >
-                                {localStorage.getItem("user_id") == userId || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="?"Add User +":"Add HCP +"}
+                                {isLikeRdAccount?"Add User +":"Add HCP +"}
                                   </a>
                                 </li>
                               </ul>

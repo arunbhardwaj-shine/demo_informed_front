@@ -14,6 +14,8 @@ import { popup_alert } from "../../popup_alert";
 import { toast } from "react-toastify";
 
 const VerifyHcpMAIL = (props) => {
+  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
+  const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
   const location = useLocation();
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
@@ -637,8 +639,7 @@ const VerifyHcpMAIL = (props) => {
                       </Link>
                       :
                       <>
-                        {
-                          (localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                        {isLikeRdAccount
                           ? 
                           <>
                               {
@@ -955,7 +956,7 @@ const VerifyHcpMAIL = (props) => {
                             </>
                           )}
 
-                          {getSelectedPdfId == 14 && localStorage.getItem('user_id') =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  && (
+                          {getSelectedPdfId == 14 && isLikeRdAccount && (
                             <>
                               <div className="mail-content-select-box">
                                 <div className="mail-content-select-top">
@@ -1319,8 +1320,7 @@ const VerifyHcpMAIL = (props) => {
                       <th scope="col">Email</th>
                       <th scope="col">Bounced</th>
                       <th scope="col">Country</th>
-                      {localStorage.getItem("user_id") ===
-                      "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? (
+                      {isLikeRdAccount ? (
                         <>
                         <th scope="col">Site number</th>
                         <th scope="col">IRT mandatory training</th>
@@ -1354,11 +1354,9 @@ const VerifyHcpMAIL = (props) => {
                               <td>{rr.email}</td>
                               <td>{rr.bounce}</td>
                               <td>{rr.country}</td>
-                              {localStorage.getItem("user_id") ==
-                                        "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="&&(<><td>{rr?.site_number?rr?.site_number:"N/A"}</td></>)}
+                              {isLikeRdAccount&&(<><td>{rr?.site_number?rr?.site_number:"N/A"}</td></>)}
                               <td>
-                                {localStorage.getItem("user_id") ==
-                                  "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+                                {isLikeRdAccount
                                     ? rr?.irt
                                       ? "Yes"
                                       : "No"
@@ -1367,7 +1365,7 @@ const VerifyHcpMAIL = (props) => {
                                     : "N/A"}
                               </td>
                               <td>
-                                {localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+                                {isLikeRdAccount
                                   ? rr.user_type != 0 ? rr.user_type : "N/A"
                                   : rr.contact_type
                                 }

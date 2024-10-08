@@ -33,12 +33,15 @@ import { getEmailData, getDraftData, getSelectedSmartListData,getSelected } from
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const NewReadersReview = (props) => {
+  const accountMapping={"56Ek4feL/1A8mZgIKQWEqg==":2147501188,"sNl1hra39QmFk9HwvXETJA==":2147536982,"MXl8m36VZFYXpgFVz3Pg0g==":2147537506}
+  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
+  const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
   let obj = {};
   const limit = 24;
   const navigate = useNavigate();
   const { state } = useLocation()
-  const deletButtonColor = (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||  localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ? '#8A4E9C' : '#0066be'
-  const isRDAccount = localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id")==="sNl1hra39QmFk9HwvXETJA=="
+  const deletButtonColor =isLikeRdAccount ? '#8A4E9C' : '#0066be'
+  const isRDAccount = isLikeRdAccount
   const [search, setSearch] = useState("");
   const [lastSync, setLastSync] = useState("");
   const [readerDataList, setReaderDataList] = useState([]);
@@ -166,7 +169,7 @@ const NewReadersReview = (props) => {
   }
   const searchInputRef = useRef(null);
   useEffect(() => {
-    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||  localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
+    if (isLikeRdAccount) {
       setFilterObject({});
       setApifilterObject({});
     }
@@ -257,7 +260,7 @@ const NewReadersReview = (props) => {
         limit: limit,
       };
       let payload = {};
-     if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||  localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
+     if (isLikeRdAccount) {
         payload = {
           ...data,
           ...obj,
@@ -395,7 +398,7 @@ const NewReadersReview = (props) => {
           status: ["Registered"],
         };
       }
-       else if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||  localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
+       else if (isLikeRdAccount) {
         payload = {
           status: ["Registered"],
           "contact Type": ["HCP"],
@@ -454,7 +457,7 @@ const NewReadersReview = (props) => {
 
   const handleOnFilterChange = (e, item, index, key, data = []) => {
     let newObj = JSON.parse(JSON.stringify(appliedFilter));
-    if (localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
+    if (isLikeRdAccount) {
       if (key == "IRT mandatory training") {
         if (newObj["role"]) {
           delete newObj["role"];
@@ -678,7 +681,7 @@ const NewReadersReview = (props) => {
       };
       return newSelectedSiteNumber;
     });
-    if (localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
+    if (isLikeRdAccount) {
       let consent1 = {
         index: i,
         value: "",
@@ -1294,7 +1297,7 @@ const NewReadersReview = (props) => {
       let institute = "";
       let blockReminder = ""
 
-      if (localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") === "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
+      if (isLikeRdAccount) {
         const roleIndex = changeRoleType.findIndex(
           (el) => el.index === reader_id
         );
@@ -1619,7 +1622,7 @@ const NewReadersReview = (props) => {
       }
     } else if (
       key == "change-tab" &&
-      (localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+      (isLikeRdAccount)
     ) {
       const res = await getData(ENDPOINT.READER_USER_DROP);
 
@@ -1661,7 +1664,7 @@ const NewReadersReview = (props) => {
   const axiosFun = async () => {
     try {
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-      const result = await axios.get(`emailapi/get_site?uid=${localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? 2147536982 : localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" ? 2147537506  : 2147501188}`);
+      const result = await axios.get(`emailapi/get_site?uid=${accountMapping[localStorage.getItem("user_id")] || 2147501188}`);
       let country = result?.data?.response?.data?.site_country_data;
       let arr = [];
       Object.entries(country).map(([index, item]) => {
@@ -1850,7 +1853,7 @@ const NewReadersReview = (props) => {
 
   const EditClick = (user_id,role) => {
     let pdfid = allMandatoryRole?.[role] ? allMandatoryRole?.[role] : rolePdf;
-    if(localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="){
+    if(isLikeRdAccount){
       navigate("/mandatory-reader-edit", {
         state: { id: user_id, status: '1', siteRole: state?.siteRole, pdfId: pdfid },
       });
@@ -1872,8 +1875,7 @@ const NewReadersReview = (props) => {
           <Row>
             <div className="top-sticky">
               <div className="top-header">
-              {(localStorage.getItem("user_id") ==
-                "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ?
+              {isLikeRdAccount ?
                 (<>
                 <div className="page-title">               
                   <Link
@@ -1898,7 +1900,7 @@ const NewReadersReview = (props) => {
                  : ""}
               
                 <div className="top-right-action irt-blinded flex-wrap">
-                  {((localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||  localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") && state?.siteRole!=="All IRTs" && state?.siteRole!=="") ?
+                  {(isLikeRdAccount && state?.siteRole!=="All IRTs" && state?.siteRole!=="") ?
                     <div className="action-btn-add">
                       <Button onClick={() => navigate("/reader-add", { state: state })} className="btn-dashed">
                         Add IRT <img src={path_image + "add-irt.png"} alt="" />
@@ -2243,7 +2245,7 @@ const NewReadersReview = (props) => {
                             {filterObject[key]?.length ? (
                               <div className="filter-div">
                                 <div className="filter-div-title">
-                                  <span>{(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||  localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                                  <span>{isLikeRdAccount
                                    && key == "Training" ? "Status" : key} |</span>
                                 </div>
                                 <div className="filter-div-list">
@@ -2326,8 +2328,7 @@ const NewReadersReview = (props) => {
             <div className={`library-content-box-layuot readerlist d-flex ${isRDAccount ? "rd": ""}`}>
             <div className="site-irt w-100">
                 <div className="page-title d-flex align-items-center flex-wrap">
-                  {(localStorage.getItem("user_id") ==
-                    "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ?
+                  {isLikeRdAccount ?
                     (
                       <h4>
                         Total IRTs |{" "}
@@ -2340,8 +2341,7 @@ const NewReadersReview = (props) => {
                           Total HCP | <span>{totalCountFlag ? totalCount : 0}</span>
                         </h4>
                       )}
-                  {
-                  (localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg=="&& localStorage.getItem("user_id") != "MXl8m36VZFYXpgFVz3Pg0g=="  &&localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==") ? (<>
+                  {!isLikeRdAccount ? (<>
                     {(
                       <div className="refresh-button">
                         <button
@@ -2390,7 +2390,7 @@ const NewReadersReview = (props) => {
                   </>)
                     : null}
 
-                  {/*state?.siteRole === "All IRTs" &&*/ (localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ? (<>
+                  {isLikeRdAccount ? (<>
                     {(
                       <>
                     <button className={refreshFlag ? "refresh-rotate" : "refresh"} title="Refresh"onClick={refreshCronData} >
@@ -2418,11 +2418,10 @@ const NewReadersReview = (props) => {
                         <div className="doc-content-header">
                           <div className="doc-content d-flex justify-content-between w-100">
                             <h4>
-                              {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
-                                || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                              {isLikeRdAccount
                                 ? `${data?.firstName} ${data?.lastName} ` : data?.firstName ? data?.firstName : data?.name}
                             </h4>
-                          {(localStorage.getItem("user_id")=="56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")&&data?.status=="Completed"?
+                          {isLikeRdAccount&&data?.status=="Completed"?
                           <div>
                             <img 
                             style={{width:'24px'}}
@@ -2463,8 +2462,7 @@ const NewReadersReview = (props) => {
                                     ""
                                   )}
 
-                                  {(localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "MXl8m36VZFYXpgFVz3Pg0g=="  
-                                    && localStorage.getItem("user_id") !== "sNl1hra39QmFk9HwvXETJA==")
+                                  {!isLikeRdAccount
                                     && localStorage.getItem("group_id") == 3 ?
                                     (
                                       <>
@@ -2509,14 +2507,11 @@ const NewReadersReview = (props) => {
                                       </h6>
                                     </li>
                                   }
-                                  {(localStorage.getItem("user_id") ==
-                                    "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
-                                    || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                                  {isLikeRdAccount
                                     &&
                                     localStorage.getItem("group_id") == "3" ? (
                                     <>
-                                      {(localStorage.getItem("user_id") !==
-                                        "56Ek4feL/1A8mZgIKQWEqg=="&& localStorage.getItem("user_id") != "MXl8m36VZFYXpgFVz3Pg0g=="  &&localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==")
+                                      {!isLikeRdAccount
                                         ? (<>
                                           <li>
                                             <h6 className="tab-content-title">
@@ -2568,8 +2563,7 @@ const NewReadersReview = (props) => {
                                             : "N/A"}
                                         </h6>
                                       </li>
-                                      {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
-                                      ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ?
+                                      {isLikeRdAccount ?
                                         <li>
                                           <h6 className="tab-content-title">
                                             Status
@@ -2680,8 +2674,7 @@ const NewReadersReview = (props) => {
                                 ) : !data?.ipFlag ? (
                                   <div className="data-main-footer-sec-inner invest">
                                     <div className="footer-btn d-flex justify-content-end">                                 
-                                    {
-                                      (localStorage.getItem("user_id")=="56Ek4feL/1A8mZgIKQWEqg=="  || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") && data?.status=="New"
+                                    {isLikeRdAccount && data?.status=="New"
                                       ?
                                       <Button
                                         onClick={() => createNewEmail(data?.id,data?.role)}
@@ -2698,15 +2691,7 @@ const NewReadersReview = (props) => {
                                       >
                                         Edit
                                       </Button>
-                                      {/* <Link
-                                        to={(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-                                          ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" )
-                                          ? "/mandatory-reader-edit" : "/reader-edit"}
-                                        className="btn btn-primary btn-bordered"
-                                        state={{ id: data?.id, status: '1', siteRole: state?.siteRole, pdfId: rolePdf }}
-                                      >
-                                        Edit
-                                      </Link> */}
+                              
                                     </div>
                                   </div>
                                 ) : (
@@ -3023,13 +3008,11 @@ const NewReadersReview = (props) => {
                               <Tab eventKey="change-tab" title="Change">
                                 <div className="data-main-box change-tab-main-box">
                                   <ul className="tab-mail-list data change">
-                                    {(localStorage.getItem("user_id") ==
-                                      "56Ek4feL/1A8mZgIKQWEqg=="
-                                      || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                                    {isLikeRdAccount
                                       && change ? (
                                       <>
 
-                                        {((localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||  localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                                        {(isLikeRdAccount
                                          && (data?.status == "Started" || data?.status == "Blocked")) ?
 
                                           <li>
@@ -3063,7 +3046,7 @@ const NewReadersReview = (props) => {
                                             </fieldset>
                                           </li>
                                           : null}
-                                        {(localStorage.getItem("user_id") !== "56Ek4feL/1A8mZgIKQWEqg=="&& localStorage.getItem("user_id") != "MXl8m36VZFYXpgFVz3Pg0g=="  &&localStorage.getItem("user_id") !== "sNl1hra39QmFk9HwvXETJA==") 
+                                        {!isLikeRdAccount
                                         ?
                                           <li>
                                             <h6 className="tab-content-title">
@@ -3097,8 +3080,7 @@ const NewReadersReview = (props) => {
                                             </div>
                                           </li>
                                           : null}
-                                        {(localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
-                                          || (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="))
+                                        {isLikeRdAccount
                                           ?
                                           <li>
                                             <h6 className="tab-content-title">

@@ -20,10 +20,12 @@ import { ENDPOINT } from "../../axios/apiConfig";
 import { getData as getApiData, postFormData } from "../../axios/apiHelper";
 
 const EmailList = (props) => {
+  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
+  const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
   const location = useLocation();
   const navigate = useNavigate();
   const { state } = useLocation();
-  const isRND = (localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem('user_id') == "sNl1hra39QmFk9HwvXETJA==")
+  const isRND = isLikeRdAccount
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const colorArray = ['#0E9B8E', '#00003C', '#FFBE2C', '#FFBE2C', '#F58289', '#D61975', '#0066BE'];
@@ -74,7 +76,7 @@ const EmailList = (props) => {
     state?.IrtObj?.IRTFlag == 1 ? { role: [state?.IrtObj?.siteRole] } : {}
   );
   // const [filter, setFilter] = useState(initialFilterProp || {});
-  const deletButtonColor = (localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ? '#8A4E9C' : '#0066be'
+  const deletButtonColor =isLikeRdAccount ? '#8A4E9C' : '#0066be'
   const [options_ch, setOptions_ch] = useState({
     chart: {
       type: "column",
@@ -997,7 +999,7 @@ const getDownloadData = async (viewEmailData) => {
                 </>)
                 : <h2>Emails</h2>}</div>
               <div className="top-right-action flex-wrap">
-              {localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" ? (
+              {isLikeRdAccount ? (
                 <>
                   <div className="action-btn-add" style={{margin:"0"}}>
                     <Button className="btn-dashed"
@@ -1222,7 +1224,7 @@ const getDownloadData = async (viewEmailData) => {
                             </Accordion.Item>
                           )}
                         {
-                          (localStorage.getItem('user_id') != '56Ek4feL/1A8mZgIKQWEqg==' && localStorage.getItem('user_id') !== "sNl1hra39QmFk9HwvXETJA==") ?
+                          !isLikeRdAccount ?
                             <Accordion.Item className="card" eventKey="3">
                               <Accordion.Header className="card-header">
                                 Campaign
@@ -1564,9 +1566,7 @@ const getDownloadData = async (viewEmailData) => {
                   filterdate.length == 0 &&
                   filterrole.length == 0 &&
                   filtercampaign.length == 0 &&
-                  !deletestatus && (
-                    localStorage.getItem("user_id") !=="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") !== "MXl8m36VZFYXpgFVz3Pg0g=="  &&
-                    localStorage.getItem("user_id") !== "sNl1hra39QmFk9HwvXETJA==" && (
+                  !deletestatus && (!isLikeRdAccount && (
                     <div className="email_box_block">
                       <div className="email-block-add">
                         {/* <Link to="/EmailArticleSelect" onClick={createNewEmail}> */}
@@ -1633,8 +1633,7 @@ const getDownloadData = async (viewEmailData) => {
                                           <th>List</th>
                                           <td>{data.smart_list_name}</td>
                                         </tr>
-                                        {(localStorage.getItem("user_id") ==
-                                          "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem('user_id') == "sNl1hra39QmFk9HwvXETJA==") ? (<>
+                                        {(isLikeRdAccount) ? (<>
                                             <tr>
                                               <th>Site</th>
                                               {/* <td>
@@ -2114,7 +2113,7 @@ const getDownloadData = async (viewEmailData) => {
                           </td>
                         </tr>
                         {
-                          (localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem('user_id') == "sNl1hra39QmFk9HwvXETJA==") ?
+                          (isLikeRdAccount) ?
                             <tr>
                               <th>IRTs </th>
                               <td>
@@ -2782,8 +2781,7 @@ const getDownloadData = async (viewEmailData) => {
                           </span>
 
                         </th>
-                        {(localStorage.getItem("user_id") ==
-                          "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ? (<>
+                        {(isLikeRdAccount) ? (<>
                             <th scope="col" className="sort_option">
                               <span onClick={(e) => userSort(e, "site_number")}>
                                 Site number
@@ -2953,12 +2951,10 @@ const getDownloadData = async (viewEmailData) => {
                                     {item?.country ? item.country : "N/A"}
                                   </span>{" "}
                                 </td>
-                                {(localStorage.getItem("user_id") ==
-                                  "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                                {(isLikeRdAccount)
                                   && (<td>{item?.site_number ? item?.site_number : "N/A"}</td>)}
                                 <td>
-                                  {(localStorage.getItem("user_id") ==
-                                    "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                                  {(isLikeRdAccount)
                                     ? item.irt
                                       ? "Yes"
                                       : "No"
@@ -2999,12 +2995,10 @@ const getDownloadData = async (viewEmailData) => {
                                                   {item?.country ? item.country : "N/A"}
                                                 </span>
                                               </td>
-                                              {(localStorage.getItem("user_id") ==
-                                                "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                                              {(isLikeRdAccount)
                                                 && (<td>{item?.site_number ? item?.site_number : "N/A"}</td>)}
                                               <td>
-                                                {(localStorage.getItem("user_id") ==
-                                                  "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                                                {(isLikeRdAccount)
                                                   ? item.irt
                                                     ? "Yes"
                                                     : "No"

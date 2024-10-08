@@ -26,6 +26,10 @@ let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
 
 const ReadersListAdd = () => {
+  const accountMapping={"56Ek4feL/1A8mZgIKQWEqg==":2147501188,"sNl1hra39QmFk9HwvXETJA==":2147536982,"MXl8m36VZFYXpgFVz3Pg0g==":2147537506}
+
+  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
+  const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
   let combine_data_manual;
   const { state } = useLocation();
   const navigate = useNavigate();
@@ -52,7 +56,6 @@ const ReadersListAdd = () => {
   const [isOpenAdd, setIsOpenAdd] = useState(false);
   const [activeManual, setActiveManual] = useState("active");
   const [activeExcel, setActiveExcel] = useState("");
-  const [userId, setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==")
   const [emailChanged, setEmailChanged] = useState("");
   const [emailData, setEmailData] = useState("");
 
@@ -372,7 +375,7 @@ const ReadersListAdd = () => {
   const [sortOrder, setSortOrder] = useState('asc');
 
   useEffect(() => {
-    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
+    if (isLikeRdAccount) {
       axiosFun();
     }
     const getalCountry = async () => {
@@ -408,7 +411,7 @@ const ReadersListAdd = () => {
 
             let arr = [];
 
-            if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
+            if (isLikeRdAccount) {
               user_type = res.data.response.data.investigator_type;
               sub_role = res.data.response.data.sub_role;
               blind_type = res.data.response.data.blind_type;
@@ -447,7 +450,7 @@ const ReadersListAdd = () => {
               });
             });
 
-            if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
+            if (isLikeRdAccount) {
               Object.entries(site_number).map(([index, item]) => {
                 let label = item;
 
@@ -535,7 +538,7 @@ const ReadersListAdd = () => {
             }
 
             setCountryall(arr);
-            if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
+            if (isLikeRdAccount) {
               setIrtRole(arrIrtUserType);
               setInstituions(arrinstitutions);
               setUserTypeAll(arrUserType);
@@ -576,7 +579,7 @@ const ReadersListAdd = () => {
 
   const axiosFun = async () => {
     try {
-      const result = await axios.get(`emailapi/get_site?uid=${localStorage.getItem("user_id")=="sNl1hra39QmFk9HwvXETJA=="?2147536982:2147501188}`);
+      const result = await axios.get(`emailapi/get_site?uid=${accountMapping[localStorage.getItem("user_id")] || 2147501188}`);
 
       let country = result?.data?.response?.data?.site_country_data;
       let arr = [];
@@ -604,10 +607,10 @@ const ReadersListAdd = () => {
       contact_type: "",
       country: "",
       countryIndex: "",
-      userType: (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" )? irtRole?.[0]?.value : "",
-      userTypeIndex: (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ? 0 : "",
-      siteIrt: (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ? siteIrtAll?.find(item => item?.value == "Yes")?.value : "",
-      siteIrtIndex: (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ? siteIrtAll?.findIndex(item => item?.value == "Yes") : "",
+      userType: (isLikeRdAccount )? irtRole?.[0]?.value : "",
+      userTypeIndex: (isLikeRdAccount) ? 0 : "",
+      siteIrt: (isLikeRdAccount) ? siteIrtAll?.find(item => item?.value == "Yes")?.value : "",
+      siteIrtIndex: (isLikeRdAccount) ? siteIrtAll?.findIndex(item => item?.value == "Yes") : "",
     },
   ]);
 
@@ -815,10 +818,10 @@ const ReadersListAdd = () => {
         contact_type: "",
         country: "",
         countryIndex: "",
-        userType: (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ? irtRole?.[0]?.value : "",
-        userTypeIndex: (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ? 0 : "",
-        siteIrt: (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ? siteIrtAll?.find(item => item?.value == "Yes")?.value : "",
-        siteIrtIndex: (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ? siteIrtAll?.findIndex(item => item?.value == "Yes") : "",
+        userType: (isLikeRdAccount) ? irtRole?.[0]?.value : "",
+        userTypeIndex: (isLikeRdAccount) ? 0 : "",
+        siteIrt: (isLikeRdAccount) ? siteIrtAll?.find(item => item?.value == "Yes")?.value : "",
+        siteIrtIndex: (isLikeRdAccount) ? siteIrtAll?.findIndex(item => item?.value == "Yes") : "",
       },
     ]);
     setActiveManual("active");
@@ -942,7 +945,7 @@ const ReadersListAdd = () => {
       // console.log(new_obj);
       await postData(ENDPOINT.INSERTBULKREADERS, new_obj);
       loader("hide");
-      if(localStorage.getItem('user_id') =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem('user_id') == "sNl1hra39QmFk9HwvXETJA=="){
+      if(isLikeRdAccount){
         // navigate("/IRT-Mandatory");
         navigate("/IRT-Mandatory", {
           state: {
@@ -1104,7 +1107,7 @@ const ReadersListAdd = () => {
       list[i].countryIndex = "";
       setHpc(list);
     } else {
-      if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
+      if (isLikeRdAccount) {
         let consetValue = e.value;
         if (e.value == "B&H") {
           consetValue = "Bosnia and Herzegovina";
@@ -1147,7 +1150,7 @@ const ReadersListAdd = () => {
   const addMoreHcp = () => {
     console.log(hpc);
     const status = hpc.map((data) => {
-      if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
+      if (isLikeRdAccount) {
         if(state?.siteRole != '' && state?.siteRole != null){
           data.institute  = "Study site";
         }
@@ -1177,14 +1180,14 @@ const ReadersListAdd = () => {
           contact_type: "",
           country: "",
           countryIndex: "",
-          userType: (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ? irtRole?.[0]?.value : "",
-          userTypeIndex: (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ? 0 : "",
-          siteIrt: (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ? siteIrtAll?.find(item => item?.value == "Yes")?.value : "",
-          siteIrtIndex: (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ? siteIrtAll?.findIndex(item => item?.value == "Yes") : "",
+          userType: (isLikeRdAccount) ? irtRole?.[0]?.value : "",
+          userTypeIndex: (isLikeRdAccount) ? 0 : "",
+          siteIrt: (isLikeRdAccount) ? siteIrtAll?.find(item => item?.value == "Yes")?.value : "",
+          siteIrtIndex: (isLikeRdAccount) ? siteIrtAll?.findIndex(item => item?.value == "Yes") : "",
         },
       ]);
     } else {
-      if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
+      if (isLikeRdAccount) {
         toast.warning("Please input the required fields.");
       } else {
         toast.warning("Please input the email atleast.");
@@ -1225,7 +1228,7 @@ const ReadersListAdd = () => {
           data.institute = 'Study site';
           data.role = state?.siteRole;
         }
-        if (data.firtName == "" && (localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")) {
+        if (data.firtName == "" && isLikeRdAccount) {
           // return "Please enter the first name";
           setValidationError({
             newHcpFirstName: "Please enter the first name",
@@ -1233,7 +1236,7 @@ const ReadersListAdd = () => {
           });
           return;
         }
-        else if (data.lastName == "" && (localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")) {
+        else if (data.lastName == "" && isLikeRdAccount) {
           // return "Please enter the last name";
           setValidationError({
             newHcpLastName: "Please enter the last name",
@@ -1258,7 +1261,7 @@ const ReadersListAdd = () => {
           });
           return;
         }
-        else if (data.country == "" && (localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")) {
+        else if (data.country == "" && isLikeRdAccount) {
           // return "Please select Country";
           setValidationError({
             newHcpCountry: "Please select the country",
@@ -1485,7 +1488,7 @@ const ReadersListAdd = () => {
                   <ul className="tabnav-link">
                     <li className="">
                       <a href="">
-                        {(localStorage.getItem('user_id')=="56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem('user_id')=="sNl1hra39QmFk9HwvXETJA==")
+                        {isLikeRdAccount
                         ?`Create ${state?.siteRole}`
                         :" Create CRM"
                         }
@@ -1518,8 +1521,7 @@ const ReadersListAdd = () => {
               <div className="form_action">
                 <div className="create-reader-form-header table-title">
                   <h4>
-                    {(localStorage.getItem("user_id") == userId 
-                    ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                    {isLikeRdAccount
                     ? "  Uploaded Users" : "  Uploaded HCPs"}
 
                     <span> | {readersData.length}</span>
@@ -1708,9 +1710,7 @@ const ReadersListAdd = () => {
                               </button>
                             </span>
                           </th>
-                          {(localStorage.getItem("user_id") ==
-                            "56Ek4feL/1A8mZgIKQWEqg==" 
-                            ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                          {isLikeRdAccount
                             ? (
                             <>
                               <th scope="col" className="sort_option">
@@ -1897,15 +1897,11 @@ const ReadersListAdd = () => {
                                   </span>
                                 )}
                               </td>
-                              {(localStorage.getItem("user_id") ==
-                                "56Ek4feL/1A8mZgIKQWEqg=="
-                                ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                              {(isLikeRdAccount)
                                 && (<><td>{item?.siteNumber ? item?.siteNumber : "N/A"}</td></>)}
 
                               <td>
-                                {(localStorage.getItem("user_id") ==
-                                  "56Ek4feL/1A8mZgIKQWEqg=="
-                                  ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                                {isLikeRdAccount
                                   ? item?.irt
                                     ? item.irt == "Yes" ? "Yes" : "No"
                                     : "No"
@@ -1915,10 +1911,7 @@ const ReadersListAdd = () => {
                               </td>
                               <td>
 
-                                {(localStorage.getItem("user_id") ==
-                                  "56Ek4feL/1A8mZgIKQWEqg=="
-                                  ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
-                                  ?
+                                {isLikeRdAccount?
                                   item.role
                                   : editable ? (
                                     <EditContactType
@@ -1995,14 +1988,10 @@ const ReadersListAdd = () => {
                                     <span>{data.country}</span>
                                   )}
                                 </td>
-                                {(localStorage.getItem("user_id") ==
-                                  "56Ek4feL/1A8mZgIKQWEqg==" 
-                                  ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                                {isLikeRdAccount
                                   && (<><td>{data?.siteNumber ? data?.siteNumber : "N/A"}</td></>)}
                                 <td>
-                                  {
-                                    (localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  
-                                    ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                                  {isLikeRdAccount
                                     ?
                                       data?.irt
                                         ? data.irt == "Yes" ? "Yes" : "No"
@@ -2014,9 +2003,7 @@ const ReadersListAdd = () => {
                                 </td>
 
                                 <td>
-                                  {
-                                    (localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  
-                                    ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                                  {isLikeRdAccount
                                     ?
                                       <span>{data?.role}</span>
                                       :
@@ -2062,8 +2049,7 @@ const ReadersListAdd = () => {
       {/* add new hcps */}
 
 
-      {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-      ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+      {isLikeRdAccount
       ? <Modal
         id="add_hcp"
         show={isOpenAdd}
@@ -2079,8 +2065,7 @@ const ReadersListAdd = () => {
         >
           <div className="modal-header">
             <h5 className="modal-title" id="staticBackdropLabel">
-              {(localStorage.getItem("user_id") == userId
-              ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") && (state?.siteRole != "" && state?.siteRole != null)
+              {isLikeRdAccount&& (state?.siteRole != "" && state?.siteRole != null)
                 ? "Add New IRT +"
                 : "Add New HCP"}
             </h5>
@@ -2095,10 +2080,10 @@ const ReadersListAdd = () => {
                     contact_type: "",
                     country: "",
                     countryIndex: "",
-                    userType: (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ? irtRole?.[0]?.value : "",
-                    userTypeIndex:( localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ? 0 : "",
-                    siteIrt: (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ? siteIrtAll?.find(item => item?.value == "Yes")?.value : "",
-                    siteIrtIndex: (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ? siteIrtAll?.indexOf(item => item?.value == "Yes") : "",
+                    userType: (isLikeRdAccount) ? irtRole?.[0]?.value : "",
+                    userTypeIndex:( isLikeRdAccount) ? 0 : "",
+                    siteIrt: (isLikeRdAccount) ? siteIrtAll?.find(item => item?.value == "Yes")?.value : "",
+                    siteIrtIndex: (isLikeRdAccount) ? siteIrtAll?.indexOf(item => item?.value == "Yes") : "",
                   },
                 ]);
                 setActiveManual("active");
@@ -2126,9 +2111,7 @@ const ReadersListAdd = () => {
                                 <div className="form-group">
                                   <label htmlFor="">
                                     {
-                                      (localStorage.getItem("user_id") ==
-                                        "56Ek4feL/1A8mZgIKQWEqg=="
-                                        ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                                   isLikeRdAccount
                                         ? <>First name  <span>*</span></> : "First Name"
                                     }
 
@@ -2161,10 +2144,7 @@ const ReadersListAdd = () => {
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
                                   <label htmlFor="">
-                                    {
-                                      (localStorage.getItem("user_id") ==
-                                        "56Ek4feL/1A8mZgIKQWEqg==" 
-                                        ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                                    {isLikeRdAccount
                                         ? <>Last name <span>*</span></> : "Last Name"
                                     }
 
@@ -2220,9 +2200,7 @@ const ReadersListAdd = () => {
                                 </div>
                               </div>
 
-                              {(localStorage.getItem("user_id") !=
-                                "56Ek4feL/1A8mZgIKQWEqg=="
-                                &&localStorage.getItem("user_id") !== "sNl1hra39QmFk9HwvXETJA==")
+                              {!isLikeRdAccount
                                 ? (
                                 <div className="col-12 col-md-6">
                                   <div className="form-group">
@@ -2276,9 +2254,7 @@ const ReadersListAdd = () => {
                                 </div>
                               ) : null}
 
-                              {(localStorage.getItem("user_id") !=
-                                "56Ek4feL/1A8mZgIKQWEqg=="
-                                &&localStorage.getItem("user_id") !== "sNl1hra39QmFk9HwvXETJA==")
+                              {!isLikeRdAccount
                                 ? (
                                 <div className="col-12 col-md-6">
                                   <div className="form-group">
@@ -2326,9 +2302,7 @@ const ReadersListAdd = () => {
                                 </div>
                               ) : null}
 
-                              {(localStorage.getItem("user_id") ==
-                                "56Ek4feL/1A8mZgIKQWEqg==" 
-                                ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                              {isLikeRdAccount
                                 ? (
                                 <>
                                   {
@@ -2515,9 +2489,7 @@ const ReadersListAdd = () => {
 
                                         <label htmlFor="">Country
                                           {
-                                            (localStorage.getItem("user_id") ==
-                                              "56Ek4feL/1A8mZgIKQWEqg=="
-                                              || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                                            isLikeRdAccount
                                             && <span>*</span>
                                           }
                                         </label>
@@ -2726,8 +2698,7 @@ const ReadersListAdd = () => {
                                     data-bs-toggle="tab"
                                     href="javascript:;"
                                   >
-                                    {(localStorage.getItem("user_id") == userId
-                                    ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                                    {isLikeRdAccount
 
                                       ? "Add IRT +"
                                       : "Add HCP +"}
@@ -2785,8 +2756,7 @@ const ReadersListAdd = () => {
           
           <div className="modal-header">
             <h5 className="modal-title" id="staticBackdropLabel">
-              {(localStorage.getItem("user_id") == userId 
-              ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") && (state?.siteRole != "" && state?.siteRole != null)
+              {isLikeRdAccount && (state?.siteRole != "" && state?.siteRole != null)
               ? "Add New IRT +" : "Add New HCP"}
             </h5>
             <button
@@ -2970,8 +2940,7 @@ const ReadersListAdd = () => {
                                     data-bs-toggle="tab"
                                     href="javascript:;"
                                   >
-                                    {(localStorage.getItem("user_id") == userId
-                                    ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                                    {isLikeRdAccount
                                     ? "Add User +" : "Add HCP +"}
                                   </a>
                                 </li>

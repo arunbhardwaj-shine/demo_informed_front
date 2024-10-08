@@ -29,6 +29,8 @@ import { updateLiveFlag } from "./CommonFunctions/CommonFunction";
 import QRCode from "qrcode.react";
 
 const SurveyList = (props) => {
+  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
+  const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const filterdata = [];
@@ -823,8 +825,7 @@ navigate("/survey/survey-analytics-detail",{state:{item}})
                               </Accordion.Body>
                             </Accordion.Item>
                           )}
-                        {(localStorage.getItem("user_id") !=
-                        "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "MXl8m36VZFYXpgFVz3Pg0g=="   )? (
+                        {!isLikeRdAccount? (
                           <Accordion.Item className="card" eventKey="3">
                             <Accordion.Header className="card-header">
                               Survey

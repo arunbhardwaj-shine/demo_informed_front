@@ -12,6 +12,8 @@ import { popup_alert } from "../../../../../popup_alert";
 import { Spinner } from "react-activity";
 
 const FilterSegment = (props) => {
+  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
+  const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
   const tableCompRef = useRef();
   const Navigate = useNavigate();
   const switch_account_detail = JSON.parse(localStorage.getItem("switch_account_detail"))
@@ -62,7 +64,6 @@ const FilterSegment = (props) => {
   const [loadMorePage, setloadMorePage] = useState(true);
   const [totalLostCount, setTotalLostCount] = useState(props?.listcount);
   const [dataFromComp, setDataFromComp] = useState(props?.action);
-  const [userId, setUserId] = useState(localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA=="?"sNl1hra39QmFk9HwvXETJA==":"56Ek4feL/1A8mZgIKQWEqg==")
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
   useEffect(() => {
@@ -1410,7 +1411,7 @@ const FilterSegment = (props) => {
                 </li>
                 <li className="active active-main">
                   <a href="javascript:void(0)">
-                    {localStorageUserId == userId ? "Select & Verify your Users" : "Select & Verify your HCPs"}
+                    {isLikeRdAccount ? "Select & Verify your Users" : "Select & Verify your HCPs"}
                   </a>
                 </li>
               </ul>
@@ -1465,9 +1466,7 @@ const FilterSegment = (props) => {
                     </div>
                     <Accordion.Body>
                       <div className="card-body">
-                        {(localStorageUserId !=
-                          "56Ek4feL/1A8mZgIKQWEqg=="&& localStorage.getItem("user_id") != "MXl8m36VZFYXpgFVz3Pg0g=="  
-                          && localStorageUserId != "sNl1hra39QmFk9HwvXETJA==")
+                        {!isLikeRdAccount
                           ? "contact_type" in filters &&
                           Object.keys(filters.contact_type).length > 0 && (
                             <>
@@ -1738,10 +1737,7 @@ const FilterSegment = (props) => {
                             </>
                           )*/}
 
-                        {(localStorageUserId ==
-                          "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
-                          || localStorageUserId ==
-                          "sNl1hra39QmFk9HwvXETJA==")
+                        {isLikeRdAccount
                           && (
                             <>
                               <div className="col block-smart-name">
@@ -2367,10 +2363,7 @@ const FilterSegment = (props) => {
                         )}
 
                         <div className="col block-smart-name registered">
-                          {(localStorageUserId ==
-                            "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
-                            || localStorageUserId ==
-                            "sNl1hra39QmFk9HwvXETJA==") ? (
+                          {isLikeRdAccount ? (
                             <h6>Registered ?</h6>
                           ) : (
                             <h6>Registered</h6>
@@ -2429,9 +2422,7 @@ const FilterSegment = (props) => {
                               No
                             </li>
                           </ul>
-                          {(localStorageUserId !=
-                            "56Ek4feL/1A8mZgIKQWEqg=="&& localStorage.getItem("user_id") != "MXl8m36VZFYXpgFVz3Pg0g=="  
-                            && localStorageUserId != "sNl1hra39QmFk9HwvXETJA==")
+                          {!isLikeRdAccount
                             && (
                               <>
                                 <h6>Bounced</h6>
@@ -2480,9 +2471,7 @@ const FilterSegment = (props) => {
                           showhidearticle == 1 && (
                             <>
                               <div className="col block-smart-name">
-                                {(localStorageUserId ==
-                                  "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
-                                  ||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") 
+                                {isLikeRdAccount
                                   ? (
                                   <>
                                     <h6>Library</h6>
@@ -2601,9 +2590,7 @@ const FilterSegment = (props) => {
                           )}
 
                         {showhidearticle == 1 &&
-                          localStorageUserId ==
-                          "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
-                          ||localStorageUserId == "sNl1hra39QmFk9HwvXETJA=="
+                       isLikeRdAccount
                           ? (
                           <div className="col block-smart-name">
                             <h6>Reading/Viewing completed</h6>
@@ -2654,9 +2641,7 @@ const FilterSegment = (props) => {
                           </div>
                         ) : null}
 
-                        {(localStorageUserId ==
-                          "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
-                          ||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
+                        {isLikeRdAccount
                           && (
                             <>
                               <div className="col block-smart-name 21">
@@ -2707,8 +2692,7 @@ const FilterSegment = (props) => {
 
                         {/*
                           <div className="col block-smart-name">
-                          {localStorageUserId ==
-                          "56Ek4feL/1A8mZgIKQWEqg==" && selectedIrt == "Training" &&(
+                          {isLikeRdAccount && selectedIrt == "Training" &&(
                             <>
                               <h6>Training Completed</h6>
                               <ul>
@@ -3038,9 +3022,7 @@ const FilterSegment = (props) => {
                   selectedarticles.length > 0 ? (
                   <div className="filter-div">
                     <div className="filter-div-title">
-                      {(localStorageUserId ==
-                        "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
-                        ||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
+                      {isLikeRdAccount
                         ? (
                         <>
                           <span>Library |</span>
@@ -3331,7 +3313,7 @@ const FilterSegment = (props) => {
                 ) : null
               ) : null}
 
-              {(localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") ? (
+              {isLikeRdAccount ? (
                 updateflag > 0 ? (
                   selectedArticleCompleted != "" && showhidearticle == 1 ? (
                     <div className="filter-div">
@@ -3492,8 +3474,7 @@ const FilterSegment = (props) => {
                 ) : null
               ) : null}
 
-              {(localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
-              ||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
+              {isLikeRdAccount
               ? (
                 updateflag > 0 ? (
                   selectedIrt ? (
@@ -3518,7 +3499,7 @@ const FilterSegment = (props) => {
                 ) : null
               ) : null}
 
-              {(localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") ? (
+              {isLikeRdAccount? (
                 updateflag > 0 ? (
                   selectedTrialRegister ? (
                     <div className="filter-div">

@@ -23,6 +23,8 @@ var dxr = 0;
 var pdf_id = 0;
 
 const ContentDetail = (props) => {
+  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
+  const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [open, setOpen] = useState(false);
   const [openProduction, setOpenProduction] = useState(false);
@@ -237,15 +239,11 @@ const ContentDetail = (props) => {
   
     navigate(path, {
       state: { 
-        // title: localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") === "MXl8m36VZFYXpgFVz3Pg0g=="  
-        //   ? location?.state?.title 
-        //   : ''
-
-          flag : localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg=="  || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==" ?(location?.state?.flag === "mandatory"
+          flag : isLikeRdAccount ?(location?.state?.flag === "mandatory"
             ? "mandatory"
             : location?.state?.flag === "Non-mandatory"
             ? "Non-mandatory" : '') :'',
-            title: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" ||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA=="
+            title: isLikeRdAccount
             ? (location?.state?.title)
             : ''
       }
@@ -276,7 +274,7 @@ const ContentDetail = (props) => {
                           ? "/library-edit"
                           : "/library-edit"
                       }
-                      state={{ pdfid: state?.pdfId, title:location?.state?.title, flag: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA=="
+                      state={{ pdfid: state?.pdfId, title:location?.state?.title, flag: isLikeRdAccount
                         ? (location?.state?.flag === "Non-mandatory" ? 'Non-mandatory' : "mandatory")
                         : ''  }}
                       
@@ -319,8 +317,7 @@ const ContentDetail = (props) => {
                                       </h6>
                                       <h6>
                                         <>
-                                          {localStorage.getItem("user_id") ==
-                                          "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="|| localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? (
+                                          {isLikeRdAccount? (
                                             <strong>Comment | </strong>
                                           ) : (
                                             <strong>Content subtitle | </strong>
@@ -330,10 +327,7 @@ const ContentDetail = (props) => {
                                             : "N/A"}
                                         </>
                                       </h6>
-                                      {localStorage.getItem("user_id") !=
-                                        "iSnEsKu5gB/DRlycxB6G4g==" &&
-                                      localStorage.getItem("user_id") !=
-                                        "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "MXl8m36VZFYXpgFVz3Pg0g=="   && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==" ? (
+                                      {!isLikeRdAccount ? (
                                         <h6>
                                           <strong>Author | </strong>
                                           {data?.key_author
@@ -417,8 +411,7 @@ const ContentDetail = (props) => {
                               <div className="mail-recipt">
                                 <div className="row">
                                   {localStorage.getItem("group_id") != "3" ||
-                                  (localStorage.getItem("user_id") ==
-                                    "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="|| localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ? (
+                                  (isLikeRdAccount) ? (
                                     <div className="col-12 col-md-4 mail-recipt-left">
                                       <h6>Who is involved</h6>
 
@@ -428,10 +421,7 @@ const ContentDetail = (props) => {
                                             <div className="mailbox-table">
                                               <table>
                                                 <tbody>
-                                                  {localStorage.getItem(
-                                                    "user_id"
-                                                  ) ==
-                                                    "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" &&
+                                                  {isLikeRdAccount &&
                                                   localStorage.getItem(
                                                     "group_id"
                                                   ) == "3" ? (
@@ -535,8 +525,7 @@ const ContentDetail = (props) => {
                                     </div>
                                   ) : null}
 
-                                  {localStorage.getItem("user_id") !=
-                                  "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "MXl8m36VZFYXpgFVz3Pg0g=="   && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==" ? (
+                                  {!isLikeRdAccount? (
                                     <>
                                       <div className="col-12 col-md-4 mail-recipt-left">
                                         {localStorage.getItem("group_id") ==
@@ -592,10 +581,7 @@ const ContentDetail = (props) => {
                                                     {localStorage.getItem(
                                                       "group_id"
                                                     ) == "3" &&
-                                                    localStorage.getItem(
-                                                      "user_id"
-                                                    ) !=
-                                                      "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "MXl8m36VZFYXpgFVz3Pg0g=="  && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==" ? (
+                                                    !isLikeRdAccount ? (
                                                       <tr>
                                                         <th>Product</th>
                                                         <td>
@@ -608,10 +594,7 @@ const ContentDetail = (props) => {
                                                       ""
                                                     )}
 
-                                                    {localStorage.getItem(
-                                                      "user_id"
-                                                    ) !=
-                                                    "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "MXl8m36VZFYXpgFVz3Pg0g=="   && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==" ? (
+                                                    {!isLikeRdAccount ? (
                                                       <tr>
                                                         <th>Enabled</th>
                                                         <td>
@@ -699,10 +682,7 @@ const ContentDetail = (props) => {
                                           <div className="mailbox-table">
                                             <table>
                                               <tbody>
-                                                {localStorage.getItem(
-                                                  "user_id"
-                                                ) !=
-                                                "56Ek4feL/1A8mZgIKQWEqg=="  && localStorage.getItem("user_id") != "MXl8m36VZFYXpgFVz3Pg0g=="  && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==" ? (
+                                                {!isLikeRdAccount ? (
                                                   <tr>
                                                     <th>ePrint type</th>
                                                     <td>
@@ -753,10 +733,7 @@ const ContentDetail = (props) => {
                                                       </td>
                                                     </tr>
 
-                                                    {localStorage.getItem(
-                                                      "user_id"
-                                                    ) ==
-                                                    "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="|| localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? (
+                                                    {isLikeRdAccount ? (
                                                       <>
                                                         <tr>
                                                           <th>
@@ -779,10 +756,7 @@ const ContentDetail = (props) => {
                                                     ) : null}
                                                   </>
                                                 ) : null}
-                                                {localStorage.getItem(
-                                                  "user_id"
-                                                ) !=
-                                                "56Ek4feL/1A8mZgIKQWEqg=="  && localStorage.getItem("user_id") != "MXl8m36VZFYXpgFVz3Pg0g=="   && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==" ? (
+                                                {isLikeRdAccount? (
                                                   <tr>
                                                     <th>
                                                       Production notes for

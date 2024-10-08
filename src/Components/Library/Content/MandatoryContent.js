@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 function MandatoryContent() {
   const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
-  const pdfarr = localStorage.getItem('user_id') =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  ? [3968,3970,4521] : [5561,5563,5564];
+  const pdfarr = localStorage.getItem('user_id') == "56Ek4feL/1A8mZgIKQWEqg==" ? [3968,3970,4521] : [5561,5563,5564];
   const navigate = useNavigate();
   let data = [
     {

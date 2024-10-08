@@ -17,6 +17,10 @@ import { ValidationAddNewContact } from "./ValidationAddNewContact";
 
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const AutoEmail = () => {
+  const accountMapping={"56Ek4feL/1A8mZgIKQWEqg==":2147501188,"sNl1hra39QmFk9HwvXETJA==":2147536982,"MXl8m36VZFYXpgFVz3Pg0g==":2147537506}
+
+  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
+  const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
   const [getsearch, setSearch] = useState("");
   const [showPreogressBar, setShowProgressBar] = useState(false);
   const [uploadOrDownloadCount, setUploadOrDownloadCount] = React.useState(0);
@@ -52,7 +56,6 @@ const AutoEmail = () => {
 
   const [templateName, setTemplateName] = useState("");
   const [selectedListId, setSelectedListId] = useState(0);
-  const userId = "56Ek4feL/1A8mZgIKQWEqg==";
 
   const getTemplateLanguage = [
     { value: "0", label: "English" },
@@ -78,14 +81,13 @@ const AutoEmail = () => {
       contact_type: "",
       country: "",
       role:
-        localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+      isLikeRdAccount
           ? "Site User-Blinded"
           : "",
-      optIrt:
-        localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+      optIrt:isLikeRdAccount
           ? "yes"
           : "",
-      institutionType: localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+      institutionType:isLikeRdAccount
         ? "Study site"
         : "",
       siteNumber: "",
@@ -146,7 +148,7 @@ const AutoEmail = () => {
 
             setCountryall(arr);
 
-            if (localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
+            if (isLikeRdAccount) {
               let investigator_type =
                 res?.data?.response?.data?.investigator_type;
               let newType = [];
@@ -209,7 +211,7 @@ const AutoEmail = () => {
   };
   useEffect(() => {
     loader("show");
-    if (localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
+    if (isLikeRdAccount) {
       axiosFun();
     }
 
@@ -217,7 +219,7 @@ const AutoEmail = () => {
   }, []);
   const axiosFun = async () => {
     try {
-      const result = await axios.get(`emailapi/get_site?uid=${localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? 2147536982 : 2147501188}`);
+      const result = await axios.get(`emailapi/get_site?uid=${accountMapping[localStorage.getItem("user_id")] ||  2147501188}`);
 
       let country = result?.data?.response?.data?.site_country_data;
       let arr = [];
@@ -370,15 +372,13 @@ const AutoEmail = () => {
         email: "",
         contact_type: "",
         country: "",
-        role:
-          localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+        role:isLikeRdAccount
             ? "Site User-Blinded"
             : "",
-        optIrt:
-          localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+        optIrt:isLikeRdAccount
             ? "yes"
             : "",
-        institutionType: localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+        institutionType: isLikeRdAccount
           ? "Study site"
           : "",
         siteNumber: "",
@@ -689,7 +689,7 @@ const AutoEmail = () => {
       list[i].countryIndex = "";
       setHpc(list);
     } else {
-      if (localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") === "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") {
+      if (isLikeRdAccount) {
         let consetValue = e.value;
         if (e.value == "B&H") {
           consetValue = "Bosnia and Herzegovina";
@@ -731,7 +731,7 @@ const AutoEmail = () => {
   const saveClicked = async () => {
     if (activeManual == "active") {
       const body_data = hpc.map((data) => {
-        if (localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
+        if (isLikeRdAccount) {
 
           return {
             first_name: data.firstname,
@@ -765,7 +765,7 @@ const AutoEmail = () => {
       // const status = ValidationAddNewContact(body?.data, selectedHcp,"save")
      
       const status = body.data.map((data,index) => {
-        if (localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
+        if (isLikeRdAccount) {
           if (data.first_name == "") {
             setValidationError({
               firstName: "Please enter the first name",
@@ -950,7 +950,7 @@ const AutoEmail = () => {
   const addMoreHcp = () => {
     // const status = ValidationAddNewContact(hpc,selectedHcp,"addMore")
     const status = hpc.map((data) => {
-      if (localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
+      if (isLikeRdAccount) {
         if(data?.optIrt=="yes"){
           if (data?.email == "" || data?.institutionType == "" || data?.first_name == "" || data?.last_name == ""||data?.role=="" 
             || data?.country == ""||data?.siteName==""||data?.siteNumber=="") {
@@ -994,15 +994,13 @@ const AutoEmail = () => {
           email: "",
           contact_type: "",
           country: "",
-          role:
-            localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+          role:isLikeRdAccount
               ? irtRole?.[0]?.value
               : "",
-          optIrt:
-            localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+          optIrt:isLikeRdAccount
               ? "yes"
               : "",
-          institutionType: localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+          institutionType: isLikeRdAccount
             ? irtInstitutionType?.[0]?.value
             : "",
           siteNumber: "",
@@ -1011,7 +1009,7 @@ const AutoEmail = () => {
         },
       ]);
     } else {
-      if (localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==") {
+      if (isLikeRdAccount || localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==") {
         toast.warning("Please input the required fields.");
       } else {
         toast.warning("Please input the email atleast");
@@ -1964,17 +1962,13 @@ const AutoEmail = () => {
                     email: "",
                     contact_type: "",
                     country: "",
-                    role:
-                      localStorage.getItem("user_id") ==
-                        "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+                    role:isLikeRdAccount
                         ? irtRole?.[0]?.value
                         : "",
-                    optIrt:
-                      localStorage.getItem("user_id") ==
-                        "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+                    optIrt:isLikeRdAccount
                         ? "yes"
                         : "",
-                    institutionType: localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+                    institutionType: isLikeRdAccount
                       ? irtInstitutionType?.[0]?.value
                       : "",
                     siteNumber: "",
@@ -2005,7 +1999,7 @@ const AutoEmail = () => {
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
                                   <label htmlFor="">
-                                    First name {localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? <span>*</span> : null}
+                                    First name {isLikeRdAccount ? <span>*</span> : null}
 
                                   </label>
                                   <input
@@ -2031,7 +2025,7 @@ const AutoEmail = () => {
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
                                   <label htmlFor="">Last name
-                                    {localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? <span> *</span> : null}
+                                    {isLikeRdAccount ? <span> *</span> : null}
                                   </label>
                                   <input
                                     type="text"
@@ -2081,8 +2075,7 @@ const AutoEmail = () => {
                                 </div>
                               </div>
 
-                              {localStorage.getItem("user_id") ===
-                                "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==" ? (
+                              {isLikeRdAccount? (
                                 <>
                                   {" "}
                                   <div className="col-12 col-md-6">
@@ -2333,8 +2326,7 @@ const AutoEmail = () => {
                                 <div className="form-group">
                                   <label htmlFor="">
                                     Country
-                                    {(localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ||
-                                      localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==") ? <span> *</span> : null}
+                                    {isLikeRdAccount? <span> *</span> : null}
                                   </label>
                                   {val?.optIrt == "yes" ? (
                                     <Select
@@ -2396,8 +2388,7 @@ const AutoEmail = () => {
                                 </div>
                               </div>
                             
-                              {localStorage.getItem("user_id") ==
-                                "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? (
+                              {isLikeRdAccount? (
                                 <>
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
@@ -2506,7 +2497,7 @@ const AutoEmail = () => {
                                     data-bs-toggle="tab"
                                     href="javascipt:;"
                                   >
-                                    {localStorage.getItem("user_id") == userId || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+                                    {isLikeRdAccount
                                       ? "Add User +"
                                       : "Add HCP +"}
                                   </a>

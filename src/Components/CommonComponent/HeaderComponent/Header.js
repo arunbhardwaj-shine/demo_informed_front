@@ -32,6 +32,8 @@ function useScrollDirection() {
 }
 
 const Header = () => {
+  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
+  const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
   const queryParams = queryString.parse(window.location.search);
   const scrollDirection = useScrollDirection();
   const [getUserName, setUserName] = useState("");
@@ -160,7 +162,7 @@ const Header = () => {
   const homeClicked = (e) => {
     e.preventDefault();
     localStorage.removeItem("switch_account_detail")
-    if (localStorage.getItem('user_id') === "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" ) {
+    if (localStorage.getItem('user_id') === "56Ek4feL/1A8mZgIKQWEqg==") {
       navigate("/home-timeline")
     } else {
       navigate("/home")
@@ -296,8 +298,7 @@ const Header = () => {
                   } onClick={handleMenuItemClick}
                 >
                   <Link className="nav-link"
-                    to={(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" 
-                      || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                    to={isLikeRdAccount
                       ? "/IRT-Mandatory" : "/readers-view"}
                   // to={"/readers-view"} 
                   >
@@ -360,8 +361,12 @@ const Header = () => {
                             "iSnEsKu5gB/DRlycxB6G4g=="
                             ? "/octalatch-totalhcp"
                             : localStorage.getItem("user_id") ==
-                              "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" 
+                              "56Ek4feL/1A8mZgIKQWEqg=="
                               ? "/LEX-210-analytics"
+                              :
+                              localStorage.getItem("user_id") ==
+                              "MXl8m36VZFYXpgFVz3Pg0g==" 
+                              ? "/trial-analytics"
                               :
                               localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
                                 ? "/trial-analytics"
@@ -402,7 +407,6 @@ const Header = () => {
                   } onClick={handleMenuItemClick}
                 >
                   <Link className="nav-link"
-                    // to={localStorage.getItem("user_id")=="56Ek4feL/1A8mZgIKQWEqg=="?"/IRTRole":"/EmailList"}
                     to={"/EmailList"}
                   >
                     EMAIL
@@ -443,9 +447,7 @@ const Header = () => {
                   localStorage.getItem("webinar_flag") == 1
                   ||
                   localStorage.getItem("user_id") === "IJype v19WASFcSlrfRENQ=="
-                  //  &&
-                  // localStorage.getItem("user_id") !=
-                  // "56Ek4feL/1A8mZgIKQWEqg==" 
+
                   ? (
                     <li className={
                       window.location.pathname == "/webinar/live-stream/settings" ||
@@ -508,24 +510,6 @@ const Header = () => {
                   <Link className="nav-link" to={"/survey/survey-list"}>SURVEY
                   </Link>
                 </li>)}
-
-                {/* {localStorage.getItem("user_id") ==
-                  "56Ek4feL/1A8mZgIKQWEqg==" ? (
-                  <li className="nav-item">
-                    <a
-                      className="nav-link"
-                      target="_blank"
-                      href={
-                        "https://webinar.informed.pro/webinar/qa_survey?rdylr=" +
-                        localStorage.getItem("user_id")
-                      }
-                    >
-                      Q & POLL
-                    </a>
-                  </li>
-                ) : (
-                  ""
-                )} */}
 
                 {/* {localStorage.getItem("user_id") ==
                   "iSnEsKu5gB/DRlycxB6G4g==" ? (

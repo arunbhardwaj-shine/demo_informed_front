@@ -13,7 +13,8 @@ let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 let loadData = 0;
 
 const SetLayoutNewTimeline = () => {
-
+  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
+  const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
   let dummyData = [
     {
       image: `${path_image}library-icon.svg`,
@@ -77,20 +78,11 @@ const SetLayoutNewTimeline = () => {
         subtitle: "All your licensed content in one place",
       });
     }
-    // if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
-    //   newdata.push({
-    //     image: `${path_image}q-polling.svg`,
-    //     title: "Q & Poll  ",
-    //     subtitle: "Engage your audience and make them part of the presentation",
-    //   });
-    // }
+
     if (
       typeof localStorage.getItem("webinar_flag") !== "undefined" &&
       localStorage.getItem("webinar_flag") == 1 || localStorage.getItem("user_id") === "IJype v19WASFcSlrfRENQ=="
-      // localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==" &&
-      // localStorage.getItem("user_id") != "UbCJcnLM9fe HsRMgX8c1A==" &&
-      // localStorage.getItem("user_id") != "z2TunmZQf3QwCsICFTLGGQ==" &&
-      // localStorage.getItem("user_id") != "qDgwPdToP05Kgzc g2VjIQ=="
+
     ) {
       newdata.push({
         image: `${path_image}webinar-icon.svg`,
@@ -131,8 +123,7 @@ const SetLayoutNewTimeline = () => {
     if (title == "Library") {
       navigate("/library-content");
     } else if (title == "CRM") {
-      (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" 
-        || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+      (isLikeRdAccount)
         ? navigate("/IRT-Mandatory")
         :
         navigate("/readers-view");
@@ -144,8 +135,7 @@ const SetLayoutNewTimeline = () => {
           ? navigate("/totalhcp")
           : localStorage.getItem("user_id") == "iSnEsKu5gB/DRlycxB6G4g=="
             ? navigate("/octalatch-totalhcp")
-            : (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" 
-              || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+            : (isLikeRdAccount)
               ? navigate("/LEX-210-analytics")
               : localStorage.getItem("user_id") == "wW0geGtDPvig5gF 6KbJrg=="
                 ? navigate("/totalhcp")
@@ -157,9 +147,7 @@ const SetLayoutNewTimeline = () => {
                       ? navigate("/totalhcp")
                       : navigate("/content-analytics");
     } else if (title == "Email") {
-      // localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-      //   ? navigate("/IRTRole")
-      // :
+     
       navigate("/EmailList");
     } else if (title == "Webinar") {
       if (
@@ -167,8 +155,7 @@ const SetLayoutNewTimeline = () => {
         localStorage.getItem("webinar_flag") == 1
         ||
         localStorage.getItem("user_id") === "IJype v19WASFcSlrfRENQ=="
-        // &&
-        // localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg=="
+    
       ) {
         navigate("/webinar/event-listing")
         // window.open(
@@ -182,7 +169,7 @@ const SetLayoutNewTimeline = () => {
       // navigate("/license-content");
       navigate("/license-content");
     } else if (title == "Q&A/SURVEY") {
-      if (localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
+      if (isLikeRdAccount) {
         window.open(
           "https://webinar.informed.pro/webinar/qa_survey?rdylr=" +
           localStorage.getItem("user_id"),
@@ -381,7 +368,7 @@ const SetLayoutNewTimeline = () => {
                       <img src={path_image + "informed-circle-icon.svg"} alt="" />
                     </div>
                     <div className="timeline-date">
-                      <h3>{localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" ?"Gena":"LEX-210 Trial"}</h3>
+                      <h3>LEX-210 Trial</h3>
                       {/* <p>{moment(loadMore?.lastUpdate).utc().format('MMMM. DD. YYYY | h:mm A')}  <sub>last update</sub></p> */}
                       {apiStatus?<p>
                         {loadMore?.lastUpdate ? moment(loadMore?.lastUpdate).utc().format('MMMM. DD. YYYY') : "N/A"}

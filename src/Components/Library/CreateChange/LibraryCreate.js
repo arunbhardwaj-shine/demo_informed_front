@@ -4,7 +4,8 @@ import { useNavigate } from "react-router-dom";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const LibraryCreate = () => {
-
+  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
+  const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
   let data = [
     {
       image: `${path_image}create-icon1.svg`,
@@ -20,7 +21,7 @@ const LibraryCreate = () => {
     },
   ];
 
-  if(localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA=="){
+  if(!isLikeRdAccount){
       const newObj = [
         {
           image: `${path_image}sublink-icon1.svg`,
@@ -38,8 +39,7 @@ const LibraryCreate = () => {
       data = data.concat(newObj);
   }
 
-  if (
-    localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" &&
+  if (isLikeRdAccount &&
     localStorage.getItem("group_id") == "3"
   ) {
     const newObj = {
