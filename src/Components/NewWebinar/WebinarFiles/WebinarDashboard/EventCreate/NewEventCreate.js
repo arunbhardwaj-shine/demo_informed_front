@@ -1397,7 +1397,7 @@ const [apiCallStatus,setApiCallStatus]=useState(false)
                                   />
                                 </button>
                               </div>
-                              <div className="event-title" onClick={() => handleCardClick(item)}>{item?.title}</div>
+                              <div className="event-title" onClick={() => handleCardClick(item)} title={item?.title}>{item?.title}</div>
                               <div>
                                 <div className="speaker-name">
                                   <span>Speaker</span>{" "}
