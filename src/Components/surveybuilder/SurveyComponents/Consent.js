@@ -9,18 +9,21 @@ import consentCountries from './Modals/consentCountries';
 
 const Consent = ({ item, handleUpdateConsent, index }) => {
     const consentOptions = [
-        { value: "Octapharma | English", label: "Octapharma | English" },
-        { value: "Octapharma | Russian", label: "Octapharma | Russian" },
-        { value: "Octapharma | Spanish", label: "Octapharma | Spanish" },
-        { value: "Octapharma | German", label: "Octapharma | German" },
+        { value: "One Source consent", label: "One Source consent" },
+        { value: "Octapharma consent", label: "Octapharma consent" },
+        { value: "General consent", label: "General consent" }
     ];
 
+    console.log(item)
 
-    const defaultOption = consentOptions.find(option => option.label === "Octapharma | English");
+
+    const defaultOption = consentOptions.find(option => option.label === "One Source consent");
+
+    console.log(defaultOption)
 
     const getConsent = (selectedLanguage) => {
         const consentInputData = consent.consentDetails[selectedLanguage];
-        consentInputData[consentInputData.length - 1].countryOptions = consentCountries[selectedLanguage]
+        consentInputData[consentInputData.length - 1].countryOptions = consentCountries["English"]
         return {
             accordionType: "commonElements",
             type: "consent",
@@ -50,7 +53,7 @@ const Consent = ({ item, handleUpdateConsent, index }) => {
                             className="dropdown-basic-button split-button-dropup"
                             placeholder="Select your consent version"
                             name="consentOptions"
-                            value={consentOptions.find(option => option.value === item.extra.selectedLanguage) || defaultOption}
+                            value={consentOptions.find(option => option.value === item.extra.selectedLanguage)  }
                             onChange={(selectedOption) => {
                                 handleUpdateConsent(getConsent(selectedOption.value));
                             }

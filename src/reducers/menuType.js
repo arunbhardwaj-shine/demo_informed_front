@@ -1,4 +1,3 @@
-
 import consentCountries from "../Components/surveybuilder/SurveyComponents/Modals/consentCountries";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
@@ -12,7 +11,7 @@ export const menuType = {
     questionDescription: "",
     isOptional: false,
     visible: true,
-    optionalLabel:"(Optional)",
+    optionalLabel: "(Optional)",
     answer: [
       { value: "", answerId: 0 },
       { value: "", answerId: 0 },
@@ -84,10 +83,9 @@ export const menuType = {
     optionalLabel: "(Optional)",
     style: {},
     extra: {
-      placeholder:"Type Your answer here",
-      maxTextLength: 20
+      placeholder: "Type Your answer here",
+      maxTextLength: 20,
     },
-    
   },
   matrix: {
     accordionType: "questionTypes",
@@ -113,7 +111,7 @@ export const menuType = {
             answerId: 0,
           },
         ],
-      }
+      },
     ],
     extra: {
       allowMultipleAnswer: false,
@@ -139,7 +137,7 @@ export const menuType = {
       rightSideLabel: "",
       maxRating: 5,
     },
-    answer: []
+    answer: [],
   },
   heading: {
     accordionType: "commonElements",
@@ -150,7 +148,7 @@ export const menuType = {
     questionDescriptionEnabled: false,
     questionDescription: "",
     style: {},
-    answer: []
+    answer: [],
   },
 
   paragraph: {
@@ -162,7 +160,7 @@ export const menuType = {
     style: {
       color: "",
     },
-    answer: []
+    answer: [],
   },
 
   divideLine: {
@@ -178,7 +176,7 @@ export const menuType = {
       width: 100,
       height: 5,
     },
-    answer: []
+    answer: [],
   },
   image: {
     accordionType: "commonElements",
@@ -193,7 +191,7 @@ export const menuType = {
       width: "50",
       height: "auto",
     },
-    answer: []
+    answer: [],
   },
   consent: {
     accordionType: "commonElements",
@@ -201,55 +199,52 @@ export const menuType = {
     style: {},
     questionId: 0,
     visible: true,
-    question:
-      "By registering to One Source you will gain access to the relevant content in accordance with the data privacy policy of ",
+    question: "",
 
     extra: {
-      selectedLanguage: "Octapharma | English",
+      selectedLanguage: "",
       consentOptions: [
         {
-          label: "Receive One Source updates and new materials from Octapharma",
+          label: " ",
           isChecked: false,
         },
         {
-          label: "Receive invitations to future events.",
+          label: " ",
           isChecked: false,
         },
         {
-          label: "Both of the options above.",
+          label: " ",
           isChecked: false,
         },
         {
-          label: "None of the options above.",
+          label: " ",
           isChecked: false,
         },
       ],
       consentDetails: [
         {
-          nameLabel: "Name",
-          namePlaceholder: "Type your name",
+          nameLabel: " ",
+          namePlaceholder: " ",
         },
         {
-          emailLabel: "Email",
-          emailPlaceholder: "Type your email",
+          emailLabel: " ",
+          emailPlaceholder: " ",
         },
         {
-          countryLabel: "Country",
-          countryPlaceholder: "Please Select Country",
-          countryOptions: consentCountries["Octapharma | English"],
+          countryLabel: " ",
+          countryPlaceholder: " ",
+          countryOptions: [],
         },
       ],
       privacyLinks: [
         {
-          octapharma: "https://onesource.octapharma.com/octapharma-privacy",
+          octapharma: " ",
         },
-        { docintel: "https://albert.docintel.app/privacy_policy/" },
-        { termsOfUse: "https://onesource.octapharma.com/terms_of_use" },
+        { docintel: " " },
+        { termsOfUse: " " },
       ],
-      cookiePolicy:
-        ' <p>We only use essential cookies and no data is shared with 3rd party. <a href="https://onesource.octapharma.com/octapharma-privacy" id=show-modal>Click here</a> to see the specifics.</p> <div class="copyright-links"> <a href="https://onesource.octapharma.com/octapharma-privacy" target="_blank">Octapharma Privacy Statement</a> <a href="https://albert.docintel.app/privacy_policy/" target="_blank">Docintel Privacy Policy</a> <a href="https://onesource.octapharma.com/terms_of_use" target="_blank">Terms of Use</a> </div>',
-      operatingStatement:
-        '<a href="https://onesource.octapharma.com/octapharma-privacy" target="_blank">Octapharma AG</a> and <a href="https://albert.docintel.app/privacy_policy/" target="_blank">Docintel.app</a> operating this page.',
+      cookiePolicy: " ",
+      operatingStatement: " ",
     },
   },
 };
