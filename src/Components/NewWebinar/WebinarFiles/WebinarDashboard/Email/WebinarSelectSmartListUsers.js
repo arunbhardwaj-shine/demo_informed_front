@@ -12,6 +12,10 @@ import AddNewContactModal from "../../../../../Model/AddNewContactModal";
 import { useSidebar } from "../../../../CommonComponent/LoginLayout";
 var old_object = {};
 const WebinarSelectSmartListUsers = (props) => {
+  const accountMapping={"56Ek4feL/1A8mZgIKQWEqg==":2147501188,"sNl1hra39QmFk9HwvXETJA==":2147536982,"MXl8m36VZFYXpgFVz3Pg0g==":2147537506}
+
+   const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
+  const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
   const { eventIdContext } = useSidebar();
   const switch_account_detail = JSON.parse(
     localStorage.getItem("switch_account_detail")
@@ -51,11 +55,6 @@ const WebinarSelectSmartListUsers = (props) => {
   const [unSubscribedUsers, setUnSubscribedUsers] = useState([]);
   const [readersNewlyAdded, setReadersNewlyAdded] = useState([]);
   const [reRender, setReRender] = useState(0);
-  const [userId, setUserId] = useState(localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
-
-  ? "sNl1hra39QmFk9HwvXETJA==" : localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
-
-  ? "MXl8m36VZFYXpgFVz3Pg0g==":"56Ek4feL/1A8mZgIKQWEqg==");
   const [update, setUpdate] = useState(0);
   const [activeManual, setActiveManual] = useState("active");
   const [activeExcel, setActiveExcel] = useState("");
@@ -86,11 +85,11 @@ const WebinarSelectSmartListUsers = (props) => {
       country: "",
       countryIndex: "",
       role:
-        (localStorageUserId ==userId)
+        isLikeRdAccount
           ? irtRole?.[0]?.value
           : "",
-      optIrt: (localStorageUserId == userId) ? "yes" : "",
-      institutionType: (localStorageUserId == userId)
+      optIrt: (isLikeRdAccount) ? "yes" : "",
+      institutionType: (isLikeRdAccount)
       ? "Study site"
       : "",
   siteNumber: "",
@@ -229,7 +228,7 @@ const WebinarSelectSmartListUsers = (props) => {
   };
 
   useEffect(() => {
-    if (localStorageUserId =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") {
+    if (isLikeRdAccount) {
       axiosFun();
     }
 
@@ -256,7 +255,7 @@ const WebinarSelectSmartListUsers = (props) => {
             });
             setCountryall(arr);
 
-            if (localStorageUserId =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") {
+            if (isLikeRdAccount) {
               let investigator_type =
                 res?.data?.response?.data?.investigator_type;
               let newType = [];
@@ -420,7 +419,7 @@ const WebinarSelectSmartListUsers = (props) => {
 
   const axiosFun = async () => {
     try {
-      const result = await axios.get(`emailapi/get_site?uid=${localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? 2147536982 : 2147501188}`);
+      const result = await axios.get(`emailapi/get_site?uid=${accountMapping[localStorage.getItem("user_id")] ||  2147501188}`);
 
       let country = result?.data?.response?.data?.site_country_data;
       let arr = [];
@@ -462,11 +461,11 @@ const WebinarSelectSmartListUsers = (props) => {
         country: "",
         countryIndex: "",
         role:
-          (localStorageUserId == userId)
+          (isLikeRdAccount)
             ? irtRole?.[0]?.value
             : "",
-        optIrt: (localStorageUserId == userId) ? "yes" : "",
-        institutionType: (localStorageUserId == userId)
+        optIrt: (isLikeRdAccount) ? "yes" : "",
+        institutionType: (isLikeRdAccount)
         ? "Study site"
         : "",
     siteNumber: "",
@@ -576,8 +575,7 @@ const WebinarSelectSmartListUsers = (props) => {
         "field_country" + profile_user_id
       ).value;
 
-      const contact_type_edit =
-        (localStorageUserId !=="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") !== "MXl8m36VZFYXpgFVz3Pg0g=="  && localStorageUserId !== "sNl1hra39QmFk9HwvXETJA==")
+      const contact_type_edit =!isLikeRdAccount
           ? document.getElementById("field_contact_type" + profile_user_id)
             .value
           : "";
@@ -637,8 +635,7 @@ const WebinarSelectSmartListUsers = (props) => {
         const edit_index = document.getElementById(
           "field_index" + data?.profile_user_id
         ).value;
-        const contact_type_edit =
-          (localStorageUserId !=="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") !== "MXl8m36VZFYXpgFVz3Pg0g=="  && localStorageUserId != "sNl1hra39QmFk9HwvXETJA==")
+        const contact_type_edit =!isLikeRdAccount
             ? document.getElementById(
               "field_contact_type" + data.profile_user_id
             ).value
@@ -708,12 +705,11 @@ const WebinarSelectSmartListUsers = (props) => {
         email: "",
         contact_type: "",
         country: "",
-        role:
-          (localStorageUserId =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
+        role:isLikeRdAccount
             ? irtRole?.[0]?.value
             : "",
-        optIrt: (localStorageUserId =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") ? "yes" : "",
-        institutionType: (localStorageUserId == userId)
+        optIrt: isLikeRdAccount? "yes" : "",
+        institutionType: (isLikeRdAccount)
         ? "Study site"
         : "",
     siteNumber: "",
@@ -743,7 +739,7 @@ const WebinarSelectSmartListUsers = (props) => {
   const saveClicked = async () => {
     if (activeManual == "active") {
       const body_data = hpc?.map((data) => {
-        if (localStorageUserId =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") {
+        if (isLikeRdAccount) {
           return {
             first_name: data?.firstname,
             last_name: data?.lastname,
@@ -777,7 +773,7 @@ const WebinarSelectSmartListUsers = (props) => {
 
 
       const status = body?.data?.map((data, index) => {
-        if (localStorageUserId == userId) {
+        if (isLikeRdAccount) {
           if (data?.first_name == "") {
             setValidationError({
               newHcpFirstName: "Please enter the first name",
@@ -1021,7 +1017,7 @@ const WebinarSelectSmartListUsers = (props) => {
                             : null
                         }
                       >
-                        {localStorageUserId == userId
+                        {isLikeRdAccount
                           ? "Select Users"
                           : "Select HCPs"}
                       </Link>
@@ -1316,8 +1312,7 @@ const WebinarSelectSmartListUsers = (props) => {
                                     </span>
                                   </th>
 
-                                  {(localStorage.getItem("user_id") ==
-                                    "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="|| localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ? (
+                                  {isLikeRdAccount ? (
                                     <>
                                       <th scope="col" className="sort_option">
                                         <span onClick={() => handleSort('site_number')}>
@@ -1511,14 +1506,12 @@ const WebinarSelectSmartListUsers = (props) => {
                                               : "N/A"}
                                           </span>
                                         </td>
-                                        {(localStorage.getItem("user_id") ==
-                                          "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") && (<>
+                                        {isLikeRdAccount && (<>
                                             <td>
                                               {user?.site_number ? user?.site_number : "N/A"}
                                             </td></>)}
                                         <td>
-                                          {(localStorage.getItem("user_id") ===
-                                            "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                                          {isLikeRdAccount
                                             ? user?.irt
                                               ? "Yes"
                                               : "No"
@@ -1526,8 +1519,7 @@ const WebinarSelectSmartListUsers = (props) => {
                                               ? user.ibu
                                               : "N/A"}
                                         </td>
-                                        {(localStorage.getItem("user_id") ===
-                                          "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="|| localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ? (
+                                        {isLikeRdAccount ? (
                                           <td>
                                             {user?.user_type !== 0
                                               ? user.user_type
@@ -1737,8 +1729,7 @@ const WebinarSelectSmartListUsers = (props) => {
                                     </span>
                                   </th>
 
-                                  {(localStorage.getItem("user_id") ==
-                                    "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ? (
+                                  {isLikeRdAccount ? (
                                     <>
                                       <th scope="col" className="sort_option">
                                         <span onClick={() => handleSort('site_number')}>
@@ -1958,13 +1949,11 @@ const WebinarSelectSmartListUsers = (props) => {
                                           </span>
                                         )}
                                       </td>
-                                      {(localStorage.getItem("user_id") ==
-                                        "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") && (<>
+                                      {isLikeRdAccount && (<>
                                           <td>{reader?.site_number ? reader?.site_number : "N/A"}
                                           </td></>)}
                                       <td>
-                                        {(localStorage.getItem("user_id") ===
-                                          "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                                        {isLikeRdAccount
                                           ? reader.irt
                                             ? "Yes"
                                             : "No"
@@ -1973,8 +1962,7 @@ const WebinarSelectSmartListUsers = (props) => {
                                             : "N/A"}
                                       </td>
                                       <td>
-                                        {(localStorage.getItem("user_id") ===
-                                          "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ? (
+                                        {isLikeRdAccount ? (
                                           <span>
                                             {reader.user_type !== 0
                                               ? reader.user_type
@@ -2185,8 +2173,7 @@ const WebinarSelectSmartListUsers = (props) => {
                                     </span>
                                   </th>
 
-                                  {(localStorage.getItem("user_id") ==
-                                    "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ? (
+                                  {isLikeRdAccount ? (
                                     <>
                                       <th scope="col" className="sort_option">
                                         <span onClick={() => handleSort('site_number')}>
@@ -2380,14 +2367,12 @@ const WebinarSelectSmartListUsers = (props) => {
                                               : "N/A"}
                                           </span>
                                         </td>
-                                        {(localStorage.getItem("user_id") ==
-                                          "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") && (<>
+                                        {isLikeRdAccount && (<>
                                             <td>
                                               {user?.site_number ? user?.site_number : "N/A"}
                                             </td></>)}
                                         <td>
-                                          {(localStorage.getItem("user_id") ===
-                                            "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                                          {isLikeRdAccount
                                             ? user?.irt
                                               ? "Yes"
                                               : "No"
@@ -2395,8 +2380,7 @@ const WebinarSelectSmartListUsers = (props) => {
                                               ? user.ibu
                                               : "N/A"}
                                         </td>
-                                        {(localStorage.getItem("user_id") ===
-                                          "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ? (
+                                        {isLikeRdAccount ? (
                                           <td>
                                             {user?.user_type !== 0
                                               ? user.user_type
@@ -2624,8 +2608,7 @@ const WebinarSelectSmartListUsers = (props) => {
                                     </span>
                                   </th>
 
-                                  {(localStorage.getItem("user_id") ==
-                                    "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ? (
+                                  {isLikeRdAccount ? (
                                     <>
                                       <th scope="col" className="sort_option">
                                         <span onClick={() => handleSort('site_number')}>
@@ -2852,13 +2835,11 @@ const WebinarSelectSmartListUsers = (props) => {
                                               </span>
                                             )}
                                           </td>
-                                          {(localStorage.getItem("user_id") ==
-                                            "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") && (<>
+                                          {isLikeRdAccount && (<>
                                               <td>{reader?.site_number ? reader?.site_number : "N/A"}
                                               </td></>)}
                                           <td>
-                                            {(localStorage.getItem("user_id") ===
-                                              "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                                            {isLikeRdAccount
                                               ? reader?.irt
                                                 ? "Yes"
                                                 : "No"
@@ -2868,8 +2849,7 @@ const WebinarSelectSmartListUsers = (props) => {
                                           </td>
 
                                           <td>
-                                            {(localStorage.getItem("user_id") ===
-                                              "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ? (
+                                            {isLikeRdAccount ? (
                                               <span>
                                                 {reader.user_type !== 0
                                                   ? reader?.user_type

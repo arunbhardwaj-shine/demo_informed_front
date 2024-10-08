@@ -6,6 +6,8 @@ import { Route, Navigate, useNavigate } from "react-router-dom";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const SetLayout = () => {
+  const rdLikeArray = ["56Ek4feL/1A8mZgIKQWEqg==", "sNl1hra39QmFk9HwvXETJA==", "MXl8m36VZFYXpgFVz3Pg0g=="]
+  const isLikeRdAccount = rdLikeArray.includes(localStorage.getItem("user_id"))
   let dummyData = [
     {
       image: `${path_image}library-icon.svg`,
@@ -39,7 +41,7 @@ const SetLayout = () => {
         subtitle: "All your licensed content in one place",
       });
     }
-    // if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+    // if (isLikeRdAccount) {
     //   newdata.push({
     //     image: `${path_image}q-polling.svg`,
     //     title: "Q & Poll  ",
@@ -49,10 +51,7 @@ const SetLayout = () => {
     if (
       typeof localStorage.getItem("webinar_flag") !== "undefined" &&
       localStorage.getItem("webinar_flag") == 1 || localStorage.getItem("user_id") === "IJype v19WASFcSlrfRENQ=="
-      // localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==" &&
-      // localStorage.getItem("user_id") != "UbCJcnLM9fe HsRMgX8c1A==" &&
-      // localStorage.getItem("user_id") != "z2TunmZQf3QwCsICFTLGGQ==" &&
-      // localStorage.getItem("user_id") != "qDgwPdToP05Kgzc g2VjIQ=="
+
     ) {
       newdata.push({
         image: `${path_image}webinar-icon.svg`,
@@ -70,13 +69,10 @@ const SetLayout = () => {
     setActive(title);
     if (title == "Library") {
       navigate("/library-content");
-      // (localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id")=="sNl1hra39QmFk9HwvXETJA==")
-      //  ? navigate("/library-mandatory")
-      //  :navigate("/library-content");
     } else if (title == "CRM") {
-       (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
-       ?navigate("/IRT-Mandatory")
-       :navigate("/readers-view");
+      (isLikeRdAccount)
+        ? navigate("/IRT-Mandatory")
+        : navigate("/readers-view");
     } else if (title == "Analytics") {
       localStorage.getItem("group_id") == 2
         ? navigate("/content-analytics")
@@ -84,31 +80,29 @@ const SetLayout = () => {
           ? navigate("/totalhcp")
           : localStorage.getItem("user_id") == "iSnEsKu5gB/DRlycxB6G4g=="
             ? navigate("/octalatch-totalhcp")
-            : (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" 
-            ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
-              ? navigate("/LEX-210-analytics")
-              : localStorage.getItem("user_id") == "wW0geGtDPvig5gF 6KbJrg=="
-                ? navigate("/totalhcp")
-                : localStorage.getItem("user_id") == "UbCJcnLM9fe HsRMgX8c1A=="
+            : localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? navigate("/LEX-210-analytics")
+              :
+              (localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==")
+                ? navigate("/trial-analytics")
+                : localStorage.getItem("user_id") == "wW0geGtDPvig5gF 6KbJrg=="
                   ? navigate("/totalhcp")
-                  : localStorage.getItem("user_id") == "z2TunmZQf3QwCsICFTLGGQ=="
+                  : localStorage.getItem("user_id") == "UbCJcnLM9fe HsRMgX8c1A=="
                     ? navigate("/totalhcp")
-                    : localStorage.getItem("user_id") == "qDgwPdToP05Kgzc g2VjIQ=="
+                    : localStorage.getItem("user_id") == "z2TunmZQf3QwCsICFTLGGQ=="
                       ? navigate("/totalhcp")
-                      : navigate("/content-analytics");
+                      : localStorage.getItem("user_id") == "qDgwPdToP05Kgzc g2VjIQ=="
+                        ? navigate("/totalhcp")
+                        : navigate("/content-analytics");
     } else if (title == "Email") {
-      // localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" 
-      //   ? navigate("/IRTRole")
-        // :
-        navigate("/EmailList");
+
+      navigate("/EmailList");
     } else if (title == "Webinar") {
       if (
         typeof localStorage.getItem("webinar_flag") !== "undefined" &&
         localStorage.getItem("webinar_flag") == 1
         ||
         localStorage.getItem("user_id") === "IJype v19WASFcSlrfRENQ=="
-        // &&
-        // localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" 
+
       ) {
         navigate("/webinar/event-listing")
         // window.open(
@@ -122,7 +116,7 @@ const SetLayout = () => {
       // navigate("/license-content");
       navigate("/license-content");
     } else if (title == "Q&A/SURVEY") {
-      if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
+      if (isLikeRdAccount) {
         window.open(
           "https://webinar.informed.pro/webinar/qa_survey?rdylr=" +
           localStorage.getItem("user_id"),

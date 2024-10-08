@@ -32,6 +32,8 @@ const defaultPdfRole = {
 
 const color = ["#fee9b9", "#fec037", "#e4a923", "#c28b0c"];
 const RDAnalytics = () => {
+  const accountMapping={"56Ek4feL/1A8mZgIKQWEqg==":2147501188,"sNl1hra39QmFk9HwvXETJA==":2147536982,"MXl8m36VZFYXpgFVz3Pg0g==":2147537506}
+
   const [show, setShow] = useState();
   const location = useLocation()
   const [totalSiteNumber, setTotalSiteNumber] = useState();
@@ -909,7 +911,7 @@ const RDAnalytics = () => {
   const allEngagement = async () => {
     try {
       loader("show");
-      const response = await axios.get(`https://webinar.docintel.app/lmn/api/analytics/rd_all_site_engagement?uid=${localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? 2147536982 : localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" ? 2147537506 : 2147501188}`, {
+      const response = await axios.get(`https://webinar.docintel.app/lmn/api/analytics/rd_all_site_engagement?uid=${accountMapping[localStorage.getItem("user_id")] ||  2147501188}`, {
         responseType: 'blob',
       });
       // Create a blob and download the file
@@ -1210,7 +1212,7 @@ const RDAnalytics = () => {
               <div className="page-title d-flex">
                 <h2>
                   {
-                    location.pathname == '/LEX-210-analytics' ? localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" ?"Gena":"LEX-210 " : "Trial Analytics"
+                    location.pathname == '/LEX-210-analytics' ? "LEX-210" :localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" ?"Gena": "Trial Analytics"
                   }
 
                 </h2>

@@ -21,6 +21,10 @@ import SmartListTableLayout from "../CommonComponent/SmartListTableLayout";
 
 var state_object = {};
 const TemplateBuilder = (props) => {
+  const accountMapping={"56Ek4feL/1A8mZgIKQWEqg==":2147501188,"sNl1hra39QmFk9HwvXETJA==":2147536982,"MXl8m36VZFYXpgFVz3Pg0g==":2147537506}
+
+  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
+  const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
   const editorRef = useRef(null);
   const ref = useRef(null);
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -46,8 +50,6 @@ const TemplateBuilder = (props) => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [counterFlag, setCounterFlag] = useState(0);
   const [activeManual, setActiveManual] = useState("active");
-
-  const userId= "56Ek4feL/1A8mZgIKQWEqg==";
   const [templateList, setTemplateList] = useState([]);
   const [editableTemplate, setEdiatbleTemplate] = useState(false);
   const [template, setTemplate] = useState("");
@@ -102,15 +104,13 @@ const TemplateBuilder = (props) => {
       email: "",
       contact_type: "",
       country: "",
-      role:
-        localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+      role:isLikeRdAccount
           ?"Site User-Blinded"
           : "",
-      optIrt:
-        localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+      optIrt:isLikeRdAccount
           ? "yes"
           : "",
-          institutionType: localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+          institutionType:isLikeRdAccount
           ? "Study site"
           : "",
         siteNumber: "",
@@ -210,7 +210,7 @@ const TemplateBuilder = (props) => {
   
             setCountryall(arr);
   
-            if (localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
+            if (isLikeRdAccount) {
               let investigator_type =
                 res?.data?.response?.data?.investigator_type;
               let newType = [];
@@ -272,7 +272,7 @@ const TemplateBuilder = (props) => {
   };
   useEffect(() => {
     loader("show");
-    if (localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
+    if (isLikeRdAccount) {
       axiosFun();
     }
    
@@ -281,7 +281,7 @@ const TemplateBuilder = (props) => {
   }, []);
   const axiosFun = async () => {
     try {
-      const result = await axios.get(`emailapi/get_site?uid=${localStorage.getItem("user_id")=="sNl1hra39QmFk9HwvXETJA=="?2147536982:2147501188}`);
+      const result = await axios.get(`emailapi/get_site?uid=${accountMapping[localStorage.getItem("user_id")] || 2147501188}`);
 
       let country = result?.data?.response?.data?.site_country_data;
       let arr = [];
@@ -468,7 +468,7 @@ const TemplateBuilder = (props) => {
 
   const addMoreHcp = () => {
     const status = hpc.map((data) => {
-      if (localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
+      if (isLikeRdAccount) {
         if(data?.optIrt=="yes"){
           if (data?.email == "" || data?.institutionType == "" || data?.first_name == "" || data?.last_name == "" ||data?.role==""
             || data?.country == ""||data?.siteName==""||data?.siteNumber=="") {
@@ -511,15 +511,13 @@ const TemplateBuilder = (props) => {
           email: "",
           contact_type: "",
           country: "",
-          role:
-            localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+          role:isLikeRdAccount
               ? irtRole?.[0]?.value
               : "",
-          optIrt:
-            localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+          optIrt:isLikeRdAccount
               ? "yes"
               : "",
-              institutionType: localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+              institutionType: isLikeRdAccount
               ? irtInstitutionType?.[0]?.value
               : "",
             siteNumber: "",
@@ -527,7 +525,7 @@ const TemplateBuilder = (props) => {
         },
       ]);
     } else {
-      if (localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
+      if (isLikeRdAccount) {
         toast.warning("Please input the required fields.");
       } else {
         toast.warning("Please input the required fields.");
@@ -882,15 +880,13 @@ const TemplateBuilder = (props) => {
         email: "",
         contact_type: "",
         country: "",
-        role:
-          localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+        role:isLikeRdAccount
             ? "Site User-Blinded"
             : "",
-        optIrt:
-          localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="|| localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+        optIrt:isLikeRdAccount
             ? "yes"
             : "",
-            institutionType: localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+            institutionType: isLikeRdAccount
             ? "Study site"
             : "",
           siteNumber: "",
@@ -1040,7 +1036,7 @@ const TemplateBuilder = (props) => {
       list[i].countryIndex = "";
       setHpc(list);
     } else {
-      if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="|| localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") {
+      if (isLikeRdAccount) {
         let consetValue = e.value;
         if (e.value == "B&H") {
           consetValue = "Bosnia and Herzegovina";
@@ -1088,7 +1084,7 @@ const TemplateBuilder = (props) => {
   const saveClicked = async () => {    
     if (activeManual == "active") {
       const body_data = hpc.map((data) => {
-        if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="|| localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
+        if (isLikeRdAccount) {
           return {
             first_name: data.firstname,
             last_name: data.lastname,
@@ -1120,7 +1116,7 @@ const TemplateBuilder = (props) => {
       };
 
       const status = body.data.map((data, index) => {
-        if (localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
+        if (isLikeRdAccount) {
           if (data?.first_name == "") {
             setValidationError({
               firstName: "Please enter the first name",
@@ -2967,17 +2963,13 @@ const TemplateBuilder = (props) => {
                     email: "",
                     contact_type: "",
                     country: "",
-                    role:
-                      localStorage.getItem("user_id") ==
-                        "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="|| localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+                    role:isLikeRdAccount
                         ? irtRole?.[0]?.value
                         : "",
-                    optIrt:
-                      localStorage.getItem("user_id") ==
-                        "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="|| localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+                    optIrt:isLikeRdAccount
                         ? "yes"
                         : "",
-                        institutionType: localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+                        institutionType: isLikeRdAccount
                         ? irtInstitutionType?.[0]?.value
                         : "",
                       siteNumber: "",
@@ -3007,8 +2999,7 @@ const TemplateBuilder = (props) => {
                                 <div className="form-group">
                                   <label htmlFor="">
                                     First name
-                                    {localStorage.getItem("user_id") ==
-                                      "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="|| localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? (
+                                    {isLikeRdAccount? (
                                       <span> *</span>
                                     ) : null}
                                   </label>
@@ -3016,8 +3007,7 @@ const TemplateBuilder = (props) => {
                                     type="text"
                                     className={
                                       validationError?.firstName&&validationError?.index==i &&
-                                        (localStorage.getItem("user_id") ==
-                                        "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                                        (isLikeRdAccount)
                                         ? "form-control error"
                                         : "form-control"
                                     }
@@ -3028,8 +3018,7 @@ const TemplateBuilder = (props) => {
                                     placeholder="First name"
                                   />
                                   { validationError?.firstName&&validationError?.index==i  &&
-                                    localStorage.getItem("user_id") ==
-                                    "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? (
+                                 isLikeRdAccount? (
                                     <div className="login-validation">
                                       {validationError?.firstName}
                                     </div>
@@ -3040,8 +3029,7 @@ const TemplateBuilder = (props) => {
                                 <div className="form-group">
                                   <label htmlFor="">
                                     Last name
-                                    {localStorage.getItem("user_id") ==
-                                      "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? (
+                                    {isLikeRdAccount? (
                                       <span> *</span>
                                     ) : null}
                                   </label>
@@ -3049,8 +3037,7 @@ const TemplateBuilder = (props) => {
                                     type="text"
                                     className={
                                       validationError?.lastName&&validationError?.index==i  &&
-                                        (localStorage.getItem("user_id") ==
-                                        "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="|| localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                                      isLikeRdAccount
                                         ? "form-control error"
                                         : "form-control"
                                     }
@@ -3061,8 +3048,7 @@ const TemplateBuilder = (props) => {
                                     placeholder="Last name"
                                   />
                                   { validationError?.lastName&&validationError?.index==i &&
-                                    localStorage.getItem("user_id") ==
-                                    "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? (
+                                  isLikeRdAccount? (
                                     <div className="login-validation">
                                       {validationError?.lastName}
                                     </div>
@@ -3099,8 +3085,7 @@ const TemplateBuilder = (props) => {
                                 </div>
                               </div>
 
-                              {localStorage.getItem("user_id") ===
-                                "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" || localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==" ? (
+                              {isLikeRdAccount ? (
                                 <>
                                   {" "}
                                   <div className="col-12 col-md-6">
@@ -3345,8 +3330,7 @@ const TemplateBuilder = (props) => {
                                 <div className="form-group">
                                   <label htmlFor="">
                                     Country
-                                    {(localStorage.getItem("user_id") ==
-                                      "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") ==
+                                    {(isLikeRdAccount|| localStorage.getItem("user_id") ==
                                       "m5JI5zEDY3xHFTZBnSGQZg==") ? (
                                       <span> *</span>
                                     ) : null}
@@ -3357,8 +3341,7 @@ const TemplateBuilder = (props) => {
                                      
                                       className={
                                         validationError?.country && validationError?.index==i &&
-                                          (localStorage.getItem("user_id") ==
-                                          "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                                          (isLikeRdAccount)
                                           ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
                                           : "dropdown-basic-button split-button-dropup edit-country-dropdown"
                                       }
@@ -3386,8 +3369,7 @@ const TemplateBuilder = (props) => {
                                       // className="dropdown-basic-button split-button-dropup edit-country-dropdown"
                                       className={
                                         validationError?.country && validationError?.index==i &&
-                                          (localStorage.getItem("user_id") ==
-                                            "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="|| localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") ==
+                                          (isLikeRdAccount|| localStorage.getItem("user_id") ==
                                             "m5JI5zEDY3xHFTZBnSGQZg==")
                                           ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
                                           : "dropdown-basic-button split-button-dropup edit-country-dropdown"
@@ -3412,8 +3394,7 @@ const TemplateBuilder = (props) => {
                                     />
                                   )}
                                   { validationError?.country && validationError?.index==i &&
-                                    (localStorage.getItem("user_id") ==
-                                      "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") ==
+                                    (isLikeRdAccount || localStorage.getItem("user_id") ==
                                       "m5JI5zEDY3xHFTZBnSGQZg==") ? (
                                     <div className="login-validation">
                                       {validationError?.country}
@@ -3465,8 +3446,7 @@ const TemplateBuilder = (props) => {
                                   </DropdownButton>
                                 </div>
                               </div> */}
-                              {localStorage.getItem("user_id") ==
-                                "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? (
+                              {isLikeRdAccount ? (
                                 <>
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
@@ -3574,7 +3554,7 @@ const TemplateBuilder = (props) => {
                                     data-bs-toggle="tab"
                                     href="javascipt:;"
                                   >
-                                    {localStorage.getItem("user_id") == userId ||  localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+                                    {isLikeRdAccount
                                       ? "Add User +"
                                       : "Add HCP +"}
                                   </a>

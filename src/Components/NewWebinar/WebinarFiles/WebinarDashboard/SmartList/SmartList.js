@@ -43,8 +43,10 @@ const SmartList = (props) => {
   const [userObj, setUserObj] = useState({
     "name":""
   });
-   const deletButtonColor = (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ? '#8A4E9C' : '#0066be'
-   const isRDAccount = localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id")==="sNl1hra39QmFk9HwvXETJA=="
+  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
+  const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
+   const deletButtonColor = isLikeRdAccount ? '#8A4E9C' : '#0066be'
+   const isRDAccount = isLikeRdAccount
   const [modelData,setModelData] =  useState([
     {
       label: "Name",
@@ -69,7 +71,6 @@ const SmartList = (props) => {
 
   const body = {
     user_id: localStorageUserId,
-    // user_id: "56Ek4feL/1A8mZgIKQWEqg==",
     search: search,
     filter: filter,
     paging: "31",
@@ -428,7 +429,7 @@ const SmartList = (props) => {
             <div className="top-header sticky">
               <div className="page-title">{/* <h2>Smart List</h2> */}</div>
               <div className="top-right-action">
-              {localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" ? (
+              {isLikeRdAccount? (
                 <>
                   <div className="action-btn-add" style={{margin:"0"}}>
                   <Link  to="/webinar/email/smartlist/createsmartlist"
@@ -887,9 +888,7 @@ const SmartList = (props) => {
                 //   getFilterCreator.length == 0 &&
                 //   getFilterIbu.length == 0 &&
                 //   filterdate.length == 0 &&
-                  !deletestatus && (
-                    localStorage.getItem("user_id") !=="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") !== "MXl8m36VZFYXpgFVz3Pg0g=="  &&
-                    localStorage.getItem("user_id") !== "sNl1hra39QmFk9HwvXETJA==" && (
+                  !deletestatus && (!isLikeRdAccount && (
                     <div className="smartlist_box_block">
                       <div className="smartlist-add smartlist-view">
                           <>
@@ -1064,7 +1063,7 @@ const SmartList = (props) => {
                   <>
                   <div className="mail_trigger_right_dummy">
                     <div className="mail_trigger_dummy_content d-flex justify-content-center">
-                    {localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" ?
+                    {isLikeRdAccount ?
                       <h3>Create your first smart list by clicking on Create List button</h3>: <h3>Create your first smart list by clicking on <img src={path_image + "add_smartlist.svg"} alt="" /></h3>}
                     </div>
                   </div>

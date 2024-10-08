@@ -7,6 +7,8 @@ import { postData } from "../axios/apiHelper";
 import { ENDPOINT } from "../axios/apiConfig";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const ChangePassword = () => {
+  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA=="]
+  const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
   const [user, setUser] = useState({});
   const [error, setError] = useState({});
   const [enable, setEnable] = useState({});
@@ -28,7 +30,7 @@ const ChangePassword = () => {
       loader("show");
       await postData(ENDPOINT.CHANGE_PASSWORD, user);
       loader("hide");     
-      if(localStorage.getItem('user_id')==="56Ek4feL/1A8mZgIKQWEqg==" ){
+      if(isLikeRdAccount){
         navigate("/home-timeline");
       }else{
         navigate("/home");

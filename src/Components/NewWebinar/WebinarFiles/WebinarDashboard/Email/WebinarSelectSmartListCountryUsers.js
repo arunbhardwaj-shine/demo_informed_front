@@ -16,7 +16,8 @@ import { useSidebar } from "../../../../CommonComponent/LoginLayout";
 var old_object = {};
 
 const WebinarSelectSmartListCountryUsers = (props) => {
-
+    const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
+    const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
     const [totalData, setTotalData] = useState({});
     const navigate = useNavigate();
     const { eventIdContext, handleEventId } = useSidebar()
@@ -45,7 +46,7 @@ const WebinarSelectSmartListCountryUsers = (props) => {
     const [removedReaders, setRemovedReaders] = useState([]);
     const [readersNewlyAdded, setReadersNewlyAdded] = useState([]);
     const [reRender, setReRender] = useState(0);
-    const [userId, setUserId] = useState(localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA=="?"sNl1hra39QmFk9HwvXETJA==":"56Ek4feL/1A8mZgIKQWEqg==");
+    const [userId, setUserId] = useState(isLikeRdAccount?localStorage.getItem("user_id"):"56Ek4feL/1A8mZgIKQWEqg==");
     const [update, setUpdate] = useState(0);
     const [activeManual, setActiveManual] = useState("active");
     const [activeExcel, setActiveExcel] = useState("");
@@ -474,11 +475,7 @@ const WebinarSelectSmartListCountryUsers = (props) => {
                 contact_type: "",
                 country: "",
 
-                optIrt:
-                    (localStorage.getItem("user_id") ==
-                        "56Ek4feL/1A8mZgIKQWEqg=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
-                        ? "yes"
-                        : "",
+                optIrt:isLikeRdAccount,
                 institutionType: "",
             },
         ]);
@@ -577,8 +574,7 @@ const WebinarSelectSmartListCountryUsers = (props) => {
                 "field_country" + profile_user_id
             ).value;
 
-            const contact_type_edit =
-                (localStorage.getItem("user_id") !=="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") !== "MXl8m36VZFYXpgFVz3Pg0g=="  && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==")
+            const contact_type_edit =!isLikeRdAccount
                     ? document.getElementById("field_contact_type" + profile_user_id)
                         .value
                     : "";
@@ -883,8 +879,7 @@ const WebinarSelectSmartListCountryUsers = (props) => {
                 const edit_index = document.getElementById(
                     "field_index" + data?.profile_user_id
                 ).value;
-                const contact_type_edit =
-                    (localStorage.getItem("user_id") !=="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") !== "MXl8m36VZFYXpgFVz3Pg0g=="   && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==")
+                const contact_type_edit =!isLikeRdAccount
                         ? document.getElementById(
                             "field_contact_type" + data?.profile_user_id
                         ).value
@@ -1097,7 +1092,7 @@ const WebinarSelectSmartListCountryUsers = (props) => {
                                                         : null
                                                 }
                                             >
-                                                {localStorage.getItem("user_id") == userId
+                                                {isLikeRdAccount
                                                     ? "Select Users"
                                                     : "Select HCPs"}
                                             </Link>
@@ -1414,8 +1409,7 @@ const WebinarSelectSmartListCountryUsers = (props) => {
                                                             </td>
                                                             <td>
                                                                 {/*rr?.ibu ? rr?.ibu : "N/A"*/}
-                                                                {(localStorage.getItem("user_id") ==
-                                                                    "56Ek4feL/1A8mZgIKQWEqg=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                                                                {isLikeRdAccount
                                                                     ? rr?.irt
                                                                         ? "Yes"
                                                                         : "No"
@@ -1423,8 +1417,7 @@ const WebinarSelectSmartListCountryUsers = (props) => {
                                                                         ? rr?.ibu
                                                                         : "N/A"}
                                                             </td>
-                                                            {(localStorage.getItem("user_id") ==
-                                                                "56Ek4feL/1A8mZgIKQWEqg=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ? (
+                                                            {isLikeRdAccount? (
                                                                 <td>
                                                                     {rr?.user_type != 0 ? rr?.user_type : "N/A"}
                                                                 </td>
@@ -1644,8 +1637,7 @@ const WebinarSelectSmartListCountryUsers = (props) => {
                                                                                     }
                                                                                 </td>
                                                                                 <td>
-                                                                                    {(localStorage.getItem("user_id") ==
-                                                                                        "56Ek4feL/1A8mZgIKQWEqg=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ? (
+                                                                                    {isLikeRdAccount ? (
                                                                                         <span>
                                                                                             {readers?.user_type != 0
                                                                                                 ? readers?.user_type

@@ -22,6 +22,9 @@ import EditCountry from "../../CommonComponent/EditCountry";
 import EditContactType from "../../CommonComponent/EditContactType";
 import Select, { createFilter } from "react-select";
 const Table = (props, ref) => {
+  const accountMapping={"56Ek4feL/1A8mZgIKQWEqg==":2147501188,"sNl1hra39QmFk9HwvXETJA==":2147536982,"MXl8m36VZFYXpgFVz3Pg0g==":2147537506}
+  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
+  const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
   const [inEditMode, setInEditMode] = useState({
     status: false,
     rowKey: null,
@@ -82,9 +85,7 @@ const Table = (props, ref) => {
   const [emailChanged, setEmailChanged] = useState("");
   const [getStorageState, setStorageState] = useState(false);
   let file_name = useRef("");
-  const [userId, setUserId] = useState(localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
-    ? "sNl1hra39QmFk9HwvXETJA==" : localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
-    ? "MXl8m36VZFYXpgFVz3Pg0g==":"56Ek4feL/1A8mZgIKQWEqg==");
+  const [userId, setUserId] = useState(isLikeRdAccount?localStorage.getItem("user_id"): "56Ek4feL/1A8mZgIKQWEqg==");
 
   const [siteStreetAll, setSiteStreetAll] = useState([]);
   const [siteCityAll, setSiteCityAll] = useState([]);
@@ -106,7 +107,7 @@ const Table = (props, ref) => {
   const [sortOrder, setSortOrder] = useState('asc');
   const [showReaders, setShowSaveReader] = useState(false);
   useEffect(() => {
-    if (localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
+    if (isLikeRdAccount) {
       axiosFun();
     }
     const getalCountry = async () => {
@@ -147,7 +148,7 @@ const Table = (props, ref) => {
 
             let arr = [];
 
-            if (localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
+            if (isLikeRdAccount) {
               user_type = res.data.response.data.investigator_type;
               sub_role = res.data.response.data.sub_role;
               blind_type = res.data.response.data.blind_type;
@@ -189,7 +190,7 @@ const Table = (props, ref) => {
               });
             });
 
-            if (localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
+            if (isLikeRdAccount) {
               Object.entries(site_number).map(([index, item]) => {
                 let label = item;
 
@@ -288,7 +289,7 @@ const Table = (props, ref) => {
             }
 
             setCountryall(arr);
-            if (localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
+            if (isLikeRdAccount) {
               setIrtRole(arrIrtUserType);
               setInstituions(arrinstitutions);
 
@@ -326,24 +327,24 @@ const Table = (props, ref) => {
       country: "",
       countryIndex: "",
       siteIrt:
-        localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+        isLikeRdAccount
           ? siteIrtAll?.find((item) => item?.value == "Yes")?.value
           : "",
       siteIrtIndex:
-        localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+        isLikeRdAccount
           ? siteIrtAll?.findIndex((item) => item?.value == "Yes")
           : "",
       userType:
-        localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+        isLikeRdAccount
           ? irtRole?.[0]?.value
           : "",
       roleIndex:
-        localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? 0 : "",
+        isLikeRdAccount ? 0 : "",
 
-      institute: localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+      institute: isLikeRdAccount
         ? irtInstitutionType?.[0]?.value
         : "",
-      instituteIndex: localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? 0 : "",
+      instituteIndex: isLikeRdAccount ? 0 : "",
       siteNumber: "",
       siteName: ""
     },
@@ -351,8 +352,7 @@ const Table = (props, ref) => {
 
   const axiosFun = async () => {
     try {
-     
-      const result = await axios.get(`emailapi/get_site?uid=${localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? 2147536982 : localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" ? 2147537506 : 2147501188}`);
+      const result = await axios.get(`emailapi/get_site?uid=${accountMapping[localStorage.getItem("user_id")]|| 2147501188}`);
 
       let country = result?.data?.response?.data?.site_country_data;
       let arr = [];
@@ -655,25 +655,25 @@ const Table = (props, ref) => {
         country: "",
         countryIndex: "",
         userType:
-          localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+          isLikeRdAccount
             ? irtRole?.[0]?.value
             : "",
         roleIndex:
-          localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+          isLikeRdAccount
             ? 0
             : "",
         siteIrt:
-          localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+          isLikeRdAccount
             ? siteIrtAll?.find((item) => item?.value == "Yes")?.value
             : "",
         siteIrtIndex:
-          localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+          isLikeRdAccount
             ? siteIrtAll?.findIndex((item) => item?.value == "Yes")
             : "",
-        institute: localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+        institute: isLikeRdAccount
           ? irtInstitutionType?.[0]?.value
           : "",
-        instituteIndex: localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? 0 : "",
+        instituteIndex: isLikeRdAccount ? 0 : "",
         siteNumber: "",
         siteName: ""
       },
@@ -1208,19 +1208,19 @@ const Table = (props, ref) => {
           country: "",
           countryIndex: "",
           userType:
-            localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+            isLikeRdAccount
               ? irtRole?.[0]?.value
               : "",
           roleIndex:
-            localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+            isLikeRdAccount
               ? 0
               : "",
           siteIrt:
-            localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+            isLikeRdAccount
               ? siteIrtAll?.find((item) => item?.value == "Yes")?.value
               : "",
           siteIrtIndex:
-            localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+            isLikeRdAccount
               ? siteIrtAll?.findIndex((item) => item?.value == "Yes")
               : "",
           institute: localStorage.getItem("user_id") == userId
@@ -1232,7 +1232,7 @@ const Table = (props, ref) => {
         },
       ]);
     } else {
-      if (localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==") {
+      if (isLikeRdAccount || localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==") {
         toast.warning("Please input the required fields.");
       } else {
         toast.warning("Please input the email atleast.");
@@ -1351,7 +1351,7 @@ const Table = (props, ref) => {
       list[i].countryIndex = "";
       setHpc(list);
     } else {
-      if (localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") === "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
+      if (isLikeRdAccount) {
         let consetValue = e.value;
         if (e.value == "B&H") {
           consetValue = "Bosnia and Herzegovina";
@@ -2087,8 +2087,7 @@ const Table = (props, ref) => {
                       </button>
                     </span>
                   </th>
-                  {localStorage.getItem("user_id") ==
-                    "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? (
+                  {isLikeRdAccount ? (
                     <>
                       <th scope="col" className="sort_option">
                         <span onClick={() => handleSort('site_number')} >
@@ -2300,12 +2299,10 @@ const Table = (props, ref) => {
                           <span>{item?.country ? item?.country : "N/A"}</span>
                         )}
                       </td>
-                      {localStorage.getItem("user_id") ==
-                        "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" && (<><td>{item?.site_number ? item?.site_number : "N/A"}</td></>)}
+                      {isLikeRdAccount&& (<><td>{item?.site_number ? item?.site_number : "N/A"}</td></>)}
                       <td>
                         {/*item.ibu*/}
-                        {localStorage.getItem("user_id") ==
-                          "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+                        {isLikeRdAccount
                           ? item?.irt
                             ? "Yes"
                             : "No"
@@ -2314,8 +2311,7 @@ const Table = (props, ref) => {
                             : "N/A"}
                       </td>
                       <td>
-                        {localStorage.getItem("user_id") ==
-                          "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? (
+                        {isLikeRdAccount ? (
                           <span>
                             {item?.user_type != 0 ? item?.user_type : "N/A"}
                           </span>
@@ -2435,12 +2431,10 @@ const Table = (props, ref) => {
                       {/*showLessInfo == false ? (
                             <td id="field_readers">NA</td>
                           ) : null*/}
-                      {localStorage.getItem("user_id") ==
-                        "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" && (<><td id="field_site_number">{item?.site_number ? item?.site_number : "N/A"}</td></>)}
+                      {isLikeRdAccount&& (<><td id="field_site_number">{item?.site_number ? item?.site_number : "N/A"}</td></>)}
 
                       <td id="field_business_unit">
-                        {localStorage.getItem("user_id") ==
-                          "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+                        {isLikeRdAccount
                           ? item?.irt
                             ? "Yes"
                             : "No"
@@ -2449,8 +2443,7 @@ const Table = (props, ref) => {
                             : "N/A"}
                       </td>
                       <td id="field_interest">
-                        {localStorage.getItem("user_id") ==
-                          "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? (
+                        {isLikeRdAccount ? (
                           <span>
                             {item?.user_type != 0 ? item?.user_type : "N/A"}
                           </span>
@@ -2671,7 +2664,7 @@ const Table = (props, ref) => {
       </Modal>
 
       {/* add new hcps */}
-      {(localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ? (
+      {(isLikeRdAccount) ? (
         <Modal
           id="add_hcp"
           show={isOpenAdd}
@@ -2702,25 +2695,17 @@ const Table = (props, ref) => {
                       contact_type: "",
                       country: "",
                       countryIndex: "",
-                      userType:
-                        localStorage.getItem("user_id") ==
-                          "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+                      userType:isLikeRdAccount
                           ? irtRole?.[0]?.value
                           : "",
-                      roleIndex:
-                        localStorage.getItem("user_id") ==
-                          "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+                      roleIndex:isLikeRdAccount
                           ? 0
                           : "",
-                      siteIrt:
-                        localStorage.getItem("user_id") ==
-                          "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+                      siteIrt:isLikeRdAccount
                           ? siteIrtAll?.find((item) => item?.value == "Yes")
                             ?.value
                           : "",
-                      siteIrtIndex:
-                        localStorage.getItem("user_id") ==
-                          "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+                      siteIrtIndex:isLikeRdAccount
                           ? siteIrtAll?.indexOf((item) => item?.value == "Yes")
                           : "",
                       institute: localStorage.getItem("user_id") == userId
@@ -2757,8 +2742,7 @@ const Table = (props, ref) => {
                                   <div className="form-group">
                                     <label htmlFor="">
                                       First name{" "}
-                                      {(localStorage.getItem("user_id") ==
-                                        "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") && (
+                                      {(isLikeRdAccount) && (
                                           <span> *</span>
                                         )}
                                     </label>
@@ -2784,8 +2768,7 @@ const Table = (props, ref) => {
                                   <div className="form-group">
                                     <label htmlFor="">
                                       Last name{" "}
-                                      {(localStorage.getItem("user_id") ==
-                                        "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") && (
+                                      {(isLikeRdAccount) && (
                                           <span> *</span>
                                         )}
                                     </label>
@@ -2835,8 +2818,7 @@ const Table = (props, ref) => {
                                   </div>
                                 </div>
 
-                                {(localStorage.getItem("user_id") !=
-                                  "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "MXl8m36VZFYXpgFVz3Pg0g=="  && localStorage.getItem("user_id") !== "sNl1hra39QmFk9HwvXETJA==") ? (
+                                {(!isLikeRdAccount) ? (
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
                                       <label for="">Contact type</label>
@@ -2890,8 +2872,7 @@ const Table = (props, ref) => {
                                   </div>
                                 ) : null}
 
-                                {(localStorage.getItem("user_id") !=
-                                  "56Ek4feL/1A8mZgIKQWEqg=="&& localStorage.getItem("user_id") != "MXl8m36VZFYXpgFVz3Pg0g=="  && localStorage.getItem("user_id") !== "sNl1hra39QmFk9HwvXETJA==") ? (
+                                {(!isLikeRdAccount) ? (
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">
                                       <label for="">Country
@@ -2924,8 +2905,7 @@ const Table = (props, ref) => {
                                   </div>
                                 ) : null}
 
-                                {localStorage.getItem("user_id") ==
-                                  "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? (
+                                {isLikeRdAccount ? (
                                   <>
                                     <hr />
                                     <div className="col-12 col-md-6">
@@ -3101,8 +3081,7 @@ const Table = (props, ref) => {
                                       <div className="form-group">
                                         <label for="">
                                           Country{" "}
-                                          {(localStorage.getItem("user_id") ==
-                                            "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ||
+                                          {(isLikeRdAccount ||
                                             localStorage.getItem("user_id") ==
                                             "m5JI5zEDY3xHFTZBnSGQZg==")
                                             && (

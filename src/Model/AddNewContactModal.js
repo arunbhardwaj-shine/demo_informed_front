@@ -6,7 +6,8 @@ import { toast } from "react-toastify";
 const AddNewContactModal = ({ show, closeClicked, activeManual, hpc, setHpc,
   totalData, countryall, irtCountry, irtRole, role, irtInstitutionType, nonIrtInstitution, saveClicked, validationError }) => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
-
+  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
+  const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
   const [siteNameAll, setSiteNameAll] = useState([]);
   const [siteNumberAll, setSiteNumberAll] = useState([]);
   const [counterFlag, setCounterFlag] = useState(0);
@@ -18,13 +19,6 @@ const AddNewContactModal = ({ show, closeClicked, activeManual, hpc, setHpc,
   const filterConfig = {
     matchFrom: "start",
   };
-  const [userId, setUserId] = useState(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-  ? "56Ek4feL/1A8mZgIKQWEqg=="
-  : localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
-      ? "sNl1hra39QmFk9HwvXETJA=="
-      : localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
-      ? "MXl8m36VZFYXpgFVz3Pg0g=="
-      :null);
 
   const onFirstNameChange = (e, i) => {
     const { value } = e.target;
@@ -140,7 +134,7 @@ const AddNewContactModal = ({ show, closeClicked, activeManual, hpc, setHpc,
       list[i].countryIndex = "";
       setHpc(list);
     } else {
-      if (localStorage.getItem("user_id") === userId) {
+      if (isLikeRdAccount) {
         let consetValue = e?.value;
         if (e.value == "B&H") {
           consetValue = "Bosnia and Herzegovina";
@@ -238,7 +232,7 @@ const AddNewContactModal = ({ show, closeClicked, activeManual, hpc, setHpc,
       /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
     const status = hpc?.map((data) => {
-      if (localStorage.getItem("user_id") == userId) {
+      if (isLikeRdAccount) {
         if (data?.optIrt == "yes") {
           if (data?.email == "" || data?.institutionType == "" || data?.first_name == "" || data?.last_name == "" || data?.country == ""
             || data?.role == "" || data?.siteNumber == "" || data?.siteName == "") {
@@ -297,15 +291,13 @@ const AddNewContactModal = ({ show, closeClicked, activeManual, hpc, setHpc,
           email: "",
           contact_type: "",
           country: "",
-          role:
-            (localStorage.getItem("user_id") == userId)
+          role:isLikeRdAccount
               ? irtRole?.[0]?.value
               : "",
-          optIrt:
-            (localStorage.getItem("user_id") == userId)
+          optIrt:isLikeRdAccount
               ? "yes"
               : "",
-          institutionType: (localStorage.getItem("user_id") == userId)
+          institutionType:isLikeRdAccount
             ? irtInstitutionType?.[0]?.value
             : "",
           siteName: "",
@@ -313,7 +305,7 @@ const AddNewContactModal = ({ show, closeClicked, activeManual, hpc, setHpc,
         },
       ]);
     } else {
-      if (localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==") {
+      if (isLikeRdAccount || localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==") {
         toast.warning("Please input the required fields.");
       } else {
         toast.warning("Please input the valid email");
@@ -362,9 +354,7 @@ const AddNewContactModal = ({ show, closeClicked, activeManual, hpc, setHpc,
                               <div className="form-group">
                                 <label htmlFor="">
                                   First name{" "}
-                                  {(localStorage.getItem("user_id") ==
-                                    "56Ek4feL/1A8mZgIKQWEqg=="  || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
-                                    || localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                                  {isLikeRdAccount
                                     && (
                                       <span>*</span>
                                     )}{" "}
@@ -395,9 +385,7 @@ const AddNewContactModal = ({ show, closeClicked, activeManual, hpc, setHpc,
                               <div className="form-group">
                                 <label htmlFor="">
                                   Last name{" "}
-                                  {(localStorage.getItem("user_id") ==
-                                    "56Ek4feL/1A8mZgIKQWEqg=="  || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
-                                    || localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                                  {isLikeRdAccount
                                     && (
                                       <span>*</span>
                                     )}
@@ -454,7 +442,7 @@ const AddNewContactModal = ({ show, closeClicked, activeManual, hpc, setHpc,
                               </div>
                             </div>
 
-                            {(localStorage.getItem("user_id") === userId
+                            {(isLikeRdAccount
                             )
                               ? (
                                 <>
@@ -677,8 +665,7 @@ const AddNewContactModal = ({ show, closeClicked, activeManual, hpc, setHpc,
                               <div className="form-group">
                                 <label htmlFor="">
                                   Country{" "}
-                                  {(localStorage.getItem("user_id") ==
-                                    userId || localStorage.getItem("user_id") ==
+                                  {(isLikeRdAccount|| localStorage.getItem("user_id") ==
                                     "m5JI5zEDY3xHFTZBnSGQZg==") && (
                                       <span>*</span>
                                     )}
@@ -760,7 +747,7 @@ const AddNewContactModal = ({ show, closeClicked, activeManual, hpc, setHpc,
                               </div>
                             </div>
 
-                            {localStorage.getItem("user_id") === userId
+                            {isLikeRdAccount
                               ? (
                                 <>
                                   {" "}
@@ -858,7 +845,7 @@ const AddNewContactModal = ({ show, closeClicked, activeManual, hpc, setHpc,
                                   data-bs-toggle="tab"
                                   href="javascipt:;"
                                 >
-                                  {(localStorage.getItem("user_id") == userId)
+                                  {(isLikeRdAccount)
                                     ? "Add User +"
                                     : "Add HCP +"}
                                 </a>

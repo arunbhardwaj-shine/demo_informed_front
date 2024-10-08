@@ -22,6 +22,8 @@ const ReaderLayout = () => {
 }
 
 const ReaderReview = () => {
+  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
+  const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
   const { state } = useLocation();
   const navigate = useNavigate();
   const [openNotes, setOpenNotes] = useState(false);
@@ -163,9 +165,7 @@ const ReaderReview = () => {
                         <th className="tab-content-title">Primary email </th>
                         <td>{readerData?.email ? readerData?.email : "N/A"}</td>
                       </tr>
-                      {(localStorage.getItem("user_id") ==
-                        "56Ek4feL/1A8mZgIKQWEqg=="
-                        || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                      {isLikeRdAccount
                         ? (
                           <>
                             <tr>
@@ -233,7 +233,7 @@ const ReaderReview = () => {
                           {readerData?.country ? readerData?.country : "N/A"}
                         </td>
                       </tr>
-                      {(localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                      {isLikeRdAccount
                         
                         ? (
                           <>
@@ -328,9 +328,7 @@ const ReaderReview = () => {
                   </div>
                   <div className="crm-review-detail">
                     <table className="tab-mail-list">
-                      {(localStorage.getItem("user_id") ==
-                        "56Ek4feL/1A8mZgIKQWEqg=="
-                        || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                      {isLikeRdAccount
                         ? (
                           <>
                             <tr>

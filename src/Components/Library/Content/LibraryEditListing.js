@@ -26,6 +26,8 @@ import moment from "moment";
 import QRCode from "qrcode.react";
 
 const LibraryEditListing = () => {
+  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
+  const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
   const limit = 24;
   const [flag, setFlag] = useState(0);
   const [types, setTypes] = useState([
@@ -114,7 +116,7 @@ const LibraryEditListing = () => {
   const filterRef = useRef(null);
 
   useEffect(() => {
-    if (localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg=="  && localStorage.getItem("user_id") != "MXl8m36VZFYXpgFVz3Pg0g=="  && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==") {
+    if (!isLikeRdAccount) {
       let linktype = types;
       linktype.push(
         { value: "Offline Offer", label: "Offline Offer" },
@@ -172,12 +174,12 @@ const LibraryEditListing = () => {
         user_id: localStorage.getItem("user_id"),
       };
       
-      if (payload.user_id === "56Ek4feL/1A8mZgIKQWEqg==") {
+      if (rdLikeArray.includes(payload.user_id)) {
         payload["IRT mandatory training"] = [irt];
         // payload.Role = [role];
       }
 
-      if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==") {
+      if (isLikeRdAccount) {
         if (location?.state?.flag === 'mandatory') {
           payload.Role = [role];
         }
@@ -358,21 +360,16 @@ const LibraryEditListing = () => {
         type: type,
         limit: limit,
       };
-      // if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==") {
-      //   obj = {
-      //     "IRT mandatory training": [irt],
-      //     Role: [role]
-      //   };
-      // }
+
       let staticFilters = {};
-      if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==") {
+      if (isLikeRdAccount) {
         staticFilters = {
           "IRT mandatory training": [irt],
           // Role: [role]
         };
       }
   
-      if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==") {
+      if (isLikeRdAccount) {
         if (location?.state?.flag === 'mandatory') {
           staticFilters.Role = [role];
         }
@@ -529,7 +526,7 @@ const LibraryEditListing = () => {
     if (!tagClickedFirst.includes(dd)) {
       setTagClickedFirst((oldArray) => [...oldArray, dd]);
     } else {
-      {localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==" ?
+      {isLikeRdAccount ?
         toast.error("Topic already in list."): toast.error("Tag already in list.");
        } 
     }
@@ -555,7 +552,7 @@ const LibraryEditListing = () => {
 
   const addTag = async () => {
     if (typeof newTag == "undefined" || newTag.trim().length == 0) {
-      {localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==" ?
+      {isLikeRdAccount ?
         toast.error("Please input a topic"): toast.error("Please input a tag");
        } 
     } else {
@@ -582,7 +579,7 @@ const LibraryEditListing = () => {
           tags: newTag,
         };
       } else {
-        {localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==" ?
+        {isLikeRdAccount ?
           toast.error("Topic already in list."): toast.error("Tag already in list.");
          } 
       }
@@ -699,15 +696,11 @@ const LibraryEditListing = () => {
                       : "/library-create"
                   }
                   state={{ 
-                    // title: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
-                    // ? (location?.state?.title)
-                    // : '' 
-
-                    flag : localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==" ?(location?.state?.flag === "mandatory"
+                    flag : isLikeRdAccount ?(location?.state?.flag === "mandatory"
                       ? "mandatory"
                       : location?.state?.flag === "Non-mandatory"
                       ? "Non-mandatory" : '') :'',
-                      title: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA=="
+                      title: isLikeRdAccount
                       ? (location?.state?.title)
                       : ''
                 
@@ -1088,8 +1081,8 @@ const LibraryEditListing = () => {
                                   to="/library-edit"
                                   state={{ pdfid: data.id ,  
                                     // title : location?.state?.title,
-                                    title: localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==" ? location?.state?.title : '',
-                                    flag: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" ||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA=="
+                                    title: isLikeRdAccount ? location?.state?.title : '',
+                                    flag: isLikeRdAccount
                                     ? (location?.state?.flag === "Non-mandatory" ? 'Non-mandatory' : "mandatory")
                                     : '' 
                                   }}
@@ -1217,8 +1210,7 @@ const LibraryEditListing = () => {
                                       </h6>
                                     </li>
 
-                                    {localStorage.getItem("user_id") !=
-                                    "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "MXl8m36VZFYXpgFVz3Pg0g=="   && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==" ? (
+                                    {!isLikeRdAccount? (
                                       <>
                                         <li>
                                           <h6 className="tab-content-title">
@@ -1927,8 +1919,7 @@ const LibraryEditListing = () => {
                                   </ul>
                                 </div>
                               </Tab>
-                              {localStorage.getItem("user_id") !=
-                      "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "MXl8m36VZFYXpgFVz3Pg0g=="  && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==" ?<Tab
+                              {!isLikeRdAccount ?<Tab
                                 className="change-tab flex-column justify-content-between"
                                 eventKey="change-tab"
                                 title="Change"
@@ -1969,8 +1960,7 @@ const LibraryEditListing = () => {
                                 </div>
                               </Tab>:''}
 
-                              {localStorage.getItem("user_id") !=
-                      "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "MXl8m36VZFYXpgFVz3Pg0g=="   && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==" ?<Tab
+                              {!isLikeRdAccount ?<Tab
                                 eventKey="sales"
                                 title={
                                   localStorage.getItem("group_id") == "3"
@@ -2049,8 +2039,7 @@ const LibraryEditListing = () => {
                                       </>
                                     )}
 
-                                    {localStorage.getItem("user_id") ==
-                                      "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" &&
+                                    {isLikeRdAccount&&
                                     localStorage.getItem("group_id") == "3" ? (
                                       <>
                                         {/*<li>
@@ -2089,8 +2078,7 @@ const LibraryEditListing = () => {
                                       </>
                                     ) : null}
 
-                                    {localStorage.getItem("user_id") !=
-                                    "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "MXl8m36VZFYXpgFVz3Pg0g=="   && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==" ? (
+                                    {!isLikeRdAccount ? (
                                       <>
                                         <li>
                                           <h6 className="tab-content-title">

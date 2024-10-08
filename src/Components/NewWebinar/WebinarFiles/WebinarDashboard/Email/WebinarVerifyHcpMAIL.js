@@ -14,6 +14,8 @@ import SmartListTableLayout from "../../../../CommonComponent/SmartListTableLayo
 import SmartListLayout from "../../../../CommonComponent/SmartListLayout";
 
 const WebinarVerifyHcpMAIL = (props) => {
+    const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
+    const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
     const location = useLocation();
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -829,7 +831,7 @@ const WebinarVerifyHcpMAIL = (props) => {
                                                         </>
                                                     )}
 
-                                                    {getSelectedPdfId == 14 && localStorageUserId =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  && (
+                                                    {getSelectedPdfId == 14 && isLikeRdAccount && (
                                                         <>
                                                             <div className="mail-content-select-box">
                                                                 <div className="mail-content-select-top">
@@ -1103,8 +1105,7 @@ const WebinarVerifyHcpMAIL = (props) => {
                                             <th scope="col">Email</th>
                                             <th scope="col">Bounced</th>
                                             <th scope="col">Country</th>
-                                            {(localStorageUserId ===
-                                                "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")  ? (
+                                            {isLikeRdAccount  ? (
                                                 <>
                                                     <th scope="col">Site number</th>
                                                     <th scope="col">IRT mandatory training</th>
@@ -1138,13 +1139,11 @@ const WebinarVerifyHcpMAIL = (props) => {
                                                             <td>{rr?.email}</td>
                                                             <td>{rr?.bounce}</td>
                                                             <td>{rr?.country}</td>
-                                                            {(localStorage.getItem("user_id") ==
-                                                                "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") && 
+                                                            {isLikeRdAccount && 
                                                                 (<><td>{rr?.site_number ? rr?.site_number : "N/A"}
                                                                 </td></>)}
                                                             <td>
-                                                                {(localStorageUserId ==
-                                                                    "56Ek4feL/1A8mZgIKQWEqg=="  || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" )
+                                                                {isLikeRdAccount
                                                                     ? rr?.irt
                                                                         ? "Yes"
                                                                         : "No"
@@ -1153,7 +1152,7 @@ const WebinarVerifyHcpMAIL = (props) => {
                                                                         : "N/A"}
                                                             </td>
                                                             <td>
-                                                                {(localStorageUserId =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" )
+                                                                {isLikeRdAccount
                                                                     ? rr?.user_type != 0 ? rr?.user_type : "N/A"
                                                                     : rr?.contact_type
                                                                 }

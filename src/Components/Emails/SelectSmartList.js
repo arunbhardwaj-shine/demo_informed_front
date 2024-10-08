@@ -26,6 +26,8 @@ var new_object;
 var draft_object;
 var old_object = {};
 const SelectSmartList = (props) => {
+  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
+  const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
   let file_name = useRef("");
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [uploadOrDownloadCount, setUploadOrDownloadCount] = React.useState(0);
@@ -453,7 +455,9 @@ const SelectSmartList = (props) => {
       link.href = "https://webinar.informed.pro/sample_st.xlsx";
     } else if (user_id == "56Ek4feL/1A8mZgIKQWEqg==") {
       link.href = "https://webinar.informed.pro/R_Dsample.xlsx";
-    } else if(user_id == "sNl1hra39QmFk9HwvXETJA==") {
+    } else if(user_id == "MXl8m36VZFYXpgFVz3Pg0g==" ) {
+      link.href = "https://webinar.informed.pro/gina_sample.xlsx";
+    }else if(user_id == "sNl1hra39QmFk9HwvXETJA==") {
       link.href = "https://webinar.informed.pro/Norgine_sample.xlsx";
     } else {
       link.href = "https://webinar.informed.pro/sample.xlsx";
@@ -660,7 +664,7 @@ const SelectSmartList = (props) => {
                 <div className="col-12 col-md-3">
                   <div className="header-btn">
                     {
-                      (localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                      isLikeRdAccount
                       ?
                         <Link to = {"/EmailList"}
                           className="btn btn-primary btn-bordered move-draft engine_cancel">
@@ -1273,8 +1277,7 @@ const SelectSmartList = (props) => {
                           </svg>
                         </button>
                       </th>
-                      {localStorage.getItem("user_id") ==
-                        "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="|| localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? (<>
+                      {isLikeRdAccount? (<>
                           <th scope="col" className="sort_option">
                             <span onClick={() => handleSort("site_number")}>
                               Site number
@@ -1375,8 +1378,7 @@ const SelectSmartList = (props) => {
                           </button>
                         </th>
                       )}
-                      {localStorage.getItem("user_id") ==
-                        "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? (
+                      {isLikeRdAccount? (
                         <th scope="col" className="sort_option">
                           <span onClick={() => handleSort("user_type")}>
                             IRT role
@@ -1442,11 +1444,9 @@ const SelectSmartList = (props) => {
                               <td>{rr.email}</td>
                               <td>{rr.bounce}</td>
                               <td>{rr.country}</td>
-                              {localStorage.getItem("user_id") ==
-                                "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" && (<><td>{rr?.site_number ? rr?.site_number : "N/A"}</td></>)}
+                              {isLikeRdAccount && (<><td>{rr?.site_number ? rr?.site_number : "N/A"}</td></>)}
                               <td>
-                                {localStorage.getItem("user_id") ==
-                                  "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+                                {isLikeRdAccount
                                   ? rr.irt
                                     ? "Yes"
                                     : "No"
@@ -1456,8 +1456,7 @@ const SelectSmartList = (props) => {
                               </td>
 
                               <td>
-                                {localStorage.getItem("user_id") ==
-                                  "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+                                {isLikeRdAccount
                                   ? rr.user_type != 0
                                     ? rr.user_type
                                     : "N/A"

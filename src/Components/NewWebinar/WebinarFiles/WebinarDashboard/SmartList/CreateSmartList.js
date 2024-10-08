@@ -18,6 +18,8 @@ import { buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 
 const CreateSmartList = () => {
+  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
+  const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
   const percentage = 98;
   const [uploadOrDownloadCount, setUploadOrDownloadCount] = React.useState(0);
   const [fileLength, setFileLength] = useState(0);
@@ -45,8 +47,6 @@ const CreateSmartList = () => {
   const [showAlertPopup, setShowAlertPopup] = useState(false);
   const [validator] = React.useState(new SimpleReactValidator());
   const [validationError, setValidationError] = useState({});
-  const [userId,setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==")
-
   let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [ibu, setIbu] = useState([
     {
@@ -325,8 +325,7 @@ const CreateSmartList = () => {
                     </li>
                     <li className="">
                       <a href="javascript:void(0)">
-                      {(localStorageUserId == userId
-                      ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                      {isLikeRdAccount
                       ?" Select & Verify Your Users":" Select & Verify Your HCPs"}
                        </a>
                     </li>
@@ -494,7 +493,7 @@ const CreateSmartList = () => {
                         </div>
 
                         <p>
-                          {(localStorageUserId == userId||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")?"Upload new Users":"Upload new HCPs"}
+                          {isLikeRdAccount?"Upload new Users":"Upload new HCPs"}
                             </p>
                       </li>
                     </ul>
@@ -502,7 +501,7 @@ const CreateSmartList = () => {
                 </div>
                 <div className="download-sample">
                   <p>
-                  {(localStorageUserId == userId||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")?" Download sample Excel file to upload new Users":" Download sample Excel file to upload new HCPs"}
+                  {isLikeRdAccount?" Download sample Excel file to upload new Users":" Download sample Excel file to upload new HCPs"}
 
 
                    </p>

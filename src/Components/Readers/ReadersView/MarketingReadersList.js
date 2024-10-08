@@ -37,6 +37,10 @@ import CommonPreviewReader from "./CommonPreviewReader";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const MarketingReadersList = () => {
+  const accountMapping={"56Ek4feL/1A8mZgIKQWEqg==":2147501188,"sNl1hra39QmFk9HwvXETJA==":2147536982,"MXl8m36VZFYXpgFVz3Pg0g==":2147537506}
+
+  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
+  const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
   let obj = {};
   const limit = 24;
   const navigate = useNavigate();
@@ -183,7 +187,7 @@ const MarketingReadersList = () => {
   };
 
   useEffect(() => {
-    // if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==") {
+    // if (isLikeRdAccount) {
     setAppliedFilter({});
     setFilterObject({});
     setApifilterObject({});
@@ -274,7 +278,7 @@ const MarketingReadersList = () => {
         limit: limit,
       };
       let payload = {};
-      if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
+      if (isLikeRdAccount) {
         payload = {
           ...data,
           ...obj,
@@ -851,7 +855,7 @@ const MarketingReadersList = () => {
       }
     } else if (
       key == "change-tab" &&
-      (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+      (isLikeRdAccount)
     ) {
       const res = await getData(ENDPOINT.READER_USER_DROP);
 
@@ -893,7 +897,7 @@ const MarketingReadersList = () => {
   const axiosFun = async () => {
     try {
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-      const result = await axios.get(`emailapi/get_site?uid=${localStorage.getItem("user_id")=="sNl1hra39QmFk9HwvXETJA=="?2147536982: localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" ? 2147537506 :2147501188}`);
+      const result = await axios.get(`emailapi/get_site?uid=${accountMapping[localStorage.getItem("user_id")] || 2147501188}`);
       let country = result?.data?.response?.data?.site_country_data;
       let arr = [];
       Object.entries(country).map(([index, item]) => {
@@ -1030,9 +1034,7 @@ const MarketingReadersList = () => {
             <div className="top-sticky">
               <div className="top-header reader_list">
                 <div className="page-title">
-                  {(localStorage.getItem("user_id") ==
-                  "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
-                  ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                  {isLikeRdAccount
                   ? (
                     <h4>
                       Total USER |{" "}
