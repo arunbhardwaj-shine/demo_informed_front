@@ -159,7 +159,10 @@ const SurveyAnalyticsRatingView = ({ index, item, colors }) => {
                                         {item?.extra?.ratingType == "stars"
                                             ? <img src={`${path_image}star-rating-${JSON.parse(data?.value)}.svg`} alt="" />
                                             : [...Array(parseInt(data?.value))].map((_, i) => {
-                                                return ` ${i + 1}`
+                                                // return ` ${i + 1}`
+                                                return (<>
+                                                <div className='number_rating'>{i+1}</div>
+                                                </>) 
                                             })
                                         }
                                     </div>
@@ -185,12 +188,13 @@ const SurveyAnalyticsRatingView = ({ index, item, colors }) => {
                         className="question-preview-chart d-flex justify-content-center align-items-center"
                     // ref={progressBarRef}
                     >
-                        <div className='question-preview-chart-details'>
-                            {item.answer.map((data, index) => (
+                        <div className={`question-preview-chart-details ${item?.extra?.ratingType == "stars"?"stars":"numeric"}`}>
+                            {item?.answer?.map((data, index) => (
                                 <div key={index} className="survey-rating-detail" style={{ display: "flex", width: "275px" }}>
                                     <h5>
                                         <span>{data?.value}{" "}</span>
                                         {/* {item.type === "rating" && ( */}
+                                         {item?.extra?.ratingType == "stars"?
                                         <svg
                                             width="16"
                                             height="17"
@@ -215,6 +219,7 @@ const SurveyAnalyticsRatingView = ({ index, item, colors }) => {
                                                 </clipPath>
                                             </defs>
                                         </svg>
+                                        :""}
                                         {/* )} */}
                                         {" "}
                                     </h5>
@@ -235,7 +240,9 @@ const SurveyAnalyticsRatingView = ({ index, item, colors }) => {
                         </div>
 
                         <div className='question-preview-chart-result'>
-                            <span>{item?.overallRating?.toFixed(1)}</span> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <span>{item?.overallRating?.toFixed(1)}</span>
+                            { item?.extra?.ratingType == "stars"?
+                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <g clipPath="url(#clip0_5227_4798)">
                                     <path d="M11.1954 0.560765C11.4944 -0.186922 12.5056 -0.186922 12.8046 0.560765L15.5034 7.31059C15.6292 7.62514 15.9117 7.84016 16.2361 7.86825L23.1983 8.47116C23.9695 8.53794 24.282 9.54544 23.6956 10.0743L18.4014 14.8489C18.1546 15.0713 18.0467 15.4192 18.1215 15.7512L19.7255 22.8736C19.9032 23.6626 19.0851 24.2852 18.4237 23.8644L12.4529 20.0654C12.1746 19.8884 11.8254 19.8884 11.5472 20.0654L5.57632 23.8644C4.91492 24.2852 4.09678 23.6626 4.27446 22.8736L5.87852 15.7512C5.95327 15.4192 5.84536 15.0713 5.59864 14.8489L0.304406 10.0743C-0.282043 9.54544 0.0304618 8.53794 0.801672 8.47116L7.76386 7.86825C8.08831 7.84016 8.37082 7.62514 8.49659 7.31059L11.1954 0.560765Z" fill="#004A89" />
                                 </g>
@@ -244,7 +251,10 @@ const SurveyAnalyticsRatingView = ({ index, item, colors }) => {
                                         <rect width="24" height="24" fill="white" />
                                     </clipPath>
                                 </defs>
-                            </svg> <span className='divide-line'>|</span> <b>{item?.total_count}</b> ratings
+                            </svg> 
+                            :""}
+                            
+                            <span className='divide-line'>|</span> <b>{item?.total_count}</b> ratings
                         </div>
                     </div>
                 </div>
