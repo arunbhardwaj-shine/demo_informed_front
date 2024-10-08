@@ -30,7 +30,7 @@ const SurveyFinalPreview = () => {
       consentOption !== "No consent needed (anonymous)" &&
       result.length <= 0
     ) {
-      toast.warning("Please add consent in the survey");
+      toast.warning("Please add at least one question the survey");
       return;
     }
     await saveAsDraft(e, 1, location.pathname, navigate);
