@@ -57,11 +57,8 @@ const VerifyMAIL = (props) => {
     : props?.getDraftData?.PdfSelected;
 
   const [getpdfdata, setPdfData] = useState([]);
-  const [userId, setUserId] = useState(localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
-
-    ? "sNl1hra39QmFk9HwvXETJA==" : localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
-
-    ? "MXl8m36VZFYXpgFVz3Pg0g==":"56Ek4feL/1A8mZgIKQWEqg==");  const [getReaderDetails, setReaderDetails] = useState({});
+  const [userId, setUserId] = useState(localStorage.getItem("user_id")=="56Ek4feL/1A8mZgIKQWEqg=="?"56Ek4feL/1A8mZgIKQWEqg==":"sNl1hra39QmFk9HwvXETJA==")
+  const [getReaderDetails, setReaderDetails] = useState({});
   const [getSmartListName, setSmartListName] = useState("");
   const [getSmartListPopupStatus, setSmartListPopupStatus] = useState(false);
   const [showLessInfo, setShowLessInfo] = useState(true);
@@ -668,7 +665,7 @@ const VerifyMAIL = (props) => {
                 <div className="col-12 col-md-3">
                   <div className="header-btn">
                     {
-                      (localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                      (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
                       ?
                         <Link to = {"/EmailList"}
                           className="btn btn-primary btn-bordered move-draft engine_cancel">
@@ -965,7 +962,7 @@ const VerifyMAIL = (props) => {
                             </>
                           )}
 
-                          {getSelectedPdfId == 14 && localStorage.getItem('user_id') =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  && (
+                          {getSelectedPdfId == 14 && localStorage.getItem('user_id') == "56Ek4feL/1A8mZgIKQWEqg==" && (
                             <>
                               <div className="mail-content-select-box">
                                 <div className="mail-content-select-top">

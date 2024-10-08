@@ -318,7 +318,7 @@ const SelectHCP = (props) => {
                 <div className="col-12 col-md-3">
                   <div className="header-btn">
                     {
-                      (localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                      (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
                       ?
                         <Link to = {"/EmailList"}
                           className="btn btn-primary btn-bordered move-draft engine_cancel">

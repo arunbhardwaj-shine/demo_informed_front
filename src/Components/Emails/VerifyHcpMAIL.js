@@ -638,7 +638,7 @@ const VerifyHcpMAIL = (props) => {
                       :
                       <>
                         {
-                          (localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                          (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
                           ? 
                           <>
                               {
@@ -955,7 +955,7 @@ const VerifyHcpMAIL = (props) => {
                             </>
                           )}
 
-                          {getSelectedPdfId == 14 && localStorage.getItem('user_id') =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  && (
+                          {getSelectedPdfId == 14 && localStorage.getItem('user_id') == "56Ek4feL/1A8mZgIKQWEqg==" && (
                             <>
                               <div className="mail-content-select-box">
                                 <div className="mail-content-select-top">
@@ -1367,7 +1367,7 @@ const VerifyHcpMAIL = (props) => {
                                     : "N/A"}
                               </td>
                               <td>
-                                {localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+                                {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
                                   ? rr.user_type != 0 ? rr.user_type : "N/A"
                                   : rr.contact_type
                                 }

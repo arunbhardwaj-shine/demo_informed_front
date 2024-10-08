@@ -5,7 +5,7 @@ import GetMedpakDetails from "../Distributes/GetMedpakDetails";
 const GetDetailsLayout = () => {
     return (
         <>
-            {(localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==" || localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  
+            {(localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==" || localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" 
             ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
             ? (<>
                 {/* {localStorage.getItem("user_id") == "B7SHpAc XDXSH NXkN0rdQ==" ? (<> */}

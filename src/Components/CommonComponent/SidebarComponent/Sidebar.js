@@ -441,7 +441,7 @@ const Sidebar = () => {
                 </Link>
               </li>
 
-              {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" ||localStorage.getItem('user_id')=="sNl1hra39QmFk9HwvXETJA==") ?
+              {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem('user_id')=="sNl1hra39QmFk9HwvXETJA==") ?
                 <li
                   className={
                     location.pathname == "/IRTRole" ||
@@ -682,7 +682,7 @@ const Sidebar = () => {
                   <p>Email Results</p>
                 </Link>
               </li>
-              {/* {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" 
+              {/* {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
                 || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
                 ? (
                   <li
@@ -793,12 +793,12 @@ const Sidebar = () => {
 
               <li
                 // className={
-                //   location.pathname == "/library-content" || (localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="   || localStorage.getItem("user_id")=="sNl1hra39QmFk9HwvXETJA==" && (location?.state?.flag === "Non-mandatory")?location.pathname == "/library-edit-listing" || location.pathname == "/library-edit"  || location.pathname == "/library-create-user" || location.pathname == "/preview-content" || location.pathname == "/content-detail" || location.pathname == "/library-sublink" :'')    ? "active" : "side_li"
+                //   location.pathname == "/library-content" || (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="  || localStorage.getItem("user_id")=="sNl1hra39QmFk9HwvXETJA==" && (location?.state?.flag === "Non-mandatory")?location.pathname == "/library-edit-listing" || location.pathname == "/library-edit"  || location.pathname == "/library-create-user" || location.pathname == "/preview-content" || location.pathname == "/content-detail" || location.pathname == "/library-sublink" :'')    ? "active" : "side_li"
                 // }
                 className={
                   location.pathname === "/library-content" ||
                     (
-                      (localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") === "MXl8m36VZFYXpgFVz3Pg0g=="  ||
+                      (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==" ||
                         localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") &&
                       location?.state?.flag === "Non-mandatory" &&
                       (
@@ -817,14 +817,14 @@ const Sidebar = () => {
                 <Link
                   to={"/library-content"}
                   // state={{title : "Non-mandatory" ,
-                  //   flag: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  
+                  //   flag: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" 
                   //   ?  "Non-mandatory" 
                   //   : '' 
                   // }}
 
                   state={{
-                    title: localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") === "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? "Non-mandatory" : '',
-                    flag: localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") === "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? "Non-mandatory" : ''
+                    title: localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? "Non-mandatory" : '',
+                    flag: localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? "Non-mandatory" : ''
                   }}
 
                 >
@@ -840,12 +840,12 @@ const Sidebar = () => {
                       fill="rgba(0, 102, 190, 0.6)"
                     />
                   </svg>
-                  <p>{localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? 'Non Mandatory' : 'Content'}</p>
+                  <p>{localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? 'Non Mandatory' : 'Content'}</p>
                 </Link>
               </li>
 
 
-              {localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ?
+              {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ?
                 <li
                   className={
                     location.pathname == "/library-mandatory" || location.pathname == "/library-mandatory-content" || (location?.state?.flag === "mandatory" ? location.pathname == "/library-edit-listing" || location.pathname == "/library-edit" || location.pathname == "/library-create-user" || location.pathname == "/preview-content" || location.pathname == "/content-detail" || location.pathname == "/library-sublink" || location.pathname == "/library-add-link" : '') ? "active" : "side_li"
@@ -887,7 +887,7 @@ const Sidebar = () => {
 
 
 
-              {localStorage.getItem("user_id") !=="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") !== "MXl8m36VZFYXpgFVz3Pg0g=="  && localStorage.getItem("user_id") !== "sNl1hra39QmFk9HwvXETJA==" ?
+              {localStorage.getItem("user_id") !== "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") !== "sNl1hra39QmFk9HwvXETJA==" ?
                 <li
                   className={
                     (location.pathname == "/library-create" ||
@@ -1049,7 +1049,7 @@ const Sidebar = () => {
                 </li>
               ) : null}
               {(localStorage.getItem("user_id") ==
-                "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" 
+                "56Ek4feL/1A8mZgIKQWEqg=="
                 || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
                 ? null : localStorage.getItem(
                   "group_id"
@@ -1110,7 +1110,7 @@ const Sidebar = () => {
                     )} */}
                       {localStorage.getItem("group_id") == 3 ? (
                         (localStorage.getItem("user_id") ==
-                          "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" 
+                          "56Ek4feL/1A8mZgIKQWEqg=="
                           || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
                           ? (
                             <p>Topics</p>
@@ -1184,7 +1184,7 @@ const Sidebar = () => {
             window.location.pathname == "/license/renew" ? (
             <ul>
 
-              {localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  ?
+              {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ?
                 <li
                   className={
                     location.pathname == "/library-content" || location.pathname == "/license-edit-listing" || location.pathname == "/library-edit" ? "active" : "side_li"
@@ -1355,7 +1355,7 @@ const Sidebar = () => {
             window.location.pathname == "/timeline-detail" ? (
             <ul>
 
-              {(localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ?
+              {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ?
                 (
                   <li
                     className={
@@ -1392,7 +1392,7 @@ const Sidebar = () => {
                 className={
                   (location.pathname == "/readers-view"
                     || (location.pathname == "/reader-edit" &&
-                      (localStorage.getItem('user_id') =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")) ||
+                      (localStorage.getItem('user_id') == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")) ||
                     ((location.pathname == "/timeline-detail" || location.pathname == "/reader-review" ) && (localStorage.getItem('irt_sec') != 1 && localStorage.getItem('irt_sec') != null)))
                     ? "active"
                     : "side_li"
@@ -1459,7 +1459,7 @@ const Sidebar = () => {
                   </Link>
                 </li> : null}
 
-              {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" 
+              {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
                 || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
                 ? (
                   <li
@@ -2886,14 +2886,14 @@ const Sidebar = () => {
                               </Link>
                             </li>
                             {(localStorage.getItem("user_id") ==
-                              "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" 
+                              "56Ek4feL/1A8mZgIKQWEqg=="
                               || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
                               ? null : localStorage.getItem(
                                 "group_id"
                               ) == 2 ? null : (
                                 <>
                                   {
-                                    localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  ?
+                                    localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ?
                                       <li
                                         className={
                                           location.pathname == "/LEX-210-analytics"
@@ -3784,7 +3784,7 @@ const Sidebar = () => {
                           </ul>
                         ) : null
                       ) : (localStorage.getItem("user_id") ==
-                        "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" 
+                        "56Ek4feL/1A8mZgIKQWEqg=="
                         || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
                         ? (
                           window.location.pathname == "/content-analytics" ||
@@ -3793,7 +3793,7 @@ const Sidebar = () => {
                             window.location.pathname == "/LEX-210-analytics" ? (
                             <ul>
                               {
-                                localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  ?
+                                localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ?
                                   <li
                                     className={
                                       location.pathname == "/LEX-210-analytics"

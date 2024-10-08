@@ -13,7 +13,7 @@ const SiteEngagement = ({ siteEngagementfun, setRdSiteData }) => {
   const [isHighlightNotLoaded, setIsHighlightNotLoaded] = useState(true);
   const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const colors = ["#39CABC", "#FFCACD", "#DECBE3", "#986CA5", "#004A89"];
-  let createdBy=localStorage.getItem("user_id")=="sNl1hra39QmFk9HwvXETJA=="?2147536982: localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  ? 2147537506 :2147501188
+  let createdBy=localStorage.getItem("user_id")=="sNl1hra39QmFk9HwvXETJA=="?2147536982:2147501188
 
   const [rdSiteOptions, setRdSiteOptions] = useState({
     chart: {

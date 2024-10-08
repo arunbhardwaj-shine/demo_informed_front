@@ -88,12 +88,12 @@ const SelectSmartListUsers = (props) => {
       country: "",
       countryIndex: "",
       role:
-        (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
+        (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
         ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
           ? irtRole?.[0]?.value
           : "",
       optIrt:
-        (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
+        (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
         ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
           ? "yes"
           : "",
@@ -256,7 +256,7 @@ const SelectSmartListUsers = (props) => {
   };
 
   useEffect(() => {
-    if (localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") {
+    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") {
       axiosFun();
     }
 
@@ -283,7 +283,7 @@ const SelectSmartListUsers = (props) => {
             });
             setCountryall(arr);
 
-            if (localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") {
+            if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") {
               let investigator_type =
                 res?.data?.response?.data?.investigator_type;
               let newType = [];
@@ -560,7 +560,7 @@ const SelectSmartListUsers = (props) => {
       list[i].countryIndex = "";
       setHpc(list);
     } else {
-      if (localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") === "MXl8m36VZFYXpgFVz3Pg0g=="  ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") {
+      if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==" ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") {
         let consetValue = e.value;
         if (e.value == "B&H") {
           consetValue = "Bosnia and Herzegovina";
@@ -660,12 +660,12 @@ const SelectSmartListUsers = (props) => {
         country: "",
         countryIndex: "",
         role:
-          (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
+          (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
           ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
             ? irtRole?.[0]?.value
             : "",
         optIrt:
-          (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
+          (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
           ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
             ? "yes"
             : "",
@@ -721,7 +721,7 @@ const SelectSmartListUsers = (props) => {
   };
   const addMoreHcp = () => {
     const status = hpc.map((data) => {
-      if (localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") {
+      if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") {
         if (
           data?.email == "" ||
           data?.institutionType == "" ||
@@ -755,12 +755,12 @@ const SelectSmartListUsers = (props) => {
           country: "",
           countryIndex: "",
           role:
-            (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
+            (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
             ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
               ? irtRole?.[0]?.value
               : "",
           optIrt:
-            (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
+            (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
             ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
               ? "yes"
               : "",
@@ -770,7 +770,7 @@ const SelectSmartListUsers = (props) => {
         },
       ]);
     } else {
-      if (localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") {
+      if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") {
         toast.warning("Please input the required fields.");
       } else {
         toast.warning("Please input the required fields.");
@@ -855,7 +855,7 @@ const SelectSmartListUsers = (props) => {
       }
 
       const contact_type_edit =
-        (localStorage.getItem("user_id") !=="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") !== "MXl8m36VZFYXpgFVz3Pg0g=="  && localStorage.getItem("user_id") !== "sNl1hra39QmFk9HwvXETJA==")
+        (localStorage.getItem("user_id") !== "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") !== "sNl1hra39QmFk9HwvXETJA==")
           ? document.getElementById("field_contact_type" + profile_user_id)
               .value
           : "";
@@ -916,7 +916,7 @@ const SelectSmartListUsers = (props) => {
           "field_index" + data.profile_user_id
         ).value;
         const contact_type_edit =
-          (localStorage.getItem("user_id") !== "56Ek4feL/1A8mZgIKQWEqg=="&& localStorage.getItem("user_id") != "MXl8m36VZFYXpgFVz3Pg0g=="  
+          (localStorage.getItem("user_id") !== "56Ek4feL/1A8mZgIKQWEqg=="
           &&localStorage.getItem("user_id") !== "sNl1hra39QmFk9HwvXETJA==")
             ? document.getElementById(
                 "field_contact_type" + data.profile_user_id
@@ -992,7 +992,7 @@ const SelectSmartListUsers = (props) => {
 
   const saveClicked = async () => {
     //   setIsOpenAdd(false);
-    const  isRdAndNorgianAcount=localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
+    const  isRdAndNorgianAcount=localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA=="
 
 
     if (activeManual == "active") {
@@ -1300,7 +1300,7 @@ const SelectSmartListUsers = (props) => {
                 <div className="col-12 col-md-3">
                   <div className="header-btn">
                     {
-                      (localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                      (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
                       ?
                         <Link to = {"/EmailList"}
                           className="btn btn-primary btn-bordered move-draft engine_cancel">

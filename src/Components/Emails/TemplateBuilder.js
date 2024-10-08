@@ -103,14 +103,14 @@ const TemplateBuilder = (props) => {
       contact_type: "",
       country: "",
       role:
-        localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+        localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
           ?"Site User-Blinded"
           : "",
       optIrt:
-        localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+        localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
           ? "yes"
           : "",
-          institutionType: localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+          institutionType: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
           ? "Study site"
           : "",
         siteNumber: "",
@@ -210,7 +210,7 @@ const TemplateBuilder = (props) => {
   
             setCountryall(arr);
   
-            if (localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
+            if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
               let investigator_type =
                 res?.data?.response?.data?.investigator_type;
               let newType = [];
@@ -272,7 +272,7 @@ const TemplateBuilder = (props) => {
   };
   useEffect(() => {
     loader("show");
-    if (localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
+    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
       axiosFun();
     }
    
@@ -468,7 +468,7 @@ const TemplateBuilder = (props) => {
 
   const addMoreHcp = () => {
     const status = hpc.map((data) => {
-      if (localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
+      if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
         if(data?.optIrt=="yes"){
           if (data?.email == "" || data?.institutionType == "" || data?.first_name == "" || data?.last_name == "" ||data?.role==""
             || data?.country == ""||data?.siteName==""||data?.siteNumber=="") {
@@ -512,14 +512,14 @@ const TemplateBuilder = (props) => {
           contact_type: "",
           country: "",
           role:
-            localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+            localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
               ? irtRole?.[0]?.value
               : "",
           optIrt:
-            localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+            localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
               ? "yes"
               : "",
-              institutionType: localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+              institutionType: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
               ? irtInstitutionType?.[0]?.value
               : "",
             siteNumber: "",
@@ -527,7 +527,7 @@ const TemplateBuilder = (props) => {
         },
       ]);
     } else {
-      if (localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
+      if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
         toast.warning("Please input the required fields.");
       } else {
         toast.warning("Please input the required fields.");
@@ -883,14 +883,14 @@ const TemplateBuilder = (props) => {
         contact_type: "",
         country: "",
         role:
-          localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+          localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
             ? "Site User-Blinded"
             : "",
         optIrt:
-          localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="|| localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+          localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
             ? "yes"
             : "",
-            institutionType: localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+            institutionType: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
             ? "Study site"
             : "",
           siteNumber: "",
@@ -1040,7 +1040,7 @@ const TemplateBuilder = (props) => {
       list[i].countryIndex = "";
       setHpc(list);
     } else {
-      if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="|| localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") {
+      if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") {
         let consetValue = e.value;
         if (e.value == "B&H") {
           consetValue = "Bosnia and Herzegovina";
@@ -1088,7 +1088,7 @@ const TemplateBuilder = (props) => {
   const saveClicked = async () => {    
     if (activeManual == "active") {
       const body_data = hpc.map((data) => {
-        if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="|| localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
+        if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
           return {
             first_name: data.firstname,
             last_name: data.lastname,
@@ -1120,7 +1120,7 @@ const TemplateBuilder = (props) => {
       };
 
       const status = body.data.map((data, index) => {
-        if (localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
+        if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
           if (data?.first_name == "") {
             setValidationError({
               firstName: "Please enter the first name",
@@ -2969,15 +2969,15 @@ const TemplateBuilder = (props) => {
                     country: "",
                     role:
                       localStorage.getItem("user_id") ==
-                        "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="|| localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+                        "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
                         ? irtRole?.[0]?.value
                         : "",
                     optIrt:
                       localStorage.getItem("user_id") ==
-                        "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="|| localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+                        "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
                         ? "yes"
                         : "",
-                        institutionType: localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+                        institutionType: localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
                         ? irtInstitutionType?.[0]?.value
                         : "",
                       siteNumber: "",
@@ -3008,7 +3008,7 @@ const TemplateBuilder = (props) => {
                                   <label htmlFor="">
                                     First name
                                     {localStorage.getItem("user_id") ==
-                                      "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="|| localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? (
+                                      "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? (
                                       <span> *</span>
                                     ) : null}
                                   </label>
@@ -3017,7 +3017,7 @@ const TemplateBuilder = (props) => {
                                     className={
                                       validationError?.firstName&&validationError?.index==i &&
                                         (localStorage.getItem("user_id") ==
-                                        "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                                        "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
                                         ? "form-control error"
                                         : "form-control"
                                     }
@@ -3029,7 +3029,7 @@ const TemplateBuilder = (props) => {
                                   />
                                   { validationError?.firstName&&validationError?.index==i  &&
                                     localStorage.getItem("user_id") ==
-                                    "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? (
+                                    "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? (
                                     <div className="login-validation">
                                       {validationError?.firstName}
                                     </div>
@@ -3041,7 +3041,7 @@ const TemplateBuilder = (props) => {
                                   <label htmlFor="">
                                     Last name
                                     {localStorage.getItem("user_id") ==
-                                      "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? (
+                                      "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? (
                                       <span> *</span>
                                     ) : null}
                                   </label>
@@ -3050,7 +3050,7 @@ const TemplateBuilder = (props) => {
                                     className={
                                       validationError?.lastName&&validationError?.index==i  &&
                                         (localStorage.getItem("user_id") ==
-                                        "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="|| localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                                        "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
                                         ? "form-control error"
                                         : "form-control"
                                     }
@@ -3062,7 +3062,7 @@ const TemplateBuilder = (props) => {
                                   />
                                   { validationError?.lastName&&validationError?.index==i &&
                                     localStorage.getItem("user_id") ==
-                                    "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? (
+                                    "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? (
                                     <div className="login-validation">
                                       {validationError?.lastName}
                                     </div>
@@ -3100,7 +3100,7 @@ const TemplateBuilder = (props) => {
                               </div>
 
                               {localStorage.getItem("user_id") ===
-                                "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" || localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==" ? (
+                                "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==" ? (
                                 <>
                                   {" "}
                                   <div className="col-12 col-md-6">
@@ -3346,7 +3346,7 @@ const TemplateBuilder = (props) => {
                                   <label htmlFor="">
                                     Country
                                     {(localStorage.getItem("user_id") ==
-                                      "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") ==
+                                      "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") ==
                                       "m5JI5zEDY3xHFTZBnSGQZg==") ? (
                                       <span> *</span>
                                     ) : null}
@@ -3358,7 +3358,7 @@ const TemplateBuilder = (props) => {
                                       className={
                                         validationError?.country && validationError?.index==i &&
                                           (localStorage.getItem("user_id") ==
-                                          "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                                          "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
                                           ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
                                           : "dropdown-basic-button split-button-dropup edit-country-dropdown"
                                       }
@@ -3387,7 +3387,7 @@ const TemplateBuilder = (props) => {
                                       className={
                                         validationError?.country && validationError?.index==i &&
                                           (localStorage.getItem("user_id") ==
-                                            "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="|| localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") ==
+                                            "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") ==
                                             "m5JI5zEDY3xHFTZBnSGQZg==")
                                           ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
                                           : "dropdown-basic-button split-button-dropup edit-country-dropdown"
@@ -3413,7 +3413,7 @@ const TemplateBuilder = (props) => {
                                   )}
                                   { validationError?.country && validationError?.index==i &&
                                     (localStorage.getItem("user_id") ==
-                                      "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") ==
+                                      "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") ==
                                       "m5JI5zEDY3xHFTZBnSGQZg==") ? (
                                     <div className="login-validation">
                                       {validationError?.country}
@@ -3466,7 +3466,7 @@ const TemplateBuilder = (props) => {
                                 </div>
                               </div> */}
                               {localStorage.getItem("user_id") ==
-                                "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? (
+                                "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? (
                                 <>
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">

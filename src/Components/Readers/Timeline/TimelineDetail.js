@@ -29,7 +29,7 @@ const TimelineDetail = (props) => {
   const [readerId, setReaderId] = useState(localStorage.getItem("myData"));
 
   const isRdAndNorgianAcount =
-    localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  ||
+    localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ||
     localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==";
 
   let obj = {
@@ -566,7 +566,7 @@ const TimelineDetail = (props) => {
                                 ) : null
                               }
                               {localStorage.getItem("user_id") ==
-                                "56Ek4feL/1A8mZgIKQWEqg=="  || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" || 
+                                "56Ek4feL/1A8mZgIKQWEqg==" ||
                                 localStorage.getItem("user_id") ==
                                 "sNl1hra39QmFk9HwvXETJA==" ? (
                                 <>
@@ -643,7 +643,7 @@ const TimelineDetail = (props) => {
                                     />
                                   </div>
                                   <div className="timeline-date">
-                                    <h3>{timeLineData?.user?.name ? timeLineData?.user?.name : localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" ?"Gena":"LEX-210 Trial"}</h3>
+                                    <h3>{timeLineData?.user?.name ? timeLineData?.user?.name : "LEX-210 Trial"}</h3>
                                     <p>
                                       {timeLineData?.timeline[
                                         Object.keys(timeLineData?.timeline)[0]

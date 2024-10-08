@@ -1466,7 +1466,7 @@ const FilterSegment = (props) => {
                     <Accordion.Body>
                       <div className="card-body">
                         {(localStorageUserId !=
-                          "56Ek4feL/1A8mZgIKQWEqg=="&& localStorage.getItem("user_id") != "MXl8m36VZFYXpgFVz3Pg0g=="  
+                          "56Ek4feL/1A8mZgIKQWEqg=="
                           && localStorageUserId != "sNl1hra39QmFk9HwvXETJA==")
                           ? "contact_type" in filters &&
                           Object.keys(filters.contact_type).length > 0 && (
@@ -1739,7 +1739,7 @@ const FilterSegment = (props) => {
                           )*/}
 
                         {(localStorageUserId ==
-                          "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
+                          "56Ek4feL/1A8mZgIKQWEqg=="
                           || localStorageUserId ==
                           "sNl1hra39QmFk9HwvXETJA==")
                           && (
@@ -2368,7 +2368,7 @@ const FilterSegment = (props) => {
 
                         <div className="col block-smart-name registered">
                           {(localStorageUserId ==
-                            "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
+                            "56Ek4feL/1A8mZgIKQWEqg=="
                             || localStorageUserId ==
                             "sNl1hra39QmFk9HwvXETJA==") ? (
                             <h6>Registered ?</h6>
@@ -2430,7 +2430,7 @@ const FilterSegment = (props) => {
                             </li>
                           </ul>
                           {(localStorageUserId !=
-                            "56Ek4feL/1A8mZgIKQWEqg=="&& localStorage.getItem("user_id") != "MXl8m36VZFYXpgFVz3Pg0g=="  
+                            "56Ek4feL/1A8mZgIKQWEqg=="
                             && localStorageUserId != "sNl1hra39QmFk9HwvXETJA==")
                             && (
                               <>
@@ -2481,7 +2481,7 @@ const FilterSegment = (props) => {
                             <>
                               <div className="col block-smart-name">
                                 {(localStorageUserId ==
-                                  "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
+                                  "56Ek4feL/1A8mZgIKQWEqg=="
                                   ||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") 
                                   ? (
                                   <>
@@ -2602,7 +2602,7 @@ const FilterSegment = (props) => {
 
                         {showhidearticle == 1 &&
                           localStorageUserId ==
-                          "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
+                          "56Ek4feL/1A8mZgIKQWEqg=="
                           ||localStorageUserId == "sNl1hra39QmFk9HwvXETJA=="
                           ? (
                           <div className="col block-smart-name">
@@ -2655,7 +2655,7 @@ const FilterSegment = (props) => {
                         ) : null}
 
                         {(localStorageUserId ==
-                          "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
+                          "56Ek4feL/1A8mZgIKQWEqg=="
                           ||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
                           && (
                             <>
@@ -3039,7 +3039,7 @@ const FilterSegment = (props) => {
                   <div className="filter-div">
                     <div className="filter-div-title">
                       {(localStorageUserId ==
-                        "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
+                        "56Ek4feL/1A8mZgIKQWEqg=="
                         ||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
                         ? (
                         <>
@@ -3331,7 +3331,7 @@ const FilterSegment = (props) => {
                 ) : null
               ) : null}
 
-              {(localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") ? (
+              {(localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") ? (
                 updateflag > 0 ? (
                   selectedArticleCompleted != "" && showhidearticle == 1 ? (
                     <div className="filter-div">
@@ -3492,7 +3492,7 @@ const FilterSegment = (props) => {
                 ) : null
               ) : null}
 
-              {(localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
+              {(localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="
               ||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
               ? (
                 updateflag > 0 ? (
@@ -3518,7 +3518,7 @@ const FilterSegment = (props) => {
                 ) : null
               ) : null}
 
-              {(localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") ? (
+              {(localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg=="||localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") ? (
                 updateflag > 0 ? (
                   selectedTrialRegister ? (
                     <div className="filter-div">

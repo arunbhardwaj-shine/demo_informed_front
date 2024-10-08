@@ -1998,7 +1998,7 @@ const SurveyQuestionFormDataOthers = () => {
 const SurveyQuestionFormData=()=>{
   const userId = localStorage.getItem("user_id");
 
-return ((userId === "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ? <SurveyQuestionFormDataLex/> : <SurveyQuestionFormDataOthers/>)
+return ((userId === "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ? <SurveyQuestionFormDataLex/> : <SurveyQuestionFormDataOthers/>)
 }
 
 export default SurveyQuestionFormData

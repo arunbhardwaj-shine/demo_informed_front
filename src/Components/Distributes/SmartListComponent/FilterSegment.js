@@ -1463,7 +1463,7 @@ const FilterSegment = (props) => {
                     <Accordion.Body>
                       <div className="card-body">
                         {localStorage.getItem("user_id") !=
-                        "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "MXl8m36VZFYXpgFVz3Pg0g==" 
+                        "56Ek4feL/1A8mZgIKQWEqg=="
                         &&localStorage.getItem("user_id") !== "sNl1hra39QmFk9HwvXETJA=="
                           ? "contact_type" in filters &&
                             Object.keys(filters.contact_type).length > 0 && (
@@ -2364,7 +2364,7 @@ const FilterSegment = (props) => {
 
                         <div className="col block-smart-name registered">
                           {(localStorage.getItem("user_id") ==
-                          "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" 
+                          "56Ek4feL/1A8mZgIKQWEqg=="
                           ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
                           ? (
                             <h6>Registered ?</h6>
@@ -2426,7 +2426,7 @@ const FilterSegment = (props) => {
                             </li>
                           </ul>
                           {(localStorage.getItem("user_id") !=
-                            "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "MXl8m36VZFYXpgFVz3Pg0g==" 
+                            "56Ek4feL/1A8mZgIKQWEqg=="
                             &&localStorage.getItem("user_id") !== "sNl1hra39QmFk9HwvXETJA==")
                             && (
                             <>
@@ -2477,7 +2477,7 @@ const FilterSegment = (props) => {
                             <>
                               <div className="col block-smart-name">
                                 {(localStorage.getItem("user_id") ==
-                                "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" 
+                                "56Ek4feL/1A8mZgIKQWEqg=="
                                 ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
                                 ? (
                                   <>
@@ -2598,7 +2598,7 @@ const FilterSegment = (props) => {
 
                         {showhidearticle == 1 &&
                         (localStorage.getItem("user_id") ==
-                          "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" 
+                          "56Ek4feL/1A8mZgIKQWEqg=="
                           ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
                           ? (
                           <div className="col block-smart-name">
@@ -2651,7 +2651,7 @@ const FilterSegment = (props) => {
                         ) : null}
 
                         {(localStorage.getItem("user_id") ==
-                          "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" 
+                          "56Ek4feL/1A8mZgIKQWEqg=="
                           ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
                           && (
                           <>
@@ -3035,7 +3035,7 @@ const FilterSegment = (props) => {
                   <div className="filter-div">
                     <div className="filter-div-title">
                       {(localStorage.getItem("user_id") ==
-                      "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" 
+                      "56Ek4feL/1A8mZgIKQWEqg=="
                       ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
                       ? (
                         <>
@@ -3327,7 +3327,7 @@ const FilterSegment = (props) => {
                 ) : null
               ) : null}
 
-              {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" 
+              {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
               ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
               ? (
                 updateflag > 0 ? (
@@ -3490,7 +3490,7 @@ const FilterSegment = (props) => {
                 ) : null
               ) : null}
 
-              {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") ? (
+              {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") ? (
                 updateflag > 0 ? (
                   selectedIrt ? (
                     <div className="filter-div">
@@ -3514,7 +3514,7 @@ const FilterSegment = (props) => {
                 ) : null
               ) : null}
 
-              {(localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") ? (
+              {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") ? (
                 updateflag > 0 ? (
                   selectedTrialRegister ? (
                     <div className="filter-div">

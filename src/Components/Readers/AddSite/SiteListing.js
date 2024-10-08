@@ -11,8 +11,8 @@ import { saveAs } from "file-saver";
 
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const SiteListing = () => {
-    const deletButtonColor = localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  ? '#8A4E9C' : '#0066be'
-      const isRDAccount = localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id")==="sNl1hra39QmFk9HwvXETJA=="
+    const deletButtonColor = localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? '#8A4E9C' : '#0066be'
+      const isRDAccount = localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id")==="sNl1hra39QmFk9HwvXETJA=="
     const navigate = useNavigate();
     const [listingDataSite, setListingDataSite] = useState([])
     const [mainListingDataSite, setMainListingDataSite] = useState([])

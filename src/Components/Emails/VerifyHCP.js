@@ -70,11 +70,8 @@ const VerifyHCP = (props) => {
   const [searchedUsers, setSearchedUsers] = useState(searched_Data?searched_Data:[]);
   const [editableData, setEditableData] = useState([]);
   const [sortingCount, setSortingCount] = useState(0);
-  const [userId, setUserId] = useState(localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
-
-    ? "sNl1hra39QmFk9HwvXETJA==" : localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
-
-    ? "MXl8m36VZFYXpgFVz3Pg0g==":"56Ek4feL/1A8mZgIKQWEqg==");  const navigate = useNavigate();
+  const [userId, setUserId] = useState(localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA=="?"sNl1hra39QmFk9HwvXETJA==":"56Ek4feL/1A8mZgIKQWEqg==");
+  const navigate = useNavigate();
 
   const [selectedHcp, setSelectedHcp] = useState(
     selected_Data ? selected_Data : []
@@ -97,12 +94,12 @@ const VerifyHCP = (props) => {
       country: "",
       countryIndex: "",
       role:
-        (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
+        (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
         ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
           ? irtRole?.[0]?.value
           : "",
-      optIrt: 
-        (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
+      optIrt:
+        (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
         ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
           ? "yes"
           : "",
@@ -220,7 +217,7 @@ const VerifyHCP = (props) => {
   };
 
   useEffect(() => {
-    if (localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") {
+    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") {
       axiosFun();
     //  if(state?.NextFlag==1){
     //    getRDMandatoryReaders()
@@ -255,7 +252,7 @@ const VerifyHCP = (props) => {
             });
             setCountryall(arr);
 
-            if (localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") {
+            if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") {
               let investigator_type =
                 res?.data?.response?.data?.investigator_type;
               let newType = [];
@@ -397,7 +394,7 @@ const VerifyHCP = (props) => {
   const addNewHcp = () => {
     
     let setDefaultRole = irtRole?.[0]?.value ? irtRole?.[0]?.value : "";    
-    if(state?.IrtObj?.siteRole && (localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")){
+    if(state?.IrtObj?.siteRole && (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")){
       const userRoleIndex = irtRole.findIndex(role => role.value.toLowerCase() === state?.IrtObj?.siteRole.toLowerCase());
       setDefaultRole = irtRole?.[userRoleIndex]?.value;
     }
@@ -414,12 +411,12 @@ const VerifyHCP = (props) => {
         country: "",
         countryIndex: "",
         role:
-          (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
+          (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
           ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
             ? setDefaultRole
             : "",
         optIrt:
-          (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
+          (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
           ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
             ? "yes"
             : "",
@@ -607,7 +604,7 @@ const VerifyHCP = (props) => {
   const onIRTChange = (e, i) => {
 
     let setDefaultRole = irtRole?.[0]?.value ? irtRole?.[0]?.value : "";    
-		if(state?.IrtObj?.siteRole && (localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")){
+		if(state?.IrtObj?.siteRole && (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")){
 		  const userRoleIndex = irtRole.findIndex(role => role.value.toLowerCase() === state?.IrtObj?.siteRole.toLowerCase());
 		  setDefaultRole = irtRole?.[userRoleIndex]?.value;
 		}
@@ -653,7 +650,7 @@ const VerifyHCP = (props) => {
       list[i].countryIndex = "";
       setHpc(list);
     } else {
-      if (localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") === "MXl8m36VZFYXpgFVz3Pg0g=="  ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") {
+      if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==" ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") {
         let consetValue = e.value;
         if (e.value == "B&H") {
           consetValue = "Bosnia and Herzegovina";
@@ -743,7 +740,7 @@ const VerifyHCP = (props) => {
   };
 
   const saveClicked = async () => {
-      const  isRdAndNorgianAcount=localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA=="
+      const  isRdAndNorgianAcount=localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA=="
     if (activeManual == "active") {
       const body_data = hpc.map((data) => {
         if (isRdAndNorgianAcount) {
@@ -1003,7 +1000,7 @@ const VerifyHCP = (props) => {
 
   const addMoreHcp = () => {
     const status = hpc.map((data) => {
-      if (localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") {
+      if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") {
         if(irtRoleObj?.IRTFlag){
             data.institutionType  = "Study site";
             if (
@@ -1048,7 +1045,7 @@ const VerifyHCP = (props) => {
     if (status.every((element) => element == "true")) {
 
       let setDefaultRole = irtRole?.[0]?.value ? irtRole?.[0]?.value : "";    
-      if(state?.IrtObj?.siteRole && (localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")){
+      if(state?.IrtObj?.siteRole && (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")){
         const userRoleIndex = irtRole.findIndex(role => role.value.toLowerCase() === state?.IrtObj?.siteRole.toLowerCase());
         setDefaultRole = irtRole?.[userRoleIndex]?.value;
       }
@@ -1064,12 +1061,12 @@ const VerifyHCP = (props) => {
           country: "",
           countryIndex: "",
           role:
-            (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
+            (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
             ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
               ? setDefaultRole
               : "",
           optIrt:
-            (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
+            (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
             ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
               ? "yes"
               : "",
@@ -1079,7 +1076,7 @@ const VerifyHCP = (props) => {
         },
       ]);
     } else {
-      if (localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") {
+      if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") {
         toast.warning("Please input the required fields.");
       } else {
         toast.warning("Please input the required fields.");
@@ -1428,7 +1425,7 @@ const VerifyHCP = (props) => {
                       : 
                       <>
                         {
-                          (localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="  || localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                          (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
                           ?
                             <>
                               {
@@ -1721,7 +1718,7 @@ const VerifyHCP = (props) => {
                                 </span>
                                 </th>
                               {(localStorage.getItem("user_id") ===
-                              "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
+                              "56Ek4feL/1A8mZgIKQWEqg==" 
                               ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
                               ? (
                                 <>
@@ -2128,12 +2125,12 @@ const VerifyHCP = (props) => {
                                       {users?.country ? users?.country : "N/A"}
                                     </td>
                                     {(localStorage.getItem("user_id") ==
-                                            "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
+                                            "56Ek4feL/1A8mZgIKQWEqg=="
                                             ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
                                             &&(<><td>{users?.site_number?users?.site_number:"N/A"}</td></>)}
                                     <td>
                                       {(localStorage.getItem("user_id") ==
-                                      "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
+                                      "56Ek4feL/1A8mZgIKQWEqg=="
                                       ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
                                         ? users?.irt
                                           ? "Yes"
@@ -2144,7 +2141,7 @@ const VerifyHCP = (props) => {
                                     </td>
                                     <td>
                                       {(localStorage.getItem("user_id") ===
-                                      "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
+                                      "56Ek4feL/1A8mZgIKQWEqg=="
                                       ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
                                         ? users?.user_type!=0
                                           ? users?.user_type
@@ -2400,7 +2397,7 @@ const VerifyHCP = (props) => {
                             </th>
 
                           {(localStorage.getItem("user_id") ===
-                          "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
+                          "56Ek4feL/1A8mZgIKQWEqg==" 
                           ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
                           ? (
                             <>
@@ -2810,7 +2807,7 @@ const VerifyHCP = (props) => {
                                     data?.country,
                                     data?.first_name + " " + data?.last_name,
                                     (localStorage.getItem("user_id") ===
-                                      "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
+                                      "56Ek4feL/1A8mZgIKQWEqg=="
                                       ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
                                       ? data?.user_type
                                       : data?.contact_type
@@ -2851,13 +2848,13 @@ const VerifyHCP = (props) => {
                                   )}
                                 </td>
                                 {(localStorage.getItem("user_id") ==
-                                        "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
+                                        "56Ek4feL/1A8mZgIKQWEqg=="
                                         ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
                                         &&(<><td>{data?.site_number?data?.site_number:"N/A"}</td></>)}
                                 <td>
                                   {/*data?.ibu ? data?.ibu : "N/A"*/}
                                   {(localStorage.getItem("user_id") ==
-                                  "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
+                                  "56Ek4feL/1A8mZgIKQWEqg=="
                                   ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
                                     ? data?.irt
                                       ? "Yes"
@@ -2868,7 +2865,7 @@ const VerifyHCP = (props) => {
                                 </td>
                                 <td>
                                   {(localStorage.getItem("user_id") ===
-                                  "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
+                                  "56Ek4feL/1A8mZgIKQWEqg==" 
                                   ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
                                   ? (
                                     data?.user_type != 0 ? (
@@ -2995,7 +2992,7 @@ const VerifyHCP = (props) => {
                                   <label htmlFor="">
                                     First name{" "}
                                     {(localStorage.getItem("user_id") ==
-                                      "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
+                                      "56Ek4feL/1A8mZgIKQWEqg==" 
                                       ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
                                       && (
                                       <span>*</span>
@@ -3028,7 +3025,7 @@ const VerifyHCP = (props) => {
                                   <label htmlFor="">
                                     Last name{" "}
                                     {(localStorage.getItem("user_id") ==
-                                      "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
+                                      "56Ek4feL/1A8mZgIKQWEqg==" 
                                       ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
                                       && (
                                       <span>*</span>
@@ -3086,7 +3083,7 @@ const VerifyHCP = (props) => {
                                 </div>
                               </div>
                               {(localStorage.getItem("user_id") ===
-                              "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
+                              "56Ek4feL/1A8mZgIKQWEqg=="
                               ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
                               ? (
                                 <>
@@ -3361,7 +3358,7 @@ const VerifyHCP = (props) => {
                                   <label htmlFor="">
                                     Country{" "}
                                     {(localStorage.getItem("user_id") ==
-                                      "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
+                                      "56Ek4feL/1A8mZgIKQWEqg==" 
                                       ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
                                       && (
                                       <span>*</span>
@@ -3505,7 +3502,7 @@ const VerifyHCP = (props) => {
                                 */}
 
                               {(localStorage.getItem("user_id") ===
-                              "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
+                              "56Ek4feL/1A8mZgIKQWEqg==" 
                               ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
                               ? (
                                 <>
