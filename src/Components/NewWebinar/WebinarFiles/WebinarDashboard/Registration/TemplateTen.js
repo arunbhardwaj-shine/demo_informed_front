@@ -78,7 +78,7 @@ const timeRange = `${convertedStartTime} - ${convertedEndTime}`;
                   
                      <span style= {{
                             color:eventDataSample?.eventStartTime?.color
-                          }}>{timeRange}</span>
+                          }}>{timeRange} ({formData?.timezone})</span>
                         <br />
                         <span
                           style={{

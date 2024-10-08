@@ -347,9 +347,7 @@ const SurveyAnalyticsDetail = () => {
             if (surveyTakerTableData?.length == 0) {
                 const res = await surveyAxiosInstance.post("/survey/survey-takers-status", {
                     survey_id: stateData?.survey_id
-
                 });
-
                 let userdata = [
                     {
                         "user_id": 0,
@@ -1400,12 +1398,12 @@ const SurveyAnalyticsDetail = () => {
                                                                                                                             data?.question_detail?.map((ans, i) => {
                                                                                                                                 return (<>                                                                                                                                   
                                                                                                                                     <p>
-                                                                                                                                        {ans?.option_text}
+                                                                                                                                        {ans?.option_text?ans?.option_text:"N/A"}
                                                                                                                                     </p>
                                                                                                                                 </>)
                                                                                                                             })
                                                                                                                         :
-                                                                                                                        <p>{data?.comment}</p>
+                                                                                                                        <p>{data?.comment?data?.comment:"N/A"}</p>
                                                                                                                 }
                                                                                                             </div>
                                                                                                         </div>
