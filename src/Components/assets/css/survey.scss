@@ -2063,6 +2063,10 @@ span {
                 word-break: break-word;
                 p{
                     font-weight: 300; 
+                    font-size: 24px;
+                    strong{
+                        font-weight: 700;
+                    }
                 }
             }
         }
@@ -4167,7 +4171,7 @@ body {
                         }
 
                         &:nth-child(2) {
-                            width: 31%;
+                            width: 29%;
                         }
 
                         &:nth-last-child(3) {
@@ -4550,7 +4554,7 @@ body {
                     }
 
                     .survey-value {
-                        min-width: 65px;
+                        min-width: 70px;
                         text-align: center;
                         border-left: 1px solid $light-gray;
                         color: $primary-color;
@@ -4560,6 +4564,7 @@ body {
                         small {
                             font-size: 10px;
                             font-weight: 400;
+                            margin-left: -3px;
                         }
 
                     }
@@ -5301,6 +5306,8 @@ body {
                                                     border-radius: 0;
                                                     box-shadow: none;
                                                     border: 1px solid rgb(112 137 158 / 40%);
+                                                    width: auto;
+                                                    min-width: 150px;
                                                     &.heading{
                                                         
                                                         p{
@@ -5311,6 +5318,22 @@ body {
                                                 }
                                             }
                                             
+                                        }
+                                    }
+                                    .survey-matrix{
+                                        &>div{
+                                            gap:3px 4px;
+                                        }
+                                        .rating-filled {
+                                            width: 15px;
+                                            height: 15px;
+                                            border-radius: 50%;
+                                            text-align: center;
+                                            background: #70899E;
+                                            color: #fff;
+                                            padding: 0px;
+                                            overflow: 8;
+                                            font-size: 10px;
                                         }
                                     }
                                 }
