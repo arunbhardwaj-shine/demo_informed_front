@@ -10,18 +10,23 @@ const QuestionEditor = ({
 }) => {
   const editorRef = useRef(null);
   const [editorValue, setEditorValue] = useState(value);
+  const [loading, setLoading] = useState(true); // Loading state
+
+  const handleEditorInit = (evt, editor) => {
+    editorRef.current = editor;
+    setLoading(false); // Set loading to false when editor is initialized
+    if (headingBoldFlag) {
+      editor.execCommand("Bold");
+    }
+  };
 
   return (
     <div className="text-editor">
+      {loading && <div className="loader">Loading editor...</div>}  
       <Editor
         apiKey="gpl" // Replace with your TinyMCE API key if needed
         tinymceScriptSrc={window.location.origin + "/tinymce/tinymce.min.js"} // Ensure this path is correct
-        onInit={(evt, editor) => {
-          editorRef.current = editor;
-          if (headingBoldFlag) {
-            editor.execCommand("Bold");
-          }
-        }}
+        onInit={handleEditorInit}
         initialValue={
           headingBoldFlag ? `<strong>${editorValue}</strong>` : editorValue
         }
@@ -40,7 +45,6 @@ const QuestionEditor = ({
           fontsize_formats: "8px 10px 12px 14px 18px 24px 36px", // Optional: Customize font sizes
           placeholder: Placeholder,
           link_default_target: '_blank'
-          
         }}
         onEditorChange={(content) => {
           handleUpdateElement(index, "question", content);
@@ -51,4 +55,3 @@ const QuestionEditor = ({
 };
 
 export default QuestionEditor;
- 
