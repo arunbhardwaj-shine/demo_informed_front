@@ -13,6 +13,8 @@ var state_object = {};
 var trainingUser = {};
 var searchedUser = {};
 const EmailArticleSelect = (props) => {
+  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
+  const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
   
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [SendListData, setSendListData] = useState([]);
@@ -21,7 +23,6 @@ const EmailArticleSelect = (props) => {
   const navigate = useNavigate();
   const { state } = useLocation();
   const [filter, setFilter] = useState("");
-  const [userId, setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==");
   const [PdfSelected, setPdfSelected] = useState(
     dxr !== 0 && dxr
       ? typeof dxr != "undefined"
@@ -54,7 +55,7 @@ const EmailArticleSelect = (props) => {
 
   useEffect(() => {
     const userId = localStorage.getItem("user_id");
-    if (userId === "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
+    if (isLikeRdAccount) {
       setUpdateFlag(1);
     }
   }, []); 
@@ -62,8 +63,7 @@ const EmailArticleSelect = (props) => {
   const getContentData = (flag, page,value = "") => {
     let filterData = { ...filter };
     let data =  value?"":filterMandatory
-    if (
-      localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" &&
+    if (isLikeRdAccount&&
       data
     ) {
       let obj = {
@@ -313,17 +313,11 @@ const EmailArticleSelect = (props) => {
                     <li className="">
                       <a href="">Create Your Email</a>
                     </li>
-                    {/* <li className="">
-                      <a href="">
-                        {localStorage.getItem("user_id") == userId
-                          ? "Select Users"
-                          : "Select HCPs"}
-                      </a>
-                    </li> */}
+                   
                     {!irtRoleObj?.IRTFlag && (
                         <li className="">
                           <a href="">
-                            {localStorage.getItem("user_id") == userId || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? "Select Users" : "Select HCPs"}
+                            {isLikeRdAccount? "Select Users" : "Select HCPs"}
                           </a>
                         </li>
                       )}
@@ -592,8 +586,7 @@ const EmailArticleSelect = (props) => {
                               </Accordion.Item>
                             )}
 
-                          {localStorage.getItem("user_id") ==
-                            "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" &&
+                          {isLikeRdAccount &&
                             filterdata.hasOwnProperty("mandatory_training") &&
                             filterdata.mandatory_training.length > 0 && (
                               <Accordion.Item className="card" eventKey="4">
@@ -737,8 +730,7 @@ const EmailArticleSelect = (props) => {
                         </div>
                       )}
 
-                      {localStorage.getItem("user_id") ==
-                        "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" && filterMandatory ? (
+                      {isLikeRdAccount && filterMandatory ? (
                         <div className="filter-div">
                           <div className="filter-div-title">
                             <span>IRT Mandatory Training |</span>
@@ -847,8 +839,7 @@ const EmailArticleSelect = (props) => {
                     </div>
                   </div>
 
-                  {/* {
-                localStorage.getItem('user_id') == "56Ek4feL/1A8mZgIKQWEqg==" && (
+                  {/* {isLikeRdAccount && (
                   <div className="col-12 col-md-4">
                     <div className="mail-content-select-box">
                       <div className="mail-content-select-top">

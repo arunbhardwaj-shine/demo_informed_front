@@ -14,13 +14,13 @@ const Consent = ({ item, handleUpdateConsent, index }) => {
         { value: "Octapharma | Spanish", label: "Octapharma | Spanish" },
         { value: "Octapharma | German", label: "Octapharma | German" },
     ];
-   
+
 
     const defaultOption = consentOptions.find(option => option.label === "Octapharma | English");
 
     const getConsent = (selectedLanguage) => {
-        const consentInputData=consent.consentDetails[selectedLanguage];
-        consentInputData[consentInputData.length-1].countryOptions=consentCountries[selectedLanguage]
+        const consentInputData = consent.consentDetails[selectedLanguage];
+        consentInputData[consentInputData.length - 1].countryOptions = consentCountries[selectedLanguage]
         return {
             accordionType: "commonElements",
             type: "consent",
@@ -57,7 +57,8 @@ const Consent = ({ item, handleUpdateConsent, index }) => {
                             }
                             options={consentOptions}
                         />
-                        <small>You can’t do any changes on the Consent due to .......... </small>
+                        <small>Please select one of the consent versions approved by your legal department
+                        </small>
                     </Form.Group>
                 </Row>
             </div>

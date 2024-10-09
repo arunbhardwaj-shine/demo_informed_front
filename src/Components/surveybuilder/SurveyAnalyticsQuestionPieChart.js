@@ -2,14 +2,13 @@ import React, { useEffect, useRef, useState, memo } from "react";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
-
-const SurveyAnalyticsQuestionPieChart = memo(({ key, data, show, type,colors }) => {   
+const SurveyAnalyticsQuestionPieChart = memo(({ key, data, show, type,colors,chartRef }) => {   
     const baseOptions = {
         chart: {
             plotBackgroundColor: null,
             plotBorderWidth: null,
             plotShadow: false,
-            height: 225,
+            height: 193,
             type: 'pie',
             animation: {
                 duration: 0 // Set the animation duration to 0
@@ -48,37 +47,79 @@ const SurveyAnalyticsQuestionPieChart = memo(({ key, data, show, type,colors }) 
             enabled: false
         },
         plotOptions: {
-            series: {
-                // borderRadius: 5,
-                allowPointSelect: true,
-                cursor: "pointer",
-                dataLabels: [
-                    {
-                        enabled: true,
-                        distance: -40,
-                        format: "{point.percentage:.1f}%",
-                        style: {
-                            fontSize: "1.2em",
-                            textOutline: "none",
-                            opacity: 0.7,
-                        },
-                    },
-                ],
-            },
+            // series: {
+            //     borderRadius: 5,
+            //     pointWidth:10,
+            //     allowPointSelect: true,
+            //     cursor: "pointer",
+            //     dataLabels: [
+            //         {
+            //             enabled: true,
+            //             distance: 30,
+            //             format: "{point.percentage:.1f}%",
+            //             style: {
+            //                 fontSize: "1.2em",
+            //                 textOutline: "none",
+            //                 opacity: 0.7,
+            //             },
+            //         },
+            //     ],
+            // },
+            // pie: {
+            //     showInLegend: true,
+            //     size: "100%",
+            //     dataLabels: {
+            //         enabled: false,
+            //     },
+            //     borderWidth: 1,
+            // }
+
             pie: {
                 showInLegend: true,
                 size: "100%",
                 dataLabels: {
-                    enabled: false,
+                    enabled: true, // Enable data labels
+                    // format: "<b>{point.name}</b>: {point.y:.1f} ({point.percentage:.1f}%)", // Show name, value, and percentage
+                    format: "({point.percentage:.1f}%)", // Show name, value, and percentage
+                    style: {
+                        fontWeight: "bold",
+                        color: "#000", // Text color
+                        textOutline: "none", // No text outline
+                        fontSize: "12px",
+                    },
+                    distance: 30, // Set distance from pie slice (optional)
                 },
-                borderWidth: 1,
-            }
+                borderWidth: 0,
+            },
+
+            // pie: {
+            //     size: "90%",
+            //     dataLabels: {
+            //       enabled: true,
+            //       format: "<b>{point.name}</b>: {point.percentage:.1f} %",
+            //       style: {
+            //         fontWeight: "bold",
+            //         color: "#0066be",
+            //         textOutline: "none",
+            //         fontSize: "14px",
+            //       },
+            //       distance: 30, // Set distance from pie slice
+            //       connectorPadding: 0,
+            //     },
+            //     animation: {
+            //       duration: 1000,
+            //     },
+            //     enableMouseTracking: true,
+            //     showInLegend: true,
+            //     borderWidth: 0,
+            //   },
         },
         series: [],
     };
 
     const [pieChartOptions, setPieChartOptions] = useState(type === "analytics" ? {
         ...baseOptions,
+
         exporting: {
             enabled: true,
             chartOptions: {
@@ -125,17 +166,27 @@ const SurveyAnalyticsQuestionPieChart = memo(({ key, data, show, type,colors }) 
                 }
             }
         }
-    } : {
+    } :
+    chartRef==="survey_completed_country_pie"?
+     {
+        ...baseOptions,
+        chart:{...baseOptions.chart,height:386},
+        exporting: {
+            enabled: false,
+        }
+    }:
+    {
         ...baseOptions,
         exporting: {
-            enabled: true,
+            enabled: false,
         }
-    });
+    }
+);
 
     const baseBarChartOptions = {
         chart: {
             type: "bar",
-            height: 225
+            height: 193
         },
         title: {
             text: "",
@@ -153,6 +204,10 @@ const SurveyAnalyticsQuestionPieChart = memo(({ key, data, show, type,colors }) 
             },
             stackLabels: {
                 enabled: true,
+            },
+            labels: {
+                enabled: true, // enable Y-axis labels
+                color: "#0442A2"
             },
         },
         exporting: {
@@ -244,7 +299,16 @@ const SurveyAnalyticsQuestionPieChart = memo(({ key, data, show, type,colors }) 
                 }
             }
         }
-    } : {
+    } :
+    chartRef==="survey_completed_country_bar"?
+    {
+       ...baseBarChartOptions,
+       chart:{...baseBarChartOptions.chart,height:386},
+       exporting: {
+           enabled: false,
+       }
+   }
+    : {
         ...baseBarChartOptions,
         exporting: {
             enabled: false,
@@ -290,12 +354,12 @@ const SurveyAnalyticsQuestionPieChart = memo(({ key, data, show, type,colors }) 
             })
         } else if (data?.graphType == "bar") {
             let totalAnswer = data?.ans?.map(item => item.count) // Extracting the 'y' values
-                .reduce((total, yValue) => total + yValue, 1);
+                .reduce((total, yValue) => total + yValue, 0);
 
             data?.ans?.map((item, index) => {
                 barSeriesData.push({
                     name: item?.value,
-                    data: [{ p: (item?.count / totalAnswer) * 100, y: item?.count }],
+                    data: [{ p:totalAnswer>0? ((item?.count / totalAnswer) * 100):0, y: item?.count }],
                     color: colors[index],
                     answer: item?.count
                 })
@@ -311,35 +375,33 @@ const SurveyAnalyticsQuestionPieChart = memo(({ key, data, show, type,colors }) 
     }, [data?.graphType])
     return (<>
         <div className="graph-box">
-
-
-
+          
             {(data?.graphType == "pie") ?
                 (<>
-
                     {data?.ans?.length ?
-
                         <HighchartsReact
-                            key={"pie"}
+                            key={data?.questionId ?`${data?.questionId}_pie`:chartRef}
+                            chartRef={chartRef}
                             highcharts={Highcharts}
                             options={pieChartOptions}
-                        /> : <div className="no_found">
-                            <img src={path_image + "default-bar-chart.png"} alt="" />
+                        /> : <div className={`${data?.questionId>=0?"survey_default_chart":"no_found"}`}>
+                            {/* <img src={path_image + "default-bar-chart.png"} alt="" /> */}
+                            <img src={path_image +`${data?.questionId>=0?"default-bar-chart-survey.png":"default-bar-chart.png"}` } alt="" />
 
                         </div>}
                 </>)
                 : (data?.graphType == "bar" && data?.ans?.length) ?
                     (<>
-
                         <HighchartsReact
-                            key={"bar"}
+                            key={data?.questionId ? `${data?.questionId}_bar`:chartRef}                            
                             highcharts={Highcharts}
                             options={barChartOptions}
+                            chartRef={chartRef}
                         />
                     </>)
                     :
-                    <div className="no_found">
-                        <img src={path_image + "default-bar-chart.png"} alt="" />
+                    <div className={`${data?.questionId>=0?"survey_default_chart":"no_found"}`}>
+                        <img src={path_image +`${data?.questionId>=0?"default-bar-chart-survey.png":"default-bar-chart.png"}` } alt="" />
 
                     </div>
             }

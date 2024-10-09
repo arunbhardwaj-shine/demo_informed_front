@@ -1,8 +1,12 @@
 import React, { useState } from "react";
-import { Button, Form } from "react-bootstrap";
+import { Button, Form, Tooltip } from "react-bootstrap";
 import LoadChoicesModal from "./Modals/LoadChoicesModal";
 import DeleteAdd from "./DeleteAdd";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+
+
+
 
 export default function Multiple({
   item,
@@ -14,10 +18,30 @@ export default function Multiple({
   addOptionInMiddle,
 }) {
   const [showModal, setShowModal] = useState(false);
- 
+
   const handleAddBulkElements = (elements) => {
-    handleUpdateElement(index, "questionOptions", elements);
+
+    const addFromList = elements.map((item, index) => {
+      return { value: item, answerId: 0 }
+    })
+    handleUpdateElement(index, "answer", addFromList);
   };
+
+  function LinkWithTooltip({ id, children, href, tooltip }) {
+    return (
+      <OverlayTrigger
+        overlay={<Tooltip id={id}>{tooltip}</Tooltip>}
+        placement="top"
+        delayShow={300}
+        delayHide={150}
+      >
+        <a href={href}>{children}</a>
+      </OverlayTrigger>
+    );
+  }
+
+
+
   return (
     <>
       <div className="steps">
@@ -39,7 +63,7 @@ export default function Multiple({
               </Button>
             </p>
           </div>
-          {/* <div className="choice-load">
+          <div className="choice-load">
             <Button
               onClick={() => {
                 setShowModal(true);
@@ -47,12 +71,15 @@ export default function Multiple({
             >
               Load choices
             </Button>
-            <img
-              style={{ margin: "0 0 0 4px" }}
-              src={path_image + "info_circle_icon.svg"}
-              alt=""
-            />
-          </div> */}
+            <LinkWithTooltip tooltip="Select from a set of standard Choices">
+              <img
+                style={{ margin: "0 0 0 4px" }}
+                src={path_image + "info_circle_icon.svg"}
+                alt=""
+              />
+            </LinkWithTooltip>
+
+          </div>
         </div>
         <div className="choice-option">
           {item.answer.map((option, idx) => (
@@ -100,6 +127,7 @@ export default function Multiple({
           setShowModal(false);
         }}
         handleAddBulkElements={handleAddBulkElements}
+        fromMultiple={1}
       />
     </>
   );

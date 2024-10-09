@@ -36,6 +36,8 @@ const newLanguage = {
   4 : 'Russian',
 };
 const PreviewContent = () => {
+  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
+  const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
   const [show, setShow] = useState(false);
   const navigate = useNavigate();
   const { state } = useLocation();
@@ -304,8 +306,8 @@ const PreviewContent = () => {
               // state: { pdfId: articleId,isEdit: isEdit },
               state: { pdfId: articleId,isEdit: isEdit , 
                 // title : location?.state?.title,
-                title: localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==" ||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==" ? location?.state?.title : '',
-                flag: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg=="  ||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA=="
+                title: isLikeRdAccount ? location?.state?.title : '',
+                flag:isLikeRdAccount
                 ? (location?.state?.flag === "Non-mandatory" ? 'Non-mandatory' : "mandatory")
                 : ''},
             });
@@ -341,8 +343,8 @@ const PreviewContent = () => {
               // state: { pdfId: articleId,isEdit: isEdit },
               state: { pdfId: articleId,isEdit: isEdit , 
                 // title : location?.state?.title,
-                title: localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==" ||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==" ? location?.state?.title : '',
-                flag: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" ||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==" 
+                title: isLikeRdAccount ? location?.state?.title : '',
+                flag:isLikeRdAccount
                 ? (location?.state?.flag === "Non-mandatory" ? 'Non-mandatory' : "mandatory")
                 : ''},
             });
@@ -353,8 +355,8 @@ const PreviewContent = () => {
           navigate("/content-detail", {
             state: { pdfId: articleId,isEdit: isEdit , 
               // title : location?.state?.title,
-              title: localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==" ||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==" ? location?.state?.title : '',
-              flag: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" ||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA=="
+              title: isLikeRdAccount ? location?.state?.title : '',
+              flag: isLikeRdAccount
               ? (location?.state?.flag === "Non-mandatory" ? 'Non-mandatory' : "mandatory")
               : ''},
           });
@@ -376,8 +378,7 @@ const PreviewContent = () => {
             <div className="row justify-content-end align-items-center">
               <div className="col-12 col-md-1">
                 <div className="header-btn-left">
-                  {localStorage.getItem("user_id") ==
-                  "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? (
+                  {isLikeRdAccount ? (
                     <>
                     {
                       allowStateVideo ?
@@ -388,11 +389,11 @@ const PreviewContent = () => {
                             pdfId: state?.pdfId,
                             isEdit: isEdit,
                             allowVideo: allowStateVideo,
-                            flag : localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" ||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==" ?(location?.state?.flag === "mandatory"
+                            flag :isLikeRdAccount?(location?.state?.flag === "mandatory"
                               ? "mandatory"
                               : location?.state?.flag === "Non-mandatory"
                               ? "Non-mandatory" : '') :'',
-                              title: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" ||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA=="
+                              title: isLikeRdAccount
                               ? (location?.state?.title)
                               : ''
                           }}
@@ -409,11 +410,11 @@ const PreviewContent = () => {
                             : "/library-create"
                         }
                         state={{
-                          flag : localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" ||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==" ?(location?.state?.flag === "mandatory"
+                          flag : isLikeRdAccount?(location?.state?.flag === "mandatory"
                             ? "mandatory"
                             : location?.state?.flag === "Non-mandatory"
                             ? "Non-mandatory" : '') :'',
-                            title: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" ||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA=="
+                            title:isLikeRdAccount
                             ? (location?.state?.title)
                             : ''
                         }}
@@ -465,8 +466,7 @@ const PreviewContent = () => {
                           <a href="">[Embedding Video]</a>
                         </li>
                       ) : null}
-                      {localStorage.getItem("user_id") !=
-                      "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==" ? (
+                      {!isLikeRdAccount ? (
                         <li className="">
                           <a href="">Edit Consent Option</a>
                         </li>
@@ -485,8 +485,7 @@ const PreviewContent = () => {
                           <a href="">[Embedding Video]</a>
                         </li>
                       ) : null}
-                      {localStorage.getItem("user_id") !=
-                      "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==" ? (
+                      {!isLikeRdAccount ? (
                         <li className="">
                           <a href="">Edit Consent Option</a>
                         </li>

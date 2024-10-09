@@ -296,6 +296,8 @@ const Layout = () => {
 };
 
 const Routing = () => {
+  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
+  const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
   
   return (
     <Router>
@@ -628,8 +630,7 @@ const Routing = () => {
           path="/spc-create"
           element={<LoginLayout component={SpcCreate} />}
         />
-        {(localStorage.getItem("user_id") ==
-          "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") ? null : (
+        {isLikeRdAccount ? null : (
           <Route
             path="/products"
             element={<LoginLayout component={Products} />}

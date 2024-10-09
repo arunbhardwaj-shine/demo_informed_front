@@ -1,4 +1,6 @@
 export const AddReaderValidation = (data, groupId, siteRole) => {
+   const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
+  const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
   console.log('role-->',siteRole);
   let error = {};
 
@@ -17,7 +19,7 @@ export const AddReaderValidation = (data, groupId, siteRole) => {
   //     error.primary_phone = "Phone number required with country code";
   //   }
   // }
-  if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
+  if (isLikeRdAccount) {
     if (!data?.lastName) {
       error.lastName = "Last name required";
     }
@@ -26,7 +28,7 @@ export const AddReaderValidation = (data, groupId, siteRole) => {
   if (!data?.email || regemail?.test(data?.email) === false) {
     error.email = "Email required with email pattern";
   }
-  if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
+  if (isLikeRdAccount) {
     if (!data?.institution) {
       error.institution = "Please select institution";
     }

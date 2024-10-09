@@ -26,6 +26,10 @@ const ReaderLayout = () => {
   );
 };
 const ReaderAdd = () => {
+  const accountMapping={"56Ek4feL/1A8mZgIKQWEqg==":2147501188,"sNl1hra39QmFk9HwvXETJA==":2147536982,"MXl8m36VZFYXpgFVz3Pg0g==":2147537506}
+
+  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
+  const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
 
   const nameRef = useRef(null);
   const emailRef = useRef(null);
@@ -230,7 +234,7 @@ const ReaderAdd = () => {
   const axiosFun = async () => {
     try {
       axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
-      const result = await axios.get(`emailapi/get_site?uid=${localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? 2147536982 : 2147501188}`);
+      const result = await axios.get(`emailapi/get_site?uid=${accountMapping[localStorage.getItem("user_id")] || 2147501188}`);
       let country = result?.data?.response?.data?.site_country_data;
       let arr = [];
       Object.entries(country).map(([index, item]) => {
@@ -269,7 +273,7 @@ const ReaderAdd = () => {
     setGroupId(hasData?.data?.data?.user?.[0]?.group_id);
     setFlag(hasData?.data?.data?.user?.[0]?.flag);
     setPharmaData(hasData?.data?.data?.user?.[0]?.pharmaData);
-    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
+    if (isLikeRdAccount) {
       setAddReaderInputs({
         ...userInputs,
         role: state?.siteRole ? state?.siteRole : hasData?.data?.data?.userIrtRoles?.[0]?.value,
@@ -434,7 +438,7 @@ const ReaderAdd = () => {
   };
 
   useEffect(() => {
-    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
+    if (isLikeRdAccount) {
       axiosFun();
     }
     initalFun();
@@ -723,7 +727,7 @@ const ReaderAdd = () => {
         
         loader("hide");
         // console.log("state?.siteRole--->", state?.siteRole)
-        if(localStorage.getItem('user_id') == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="){
+        if(isLikeRdAccount){
           localStorage.setItem('irt_sec', 1);
           navigate("/reader-review", {
             state: {
@@ -747,36 +751,53 @@ const ReaderAdd = () => {
   };
 
   const downloadFile = () => {
-    let user_id = localStorage.getItem("user_id");
-    let link = document.createElement("a");
-    if (user_id == "56Ek4feL/1A8mZgIKQWEqg=="||user_id == "sNl1hra39QmFk9HwvXETJA==") {
-        if(state?.siteRole == 'Site User-Blinded'){
-            link.href = user_id == "56Ek4feL/1A8mZgIKQWEqg==" ? "https://webinar.informed.pro/Site_User.xlsx" :  "https://webinar.informed.pro/Norgine_Site_User.xlsx";
-        }else if(state?.siteRole == 'Investigator-Blinded'){
-          link.href = user_id == "56Ek4feL/1A8mZgIKQWEqg==" ? "https://webinar.informed.pro/Investigator.xlsx" : "https://webinar.informed.pro/Norgine_Investigator.xlsx";
-        }else if(state?.siteRole == 'Site unblinded pharmacist' || state?.siteRole == 'Site Unblinded Pharmacist' || state?.siteRole == 'Site Unblinded pharmacist') {
-          link.href = user_id == "56Ek4feL/1A8mZgIKQWEqg==" ? "https://webinar.informed.pro/Pharmacist.xlsx" : "https://webinar.informed.pro/Norgine_Pharmacist.xlsx";
-        }else{
-          link.href = "https://webinar.informed.pro/R_Dsample.xlsx";
+    const user_id = localStorage.getItem("user_id");
+    const link = document.createElement("a");
+    
+    const roleBasedUrls = {
+        'Site User-Blinded': {
+            '56Ek4feL/1A8mZgIKQWEqg==': "https://webinar.informed.pro/Site_User.xlsx",
+            'MXl8m36VZFYXpgFVz3Pg0g==': "https://webinar.informed.pro/Gena_Site_User.xlsx",
+            'default': "https://webinar.informed.pro/Norgine_Site_User.xlsx"
+        },
+        'Investigator-Blinded': {
+            '56Ek4feL/1A8mZgIKQWEqg==': "https://webinar.informed.pro/Investigator.xlsx",
+            'MXl8m36VZFYXpgFVz3Pg0g==': "https://webinar.informed.pro/Gena_Investigator.xlsx",
+            'default': "https://webinar.informed.pro/Norgine_Investigator.xlsx"
+        },
+        'Site unblinded pharmacist': {
+            '56Ek4feL/1A8mZgIKQWEqg==': "https://webinar.informed.pro/Pharmacist.xlsx",
+            'MXl8m36VZFYXpgFVz3Pg0g==': "https://webinar.informed.pro/Gena_Pharmacist.xlsx",
+            'default': "https://webinar.informed.pro/Norgine_Pharmacist.xlsx"
         }
+    };
+
+    const isGenaAccount = user_id === "MXl8m36VZFYXpgFVz3Pg0g==";
+    
+    if (isLikeRdAccount) {
+        const roleUrls = roleBasedUrls[state?.siteRole];
+        
+        if (roleUrls) {
+            link.href = roleUrls[user_id] || roleUrls.default;
+        } else if (isGenaAccount) {
+            link.href = "https://webinar.informed.pro/gena_sample.xlsx";
+        } else {
+            link.href = "https://webinar.informed.pro/R_Dsample.xlsx";
+        }
+    } else {
+        link.href = "https://webinar.informed.pro/sample.xlsx";
     }
-    //  else if (user_id == "sNl1hra39QmFk9HwvXETJA==") {
-    //   link.href = "https://webinar.informed.pro/Norgine_sample.xlsx";
-    // } 
-    else {
-      link.href = "https://webinar.informed.pro/sample.xlsx";
-    }
+
     link.setAttribute("download", "file.xlsx");
     document.body.appendChild(link);
-    link.download = "";
     link.click();
     document.body.removeChild(link);
-  };
+};
 
   const RDAccount = () => {
     return (
       <>
-        {localStorage.getItem("user_id") !== "56Ek4feL/1A8mZgIKQWEqg=="&&localStorage.getItem("user_id") !== "sNl1hra39QmFk9HwvXETJA==" ? (<>
+        {!isLikeRdAccount? (<>
           <Form.Group className="form-group">
             <Form.Label htmlFor="">
               Institution <span>*</span>
@@ -814,8 +835,7 @@ const ReaderAdd = () => {
 
           <Form.Group className="form-group">
             <Form.Label htmlFor="">
-              {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-                || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+              {isLikeRdAccount
                 ? "IRT mandatory training"
                 : "IRT"}
             </Form.Label>
@@ -837,9 +857,7 @@ const ReaderAdd = () => {
               }
               // value={userDetail?.irt?.find((inst) => inst.label === "Yes")}
               // value={{ label: "Yes",value: "Yes",}}
-              placeholder={
-                (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-                  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+              placeholder={isLikeRdAccount
                   ? "Select IRT mandatory training"
                   : "Select IRT"
               }
@@ -858,8 +876,7 @@ const ReaderAdd = () => {
           </Form.Group>
           <Form.Group className="form-group">
             <Form.Label htmlFor="">
-              {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-                || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+              {isLikeRdAccount
                 ? "IRT role"
                 : "Role"}
             </Form.Label>
@@ -921,16 +938,13 @@ const ReaderAdd = () => {
           <Form.Group className="form-group">
             <Form.Label htmlFor="">
               {" "}
-              {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-                || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+              {isLikeRdAccount
                 ? "Study role"
                 : "Sub Role"}{" "}
             </Form.Label>
             <Select
               options={userDetail?.sub_role}
-              placeholder={
-                (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-                  || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+              placeholder={isLikeRdAccount
                   ? "Select Study Role"
                   : "Select Role"
               }
@@ -1146,7 +1160,7 @@ const ReaderAdd = () => {
                 <Col md="9">
                   <ul className="tabnav-link">
                     <li className="active active-main">
-                      <a href="">{(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                      <a href="">{(isLikeRdAccount)
                         ?`Create ${state?.siteRole}`
                       :" Create CRM"}</a>
                     </li>
@@ -1163,7 +1177,7 @@ const ReaderAdd = () => {
                     >
                       Cancel
                     </Link> */}
-                    {(localStorage.getItem("user_id")=="56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")?
+                    {(isLikeRdAccount)?
                     <button
                       className="btn btn-primary btn-bordered move-draft"
                       onClick={(e) => backButtonClicked(e)}
@@ -1241,8 +1255,7 @@ const ReaderAdd = () => {
                     </Form.Group>
                     <Form.Group className="form-group">
                       <Form.Label htmlFor="">
-                        Last name  {(localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-                          || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
+                        Last name  {isLikeRdAccount
                           ? <span>*</span> : null}
                       </Form.Label>
                       <input

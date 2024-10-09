@@ -24,12 +24,13 @@ import optimizeImage from "../../../Utils/optimizeImage";
 
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const LicenseCreateUser = () => {
+  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
+  const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
   const newdate = new Date();
   const titleFieldRef = useRef(null);
   const limitFieldRef = useRef(null);
   const [counterFlag, setCounterFlag] = useState(0);
   const [reseller, setReseller] = useState([]);
-  const [userId, setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==");
   const [show, setShow] = useState(false);
   const [commanShow, setCommanShow] = useState(false);
   const [id, setId] = useState(localStorage.getItem("user_id"));
@@ -876,7 +877,7 @@ const LicenseCreateUser = () => {
                           topicButtonClicked(userDetail?.user[0]?.group_id)
                         }
                       >
-                        {localStorage.getItem("user_id") == userId || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+                        {isLikeRdAccount
                           ? "Add User +"
                           : "Add HCP +"}
                       </button>

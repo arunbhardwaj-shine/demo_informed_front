@@ -17,6 +17,10 @@ import Accordion from "react-bootstrap/Accordion";
 var old_object = {};
 
 const MedpakSelectSmartListUsers = (props) => {
+    const accountMapping={"56Ek4feL/1A8mZgIKQWEqg==":2147501188,"sNl1hra39QmFk9HwvXETJA==":2147536982,"MXl8m36VZFYXpgFVz3Pg0g==":2147537506}
+
+    const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
+  const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
     const [totalData, setTotalData] = useState({});
     const [siteNumberAll, setSiteNumberAll] = useState([]);
     const [siteNameAll, setSiteNameAll] = useState([]);
@@ -43,7 +47,6 @@ const MedpakSelectSmartListUsers = (props) => {
     const [removedReaders, setRemovedReaders] = useState([]);
     const [readersNewlyAdded, setReadersNewlyAdded] = useState([]);
     const [reRender, setReRender] = useState(0);
-    const [userId, setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==");
     const [update, setUpdate] = useState(0);
     const [activeManual, setActiveManual] = useState("active");
     const [activeExcel, setActiveExcel] = useState("");
@@ -79,13 +82,11 @@ const MedpakSelectSmartListUsers = (props) => {
             country: "",
             countryIndex: "",
             role:
-                (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-                ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                (isLikeRdAccount)
                     ? irtRole?.[0]?.value
                     : "",
             optIrt:
-                (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-                ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                (isLikeRdAccount)
                     ? "yes"
                     : "",
             institutionType: "",
@@ -227,7 +228,7 @@ const MedpakSelectSmartListUsers = (props) => {
     };
 
     useEffect(() => {
-        if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") {
+        if (isLikeRdAccount) {
             axiosFun();
         }
 
@@ -254,7 +255,7 @@ const MedpakSelectSmartListUsers = (props) => {
                         });
                         setCountryall(arr);
 
-                        if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") {
+                        if (isLikeRdAccount) {
                             let investigator_type =
                                 res?.data?.response?.data?.investigator_type;
                             let newType = [];
@@ -378,7 +379,7 @@ const MedpakSelectSmartListUsers = (props) => {
 
     const axiosFun = async () => {
         try {
-            const result = await axios.get(`emailapi/get_site?uid=${localStorage.getItem("user_id")=="sNl1hra39QmFk9HwvXETJA=="?2147536982:2147501188}`);
+            const result = await axios.get(`emailapi/get_site?uid=${accountMapping[localStorage.getItem("user_id")] || 2147501188}`);
 
             let country = result?.data?.response?.data?.site_country_data;
             let arr = [];
@@ -509,7 +510,7 @@ const MedpakSelectSmartListUsers = (props) => {
             list[i].countryIndex = "";
             setHpc(list);
         } else {
-            if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==" ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") {
+            if (isLikeRdAccount) {
                 let consetValue = e.value;
                 if (e.value == "B&H") {
                     consetValue = "Bosnia and Herzegovina";
@@ -609,13 +610,11 @@ const MedpakSelectSmartListUsers = (props) => {
                 country: "",
                 countryIndex: "",
                 role:
-                    (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-                    ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                    (isLikeRdAccount)
                         ? irtRole?.[0]?.value
                         : "",
                 optIrt:
-                    (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-                    ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                    (isLikeRdAccount)
                         ? "yes"
                         : "",
                 institutionType: "",
@@ -680,7 +679,7 @@ const MedpakSelectSmartListUsers = (props) => {
 
     const addMoreHcp = () => {
         const status = hpc.map((data) => {
-            if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") {
+            if (isLikeRdAccount) {
                 if (
                     data?.email == "" ||
                     data?.institutionType == "" ||
@@ -712,20 +711,18 @@ const MedpakSelectSmartListUsers = (props) => {
                     country: "",
                     countryIndex: "",
                     role:
-                        (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-                        ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                        (isLikeRdAccount)
                             ? irtRole?.[0]?.value
                             : "",
                     optIrt:
-                        (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-                        ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                        (isLikeRdAccount)
                             ? "yes"
                             : "",
                     institutionType: "",
                 },
             ]);
         } else {
-            if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") {
+            if (isLikeRdAccount) {
                 toast.warning("Please input the required fields.");
             } else {
                 toast.warning("Please input the required fields.");
@@ -833,7 +830,7 @@ const MedpakSelectSmartListUsers = (props) => {
             }
 
             const contact_type_edit =
-                (localStorage.getItem("user_id") !== "56Ek4feL/1A8mZgIKQWEqg==" &&localStorage.getItem("user_id") !== "sNl1hra39QmFk9HwvXETJA==")
+                (!isLikeRdAccount)
                     ? document.getElementById("field_contact_type" + profile_user_id)
                         .value
                     : "";
@@ -882,14 +879,7 @@ const MedpakSelectSmartListUsers = (props) => {
     //     }
     // };
 
-    // const deleteReader = (profileUserId, country) => {
-    //     setCountryWiseData((prevData) => {
-    //         const updatedData = { ...prevData };
-    //         updatedData[country] = updatedData[country].filter((reader) => reader.profile_user_id !== profileUserId);
-    //         console.log(updatedData, '===>updatedData')
-    //         return updatedData;
-    //     });
-    // };
+  
 
     const deleteReader = (country, index, i) => {
         const previous_removed_users = removedReaders;
@@ -919,9 +909,7 @@ const MedpakSelectSmartListUsers = (props) => {
                 const edit_index = document.getElementById(
                     "field_index" + data.profile_user_id
                 ).value;
-                const contact_type_edit =
-                    (localStorage.getItem("user_id") !== "56Ek4feL/1A8mZgIKQWEqg=="
-                    && localStorage.getItem("user_id") !== "sNl1hra39QmFk9HwvXETJA==")
+                const contact_type_edit =!isLikeRdAccount
                         ? document.getElementById(
                             "field_contact_type" + data.profile_user_id
                         ).value
@@ -1002,7 +990,7 @@ const MedpakSelectSmartListUsers = (props) => {
 
         if (activeManual == "active") {
             const body_data = hpc.map((data) => {
-                if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==") {
+                if (isLikeRdAccount) {
                     return {
                         first_name: data.firstname,
                         last_name: data.lastname,
@@ -1044,8 +1032,7 @@ const MedpakSelectSmartListUsers = (props) => {
                 ) {
                     if (
                         data.first_name == "" &&
-                        (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-                        ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                        (isLikeRdAccount)
                     ) {
                         setValidationError({
                             newHcpFirstName: "Please enter the first name",
@@ -1055,8 +1042,7 @@ const MedpakSelectSmartListUsers = (props) => {
                     }
                     if (
                         data.last_name == "" &&
-                        (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-                        ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                        (isLikeRdAccount)
                     ) {
                         setValidationError({
                             newHcpLastName: "Please enter the last name",
@@ -1095,8 +1081,7 @@ const MedpakSelectSmartListUsers = (props) => {
                     // }
                     if (
                         data.institution_type == "" &&
-                        (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-                        ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                        (isLikeRdAccount)
                     ) {
                         setValidationError({
                             newHcpInstitution: "Please enter the institution ",
@@ -1107,8 +1092,7 @@ const MedpakSelectSmartListUsers = (props) => {
 
                     if (
                         data.country == "" &&
-                        (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="
-                        ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                        (isLikeRdAccount)
                     ) {
                         setValidationError({
                             newHcpCountry: "Please select the country",
@@ -1300,7 +1284,7 @@ const MedpakSelectSmartListUsers = (props) => {
                                         </li>
                                         <li className="active">
                                             <Link to="/SelectSmartList">
-                                                {(localStorage.getItem("user_id") == userId ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                                                {isLikeRdAccount
                                                     ? "Select Users"
                                                     : "Select HCPs"}
                                             </Link>
@@ -1669,9 +1653,7 @@ const MedpakSelectSmartListUsers = (props) => {
                                                                                         </td>
                                                                                         <td>
                                                                                             {/*readers.ibu ? readers.ibu : "N/A"*/}
-                                                                                            {(localStorage.getItem("user_id") ==
-                                                                                                "56Ek4feL/1A8mZgIKQWEqg=="
-                                                                                                ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                                                                                            {isLikeRdAccount
                                                                                                 ? readers?.irt
                                                                                                     ? "Yes"
                                                                                                     : "No"
@@ -1680,9 +1662,7 @@ const MedpakSelectSmartListUsers = (props) => {
                                                                                                     : "N/A"}
                                                                                         </td>
                                                                                         <td>
-                                                                                            {(localStorage.getItem("user_id") ==
-                                                                                                "56Ek4feL/1A8mZgIKQWEqg=="
-                                                                                                ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                                                                                            {isLikeRdAccount
                                                                                                 ? (
                                                                                                 <span>
                                                                                                     {readers.user_type != 0
@@ -1866,9 +1846,7 @@ const MedpakSelectSmartListUsers = (props) => {
                                                                                             </td>
                                                                                             <td>
                                                                                                 {/*rr?.ibu ? rr?.ibu : "N/A"*/}
-                                                                                                {(localStorage.getItem("user_id") ==
-                                                                                                    "56Ek4feL/1A8mZgIKQWEqg=="
-                                                                                                    ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                                                                                                {isLikeRdAccount
                                                                                                     ? rr?.irt
                                                                                                         ? "Yes"
                                                                                                         : "No"
@@ -1876,9 +1854,7 @@ const MedpakSelectSmartListUsers = (props) => {
                                                                                                         ? rr.ibu
                                                                                                         : "N/A"}
                                                                                             </td>
-                                                                                            {(localStorage.getItem("user_id") ==
-                                                                                                "56Ek4feL/1A8mZgIKQWEqg=="
-                                                                                                ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                                                                                            {isLikeRdAccount
                                                                                                 ? (
                                                                                                 <td>
                                                                                                     {rr?.user_type != 0 ? rr.user_type : "N/A"}
@@ -2000,9 +1976,7 @@ const MedpakSelectSmartListUsers = (props) => {
                                                                                         </td>
                                                                                         <td>
                                                                                             {/*readers.ibu ? readers.ibu : "N/A"*/}
-                                                                                            {(localStorage.getItem("user_id") ==
-                                                                                                "56Ek4feL/1A8mZgIKQWEqg=="
-                                                                                                ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                                                                                            {isLikeRdAccount
                                                                                                 ? readers?.irt
                                                                                                     ? "Yes"
                                                                                                     : "No"
@@ -2011,9 +1985,7 @@ const MedpakSelectSmartListUsers = (props) => {
                                                                                                     : "N/A"}
                                                                                         </td>
                                                                                         <td>
-                                                                                            {(localStorage.getItem("user_id") ==
-                                                                                                "56Ek4feL/1A8mZgIKQWEqg=="
-                                                                                                ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                                                                                            {isLikeRdAccount
                                                                                                 ? (
                                                                                                 <span>
                                                                                                     {readers.user_type != 0
@@ -2159,9 +2131,7 @@ const MedpakSelectSmartListUsers = (props) => {
                                                                                                 }
                                                                                             </td>
                                                                                             <td>
-                                                                                                {(localStorage.getItem("user_id") ==
-                                                                                                    "56Ek4feL/1A8mZgIKQWEqg=="
-                                                                                                    ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                                                                                                {isLikeRdAccount
                                                                                                     ? (
                                                                                                     <span>
                                                                                                         {readers.user_type != 0
@@ -2226,7 +2196,7 @@ const MedpakSelectSmartListUsers = (props) => {
                 >
                     <div className="modal-header">
                         <h5 className="modal-title" id="staticBackdropLabel">
-                            {(localStorage.getItem("user_id") == userId||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                            {isLikeRdAccount
                                 ? "Add New User +"
                                 : "Add New HCP"}
                         </h5>
@@ -2241,16 +2211,10 @@ const MedpakSelectSmartListUsers = (props) => {
                                         contact_type: "",
                                         country: "",
                                         countryIndex: "",
-                                        role:
-                                            (localStorage.getItem("user_id") ==
-                                                "56Ek4feL/1A8mZgIKQWEqg=="
-                                                ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                                        role:isLikeRdAccount
                                                 ? irtRole?.[0]?.value
                                                 : "",
-                                        optIrt:
-                                            (localStorage.getItem("user_id") ==
-                                                "56Ek4feL/1A8mZgIKQWEqg=="
-                                                ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                                        optIrt:isLikeRdAccount
                                                 ? "yes"
                                                 : "",
                                         institutionType: "",
@@ -2280,9 +2244,7 @@ const MedpakSelectSmartListUsers = (props) => {
                                                                 <div className="form-group">
                                                                     <label htmlFor="">
                                                                         First name{" "}
-                                                                        {(localStorage.getItem("user_id") ==
-                                                                            "56Ek4feL/1A8mZgIKQWEqg=="
-                                                                            ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                                                                        {isLikeRdAccount
                                                                             && (
                                                                                 <span>*</span>
                                                                             )}{" "}
@@ -2312,9 +2274,7 @@ const MedpakSelectSmartListUsers = (props) => {
                                                                 <div className="form-group">
                                                                     <label htmlFor="">
                                                                         Last name{" "}
-                                                                        {(localStorage.getItem("user_id") ==
-                                                                            "56Ek4feL/1A8mZgIKQWEqg==" 
-                                                                            ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                                                                        {isLikeRdAccount
                                                                             && (
                                                                                 <span>*</span>
                                                                             )}{" "}
@@ -2369,9 +2329,7 @@ const MedpakSelectSmartListUsers = (props) => {
                                                                 </div>
                                                             </div>
 
-                                                            {(localStorage.getItem("user_id") ===
-                                                                "56Ek4feL/1A8mZgIKQWEqg=="
-                                                                ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                                                            {isLikeRdAccount
                                                                 ? (
                                                                 <>
                                                                     {" "}
@@ -2557,9 +2515,7 @@ const MedpakSelectSmartListUsers = (props) => {
                                                                 <div className="form-group">
                                                                     <label htmlFor="">
                                                                         Country{" "}
-                                                                        {(localStorage.getItem("user_id") ==
-                                                                            "56Ek4feL/1A8mZgIKQWEqg=="
-                                                                            ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                                                                        {isLikeRdAccount
                                                                             && (
                                                                                 <span>*</span>
                                                                             )}{" "}
@@ -2680,10 +2636,7 @@ const MedpakSelectSmartListUsers = (props) => {
                                 </div>
                               </div>
                               */}
-                                                            {
-                                                                (localStorage.getItem("user_id") ===
-                                                                    "56Ek4feL/1A8mZgIKQWEqg==" 
-                                                                    ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                                                            {isLikeRdAccount
                                                                     ? (
                                                                     <>
                                                                         {" "}
@@ -2764,7 +2717,7 @@ const MedpakSelectSmartListUsers = (props) => {
                                                                         data-bs-toggle="tab"
                                                                         href="#add_hcp_form"
                                                                     >
-                                                                        {(localStorage.getItem("user_id") == userId ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                                                                        {isLikeRdAccount
                                                                             ? "Add User +"
                                                                             : "Add HCP +"}
                                                                     </a>

@@ -25,6 +25,8 @@ var new_object;
 var draft_object;
 var old_object = {};
 const WebinarSelectSmartList = (props) => {
+  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
+  const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
   const location = useLocation();
   const { eventIdContext, handleEventId } = useSidebar()
   const switch_account_detail = JSON.parse(localStorage.getItem("switch_account_detail"))
@@ -56,7 +58,6 @@ const WebinarSelectSmartList = (props) => {
     : draft_object?.campaign_id
       ? draft_object.campaign_id
       : "";
-  const [userId, setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==");
   const [campaign_id_st, setCampaign_id] = useState(campaign_id);
   const [getReaderDetails, setReaderDetails] = useState({});
   const [getSmartListName, setSmartListName] = useState("");
@@ -545,36 +546,26 @@ const WebinarSelectSmartList = (props) => {
   }
 
   const downloadFile = () => {
-    // let link = document.createElement("a");
-    // link.href = "https://webinar.informed.pro/sample.xls";
-    // link.setAttribute("download", "file.xlsx");
-    // document.body.appendChild(link);
-    // link.download = "";
-    // link.click();
-    // document.body.removeChild(link);
-
-    let user_id = localStorageUserId;
-    let link = document.createElement("a");
-    if (
-      user_id == "wW0geGtDPvig5gF 6KbJrg==" ||
-      user_id == "qDgwPdToP05Kgzc g2VjIQ==" ||
-      user_id == "z2TunmZQf3QwCsICFTLGGQ==" ||
-      user_id == "UbCJcnLM9fe HsRMgX8c1A=="
-    ) {
-      link.href = "https://webinar.informed.pro/sample_st.xlsx";
-    } else if (user_id == "56Ek4feL/1A8mZgIKQWEqg==") {
-      link.href = "https://webinar.informed.pro/R_Dsample.xlsx";
-    } else if(user_id == "sNl1hra39QmFk9HwvXETJA==") {
-      link.href = "https://webinar.informed.pro/Norgine_sample.xlsx";
-    } else {
-      link.href = "https://webinar.informed.pro/sample.xlsx";
-    }
+    const user_id = localStorage.getItem("user_id");
+    const link = document.createElement("a");
+    const fileMap = {
+      "wW0geGtDPvig5gF 6KbJrg==": "https://webinar.informed.pro/sample_st.xlsx",
+      "qDgwPdToP05Kgzc g2VjIQ==": "https://webinar.informed.pro/sample_st.xlsx",
+      "z2TunmZQf3QwCsICFTLGGQ==": "https://webinar.informed.pro/sample_st.xlsx",
+      "sNl1hra39QmFk9HwvXETJA==": "https://webinar.informed.pro/Norgine_sample.xlsx",
+      "MXl8m36VZFYXpgFVz3Pg0g==": "https://webinar.informed.pro/gena_sample.xlsx",
+      "UbCJcnLM9fe HsRMgX8c1A==": "https://webinar.informed.pro/sample_st.xlsx",
+      "56Ek4feL/1A8mZgIKQWEqg==": "https://webinar.informed.pro/R_Dsample.xlsx"
+    };
+  
+    const defaultFileUrl = "https://webinar.informed.pro/sample.xlsx";
+    link.href = fileMap[user_id] || defaultFileUrl;
     link.setAttribute("download", "file.xlsx");
     document.body.appendChild(link);
-    link.download = "";
     link.click();
     document.body.removeChild(link);
   };
+  
 
   const load_more = () => {
     getSmartListData(2);
@@ -711,7 +702,7 @@ const WebinarSelectSmartList = (props) => {
                     </li>
                     <li className="active active-main">
                       <Link to="/webinar/email/selectSmartList">
-                        {(localStorageUserId == userId  || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
+                        {isLikeRdAccount
                           ? "Select Users"
                           : "Select HCPs"}{" "}
                       </Link>
@@ -771,7 +762,7 @@ const WebinarSelectSmartList = (props) => {
 
                   <div className="create-smart-list">
                     <p>
-                      {(localStorageUserId == userId  || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")
+                      {isLikeRdAccount
                         ? `If you do not have a smart list for the Users group, you
                       can :`
                         : `If you do not have a smart list for the HCPs group, you
@@ -1247,15 +1238,13 @@ const WebinarSelectSmartList = (props) => {
                       <th scope="col">Email</th>
                       <th scope="col">Bounced</th>
                       <th scope="col">Country</th>
-                      {(localStorageUserId ==
-                        "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")  ? (<>
+                      {isLikeRdAccount  ? (<>
                           <th scope="col">Site number</th>
                           <th scope="col">IRT mandatory training</th>
                         </>) : (
                         <th scope="col">Business unit</th>
                       )}
-                      {(localStorageUserId ==
-                        "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==")  ? (
+                      {isLikeRdAccount  ? (
                         <th scope="col">IRT role</th>
                       ) : (
                         <th scope="col">Contact type</th>
@@ -1284,11 +1273,9 @@ const WebinarSelectSmartList = (props) => {
                               <td>{rr?.email}</td>
                               <td>{rr?.bounce}</td>
                               <td>{rr?.country}</td>
-                              {(localStorage.getItem("user_id") ==
-                                "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") && (<><td>{rr?.site_number ? rr?.site_number : "N/A"}</td></>)}
+                              {isLikeRdAccount && (<><td>{rr?.site_number ? rr?.site_number : "N/A"}</td></>)}
                               <td>
-                                {(localStorageUserId ==
-                                  "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") 
+                                {isLikeRdAccount
                                   ? rr?.irt
                                     ? "Yes"
                                     : "No"
@@ -1297,8 +1284,7 @@ const WebinarSelectSmartList = (props) => {
                                     : "N/A"}
                               </td>
                               <td>
-                                {(localStorageUserId ==
-                                  "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" )
+                                {isLikeRdAccount
                                   ? rr?.user_type != 0
                                     ? rr?.user_type
                                     : "N/A"

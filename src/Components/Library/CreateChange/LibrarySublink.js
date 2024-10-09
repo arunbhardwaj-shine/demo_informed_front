@@ -25,6 +25,8 @@ import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import SubLinkListing from "./SubLinkListing";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const LibrarySublink = () => {
+  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
+  const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
   const { state } = useLocation();
   const [allContents, setallContents] = useState([]);
   const [allCodes, setAllCodes] = useState([]);
@@ -53,7 +55,7 @@ const LibrarySublink = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==") {
+    if (!isLikeRdAccount) {
       let linktype = types;
       linktype.push(
         { value: "Offline Offer", label: "Offline Offer" },
@@ -352,16 +354,13 @@ const LibrarySublink = () => {
                       ? "/library-content"
                       : "/library-create"
                   }
-                  state={{ 
-                    // title: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" 
-                    // ? (location?.state?.title)
-                    // : '' 
+                  state={{  
 
-                    flag : localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" ?(location?.state?.flag === "mandatory"
+                    flag : isLikeRdAccount?(location?.state?.flag === "mandatory"
                       ? "mandatory"
                       : location?.state?.flag === "Non-mandatory"
                       ? "Non-mandatory" : '') :'',
-                      title: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" 
+                      title: isLikeRdAccount
                       ? (location?.state?.title)
                       : ''
                  
@@ -593,8 +592,7 @@ const LibrarySublink = () => {
                                                 : "No"}
                                             </h6>
                                           </li>
-                                          {localStorage.getItem("user_id") !=
-                                          "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==" ? (
+                                          {!isLikeRdAccount ? (
                                             <>
                                               <li>
                                                 <h6 className="tab-content-title">
@@ -1182,8 +1180,7 @@ const LibrarySublink = () => {
                                             </>
                                           )}
 
-                                          {localStorage.getItem("user_id") ==
-                                            "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" &&
+                                          {isLikeRdAccount&&
                                           localStorage.getItem("group_id") ==
                                             "3" ? (
                                             <>
@@ -1217,8 +1214,7 @@ const LibrarySublink = () => {
                                             </>
                                           ) : null}
 
-                                          {localStorage.getItem("user_id") !=
-                                          "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==" ? (
+                                          {!isLikeRdAccount ? (
                                             <>
                                               <li>
                                                 <h6 className="tab-content-title">

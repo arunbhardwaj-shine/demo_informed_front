@@ -1,4 +1,6 @@
 export const LibraryEditValidation = (data) => {
+  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
+  const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
   let error = {};
 
   if (!data?.limit?.toString()) {
@@ -27,7 +29,7 @@ export const LibraryEditValidation = (data) => {
         !item?.chapterTitle
       ) {
         if (!error?.chapter?.[index]) {
-          if (localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") !== "sNl1hra39QmFk9HwvXETJA==") {
+          if (!isLikeRdAccount) {
             error.chapter = {
               ...error.chapter,
               [index]: "Chapter is required",
@@ -44,7 +46,7 @@ export const LibraryEditValidation = (data) => {
     data?.pdfChapter?.forEach((item, index) => {
       if (  (item.hasOwnProperty("uploadFile") && item?.uploadFile == "")||!item?.chapterTitle) {
         if (!error?.pdfChapter?.[index]) {
-          if (localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") !== "sNl1hra39QmFk9HwvXETJA==") {
+          if (!isLikeRdAccount) {
             error.pdfChapter = {
               ...error.pdfChapter,
               [index]: "Chapter is required",

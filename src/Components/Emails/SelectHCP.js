@@ -25,25 +25,16 @@ var new_object;
 var draft_object;
 
 const SelectHCP = (props) => {
+  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
+  const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
   //console.log(props);
   const navigate = useNavigate();
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
-  const [SendListData, setSendListData] = useState([]);
-  const [UserData, setUserData] = useState([]);
+  
   const [selection, setSelection] = useState(0);
   const [isContentMandatory, setIsContentMandatory] = useState(0);
   const [title, setTitle] = useState('');
-  const [userId, setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==");
 
-  // const [templateId, setTemplateId] = useState(
-  //   props.getDraftData ? props.getDraftData.campaign_data.list_selection : 0
-  // );
-
-  // console.log(props.getEmailData);
-
-  // const [templateId, setTemplateId] = useState(
-  //   old_object ? old_object.selected : 0
-  // );
   const [templateId, setTemplateId] = useState(
     old_object?.selected
       ? old_object.selected
@@ -220,7 +211,7 @@ const SelectHCP = (props) => {
   };
 
   useEffect(() => {
-    if(localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg==' || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="){
+    if(isLikeRdAccount){
       checkMandatoryContent();
     }
   },[]);
@@ -318,7 +309,7 @@ const SelectHCP = (props) => {
                 <div className="col-12 col-md-3">
                   <div className="header-btn">
                     {
-                      (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                      (isLikeRdAccount)
                       ?
                         <Link to = {"/EmailList"}
                           className="btn btn-primary btn-bordered move-draft engine_cancel">
@@ -385,7 +376,7 @@ const SelectHCP = (props) => {
                         </div>
 
                         <p>
-                          {localStorage.getItem("user_id") == userId || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+                          {isLikeRdAccount
                             ? "Group of Users"
                             : "Group of HCPs"}{" "}
                         </p>
@@ -412,39 +403,13 @@ const SelectHCP = (props) => {
                           />
                         </div>
                         <p>
-                          {localStorage.getItem("user_id") == userId || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+                          {isLikeRdAccount
                             ? "Single User"
                             : "Single HCP"}{" "}
                         </p>
                       </li>
 
-                      {/* {
-                        localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg==' && isContentMandatory
-                        ?
-                        <li>
-                          <div
-                          className={templateId === 3
-                              ? "send-option-img active"
-                              : "send-option-img"
-                          }
-                          onClick={(e) => handleInputChange(e, 3)}
-                        >
-                          <input
-                            type="radio"
-                            name="select-option-hcp"
-                            value="Group HCP"
-                          />
-                          <img
-                            src={path_image + "group-hcp.svg"}
-                            alt="Group HCP"
-                          />
-                          </div>
-                          <p>
-                            {title} Mandatory Readers
-                          </p>
-                        </li>
-                        : null
-                      } */}
+        
                     </ul>
                   </div>
                 </div>

@@ -26,6 +26,8 @@ var new_object;
 var draft_object;
 var old_object = {};
 const SelectSmartList = (props) => {
+  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
+  const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
   let file_name = useRef("");
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [uploadOrDownloadCount, setUploadOrDownloadCount] = React.useState(0);
@@ -434,36 +436,26 @@ const SelectSmartList = (props) => {
   }
 
   const downloadFile = () => {
-    // let link = document.createElement("a");
-    // link.href = "https://webinar.informed.pro/sample.xls";
-    // link.setAttribute("download", "file.xlsx");
-    // document.body.appendChild(link);
-    // link.download = "";
-    // link.click();
-    // document.body.removeChild(link);
-
-    let user_id = localStorage.getItem("user_id");
-    let link = document.createElement("a");
-    if (
-      user_id == "wW0geGtDPvig5gF 6KbJrg==" ||
-      user_id == "qDgwPdToP05Kgzc g2VjIQ==" ||
-      user_id == "z2TunmZQf3QwCsICFTLGGQ==" ||
-      user_id == "UbCJcnLM9fe HsRMgX8c1A=="
-    ) {
-      link.href = "https://webinar.informed.pro/sample_st.xlsx";
-    } else if (user_id == "56Ek4feL/1A8mZgIKQWEqg==") {
-      link.href = "https://webinar.informed.pro/R_Dsample.xlsx";
-    } else if(user_id == "sNl1hra39QmFk9HwvXETJA==") {
-      link.href = "https://webinar.informed.pro/Norgine_sample.xlsx";
-    } else {
-      link.href = "https://webinar.informed.pro/sample.xlsx";
-    }
+    const user_id = localStorage.getItem("user_id");
+    const link = document.createElement("a");
+    const fileMap = {
+      "wW0geGtDPvig5gF 6KbJrg==": "https://webinar.informed.pro/sample_st.xlsx",
+      "qDgwPdToP05Kgzc g2VjIQ==": "https://webinar.informed.pro/sample_st.xlsx",
+      "z2TunmZQf3QwCsICFTLGGQ==": "https://webinar.informed.pro/sample_st.xlsx",
+      "sNl1hra39QmFk9HwvXETJA==": "https://webinar.informed.pro/Norgine_sample.xlsx",
+      "MXl8m36VZFYXpgFVz3Pg0g==": "https://webinar.informed.pro/gena_sample.xlsx",
+      "UbCJcnLM9fe HsRMgX8c1A==": "https://webinar.informed.pro/sample_st.xlsx",
+      "56Ek4feL/1A8mZgIKQWEqg==": "https://webinar.informed.pro/R_Dsample.xlsx"
+    };
+  
+    const defaultFileUrl = "https://webinar.informed.pro/sample.xlsx";
+    link.href = fileMap[user_id] || defaultFileUrl;
     link.setAttribute("download", "file.xlsx");
     document.body.appendChild(link);
-    link.download = "";
     link.click();
     document.body.removeChild(link);
   };
+  
 
   const load_more = () => {
     getSmartListData(2);
@@ -660,7 +652,7 @@ const SelectSmartList = (props) => {
                 <div className="col-12 col-md-3">
                   <div className="header-btn">
                     {
-                      (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                      isLikeRdAccount
                       ?
                         <Link to = {"/EmailList"}
                           className="btn btn-primary btn-bordered move-draft engine_cancel">
@@ -1273,8 +1265,7 @@ const SelectSmartList = (props) => {
                           </svg>
                         </button>
                       </th>
-                      {localStorage.getItem("user_id") ==
-                        "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? (<>
+                      {isLikeRdAccount? (<>
                           <th scope="col" className="sort_option">
                             <span onClick={() => handleSort("site_number")}>
                               Site number
@@ -1375,8 +1366,7 @@ const SelectSmartList = (props) => {
                           </button>
                         </th>
                       )}
-                      {localStorage.getItem("user_id") ==
-                        "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? (
+                      {isLikeRdAccount? (
                         <th scope="col" className="sort_option">
                           <span onClick={() => handleSort("user_type")}>
                             IRT role
@@ -1442,11 +1432,9 @@ const SelectSmartList = (props) => {
                               <td>{rr.email}</td>
                               <td>{rr.bounce}</td>
                               <td>{rr.country}</td>
-                              {localStorage.getItem("user_id") ==
-                                "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" && (<><td>{rr?.site_number ? rr?.site_number : "N/A"}</td></>)}
+                              {isLikeRdAccount && (<><td>{rr?.site_number ? rr?.site_number : "N/A"}</td></>)}
                               <td>
-                                {localStorage.getItem("user_id") ==
-                                  "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+                                {isLikeRdAccount
                                   ? rr.irt
                                     ? "Yes"
                                     : "No"
@@ -1456,8 +1444,7 @@ const SelectSmartList = (props) => {
                               </td>
 
                               <td>
-                                {localStorage.getItem("user_id") ==
-                                  "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+                                {isLikeRdAccount
                                   ? rr.user_type != 0
                                     ? rr.user_type
                                     : "N/A"

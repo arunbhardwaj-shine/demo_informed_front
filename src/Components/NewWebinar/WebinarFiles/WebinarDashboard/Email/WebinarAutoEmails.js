@@ -19,6 +19,9 @@ import SmartListLayout from "../../../../CommonComponent/SmartListLayout";
 
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const WebinarAutoEmail = () => {
+  const accountMapping={"56Ek4feL/1A8mZgIKQWEqg==":2147501188,"sNl1hra39QmFk9HwvXETJA==":2147536982,"MXl8m36VZFYXpgFVz3Pg0g==":2147537506}
+  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
+  const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
   const { eventIdContext } = useSidebar();
   const switch_account_detail = JSON.parse(localStorage.getItem("switch_account_detail"))
   const localStorageUserId = switch_account_detail != null && switch_account_detail != "undefined" && switch_account_detail
@@ -61,22 +64,10 @@ const WebinarAutoEmail = () => {
   const [name, setName] = useState("");
   const [templateSaving, setTemplateSaving] = useState("");
   const [templateName, setTemplateName] = useState("");
-  const [userId, setUserId] = useState(localStorage.getItem("user_id")=="56Ek4feL/1A8mZgIKQWEqg=="
-  ?"56Ek4feL/1A8mZgIKQWEqg=="
-:localStorage.getItem("user_id")=="sNl1hra39QmFk9HwvXETJA=="
-?"sNl1hra39QmFk9HwvXETJA=="
-:null);
-  const [getTemplateLanguage, setTemplateLanguage] = useState([
-    { value: "0", label: "English" },
-    { value: "4", label: "Russian" },
-  ]);
-  const [readers, setReaders] = useState([]);
-  const [getReaderDetails, setReaderDetails] = useState({});
   const [totalData, setTotalData] = useState({});
   const [validationError, setValidationError] = useState({});
   const [role, setRole] = useState([]);
   const [irtRole, setIrtRole] = useState([]);
-  const [institutionType, setInstitutionType] = useState([]);
   const [nonIrtInstitutionType, setNonIrtInstitutionType] = useState([])
   const [irtInstitutionType, setIrtInstitutionType] = useState([])
   const [selectedListId, setSelectedListId] = useState(0);
@@ -88,14 +79,14 @@ const WebinarAutoEmail = () => {
       contact_type: "",
       country: "",
       role:
-      (localStorageUserId ==userId ) 
+      (isLikeRdAccount ) 
           ? irtRole?.[0]?.value
           : "",
       optIrt:
-      (localStorageUserId == userId) 
+      (isLikeRdAccount) 
           ? "yes"
           : "",
-          institutionType: (localStorageUserId ==userId)
+          institutionType: (isLikeRdAccount)
           ? "Study site"
           : "",
         siteNumber: "",
@@ -155,7 +146,7 @@ const WebinarAutoEmail = () => {
 
             setCountryall(arr);
 
-            if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") {
+            if (isLikeRdAccount) {
               let investigator_type =
                 res?.data?.response?.data?.investigator_type;
               let newType = [];
@@ -225,7 +216,7 @@ const WebinarAutoEmail = () => {
   }, []);
   const axiosFun = async () => {
     try {
-      const result = await axios.get(`emailapi/get_site?uid=${localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? 2147536982 : 2147501188}`);
+      const result = await axios.get(`emailapi/get_site?uid=${accountMapping[localStorage.getItem("user_id")] ||  2147501188}`);
 
       let country = result?.data?.response?.data?.site_country_data;
       let arr = [];
@@ -372,14 +363,14 @@ const WebinarAutoEmail = () => {
         contact_type: "",
         country: "",
         role:
-        (localStorageUserId == userId )
+        (isLikeRdAccount )
             ? irtRole?.[0]?.value
             : "",
         optIrt:
-       ( localStorageUserId == userId)
+       ( isLikeRdAccount)
             ? "yes"
             : "",
-            institutionType: (localStorageUserId ==userId)
+            institutionType: (isLikeRdAccount)
             ? "Study site"
             : "",
           siteNumber: "",
@@ -529,7 +520,7 @@ const WebinarAutoEmail = () => {
   const saveClicked = async () => {
     if (activeManual == "active") {
       const body_data = hpc?.map((data) => {
-        if (localStorageUserId == userId) {
+        if (isLikeRdAccount) {
           return {
             first_name: data?.firstname,
             last_name: data?.lastname,
@@ -561,7 +552,7 @@ const WebinarAutoEmail = () => {
       };
 
       const status = body?.data?.map((data, index) => {
-        if (localStorageUserId == userId) {
+        if (isLikeRdAccount) {
           if (data?.first_name == "") {
             setValidationError({
               newHcpFirstName: "Please enter the first name",
@@ -1077,14 +1068,14 @@ const WebinarAutoEmail = () => {
         contact_type: "",
         country: "",
         role:
-        (localStorageUserId == userId )
+        (isLikeRdAccount )
             ? irtRole?.[0]?.value
             : "",
         optIrt:
-        (localStorageUserId ==userId )
+        (isLikeRdAccount )
             ? "yes"
             : "",
-            institutionType: (localStorageUserId ==userId)
+            institutionType: (isLikeRdAccount)
             ? "Study site"
             : "",
           siteNumber: "",

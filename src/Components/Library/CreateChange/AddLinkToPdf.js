@@ -16,6 +16,8 @@ import ConfirmationModal from "../../../Model/ConfirmationModel";
 import { popup_alert } from "../../../popup_alert";
 
 const AddLinkToPdf = () => {
+  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
+  const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
   const { state } = useLocation();
   const [articleId, setArticleId] = useState(
     typeof state?.pdfId !== "undefined" ? state?.pdfId : ""
@@ -1355,17 +1357,17 @@ const AddLinkToPdf = () => {
 
   const nextButtonClicked = async () => {
     try{
-      if(localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg==' || localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA=="){
+      if(isLikeRdAccount){
         navigate("/preview-content", {
           state: {
           pdfId: initFunData?.id,
           isEdit: isEdit,
           allowVideo: allowStateVideo,
-          flag : localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA=="  ?(location?.state?.flag === "mandatory"
+          flag : isLikeRdAccount  ?(location?.state?.flag === "mandatory"
             ? "mandatory"
             : location?.state?.flag === "Non-mandatory"
             ? "Non-mandatory" : '') :'',
-            title: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA=="
+            title: isLikeRdAccount
             ? (location?.state?.title)
             : ''
           },
@@ -1392,8 +1394,7 @@ const AddLinkToPdf = () => {
           <div className="row justify-content-end align-items-center">
             <div className="col-12 col-md-1">
               <div className="header-btn-left">
-                {localStorage.getItem("user_id") ==
-                  "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" ? (
+                {isLikeRdAccount? (
                   <Link
                     className="btn btn-bordered btn btn-primary"
                     // to="/library-create"
@@ -1405,12 +1406,11 @@ const AddLinkToPdf = () => {
                         : "/library-create"
                     }
                     state={{ 
-                      flag : localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" ||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==" ?(location?.state?.flag === "mandatory"
+                      flag : isLikeRdAccount?(location?.state?.flag === "mandatory"
                         ? "mandatory"
                         : location?.state?.flag === "Non-mandatory"
                         ? "Non-mandatory" : '') :'',
-                        title: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" ||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA=="
-                        ? (location?.state?.title)
+                        title: isLikeRdAccount ? (location?.state?.title)
                         : ''
                     
                     }}
@@ -1443,15 +1443,13 @@ const AddLinkToPdf = () => {
                     }
                     {localStorage.getItem("user_id") ==
                       "rjiGlqA9DXJVH7bDDTX0Lg==" || localStorage.getItem("user_id") ==
-                      "iSnEsKu5gB/DRlycxB6G4g==" || localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg=='
-                      || localStorage.getItem('user_id') == 'sNl1hra39QmFk9HwvXETJA=='
+                      "iSnEsKu5gB/DRlycxB6G4g==" ||isLikeRdAccount
                        ? (
                       <li className="active active-main">
                         <a href="">[Embedding Video]</a>
                       </li>
                     ) : null}
-                    {localStorage.getItem("user_id") !=
-                      "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==" ? (
+                    {!isLikeRdAccount ? (
                       <li
                         className={
                           localStorage.getItem("user_id") !=

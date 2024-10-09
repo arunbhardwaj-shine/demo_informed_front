@@ -18,7 +18,6 @@ import { buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 
 const CreateSmartList = () => {
-  const percentage = 98;
   const [uploadOrDownloadCount, setUploadOrDownloadCount] = React.useState(0);
   const [fileLength, setFileLength] = useState(0);
   const location = useLocation();
@@ -41,8 +40,8 @@ const CreateSmartList = () => {
   const [showAlertPopup, setShowAlertPopup] = useState(false);
   const [validator] = React.useState(new SimpleReactValidator());
   const [validationError, setValidationError] = useState({});
-  const [userId,setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==")
-
+  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
+    const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
   let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [ibu, setIbu] = useState([
     {
@@ -292,28 +291,33 @@ const CreateSmartList = () => {
   // }, [smartListName]);
 
   const downloadFile = () => {
-    let user_id = localStorage.getItem("user_id");
-    let link = document.createElement("a");
-    if (
-      user_id == "wW0geGtDPvig5gF 6KbJrg==" ||
-      user_id == "qDgwPdToP05Kgzc g2VjIQ==" ||
-      user_id == "z2TunmZQf3QwCsICFTLGGQ==" ||
-      user_id == "UbCJcnLM9fe HsRMgX8c1A=="
-    ) {
-      link.href = "https://webinar.informed.pro/sample_st.xlsx";
-    } else if(user_id == "56Ek4feL/1A8mZgIKQWEqg==") {
-      link.href = "https://webinar.informed.pro/R_Dsample.xlsx";
-    } else if(user_id == "sNl1hra39QmFk9HwvXETJA==") {
-      link.href = "https://webinar.informed.pro/Norgine_sample.xlsx";
-    }else {
-      link.href = "https://webinar.informed.pro/sample.xlsx";
-    }
+    const user_id = localStorage.getItem("user_id");
+    const link = document.createElement("a");
+    
+    // Define a mapping of user_ids to file URLs
+    const fileMap = {
+      "wW0geGtDPvig5gF 6KbJrg==": "https://webinar.informed.pro/sample_st.xlsx",
+      "qDgwPdToP05Kgzc g2VjIQ==": "https://webinar.informed.pro/sample_st.xlsx",
+      "z2TunmZQf3QwCsICFTLGGQ==": "https://webinar.informed.pro/sample_st.xlsx",
+      "sNl1hra39QmFk9HwvXETJA==": "https://webinar.informed.pro/Norgine_sample.xlsx",
+      "MXl8m36VZFYXpgFVz3Pg0g==": "https://webinar.informed.pro/gena_sample.xlsx",
+      "UbCJcnLM9fe HsRMgX8c1A==": "https://webinar.informed.pro/sample_st.xlsx",
+      "56Ek4feL/1A8mZgIKQWEqg==": "https://webinar.informed.pro/R_Dsample.xlsx"
+    };
+  
+    // Default file if no specific user_id match is found
+    const defaultFileUrl = "https://webinar.informed.pro/sample.xlsx";
+  
+    // Set the appropriate file URL based on user_id or default
+    link.href = fileMap[user_id] || defaultFileUrl;
+  
+    // Set the download attribute and trigger the download
     link.setAttribute("download", "file.xlsx");
     document.body.appendChild(link);
-    link.download = "";
     link.click();
     document.body.removeChild(link);
   };
+  
 
   return (
     <>
@@ -329,8 +333,7 @@ const CreateSmartList = () => {
                     </li>
                     <li className="">
                       <a href="javascript:void(0)">
-                      {(localStorage.getItem("user_id") == userId
-                      ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                      {isLikeRdAccount
                       ?" Select & Verify Your Users":" Select & Verify Your HCPs"}
                        </a>
                     </li>
@@ -517,8 +520,7 @@ const CreateSmartList = () => {
                         </div>
 
                         <p>
-                          {(localStorage.getItem("user_id") == userId
-                          ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                          {isLikeRdAccount
                           ?"Upload new Users":"Upload new HCPs"}
                             </p>
                       </li>
@@ -527,8 +529,7 @@ const CreateSmartList = () => {
                 </div>
                 <div className="download-sample">
                   <p>
-                  {(localStorage.getItem("user_id") == userId
-                  ||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==")
+                  {isLikeRdAccount
                   ?" Download sample Excel file to upload new Users":" Download sample Excel file to upload new HCPs"}
 
 

@@ -6,12 +6,13 @@ import { saveAsDraft } from "./CommonFunctions/CommonFunction";
 import { useSelector, useDispatch, connect } from "react-redux";
 import { getSurveyData } from "../../actions";
 import { updateLiveFlag } from "./CommonFunctions/CommonFunction";
+import { toast } from "react-toastify";
 var surveyValues = {};
 
 const SurveyFinalPreview = () => {
-
+  const { elements } = useSelector((state) => state.surveyData);
   const consentOption = surveyValues?.surveyConfigData?.survey_consent;
-  console.log(consentOption,"from survey final preview")
+ 
   const navigate = useNavigate();
   const location = useLocation();
   const surveyRef = useRef(null);
@@ -21,6 +22,17 @@ const SurveyFinalPreview = () => {
   };
   const navigateFunction=async(e)=>{
     e.preventDefault()
+
+    const result = elements.filter((item) => {
+      return item.type === "consent";
+    });
+    if (
+      consentOption !== "No consent needed (anonymous)" &&
+      result.length <= 0
+    ) {
+      toast.warning("Please add at least one question the survey");
+      return;
+    }
     await saveAsDraft(e, 1, location.pathname, navigate);
     navigate("/survey/survey-list");
   }

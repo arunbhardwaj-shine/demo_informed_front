@@ -43,7 +43,9 @@ import {
 
 const LibraryContent = (props) => {
   //-----All States-----//
-  const isRDAccount = localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id")==="sNl1hra39QmFk9HwvXETJA=="
+  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
+  const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
+  const isRDAccount = isLikeRdAccount
   const deletButtonColor =isRDAccount  ? '#8A4E9C' : '#0066be'
   const [flag, setFlag] = useState(0);
   const [types, setTypes] = useState([
@@ -182,7 +184,7 @@ const LibraryContent = (props) => {
   ];
 
   useEffect(() => {
-    if (localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg=="&&localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==") {
+    if (!isLikeRdAccount) {
       let linktype = types;
       linktype.push(
         { value: "Offline Offer", label: "Offline Offer" },
@@ -250,12 +252,12 @@ const LibraryContent = (props) => {
         user_id: localStorage.getItem("user_id"),
       };
 
-      if (payload.user_id === "56Ek4feL/1A8mZgIKQWEqg==" || payload.user_id === "sNl1hra39QmFk9HwvXETJA==") {
+      if (isLikeRdAccount) {
         payload["IRT mandatory training"] = [irt];
         // payload.Role = [role];
       }
 
-      if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id")==="sNl1hra39QmFk9HwvXETJA==") {
+      if (isLikeRdAccount) {
         if (location?.state?.flag === 'mandatory') {
           payload.Role = [role];
         }
@@ -335,7 +337,7 @@ const LibraryContent = (props) => {
       otherObj[key] = [];
     }
 
-    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") {
+    if (isLikeRdAccount) {
       if (key == "IRT mandatory training") {
         if (newObj["Role"]) {
           delete newObj["Role"];
@@ -555,14 +557,14 @@ const LibraryContent = (props) => {
       };
     
     let staticFilters = {};
-    if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id")==="sNl1hra39QmFk9HwvXETJA==") {
+    if (isLikeRdAccount) {
       staticFilters = {
         "IRT mandatory training": [irt],
         // Role: [role]
       };
     }
 
-    if (localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id")==="sNl1hra39QmFk9HwvXETJA==") {
+    if (isLikeRdAccount) {
       if (location?.state?.flag === 'mandatory') {
         staticFilters.Role = [role];
       }
@@ -895,7 +897,7 @@ const LibraryContent = (props) => {
     if (!tagClickedFirst.includes(dd)) {
       setTagClickedFirst((oldArray) => [...oldArray, dd]);
     } else {
-      {localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" ||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==" ?
+      {isLikeRdAccount ?
         toast.error("Topic already in list."): toast.error("Tag already in list.");
        } 
       
@@ -922,7 +924,7 @@ const LibraryContent = (props) => {
   const addTag = async () => {
     try {
       if (typeof newTag == "undefined" || newTag.trim().length == 0) {
-       {localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" ||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==" ?
+       {isLikeRdAccount ?
         toast.error("Please input a topic"): toast.error("Please input a tag");
        } 
         
@@ -960,7 +962,7 @@ const LibraryContent = (props) => {
             tags: newTag,
           };
         } else {
-          {localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" ||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==" ?
+          {isLikeRdAccount ?
             toast.error("Topic already in list."): toast.error("Tag already in list.");
            } 
         }
@@ -1063,7 +1065,7 @@ const LibraryContent = (props) => {
   };
 
   const nextClicked = async(id) => {
-    if(localStorage.getItem('user_id') == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="){
+    if(isLikeRdAccount){
       if(mandatoryPdfId){
         let irtRoleObj = {
           "pdfId": mandatoryPdfId,
@@ -1146,7 +1148,7 @@ const LibraryContent = (props) => {
             <div className="top-sticky">
               <div className="top-header">
                 <div className="page-title">
-                  {localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id")==="sNl1hra39QmFk9HwvXETJA==" ? (
+                  {isLikeRdAccount ? (
                     location?.pathname === "/library-mandatory-content" ? (
                       <>
                         <Link className="btn btn-primary btn-bordered back-btn"
@@ -1178,7 +1180,7 @@ const LibraryContent = (props) => {
                   <h2>{location?.state?.data == "edit" ? "Edit" : ""}</h2>
                 </div>
                 <div className="top-right-action flex-wrap">
-                  {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" ? (
+                  {isLikeRdAccount ? (
 
                     <>
                       <div className="action-btn-add"style={{margin:"0"}}>
@@ -1664,14 +1666,14 @@ const LibraryContent = (props) => {
                               </div>
                             ) : null}
 
-                              {(localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==" ||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==") && location?.state?.data == "edit" || editstatus ? (
+                              {(isLikeRdAccount) && location?.state?.data == "edit" || editstatus ? (
                               <div className="dlt_btn edit">
                                 <Link
                                   to="/library-edit"
                                   state={{ pdfid: data.id ,  
                                     // title : location?.state?.title,
-                                    title: localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg=="||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA==" ? location?.state?.title : '',
-                                    flag: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" ||  localStorage.getItem("user_id") ==="sNl1hra39QmFk9HwvXETJA=="
+                                    title:isLikeRdAccount? location?.state?.title : '',
+                                    flag: isLikeRdAccount
                                     ? (location?.state?.flag === "Non-mandatory" ? 'Non-mandatory' : "mandatory")
                                     : '' 
                                   }}
@@ -1794,8 +1796,7 @@ const LibraryContent = (props) => {
                                           : "No"}
                                       </h6>
                                     </li>
-                                    {localStorage.getItem("user_id") !=
-                                      "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==" ? (
+                                    {!isLikeRdAccount ? (
                                       <>
                                         <li>
                                           <h6 className="tab-content-title">
@@ -1901,8 +1902,7 @@ const LibraryContent = (props) => {
                                       )}
 
 
-                                    {(localStorage.getItem("user_id") ==
-                      "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") && localStorage.getItem("group_id") == 3 ? (
+                                    {isLikeRdAccount && localStorage.getItem("group_id") == 3 ? (
                                       <Button
                                         className="footer-btn"
                                         onClick={(e) =>
@@ -1913,8 +1913,7 @@ const LibraryContent = (props) => {
                                       </Button>
                                     ) : null}
 
-                                      {localStorage.getItem("user_id") !=
-                      "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==" ?
+                                      {!isLikeRdAccount ?
                       <Button
                                         onClick={(e) => {
                                           commonModelFun(
@@ -2629,8 +2628,7 @@ const LibraryContent = (props) => {
                                 </div>
                               </Tab>
 
-                              {localStorage.getItem("user_id") !=
-                      "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==" ?<Tab
+                              {!isLikeRdAccount ?<Tab
                                 className="change-tab flex-column justify-content-between"
                                 eventKey="change-tab"
                                 title="Change"
@@ -2725,8 +2723,8 @@ const LibraryContent = (props) => {
                                       // state={{ pdfid: data.id }}
                                       state={{ pdfid: data.id , 
                                         // title : location?.state?.title,
-                                        title: localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id")==="sNl1hra39QmFk9HwvXETJA==" ? location?.state?.title : '',
-                                        flag: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id")==="sNl1hra39QmFk9HwvXETJA=="
+                                        title: isLikeRdAccount ? location?.state?.title : '',
+                                        flag: isLikeRdAccount
                                         ? (location?.state?.flag === "Non-mandatory" ? 'Non-mandatory' : "mandatory")
                                         : '' 
                                       }}
@@ -2745,8 +2743,7 @@ const LibraryContent = (props) => {
                                       </Button>
                                     ) : null}
 
-                                    {localStorage.getItem("user_id") !=
-                                      "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==" && (
+                                    {!isLikeRdAccount && (
                                         <Link
                                           to="/library-sublink"
                                           state={{ pdfid: data.id }}
@@ -2766,8 +2763,7 @@ const LibraryContent = (props) => {
                                 </div>
                               </Tab>:""}
 
-                              {localStorage.getItem("user_id") !=
-                      "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==" ?<Tab
+                              {!isLikeRdAccount ?<Tab
                                 eventKey="sales"
                                 title={
                                   localStorage.getItem("group_id") == "3"
@@ -2846,8 +2842,7 @@ const LibraryContent = (props) => {
                                       </>
                                     )}
                                     {localStorage.getItem("group_id") === "3" &&
-                                      localStorage.getItem("user_id") !==
-                                      "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") !== "sNl1hra39QmFk9HwvXETJA==" ? (
+                                      !isLikeRdAccount? (
                                       <>
                                         <li>
                                           <h6 className="tab-content-title">
@@ -2862,8 +2857,7 @@ const LibraryContent = (props) => {
                                       </>
                                     ) : null}
 
-                                    {localStorage.getItem("user_id") ===
-                                      "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" &&
+                                    {isLikeRdAccount &&
                                       localStorage.getItem("group_id") === "3" ? (
                                       <>
                                         {/*<li>
@@ -2902,8 +2896,7 @@ const LibraryContent = (props) => {
                                       </>
                                     ) : null}
 
-                                    {localStorage.getItem("user_id") !==
-                                      "56Ek4feL/1A8mZgIKQWEqg==" && localStorage.getItem("user_id") != "sNl1hra39QmFk9HwvXETJA==" ? (
+                                    {!isLikeRdAccount ? (
                                       <>
                                         <li>
                                           <h6 className="tab-content-title">
@@ -3049,8 +3042,7 @@ const LibraryContent = (props) => {
       <Modal id="tagsModal" show={isOpen}>
         <Modal.Header>
           <h5 className="modal-title" id="staticBackdropLabel">
-        { localStorage.getItem("user_id") ===
-          "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==" ? "Add Topics" : "Add Tags"}
+        { isLikeRdAccount ? "Add Topics" : "Add Tags"}
           </h5>
           <button
             type="button"
@@ -3063,8 +3055,7 @@ const LibraryContent = (props) => {
         <Modal.Body>
           <div className="select-tags">
             <h6>
-            { localStorage.getItem("user_id") ===
-          "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==" ? "Select Topic :" : "Select Tag :"}
+            {isLikeRdAccount ? "Select Topic :" : "Select Tag :"}
             </h6>
             <div className="tag-lists">
               <div className="tag-lists-view">
@@ -3085,8 +3076,7 @@ const LibraryContent = (props) => {
           <div className="selected-tags">
             <h6>
              
-              { localStorage.getItem("user_id") ===
-          "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==" ? "Selected Topics" : "Selected Tag"}
+              {isLikeRdAccount ? "Selected Topics" : "Selected Tag"}
                <span> | {tagClickedFirst.length}</span>
             </h6>
 
@@ -3112,8 +3102,7 @@ const LibraryContent = (props) => {
           <form>
             <div className="form-group">
               <label htmlFor="new-tag">
-              { localStorage.getItem("user_id") ===
-          "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA==" ? "New Topic" : "New Tag"}
+              {isLikeRdAccount ? "New Topic" : "New Tag"}
 
               </label>
               <input

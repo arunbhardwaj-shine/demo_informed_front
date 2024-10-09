@@ -14,6 +14,8 @@ import SmartListLayout from "../../CommonComponent/SmartListLayout";
 import SmartListTableLayout from "../../CommonComponent/SmartListTableLayout";
 
 const SmartList = (props) => {
+  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
+  const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
   const [smartListData, setSmartListData] = useState([]);
   const [getUserDetails, setUserDetails] = useState([]);
   const [prevsmartListData, setPrevSmartListData] = useState([]);
@@ -48,8 +50,8 @@ const SmartList = (props) => {
     },
   ])
 
-   const deletButtonColor = (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==") ? '#8A4E9C' : '#0066be'
-   const isRDAccount = localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id")==="sNl1hra39QmFk9HwvXETJA=="
+   const deletButtonColor = isLikeRdAccount ? '#8A4E9C' : '#0066be'
+   const isRDAccount = isLikeRdAccount
 
   let path = process.env.REACT_APP_ASSETS_PATH_INFORMED;
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -409,7 +411,7 @@ const SmartList = (props) => {
             <div className="top-header sticky">
               <div className="page-title">{/* <h2>Smart List</h2> */}</div>
               <div className="top-right-action">
-              {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" ? (
+              {isLikeRdAccount ? (
                 <>
                   <div className="action-btn-add" style={{margin:"0"}}>
                   <Link  to="/CreateSmartList"
@@ -866,9 +868,7 @@ const SmartList = (props) => {
                 //   getFilterCreator.length == 0 &&
                 //   getFilterIbu.length == 0 &&
                 //   filterdate.length == 0 &&
-                  !deletestatus && (
-                    localStorage.getItem("user_id") !== "56Ek4feL/1A8mZgIKQWEqg==" &&
-                    localStorage.getItem("user_id") !== "sNl1hra39QmFk9HwvXETJA==" && (
+                  !deletestatus && (!isLikeRdAccount && (
                     <div className="smartlist_box_block">
                       <div className="smartlist-add smartlist-view">
                           <>
