@@ -293,8 +293,6 @@ const CreateSmartList = () => {
   const downloadFile = () => {
     const user_id = localStorage.getItem("user_id");
     const link = document.createElement("a");
-    
-    // Define a mapping of user_ids to file URLs
     const fileMap = {
       "wW0geGtDPvig5gF 6KbJrg==": "https://webinar.informed.pro/sample_st.xlsx",
       "qDgwPdToP05Kgzc g2VjIQ==": "https://webinar.informed.pro/sample_st.xlsx",
@@ -305,13 +303,8 @@ const CreateSmartList = () => {
       "56Ek4feL/1A8mZgIKQWEqg==": "https://webinar.informed.pro/R_Dsample.xlsx"
     };
   
-    // Default file if no specific user_id match is found
     const defaultFileUrl = "https://webinar.informed.pro/sample.xlsx";
-  
-    // Set the appropriate file URL based on user_id or default
     link.href = fileMap[user_id] || defaultFileUrl;
-  
-    // Set the download attribute and trigger the download
     link.setAttribute("download", "file.xlsx");
     document.body.appendChild(link);
     link.click();
