@@ -545,7 +545,9 @@ const getSurveyAnalyticsDetail=async()=>{
                         </td>
                         <td>{item?.Consent}</td>
                         <td>{item?.Creator}</td>
-                        <td className="blue">{moment(item?.CreatedDate).utc()?.format('MMM DD.YYYY | h:mm A')}  </td>
+                        {/* <td className="blue">{moment(item?.CreatedDate).utc()?.format('MMM DD.YYYY | h:mm A')}  </td> */}
+                        <td className="blue">{moment(item?.CreatedDate).utc()?.format('MMM DD.YYYY')} 
+                          <span>{moment(item?.CreatedDate).utc()?.format('h:mm A')}</span> </td>
                         <td>
                           <img src={path_image + "completed-icon.svg"} alt="" />{" "}
                           {item?.Completed?item?.Completed:0}

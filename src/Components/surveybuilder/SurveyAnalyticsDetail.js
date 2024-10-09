@@ -304,7 +304,7 @@ const SurveyAnalyticsDetail = () => {
                 name: series?.name,
                 data: series?.data?.map((data) => data),
                 // data:[0,2],
-                color:colors[index],
+                color:series?.color,
                 marker: {
                     symbol: 'circle',
                     radius: 5,
