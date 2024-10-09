@@ -854,8 +854,10 @@ const SurveyAnalyticsDetail = () => {
                     {Object?.keys(data)?.length ?
                         <Row>
                             <div className="top-header analytics_header sticky">
-                                <div className="page-title d-flex flex-column align-items-start">
-                                    {/* <Link
+                            {/* <div className="page-title d-flex flex-column align-items-start"> */}
+                                <div className="page-title d-flex  align-items-start">
+                                
+                                     <Link
                                         className="btn btn-primary btn-bordered back-btn"
                                         to="/survey/survey-analytics"
                                     >
@@ -871,9 +873,11 @@ const SurveyAnalyticsDetail = () => {
                                                 fill="#97B6CF"
                                             />
                                         </svg>
-                                    </Link> */}
+                                    </Link> 
+                                    <div className="flex-column">
                                     <h2>{stateData?.Title} </h2>
                                     <p>{moment(stateData?.CreatedDate).format("MMM. DD. YYYY")}</p>
+                                    </div>
                                 </div>
                                 <Button title="Download Site Engagements" className="download filled">
                                     Summary (Excel)
@@ -881,6 +885,7 @@ const SurveyAnalyticsDetail = () => {
                                 </Button>
 
                             </div>
+                            
                             <div className="webinar-analytics-layout survey-analytics-content">
                                 <Row>
                                     <Col md={12}>
