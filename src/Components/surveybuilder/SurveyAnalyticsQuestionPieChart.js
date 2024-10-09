@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState, memo } from "react";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
+
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const SurveyAnalyticsQuestionPieChart = memo(({ key, data, show, type,colors,chartRef }) => {   
     const baseOptions = {
@@ -74,6 +75,15 @@ const SurveyAnalyticsQuestionPieChart = memo(({ key, data, show, type,colors,cha
             //     borderWidth: 1,
             // }
 
+            series:{
+                dataLabels:{
+                style:{
+                    color: "#0066BE",
+                    fill: "#0066BE"
+                }
+            }
+            },
+
             pie: {
                 showInLegend: true,
                 size: "100%",
@@ -83,9 +93,11 @@ const SurveyAnalyticsQuestionPieChart = memo(({ key, data, show, type,colors,cha
                     format: "({point.percentage:.1f}%)", // Show name, value, and percentage
                     style: {
                         fontWeight: "bold",
-                        color: "#000", // Text color
+                        // color: "#000", // Text color
                         textOutline: "none", // No text outline
                         fontSize: "12px",
+                        color: "#0066BE",
+                        fill: "#0066BE"
                     },
                     distance: 30, // Set distance from pie slice (optional)
                 },
@@ -194,6 +206,10 @@ const SurveyAnalyticsQuestionPieChart = memo(({ key, data, show, type,colors,cha
         xAxis: {
             categories: [],
             visible: false,
+            style: {
+                color: "#97B6CF",
+                // fontSize: "33px",
+              },
         },
         yAxis: {
             min: 0,
@@ -207,7 +223,8 @@ const SurveyAnalyticsQuestionPieChart = memo(({ key, data, show, type,colors,cha
             },
             labels: {
                 enabled: true, // enable Y-axis labels
-                color: "#0442A2"
+                color: "#2467C1"
+                // color:"#0066BE"
             },
         },
         exporting: {
@@ -226,7 +243,7 @@ const SurveyAnalyticsQuestionPieChart = memo(({ key, data, show, type,colors,cha
         },
         plotOptions: {
             series: {
-                pointWidth: 15,
+                pointWidth: 10,
                 allowPointSelect: true,
                 cursor: "pointer",
                 dataLabels: [
@@ -235,11 +252,14 @@ const SurveyAnalyticsQuestionPieChart = memo(({ key, data, show, type,colors,cha
                         formatter: function () {
                             var pcnt = this.point.p.toFixed(0);
                             return '<tspan >' + pcnt + "%" + '</tspan>';
+                            // return   pcnt + "%" ;
                         },
                         style: {
                             fontSize: "1.2em",
                             textOutline: "none",
-                            opacity: 0.7,
+                            fontWeight: "bold",
+                            color: "#2467C1",
+                            fill: "#2467C1",
                         },
                     },
                 ],
