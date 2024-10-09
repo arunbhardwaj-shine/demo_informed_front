@@ -751,31 +751,48 @@ const ReaderAdd = () => {
   };
 
   const downloadFile = () => {
-    let user_id = localStorage.getItem("user_id");
-    let link = document.createElement("a");
-    if (isLikeRdAccount) {
-        if(state?.siteRole == 'Site User-Blinded'){
-            link.href = user_id == "56Ek4feL/1A8mZgIKQWEqg==" ? "https://webinar.informed.pro/Site_User.xlsx" :  "https://webinar.informed.pro/Norgine_Site_User.xlsx";
-        }else if(state?.siteRole == 'Investigator-Blinded'){
-          link.href = user_id == "56Ek4feL/1A8mZgIKQWEqg==" ? "https://webinar.informed.pro/Investigator.xlsx" : "https://webinar.informed.pro/Norgine_Investigator.xlsx";
-        }else if(state?.siteRole == 'Site unblinded pharmacist' || state?.siteRole == 'Site Unblinded Pharmacist' || state?.siteRole == 'Site Unblinded pharmacist') {
-          link.href = user_id == "56Ek4feL/1A8mZgIKQWEqg==" ? "https://webinar.informed.pro/Pharmacist.xlsx" : "https://webinar.informed.pro/Norgine_Pharmacist.xlsx";
-        }else{
-          link.href = "https://webinar.informed.pro/R_Dsample.xlsx";
+    const user_id = localStorage.getItem("user_id");
+    const link = document.createElement("a");
+    
+    const roleBasedUrls = {
+        'Site User-Blinded': {
+            '56Ek4feL/1A8mZgIKQWEqg==': "https://webinar.informed.pro/Site_User.xlsx",
+            'MXl8m36VZFYXpgFVz3Pg0g==': "https://webinar.informed.pro/Gena_Site_User.xlsx",
+            'default': "https://webinar.informed.pro/Norgine_Site_User.xlsx"
+        },
+        'Investigator-Blinded': {
+            '56Ek4feL/1A8mZgIKQWEqg==': "https://webinar.informed.pro/Investigator.xlsx",
+            'MXl8m36VZFYXpgFVz3Pg0g==': "https://webinar.informed.pro/Gena_Investigator.xlsx",
+            'default': "https://webinar.informed.pro/Norgine_Investigator.xlsx"
+        },
+        'Site unblinded pharmacist': {
+            '56Ek4feL/1A8mZgIKQWEqg==': "https://webinar.informed.pro/Pharmacist.xlsx",
+            'MXl8m36VZFYXpgFVz3Pg0g==': "https://webinar.informed.pro/Gena_Pharmacist.xlsx",
+            'default': "https://webinar.informed.pro/Norgine_Pharmacist.xlsx"
         }
+    };
+
+    const isGenaAccount = user_id === "MXl8m36VZFYXpgFVz3Pg0g==";
+    
+    if (isLikeRdAccount) {
+        const roleUrls = roleBasedUrls[state?.siteRole];
+        
+        if (roleUrls) {
+            link.href = roleUrls[user_id] || roleUrls.default;
+        } else if (isGenaAccount) {
+            link.href = "https://webinar.informed.pro/gena_sample.xlsx";
+        } else {
+            link.href = "https://webinar.informed.pro/R_Dsample.xlsx";
+        }
+    } else {
+        link.href = "https://webinar.informed.pro/sample.xlsx";
     }
-    //  else if (user_id == "sNl1hra39QmFk9HwvXETJA==") {
-    //   link.href = "https://webinar.informed.pro/Norgine_sample.xlsx";
-    // } 
-    else {
-      link.href = "https://webinar.informed.pro/sample.xlsx";
-    }
+
     link.setAttribute("download", "file.xlsx");
     document.body.appendChild(link);
-    link.download = "";
     link.click();
     document.body.removeChild(link);
-  };
+};
 
   const RDAccount = () => {
     return (

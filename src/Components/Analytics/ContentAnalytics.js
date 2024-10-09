@@ -58,6 +58,7 @@ const ContentAnalytics = () => {
       const requestBody = {
         selectValue: JSON.stringify(["id", "title", "code","file_type"]),
         type: "rest",
+        analytics: 1
       };
       const response = await postData(ENDPOINT.LIBRARY, requestBody);
       const hadData = response?.data?.data?.library || [];
