@@ -5732,3 +5732,30 @@ body{
         }
     }
 }
+
+
+
+.highcharts-label.popup-on-click {
+    background: #0066BE;
+    border-radius: 50px;
+    min-width: 105px;
+    min-height: 30px;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.highcharts-label.popup-on-click > span {
+    text-align: center;
+    width: 91px;
+    color: #fff!important;
+    top:6px!important;
+}
+.highcharts-label.popup-on-click span > div {
+    gap:4px;
+}
+.highcharts-label.popup-on-click span div img{
+    filter:brightness(0) invert(1);
+}
+.highcharts-label.popup-on-click path {
+    stroke: none;
+}
