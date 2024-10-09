@@ -548,7 +548,7 @@ const getSurveyAnalyticsDetail=async()=>{
                         <td className="blue">{moment(item?.CreatedDate).utc()?.format('MMM DD.YYYY | h:mm A')}  </td>
                         <td>
                           <img src={path_image + "completed-icon.svg"} alt="" />{" "}
-                          {item?.Completed?item?.Completed:0} %
+                          {item?.Completed?item?.Completed:0}
                         </td>
                         <td>
                           <img src={path_image + "drop-off-icon.svg"} alt="" />{" "}

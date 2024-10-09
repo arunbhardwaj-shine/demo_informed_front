@@ -4855,6 +4855,22 @@ body {
                             div {
                                 color: $dark-gray;
                                 font-size: 13px;
+                                &.d-flex{
+                                    gap:6px;
+                                    .number_rating{
+                                        width: 16px;
+                                        height:16px;
+                                        border-radius: 50%;
+                                        background: #70899E;
+                                        color:#fff;
+                                        font-size: 10px;
+                                        text-align: center;
+                                        &:first-child{
+                                            margin-left: 3px;
+                                        }
+                                    }
+                                }
+                                
                             }
                         }
 
@@ -5051,6 +5067,23 @@ body {
                     height: 100%;
                     
                     .question-preview-chart-details{
+                        &.numeric{
+                            .survey-rating-detail{
+                                h5{
+                                    span{
+                                        background: #97B6CF;
+                                        width: 16px;
+                                        height: 16px;
+                                        border-radius: 50%;
+                                        color: #ffffff;
+                                        font-size: 10px;
+                                        display: flex;
+                                        align-items: center;
+                                        justify-content: center;
+                                    }
+                                } 
+                            }
+                        }
                         .survey-rating-detail{
                             h5{
                                 display: flex;
@@ -5068,6 +5101,7 @@ body {
                                     line-height: 1;
                                 }
                             }
+
                             .progress{
                                 background: #EAF0F5;
                                 border-radius: 20px;
