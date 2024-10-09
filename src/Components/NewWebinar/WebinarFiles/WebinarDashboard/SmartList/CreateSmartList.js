@@ -299,7 +299,9 @@ const CreateSmartList = () => {
       link.href = "https://webinar.informed.pro/sample_st.xlsx";
     } else if(user_id == "56Ek4feL/1A8mZgIKQWEqg==") {
       link.href = "https://webinar.informed.pro/R_Dsample.xlsx";
-    } else if(user_id == "sNl1hra39QmFk9HwvXETJA==") {
+    } else if(user_id == "MXl8m36VZFYXpgFVz3Pg0g==" ) {
+      link.href = "https://webinar.informed.pro/gena_sample.xlsx";
+    }else if(user_id == "sNl1hra39QmFk9HwvXETJA==") {
       link.href = "https://webinar.informed.pro/Norgine_sample.xlsx";
     } else {
       link.href = "https://webinar.informed.pro/sample.xlsx";

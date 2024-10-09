@@ -436,38 +436,26 @@ const SelectSmartList = (props) => {
   }
 
   const downloadFile = () => {
-    // let link = document.createElement("a");
-    // link.href = "https://webinar.informed.pro/sample.xls";
-    // link.setAttribute("download", "file.xlsx");
-    // document.body.appendChild(link);
-    // link.download = "";
-    // link.click();
-    // document.body.removeChild(link);
-
-    let user_id = localStorage.getItem("user_id");
-    let link = document.createElement("a");
-    if (
-      user_id == "wW0geGtDPvig5gF 6KbJrg==" ||
-      user_id == "qDgwPdToP05Kgzc g2VjIQ==" ||
-      user_id == "z2TunmZQf3QwCsICFTLGGQ==" ||
-      user_id == "UbCJcnLM9fe HsRMgX8c1A=="
-    ) {
-      link.href = "https://webinar.informed.pro/sample_st.xlsx";
-    } else if (user_id == "56Ek4feL/1A8mZgIKQWEqg==") {
-      link.href = "https://webinar.informed.pro/R_Dsample.xlsx";
-    } else if(user_id == "MXl8m36VZFYXpgFVz3Pg0g==" ) {
-      link.href = "https://webinar.informed.pro/gina_sample.xlsx";
-    }else if(user_id == "sNl1hra39QmFk9HwvXETJA==") {
-      link.href = "https://webinar.informed.pro/Norgine_sample.xlsx";
-    } else {
-      link.href = "https://webinar.informed.pro/sample.xlsx";
-    }
+    const user_id = localStorage.getItem("user_id");
+    const link = document.createElement("a");
+    const fileMap = {
+      "wW0geGtDPvig5gF 6KbJrg==": "https://webinar.informed.pro/sample_st.xlsx",
+      "qDgwPdToP05Kgzc g2VjIQ==": "https://webinar.informed.pro/sample_st.xlsx",
+      "z2TunmZQf3QwCsICFTLGGQ==": "https://webinar.informed.pro/sample_st.xlsx",
+      "sNl1hra39QmFk9HwvXETJA==": "https://webinar.informed.pro/Norgine_sample.xlsx",
+      "MXl8m36VZFYXpgFVz3Pg0g==": "https://webinar.informed.pro/gena_sample.xlsx",
+      "UbCJcnLM9fe HsRMgX8c1A==": "https://webinar.informed.pro/sample_st.xlsx",
+      "56Ek4feL/1A8mZgIKQWEqg==": "https://webinar.informed.pro/R_Dsample.xlsx"
+    };
+  
+    const defaultFileUrl = "https://webinar.informed.pro/sample.xlsx";
+    link.href = fileMap[user_id] || defaultFileUrl;
     link.setAttribute("download", "file.xlsx");
     document.body.appendChild(link);
-    link.download = "";
     link.click();
     document.body.removeChild(link);
   };
+  
 
   const load_more = () => {
     getSmartListData(2);
