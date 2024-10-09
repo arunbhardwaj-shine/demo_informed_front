@@ -292,7 +292,7 @@ const SurveyList = (props) => {
       loader("show");
       setQr({
         ...qrState,
-        value: `https://survey.docintel.app/survey?Utmde=${selectedSublink.label}&dl=qr`,
+        value: `https://survey.docintel.app/survey?Utmde=${selectedSublink.label}&dl=QR`,
       });
       setTimeout(function () {
         downloadQRCode();
@@ -506,7 +506,7 @@ const SurveyList = (props) => {
       survey_id: deletecardid,
       is_delete: 1,
     };
-    // axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+    
     try {
       loader("show");
       const res = await surveyAxiosInstance.post(
@@ -514,8 +514,11 @@ const SurveyList = (props) => {
         body
       );
 
+      console.log("from deletsurvey details===>" ,res)
+
       if (res) {
         hideConfirmationModal();
+        
         await fetchSurveyListing();
 
         popup_alert({
@@ -1278,7 +1281,7 @@ const SurveyList = (props) => {
                                               onClick={() => {
                                                 setQr({
                                                   ...qrState,
-                                                  value: `https://survey.docintel.app/survey?Utmde=${data.unique_code}&dl=qr`,
+                                                  value: `https://survey.docintel.app/survey?Utmde=${data.unique_code}&dl=QR`,
                                                 });
                                                 setTimeout(function () {
                                                   downloadQRCode();
