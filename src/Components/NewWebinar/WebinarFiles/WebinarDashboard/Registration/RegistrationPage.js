@@ -4298,6 +4298,28 @@ const FormField10 = ({
     });
     },[form])
 
+  // const handleFieldChange = (value, e = "") => {
+  //   const newData = { ...formFieldData };
+
+  //   if (form?.inputType === "datepicker") {
+  //     newData[label] = moment(value).format("YYYY-MM-DD");
+  //   } else if (form?.inputType === "checkbox") {
+  //     newData[label] = Array.isArray(newData[label]) ? newData[label] : [];
+
+  //     if (e.target.checked) {
+  //       newData[label] = [...newData[label], value];
+  //     } else {
+  //       newData[label] = newData[label].filter((item) => item !== value);
+  //       if (newData[label].length === 0) {
+  //         newData[label] = '';
+  //       }
+  //     }
+  //   } else {
+  //     newData[label] = value;
+  //   }
+  //   setFormFieldData(newData);
+  // };
+
   const handleFieldChange = (value, e = "") => {
     const newData = { ...formFieldData };
 
@@ -4307,9 +4329,89 @@ const FormField10 = ({
       newData[label] = Array.isArray(newData[label]) ? newData[label] : [];
 
       if (e.target.checked) {
-        newData[label] = [...newData[label], value];
+        if (label == "consent" && eventId == 503) {
+          let options = form?.option;
+
+          const checkboxes = document.querySelectorAll(
+            `input[name="${label}"]`
+          );
+          // console.dir(checkboxes,'checkboxes');
+          // console.log(e ,'checkboxes');
+
+          if (e.target.id == "consent0") {
+            checkboxes[0].checked = true;
+            checkboxes[2].checked = checkboxes[1].checked ? true : false;
+
+            newData[label] = [];
+            newData[label] = [options[0?.optionLabel]];
+            if (checkboxes[1].checked) {
+              newData[label] = [...newData[label], options[1]?.optionLabel];
+              newData[label] = [...newData[label], options[2]?.optionLabel];
+            }
+          } else if (e.target.id == "consent1") {
+            checkboxes[1].checked = true;
+            newData[label] = [];
+            newData[label] = [options[1]?.optionLabel];
+            if (checkboxes[0].checked) {
+              newData[label] = [...newData[label], options[0]?.optionLabel];
+              newData[label] = [...newData[label], options[2]?.optionLabel];
+            }
+            checkboxes[2].checked = checkboxes[0].checked ? true : false;
+          } else if (e.target.id == "consent2") {
+            checkboxes[0].checked = true;
+            checkboxes[1].checked = true;
+            checkboxes[2].checked = true;
+            newData[label] = [];
+            newData[label] = [...newData[label], options[0]?.optionLabel];
+            newData[label] = [...newData[label], options[1]?.optionLabel];
+            newData[label] = [...newData[label], options[2]?.optionLabel];
+          } 
+        }else{
+          newData[label] = [...newData[label], value];
+        }
       } else {
-        newData[label] = newData[label].filter((item) => item !== value);
+        if (label == "consent" && eventId == 503) {
+
+          let options = form?.option;
+
+          const checkboxes = document.querySelectorAll(`input[name="${label}"]`);
+          // console.dir(checkboxes,'checkboxes');
+          // console.log(e ,'checkboxes');
+          for (const checkbox of checkboxes) {
+            if (e.target.id == "consent0") {
+              checkboxes[0].checked = false;
+              // checkboxes[1].checked = false;
+              checkboxes[2].checked = false;
+              newData[label] = [];
+              if (checkboxes[1].checked) {
+                newData[label] = [options[1]?.optionLabel];
+              }
+
+
+            } else if (e.target.id == "consent1") {
+              // checkboxes[0].checked = false;
+              checkboxes[1].checked = false;
+              checkboxes[2].checked = false;
+              newData[label] = [];
+              newData[label] = [];
+              if (checkboxes[0].checked) {
+                newData[label] = [options[0]?.optionLabel];
+              }
+
+
+            } else if (e.target.id == "consent2") {
+              checkboxes[0].checked = false;
+              checkboxes[1].checked = false;
+              checkboxes[2].checked = false;
+              newData[label] = [];
+            }
+          }
+        }else{
+          newData[label] = newData[label].filter((item) => item !== value);
+          if (newData[label].length === 0) {
+            newData[label] = '';
+          }
+        }
       }
     } else {
       newData[label] = value;
