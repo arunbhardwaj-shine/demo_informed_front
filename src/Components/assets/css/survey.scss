@@ -4161,9 +4161,12 @@ body {
                 thead {
                     tr {
                         th {
-                            min-width: 106px;
+                            min-width: 90px;
                             &:last-child{
                                 min-width: auto;
+                            }
+                            &:nth-child(3){
+                                width: 145px;
                             }
                         }
                         @media (max-width:1365px){
@@ -4415,6 +4418,15 @@ body {
         }
 
         .survey-analytics-layout {
+            &.row{
+                flex-wrap:nowrap;
+            }
+            @media (max-width:1199px){
+                &.row{
+                    flex-wrap:wrap;
+                    margin:0;
+                }  
+            }
             p {
                 color: $dark-gray;
                 font-size: 14px;
@@ -4423,7 +4435,11 @@ body {
                 text-align: center;
                 margin: 0 0 9px;
             }
-
+            @media (max-width:1365px){
+                p {
+                    font-size: 12px;
+                }
+            }
             .survey-completion {
                 width: 238px;
                 flex: 0 0 238px;
@@ -4467,25 +4483,81 @@ body {
                     } 
                 }
             }
+            @media (max-width:1439px){
+                .survey-completion {
+                    width: 190px;
+                    flex: 0 0 190px;
+                }
+            }
+            @media (max-width:1365px){
+                .survey-completion {
+                    width: 180px;
+                    flex: 0 0 180px;
+                    .survey-completion-info{
+                        h2 {
+                            font-size: 70px;
+                        }
+                    } 
+                }
+            }
+            @media (max-width:1199px){
+            .survey-completion {
+                width: 50%;
+                flex: 0 0 auto;
+            }
+            }
             .survey-takers {
                 border-right: 1px dashed $light-gray;
-                padding: 11px 40px 16px;
+                padding: 11px 30px 16px;
+                flex: 0 0 36.5%;
 
-                img {
-                    max-width: 500px;
-                    width: 100%;
+                // img {
+                //     max-width: 500px;
+                //     width: 100%;
+                // }
+
+            }
+            @media (max-width:1700px){
+                .survey-takers {
+                    flex: 0 0 32%;
                 }
-
+            }
+            @media (max-width:1600px){
+                .survey-takers {
+                    flex: 0 0 31%;
+                    padding: 11px 20px 16px;
+                }
             }
             @media (max-width:1500px){
                 .survey-takers {
                     padding: 11px 20px 16px;
+                    flex: 0 0 34%;
+                }
+            }
+            @media (max-width:1439px){
+                .survey-takers {
+                    padding: 11px 15px 16px;
+                    flex: 0 0 32.5%;
+                }
+            }
+            @media (max-width:1365px){
+                .survey-takers {
+                    padding: 11px 10px 16px;
+                    flex: 0 0 30%;
+                }
+            }
+            @media (max-width:1199px){
+                .survey-takers {
+                    flex: 0 0 auto;
+                    border-right: 0;
+                    width:50%;
                 }
             }
             .survey-takers-status {
                 border-right: 1px dashed $light-gray;
-                padding: 11px 40px 1px;
-                flex: 0 0 423px;
+                padding: 11px 36px 1px;
+                // flex: 0 0 423px;
+                flex:0 0 27%;
                 position: relative;
 
                 img {
@@ -4532,17 +4604,28 @@ body {
                     }
                 }
             }
+            @media (max-width:1600px){
+                .survey-takers-status {
+                    padding: 11px 20px 1px;
+                    flex: 0 0 25%;
+                }
+            }
             @media (max-width:1500px){
                 .survey-takers-status {
                     padding: 11px 20px 1px;
-                    flex: 0 0 350px;
-                    width: 350px;
                 }
             }
             @media (max-width:1365px){
                 .survey-takers-status {
-                    flex: 0 0 280px;
-                    width: 280px;
+                    padding: 11px 10px 1px;
+                    flex: 0 0 22%;
+                }
+            }
+            @media (max-width:1199px){
+                .survey-takers-status {
+                    flex: 0 0 auto;
+                    border-top:1px dashed #97B6CF;
+                    width:50%;
                 }
             }
             .survey-full-info {
@@ -4595,7 +4678,7 @@ body {
             }
             @media (max-width:1500px){
                 .survey-full-info {
-                    flex: 0 0 290px;
+                    flex: 0 0 277px;
                     gap: 12px;
                     padding: 11px 22px 12px 12px;
                     .survey-info{
@@ -4616,6 +4699,22 @@ body {
                     .survey-info{
                         div {
                             font-size: 11px;
+                        }
+                        .survey-value {
+                            min-width: 58px;
+                            font-size: 15px;
+                        }
+                    }
+                    
+                }
+            }
+            @media (max-width:1199px){
+                .survey-full-info {
+                    flex: 0 0 50%;
+                    border-top:1px dashed #97B6CF;
+                    .survey-info{
+                        div {
+                            font-size: 12px;
                         }
                         .survey-value {
                             min-width: 58px;
