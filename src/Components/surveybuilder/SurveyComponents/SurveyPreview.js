@@ -383,14 +383,11 @@ const SurveyPreview = (props) => {
                         : "btn btn-primary btn-filled next send_btn"
                     }
                     onClick={
-                      elements.length > 0
-                        ? async (e) => {
+                        async (e) => {
                             await nextHandler(e);
                             await navigateFunction(e);
                           }
-                        : (e) => {
-                            toast.error("Please insert at least one question");
-                          }
+                        
                     }
                   >
                     {" "}
