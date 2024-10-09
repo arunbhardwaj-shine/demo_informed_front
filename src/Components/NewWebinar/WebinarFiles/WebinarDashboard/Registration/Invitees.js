@@ -596,7 +596,7 @@ const Invitees = () => {
                 <div className="clear-search">
                   <button
                     className="btn print"
-                    title="Download stats"
+                    title="Download Registered Users"
                     onClick={() => {
                       getDownloadData(search);
                     }}
