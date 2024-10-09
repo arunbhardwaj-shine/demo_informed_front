@@ -1224,7 +1224,7 @@ const RegistrationPage = ({ prevData,type }) => {
                 </div>
                 <div className="footer-sec">
                   <span>
-                    * This consent is mandatory in order to register for the
+                    * This is mandatory in order to register for the
                     event.
                   </span>
                 </div>
