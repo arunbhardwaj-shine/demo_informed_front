@@ -112,7 +112,7 @@ const SurveySublinkListing = ({ survey_id, render, count }) => {
                         className="sublink-qr"
                         onClick={(e) =>
                           setDownloadLink(
-                            `https://survey.docintel.app/survey?Utmde=${data.unique_code}&dl=qr`
+                            `https://survey.docintel.app/survey?Utmde=${data.unique_code}&dl=QR`
                           )
                         }
                       >

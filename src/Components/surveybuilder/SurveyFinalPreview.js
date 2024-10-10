@@ -24,13 +24,10 @@ const SurveyFinalPreview = () => {
     e.preventDefault()
 
     const result = elements.filter((item) => {
-      return item.type === "consent";
+      return item.accordionType === "questionTypes";
     });
-    if (
-      consentOption !== "No consent needed (anonymous)" &&
-      result.length <= 0
-    ) {
-      toast.warning("Please add at least one question the survey");
+    if (result.length <= 0) {
+      toast.warning("Please add at least one question");
       return;
     }
     await saveAsDraft(e, 1, location.pathname, navigate);

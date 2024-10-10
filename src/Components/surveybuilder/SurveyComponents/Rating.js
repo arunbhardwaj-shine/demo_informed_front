@@ -1,6 +1,8 @@
 import Select from "react-select";
 import React from 'react'
+ 
 import { Form, Row } from 'react-bootstrap'
+
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 function Rating({ item, index,handleExtraAndStyle }) {
  

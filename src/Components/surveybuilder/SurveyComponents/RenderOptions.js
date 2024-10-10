@@ -466,108 +466,113 @@ const RenderOptions = ({
       }
 
     case "consent": {
-      return (
-        consentOption != "No consent needed (anonymous)" && (
-          <div className="login-consent">
-            <p className="start-title" style={{ color: inputColor }}>
-              {item.question}
-              <span
-                style={{
-                  pointerEvents: isEdit ? "auto" : "none",
-                  color: inputColor,
-                }}
-                dangerouslySetInnerHTML={{
-                  __html: item.extra.operatingStatement,
-                }}
-              />
-            </p>
-            <div className="consent">
-              <Row>
-                <Form.Group as={Col}>
-                  <Form.Label style={{ color: inputColor }}>
-                    {item.extra.consentDetails[0].nameLabel}
-                  </Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder={item.extra.consentDetails[0].namePlaceholder}
-                    readOnly={!isEdit}
-                  />
-                </Form.Group>
-                <Form.Group as={Col}>
-                  <Form.Label style={{ color: inputColor }}>
-                    {item.extra.consentDetails[1].emailLabel}
-                  </Form.Label>
-                  <Form.Control
-                    type="email"
-                    placeholder={item.extra.consentDetails[1].emailPlaceholder}
-                    readOnly={!isEdit}
-                  />
-                </Form.Group>
-              </Row>
-              <Row>
-                <Form.Group as={Col}>
-                  <Form.Label style={{ color: inputColor }}>
-                    {item.extra.consentDetails[2].countryLabel}
-                  </Form.Label>
-                  <Select
-                    className="dropdown-basic-button split-button-dropup"
-                    placeholder={
-                      item.extra.consentDetails[2].countryPlaceholder
-                    }
-                    name={`consent-country`}
-                    isDisabled={!isEdit}
-                    options={item.extra.consentDetails[2].countryOptions.map(
-                      (country, index) => ({
-                        value: country,
-                        label: country,
-                        key: index,
-                      })
-                    )}
-                  />
-                </Form.Group>
-              </Row>
-              <Form.Group className="consent-select">
-                <Form.Label style={{ color: inputColor }}>
-                  I consent to:
-                </Form.Label>
-                {item.extra.consentOptions.map((option, index) => (
-                  <label
-                    className="check"
-                    key={index}
-                    style={{ color: optionColor }}
-                  >
-                    {option.label}
-                    <input
-                      type="checkbox"
-                      checked={index === 0}
-                      disabled={!isEdit}
+      if (item.question !== ""){
+        return (
+          consentOption != "No consent needed (anonymous)" && (
+            <div className="login-consent">
+              <p className="start-title" style={{ color: inputColor }}>
+                {item.question}
+                <span
+                  style={{
+                    pointerEvents: isEdit ? "auto" : "none",
+                    color: inputColor,
+                  }}
+                  dangerouslySetInnerHTML={{
+                    __html: item.extra.operatingStatement,
+                  }}
+                />
+              </p>
+              <div className="consent">
+                <Row>
+                  <Form.Group as={Col}>
+                    <Form.Label style={{ color: inputColor }}>
+                      {item.extra.consentDetails[0].nameLabel}
+                    </Form.Label>
+                    <Form.Control
+                      type="text"
+                      placeholder={item.extra.consentDetails[0].namePlaceholder}
+                      readOnly={!isEdit}
                     />
-                    <span
-                      className="checkmark"
-                      style={
-                        index === 0
-                          ? {
-                              borderColor: inputColor,
-                              backgroundColor: inputColor,
-                            }
-                          : { borderColor: optionColor }
+                  </Form.Group>
+                  <Form.Group as={Col}>
+                    <Form.Label style={{ color: inputColor }}>
+                      {item.extra.consentDetails[1].emailLabel}
+                    </Form.Label>
+                    <Form.Control
+                      type="email"
+                      placeholder={item.extra.consentDetails[1].emailPlaceholder}
+                      readOnly={!isEdit}
+                    />
+                  </Form.Group>
+                </Row>
+                <Row>
+                  <Form.Group as={Col}>
+                    <Form.Label style={{ color: inputColor }}>
+                      {item.extra.consentDetails[2].countryLabel}
+                    </Form.Label>
+                    <Select
+                      className="dropdown-basic-button split-button-dropup"
+                      placeholder={
+                        item.extra.consentDetails[2].countryPlaceholder
                       }
-                    ></span>
-                  </label>
-                ))}
-              </Form.Group>
-              <div
-                className="page-copyright"
-                style={{
-                  pointerEvents: isEdit ? "auto" : "none",
-                  color: optionColor,
-                }}
-                dangerouslySetInnerHTML={{ __html: item.extra.cookiePolicy }}
-              />
+                      name={`consent-country`}
+                      isDisabled={!isEdit}
+                      options={item.extra.consentDetails[2].countryOptions.map(
+                        (country, index) => ({
+                          value: country,
+                          label: country,
+                          key: index,
+                        })
+                      )}
+                    />
+                  </Form.Group>
+                </Row>
+                <Form.Group className="consent-select">
+                  <Form.Label style={{ color: inputColor }}>
+                    I consent to:
+                  </Form.Label>
+                  {item.extra.consentOptions.map((option, index) => (
+                    <label
+                      className="check"
+                      key={index}
+                      style={{ color: optionColor }}
+                    >
+                      {option.label}
+                      <input
+                        type="checkbox"
+                        checked={index === 0}
+                        disabled={!isEdit}
+                      />
+                      <span
+                        className="checkmark"
+                        style={
+                          index === 0
+                            ? {
+                                borderColor: inputColor,
+                                backgroundColor: inputColor,
+                              }
+                            : { borderColor: optionColor }
+                        }
+                      ></span>
+                    </label>
+                  ))}
+                </Form.Group>
+                <div
+                  className="page-copyright"
+                  style={{
+                    pointerEvents: isEdit ? "auto" : "none",
+                    color: optionColor,
+                  }}
+                  dangerouslySetInnerHTML={{ __html: item.extra.cookiePolicy }}
+                />
+              </div>
             </div>
-          </div>
-        )
-      );
+          )
+        );
+
+      }
+    
+     
     }
     default:
       return null;

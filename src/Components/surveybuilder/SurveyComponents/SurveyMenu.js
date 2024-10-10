@@ -66,8 +66,8 @@ const SurveyMenu = ({ menuRef, consentOption }) => {
 
   const questionElemnts = JSON.parse(localStorage.getItem("getSurveyData"));
   let defaultColor = "";
-  if (questionElemnts.formBuilderData.custom_html.length > 0) {
-    defaultColor = questionElemnts.formBuilderData.custom_html[0].bodyTextColor;
+  if (questionElemnts?.formBuilderData?.custom_html?.length > 0) {
+    defaultColor = questionElemnts?.formBuilderData?.custom_html?.[0]?.bodyTextColor;
   }
 
   const { currentElementIndex, elements, isEditModeOn } = useSelector(
