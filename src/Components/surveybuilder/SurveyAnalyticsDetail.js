@@ -502,59 +502,6 @@ const SurveyAnalyticsDetail = () => {
                 const res = await surveyAxiosInstance.post("/survey/survey-takers-status", {
                     survey_id: stateData?.survey_id
                 });
-                let userdata = [
-                    {
-                        "user_id": 0,
-                        "name": "Varun Verma",
-                        "email": "",
-                        status: "completed",
-                        "country": "India",
-                        "date": "2024-09-24T06:02:29.000Z",
-                        "ip_address": "192.168.0.101",
-                        "temp_token": "eOd1UkW2rcCm",
-
-                    },
-                    {
-                        "user_id": 0,
-                        "name": "Susheel sharma",
-                        "email": "",
-                        status: "ignored",
-                        "country": "Pakistan",
-                        "date": "2024-09-24T06:02:29.000Z",
-                        "ip_address": "192.168.0.101",
-                        "temp_token": "eOd1UkW2rcCm"
-                    },
-                    {
-                        "user_id": 0,
-                        "name": "Mahima Saini",
-                        "email": "",
-                        status: "drop-off",
-                        "country": "Australia",
-                        "date": "2024-09-24T06:02:29.000Z",
-                        "ip_address": "192.168.0.101",
-                        "temp_token": "eOd1UkW2rcCm"
-                    },
-                    {
-                        "user_id": 0,
-                        "name": "Amir Saleem lone",
-                        "email": "",
-                        status: "completed",
-                        "country": "India",
-                        "date": "2024-09-24T06:02:29.000Z",
-                        "ip_address": "192.168.0.101",
-                        "temp_token": "eOd1UkW2rcCm"
-                    },
-                    {
-                        "user_id": 0,
-                        "name": "Shivam ",
-                        "email": "",
-                        status: "completed",
-                        "country": "Australia",
-                        "date": "2024-09-24T06:02:29.000Z",
-                        "ip_address": "192.168.0.101",
-                        "temp_token": "eOd1UkW2rcCm"
-                    }
-                ]
 
                 setSurveyTakerTableData(res?.data?.data)
                 setSurveyTakerTableDataBackup(res?.data?.data)
@@ -580,17 +527,16 @@ const SurveyAnalyticsDetail = () => {
                 setWhichTypeGraph("pie")
                 setCompletedCountryData(data)
                 setFilterData((prev) => ({ ...prev, country: countries }))
-                // setSurveyTakerTableData(userdata)
-                // setSurveyTakerTableDataBackup(userdata)
+                
                 setTimeout(() => {
                     survey_taker?.current?.focus()
                 }, 500);
-                survey_taker?.current?.focus()
+                
             } else {
                 setTimeout(() => {
                     survey_taker?.current?.focus()
                 }, 500);
-                survey_taker?.current?.focus()
+               
             }
         } catch (err) {
             console.log("--err", err)
@@ -644,8 +590,7 @@ const SurveyAnalyticsDetail = () => {
             console.log("--err", err);
         } finally {
             setSectionApiStatus(false)
-        }
-    }
+        }    }
 
     const downloadExcelUsers = (data, tableName) => {
         try {
@@ -744,7 +689,7 @@ const SurveyAnalyticsDetail = () => {
                         <Dropdown.Item
                             key={format}
                             onClick={() =>
-                                handleDownload(format, graphRef[whichTypeGraph], title)
+                                handleDownload(format, title)
                             }
                         >
                             Download {format}
@@ -755,46 +700,7 @@ const SurveyAnalyticsDetail = () => {
         );
     };
 
-    // const handleDownload = (
-    //     format,
-    //     ref,
-    //     defaultName = "survey_question"
-    // ) => {
-    //     let chart = ref.current && ref.current.chart;
-
-    //     if (chart) {
-    //         switch (format) {
-    //             case "PNG":
-    //                 chart.exportChart({
-    //                     type: "image/png",
-    //                     filename: defaultName,
-    //                 });
-    //                 break;
-    //             case "JPEG":
-    //                 chart.exportChart({
-    //                     type: "image/jpeg",
-    //                     filename: defaultName ,
-    //                 });
-    //                 break;
-    //             case "PDF":
-    //                 chart.exportChart({
-    //                     type: "application/pdf",
-    //                     filename: defaultName ,
-    //                 });
-    //                 break;
-    //             case "SVG":
-    //                 chart.exportChart({
-    //                     type: "image/svg+xml",
-    //                     filename: defaultName,
-    //                 });
-    //                 break;
-    //             default:
-    //                 break;
-    //         }
-    //     }
-    // };
-
-    const handleDownload = async (format, ref, defaultName = "survey_question", index, isHtml = true) => {
+    const handleDownload = async (format, defaultName = "survey_question") => {
         try {
             loader("show")
             const dropdownId = document.getElementById("dropdown-completed-country")
@@ -983,9 +889,6 @@ const SurveyAnalyticsDetail = () => {
                                         {tempQuestionData?.map((item, index) => {
                                             if (item?.type === "multiple" || item?.type === "dropdown" || item?.type === "checkbox" || item?.type == "matrix") {
 
-                                                // item?.answer?.forEach((obj) => {
-                                                //     obj.percentage = item.total_count > 0 ? JSON.parse(((obj.count / item.total_count).toFixed(2)) * 100) : 0;
-                                                // })
                                                 return (
                                                     <SurveyAnalyticsQuestionView
                                                         index={index}
@@ -1004,8 +907,7 @@ const SurveyAnalyticsDetail = () => {
                                                 );
                                             }
                                             else if (item?.type == "rating") {
-                                                // item.extra=JSON.parse(item?.extra)
-                                                // let totalCount = item?.answer?.reduce((sum, obj) => sum + obj.count, 0);
+                
                                                 let totalWeightedValue = 0
                                                 let totalRatings = 0
                                                 for (let i = 5; i >= 1; i--) {
@@ -1222,14 +1124,6 @@ const SurveyAnalyticsDetail = () => {
                                                                     </div>
                                                                 </div>
                                                             )}
-
-                                                            {/*
-                                                <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                                    <li><a className="dropdown-item" href="#">Filter1 <img src={path + "filter-close.svg"} alt="Close-filter" /></a></li>
-                                                    <li><a className="dropdown-item" href="#">Filter2 <img src={path + "filter-close.svg"} alt="Close-filter" /></a></li>
-                                                    <li><a className="dropdown-item" href="#">Filter3 <img src={path + "filter-close.svg"} alt="Close-filter" /></a></li>
-                                                </ul>
-                                                */}
                                                         </div>
                                                         <div className="clear-search d-flex align-items-center">
                                                             <button className="btn print" onClick={() => downloadExcelUsers(surveyTakerTableData, "survey_taker")}>
@@ -1666,12 +1560,6 @@ const SurveyAnalyticsDetail = () => {
                                                                     <a className="btn"></a>
                                                                 </label>
                                                             </div>
-                                                            {/* <DownloadDropdown
-                                                                graphRef={[countryBarRef, countryPieRef]}
-                                                                whichTypeGraph={whichTypeGraph == "bar" ? 0 : 1}
-                                                                title="Survey Takers (Completed) According to country"
-                                                                handleDownload={handleDownload}
-                                                            /> */}
                                                         </div>
                                                         <div className="question-preview-chart">
                                                             {/* <img src={path_image + "dummy-pie.png"} alt="" /> */}
@@ -1712,7 +1600,6 @@ const SurveyAnalyticsDetail = () => {
                                                                         // type="analytics"
                                                                         chartRef="survey_completed_country_bar"
                                                                     />
-
                                                             }
                                                         </div>
                                                     </div>
