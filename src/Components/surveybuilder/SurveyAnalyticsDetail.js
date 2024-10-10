@@ -142,7 +142,7 @@ const SurveyAnalyticsDetail = () => {
         chart: {
             type: "line",
             height: 221,
-            width:501
+            // width:501
         },
         title: {
             text: '',
@@ -304,7 +304,7 @@ const SurveyAnalyticsDetail = () => {
                 name: series?.name,
                 data: series?.data?.map((data) => data),
                 // data:[0,2],
-                color:colors[index],
+                color:series?.color,
                 marker: {
                     symbol: 'circle',
                     radius: 5,
@@ -853,9 +853,9 @@ const SurveyAnalyticsDetail = () => {
                 <div className="custom-container">
                     {Object?.keys(data)?.length ?
                         <Row>
-                            <div className="top-header analytics_header sticky">
+                            <div className="top-header analytics_header sticky align-items-center">
                             {/* <div className="page-title d-flex flex-column align-items-start"> */}
-                                <div className="page-title d-flex  align-items-start">
+                                <div className="page-title d-flex  align-items-center">
                                 
                                      <Link
                                         className="btn btn-primary btn-bordered back-btn"
