@@ -4317,6 +4317,9 @@ body {
 
                             &.blue {
                                 color: $primary-color;
+                                span{
+                                    display: block;
+                                }
                                 .title-heading {
                                     p {
                                         font-weight: 500;
@@ -4511,10 +4514,34 @@ body {
                 padding: 11px 30px 16px;
                 flex: 0 0 36.5%;
 
-                // img {
-                //     max-width: 500px;
-                //     width: 100%;
-                // }
+                .highcharts-container{
+                    .highcharts-root{
+                        .highcharts-legend-item{
+                            text{
+                                    color:$dark-gray!important;
+                                    font-weight: 400!important;
+                                    font-size: 13px!important;
+                                    fill: $dark-gray !important;
+                            }
+                        }
+                    }
+                    .highcharts-data-labels{
+                        .highcharts-label{
+                            text{
+                                color:$primary-color!important;
+                                font-weight: 500!important;
+                                font-size: 14px!important;
+                                fill: $primary-color !important;
+                            }  
+                        }
+                    }
+                    .highcharts-axis-labels{
+                        text{
+                           color:$light-gray!important; 
+                           fill: $light-gray!important; 
+                        }
+                    }
+                }
 
             }
             @media (max-width:1700px){
@@ -5050,6 +5077,34 @@ body {
             .question-preview-right {
                 flex: 1 1;
                 padding: 16px;
+                .highcharts-container{
+                    .highcharts-root{
+                        .highcharts-legend-item{
+                            text{
+                                    color:$dark-gray!important;
+                                    font-weight: 400!important;
+                                    font-size: 13px!important;
+                                    fill: $dark-gray !important;
+                            }
+                        }
+                    }
+                    .highcharts-data-labels{
+                        .highcharts-label{
+                            text{
+                                color:$primary-color!important;
+                                font-weight: 500!important;
+                                font-size: 14px!important;
+                                fill: $primary-color !important;
+                            }  
+                        }
+                    }
+                    .highcharts-axis-labels{
+                        text{
+                           color:$light-gray!important; 
+                           fill: $light-gray!important; 
+                        }
+                    }
+                }
                 
                 .rd-training-block-right {
                     gap: 16px;
@@ -5107,6 +5162,7 @@ body {
                     }
                 }
                 .pie-chart-outer-layout{
+                    padding-right:50px;
                     .highcharts-data-labels{
                         .highcharts-label{
                             text{
@@ -5675,4 +5731,31 @@ body{
             }
         }
     }
+}
+
+
+
+.highcharts-label.popup-on-click {
+    background: #0066BE;
+    border-radius: 50px;
+    min-width: 105px;
+    min-height: 30px;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.highcharts-label.popup-on-click > span {
+    text-align: center;
+    width: 91px;
+    color: #fff!important;
+    top:6px!important;
+}
+.highcharts-label.popup-on-click span > div {
+    gap:4px;
+}
+.highcharts-label.popup-on-click span div img{
+    filter:brightness(0) invert(1);
+}
+.highcharts-label.popup-on-click path {
+    stroke: none;
 }
