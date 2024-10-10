@@ -6,8 +6,9 @@ import {
     Dropdown,
     Row,
     Table,
+    
 } from "react-bootstrap";
-import { useLocation } from "react-router-dom";
+import { useLocation,Link } from "react-router-dom";
 import { surveyAxiosInstance } from "./CommonFunctions/CommonFunction";
 import { loader } from "../../loader";
 import Highcharts from "highcharts";
@@ -60,6 +61,26 @@ const SurveyAnalyticsDetail = () => {
     const [whichTypeGraph, setWhichTypeGraph] = useState()
     const [sectionLoader, setSectionLoader] = useState(false);
     const [loaderIndex, setLoaderIndex] = useState()
+    const colors = [
+        "#39CABC",
+        "#FAC755",
+        "#F58289",
+        "#8A4E9C",
+        "#0442A2",
+        "#00D4C0",
+        "#BCA9F5",
+        "#D61975",
+        "#9af5b2",
+        "#0066BE",
+        "#FFBE2C",
+        "#7cb0dd",
+        "#7c00ad",
+        "#ACB5F5",
+        "#009739",
+        "#db6f2c",
+        "#9C9CA2",
+        "#00003C",
+    ];
     const [options, setOptions] = useState({
         chart: {
             type: "bar",
@@ -115,26 +136,117 @@ const SurveyAnalyticsDetail = () => {
         },
         series: [],
     });
-    const colors = [
-        "#39CABC",
-        "#FAC755",
-        "#F58289",
-        "#8A4E9C",
-        "#0442A2",
-        "#00D4C0",
-        "#BCA9F5",
-        "#D61975",
-        "#9af5b2",
-        "#0066BE",
-        "#FFBE2C",
-        "#7cb0dd",
-        "#7c00ad",
-        "#ACB5F5",
-        "#009739",
-        "#db6f2c",
-        "#9C9CA2",
-        "#00003C",
-    ];
+
+    const [lineChartOptions, setLineChartOptions] = useState({
+
+        chart: {
+            type: "line",
+            height: 221,
+            // width:501
+        },
+        title: {
+            text: '',
+            x: -20 //center
+        },
+        subtitle: {
+            text: '',
+            x: -20
+        },
+        exporting: {
+            enabled: false,
+        },
+        xAxis: {
+            categories:[]
+            // categories: [
+            //     "Oct 1",
+            //     "Oct 5",
+            //     "Oct 8",
+            //     "Oct 10",
+            //     "Oct 12",
+            //     "Oct 15",
+            // ],
+            // min: 0 ,// Start xAxis from 0
+            // labels: {
+            //     formatter: function () {
+            //         // Custom label formatter to simulate categories (e.g., Oct 1, Oct 5, Oct 8)
+            //         // const dates = ['Oct 1', 'Oct 5', 'Oct 8','Oct 10','Oct 12','Oct 15'];
+            //         // return dates[this.value];
+            //         return this.value
+            //     }
+            // }
+            // "labels": {
+            //     // Add your labels here if needed, this can be dynamic
+            // }
+        },
+        yAxis: {
+            title: {
+                text: ''
+            },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                // color: '#808080'
+            }],
+            // min: 0 // Start xAxis from 0
+        },
+        plotOptions: {
+            series: {
+                cursor: 'pointer',
+                className: 'popup-on-click',
+                marker: {
+                    lineWidth: 2
+                }
+            }
+        },
+      
+
+    tooltip: {
+        "useHTML": true, // Enable HTML rendering
+        "formatter": function() {
+            return '<div style="display: flex; align-items: center;">' +
+                '<span>' + this.y +  '</span>' +
+                '<img src="' + path_image + 'user-blue.png" alt="" style="width:16px;height:16px;vertical-align:middle;margin-left:4px;"/>'
+                 +' | '+ '<span>' +this.x + '<span>' +
+                '</div>';
+        }
+    },
+    
+        legend: {
+            align: "center",
+            verticalAlign: "bottom",
+            layout: "horizontal",
+            symbolHeight: 10,   // Height of the round symbol in the legend
+            symbolWidth: 10,    // Width of the round symbol in the legend
+            symbolRadius: 5
+        },
+        // series: [
+        //     {
+        //         "name": "web",
+        //         // "data": [[0,1],[1,1],[2,3],[3,8],[4,5],[5,7]],
+        //         "data": [1,1,3,8,5],
+        //         marker: {
+        //             symbol: 'circle', // round shape
+        //             radius: 5,        // point size
+        //             lineWidth: 2,     // white circle border width
+        //             lineColor: '#FFFFFF' // white border color
+        //         },
+        //         "color":colors[4]
+        //     },
+        //     {
+        //         "name": "QR",
+        //         // "data": [[0,0],[1,1],[2,1],[3,5],[4,4],[5,9]],
+        //         "data":[0,1,1,5,4,9],
+        //         marker: {
+        //             symbol: 'circle', // round shape
+        //             radius: 5,        // point size
+        //             lineWidth: 2,     // white circle border width
+        //             lineColor: '#FFFFFF' // white border color
+        //         },
+        //         color:colors[1]
+        //     }
+        // ]
+        series: []
+    });
 
 
     useEffect(() => {
@@ -160,7 +272,7 @@ const SurveyAnalyticsDetail = () => {
                     barSeries.push({
                         name: item?.key,
                         data: [{ y: item?.value }],
-                        color: item?.key == "Opened" ? colors[4] : item?.key == "Completed" ? colors[0] : colors[index],
+                        color: item?.key == "Opened" ? colors[4] : item?.key == "Completed" ? colors[0] : colors[1],
                     })
                 })
 
@@ -170,12 +282,54 @@ const SurveyAnalyticsDetail = () => {
 
             setOptions(valueupdate)
             setData(data)
+            await getLineChartDetails()
             await getTempQuestionData()
         } catch (err) {
             console.log("--err", err)
         } finally {
             setApiStatus(false)
             loader("hide")
+        }
+    }
+
+    const getLineChartDetails = async () => {
+        try {
+            const res = await surveyAxiosInstance.post("/survey/survey-takers-over-time", {
+                survey_id: stateData?.survey_id
+            });
+            console.log("res--->", res);
+            const data = res?.data?.data
+            const xAxisCategories = data?.categories
+            const seriesData = data?.series?.map((series,index) => ({
+                name: series?.name,
+                data: series?.data?.map((data) => data),
+                // data:[0,2],
+                color:series?.color,
+                marker: {
+                    symbol: 'circle',
+                    radius: 5,
+                    lineWidth: 2,
+                    lineColor: "#FFFFFF"
+                }
+            }))
+            setLineChartOptions((prevOptions) => ({
+                ...prevOptions,
+                xAxis: {
+                    ...prevOptions.xAxis,
+                    // labels: {
+                    //     formatter: function () {
+                    //         return xAxisCategories[this.value]; // Dynamic x-axis labels
+                    //     }
+                    // }
+                    categories:xAxisCategories
+                },
+                series: seriesData
+            }))
+
+
+        } catch (err) {
+            console.log("--err", err);
+
         }
     }
 
@@ -348,59 +502,6 @@ const SurveyAnalyticsDetail = () => {
                 const res = await surveyAxiosInstance.post("/survey/survey-takers-status", {
                     survey_id: stateData?.survey_id
                 });
-                let userdata = [
-                    {
-                        "user_id": 0,
-                        "name": "Varun Verma",
-                        "email": "",
-                        status: "completed",
-                        "country": "India",
-                        "date": "2024-09-24T06:02:29.000Z",
-                        "ip_address": "192.168.0.101",
-                        "temp_token": "eOd1UkW2rcCm",
-
-                    },
-                    {
-                        "user_id": 0,
-                        "name": "Susheel sharma",
-                        "email": "",
-                        status: "ignored",
-                        "country": "Pakistan",
-                        "date": "2024-09-24T06:02:29.000Z",
-                        "ip_address": "192.168.0.101",
-                        "temp_token": "eOd1UkW2rcCm"
-                    },
-                    {
-                        "user_id": 0,
-                        "name": "Mahima Saini",
-                        "email": "",
-                        status: "drop-off",
-                        "country": "Australia",
-                        "date": "2024-09-24T06:02:29.000Z",
-                        "ip_address": "192.168.0.101",
-                        "temp_token": "eOd1UkW2rcCm"
-                    },
-                    {
-                        "user_id": 0,
-                        "name": "Amir Saleem lone",
-                        "email": "",
-                        status: "completed",
-                        "country": "India",
-                        "date": "2024-09-24T06:02:29.000Z",
-                        "ip_address": "192.168.0.101",
-                        "temp_token": "eOd1UkW2rcCm"
-                    },
-                    {
-                        "user_id": 0,
-                        "name": "Shivam ",
-                        "email": "",
-                        status: "completed",
-                        "country": "Australia",
-                        "date": "2024-09-24T06:02:29.000Z",
-                        "ip_address": "192.168.0.101",
-                        "temp_token": "eOd1UkW2rcCm"
-                    }
-                ]
 
                 setSurveyTakerTableData(res?.data?.data)
                 setSurveyTakerTableDataBackup(res?.data?.data)
@@ -408,7 +509,7 @@ const SurveyAnalyticsDetail = () => {
                 let countries = []
                 let newObj = {}
                 res?.data?.data.forEach((item) => {
-                    if(!countries?.includes(item?.country)){
+                    if (!countries?.includes(item?.country)) {
                         countries.push(item?.country)
                     }
                     if (item?.status == "completed") {
@@ -426,17 +527,16 @@ const SurveyAnalyticsDetail = () => {
                 setWhichTypeGraph("pie")
                 setCompletedCountryData(data)
                 setFilterData((prev) => ({ ...prev, country: countries }))
-                // setSurveyTakerTableData(userdata)
-                // setSurveyTakerTableDataBackup(userdata)
+                
                 setTimeout(() => {
                     survey_taker?.current?.focus()
                 }, 500);
-                survey_taker?.current?.focus()
+                
             } else {
                 setTimeout(() => {
                     survey_taker?.current?.focus()
                 }, 500);
-                survey_taker?.current?.focus()
+               
             }
         } catch (err) {
             console.log("--err", err)
@@ -490,8 +590,7 @@ const SurveyAnalyticsDetail = () => {
             console.log("--err", err);
         } finally {
             setSectionApiStatus(false)
-        }
-    }
+        }    }
 
     const downloadExcelUsers = (data, tableName) => {
         try {
@@ -590,7 +689,7 @@ const SurveyAnalyticsDetail = () => {
                         <Dropdown.Item
                             key={format}
                             onClick={() =>
-                                handleDownload(format, graphRef[whichTypeGraph], title)
+                                handleDownload(format, title)
                             }
                         >
                             Download {format}
@@ -601,46 +700,7 @@ const SurveyAnalyticsDetail = () => {
         );
     };
 
-    // const handleDownload = (
-    //     format,
-    //     ref,
-    //     defaultName = "survey_question"
-    // ) => {
-    //     let chart = ref.current && ref.current.chart;
-
-    //     if (chart) {
-    //         switch (format) {
-    //             case "PNG":
-    //                 chart.exportChart({
-    //                     type: "image/png",
-    //                     filename: defaultName,
-    //                 });
-    //                 break;
-    //             case "JPEG":
-    //                 chart.exportChart({
-    //                     type: "image/jpeg",
-    //                     filename: defaultName ,
-    //                 });
-    //                 break;
-    //             case "PDF":
-    //                 chart.exportChart({
-    //                     type: "application/pdf",
-    //                     filename: defaultName ,
-    //                 });
-    //                 break;
-    //             case "SVG":
-    //                 chart.exportChart({
-    //                     type: "image/svg+xml",
-    //                     filename: defaultName,
-    //                 });
-    //                 break;
-    //             default:
-    //                 break;
-    //         }
-    //     }
-    // };
-
-    const handleDownload = async (format, ref, defaultName = "survey_question", index, isHtml = true) => {
+    const handleDownload = async (format, defaultName = "survey_question") => {
         try {
             loader("show")
             const dropdownId = document.getElementById("dropdown-completed-country")
@@ -699,10 +759,31 @@ const SurveyAnalyticsDetail = () => {
                 <div className="custom-container">
                     {Object?.keys(data)?.length ?
                         <Row>
-                            <div className="top-header analytics_header sticky">
-                                <div className="page-title d-flex flex-column align-items-start">
+                            <div className="top-header analytics_header sticky align-items-center">
+                            {/* <div className="page-title d-flex flex-column align-items-start"> */}
+                                <div className="page-title d-flex  align-items-center">
+                                
+                                     <Link
+                                        className="btn btn-primary btn-bordered back-btn"
+                                        to="/survey/survey-analytics"
+                                    >
+                                        <svg
+                                            width="14"
+                                            height="24"
+                                            viewBox="0 0 14 24"
+                                            fill="none"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                            <path
+                                                d="M0.159662 12.0019C0.159662 11.5718 0.323895 11.1417 0.65167 10.8138L10.9712 0.494292C11.6277 -0.16216 12.692 -0.16216 13.3482 0.494292C14.0044 1.15048 14.0044 2.21459 13.3482 2.8711L4.21687 12.0019L13.3479 21.1327C14.0041 21.7892 14.0041 22.8532 13.3479 23.5093C12.6917 24.1661 11.6274 24.1661 10.9709 23.5093L0.65135 13.19C0.323523 12.8619 0.159662 12.4319 0.159662 12.0019Z"
+                                                fill="#97B6CF"
+                                            />
+                                        </svg>
+                                    </Link> 
+                                    <div className="flex-column">
                                     <h2>{stateData?.Title} </h2>
                                     <p>{moment(stateData?.CreatedDate).format("MMM. DD. YYYY")}</p>
+                                    </div>
                                 </div>
                                 <Button title="Download Site Engagements" className="download filled">
                                     Summary (Excel)
@@ -710,6 +791,7 @@ const SurveyAnalyticsDetail = () => {
                                 </Button>
 
                             </div>
+                            
                             <div className="webinar-analytics-layout survey-analytics-content">
                                 <Row>
                                     <Col md={12}>
@@ -734,7 +816,13 @@ const SurveyAnalyticsDetail = () => {
                                                 </div>
                                                 <div className="survey-takers col">
                                                     <p>Survey Takers over time | Delivery channels</p>
-                                                    <img src={path_image + "survey-takers.png"} alt="" />
+                                                    {/* <img src={path_image + "survey-takers.png"} alt="" /> */}
+                                                    {console.log("options--->", lineChartOptions)
+                                                    }
+                                                    <HighchartsReact
+                                                        highcharts={Highcharts}
+                                                        options={lineChartOptions}
+                                                    />
                                                 </div>
                                                 <div className="survey-takers-status col">
                                                     <p>Survey Takers status</p>
@@ -789,10 +877,10 @@ const SurveyAnalyticsDetail = () => {
                                                     <div className="survey-info no-answer">
                                                         <div>
                                                             <img src={path_image + "question-not.png"} alt="" />
-                                                           {data?.surveyTakerDetails?.[3]?.key}
+                                                            {data?.surveyTakerDetails?.[3]?.key}
                                                         </div>
                                                         <div className="survey-value">
-                                                        {data?.surveyTakerDetails?.[3]?.value}
+                                                            {data?.surveyTakerDetails?.[3]?.value}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -801,9 +889,6 @@ const SurveyAnalyticsDetail = () => {
                                         {tempQuestionData?.map((item, index) => {
                                             if (item?.type === "multiple" || item?.type === "dropdown" || item?.type === "checkbox" || item?.type == "matrix") {
 
-                                                // item?.answer?.forEach((obj) => {
-                                                //     obj.percentage = item.total_count > 0 ? JSON.parse(((obj.count / item.total_count).toFixed(2)) * 100) : 0;
-                                                // })
                                                 return (
                                                     <SurveyAnalyticsQuestionView
                                                         index={index}
@@ -822,8 +907,7 @@ const SurveyAnalyticsDetail = () => {
                                                 );
                                             }
                                             else if (item?.type == "rating") {
-                                                // item.extra=JSON.parse(item?.extra)
-                                                // let totalCount = item?.answer?.reduce((sum, obj) => sum + obj.count, 0);
+                
                                                 let totalWeightedValue = 0
                                                 let totalRatings = 0
                                                 for (let i = 5; i >= 1; i--) {
@@ -1040,14 +1124,6 @@ const SurveyAnalyticsDetail = () => {
                                                                     </div>
                                                                 </div>
                                                             )}
-
-                                                            {/*
-                                                <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                                    <li><a className="dropdown-item" href="#">Filter1 <img src={path + "filter-close.svg"} alt="Close-filter" /></a></li>
-                                                    <li><a className="dropdown-item" href="#">Filter2 <img src={path + "filter-close.svg"} alt="Close-filter" /></a></li>
-                                                    <li><a className="dropdown-item" href="#">Filter3 <img src={path + "filter-close.svg"} alt="Close-filter" /></a></li>
-                                                </ul>
-                                                */}
                                                         </div>
                                                         <div className="clear-search d-flex align-items-center">
                                                             <button className="btn print" onClick={() => downloadExcelUsers(surveyTakerTableData, "survey_taker")}>
@@ -1375,7 +1451,7 @@ const SurveyAnalyticsDetail = () => {
                                                                                                                 {data?.type == "rating" ?
                                                                                                                     <CommonSurveyStarRating data={data?.comment} type={data?.extra} />
                                                                                                                     :
-                                                                                                                    data?.question_detail?.length>0
+                                                                                                                    data?.question_detail?.length > 0
                                                                                                                         ?
                                                                                                                         data?.type == "matrix" ?
                                                                                                                             <Table>
@@ -1384,10 +1460,10 @@ const SurveyAnalyticsDetail = () => {
                                                                                                                                         return (<>
                                                                                                                                             <tr>
                                                                                                                                                 <td className="heading"><p dangerouslySetInnerHTML={{ __html: `${ans?.question_text}` }}></p></td>
-                                                                                                                                                {ans?.option_text?.length>0
-                                                                                                                                                ?
-                                                                                                                                                ans?.option_text?.map((option)=>(<td><p>{option}</p></td>)):""}
-                                                                                                                                                
+                                                                                                                                                {ans?.option_text?.length > 0
+                                                                                                                                                    ?
+                                                                                                                                                    ans?.option_text?.map((option) => (<td><p>{option}</p></td>)) : ""}
+
                                                                                                                                             </tr>
                                                                                                                                         </>)
 
@@ -1396,14 +1472,14 @@ const SurveyAnalyticsDetail = () => {
                                                                                                                             </Table>
                                                                                                                             :
                                                                                                                             data?.question_detail?.map((ans, i) => {
-                                                                                                                                return (<>                                                                                                                                   
+                                                                                                                                return (<>
                                                                                                                                     <p>
-                                                                                                                                        {ans?.option_text?ans?.option_text:"N/A"}
+                                                                                                                                        {ans?.option_text ? ans?.option_text : "N/A"}
                                                                                                                                     </p>
                                                                                                                                 </>)
                                                                                                                             })
                                                                                                                         :
-                                                                                                                        <p>{data?.comment?data?.comment:"N/A"}</p>
+                                                                                                                        <p>{data?.comment ? data?.comment : "N/A"}</p>
                                                                                                                 }
                                                                                                             </div>
                                                                                                         </div>
@@ -1484,12 +1560,6 @@ const SurveyAnalyticsDetail = () => {
                                                                     <a className="btn"></a>
                                                                 </label>
                                                             </div>
-                                                            {/* <DownloadDropdown
-                                                                graphRef={[countryBarRef, countryPieRef]}
-                                                                whichTypeGraph={whichTypeGraph == "bar" ? 0 : 1}
-                                                                title="Survey Takers (Completed) According to country"
-                                                                handleDownload={handleDownload}
-                                                            /> */}
                                                         </div>
                                                         <div className="question-preview-chart">
                                                             {/* <img src={path_image + "dummy-pie.png"} alt="" /> */}
@@ -1515,8 +1585,8 @@ const SurveyAnalyticsDetail = () => {
                                                                             ans: completedCountryData,
                                                                         }}
                                                                         colors={colors}
-                                                                    // type="analytics"
-                                                                    chartRef="survey_completed_country_pie"
+                                                                        // type="analytics"
+                                                                        chartRef="survey_completed_country_pie"
 
 
                                                                     /> :
@@ -1527,10 +1597,9 @@ const SurveyAnalyticsDetail = () => {
                                                                             ans: completedCountryData,
                                                                         }}
                                                                         colors={colors}
-                                                                    // type="analytics"
-                                                                   chartRef="survey_completed_country_bar"
+                                                                        // type="analytics"
+                                                                        chartRef="survey_completed_country_bar"
                                                                     />
-
                                                             }
                                                         </div>
                                                     </div>

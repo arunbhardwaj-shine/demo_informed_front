@@ -19,7 +19,7 @@ import { connect } from "react-redux";
 import { getSurveyData } from "../../actions";
 import { SurveyLiveButton } from "./CommonFunctions/CommonFunction";
 import { loader } from "../../loader";
-import { useNavigate } from "react-router-dom";
+import { useFetchers, useNavigate } from "react-router-dom";
 import { surveyAxiosInstance } from "./CommonFunctions/CommonFunction";
 import { toast } from "react-toastify";
 import { emptySurveyReduxStates } from "../../actions/surveyActions";
@@ -27,10 +27,15 @@ import { useDispatch } from "react-redux";
 import { popup_alert } from "../../popup_alert";
 import { updateLiveFlag } from "./CommonFunctions/CommonFunction";
 import QRCode from "qrcode.react";
+import { Spinner } from "react-activity";
 
 const SurveyList = (props) => {
-  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
-  const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
+  const rdLikeArray = [
+    "56Ek4feL/1A8mZgIKQWEqg==",
+    "sNl1hra39QmFk9HwvXETJA==",
+    "MXl8m36VZFYXpgFVz3Pg0g==",
+  ];
+  const isLikeRdAccount = rdLikeArray.includes(localStorage.getItem("user_id"));
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const filterdata = [];
@@ -55,12 +60,14 @@ const SurveyList = (props) => {
   const dispatch = useDispatch();
   const [qrState, setQr] = useState({ value: "" });
   const [duplicateCounter, setDuplicateCounter] = useState(0);
+  const [apiStatus, setApiStatus] = useState(false);
+  const [sectionLoaderIndex, setSectionLoaderIndex] = useState();
 
   const navigate = useNavigate();
 
   const submitHandler = (event) => {
     event.preventDefault();
-  
+
     setShowFilter(false);
     getFilterAppliedData();
     setSubmiHandle(1);
@@ -98,6 +105,10 @@ const SurveyList = (props) => {
     fetchSurveyListing();
   }, []);
 
+  useEffect(() => {
+    applyFilter();
+  }, [getoriginalSurveylistdata]);
+
   const searchChange = (e) => {
     setSearch(e.target.value);
     if (e.target.value === "") {
@@ -106,17 +117,16 @@ const SurveyList = (props) => {
   };
   const showDeleteButtons = () => {
     setDeleteStatus(!deletestatus);
-  
   };
 
   const getFilterAppliedData = async () => {
     if (filter?.Survey?.length > 0) {
+     
       let filteredData = getoriginalSurveylistdata.filter((item) => {
         return filter.Survey.includes(parseInt(item.is_draft));
       });
       // Further filter based on search if there is any search text
       if (search.trim().length > 0) {
-       
         filteredData = filteredData.filter((item) => {
           return item.survey_title.toLowerCase().includes(search.toLowerCase());
         });
@@ -129,6 +139,7 @@ const SurveyList = (props) => {
       });
       setIsData(filteredData);
     } else {
+      setFilterApply(false);
       setIsData(getoriginalSurveylistdata);
     }
   };
@@ -176,6 +187,7 @@ const SurveyList = (props) => {
       setIsData(getoriginalSurveylistdata);
     }
     setShowFilter(false);
+    setFilterApply(false);
   };
   const createNewEmail = () => {
     navigate("/survey/survey-setup");
@@ -223,7 +235,9 @@ const SurveyList = (props) => {
   const fetchSublinks = async (survey_id) => {
     if (typeof survey_id !== "undefined") {
       try {
-        loader("show"); // Assuming `loader` is a function to show/hide a loading spinner
+        // loader("show"); // Assuming `loader` is a function to show/hide a loading spinner
+        setApiStatus(true);
+        setSectionLoaderIndex(survey_id);
         const res = await surveyAxiosInstance.post(
           "/survey/fetch-survey-sublink",
           { survey_id }
@@ -248,11 +262,13 @@ const SurveyList = (props) => {
           };
         });
 
-        loader("hide");
+        // loader("hide");
+        setApiStatus(false);
       } catch (err) {
         console.log("--err", err);
         toast.error("Something went wrong");
-        loader("hide");
+        // loader("hide");
+        setApiStatus(false);
       }
     }
   };
@@ -285,7 +301,7 @@ const SurveyList = (props) => {
       loader("show");
       setQr({
         ...qrState,
-        value: `https://survey.docintel.app/survey?Utmde=${selectedSublink.label}&dl=qr`,
+        value: `https://survey.docintel.app/survey?Utmde=${selectedSublink.label}&dl=QR`,
       });
       setTimeout(function () {
         downloadQRCode();
@@ -416,7 +432,6 @@ const SurveyList = (props) => {
     let up = updateflag + 1;
     setUpdateFlag(up);
   };
- 
 
   const handleOnFilterCreator = (fcreator) => {
     let tag_index = filtercreator.indexOf(fcreator);
@@ -499,7 +514,7 @@ const SurveyList = (props) => {
       survey_id: deletecardid,
       is_delete: 1,
     };
-    // axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+
     try {
       loader("show");
       const res = await surveyAxiosInstance.post(
@@ -509,8 +524,11 @@ const SurveyList = (props) => {
 
       if (res) {
         hideConfirmationModal();
-        await fetchSurveyListing();
+        const surveyAfterDeleted = getoriginalSurveylistdata.filter((item) => {
+          return item.survey_id != deletecardid;
+        });
 
+        setOriginalSurveyData([...surveyAfterDeleted]);
         popup_alert({
           visible: "show",
           message: "The Survey record has been deleted <br />successfully !",
@@ -592,14 +610,14 @@ const SurveyList = (props) => {
     navigate(path);
   };
 
-  const analyticButtonClicked=(data)=>{
-    let item={
-      Title:data?.survey_title,
-      survey_id:data?.survey_id,
-      CreatedDate:data?.date
-    }
-navigate("/survey/survey-analytics-detail",{state:{item}})
-  }
+  const analyticButtonClicked = (data) => {
+    let item = {
+      Title: data?.survey_title,
+      survey_id: data?.survey_id,
+      CreatedDate: data?.date,
+    };
+    navigate("/survey/survey-analytics-detail", { state: { item } });
+  };
 
   return (
     <>
@@ -825,7 +843,7 @@ navigate("/survey/survey-analytics-detail",{state:{item}})
                               </Accordion.Body>
                             </Accordion.Item>
                           )}
-                        {!isLikeRdAccount? (
+                        {!isLikeRdAccount ? (
                           <Accordion.Item className="card" eventKey="3">
                             <Accordion.Header className="card-header">
                               Survey
@@ -1156,7 +1174,7 @@ navigate("/survey/survey-analytics-detail",{state:{item}})
               )}
             <div className="email-result survey-listing">
               <div className="col email-result-block library-content-box-layout">
-                {!deletestatus && (
+                {!deletestatus && !filterapplied && (
                   <div className="email_box_block">
                     <div className="email-block-add">
                       <button onClick={createNewEmail}>
@@ -1235,7 +1253,8 @@ navigate("/survey/survey-analytics-detail",{state:{item}})
                                               }
                                               target="_blank"
                                             >
-                                              https://survey.docintel.app/survey?Utmde={data.unique_code}
+                                              https://survey.docintel.app/survey?Utmde=
+                                              {data.unique_code}
                                             </a>
                                             {data.is_draft ? (
                                               <span
@@ -1271,7 +1290,7 @@ navigate("/survey/survey-analytics-detail",{state:{item}})
                                                 onClick={() => {
                                                   setQr({
                                                     ...qrState,
-                                                    value: `https://survey.docintel.app/survey?Utmde=${data.unique_code}&dl=qr`,
+                                                    value: `https://survey.docintel.app/survey?Utmde=${data.unique_code}&dl=QR`,
                                                   });
                                                   setTimeout(function () {
                                                     downloadQRCode();
@@ -1611,21 +1630,26 @@ navigate("/survey/survey-analytics-detail",{state:{item}})
                                         </div>
                                         <div class="mailbox-buttons">
                                           <div className="send_new">
-                                            {data?.is_draft==0?<Button
-                                              className={
-                                                
-                                                   "btn-bordered send-new disabled"
-                                              }
-                                            >
-                                              Analytics
-                                            </Button>:
-                                            <Button
-                                            className={"btn-bordered send-new"                                               
-                                            }
-                                            onClick={()=>analyticButtonClicked(data)}
-                                          >
-                                            Analytics
-                                          </Button>}
+                                            {data?.is_draft == 0 ? (
+                                              <Button
+                                                className={
+                                                  "btn-bordered send-new disabled"
+                                                }
+                                              >
+                                                Analytics
+                                              </Button>
+                                            ) : (
+                                              <Button
+                                                className={
+                                                  "btn-bordered send-new"
+                                                }
+                                                onClick={() =>
+                                                  analyticButtonClicked(data)
+                                                }
+                                              >
+                                                Analytics
+                                              </Button>
+                                            )}
                                           </div>
                                           <div class="mailbox-buttons-list">
                                             <Button
@@ -1665,32 +1689,56 @@ navigate("/survey/survey-analytics-detail",{state:{item}})
                                       className="change-tab flex-column justify-content-between"
                                     >
                                       <div className="survey_tabs_data">
-                                        <SublinkHandler
-                                          handleCopy={handleCopy}
-                                          setDownloadLink={setDownloadLink}
-                                          sublinkoptions={sublinkoptions}
-                                          survey_id={data.survey_id}
-                                        />
-
-                                        <div class="mailbox-buttons justify-content-end">
-                                          <div className="send_new">
-                                            <Button
-                                              className="btn-bordered send-new"
-                                              onClick={() => {
-                                                navigate(
-                                                  "/survey/survey-sublink",
-                                                  {
-                                                    state: {
-                                                      survey_id: data.survey_id,
-                                                    },
-                                                  }
-                                                );
-                                              }}
-                                            >
-                                              New Sublink
-                                            </Button>
+                                        {apiStatus &&
+                                        sectionLoaderIndex ==
+                                          data?.survey_id ? (
+                                          <div
+                                            className="load_more"
+                                            style={{
+                                              margin: "10 auto",
+                                              justifyContent: "center",
+                                              display: "flex",
+                                              height: 148,
+                                            }}
+                                          >
+                                            <Spinner
+                                              color="#53aff4"
+                                              size={32}
+                                              speed={1}
+                                              animating={true}
+                                            />
                                           </div>
-                                        </div>
+                                        ) : (
+                                          <>
+                                            <SublinkHandler
+                                              handleCopy={handleCopy}
+                                              setDownloadLink={setDownloadLink}
+                                              sublinkoptions={sublinkoptions}
+                                              survey_id={data.survey_id}
+                                            />
+
+                                            <div class="mailbox-buttons justify-content-end">
+                                              <div className="send_new">
+                                                <Button
+                                                  className="btn-bordered send-new"
+                                                  onClick={() => {
+                                                    navigate(
+                                                      "/survey/survey-sublink",
+                                                      {
+                                                        state: {
+                                                          survey_id:
+                                                            data.survey_id,
+                                                        },
+                                                      }
+                                                    );
+                                                  }}
+                                                >
+                                                  New Sublink
+                                                </Button>
+                                              </div>
+                                            </div>
+                                          </>
+                                        )}
                                       </div>
                                     </Tab>
                                     <Tab eventKey="setting" title="Setting">
