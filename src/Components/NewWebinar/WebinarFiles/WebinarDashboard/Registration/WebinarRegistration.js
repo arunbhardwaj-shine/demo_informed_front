@@ -29,7 +29,7 @@ import { useSidebar } from "../../../../CommonComponent/LoginLayout";
 import QRCode from 'qrcode';
 import ChangeCountry from "./ChangeCountryModel";
 import Countries from "./Countries.json";
-import { toPng } from "html-to-image";
+import { toBlob } from "html-to-image";
 
 import html2canvas from "html2canvas";
 import axios from "axios";
@@ -1585,19 +1585,10 @@ const generate_thumb = useCallback(async (templateId) => {
     toast.warning("Template ID is missing.");
     return;
   }
-
   loader("show");
-
   try {
-    const canvas = await html2canvas(ref.current, {
-      useCORS: true,
-      proxy: "https://docintel.s3-eu-west-1.amazonaws.com",
-    });
-    console.log(ref.current);
-
-
-    const blob = await new Promise((resolve) => canvas.toBlob(resolve, "image/png"));
-
+    toBlob(ref.current)
+  .then(async function (blob) {
     if (blob) {
       const formData = new FormData();
       formData.append("image_url", blob, "image.png");
@@ -1625,16 +1616,19 @@ const generate_thumb = useCallback(async (templateId) => {
       } else {
         toast.warning(res.data.message);
       }
+      setviewEmailModal(false);
+      loader("hide");
     }
+  })
+  .catch(function (error) {
+    console.error('oops, something went wrong!', error);
+  });
+
   } catch (err) {
     toast.error("Something went wrong.");
     console.error(err);
-  } finally {
-    setviewEmailModal(false);
-    loader("hide");
   }
 }, [ref, setThumbnails]);
-
 
 
   return (
