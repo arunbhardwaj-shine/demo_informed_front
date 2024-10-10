@@ -1,5 +1,6 @@
 import moment from "moment";
 import React, { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 const TemplateOne = ({ children, formData }) => {
   const eventData = formData?.raw_description;
   let eventDataSample = formData?.content?.eventDetails;
@@ -37,6 +38,9 @@ const TemplateOne = ({ children, formData }) => {
 const convertedStartTime = convertTo12HourFormat(eventStartTime);
 const convertedEndTime = convertTo12HourFormat(eventEndTime);
 const timeRange = `${convertedStartTime} - ${convertedEndTime}`;
+const [searchParams] = useSearchParams();
+let parms = searchParams.get("event");
+const addClass =(parms && parms.includes("Gena22")) ;
   return (
     <>
       
@@ -73,12 +77,13 @@ const timeRange = `${convertedStartTime} - ${convertedEndTime}`;
                       <h2 style= {{
                             color:eventDataSample?.eventStartDate?.color
                           }}>
-                        {formattedDateRange}
+                        {/* {formattedDateRange} */}
+                        {addClass ? "23 October 2024" : formattedDateRange}
                         <br />
                   
                      <span style= {{
                             color:eventDataSample?.eventStartTime?.color
-                          }}>{timeRange} ({formData?.timezone})</span>
+                          }}> {addClass ? '4:00 PM - 5:30 PM (CET)' : `${timeRange} (${formData?.timezone})`}</span>
                         <br />
                         <span
                           style={{
