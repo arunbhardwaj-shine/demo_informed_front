@@ -30,7 +30,6 @@ import QRCode from 'qrcode';
 import ChangeCountry from "./ChangeCountryModel";
 import Countries from "./Countries.json";
 import { toBlob } from "html-to-image";
-
 import html2canvas from "html2canvas";
 import axios from "axios";
 
@@ -265,6 +264,9 @@ const defaultTemplateIds = [10];
   const [showModalPreview, setShowModalPreview] = useState(false);
   const textAreaRefs = useRef(null);
   const [downloadType, setDownloadType] = useState("png")
+  const [viewEmailModal, setviewEmailModal] = useState(false);
+  const ref = useRef(null); 
+  const localStorageUserId = localStorage.getItem("user_id")
 
   // const [totalFieldNo, setTotalFieldNo] = useState(0);
 
@@ -321,7 +323,6 @@ const defaultTemplateIds = [10];
       let raw = hadData?.raw_description
         ? JSON.parse(hadData?.raw_description)
         : {};
-
        // Load thumbnails from the saved content if available
        let savedThumbnails = hadData?.content ? JSON.parse(hadData?.content)?.thumbnails : {};
        setThumbnails(savedThumbnails || {});
@@ -603,74 +604,6 @@ const defaultTemplateIds = [10];
     });
     fileInput.click();
   };
-
-  const imageDivRef = useRef(null);
-
-  // Function to handle selecting and updating the thumbnail
-// const handleThumbnailFileSelect = (e, activeIndex) => {
-//   e.preventDefault();
-  
-
-//   // Assuming the image is within the div with className "register-popup-view"
-//   const imgElement = imageDivRef.current;
-
-//   toPng(imgElement)
-//   .then(function (dataUrl) {
-//     console.log(dataUrl);
-    
-//     var img = new Image();
-//     img.src = dataUrl;
-//     img.width=107
-//     img.height=127
-
-
-//     const imageSrc = img.src; // Get the image source from the div
-
-//     setThumbnails((prevThumbnails) => ({
-//       ...prevThumbnails,
-//       [activeIndex]: imageSrc,
-//     }));
-//   })
-//   .catch(function (error) {
-//     console.error('oops, something went wrong!', error);
-//   });
-
-// };
-
-
-  // const handleThumbnailFileSelect = (e, templateId) => {
-  //   const fileInput = document.createElement("input");
-  //   fileInput.type = "file";
-  //   fileInput.style.display = "none";
-  //   fileInput.accept = ".png, .jpeg, .jpg";
-  //   fileInput.addEventListener("change", async (e) => {
-  //     const file = e.target.files[0];
-  
-  //     if (file) {
-  //       const extension = file.name.split(".").pop().toLowerCase();
-  
-  //       if (!["png", "jpeg", "jpg"].includes(extension)) {
-  //         setErrorMsg(`Invalid file extension of image. Please select a valid extension file.`);
-  //       } else {
-  //         setErrorMsg("");
-  //       }
-  
-  //       try {
-  //         const uploadedImageUrl = await uploadImageToServer(file);
-          
-  //         // Set thumbnail only for the specific templateId
-  //         setThumbnails(prevThumbnails => ({
-  //           ...prevThumbnails,
-  //           [templateId]: uploadedImageUrl,
-  //         }));
-          
-  //       } catch (error) {
-  //         console.error("Error uploading image:", error);
-  //       }
-  //     }
-  //   });
-  //   fileInput.click();
-  // };
 
   const uploadImageToServer = async (file) => {
     try {
@@ -1105,97 +1038,79 @@ const defaultTemplateIds = [10];
   //   }
   // };
 
-  const saveClicked = async (e) => {
-    if (e) {
-      e.preventDefault();
-    }
-    if (!formData?.templateId) {
-      setShowModalPreview(true);
-      return;
-    }
 
-    setFormData(formData);
-    try {
-      const error = WebinarRegistrationValidation(formData, eventData);
-      if (Object.keys(error)?.length) {
-        toast.error(error[Object.keys(error)[0]]);
-        setError(error);
+    const saveClicked = async (e) => {
+      if (e) {
+        e.preventDefault();
+      }
+      if (!formData?.templateId) {
+        setShowModalPreview(true);
         return;
       }
-      if (errorMsg) {
-        toast.error(errorMsg);
-        return;
-      }
-
-      loader("show");
-      let data = {
-        eventId: eventData?.event_id,
-        companyId: eventData?.company_id,
-        // content: JSON.stringify(formData),
-        content: JSON.stringify({
-          ...formData,
-          thumbnails, // Include thumbnails in the form data
-        }),
-      };
-
-      const response = await postData(
-        ENDPOINT.CREATE_WEBINAR_REGISTRATION,
-        data
-      );
-      // setFormData({
-      //   title: "",
-      //   pageTitle: "",
-      //   bodyText: "",
-      //   logoImageUrl: "",
-      //   headerImageUrl: "",
-      //   body: [],
-      //   footerImageUrl: "",
-      //   labelColor: "",
-      //   optionColor: "",
-      //   backgroundColor: "",
-      // });
-
-      // setFile("");
-      // setFoot("");
-      // setLogo("");
-
-      // setSave((save) => save + 1);
-      // setIsDataSaved(true);
-
-      // Check if the response contains the thumbnail URL and set it
-      if (response.status_code === 200) {
-        const thumbnailUrl = response.url  || `${path_image}/template-${formData.templateId}.png`;// URL from the API response
-
-        // Set the thumbnail URL in your thumbnails state
-        setThumbnails((prevThumbnails) => ({
-            ...prevThumbnails,
-            [formData.templateId]: thumbnailUrl, // Use the templateId to save the thumbnail
-        }));
-
-        // Optionally, set the formData here if necessary
-        // setFormData({...formData, thumbnails: { ...thumbnails, [formData.templateId]: thumbnailUrl }});
-
+  
+      setFormData(formData);
+      try {
+        const error = WebinarRegistrationValidation(formData, eventData);
+        if (Object.keys(error)?.length) {
+          toast.error(error[Object.keys(error)[0]]);
+          setError(error);
+          return;
+        }
+        if (errorMsg) {
+          toast.error(errorMsg);
+          return;
+        }
+  
+        loader("show");
+        let data = {
+          eventId: eventData?.event_id,
+          companyId: eventData?.company_id,
+          // content: JSON.stringify(formData),
+          content: JSON.stringify({
+            ...formData,
+            thumbnails, // Include the updated thumbnails in the payload
+          }),
+        };
+  
+        const response = await postData(
+          ENDPOINT.CREATE_WEBINAR_REGISTRATION,
+          data
+        );
+        // setFormData({
+        //   title: "",
+        //   pageTitle: "",
+        //   bodyText: "",
+        //   logoImageUrl: "",
+        //   headerImageUrl: "",
+        //   body: [],
+        //   footerImageUrl: "",
+        //   labelColor: "",
+        //   optionColor: "",
+        //   backgroundColor: "",
+        // });
+  
+        // setFile("");
+        // setFoot("");
+        // setLogo("");
         setSave((save) => save + 1);
         setIsDataSaved(true);
-        toast.success("Your changes have been saved successfully!");
-    }
-
-    } catch (err) {
-      console.error("--err", err);
-    } finally {
-      loader("hide");
-    }
-    if (e) {
-      // navigate("/webinar/event-listing");
-      // setIsSavedClicked(true)
-      toast.success("Your changes has been saved successfully !");
-    } else {
-      setIsFormChange(false);
-      setConfirmationPopup(false);
-      setOriginalFormData(JSON.parse(JSON.stringify(formData)));
-      templateClicked(tempTemplate);
-    }
-  };
+  
+      } catch (err) {
+        console.error("--err", err);
+      } finally {
+        loader("hide");
+      }
+      if (e) {
+        // navigate("/webinar/event-listing");
+        // setIsSavedClicked(true)
+        toast.success("Your changes has been saved successfully !");
+      } else {
+        setIsFormChange(false);
+        setConfirmationPopup(false);
+        setOriginalFormData(JSON.parse(JSON.stringify(formData)));
+        templateClicked(tempTemplate);
+      }
+    };
 
   const handlePreview = (e, index) => {
     if (!formData?.templateId) {
@@ -1562,73 +1477,73 @@ const defaultTemplateIds = [10];
     }
   };
 
-  const [viewEmailModal, setviewEmailModal] = useState(false);
-// const [thumbnails, setThumbnails] = useState({}); // For storing template thumbnails
-const ref = useRef(null); // Ref for the modal content to capture via html2canvas
-
-const openPreviewThumbPopup = (e) => {
-  e.preventDefault();
-
-  if (activeIndex) {
-    setviewEmailModal(true); // Proceed to open the modal
-  } else {
-    toast.warning("No template selected.");
-  }
-};
-
-const localStorageUserId = localStorage.getItem("user_id")
-
-
-// Function to generate the thumbnail and upload it
-const generate_thumb = useCallback(async (templateId) => {
-  if (!ref.current || !templateId) {
-    toast.warning("Template ID is missing.");
-    return;
-  }
-  loader("show");
-  try {
-    toBlob(ref.current)
-  .then(async function (blob) {
-    if (blob) {
-      const formData = new FormData();
-      formData.append("image_url", blob, "image.png");
-      formData.append("user_id", localStorageUserId);
-      formData.append("template_id", templateId);
-      formData.append("template_name", "");
-      formData.append("event_id", eventData?.event_id);
-
-
-      // Upload the image
-      const res = await axios.post(
-        "https://onesource.informed.pro/api/update-template",
-        formData,
-        { headers: { "Content-Type": "multipart/form-data" } }
-      );
-
-      console.log("API Response:", res.data); // Log the response
-
-      if (res.data.status_code === 200) {
-        toast.success("Thumbnail uploaded successfully!");
-        setThumbnails((prevThumbnails) => ({
-          ...prevThumbnails,
-          [templateId]: URL.createObjectURL(blob),
-        }));
-      } else {
-        toast.warning(res.data.message);
-      }
-      setviewEmailModal(false);
-      loader("hide");
+  // Function to generate the thumbnail and upload it
+  const generate_thumb = useCallback(async (templateId) => {
+    if (!ref.current || !templateId) {
+      toast.warning("Template ID is missing.");
+      return;
     }
-  })
-  .catch(function (error) {
-    console.error('oops, something went wrong!', error);
-  });
-
-  } catch (err) {
-    toast.error("Something went wrong.");
-    console.error(err);
-  }
-}, [ref, setThumbnails]);
+    loader("show");
+    try {
+      toBlob(ref.current)
+        .then(async function (blob) {
+          if (blob) {
+            const img = new Image();
+            img.src = URL.createObjectURL(blob);
+  
+            img.onload = async () => {
+              const canvas = document.createElement("canvas");
+              const ctx = canvas.getContext("2d");
+  
+              const desiredWidth = 107;
+              const desiredHeight = 125;
+  
+              canvas.width = desiredWidth;
+              canvas.height = desiredHeight;
+  
+              ctx.drawImage(img, 0, 0, desiredWidth, desiredHeight);
+  
+              canvas.toBlob(async (resizedBlob) => {
+                if (resizedBlob) {
+                  const formData = new FormData();
+                  formData.append("image_url", resizedBlob, "image.png");
+                  formData.append("user_id", localStorageUserId);
+                  formData.append("template_id", templateId);
+                  formData.append("template_name", "");
+                  formData.append("event_id", eventData?.event_id);
+  
+                  const res = await axios.post(
+                    "https://onesource.informed.pro/api/update-template",
+                    formData,
+                    { headers: { "Content-Type": "multipart/form-data" } }
+                  );
+  
+                  if (res.data.status_code === 200) {
+                    const thumbnailUrl = res.data.url; // Capture the thumbnail URL from the API response
+                    setThumbnails((prevThumbnails) => ({
+                      ...prevThumbnails,
+                      [templateId]: thumbnailUrl, // Store the thumbnail URL with the template ID
+                    }));
+                    toast.success("Thumbnail uploaded successfully!");
+                  } else {
+                    toast.warning(res.data.message);
+                  }
+                  setviewEmailModal(false);
+                  loader("hide");
+                }
+              }, "image/png");
+            };
+          }
+        })
+        .catch(function (error) {
+          console.error('oops, something went wrong!', error);
+        });
+  
+    } catch (err) {
+      toast.error("Something went wrong.");
+      console.error(err);
+    }
+  }, [ref, setThumbnails]);
 
 
   return (
@@ -1760,10 +1675,6 @@ const generate_thumb = useCallback(async (templateId) => {
                             <img
                               id={`"template_dyn" + template?.popupNo`}
                               // src={thumbnail ? thumbnail :`${path_image}/template-${template?.templateId}.png`}
-                              // src={
-                              //   thumbnails[template.templateId] ? thumbnails[template.templateId] : `${path_image}/template-${template?.templateId}.png`
-                              // }
-
                               src={
                                 thumbnails[template.templateId] // Show the updated thumbnail if available
                                   ? thumbnails[template.templateId] // Use the new thumbnail from the state
@@ -1777,7 +1688,6 @@ const generate_thumb = useCallback(async (templateId) => {
                                   : ""
                               }
                             />
-                            {/* {console.log( thumbnails[template.templateId],' thumbnails[template.templateId]')} */}
                             {/* <p>{template?.name}</p> */}
                             <p>{template?.templateName}</p>
                           </div>
@@ -3811,21 +3721,23 @@ const generate_thumb = useCallback(async (templateId) => {
                           Save
                         </Button>
 
-                        {/* <Button 
-                        onClick={(e) => handleThumbnailFileSelect(e, activeIndex)}
-                        className="upload-img">
-                          Update Thumbnail
-                        </Button> */}
                         <button
                         className="btn btn-primary btn-bordered btn-voilet"
-                        onClick={openPreviewThumbPopup}
+                        // onClick={openPreviewThumbPopup}
+                        onClick={() => {
+                          if (activeIndex) {
+                            generate_thumb(activeIndex); // Pass the correct templateId
+                          } else {
+                            toast.warning("No template selected.");
+                          }
+                        }}
                         style={{ margin: "0 0" }}
                       >
                         Generate Thumbnail
                       </button>
                       </div>
 
-                      <div className="register-popup"  >
+                      <div className="register-popup"  ref={ref}  >
                         <div className="register-popup-view" >
                           <RegistrationPage
                             type="preview"
@@ -3923,7 +3835,7 @@ const generate_thumb = useCallback(async (templateId) => {
                 height="500px"
                 title="Event Registration"
               /> */}
-              <div className="webinar-popup">
+              <div className="webinar-popup" >
                 <RegistrationPage
                   type="preview"
                   prevData={{
@@ -4008,56 +3920,6 @@ const generate_thumb = useCallback(async (templateId) => {
         </Modal.Body>
       </Modal> */}
 
-      <div>
-        <Modal id="mail-thumb-preview" show={viewEmailModal} custom-atr="non-scroll">
-          <Modal.Header>
-            <h4>Template View</h4>
-            <button
-              type="button"
-              className="btn-close"
-              data-bs-dismiss="modal"
-              onClick={() => setviewEmailModal(false)}
-            ></button>
-            <div className="upload_view">
-              <button
-                className="btn btn-primary btn-bordered"
-                // onClick={() => generate_thumb(activeIndex)} // Pass the templateId to generate the thumbnail
-                onClick={() => {
-                  if (activeIndex) {
-                    generate_thumb(activeIndex); // Pass the correct templateId
-                  } else {
-                    toast.warning("No template selected.");
-                  }
-                }}
-              >
-                Upload
-              </button>
-            </div>
-          </Modal.Header>
-          <Modal.Body>
-            <div className="modal-body-view" >
-            <div
-                      className="thumbnail_email_view"
-                      ref={ref}
-                    
-                    >
-
-      <RegistrationPage
-                type="preview"
-                prevData={{
-                  eventId: eventData?.event_id,
-                  companyId: eventData?.company_id,
-                  content: JSON.stringify(formData),
-                  eventCode: event_code,
-                  isDataSaved: save,
-                }}
-              />
-                    </div>
-            
-            </div>
-          </Modal.Body>
-        </Modal>
-      </div>
     </>
   );
 };
