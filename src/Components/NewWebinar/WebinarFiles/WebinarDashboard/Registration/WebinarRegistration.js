@@ -1296,73 +1296,131 @@ const defaultTemplateIds = [10];
     }
   };
 
-  // Function to generate the thumbnail and upload it
-  const generate_thumb = useCallback(async (templateId) => {
-    if (!ref.current || !templateId) {
-      toast.warning("Template ID is missing.");
-      return;
-    }
-    loader("show");
-    try {
-      toBlob(ref.current)
-        .then(async function (blob) {
-          if (blob) {
-            const img = new Image();
-            img.src = URL.createObjectURL(blob);
-  
-            img.onload = async () => {
-              const canvas = document.createElement("canvas");
-              const ctx = canvas.getContext("2d");
-  
-              const desiredWidth = 107;
-              const desiredHeight = 125;
-  
-              canvas.width = desiredWidth;
-              canvas.height = desiredHeight;
-  
-              ctx.drawImage(img, 0, 0, desiredWidth, desiredHeight);
-  
-              canvas.toBlob(async (resizedBlob) => {
-                if (resizedBlob) {
-                  const formData = new FormData();
-                  formData.append("image_url", resizedBlob, "image.png");
-                  formData.append("user_id", localStorageUserId);
-                  formData.append("template_id", templateId);
-                  formData.append("template_name", "");
-                  formData.append("event_id", eventData?.event_id);
-  
-                  const res = await axios.post(
-                    "https://onesource.informed.pro/api/update-template",
-                    formData,
-                    { headers: { "Content-Type": "multipart/form-data" } }
-                  );
-  
-                  if (res.data.status_code === 200) {
-                    const thumbnailUrl = res.data.url; // Capture the thumbnail URL from the API response
-                    setThumbnails((prevThumbnails) => ({
-                      ...prevThumbnails,
-                      [templateId]: thumbnailUrl, // Store the thumbnail URL with the template ID
-                    }));
-                    toast.success("Thumbnail uploaded successfully!");
-                  } else {
-                    toast.warning(res.data.message);
-                  }
-                  loader("hide");
-                }
-              }, "image/png");
-            };
-          }
-        })
-        .catch(function (error) {
-          console.error('oops, something went wrong!', error);
-        });
-  
-    } catch (err) {
-      toast.error("Something went wrong.");
-      console.error(err);
-    }
-  }, [ref, setThumbnails]);
+// Function to generate the thumbnail and upload it
+const convertImageToBase64 = async (url) => {
+  const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+  try {
+    const response = await fetch(proxyUrl + url);
+    const blob = await response.blob();
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result);
+      reader.onerror = reject;
+      reader.readAsDataURL(blob);
+    });
+  } catch (error) {
+    console.error(`Failed to fetch and convert image at ${url}:`, error);
+    return null;
+  }
+};
 
+const generate_thumb = useCallback(async (templateId) => {
+  if (!ref.current || !templateId) {
+    toast.warning("Template ID is missing.");
+    return;
+  }
+
+  loader("show");
+
+  try {
+    const element = ref.current;
+
+    // Ensure innerHTML is correctly referenced
+    const imgRegex = /<img[^>]+src="([^">]+)"/g; 
+    const imageUrls = [];
+    let match;
+
+    // Extract image URLs from innerHTML
+    while ((match = imgRegex.exec(element.innerHTML)) !== null) {
+      imageUrls.push(match[1]); 
+    }
+    
+    console.log("Extracted Image URLs:", imageUrls);
+
+    // Convert all image URLs to base64
+    const base64Promises = imageUrls.map(url => convertImageToBase64(url));
+    const base64Images = await Promise.all(base64Promises);
+
+    // Map original URLs to base64 strings
+    const urlToBase64Map = {};
+    base64Images.forEach((base64Image, index) => {
+      if (base64Image) {
+        urlToBase64Map[imageUrls[index]] = base64Image;
+      }
+    });
+
+    // Replace image URLs in the HTML with base64 versions
+    let updatedHtml = element.innerHTML;
+    for (const [url, base64] of Object.entries(urlToBase64Map)) {
+      updatedHtml = updatedHtml.replace(new RegExp(url, 'g'), base64);
+    }
+
+    // Update innerHTML with the base64-encoded images
+    element.innerHTML = updatedHtml;
+    
+    console.log("Updated HTML with base64 images:", updatedHtml);
+
+    // Convert the updated HTML content to a blob and upload it
+    toBlob(element).then(async function (blob) {
+      if (blob) {
+        const img = new Image();
+        img.src = URL.createObjectURL(blob);
+
+        img.onload = async () => {
+          const canvas = document.createElement("canvas");
+          const ctx = canvas.getContext("2d");
+
+          const desiredWidth = 107 * 5;
+          const desiredHeight = 125 * 5;
+
+          canvas.width = desiredWidth;
+          canvas.height = desiredHeight;
+
+          ctx.drawImage(img, 0, 0, desiredWidth, desiredHeight);
+
+          canvas.toBlob(async (resizedBlob) => {
+            if (resizedBlob) {
+              const formData = new FormData();
+              formData.append("image_url", resizedBlob, "image.png");
+              formData.append("user_id", localStorageUserId);
+              formData.append("template_id", templateId);
+              formData.append("template_name", "");
+              formData.append("event_id", eventData?.event_id);
+
+              // Upload the thumbnail
+              const res = await axios.post(
+                "https://onesource.informed.pro/api/update-template",
+                formData,
+                { headers: { "Content-Type": "multipart/form-data" } }
+              );
+
+              if (res.data.status_code === 200) {
+                const thumbnailUrl = res.data.url; 
+                setThumbnails((prevThumbnails) => ({
+                  ...prevThumbnails,
+                  [templateId]: thumbnailUrl,
+                }));
+                toast.success("Thumbnail uploaded successfully!");
+              } else {
+                toast.warning(res.data.message);
+              }
+            }
+          }, "image/png");
+        };
+      }
+    }).catch(function (error) {
+      console.error('oops, something went wrong!', error);
+    });
+
+  } catch (err) {
+    toast.error("Something went wrong.");
+    console.error(err);
+  } finally {
+    loader("hide");
+  }
+}, [ref, setThumbnails]);
+
+  
 
   return (
     <>
