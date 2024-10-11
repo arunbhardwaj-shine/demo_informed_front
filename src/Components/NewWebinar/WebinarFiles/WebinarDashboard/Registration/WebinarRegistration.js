@@ -1404,6 +1404,7 @@ const generate_thumb = useCallback(async (templateId) => {
               } else {
                 toast.warning(res.data.message);
               }
+              loader("hide");
             }
           }, "image/png");
         };
@@ -1415,9 +1416,10 @@ const generate_thumb = useCallback(async (templateId) => {
   } catch (err) {
     toast.error("Something went wrong.");
     console.error(err);
-  } finally {
-    loader("hide");
-  }
+  } 
+  // finally {
+  //   loader("hide");
+  // }
 }, [ref, setThumbnails]);
 
   
