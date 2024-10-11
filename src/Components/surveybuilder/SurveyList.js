@@ -522,7 +522,9 @@ const SurveyList = (props) => {
         body
       );
 
-      if (res) {
+      console.log(res.status);
+
+      if (res.status === 200) {
         hideConfirmationModal();
         const surveyAfterDeleted = getoriginalSurveylistdata.filter((item) => {
           return item.survey_id != deletecardid;
