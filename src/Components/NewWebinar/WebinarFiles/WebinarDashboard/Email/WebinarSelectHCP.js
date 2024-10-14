@@ -75,13 +75,25 @@ const WebinarSelectHCP = (props) => {
       alt: "Group HCPs", value: "group of HCPs", imageUrl: `${path_image}group-hcp.svg`, tooltipMessage: "Use an existing SmartList or create/upload a new segment of HCPs" }
     ];
   }else{
+    // sendOptions = [
+    //   { id: 2, navigateUrl: "/webinar/email/verifyHCP",
+    //     label: currentUserId == userId ? "Single User" : "Single HCP",
+    //      alt: "Single HCP", value: "Single HCP", imageUrl: `${path_image}single-hcp.svg`, tooltipMessage: "Single HCP - Find or upload a new individual HCP (or a few)" },
+    //     { id: 1, navigateUrl: "/webinar/email/selectSmartList",
+    //     label: "Group of HCPs",
+    //     alt: "Group HCPs", value: "group of HCPs", imageUrl: `${path_image}group-hcp.svg`, tooltipMessage: "Use an existing SmartList or create/upload a new segment of HCPs" }
+    // ];
+
     sendOptions = [
+      { id: 3, navigateUrl: "/webinar/email/selectSmartListUsers", label: "All HCPs", alt: "Internal HCPs", value: "Internal HCPs", imageUrl: `${path_image}all-hcps.svg`, tooltipMessage: "Everyone from your CRM" },
+      { id: 6, navigateUrl: "/webinar/email/selectSmartListUsers", label: "Registered HCPs", alt: "Registered HCPs", value: "Registered HCPs", imageUrl: `${path_image}registred-hcps.svg`, tooltipMessage: "HCPs who HAVE registered to this event" },
+      { id: 5, navigateUrl: "/webinar/email/selectSmartListUsers", label: "Non registered HCPs", alt: "Non Registered HCPs", value: "Non Registered HCPs", imageUrl: `${path_image}not-registred-hcps.svg`, tooltipMessage: "The remaining who have NOT yet registered" },
       { id: 2, navigateUrl: "/webinar/email/verifyHCP", 
-        label: currentUserId == userId ? "Single User" : "Single HCP",
-         alt: "Single HCP", value: "Single HCP", imageUrl: `${path_image}single-hcp.svg`, tooltipMessage: "Single HCP - Find or upload a new individual HCP (or a few)" },
-        { id: 1, navigateUrl: "/webinar/email/selectSmartList", 
-        label: "Group of HCPs", 
-        alt: "Group HCPs", value: "group of HCPs", imageUrl: `${path_image}group-hcp.svg`, tooltipMessage: "Use an existing SmartList or create/upload a new segment of HCPs" }
+      label: currentUserId == userId ? "Single User" : "Single HCP",
+       alt: "Single HCP", value: "Single HCP", imageUrl: `${path_image}single-hcp.svg`, tooltipMessage: "Single HCP - Find or upload a new individual HCP (or a few)" },
+      { id: 1, navigateUrl: "/webinar/email/selectSmartList",
+      label: "Group of HCPs",
+      alt: "Group HCPs", value: "group of HCPs", imageUrl: `${path_image}group-hcp.svg`, tooltipMessage: "Use an existing SmartList or create/upload a new segment of HCPs" }
     ];
   }
 
