@@ -118,12 +118,16 @@ const SurveyList = (props) => {
     applyFilter();
   }, [getoriginalSurveylistdata]);
 
-  const searchChange = (e) => {
-    setSearch(e.target.value);
-    if (e.target.value === "") {
-      setIsData(getoriginalSurveylistdata);
+  useEffect(() => {
+    if (search === "") {
+      applyFilter();
     }
+  }, [search]);
+
+  const searchChange = (e) => {
+    setSearch(e.target.value);   
   };
+
   const showDeleteButtons = () => {
     setDeleteStatus(!deletestatus);
   };
@@ -153,7 +157,7 @@ const SurveyList = (props) => {
     }
   };
 
- 
+
   const createNewEmail = () => {
     navigate("/survey/survey-setup");
   };
@@ -291,43 +295,7 @@ const SurveyList = (props) => {
     setSelectedSublinkId(selectedOption ? selectedOption.value : null);
   };
 
-  const handleOnFilterRole = (role) => {
-    let tag_index = filterrole.indexOf(role);
-    if (role == "No IRT") {
-      if (tag_index !== -1) {
-        filterrole.splice(tag_index, 1);
-        setFilterRole(filterrole);
-      } else {
-        filterrole.length = 0;
-        filterrole.push(role);
-        setFilterRole(filterrole);
-      }
-    } else {
-      //TO REMOVE THE NO IRT OPTION
-      const index = filterrole.indexOf("No IRT");
-      if (index !== -1) {
-        filterrole.splice(index, 1);
-      }
 
-      if (tag_index !== -1) {
-        filterrole.splice(tag_index, 1);
-        setFilterRole(filterrole);
-      } else {
-        filterrole.push(role);
-        setFilterRole(filterrole);
-      }
-    }
-
-    let getfilter = filter;
-    if (getfilter.hasOwnProperty("role")) {
-      getfilter.role = filterrole;
-    } else {
-      getfilter = Object.assign({ role: filterrole }, filter);
-    }
-    setFilter(getfilter);
-    let up = updateflag + 1;
-    setUpdateFlag(up);
-  };
 
   const handleLiveToogle = async (e, survey_id) => {
     e.preventDefault();
@@ -350,71 +318,8 @@ const SurveyList = (props) => {
     setConfirmationPopup(false);
   };
 
-  const handleOnFilterTags = (ftag) => {
-    let tag_index = filtertags.indexOf(ftag);
-    if (tag_index !== -1) {
-      filtertags.splice(tag_index, 1);
-      setFilterTags(filtertags);
-    } else {
-      filtertags.push(ftag);
-      setFilterTags(filtertags);
-    }
 
-    let getfilter = filter;
-    if (getfilter.hasOwnProperty("tags")) {
-      getfilter.tags = filtertags;
-    } else {
-      getfilter = Object.assign({ tags: filtertags }, filter);
-    }
-    setFilter(getfilter);
 
-    let up = updateflag + 1;
-    setUpdateFlag(up);
-  };
-  const handleOnFilterCampaign = (fcampaign) => {
-    let tag_index = filtercampaign.indexOf(fcampaign);
-    if (tag_index !== -1) {
-      filtercampaign.splice(tag_index, 1);
-      setFilterCampaigns(filtercampaign);
-    } else {
-      filtercampaign.push(fcampaign);
-      setFilterCampaigns(filtercampaign);
-    }
-
-    let getfilter = filter;
-    if (getfilter.hasOwnProperty("Survey")) {
-      getfilter.Survey = filtercampaign;
-    } else {
-      getfilter = Object.assign({ Survey: filtercampaign }, filter);
-    }
-    setFilter(getfilter);
-    let up = updateflag + 1;
-    setUpdateFlag(up);
-  };
-
-  const handleOnFilterCreator = (fcreator) => {
-    let tag_index = filtercreator.indexOf(fcreator);
-    if (tag_index !== -1) {
-      filtercreator.splice(tag_index, 1);
-      setFilterCreators(filtercreator);
-    } else {
-      filtercreator.push(fcreator);
-      setFilterCreators(filtercreator);
-    }
-
-    let getfilter = filter;
-    if (getfilter.hasOwnProperty("creator")) {
-      getfilter.creator = filtercreator;
-    } else {
-      getfilter = Object.assign({ creator: filtercreator }, filter);
-    }
-    setFilter(getfilter);
-    let up = updateflag + 1;
-    setUpdateFlag(up);
-  };
-  // const [irtRoleObj, setIRTRoleObj] = useState(
-  //     typeof state?.IrtObj !== "undefined" && location?.pathname == '/RD-EmailList' ? state?.IrtObj : {}
-  // );
   const buttonRef = useRef(null);
   const filterRef = useRef(null);
   useEffect(() => {
@@ -435,26 +340,7 @@ const SurveyList = (props) => {
       document.removeEventListener("click", handleOutsideClick);
     };
   }, []);
-  const handleOnFilterDate = (fdate) => {
-    let tag_index = filterdate.indexOf(fdate);
-    if (tag_index !== -1) {
-      filterdate.splice(tag_index, 1);
-      setFilterDate(filterdate);
-    } else {
-      filterdate.push(fdate);
-      setFilterDate(filterdate);
-    }
 
-    let getfilter = filter;
-    if (getfilter.hasOwnProperty("date")) {
-      getfilter.date = filterdate;
-    } else {
-      getfilter = Object.assign({ date: filterdate }, filter);
-    }
-    setFilter(getfilter);
-    let up = updateflag + 1;
-    setUpdateFlag(up);
-  };
 
   const copyHandler = (surveyLink) => {
     navigator.clipboard
@@ -580,16 +466,17 @@ const SurveyList = (props) => {
 
   const clearFilter = () => {
     document.querySelectorAll("input")?.forEach((checkbox) => {
-        checkbox.checked = false;
+      checkbox.checked = false;
     });
     setOtherFilter({});
     setAppliedFilter({});
     if (Object.keys(filterObject)?.length) {
-        setFilterObject({});
-        setIsData(getoriginalSurveylistdata)
+      setFilterObject({});
+      // setIsData(getoriginalSurveylistdata)
+      applyFilter()
     }
     setShowFilter(false);
-};
+  };
 
   const applyFilter = () => {
     setFilterApplyflag(1);
@@ -602,20 +489,19 @@ const SurveyList = (props) => {
       }
       return value !== null && value !== undefined && value !== '';
     });
-
     if (!hasAllNonEmptyValues) {
-      const data = getoriginalSurveylistdata?.filter(item => {
-        const matchesFilters = Object.keys(otherFilter).every(key => {        
+      let data = getoriginalSurveylistdata?.filter(item => {
+        const matchesFilters = Object.keys(otherFilter).every(key => {
           if (Array.isArray(otherFilter[key])) {
-            return otherFilter[key].some(value => {              
-              if (typeof value === 'string') {              
-                if(key=="Survey"){
-                 let filterValue=value=="Draft"?0:value=="Live"?1:value=="Completed"?2:0
-                  return item["is_draft"]==filterValue
-                }else{                  
+            return otherFilter[key].some(value => {
+              if (typeof value === 'string') {
+                if (key == "Survey") {
+                  let filterValue = value == "Draft" ? 0 : value == "Live" ? 1 : value == "Completed" ? 2 : 0
+                  return item["is_draft"] == filterValue
+                } else {
                   return item[key] && item[key].includes(value);
                 }
-              } else if (typeof value === 'number') {               
+              } else if (typeof value === 'number') {
                 return item[key] === value;
               }
               return false;
@@ -625,6 +511,17 @@ const SurveyList = (props) => {
         });
         return matchesFilters;
       });
+      if (search?.trim()?.length > 0) {
+        data = data?.filter((item) => {
+          return item?.survey_title?.toLowerCase()?.includes(search?.toLowerCase())
+        })
+      }
+      setIsData(data)
+    }
+    else if (search?.trim()?.length > 0) {
+      const data = getoriginalSurveylistdata?.filter((item) => {
+        return item?.survey_title?.toLowerCase()?.includes(search?.toLowerCase())
+      })
       setIsData(data)
     } else {
       setIsData(getoriginalSurveylistdata)
