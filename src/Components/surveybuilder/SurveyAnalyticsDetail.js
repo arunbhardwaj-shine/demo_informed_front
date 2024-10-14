@@ -552,7 +552,7 @@ const SurveyAnalyticsDetail = () => {
         });
     };
 
-    const surveyTakerShowData = async (e, index, userId, temp_token) => {
+    const surveyTakerShowData = async (e, index,status, userId, temp_token) => {
         try {
             let id = userId != 0 ? userId : temp_token
             setShowFilter(false)
@@ -564,7 +564,8 @@ const SurveyAnalyticsDetail = () => {
                 setSurveyTakerShowQuestions(id)
                 setSectionApiStatus(true)
                 setLoaderIndex(id)
-                const res = await surveyAxiosInstance.post("/survey/takers-responses-detail", {
+                let Url=status=="Drop-off"?"/survey/get-dropoff-responses":"/survey/takers-responses-detail"
+                const res = await surveyAxiosInstance.post(Url, {
                     user_id: id,
                     survey_id: stateData?.survey_id
 
@@ -1508,7 +1509,7 @@ const SurveyAnalyticsDetail = () => {
                                                                                 : ""
                                                                                 }`}
                                                                             onClick={(e) =>
-                                                                                surveyTakerShowData(e, index, item?.user_id, item?.temp_token)
+                                                                                surveyTakerShowData(e, index,item?.status, item?.user_id, item?.temp_token)
                                                                             } >
                                                                             <td>{item?.name}</td>
                                                                             <td>{item?.email}</td>
