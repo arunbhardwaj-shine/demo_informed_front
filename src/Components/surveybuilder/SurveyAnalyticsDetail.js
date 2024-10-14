@@ -253,7 +253,7 @@ const SurveyAnalyticsDetail = () => {
                     barSeries.push({
                         name: item?.key,
                         data: [{ y: item?.value }],
-                        color: item?.key == "Opened" ? colors[4] : item?.key == "Completed" ? colors[0] : colors[1],
+                        color: item?.key == "Opened" ? colors[4] : item?.key == "Completed" ? colors[0] :item?.key =="Drop-off"? colors[1]:colors[2],
                     })
                 })
 
@@ -781,12 +781,12 @@ const SurveyAnalyticsDetail = () => {
                                         <div className="survey-analytics-box">
                                             <div className="survey-analytics-top align-items-center d-flex">
                                                 <h6>
-                                                    <Skeleton width={100} height={20} />
+                                                    <Skeleton width={70} height={20} />
                                                 </h6>
                                             </div>
                                             <div className="survey-analytics-layout row">
                                                 <div className="survey-completion col">
-                                                    <p><Skeleton width={150} height={20} /></p>
+                                                    <p><Skeleton width={100} height={20} /></p>
                                                     <div className="survey-completion-info">
                                                         <div></div>
                                                         <h2><Skeleton width={197} height={100} /></h2>
