@@ -225,11 +225,11 @@ export const SurveyLiveButton = ({
   return (
     <>
       {" "}
-      <p class="option-heading">
+      <p className="option-heading">
         Status: <img src={path_image + "info_circle_icon.svg"} alt="" />
       </p>
-      <div class="form-switch">
-        {/* <input type="checkbox" id="custom-switch" class="form-check-input"/> */}
+      <div className="form-switch">
+        {/* <input type="checkbox" id="custom-switch" className="form-check-input"/> */}
         <span>Completed</span>
         <Form.Check
           inline
