@@ -227,5 +227,9 @@ export const ENDPOINT = {
   WEBINAR_POLL_STATS:"/webinar/download-poll-stats",
   GET_VIDEO_PLAYED_DETAIL:"/reader/get-video-played-detail",
   EMAIL_STATS_DOWNLOAD:"/email/download-campaign-stats",
-  WEBINAR_EMAIL_STATS_DOWNLOAD:"/webinarEmail/download-webinar-email-stats"
+  WEBINAR_EMAIL_STATS_DOWNLOAD:"/webinarEmail/download-webinar-email-stats",
+  PHARMA_INFO: `auth/get-pharma-info`,
+  ACCOUNT_SETUP: `auth/account-setup`,
+  CLIENT_DETAILS: `/library/get-client-details`,
+  RESET_CLIENT_ACCOUNT: `/library/reset-client-details`,
 };

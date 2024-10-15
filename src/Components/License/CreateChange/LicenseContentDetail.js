@@ -38,6 +38,7 @@ const LicenseContentDetail = (props) => {
     reseller: "",
   });
 
+  const [accountSetupLink, setAccountSetupLink] = useState('');
   const [reRender, setReRender] = useState(0);
   const navigate = useNavigate();
   const [articleId, setArticleId] = useState(
@@ -111,6 +112,7 @@ const LicenseContentDetail = (props) => {
           ? res?.data?.data?.resellerData?.join()
           : "",
       });
+      setAccountSetupLink(res?.data?.data?.pharmaDetail);
 
       loader("hide");
     } catch (err) {
@@ -337,6 +339,36 @@ const LicenseContentDetail = (props) => {
                                         </span>
                                         </div>
                                       </h6>
+                                      
+                                      {
+                                        data?.first_popup == 1 && data?.only_first_popup == 2 ?
+                                        <h6>
+                                          <strong>Account setup | </strong>
+                                          <div className="d-flex">
+                                          <a
+                                            href={accountSetupLink}
+                                            className="doc-link"
+                                            target="_blank"
+                                          >
+                                            {accountSetupLink}
+                                          </a>
+                                          <span
+                                            className="copy-content"
+                                            onClick={() => {
+                                              copyToClipboard(accountSetupLink);
+                                            }}
+                                          >
+                                            <img
+                                              src={
+                                                path_image + "copy-content.svg"
+                                              }
+                                              alt="Copy"
+                                            />
+                                          </span>
+                                          </div>
+                                        </h6>
+                                        : null
+                                      }
 
                                       <div className="info_btn">
                                         <Button

@@ -241,6 +241,7 @@ import SurveyAnalyticsDetail from "./Components/surveybuilder/SurveyAnalyticsDet
 import SurveyFinalPreview from "./Components/surveybuilder/SurveyFinalPreview";
 import SetLayoutNew from "./Components/CommonComponent/SetLayoutNew";
 import SetLayoutNewTimeline from "./Components/CommonComponent/SetLayoutNewTimeline";
+import ClinetAccount from "./Components/Login/ClientAccount";
 
 let platform = 0;
 let show = 0;
@@ -305,6 +306,7 @@ const Routing = () => {
         //DefaultLayout for Login pages
         <Route path="/pdfviewer" element={<DefaultLayout component={PdfViewer} />} />
         <Route path="/" element={<DefaultLayout component={MainLanding} />} />
+        <Route path="/account/:token" element={<DefaultLayout component={ClinetAccount} />} />
         <Route
           path="/informed"
           element={<DefaultLayout component={MainLanding} />}
