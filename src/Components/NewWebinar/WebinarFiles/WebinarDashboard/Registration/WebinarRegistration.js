@@ -1,11 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState,useCallback } from "react";
 import {
   Col,
   Row,
   Button,
   Form,
-  FormGroup,
-  FormLabel,
   Modal,
 } from "react-bootstrap";
 import CommonAddQuestionModal from "./CommonAddQuestionModal";
@@ -14,25 +12,21 @@ import Select from "react-select";
 import { loader } from "../../../../../loader";
 import { getData, postData, postFormData } from "../../../../../axios/apiHelper";
 import { ENDPOINT } from "../../../../../axios/apiConfig";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import WebinarRegistrationValidation from "./WebinarRegistrationValidation";
 import CountryList from "./CountryList";
-import { useNavigate } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import CommonExtensionModal from "./CommonExtensionModal";
 import AliceCarousel from "react-alice-carousel";
 import RegistrationPage from "./RegistrationPage";
 import CommonConfirmModel from "../../../../../Model/CommonConfirmModel";
 import templateData from "./template.json";
-import moment from "moment";
 import { useSidebar } from "../../../../CommonComponent/LoginLayout";
 import QRCode from 'qrcode';
 import ChangeCountry from "./ChangeCountryModel";
 import Countries from "./Countries.json";
-
-let currentDate = new Date(
-  moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")
-);
+import { toBlob } from "html-to-image";
+import axios from "axios";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 let dynamicFieldNo = 0;
@@ -50,12 +44,13 @@ const template = {
   11:['logo','header','footer'],
 }
 const WebinarRegistration = () => {
-  const { eventIdContext, handleEventId } = useSidebar();
+  const { eventIdContext } = useSidebar();
   const validExtensions = ["png", "jpeg", "jpg"];
   // const [templateList, setTemplateList] = useState(templateData);
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPrevClicked, setIsPrevClicked] = useState(false);
   const syncActiveIndex = ({ item }) => setActiveIndex(item);
+  const [thumbnails, setThumbnails] = useState({}); // Store thumbnails per template
 
 
 const templateUserIDs={"iSnEsKu5gB/DRlycxB6G4g==":[1,2,3,4,5,6,7],"B7SHpAc XDXSH NXkN0rdQ==":[1,2,3,4,5,6,7], "wW0geGtDPvig5gF 6KbJrg==":[1,2,3,4,5,6,7],
@@ -90,28 +85,21 @@ const defaultTemplateIds = [10];
     1024: { items: 4 },
   };
 
-  let navigate = useNavigate();
   const location = useLocation();
 
-  let prevData = location?.state;
   const resizeTextArea = (index) => {
     const textAreaRef = textAreaRefs.current[index];
-    // console.log(textAreaRef);
 
     if (textAreaRef) {
-      // console.log(textAreaRef);
       textAreaRef.style.height = "auto";
       textAreaRef.style.height = textAreaRef.scrollHeight + "px";
     }
   };
-  // location?.state?.event_code ? location?.state?.event_code : ""
-  const [event_code, setEventCode] = useState(
-    location?.state?.eventCode
-      ? location?.state?.eventCode
-      : eventIdContext?.eventCode
-        ? eventIdContext?.eventCode
-        : JSON.parse(localStorage.getItem("EventIdContext"))?.eventCode
-  );
+  const event_code=
+    location?.state?.eventCode ||
+    eventIdContext?.eventCode ||
+    JSON.parse(localStorage.getItem("EventIdContext"))?.eventCode || null;
+  
   const [logo, setLogo] = useState();
   const [logoOne, setLogoOne] = useState();
   const [templateOne, setTemplateOne] = useState();
@@ -125,20 +113,16 @@ const defaultTemplateIds = [10];
   const [isFormChange, setIsFormChange] = useState(false);
   const [isDataSaved, setIsDataSaved] = useState(true);
   const [save, setSave] = useState(0);
-  const [isSavedClicked, setIsSavedClicked] = useState(false);
   const [rawData, setRawData] = useState({});
-  const [commonConfirmModelFun, setCommonConfirmModelFun] = useState(() => { });
   const [popupMessage, setPopupMessage] = useState({
     message1: "",
     message2: "",
     footerButton: "",
   });
-  const [downloadqr, setDownloadQr] = useState(false);
-  const [downloadqrSection, setDownloadQrSection] = useState(false);
-  const [confirmationpopup, setConfirmationPopup] = useState(false);
+  const [confirmationPopUp, setConfirmationPopup] = useState(false);
   const [tempTemplate, setTempTemplate] = useState();
   const [apiStatus, setApiStatus] = useState(false);
-  const [formData, setFormData] = useState({
+  const initialFormData = {
     title: "",
     pageTitle: "",
     bodyText: "",
@@ -158,51 +142,24 @@ const defaultTemplateIds = [10];
     backgroundColor: "",
     totalFieldNo: 0,
     templateId: 0,
-  });
-  const [originalFormData, setOriginalFormData] = useState({
-    title: "",
-    pageTitle: "",
-    bodyText: "",
-    logoImageUrl: "",
-    templateOneImageUrl: "",
-    templateTwoImageUrl: "",
-    headerImageUrl: "",
-    body: [],
-    footerImageUrl: "",
-    labelColor: "",
-    typedTextColor: "",
-    placeholderTextColor: "",
-    dropdownOptionColor: "",
-    dropdownHoveringColor: "",
-    selectedTextColor: "",
-    optionColor: "",
-    backgroundColor: "",
-    totalFieldNo: 0,
-    templateId: 0,
-  });
+  };
+
+  const [formData, setFormData] = useState(initialFormData);
+  const [originalFormData, setOriginalFormData] = useState(initialFormData);  
   const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"));
   const [eventData, setEventData] = useState({
-    event_id: location?.state?.eventId
-      ? location?.state?.eventId
-      : eventIdContext?.eventId
-        ? eventIdContext?.eventId
-        : localStorageEvent?.eventId,
-    company_id: location?.state?.companyId
-      ? location?.state?.companyId
-      : eventIdContext?.companyId
-        ? eventIdContext?.companyId
-        : localStorageEvent?.companyId,
+    event_id: location?.state?.eventId || eventIdContext?.eventId || localStorageEvent?.eventId || null,
+    company_id: location?.state?.companyId || eventIdContext?.companyId || localStorageEvent?.companyId || null,
   });
-  const [error, setError] = useState({});
-  const [countryList, setCountryList] = useState(CountryList);
+  
+  const countryList = CountryList;
   const [errorMsg, setErrorMsg] = useState("");
   const [index, setIndex] = useState();
   const [optIndex, setOptIndex] = useState();
   const [extIndex, setExtIndex] = useState();
   const [fieldData, setFieldData] = useState();
-  const [formExtLabel, setFormExtLabel] = useState([]);
   const [extFieldData, setExtFieldData] = useState();
-  const [stateOptions, setStateOptions] = useState([
+  const stateOptions=[
     { label: "Alabama", value: "Alabama" },
     { label: "Alaska", value: "Alaska" },
     { label: "Arizona", value: "Arizona" },
@@ -253,38 +210,14 @@ const defaultTemplateIds = [10];
     { label: "West Virginia", value: "West Virginia" },
     { label: "Washington", value: "Washington" },
     { label: "Virginia", value: "Virginia" },
-  ]);
+  ];
 
-  const [dropDownData, setDropDownData] = useState([]);
-  const [selectedItem, setSelectedItem] = useState({});
   const [showModalPreview, setShowModalPreview] = useState(false);
   const textAreaRefs = useRef(null);
   const [downloadType, setDownloadType] = useState("png")
-
-  // const [totalFieldNo, setTotalFieldNo] = useState(0);
-
+  const ref = useRef(null); 
+  const localStorageUserId = localStorage.getItem("user_id")
   useEffect(() => {
-    // if (prevData?.content) {
-    //   setEventData({
-    //     ...eventData,
-    //     event_id: prevData?.event_id,
-    //     company_id: prevData?.company_id,
-    //   });
-    //   const newFormData = prevData?.content;
-
-    //   setFormData(newFormData);
-
-    //   setFile(newFormData?.headerImageUrl ? newFormData?.headerImageUrl : "");
-    //   setFoot(newFormData?.footerImageUrl ? newFormData?.footerImageUrl : "");
-    // } else {
-    //   getWebinarData();
-    // }
-
-    // getAllEvents();
-
-    // if(!eventIdContext){
-    //   handleEventId(localStorageEvent)
-    // }
     if (event_code) {
       getWebinarData(event_code);
     }
@@ -293,10 +226,7 @@ const defaultTemplateIds = [10];
     if (textAreaRefs.current) {
       textAreaRefs.current.map((value, index) => {
         const textAreaRef = value
-        // console.log(textAreaRef);
-
         if (textAreaRef) {
-          // console.log(textAreaRef);
           textAreaRef.style.height = "auto";
           textAreaRef.style.height = textAreaRef.scrollHeight + "px";
         }
@@ -305,7 +235,6 @@ const defaultTemplateIds = [10];
 
   }, [formData]);
   const getWebinarData = async (event_code) => {
-    // console.log(event_code,'event_code')
     try {
       loader("show");
       setApiStatus(false);
@@ -316,6 +245,9 @@ const defaultTemplateIds = [10];
       let raw = hadData?.raw_description
         ? JSON.parse(hadData?.raw_description)
         : {};
+       let savedThumbnails = hadData?.content ? JSON.parse(hadData?.content)?.thumbnails : {};
+       setThumbnails(savedThumbnails || {});
+
       let parseSpeakerName = "";
       try {
         parseSpeakerName = JSON.parse(raw?.speaker_name);
@@ -448,60 +380,6 @@ const defaultTemplateIds = [10];
     }
   };
 
-  const getAllEvents = async () => {
-    try {
-      loader("show");
-      setApiStatus(false);
-      const response = await getData(
-        `${ENDPOINT.WEBINAR_GET_EVENT_LISTING}?limit=50`
-      );
-      const allevents = response?.data?.data?.data;
-      if (allevents?.length > 0) {
-        let dropDownDataTemp = allevents?.map((item) => ({
-          value: item?.id,
-          label: item?.title,
-          code: item?.event_code,
-          companyId: item?.user_id,
-        }));
-        setDropDownData(dropDownDataTemp);
-        let index = 0;
-        if (event_code != "") {
-          index = dropDownDataTemp.findIndex((obj) => obj.code === event_code);
-        }
-        let selectedData = dropDownDataTemp.length
-          ? dropDownDataTemp?.[index]
-          : { value: "", label: "" };
-        setSelectedItem(selectedData);
-        if (selectedData) {
-          setEventData({
-            ...eventData,
-            event_id: selectedData?.value,
-            company_id: selectedData?.companyId,
-          });
-          setEventCode(selectedData.code);
-          getWebinarData(selectedData.code);
-        }
-      }
-    } catch (err) {
-      loader("hide");
-      console.log(err);
-    }
-  };
-
-  const handleSelectChange = async (event) => {
-    // console.log(event);
-    setIsDataSaved(false);
-    await getWebinarData(event.code);
-    setEventCode(event.code);
-    setSelectedItem(event);
-    if (event?.value && event?.companyId) {
-      setEventData({
-        ...eventData,
-        event_id: event?.value,
-        company_id: event?.companyId,
-      });
-    }
-  };
 
   const handleFileSelect = (e, isSelectedName) => {
     setIsFormChange(true);
@@ -910,9 +788,7 @@ const defaultTemplateIds = [10];
         if (index > -1) {
           updateFormBody?.splice(index, 1);
         }
-        if (isSelectedName == "travel accomodation") {
-          setFormExtLabel();
-        }
+      
         setFormData({ ...formData, body: updateFormBody });
       } else if (isSelectedName == "company_id") {
         setEventData({
@@ -1014,103 +890,62 @@ const defaultTemplateIds = [10];
     }
   };
 
-  // const handleExtensionChange = (e, index, optIndex, type) => {
-  //   if (type == "radio") {
-  //     let newForm = formData?.body;
-  //     newForm[index]?.option?.forEach((item) => (item.checked = false));
-  //     newForm[index].option[optIndex].checked = e?.target?.checked;
-  //     setFormData({ ...formData, body: newForm });
-  //   } else if (type == "checkbox") {
-  //     let newForm = formData?.body;
-  //     newForm[index].option[optIndex].checked = e?.target?.checked;
-  //     setFormData({ ...formData, body: newForm });
-  //   }
-  // };
-
-  const saveClicked = async (e) => {
-    if (e) {
-      e.preventDefault();
-    }
-    if (!formData?.templateId) {
-      setShowModalPreview(true);
-      return;
-    }
-
-    setFormData(formData);
-    try {
-      const error = WebinarRegistrationValidation(formData, eventData);
-      if (Object.keys(error)?.length) {
-        toast.error(error[Object.keys(error)[0]]);
-        setError(error);
+    const saveClicked = async (e) => {
+      if (e) {
+        e.preventDefault();
+      }
+      if (!formData?.templateId) {
+        setShowModalPreview(true);
         return;
       }
-      if (errorMsg) {
-        toast.error(errorMsg);
-        return;
+  
+      setFormData(formData);
+      try {
+        const error = WebinarRegistrationValidation(formData, eventData);
+        if (Object.keys(error)?.length) {
+          toast.error(error[Object.keys(error)[0]]);
+          return;
+        }
+        if (errorMsg) {
+          toast.error(errorMsg);
+          return;
+        }
+  
+        loader("show");
+        let data = {
+          eventId: eventData?.event_id,
+          companyId: eventData?.company_id,
+          // content: JSON.stringify(formData),
+          content: JSON.stringify({
+            ...formData,
+            thumbnails, // Include the updated thumbnails in the payload
+          }),
+        };
+  
+        const response = await postData(
+          ENDPOINT.CREATE_WEBINAR_REGISTRATION,
+          data
+        );
+        setSave((save) => save + 1);
+        setIsDataSaved(true);
+  
+      } catch (err) {
+        console.error("--err", err);
+      } finally {
+        loader("hide");
       }
-
-      loader("show");
-      let data = {
-        eventId: eventData?.event_id,
-        companyId: eventData?.company_id,
-        content: JSON.stringify(formData),
-      };
-
-      const response = await postData(
-        ENDPOINT.CREATE_WEBINAR_REGISTRATION,
-        data
-      );
-      // setFormData({
-      //   title: "",
-      //   pageTitle: "",
-      //   bodyText: "",
-      //   logoImageUrl: "",
-      //   headerImageUrl: "",
-      //   body: [],
-      //   footerImageUrl: "",
-      //   labelColor: "",
-      //   optionColor: "",
-      //   backgroundColor: "",
-      // });
-
-      // setFile("");
-      // setFoot("");
-      // setLogo("");
-      setSave((save) => save + 1);
-      setIsDataSaved(true);
-
-    } catch (err) {
-      console.error("--err", err);
-    } finally {
-      loader("hide");
-    }
-    if (e) {
-      // navigate("/webinar/event-listing");
-      // setIsSavedClicked(true)
-      toast.success("Your changes has been saved successfully !");
-    } else {
-      setIsFormChange(false);
-      setConfirmationPopup(false);
-      setOriginalFormData(JSON.parse(JSON.stringify(formData)));
-      templateClicked(tempTemplate);
-    }
-  };
-
-  const handlePreview = (e, index) => {
-    if (!formData?.templateId) {
-      setShowModalPreview(true);
-      return;
-    }
-
-    setIsPrevClicked(true);
-
-    let prevObj = {
-      eventId: eventData?.event_id,
-      companyId: eventData?.company_id,
-      content: formData,
+      if (e) {
+        // navigate("/webinar/event-listing");
+        // setIsSavedClicked(true)
+        toast.success("Your changes has been saved successfully !");
+      } else {
+        setIsFormChange(false);
+        setConfirmationPopup(false);
+        setOriginalFormData(JSON.parse(JSON.stringify(formData)));
+        templateClicked(tempTemplate);
+      }
     };
-    // navigate("/event-registration", { state: prevObj });
-  };
+
   const handlePreviewInNewTab = async (e, newLink) => {
     e.preventDefault();
     if (!formData?.templateId) {
@@ -1220,7 +1055,7 @@ const defaultTemplateIds = [10];
         footerButton: "Yes please!",
       });
       setIsFormChange(false);
-      if (confirmationpopup) {
+      if (confirmationPopUp) {
         setConfirmationPopup(false);
       } else {
         setConfirmationPopup(true);
@@ -1461,6 +1296,132 @@ const defaultTemplateIds = [10];
     }
   };
 
+// Function to generate the thumbnail and upload it
+// const convertImageToBase64 = async (url) => {
+//   const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+//   try {
+//     const response = await fetch(proxyUrl + url);
+//     const blob = await response.blob();
+//     return new Promise((resolve, reject) => {
+//       const reader = new FileReader();
+//       reader.onloadend = () => resolve(reader.result);
+//       reader.onerror = reject;
+//       reader.readAsDataURL(blob);
+//     });
+//   } catch (error) {
+//     console.error(`Failed to fetch and convert image at ${url}:`, error);
+//     return null;
+//   }
+// };
+
+// const generate_thumb = useCallback(async (templateId) => {
+//   if (!ref.current || !templateId) {
+//     toast.warning("Template ID is missing.");
+//     return;
+//   }
+
+//   loader("show");
+
+//   try {
+//     const element = ref.current;
+
+//     // Ensure innerHTML is correctly referenced
+//     const imgRegex = /<img[^>]+src="([^">]+)"/g; 
+//     const imageUrls = [];
+//     let match;
+
+//     // Extract image URLs from innerHTML
+//     while ((match = imgRegex.exec(element.innerHTML)) !== null) {
+//       imageUrls.push(match[1]); 
+//     }
+    
+//     console.log("Extracted Image URLs:", imageUrls);
+
+//     // Convert all image URLs to base64
+//     const base64Promises = imageUrls.map(url => convertImageToBase64(url));
+//     const base64Images = await Promise.all(base64Promises);
+
+//     // Map original URLs to base64 strings
+//     const urlToBase64Map = {};
+//     base64Images.forEach((base64Image, index) => {
+//       if (base64Image) {
+//         urlToBase64Map[imageUrls[index]] = base64Image;
+//       }
+//     });
+
+//     // Replace image URLs in the HTML with base64 versions
+//     let updatedHtml = element.innerHTML;
+//     for (const [url, base64] of Object.entries(urlToBase64Map)) {
+//       updatedHtml = updatedHtml.replace(new RegExp(url, 'g'), base64);
+//     }
+
+//     // Update innerHTML with the base64-encoded images
+//     element.innerHTML = updatedHtml;
+    
+//     console.log("Updated HTML with base64 images:", updatedHtml);
+
+//     // Convert the updated HTML content to a blob and upload it
+//     toBlob(element).then(async function (blob) {
+//       if (blob) {
+//         const img = new Image();
+//         img.src = URL.createObjectURL(blob);
+
+//         img.onload = async () => {
+//           const canvas = document.createElement("canvas");
+//           const ctx = canvas.getContext("2d");
+
+//           const desiredWidth = 107 * 5;
+//           const desiredHeight = 125 * 5;
+
+//           canvas.width = desiredWidth;
+//           canvas.height = desiredHeight;
+
+//           ctx.drawImage(img, 0, 0, desiredWidth, desiredHeight);
+
+//           canvas.toBlob(async (resizedBlob) => {
+//             if (resizedBlob) {
+//               const formData = new FormData();
+//               formData.append("image_url", resizedBlob, "image.png");
+//               formData.append("user_id", localStorageUserId);
+//               formData.append("template_id", templateId);
+//               formData.append("template_name", "");
+//               formData.append("event_id", eventData?.event_id);
+
+//               // Upload the thumbnail
+//               const res = await axios.post(
+//                 "https://onesource.informed.pro/api/update-template",
+//                 formData,
+//                 { headers: { "Content-Type": "multipart/form-data" } }
+//               );
+
+//               if (res.data.status_code === 200) {
+//                 const thumbnailUrl = res.data.url; 
+//                 setThumbnails((prevThumbnails) => ({
+//                   ...prevThumbnails,
+//                   [templateId]: thumbnailUrl,
+//                 }));
+//                 toast.success("Thumbnail uploaded successfully!");
+//               } else {
+//                 toast.warning(res.data.message);
+//               }
+//             }
+//           }, "image/png");
+//         };
+//       }
+//     }).catch(function (error) {
+//       console.error('oops, something went wrong!', error);
+//     });
+
+//   } catch (err) {
+//     toast.error("Something went wrong.");
+//     console.error(err);
+//   } finally {
+//     loader("hide");
+//   }
+// }, [ref, setThumbnails]);
+
+  
+
   return (
     <>
       <Col className="right-sidebar custom-change">
@@ -1589,7 +1550,12 @@ const defaultTemplateIds = [10];
                           >
                             <img
                               id={`"template_dyn" + template?.popupNo`}
-                              src={`${path_image}/template-${template?.templateId}.png`}
+                              // src={thumbnail ? thumbnail :`${path_image}/template-${template?.templateId}.png`}
+                              src={
+                                thumbnails[template.templateId] // Show the updated thumbnail if available
+                                  ? thumbnails[template.templateId] // Use the new thumbnail from the state
+                                  : `${path_image}/template-${template?.templateId}.png` // Fallback to default image
+                              }
                               alt=""
                               className={
                                 typeof activeIndex !== "undefined" &&
@@ -3630,10 +3596,25 @@ const defaultTemplateIds = [10];
                         <Button onClick={(e) => saveClicked(e)} className="save">
                           Save
                         </Button>
+
+                        {/* <button
+                        className="btn btn-primary btn-bordered btn-voilet"
+                        // onClick={openPreviewThumbPopup}
+                        onClick={() => {
+                          if (activeIndex) {
+                            generate_thumb(activeIndex); // Pass the correct templateId
+                          } else {
+                            toast.warning("No template selected.");
+                          }
+                        }}
+                        style={{ margin: "0 0" }}
+                      >
+                        Generate Thumbnail
+                      </button> */}
                       </div>
 
-                      <div className="register-popup">
-                        <div className="register-popup-view">
+                      <div className="register-popup"  ref={ref}  >
+                        <div className="register-popup-view" >
                           <RegistrationPage
                             type="preview"
                             prevData={{
@@ -3685,7 +3666,7 @@ const defaultTemplateIds = [10];
         dynamicFieldNo={dynamicFieldNo}
       />
       <CommonConfirmModel
-        show={confirmationpopup}
+        show={confirmationPopUp}
         onClose={handleCommonConfirmModal}
         onCloseCross={() => {
           setConfirmationPopup(false);
@@ -3730,7 +3711,7 @@ const defaultTemplateIds = [10];
                 height="500px"
                 title="Event Registration"
               /> */}
-              <div className="webinar-popup">
+              <div className="webinar-popup" >
                 <RegistrationPage
                   type="preview"
                   prevData={{
@@ -3814,6 +3795,7 @@ const defaultTemplateIds = [10];
           </>
         </Modal.Body>
       </Modal> */}
+
     </>
   );
 };
