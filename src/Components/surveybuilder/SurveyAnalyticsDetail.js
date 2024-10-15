@@ -790,7 +790,7 @@ const SurveyAnalyticsDetail = () => {
                                                     <p><Skeleton width={100} height={20} /></p>
                                                     <div className="survey-completion-info">
                                                         <div></div>
-                                                        <h2><Skeleton width={197} height={100} /></h2>
+                                                        <h2><Skeleton width={'100%'} height={100} /></h2>
                                                         <div className="completed-survey">
                                                             <p>
                                                                 <Skeleton width={150} height={20} />
@@ -799,29 +799,29 @@ const SurveyAnalyticsDetail = () => {
                                                     </div>
                                                 </div>
                                                 <div className="survey-takers col">
-                                                    <p><Skeleton width={300} height={20} /></p>
-                                                    <Skeleton width={500} height={180} />
+                                                    <p><Skeleton width={'100%'} height={20} /></p>
+                                                    <Skeleton width={'100%'} height={180} />
                                                 </div>
                                                 <div className="survey-takers-status col">
                                                     <p><Skeleton width={200} height={20} /></p>
-                                                    <Skeleton width={350} height={180} />
+                                                    <Skeleton width={'100%'} height={180} />
                                                     <div className="rd-box-export">
-                                                        <Skeleton width={10} height={20} />
+                                                        <Skeleton width={20} height={20} />
                                                     </div>
                                                 </div>
                                                 <div className="survey-full-info col d-flex flex-column">
                                                     <div className="survey-info takers">
-                                                        <Skeleton width={270} height={25} />
+                                                        <Skeleton width={'100%'} height={25} />
                                                     </div>
                                                     <div className="survey-info avg">
-                                                        <Skeleton width={270} height={25} />
+                                                        <Skeleton width={'100%'} height={25} />
                                                     </div>
 
                                                     <div className="survey-info question">
-                                                        <Skeleton width={270} height={25} />
+                                                        <Skeleton width={'100%'} height={25} />
                                                     </div>
                                                     <div className="survey-info no-answer">
-                                                        <Skeleton width={270} height={25} />
+                                                        <Skeleton width={'100%'} height={25} />
                                                     </div>
                                                 </div>
                                             </div>
@@ -927,7 +927,7 @@ const SurveyAnalyticsDetail = () => {
                                                         <Skeleton width={50} height={30} />
                                                     </div>
                                                     <div className="question-view">
-                                                        <p><Skeleton width={1200} height={20} /></p>
+                                                        <p><Skeleton width={'100%'} height={20} /></p>
                                                     </div>
                                                     <div className="question-status">
                                                         <Skeleton width={140} height={20} />
