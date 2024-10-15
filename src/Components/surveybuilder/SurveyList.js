@@ -38,7 +38,9 @@ const SurveyList = (props) => {
   const isLikeRdAccount = rdLikeArray.includes(localStorage.getItem("user_id"));
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
-  const filterdata = [];
+  const filterdata = {
+     "Survey":["Live","Draft","Complete"]
+  }
   const [showfilter, setShowFilter] = useState(false);
   const [deletestatus, setDeleteStatus] = useState(false);
   const [filtercampaign, setFilterCampaigns] = useState([]);
@@ -120,10 +122,24 @@ const SurveyList = (props) => {
   };
 
   const getFilterAppliedData = async () => {
+    console.log(filter,"<<< from the apply filter")
+
+
+     // Mapping filter values to corresponding is_draft values
+  const statusMap = {
+    Draft: 0,
+    Live: 1,
+    Complete: 2,
+  };
+
+  // Convert filter.Survey to their respective is_draft values
+  const filteredSurveyValues = filter?.Survey?.map(status => statusMap[status]).filter(value => value !== undefined);
+  console.log(filteredSurveyValues);
+
     if (filter?.Survey?.length > 0) {
      
       let filteredData = getoriginalSurveylistdata.filter((item) => {
-        return filter.Survey.includes(parseInt(item.is_draft));
+        return filteredSurveyValues.includes(parseInt(item.is_draft));
       });
       // Further filter based on search if there is any search text
       if (search.trim().length > 0) {
@@ -143,6 +159,7 @@ const SurveyList = (props) => {
       setIsData(getoriginalSurveylistdata);
     }
   };
+
 
   const removeindividualfilter = (src, item) => {
     // setRemoveFlag(true);
@@ -197,7 +214,7 @@ const SurveyList = (props) => {
     setFilterApply(true);
     getFilterAppliedData();
     setShowFilter(false);
-  };
+  }
 
   const [allCodes, setAllCodes] = useState([]);
   const [subLinkData, setSubLinkData] = useState({});
@@ -423,6 +440,8 @@ const SurveyList = (props) => {
     }
 
     let getfilter = filter;
+    console.log(filtercampaign)
+    console.log(getfilter ,"<==== this from filter apply");
     if (getfilter.hasOwnProperty("Survey")) {
       getfilter.Survey = filtercampaign;
     } else {
@@ -845,109 +864,39 @@ const SurveyList = (props) => {
                               </Accordion.Body>
                             </Accordion.Item>
                           )}
-                        {!isLikeRdAccount ? (
+                        {filterdata.hasOwnProperty("Survey") &&
+                          filterdata.Survey.length > 0 && (
                           <Accordion.Item className="card" eventKey="3">
                             <Accordion.Header className="card-header">
                               Survey
                             </Accordion.Header>
                             <Accordion.Body className="card-body">
                               <ul>
-                                <li>
-                                  <label className="select-multiple-option">
-                                    <input
-                                      type="checkbox"
-                                      id={`custom-checkbox-Survey-0`}
-                                      name="Survey[]"
-                                      value="Sent"
-                                      checked={
-                                        updateflag > 0 &&
-                                        typeof filtercampaign !== "undefined" &&
-                                        filtercampaign.indexOf(1) !== -1
-                                      }
-                                      onChange={() => handleOnFilterCampaign(1)}
-                                    />
-                                    Live
-                                    <span className="checkmark"></span>
-                                  </label>
-                                </li>
-                                <li>
-                                  <label className="select-multiple-option">
-                                    <input
-                                      type="checkbox"
-                                      id={`custom-checkbox-Survey-1`}
-                                      name="Survey[]"
-                                      value="Draft"
-                                      checked={
-                                        updateflag > 0 &&
-                                        typeof filtercampaign !== "undefined" &&
-                                        filtercampaign.indexOf(0) !== -1
-                                      }
-                                      onChange={() => handleOnFilterCampaign(0)}
-                                    />
-                                    Draft
-                                    <span className="checkmark"></span>
-                                  </label>
-                                </li>
-                                <li>
-                                  <label className="select-multiple-option">
-                                    <input
-                                      type="checkbox"
-                                      id={`custom-checkbox-Survey-2`}
-                                      name="Survey[]"
-                                      value="draft-approved"
-                                      checked={
-                                        updateflag > 0 &&
-                                        typeof filtercampaign !== "undefined" &&
-                                        filtercampaign.indexOf(2) !== -1
-                                      }
-                                      onChange={() => handleOnFilterCampaign(2)}
-                                    />
-                                    Completed
-                                    <span className="checkmark"></span>
-                                  </label>
-                                </li>
+                              {Object.entries(filterdata.Survey).map(
+                                    ([index, item]) => (<li>
+                                      <label className="select-multiple-option">
+                                        <input
+                                          type="checkbox"
+                                          id={`custom-checkbox-Survey-0`}
+                                          name="Survey[]"
+                                          value="Sent"
+                                          checked={
+                                            updateflag > 0 &&
+                                            typeof filtercampaign !== "undefined" &&
+                                            filtercampaign.indexOf(item) !== -1
+                                          }
+                                          onChange={() => handleOnFilterCampaign(item)}
+                                        />
+                                       {item}
+                                        <span className="checkmark"></span>
+                                      </label>
+                                    </li>))}
+                                
+                             
                               </ul>
                             </Accordion.Body>
                           </Accordion.Item>
-                        ) : (
-                          filterdata.hasOwnProperty("IRT_roles") &&
-                          filterdata.IRT_roles.length > 0 && (
-                            <Accordion.Item className="card" eventKey="3">
-                              <Accordion.Header className="card-header">
-                                IRT Roles
-                              </Accordion.Header>
-                              <Accordion.Body className="card-body">
-                                <ul>
-                                  {Object.entries(filterdata.IRT_roles).map(
-                                    ([index, item]) => (
-                                      <li>
-                                        <label className="select-multiple-option">
-                                          <input
-                                            type="checkbox"
-                                            id={`custom-checkbox-IRT_roles-${index}`}
-                                            name="IRT_roles[]"
-                                            value={item}
-                                            checked={
-                                              updateflag > 0 &&
-                                              typeof filterrole !==
-                                                "undefined" &&
-                                              filterrole.indexOf(item) !== -1
-                                            }
-                                            onChange={() =>
-                                              handleOnFilterRole(item)
-                                            }
-                                          />
-                                          {item}
-                                          <span className="checkmark"></span>
-                                        </label>
-                                      </li>
-                                    )
-                                  )}
-                                </ul>
-                              </Accordion.Body>
-                            </Accordion.Item>
-                          )
-                        )}
+                        ) }
                       </Accordion>
 
                       <div className="filter-footer">
@@ -1147,11 +1096,7 @@ const SurveyList = (props) => {
                                     removeindividualfilter("Survey", item)
                                   }
                                 >
-                                  {item == 2
-                                    ? "Completed"
-                                    : item == 0
-                                    ? "Draft"
-                                    : "Live"}
+                                {item}
                                   <img
                                     src={path_image + "filter-close.svg"}
                                     alt="Close-filter"

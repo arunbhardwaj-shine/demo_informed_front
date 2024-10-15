@@ -5178,6 +5178,13 @@ body {
                 }
                 .pie-chart-outer-layout{
                     padding-right:50px;
+                    .graph-box{
+                        .react-loading-skeleton{
+                            margin:0 auto;
+                            display: flex;
+                            justify-content: center;
+                        }
+                    }
                     .highcharts-data-labels{
                         .highcharts-label{
                             text{
