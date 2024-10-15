@@ -468,15 +468,23 @@ const SurveyList = (props) => {
     document.querySelectorAll("input")?.forEach((checkbox) => {
       checkbox.checked = false;
     });
-    setOtherFilter({});
-    setAppliedFilter({});
+    
     if (Object.keys(filterObject)?.length) {
       setFilterObject({});
+      console.log("filterObject-->",filterObject)
       // setIsData(getoriginalSurveylistdata)
-      applyFilter()
+      // applyFilter()
     }
+    setOtherFilter({});
+    setAppliedFilter({});
     setShowFilter(false);
   };
+  useEffect(()=>{
+    console.log("filter object--->",filterObject)
+    if(Object.keys(filterObject)?.length==0){    
+      applyFilter()
+    }
+  },[filterObject])
 
   const applyFilter = () => {
     setFilterApplyflag(1);
