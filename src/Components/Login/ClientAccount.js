@@ -354,7 +354,7 @@ const ClinetAccount = () => {
         setEmail("");
         setErrorMsg(null);
         // setSuccessMsg(res?.data?.message);
-        setSuccessMsg('Password reset successfully </br >Please check your email for new password.');
+        setSuccessMsg('Password reset successfully. </br >Please check your email for new password.');
       } catch (err) {
         setAddEmailClass(true);
         setSuccessMsg('');
