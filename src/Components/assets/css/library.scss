@@ -25500,6 +25500,10 @@ background-size: cover;
       form{
         .form-group{
           position: relative;
+          p{
+            margin: 3px auto 0px;
+            text-align: left;
+          }
           &.error{
             .form-control {
               box-shadow: 0 0 4px 0 #d61975;

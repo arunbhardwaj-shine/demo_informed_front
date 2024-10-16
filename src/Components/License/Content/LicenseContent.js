@@ -2618,7 +2618,7 @@ const LicenseContent = (props) => {
                                               <h6 className="tab-content-title">
                                                 Client account
                                               </h6>
-                                              <h6>
+                                              <h6 style={{userSelect: "none"}}>
                                                 {
                                                   client_details.findIndex((el) => el.pdfId == data?.id) !== -1
                                                   ? 
@@ -2708,7 +2708,7 @@ const LicenseContent = (props) => {
                                       && client_details.findIndex((el) => el.pdfId == data?.id) !== -1
                                        ? (
                                         <div className="data-main-footer-sec">
-                                          <div className="footer-btn-wrapper">
+                                          <div className="footer-btn-wrapper justify-content-end">
                                             <Button
                                               onClick={(e) =>
                                                 showConfirmationPopup(
