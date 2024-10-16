@@ -4810,10 +4810,12 @@ body {
                 p {
                     color: $dark-blue;
                     font-size: 14px;
-                    span{
-                        font-size: 13px;
-                        color:#97B6CF;
-                    }
+                    
+                }
+                span{
+                    font-size: 13px;
+                    color:#97B6CF;
+                    padding-left: 3px;
                 }
             }
 

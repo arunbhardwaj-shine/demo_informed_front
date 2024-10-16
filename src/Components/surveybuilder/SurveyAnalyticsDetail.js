@@ -146,7 +146,7 @@ const SurveyAnalyticsDetail = () => {
         chart: {
             type: "line",
             height: 221,
-            // width:501
+            
         },
         title: {
             text: '',
@@ -161,26 +161,6 @@ const SurveyAnalyticsDetail = () => {
         },
         xAxis: {
             categories: []
-            // categories: [
-            //     "Oct 1",
-            //     "Oct 5",
-            //     "Oct 8",
-            //     "Oct 10",
-            //     "Oct 12",
-            //     "Oct 15",
-            // ],
-            // min: 0 ,// Start xAxis from 0
-            // labels: {
-            //     formatter: function () {
-            //         // Custom label formatter to simulate categories (e.g., Oct 1, Oct 5, Oct 8)
-            //         // const dates = ['Oct 1', 'Oct 5', 'Oct 8','Oct 10','Oct 12','Oct 15'];
-            //         // return dates[this.value];
-            //         return this.value
-            //     }
-            // }
-            // "labels": {
-            //     // Add your labels here if needed, this can be dynamic
-            // }
         },
         yAxis: {
             title: {
@@ -301,14 +281,9 @@ const SurveyAnalyticsDetail = () => {
                 ...prevOptions,
                 xAxis: {
                     ...prevOptions.xAxis,
-                    // labels: {
-                    //     formatter: function () {
-                    //         return xAxisCategories[this.value]; // Dynamic x-axis labels
-                    //     }
-                    // }
-                    categories: xAxisCategories
+                    categories: xAxisCategories?xAxisCategories:[]
                 },
-                series: seriesData
+                series: seriesData?seriesData:[]
             }))
 
 
@@ -320,10 +295,8 @@ const SurveyAnalyticsDetail = () => {
 
     const getTempQuestionData = async () => {
         try {
-
             const res = await surveyAxiosInstance.post("/survey/analytic-qns-detail", {
                 survey_id: stateData?.survey_id
-
             });
             const data = res?.data?.data?.allData
             setTempQuestionData(data)
@@ -564,7 +537,7 @@ const SurveyAnalyticsDetail = () => {
                 setSurveyTakerShowQuestions(id)
                 setSectionApiStatus(true)
                 setLoaderIndex(id)
-                let Url=status=="Drop-off"?"/survey/get-dropoff-responses":"/survey/takers-responses-detail"
+                let Url=status=="drop-off"?"/survey/get-dropoff-responses":"/survey/takers-responses-detail"
                 const res = await surveyAxiosInstance.post(Url, {
                     user_id: id,
                     survey_id: stateData?.survey_id

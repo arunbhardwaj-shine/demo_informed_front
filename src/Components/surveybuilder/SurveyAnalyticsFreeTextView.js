@@ -131,7 +131,8 @@ const SurveyAnalyticsFreeTextView = ({ index, item }) => {
                     </div>
                 </div>
                 <div className="question-view">
-                    <p dangerouslySetInnerHTML={{ __html: item?.question }}></p>
+                    <p dangerouslySetInnerHTML={{ __html: item?.question }} ></p>
+                    <span>{`${item?.mandatory_label==0? " (Optional)":""}`}</span>
                 </div>
                 <div className="question-status">
                     <div className="total-answered">
