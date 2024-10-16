@@ -27,6 +27,7 @@ let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const LibrarySublink = () => {
   const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
   const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
+  const isUSAPharmaAccount = localStorage?.getItem("account_type") === 'USA_PHARMA' ? 1 : 0;
   const { state } = useLocation();
   const [allContents, setallContents] = useState([]);
   const [allCodes, setAllCodes] = useState([]);
@@ -44,6 +45,9 @@ const LibrarySublink = () => {
   const [update, setUpdate] = useState(0);
   const [consentValue, setConsentValue] = useState("");
   const [identifier, setIdentifier] = useState("");
+  const [consentType, setConsetnType] = useState([
+    { value: "Sunshine USA", label: "Sunshine USA" },
+  ]);
   const [newLink, setLink] = useState({
     delivery: "",
   });
@@ -250,7 +254,12 @@ const LibrarySublink = () => {
     try {
       loader("show");
       const index = changeConsent.findIndex((el) => el.index === pdf_id);
-      let consent_value = changeConsent[index].value;
+      let consent_value = changeConsent[index]?.value || '';
+
+      if(consent_value == ''){
+        const get_actual_consent = libraryData.findIndex((el) => el.id === pdf_id);
+        consent_value = libraryData[get_actual_consent].linkType;
+      }
 
       let body = {
         pdfId: pdf_id,
@@ -1083,33 +1092,57 @@ const LibrarySublink = () => {
                                             <label htmlFor="">
                                               Consent type
                                             </label>
-                                            <Select
-                                              options={types}
-                                              // value={consentValue}
-                                              defaultValue={
-                                                articleData.linkType == "Online"
-                                                  ? types[0]
-                                                  : articleData.linkType ==
-                                                    "Offline"
-                                                  ? types[1]
-                                                  : articleData.linkType ==
-                                                    "Sunshine"
-                                                  ? types[2]
-                                                  : "Select"
-                                              }
-                                              onChange={(event) =>
-                                                onConsentChange(
-                                                  event,
+                                            {
+                                              isUSAPharmaAccount && articleData.articleOwner == 1 ?
+                                              <Select
+                                                options={consentType}
+                                                defaultValue={
+                                                  articleData.linkType == "Sunshine USA"
+                                                    ? consentType?.[0]
+                                                    : "Select"
+                                                }
+                                                onChange={(event) =>
+                                                  onConsentChange(
+                                                    event,
+                                                    articleData.id
+                                                  )
+                                                }
+                                                id={
+                                                  "consent_dropdown_" +
                                                   articleData.id
-                                                )
-                                              }
-                                              id={
-                                                "consent_dropdown_" +
-                                                articleData.id
-                                              }
-                                              className="dropdown-basic-button split-button-dropup"
-                                              isClearable
-                                            />
+                                                }
+                                                className="dropdown-basic-button split-button-dropup"
+                                                isClearable
+                                              />
+                                              :
+                                              <Select
+                                                options={types}
+                                                // value={consentValue}
+                                                defaultValue={
+                                                  articleData.linkType == "Online"
+                                                    ? types[0]
+                                                    : articleData.linkType ==
+                                                      "Offline"
+                                                    ? types[1]
+                                                    : articleData.linkType ==
+                                                      "Sunshine"
+                                                    ? types[2]
+                                                    : "Select"
+                                                }
+                                                onChange={(event) =>
+                                                  onConsentChange(
+                                                    event,
+                                                    articleData.id
+                                                  )
+                                                }
+                                                id={
+                                                  "consent_dropdown_" +
+                                                  articleData.id
+                                                }
+                                                className="dropdown-basic-button split-button-dropup"
+                                                isClearable
+                                              />
+                                            }
                                             <Button
                                               onClick={(e) =>
                                                 updateConset(articleData.id)
