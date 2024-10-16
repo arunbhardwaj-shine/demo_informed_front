@@ -146,7 +146,7 @@ const SurveyAnalyticsDetail = () => {
         chart: {
             type: "line",
             height: 221,
-            
+
         },
         title: {
             text: '',
@@ -233,7 +233,7 @@ const SurveyAnalyticsDetail = () => {
                     barSeries.push({
                         name: item?.key,
                         data: [{ y: item?.value }],
-                        color: item?.key == "Opened" ? colors[4] : item?.key == "Completed" ? colors[0] :item?.key =="Drop-off"? colors[1]:colors[2],
+                        color: item?.key == "Opened" ? colors[4] : item?.key == "Completed" ? colors[0] : item?.key == "Drop-off" ? colors[1] : colors[2],
                     })
                 })
 
@@ -281,9 +281,9 @@ const SurveyAnalyticsDetail = () => {
                 ...prevOptions,
                 xAxis: {
                     ...prevOptions.xAxis,
-                    categories: xAxisCategories?xAxisCategories:[]
+                    categories: xAxisCategories ? xAxisCategories : []
                 },
-                series: seriesData?seriesData:[]
+                series: seriesData ? seriesData : []
             }))
 
 
@@ -525,7 +525,7 @@ const SurveyAnalyticsDetail = () => {
         });
     };
 
-    const surveyTakerShowData = async (e, index,status, userId, temp_token) => {
+    const surveyTakerShowData = async (e, index, status, userId, temp_token) => {
         try {
             let id = userId != 0 ? userId : temp_token
             setShowFilter(false)
@@ -537,7 +537,7 @@ const SurveyAnalyticsDetail = () => {
                 setSurveyTakerShowQuestions(id)
                 setSectionApiStatus(true)
                 setLoaderIndex(id)
-                let Url=status=="drop-off"?"/survey/get-dropoff-responses":"/survey/takers-responses-detail"
+                let Url = status == "drop-off" ? "/survey/get-dropoff-responses" : "/survey/takers-responses-detail"
                 const res = await surveyAxiosInstance.post(Url, {
                     user_id: id,
                     survey_id: stateData?.survey_id
@@ -717,7 +717,7 @@ const SurveyAnalyticsDetail = () => {
     return (
         <>
             <Col className="right-sidebar custom-change">
-                <div className="custom-container">                   
+                <div className="custom-container">
                     <Row>
                         <div className="top-header analytics_header sticky align-items-center">
                             <div className="page-title d-flex  align-items-center">
@@ -919,29 +919,29 @@ const SurveyAnalyticsDetail = () => {
                                                                 <Skeleton width={100} height={20} />
                                                             </div>
                                                         </div>
-                                                      
+
                                                         <div className="answer-options">
-                                                        {Array.from({ length: 3 }, (_, index) => (<>
-                                                            <div className="answer">
-                                                               
-                                                                {/* {Array.from({ length: 3 }, (_, index) => (<> */}
-                                                                     <div className="choices">
-                                                                    <div><Skeleton width={100} height={20} /></div>
-                                                              
-                                                                   
-                                                                </div>
-                                                                <div className="respondents">
-                                                                
-                                                                    <div><Skeleton width={100} height={20} /></div>
+                                                            {Array.from({ length: 3 }, (_, index) => (<>
+                                                                <div className="answer">
+
+                                                                    {/* {Array.from({ length: 3 }, (_, index) => (<> */}
+                                                                    <div className="choices">
+                                                                        <div><Skeleton width={100} height={20} /></div>
+
+
+                                                                    </div>
+                                                                    <div className="respondents">
+
+                                                                        <div><Skeleton width={100} height={20} /></div>
                                                                     </div>
                                                                     {/* </> */}
-                                                                {/* ))} */}
-                                                                   
-                                                                
-                                                            </div>
+                                                                    {/* ))} */}
+
+
+                                                                </div>
                                                             </>))}
                                                         </div>
-                                                        
+
                                                     </div>
                                                     <div className="question-preview-right">
                                                         <div className="rd-training-block-right d-flex justify-content-end align-items-center">
@@ -1482,7 +1482,7 @@ const SurveyAnalyticsDetail = () => {
                                                                                 : ""
                                                                                 }`}
                                                                             onClick={(e) =>
-                                                                                surveyTakerShowData(e, index,item?.status, item?.user_id, item?.temp_token)
+                                                                                surveyTakerShowData(e, index, item?.status, item?.user_id, item?.temp_token)
                                                                             } >
                                                                             <td>{item?.name}</td>
                                                                             <td>{item?.email}</td>
@@ -1553,7 +1553,17 @@ const SurveyAnalyticsDetail = () => {
                                                                                                                             </>)
                                                                                                                         })
                                                                                                                     :
-                                                                                                                    <p>{data?.comment ? data?.comment : "N/A"}</p>
+                                                                                                                    data?.type == "freeText"
+                                                                                                                        ?
+                                                                                                                        <p>{data?.comment ? data?.comment : "N/A"}</p>
+                                                                                                                        :
+
+                                                                                                                        <p>{data?.extra?.otherChoiceLabel}
+                                                                                                                            {data?.comment
+                                                                                                                                ? ` (${data.comment})`
+
+                                                                                                                                : ""}
+                                                                                                                        </p>
                                                                                                             }
                                                                                                         </div>
                                                                                                     </div>

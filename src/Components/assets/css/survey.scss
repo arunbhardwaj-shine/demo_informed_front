@@ -5486,9 +5486,11 @@ body {
                         td {
                             color: $dark-gray;
                             font-weight: 400;
+                            text-transform: capitalize;
                            
                             &.completed {
-                                color: $secondary-green;
+                                color: $secondary-green;                               
+                                
                             }
 
                             &.drop-off {
