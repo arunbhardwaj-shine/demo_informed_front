@@ -288,6 +288,11 @@ const ClinetAccount = () => {
   };
 
   return(
+    <>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+      />
     <div className="sunshine-account">
       <Container>
         <Row>  
@@ -302,7 +307,7 @@ const ClinetAccount = () => {
                       <h4>Sign up</h4>
                       <p>Your new inforMed.pro account is personal and can only be access by you. <br/>We will use the email for password recovery as well as alerts and relevant tips.</p>
                       <Form onSubmit={handlePharmaSignUp}>
-                        <Row className="mb-3">
+                        <Row>
                           <FormGroup as={Col} md={6} className="mb-4">
                             <div className={`form-group ${pharmaErrors?.name ? 'error' : ''}`}>
                               <input
@@ -313,7 +318,9 @@ const ClinetAccount = () => {
                                 className="form-control"
                                 onChange={handlePharmaChange}
                                 />
-                                <span><svg width="20" height="14" viewBox="0 0 20 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10.1034 8.41164C12.4325 8.41164 14.3202 6.52838 14.3202 4.20564C14.3202 1.88289 12.4321 0 10.1034 0C7.77476 0 5.88599 1.88325 5.88599 4.206C5.88599 6.52874 7.77476 8.41164 10.1034 8.41164ZM11.8921 8.69831H8.31405C5.33701 8.69831 2.91504 11.1145 2.91504 14.0839V18.4485L2.92616 18.5168L3.22756 18.611C6.06862 19.4964 8.53687 19.7917 10.5685 19.7917C14.5365 19.7917 16.8365 18.6632 16.9782 18.5913L17.2599 18.4492H17.29V14.0839C17.2911 11.1145 14.8691 8.69831 11.8921 8.69831Z" fill="#97B6CF"/></svg></span>
+                                <span><svg width="16" height="20" viewBox="0 0 16 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                      <path d="M8.10343 8.41164C10.4325 8.41164 12.3202 6.52838 12.3202 4.20564C12.3202 1.88289 10.4321 0 8.10343 0C5.77476 0 3.88599 1.88325 3.88599 4.206C3.88599 6.52874 5.77476 8.41164 8.10343 8.41164ZM9.8921 8.69831H6.31405C3.33701 8.69831 0.915039 11.1145 0.915039 14.0839V18.4485L0.926162 18.5168L1.22756 18.611C4.06862 19.4964 6.53687 19.7917 8.56845 19.7917C12.5365 19.7917 14.8365 18.6632 14.9782 18.5913L15.2599 18.4492H15.29V14.0839C15.2911 11.1145 12.8691 8.69831 9.8921 8.69831Z" fill="#97B6CF"/>
+                                      </svg></span>
                                 {pharmaErrors.name && <p className="error-msg">{pharmaErrors.name}</p>}
                             </div>
                           </FormGroup>
@@ -385,6 +392,7 @@ const ClinetAccount = () => {
                                 onChange={handlePharmaChange}
                               />
                               <span><svg width="16" height="20" viewBox="0 0 16 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M13.625 7.5H13V5C13 2.2425 10.7575 0 7.99999 0C5.2425 0 3 2.2425 3 5V7.5H2.375C1.34167 7.5 0.5 8.34083 0.5 9.37499V18.125C0.5 19.1592 1.34167 20 2.375 20H13.625C14.6583 20 15.5 19.1592 15.5 18.125V9.37499C15.5 8.34083 14.6583 7.5 13.625 7.5ZM4.66666 5C4.66666 3.16166 6.16166 1.66667 7.99999 1.66667C9.83833 1.66667 11.3333 3.16166 11.3333 5V7.5H4.66666V5ZM8.83333 13.935V15.8333C8.83333 16.2933 8.46083 16.6667 7.99999 16.6667C7.53916 16.6667 7.16666 16.2933 7.16666 15.8333V13.935C6.67083 13.6458 6.33333 13.1142 6.33333 12.5C6.33333 11.5808 7.08083 10.8333 7.99999 10.8333C8.91916 10.8333 9.66666 11.5808 9.66666 12.5C9.66666 13.1142 9.32916 13.6458 8.83333 13.935Z" fill="#97B6CF"></path></svg></span>
+                              <span className="pawword_img"><img src={passshow ? path_image + "show_p.svg" : path_image + "hide.svg"} alt="" onClick={toggleState} /></span>
                               {pharmaErrors.password && <p className="error-msg">{pharmaErrors.password}</p>}
                             </div>
                           </FormGroup>
@@ -400,6 +408,7 @@ const ClinetAccount = () => {
                                 onChange={handlePharmaChange}
                               />
                               <span><svg width="16" height="20" viewBox="0 0 16 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M13.625 7.5H13V5C13 2.2425 10.7575 0 7.99999 0C5.2425 0 3 2.2425 3 5V7.5H2.375C1.34167 7.5 0.5 8.34083 0.5 9.37499V18.125C0.5 19.1592 1.34167 20 2.375 20H13.625C14.6583 20 15.5 19.1592 15.5 18.125V9.37499C15.5 8.34083 14.6583 7.5 13.625 7.5ZM4.66666 5C4.66666 3.16166 6.16166 1.66667 7.99999 1.66667C9.83833 1.66667 11.3333 3.16166 11.3333 5V7.5H4.66666V5ZM8.83333 13.935V15.8333C8.83333 16.2933 8.46083 16.6667 7.99999 16.6667C7.53916 16.6667 7.16666 16.2933 7.16666 15.8333V13.935C6.67083 13.6458 6.33333 13.1142 6.33333 12.5C6.33333 11.5808 7.08083 10.8333 7.99999 10.8333C8.91916 10.8333 9.66666 11.5808 9.66666 12.5C9.66666 13.1142 9.32916 13.6458 8.83333 13.935Z" fill="#97B6CF"></path></svg></span>
+                              
                               {pharmaErrors.cpassword && <p className="error-msg">{pharmaErrors.cpassword}</p>}
                             </div>
                           </FormGroup>
@@ -410,7 +419,7 @@ const ClinetAccount = () => {
                         </Row>
                       </Form>
                     </div>  
-                  : pharmaLoginSinup == 2 ?
+                  : pharmaLoginSinup === 2 ?
                     <div className="sunshine-form-inset">
                       <h4>Login</h4>
                       <Form onSubmit={handleLogin}>
@@ -420,7 +429,7 @@ const ClinetAccount = () => {
                               <input
                                 type={passshow ? "text" : "password"}
                                 name="password"
-                                placeholder="Password"
+                                placeholder="Enter your Password"
                                 value={password}
                                 onChange={(event) => { setPassword(event.target.value); setShowPasswordError(null); setAddPasswordClass(false); }}
                                 className="form-control" />
@@ -431,8 +440,9 @@ const ClinetAccount = () => {
                             </div>
                           </FormGroup>
 
-                          <Form.Group className="mb-4" id="formGridCheckbox">
-                            <Form.Check type="checkbox" label="Remember me" />
+                          <Form.Group className="mb-4 form-check">
+                            <input type="checkbox" className="form-check-input" id="formgridcheckbox"/>
+                            <label className="form-check-label" for="formgridcheckbox">Remember me</label>
                           </Form.Group>
 
                           <button type="submit" className="btn btn-primary save btn-filled">
@@ -457,7 +467,9 @@ const ClinetAccount = () => {
                                 className="form-control"
                                 onChange={handleResetChange}
                                 />
-                                <span><svg width="20" height="14" viewBox="0 0 20 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10.1034 8.41164C12.4325 8.41164 14.3202 6.52838 14.3202 4.20564C14.3202 1.88289 12.4321 0 10.1034 0C7.77476 0 5.88599 1.88325 5.88599 4.206C5.88599 6.52874 7.77476 8.41164 10.1034 8.41164ZM11.8921 8.69831H8.31405C5.33701 8.69831 2.91504 11.1145 2.91504 14.0839V18.4485L2.92616 18.5168L3.22756 18.611C6.06862 19.4964 8.53687 19.7917 10.5685 19.7917C14.5365 19.7917 16.8365 18.6632 16.9782 18.5913L17.2599 18.4492H17.29V14.0839C17.2911 11.1145 14.8691 8.69831 11.8921 8.69831Z" fill="#97B6CF"/></svg></span>
+                                <span><svg width="16" height="20" viewBox="0 0 16 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                      <path d="M8.10343 8.41164C10.4325 8.41164 12.3202 6.52838 12.3202 4.20564C12.3202 1.88289 10.4321 0 8.10343 0C5.77476 0 3.88599 1.88325 3.88599 4.206C3.88599 6.52874 5.77476 8.41164 8.10343 8.41164ZM9.8921 8.69831H6.31405C3.33701 8.69831 0.915039 11.1145 0.915039 14.0839V18.4485L0.926162 18.5168L1.22756 18.611C4.06862 19.4964 6.53687 19.7917 8.56845 19.7917C12.5365 19.7917 14.8365 18.6632 14.9782 18.5913L15.2599 18.4492H15.29V14.0839C15.2911 11.1145 12.8691 8.69831 9.8921 8.69831Z" fill="#97B6CF"/>
+                                      </svg></span>
                                 {resetErrors.name && <p className="error-msg">{resetErrors.name}</p>}
                             </div>
                           </FormGroup>
@@ -486,6 +498,7 @@ const ClinetAccount = () => {
                                 onChange={handleResetChange}
                               />
                               <span><svg width="16" height="20" viewBox="0 0 16 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M13.625 7.5H13V5C13 2.2425 10.7575 0 7.99999 0C5.2425 0 3 2.2425 3 5V7.5H2.375C1.34167 7.5 0.5 8.34083 0.5 9.37499V18.125C0.5 19.1592 1.34167 20 2.375 20H13.625C14.6583 20 15.5 19.1592 15.5 18.125V9.37499C15.5 8.34083 14.6583 7.5 13.625 7.5ZM4.66666 5C4.66666 3.16166 6.16166 1.66667 7.99999 1.66667C9.83833 1.66667 11.3333 3.16166 11.3333 5V7.5H4.66666V5ZM8.83333 13.935V15.8333C8.83333 16.2933 8.46083 16.6667 7.99999 16.6667C7.53916 16.6667 7.16666 16.2933 7.16666 15.8333V13.935C6.67083 13.6458 6.33333 13.1142 6.33333 12.5C6.33333 11.5808 7.08083 10.8333 7.99999 10.8333C8.91916 10.8333 9.66666 11.5808 9.66666 12.5C9.66666 13.1142 9.32916 13.6458 8.83333 13.935Z" fill="#97B6CF"></path></svg></span>
+                              <span className="pawword_img"><img src={passshow ? path_image + "show_p.svg" : path_image + "hide.svg"} alt="" onClick={toggleState} /></span>
                               {resetErrors.password && <p className="error-msg">{resetErrors.password}</p>}
                             </div>
                           </FormGroup>
@@ -500,6 +513,7 @@ const ClinetAccount = () => {
                                 onChange={handleResetChange}
                               />
                               <span><svg width="16" height="20" viewBox="0 0 16 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M13.625 7.5H13V5C13 2.2425 10.7575 0 7.99999 0C5.2425 0 3 2.2425 3 5V7.5H2.375C1.34167 7.5 0.5 8.34083 0.5 9.37499V18.125C0.5 19.1592 1.34167 20 2.375 20H13.625C14.6583 20 15.5 19.1592 15.5 18.125V9.37499C15.5 8.34083 14.6583 7.5 13.625 7.5ZM4.66666 5C4.66666 3.16166 6.16166 1.66667 7.99999 1.66667C9.83833 1.66667 11.3333 3.16166 11.3333 5V7.5H4.66666V5ZM8.83333 13.935V15.8333C8.83333 16.2933 8.46083 16.6667 7.99999 16.6667C7.53916 16.6667 7.16666 16.2933 7.16666 15.8333V13.935C6.67083 13.6458 6.33333 13.1142 6.33333 12.5C6.33333 11.5808 7.08083 10.8333 7.99999 10.8333C8.91916 10.8333 9.66666 11.5808 9.66666 12.5C9.66666 13.1142 9.32916 13.6458 8.83333 13.935Z" fill="#97B6CF"></path></svg></span>
+                              <span className="pawword_img"><img src={passshow ? path_image + "show_p.svg" : path_image + "hide.svg"} alt="" onClick={toggleState} /></span>
                               {resetErrors.cpassword && <p className="error-msg">{resetErrors.cpassword}</p>}
                             </div>
                           </FormGroup>
@@ -520,6 +534,7 @@ const ClinetAccount = () => {
         </Row>
       </Container>
     </div>
+    </>
   );
 
 }

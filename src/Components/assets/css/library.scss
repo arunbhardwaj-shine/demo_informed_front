@@ -25574,7 +25574,7 @@ background-size: cover;
         }
         }
         .form-check{
-          margin: -10px 0 0 15px;
+          margin: -10px 0 0 30px;
           input[type="checkbox"]{
             background: transparent;
             border: 1px solid #97b6cf;
@@ -25636,8 +25636,125 @@ background-size: cover;
   }
 }
 }
+@media only screen and (max-width: 1500px) {
+  .sunshine-account{
+    .sunshine-account-inset{
+      padding: 40px 0 20px;
+      .sunshine-form {
+        margin: 50px 0 100px;
+      }
+    }
+  } 
+}
+@media only screen and (max-width: 1439px) {
+  .sunshine-account{
+    .sunshine-account-inset{
+      padding: 25px 0 10px;
+      .sunshine-form {
+        margin: 35px 0 50px;
+        .sunshine-form-inset{
+          h4{
+            padding-bottom: 24px;
+          }
+          .mb-4 {
+            margin-bottom: 25px !important;
+          }
+          form{
+            button{
+              &.save{
+                padding: 12px;
+              }
+            }
+          } 
+        } 
+      }
+    }
+  } 
+}
+@media only screen and (max-width: 1365px) {
+  .sunshine-account{
+    .sunshine-account-inset{
+      padding: 15px 0 10px;
+      .sunshine-form {
+        margin: 30px 0 50px;
+        .sunshine-form-inset{
+          padding: 17px 108px;
+          &.register{
+            max-width: 750px;
+            padding: 17px 50px;
+            h4 {
+              padding-bottom: 15px;
+            }
+            p {
+              margin: 0 auto 20px;
+          }
+          }
+          
+          form{
+            .form-group{
+              p{
+                &.error-msg {
+                  bottom: -21px;
+                }
+              }
+            } 
+          } 
+        } 
+      }
+    }
+  } 
+}
+@media only screen and (max-width: 1199px) {
+  .sunshine-account{
+    .sunshine-account-inset{
+      .sunshine-form {
+        .sunshine-form-inset{
+          &.register{
+            max-width: 582px;
+            padding: 17px 30px;
+            
+          }
+          
+        } 
+      }
+    }
+  } 
 
+}
+@media only screen and (max-width: 767px) {
+  .sunshine-account{
+    .sunshine-account-inset{
+      padding: 15px 15px 10px;
+      .logo-sec{
+        img{
+          max-width: 170px;
+        }
+      }
+      .sunshine-form {
+        .sunshine-form-inset{
+          max-width: 100%;
+          width:100%;
+          margin: 0 auto;
+          padding: 15px 15px;
+          border-radius: 20px;
+          &.register{
+            max-width: 100%;
+            padding: 15px 15px;
+            
+          }
+          h4{
+            font-size: 20px;
+          }
+          
+        } 
+      }
+      .sunshine-footer p {
+        font-size: 10px;
+    }
+    }
+  } 
 
+}
 /**Sunshine login, register end**/
 
 
