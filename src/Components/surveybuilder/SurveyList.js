@@ -1021,7 +1021,7 @@ const SurveyList = (props) => {
                                                           "object"
                                                           ? appliedFilter[
                                                             key
-                                                          ]?.includes(
+                                                          ]?.includes(        
                                                             item.id
                                                           )
                                                             ? true
@@ -1184,7 +1184,7 @@ const SurveyList = (props) => {
             ) : null}
             <div className="email-result survey-listing">
               <div className="col email-result-block library-content-box-layout">
-                {!deletestatus && !filterapplied && (
+                {!deletestatus && filterApplyflag > 0 && (
                   <div className="email_box_block">
                     <div className="email-block-add">
                       <button onClick={createNewEmail}>
