@@ -121,7 +121,24 @@ const LicenseContentDetail = (props) => {
     }
   };
 
-  const copyToClipboard = (content) => {
+  const copyToClipboard = (content,type='') => {
+
+    if(type == 'setupLink'){
+      let url = content;
+      content = `
+Here is your new ePrint to share: ${url}
+
+Once you’ve finished testing, let me know, and we will reset the usage so you can begin distributing the ePrint.
+
+To view the Sunshine data and the list of registrations, please click the link below and finalize your personal account:
+
+Sunshine data: ${url}
+
+In your account, you can also update the compliance text for registrations.
+
+Let me know if you’d like any further adjustments!`;
+    }
+
     if (window.isSecureContext && navigator.clipboard) {
       navigator.clipboard.writeText(content);
       toast.success("content copied to the clipboard!");
@@ -343,7 +360,7 @@ const LicenseContentDetail = (props) => {
                                       {
                                         data?.first_popup == 1 && data?.only_first_popup == 2 ?
                                         <h6>
-                                          <strong>Account setup | </strong>
+                                          <strong>Client Account | </strong>
                                           <div className="d-flex">
                                           <a
                                             href={accountSetupLink}
@@ -355,7 +372,7 @@ const LicenseContentDetail = (props) => {
                                           <span
                                             className="copy-content"
                                             onClick={() => {
-                                              copyToClipboard(accountSetupLink);
+                                              copyToClipboard(accountSetupLink,'setupLink');
                                             }}
                                           >
                                             <img

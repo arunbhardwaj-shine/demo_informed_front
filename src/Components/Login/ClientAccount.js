@@ -537,7 +537,7 @@ const ClinetAccount = () => {
                             </FormGroup>
 
                             <Form.Group className="mb-4 form-check">
-                              <input id="formgridgheckbox" type="checkbox" class="form-check-input" onChange={(e) => {rememberMeClicked(e)}}/>
+                              <input id="formgridgheckbox" type="checkbox" class="form-check-input" checked={rememberMe} onChange={(e) => {rememberMeClicked(e)}}/>
                               <label for="formgridgheckbox" title="" class="form-check-label">Remember me</label>
                               {/* <Form.Check htmlFor = "formGridCheckbox"
                                 type="checkbox" 
