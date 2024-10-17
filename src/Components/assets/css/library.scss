@@ -25598,7 +25598,7 @@ background-size: cover;
               text-align: left;
               text-overflow: ellipsis;
               white-space: nowrap;
-              min-height: auto;
+              min-height: initial;
               &>div {
                 padding: 0;
                 div{
