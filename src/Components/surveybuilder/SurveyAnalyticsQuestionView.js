@@ -227,7 +227,7 @@ const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
                 </div>
                 <div className="question-view d-flex">
                 <p dangerouslySetInnerHTML={{ __html: item?.question}} ></p>
-                    <span>{`${item?.mandatory_label==0? " (Optional)":""}`}</span>
+                    <span>{`${item?.mandatory_label==1? " (Optional)":""}`}</span>
                 </div>
                 <div className="question-status">
                     <div className="total-answered">

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, Link, useNavigate } from "react-router-dom";
 import { surveyAxiosInstance } from "./CommonFunctions/CommonFunction";
+import { loader } from "../../loader";
 import { toast } from "react-toastify";
 import QRCode from "qrcode.react";
 
@@ -18,22 +19,32 @@ const SurveySublinkListing = ({ survey_id, render, count }) => {
   const getSubLinkListingData = async (survey_id) => {
     if (typeof survey_id !== "undefined") {
       try {
-        setSectionLoader(true);
+        // setSectionLoader(true);
+        // loader('show');
         const res = await surveyAxiosInstance.post(
           "/survey/fetch-survey-sublink",
           { survey_id }
         );
-        setSubLinkData(res?.data?.data);
-        setSectionLoader(false);
+
+       
+        if(res.status === 200){
+            setSubLinkData(res?.data?.data);
+        }
+        
+        
+
+        // setSectionLoader(false);
+        // loader('hide')
       } catch (err) {
         console.log("--err", err);
-        setSectionLoader(false);
+        // setSectionLoader(false);
+        loader('hide')
       }
     }
   };
 
   const setDownloadLink = (link) => {
-    setSectionLoader(true);
+    // setSectionLoader(true);
     setQr({ ...qrState, value: link });
     setTimeout(function () {
       downloadQRCode();
@@ -55,6 +66,8 @@ const SurveySublinkListing = ({ survey_id, render, count }) => {
     setSectionLoader(false);
   };
 
+ 
+
   return (
     <>
       <div class="sublink_right_block">
@@ -70,7 +83,7 @@ const SurveySublinkListing = ({ survey_id, render, count }) => {
         ) : (
           ""
         )}
-        {typeof subLinkData === "undefined" || subLinkData.length == 0 ? (
+        {   typeof subLinkData === "undefined" || subLinkData.length == 0 ? (
           <div className="no-sublink">
             <img src={path_image + "dummy-sublink.png"} alt="" />
           </div>
