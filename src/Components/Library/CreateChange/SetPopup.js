@@ -104,6 +104,7 @@ const SetPopup = (props) => {
     1024: { items: 5 },
   };
   const { setSelectedPDF } = useSidebar();
+  const isUSAPharmaAccount = localStorage?.getItem("account_type") === 'USA_PHARMA' ? 1 : 0;
 
   useEffect(() => {
     if (state?.pdfId) {
@@ -767,22 +768,42 @@ templateIdRef.current=res?.data?.data?.popupTempId
                       </span>
 
                       <div className="form-group">
-                        <Select
-                          options={types}
-                          defaultValue={
-                            popupData?.linkType
-                              ? {
-                                  label: popupData?.linkType,
-                                  value: popupData?.linkType,
-                                }
-                              : {
-                                  label: "Select the Consent type",
-                                  value: "",
-                                }
-                          }
-                          onChange={(e) => dropDownSelected("consentType", e)}
-                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                        />
+                        {
+                          isUSAPharmaAccount && actualTemplateData?.data?.data?.articleOwner == 1 ?
+                            <Select
+                              options={[{ value: "Sunshine USA", label: "Sunshine USA" }]}
+                              defaultValue={
+                                popupData?.linkType
+                                  ? {
+                                      label: popupData?.linkType,
+                                      value: popupData?.linkType,
+                                    }
+                                  : {
+                                      label: "Select the Consent type",
+                                      value: "",
+                                    }
+                              }
+                              onChange={(e) => dropDownSelected("consentType", e)}
+                              className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                            />
+                          :
+                            <Select
+                              options={types}
+                              defaultValue={
+                                popupData?.linkType
+                                  ? {
+                                      label: popupData?.linkType,
+                                      value: popupData?.linkType,
+                                    }
+                                  : {
+                                      label: "Select the Consent type",
+                                      value: "",
+                                    }
+                              }
+                              onChange={(e) => dropDownSelected("consentType", e)}
+                              className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                            />
+                        }
                       </div>
                     </div>
                   )}
