@@ -3328,6 +3328,24 @@ span {
     }
 }
 
+.create-change-content {
+    &.survey-sublink{
+        background: transparent;
+        border-radius: 0px;
+        padding: 24px 8px;
+        .sublink_left{
+            .product-unit{
+                .form-group{
+                    font-weight: 500;
+                    &.blank {
+                        min-height: inherit;
+                    }
+                }
+            } 
+        } 
+    }
+
+}
 @media (max-width:1199px) {
     .survey-setup {
         // max-width: 95%;
@@ -4810,10 +4828,12 @@ body {
                 p {
                     color: $dark-blue;
                     font-size: 14px;
-                    span{
-                        font-size: 13px;
-                        color:#97B6CF;
-                    }
+                    
+                }
+                span{
+                    font-size: 13px;
+                    color:#97B6CF;
+                    padding-left: 3px;
                 }
             }
 
@@ -5484,9 +5504,11 @@ body {
                         td {
                             color: $dark-gray;
                             font-weight: 400;
+                            text-transform: capitalize;
                            
                             &.completed {
-                                color: $secondary-green;
+                                color: $secondary-green;                               
+                                
                             }
 
                             &.drop-off {

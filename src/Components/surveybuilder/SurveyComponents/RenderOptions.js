@@ -228,6 +228,8 @@ const RenderOptions = ({
             cols="50"
             placeholder={item.extra.placeholder}
             readOnly={!isEdit}
+            maxLength={item.extra.maxTextLength}
+            
           ></textarea>
           <div className="d-flex justify-content-end word-limit">
             <span>
