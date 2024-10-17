@@ -48,6 +48,8 @@ const SurveySublink = () => {
   const [update, setUpdate] = useState(0);
   const [consentValue, setConsentValue] = useState("");
   const [identifier, setIdentifier] = useState("");
+  const [data, setIsData] = useState([]);
+ 
 
   const [newLink, setLink] = useState({
     delivery: "",
@@ -78,16 +80,8 @@ const SurveySublink = () => {
   const getSurveyData = async () => {
     try {
       loader("show");
-      let selectedValue = [];
-      let data = {
-        user_id: localStorage.getItem("user_id"),
-        page: 1,
-        search: "",
-        license: 0,
-        type: "All",
-        order: "true",
-        selectValue: JSON.stringify(selectedValue),
-      };
+      
+    
 
       const res = await surveyAxiosInstance.post(
         "/survey/fetch-all-survey-title",
@@ -126,6 +120,11 @@ const SurveySublink = () => {
           setSelectedSurveyId(state.survey_id);
         }
       }
+
+       
+        loader('hide')
+      
+
     } catch (err) {
       console.log("err");
       toast.error("Something went wrong");
@@ -172,193 +171,40 @@ const SurveySublink = () => {
     setCreateNewLink(false);
   };
 
-  const [data, setIsData] = useState([]);
+
 
   const getArticleData = async () => {
     try {
       loader("show");
+
+      setIsData([]);
+    
       let res = await surveyAxiosInstance.post("/survey/fetch-survey-data", {
         admin_id: 18207,
         survey_id: selectedSurveyId,
       });
+
+      console.log(res)
       const survey_data = res?.data?.data;
 
       if (survey_data.length > 0) {
         setIsData(survey_data[0]);
       }
 
-      loader("hide");
+      
+        loader("hide");
     } catch (error) {
       loader("hide");
       toast.error("Something went wrong");
     }
   };
 
-  const tabClicked = async (event, id) => {
-    setActiveTab(event);
-    setFlag(0);
-
-    let normal_data = opening_details;
-    setUserId(id);
-
-    let contains_already;
-
-    if (event == "data-tab") {
-      normal_data?.filter((data) => {
-        if (data?.pdf_id == id) {
-          contains_already = true;
-          setFlag(1);
-        }
-      });
-
-      setOpeningDetails(normal_data);
-
-      if (contains_already != true) {
-        try {
-          let body = {
-            pdfId: [id],
-          };
-          const res = await postData(ENDPOINT.LIBRARYSTATS, body);
-
-          const status = normal_data?.map((datas) => {
-            if (datas?.pdf_id == id) {
-              return "true";
-            } else {
-              return "false";
-            }
-          });
-          if (status?.every((ele) => ele == "false")) {
-            normal_data?.push({
-              pdf_id: id,
-              uniqueReader: res?.data?.data[0]?.unique,
-              opening: res?.data?.data[0]?.opening,
-              registeredReader: res?.data?.data[0]?.reader,
-              limit: res?.data?.data[0]?.limit,
-              print: res?.data?.data[0]?.print,
-              download: res?.data?.data[0]?.download,
-              subLink: res?.data?.data[0]?.subLink,
-            });
-          }
-
-          setOpeningDetails(normal_data);
-          setFlag(1);
-
-          setUpdate(update + 1);
-        } catch (err) {
-          console.log("err");
-        } finally {
-          loader("hide");
-        }
-      }
-    }
-  };
-
-  const onConsentChange = (e, i) => {
-    setConsentValue(e);
-    let consetValue = e.value;
-    let consent = {
-      index: i,
-      value: consetValue,
-    };
-
-    const found = changeConsent.some((el) => el.index === i);
-    if (!found) {
-      setchangeConsent((oldarray) => [...oldarray, consent]);
-    } else {
-      const index = changeConsent.findIndex((el) => el.index === i);
-      changeConsent[index].value = consetValue;
-    }
-  };
-
-  const updateConset = async (pdf_id) => {
-    try {
-      loader("show");
-      const index = changeConsent.findIndex((el) => el.index === pdf_id);
-      let consent_value = changeConsent[index].value;
-
-      let body = {
-        pdfId: pdf_id,
-        consentType: consent_value,
-      };
-      const lib_data_index = libraryData.findIndex((el) => el.id === pdf_id);
-      libraryData[lib_data_index].linkType = consent_value;
-      const new_data = libraryData;
-      setLibraryData(new_data);
-      articleData.linkType = consent_value;
-      setreRenderFlag(reRenderFlag + 1);
-      loader("hide");
-      popup_alert({
-        visible: "show",
-        message: "Your content has been update <br />successfully !",
-        type: "success",
-        redirect: "",
-      });
-    } catch (err) {
-      console.log("err", err);
-      loader("hide");
-    }
-  };
-
-  const copyToClipboard = (content) => {
-    if (window.isSecureContext && navigator.clipboard) {
-      navigator.clipboard.writeText(content);
-      toast.success("content copied to the clipboard!");
-    } else {
-      unsecuredCopyToClipboard(content);
-    }
-  };
-
-  const unsecuredCopyToClipboard = (text) => {
-    const textArea = document.createElement("textarea");
-    textArea.value = text;
-    document.body.appendChild(textArea);
-    textArea.select();
-    try {
-      document.execCommand("copy");
-      toast.success("content copied to the clipboard!");
-    } catch (err) {
-      console.error("Unable to copy to clipboard", err);
-    }
-    document.body.removeChild(textArea);
-  };
-  function LinkWithTooltip({ id, children, href, tooltip }) {
-    return (
-      <OverlayTrigger
-        overlay={<Tooltip id={id}>{tooltip}</Tooltip>}
-        placement="top"
-        delayShow={300}
-        delayHide={150}
-      >
-        <a href={href}>{children}</a>
-      </OverlayTrigger>
-    );
-  }
 
   const onIdentifierChange = (event) => {
     setIdentifier(event.target.value);
   };
 
-  const changeFormatForPrint = (value) => {
-    let data = "";
-    if (value?.allow_print) {
-      data += "Print | ";
-    }
-    if (value?.allow_download) {
-      data += "Download | ";
-    }
-    if (value?.allow_share) {
-      data += "Share | ";
-    }
-    if (value?.chat_box) {
-      data += "Request | ";
-    }
-    if (data) {
-      data = data.trim().slice(0, -1);
-    } else {
-      data = "N/A";
-    }
-    return data;
-  };
+ 
   return (
     <>
       <Col className="right-sidebar">
@@ -473,7 +319,8 @@ const SurveySublink = () => {
                                                 <div className="tab-panel">
                                                   <div class="tab-content-links">
                                                     <a>
-                                                      https://survey.docintel.app/survey?Utmde={data.unique_code}
+                                                      https://survey.docintel.app/survey?Utmde=
+                                                      {data.unique_code}
                                                     </a>
                                                     {data?.is_draft ? (
                                                       <span
@@ -959,7 +806,9 @@ const SurveySublink = () => {
                                                         />
                                                       </div>
                                                     </>
-                                                  ):""}
+                                                  ) : (
+                                                    ""
+                                                  )}
                                                 </div>
                                                 <div class="mailbox-buttons justify-content-end">
                                                   <div className="send_new">
@@ -1013,11 +862,14 @@ const SurveySublink = () => {
                         Create New Link +
                       </Button>
                     </div>
-                    <SurveySublinkListing
-                      survey_id={selectedSurveyId}
-                      render={showSubLinkList}
-                      count={linkRenderCount}
-                    />
+      
+                      <SurveySublinkListing
+                        survey_id={selectedSurveyId}
+                        render={showSubLinkList}
+                        count={linkRenderCount}
+                      
+                      />
+                   
                   </Col>
                 </div>
               </div>

@@ -3328,6 +3328,24 @@ span {
     }
 }
 
+.create-change-content {
+    &.survey-sublink{
+        background: transparent;
+        border-radius: 0px;
+        padding: 24px 8px;
+        .sublink_left{
+            .product-unit{
+                .form-group{
+                    font-weight: 500;
+                    &.blank {
+                        min-height: inherit;
+                    }
+                }
+            } 
+        } 
+    }
+
+}
 @media (max-width:1199px) {
     .survey-setup {
         // max-width: 95%;

@@ -113,8 +113,9 @@ const SurveyAnalyticsRatingView = ({ index, item, colors }) => {
                         <h4>Q{index + 1}</h4>
                     </div>
                 </div>
-                <div className="question-view">
+                <div className="question-view d-flex">
                     <p dangerouslySetInnerHTML={{ __html: item?.question }}></p>
+                    <span>{`${item?.mandatory_label==1? " (Optional)":""}`}</span>
                 </div>
                 <div className="question-status">
                     <div className="total-answered">

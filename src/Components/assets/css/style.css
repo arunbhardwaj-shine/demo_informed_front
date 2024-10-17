@@ -2764,6 +2764,9 @@ form .input-group {
   transition: all 0.2s ease-out 0s;
   cursor: pointer;
 }
+.survey_data_accordion_heading table tbody tr.view.ignored:after {
+  display: none;
+}
 
 .result-hcp-table .table th {
   background: transparent;
