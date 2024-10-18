@@ -3349,7 +3349,8 @@ const Sidebar = () => {
                         localStorage.getItem("user_id") == "UbCJcnLM9fe HsRMgX8c1A==" ||
                         localStorage.getItem("user_id") == "wW0geGtDPvig5gF 6KbJrg==" ||
                         localStorage.getItem("user_id") == "z2TunmZQf3QwCsICFTLGGQ==" ||
-                        localStorage.getItem("user_id") == "qDgwPdToP05Kgzc g2VjIQ==" ? (
+                        localStorage.getItem("user_id") == "qDgwPdToP05Kgzc g2VjIQ==" ||
+                        localStorage.getItem("user_id") == "EtWPMu4 sPArPm9tsehC2Q=="? (
                         window.location.pathname == "/totalhcp" ||
                           window.location.pathname == "/country-registration" ||
                           window.location.pathname == "/delivery-stats" ||

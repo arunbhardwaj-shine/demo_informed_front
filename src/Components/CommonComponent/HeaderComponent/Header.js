@@ -32,8 +32,8 @@ function useScrollDirection() {
 }
 
 const Header = () => {
-  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
-  const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
+  const rdLikeArray = ["56Ek4feL/1A8mZgIKQWEqg==", "sNl1hra39QmFk9HwvXETJA==", "MXl8m36VZFYXpgFVz3Pg0g=="]
+  const isLikeRdAccount = rdLikeArray.includes(localStorage.getItem("user_id"))
   const queryParams = queryString.parse(window.location.search);
   const scrollDirection = useScrollDirection();
   const [getUserName, setUserName] = useState("");
@@ -67,9 +67,9 @@ const Header = () => {
   const logout = () => {
     // localStorage.clear();
     let navigateRoute = "/";
-    if(typeof localStorage.getItem('account_type') != 'undefined' && localStorage.getItem('account_type') == 'USA_PHARMA'){
+    if (typeof localStorage.getItem('account_type') != 'undefined' && localStorage.getItem('account_type') == 'USA_PHARMA') {
       let userToken = localStorage.getItem('user_id')?.replace(/ /g, '+')
-      navigateRoute = "/account/"+userToken;
+      navigateRoute = "/account/" + userToken;
     }
     const keysToKeep = ['uname', 'pass', 'acceptedCookies'];
     for (let i = localStorage.length - 1; i >= 0; i--) {
@@ -359,8 +359,9 @@ const Header = () => {
                           "wW0geGtDPvig5gF 6KbJrg==" ||
                           localStorage.getItem("user_id") ==
                           "z2TunmZQf3QwCsICFTLGGQ==" ||
-                          localStorage.getItem("user_id") ==
-                          "qDgwPdToP05Kgzc g2VjIQ=="
+                          (localStorage.getItem("user_id") ==
+                            "qDgwPdToP05Kgzc g2VjIQ==" || localStorage.getItem("user_id") ==
+                            "EtWPMu4 sPArPm9tsehC2Q==")
                           ? "/totalhcp"
                           : localStorage.getItem("user_id") ==
                             "iSnEsKu5gB/DRlycxB6G4g=="
@@ -370,12 +371,12 @@ const Header = () => {
                               ? "/LEX-210-analytics"
                               :
                               localStorage.getItem("user_id") ==
-                              "MXl8m36VZFYXpgFVz3Pg0g==" 
-                              ? "/trial-analytics"
-                              :
-                              localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+                                "MXl8m36VZFYXpgFVz3Pg0g=="
                                 ? "/trial-analytics"
-                                : "/content-analytics"
+                                :
+                                localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+                                  ? "/trial-analytics"
+                                  : "/content-analytics"
                     }
 
                   >

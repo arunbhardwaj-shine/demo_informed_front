@@ -141,7 +141,10 @@ const Totalhcp = () => {
   const getDataFromApi = async () => {
     try {
       loader("show");
-      const response = await getData(ENDPOINT.ANALYTICS);
+      let analyticsRoute=localStorage.getItem("user_id") ==
+                                    "EtWPMu4 sPArPm9tsehC2Q=="?ENDPOINT.USA_ANALYTICS:ENDPOINT.ANALYTICS
+                                    
+      const response = await getData(analyticsRoute);
       const data = response.data.data;
       //  const seriesMonth = data[0].Months;
       const seriesMonth = data[0].Months;
@@ -312,7 +315,14 @@ const Totalhcp = () => {
                     These are based on registrations from the whole MAXICO
                     region.
                   </p>
-                ) : null}
+                ) : 
+                
+                localStorage.getItem("user_id") ==
+                "EtWPMu4 sPArPm9tsehC2Q==" ? (
+                <p>
+                  These are based on registrations from the whole Sunshine USA.
+                </p>
+              ):null}
               </div>
               <div className="create-change-content spc-content analytic-charts">
                 <div className="high_charts">

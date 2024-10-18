@@ -260,7 +260,10 @@ const CountryRegistration = () => {
       loader("show");
       const month = optionMonth.current;
       const year = optionYear.current;
-      const response = await postData(ENDPOINT.COUNTRY_REGISTRATION, {
+      let analyticsRoute=localStorage.getItem("user_id") ==
+                                    "EtWPMu4 sPArPm9tsehC2Q=="?ENDPOINT.USA_COUNTRY_REGISTRATION:ENDPOINT.COUNTRY_REGISTRATION
+                                    console.log("analyticsRoute-->",analyticsRoute)
+      const response = await postData(analyticsRoute, {
         year,
         month,
       });

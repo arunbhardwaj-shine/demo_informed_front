@@ -232,4 +232,6 @@ export const ENDPOINT = {
   ACCOUNT_SETUP: `auth/account-setup`,
   CLIENT_DETAILS: `/library/get-client-details`,
   RESET_CLIENT_ACCOUNT: `/library/reset-client-details`,
+  USA_ANALYTICS:"/analytics/usa_hcp_graph",
+  USA_COUNTRY_REGISTRATION: `analytics/usa_country`,
 };
