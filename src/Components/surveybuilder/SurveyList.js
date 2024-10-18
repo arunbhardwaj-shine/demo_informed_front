@@ -12,6 +12,7 @@ import {
 } from "react-bootstrap";
 
 // import { Link, useLocation } from "react-router-dom";
+import { analyticButtonClicked } from "./CommonFunctions/CommonFunction";
 import { SublinkHandler } from "./CommonFunctions/CommonFunction";
 import Select from "react-select";
 import { format } from "date-fns";
@@ -453,15 +454,6 @@ const SurveyList = (props) => {
       });
     }
     navigate(path);
-  };
-
-  const analyticButtonClicked = (data) => {
-    let item = {
-      Title: data?.survey_title,
-      survey_id: data?.survey_id,
-      CreatedDate: data?.date,
-    };
-    navigate("/survey/survey-analytics-detail", { state: { item } });
   };
 
   const clearFilter = () => {
@@ -1648,7 +1640,7 @@ const SurveyList = (props) => {
                                                 "btn-bordered send-new"
                                               }
                                               onClick={() =>
-                                                analyticButtonClicked(data)
+                                                analyticButtonClicked(data,navigate)
                                               }
                                             >
                                               Analytics

@@ -775,7 +775,7 @@ span {
                                 display: flex;
                                 align-items: center;
                                 justify-content: center;
-                                color: #004A89;
+                                color: $dark-blue;
                                 &:after, :before{
                                     display: none;
                                 }
@@ -1119,7 +1119,7 @@ span {
                                 padding: 3px 12px 3px 20px;
 
                                 &:after {
-                                    background: linear-gradient(90deg, rgba(255, 255, 255, 0.97) 0%, #FFF 100%);
+                                    background: linear-gradient(90deg, rgba(255, 255, 255, 0.97) 0%, $white 100%);
                                     content: "";
                                     position: absolute;
                                     width: 100%;
@@ -2827,7 +2827,7 @@ span {
                             padding: 9px 12px;
                             border: 0;
                             max-width: 251px;
-                            color:#0066be;
+                            color:$primary-color;
                         }
                     }
                 }
@@ -4679,7 +4679,7 @@ body {
             @media (max-width:1199px){
                 .survey-takers-status {
                     flex: 0 0 auto;
-                    border-top:1px dashed #97B6CF;
+                    border-top:1px dashed $light-gray;
                     width:50%;
                 }
             }
@@ -4766,7 +4766,7 @@ body {
             @media (max-width:1199px){
                 .survey-full-info {
                     flex: 0 0 50%;
-                    border-top:1px dashed #97B6CF;
+                    border-top:1px dashed $light-gray;
                     .survey-info{
                         div {
                             font-size: 12px;
@@ -4832,7 +4832,7 @@ body {
                 }
                 span{
                     font-size: 13px;
-                    color:#97B6CF;
+                    color:$light-gray;
                     padding-left: 3px;
                 }
             }
@@ -5045,8 +5045,8 @@ body {
                                         width: 16px;
                                         height:16px;
                                         border-radius: 50%;
-                                        background: #70899E;
-                                        color:#fff;
+                                        background: $dark-gray;
+                                        color:$white;
                                         font-size: 10px;
                                         text-align: center;
                                         &:first-child{
@@ -5218,10 +5218,10 @@ body {
                     .highcharts-data-labels{
                         .highcharts-label{
                             text{
-                                color:#004A89!important;
+                                color:$dark-blue!important;
                                 font-weight: 500!important;
                                 font-size: 13px!important;
-                                fill: #004A89 !important;
+                                fill: $dark-blue !important;
                             }  
                         }
                     }
@@ -5294,11 +5294,11 @@ body {
                             .survey-rating-detail{
                                 h5{
                                     span{
-                                        background: #97B6CF;
+                                        background: $light-gray;
                                         width: 16px;
                                         height: 16px;
                                         border-radius: 50%;
-                                        color: #ffffff;
+                                        color: $white;
                                         font-size: 10px;
                                         display: flex;
                                         align-items: center;
@@ -5565,7 +5565,7 @@ body {
                                                 border: 1px solid rgb(112 137 158 / 40%);
                                                 td{
                                                     border:0;
-                                                    background: #fff;
+                                                    background: $white;
                                                     padding:5px;
                                                     font-size: 15px;
                                                     border-radius: 0;
@@ -5594,8 +5594,8 @@ body {
                                             height: 15px;
                                             border-radius: 50%;
                                             text-align: center;
-                                            background: #70899E;
-                                            color: #fff;
+                                            background: $dark-gray;
+                                            color: $white;
                                             padding: 0px;
                                             overflow: 8;
                                             font-size: 10px;
@@ -5792,7 +5792,7 @@ body{
 
 
 .highcharts-label.popup-on-click {
-    background: #0066BE;
+    background: $primary-color;
     border-radius: 50px;
     min-width: 105px;
     min-height: 30px;
@@ -5803,7 +5803,7 @@ body{
 .highcharts-label.popup-on-click > span {
     text-align: center;
     width: 91px;
-    color: #fff!important;
+    color: $white!important;
     top:6px!important;
 }
 .highcharts-label.popup-on-click span > div {

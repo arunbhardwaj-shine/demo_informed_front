@@ -2,6 +2,7 @@ import React, { useRef } from 'react'
 import html2canvas from "html2canvas";
 import { Dropdown } from "react-bootstrap";
 import { loader } from '../../loader';
+import { ValidateIPaddress } from "./CommonFunctions/CommonFunction";
 // import { jsPDF } from 'jspdf'
 
 const SurveyAnalyticsFreeTextView = ({ index, item }) => {
@@ -119,6 +120,10 @@ const SurveyAnalyticsFreeTextView = ({ index, item }) => {
 
     };
 
+
+
+ 
+
     return (<>
         <div key={index} className="survey-question-listing" id={`survey-question-listing-${index}`}>
             <div className="survey-question-top d-flex align-items-center">
@@ -170,7 +175,10 @@ const SurveyAnalyticsFreeTextView = ({ index, item }) => {
                         {item?.answer?.length ? item?.answer?.map((data, index) => {
                             return (<>
                                 <div key={index} className="free-text-block">
-                                    <p>{data?.username?data?.username:"N/A"}</p>
+                                    
+                                    {
+                                            ValidateIPaddress(data?.username) ? <p>N/A</p> : <p>{data?.username?data?.username:"N/A"}</p>
+                                          }
                                     <div className="user-message">
                                         <p dangerouslySetInnerHTML={{ __html: data?.value }}></p>
                                     </div>
