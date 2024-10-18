@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
+import { Button } from "react-bootstrap";
 import { useLocation, Link, useNavigate } from "react-router-dom";
 import { surveyAxiosInstance } from "./CommonFunctions/CommonFunction";
 import { loader } from "../../loader";
 import { toast } from "react-toastify";
 import QRCode from "qrcode.react";
+import { analyticButtonClicked } from "./CommonFunctions/CommonFunction";
 
 const SurveySublinkListing = ({ survey_id, render, count }) => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
-
+const navigate=useNavigate();
   const [sectionLoader, setSectionLoader] = useState(false);
   const [subLinkData, setSubLinkData] = useState([]);
   const [qrState, setQr] = useState({ value: "" });
@@ -18,6 +20,7 @@ const SurveySublinkListing = ({ survey_id, render, count }) => {
 
   const getSubLinkListingData = async (survey_id) => {
     if (typeof survey_id !== "undefined") {
+      setSubLinkData([]);
       try {
         // setSectionLoader(true);
         // loader('show');
@@ -26,21 +29,19 @@ const SurveySublinkListing = ({ survey_id, render, count }) => {
           { survey_id }
         );
 
-       
-        if(res.status === 200){
-            setSubLinkData(res?.data?.data);
+        if (res.status === 200) {
+          setSubLinkData(res?.data?.data);
         }
-        
-        
 
         // setSectionLoader(false);
         // loader('hide')
       } catch (err) {
         console.log("--err", err);
         // setSectionLoader(false);
-        loader('hide')
+         
       }
     }
+   
   };
 
   const setDownloadLink = (link) => {
@@ -83,7 +84,7 @@ const SurveySublinkListing = ({ survey_id, render, count }) => {
         ) : (
           ""
         )}
-        {   typeof subLinkData === "undefined" || subLinkData.length == 0 ? (
+        {typeof subLinkData === "undefined" || subLinkData.length == 0 ? (
           <div className="no-sublink">
             <img src={path_image + "dummy-sublink.png"} alt="" />
           </div>
@@ -103,7 +104,8 @@ const SurveySublinkListing = ({ survey_id, render, count }) => {
                             target="_blank" // Optional: Opens the link in a new tab
                             rel="noopener noreferrer" // Optional: Recommended for security reasons
                           >
-                            https://survey.docintel.app/survey?Utmde={data.unique_code}
+                            https://survey.docintel.app/survey?Utmde=
+                            {data.unique_code}
                           </a>
                           <span
                             className="copy-content"
@@ -136,13 +138,19 @@ const SurveySublinkListing = ({ survey_id, render, count }) => {
                           </div>
                         </div>
                       </div>
+                      <Button
+                        className={"btn-bordered send-new"}
+                        onClick={() => analyticButtonClicked(data,navigate)}
+                      >
+                        Analytics
+                      </Button>
 
-                      <Link
+                      {/* <Link
                         className="btn-bordered"
                         to="/survey/survey-analytics"
                       >
                         Analytics
-                      </Link>
+                      </Link> */}
                     </div>
                   </div>
                   <QRCode

@@ -330,3 +330,22 @@ export const UpdateQuestion = async (questionId) => {
     toast.error("Something went wrong");
   }
 };
+
+export const analyticButtonClicked = (data,navigate) => {
+  let item = {
+    Title: data?.survey_title,
+    survey_id: data?.survey_id,
+    CreatedDate: data?.date,
+  };
+  navigate("/survey/survey-analytics-detail", { state: { item } });
+};
+
+
+// "This function checks whether a valid user submitted the survey or if an anonymous user submitted it. based on ip "
+export const ValidateIPaddress = (isIpaddress) => {  
+  if (/(\d{1,3}\.){3}\d{1,3}/.test(isIpaddress)) {  
+    return (true)  
+  }  
+  return (false)  
+}  
+
