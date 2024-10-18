@@ -630,7 +630,7 @@ const SurveyFormBuilder = (props) => {
     if (changeTitleToggle && dynamicValues.main_heading === "") {
       setDynamicValues((prev) => ({
         ...prev,
-        main_heading: originalSelectedTemplate.default_values.main_heading,
+        main_heading: dynamicValues.main_heading || templateDefaultValues.main_heading ,
       }));
     }
   };
@@ -1017,7 +1017,7 @@ const SurveyFormBuilder = (props) => {
                                 {changeTitleToggle && (
                                   <div className="text-editor">
                                     <QuestionEditor
-                                      value={templateDefaultValues.main_heading}
+                                      value={ dynamicValues.main_heading || templateDefaultValues.main_heading}
                                       handleUpdateElement={updateElement}
                                       index={index}
                                       Placeholder=""
@@ -1080,7 +1080,7 @@ const SurveyFormBuilder = (props) => {
                                 {changeBodyToggle && (
                                   <div className="text-editor">
                                     <QuestionEditor
-                                      value={templateDefaultValues.bodyText}
+                                      value={dynamicValues.bodyText  || templateDefaultValues.bodyText}
                                       handleUpdateElement={updateBody}
                                       index={index}
                                       Placeholder=""
@@ -1115,7 +1115,7 @@ const SurveyFormBuilder = (props) => {
                                 {changeFooterToggle && (
                                   <div className="text-editor">
                                     <QuestionEditor
-                                      value={templateDefaultValues.main_footer}
+                                      value={dynamicValues.main_footer || templateDefaultValues.main_footer}
                                       handleUpdateElement={updateFooter}
                                       index={index}
                                       Placeholder=""

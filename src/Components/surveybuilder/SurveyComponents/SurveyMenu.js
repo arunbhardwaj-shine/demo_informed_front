@@ -394,6 +394,7 @@ const SurveyMenu = ({ menuRef, consentOption }) => {
         if (keyName === "addOtherChoice") {
           element = document.getElementById("other-choice-view");
         } else {
+          
           element = document.getElementById("isoptinal-scroll-view");
         }
         if (element) {
