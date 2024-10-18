@@ -350,7 +350,7 @@ const SunShineTimeline = () => {
                 </Button>
               </div> */}
             </div>
-            <div className="create-change-content spc-content">
+            <div className="create-change-content spc-content sunshine">
               <div className="form_action">
                 <div className="row">
                   <Col className="sublink_left">
@@ -407,15 +407,6 @@ const SunShineTimeline = () => {
                             <div className="library-content-box-layuot">
                               <div className="doc-content-main-box col">
                                 <div className="doc-content-header">
-                                  <div className="doc-content-header-logo">
-                                    <a href="#">
-                                      <img
-                                        alt="doc-logo"
-                                        src={articleData?.coverImage}
-                                        style={{ width: "67px" }}
-                                      />
-                                    </a>
-                                  </div>
                                   <div className="doc-content">
                                     <h5
                                       dangerouslySetInnerHTML={{
@@ -1401,21 +1392,26 @@ const SunShineTimeline = () => {
                                                     <p className="timeline-details-heading">
                                                       Password
                                                     </p>
+                                                    <div className="bg-add">
                                                     <p>
-                                                      Old:{" "}
+                                                      <span>Old |</span>{" "}
                                                       {
                                                         details?.rawData
                                                           ?.oldPass
                                                       }
+                                                      <img src={path_image+ "hide.svg"} alt=""/>
                                                     </p>
-
+                                                      <span>.</span>
                                                     <p>
-                                                      New:{" "}
+                                                      <span>New |</span>
+                                                      {" "}
                                                       {
                                                         details?.rawData
                                                           ?.newpassword
                                                       }
+                                                      <img src={path_image+ "show_p.svg"} alt=""/>
                                                     </p>
+                                                    </div>
                                                   </div>
                                                 </div>
                                               </div>
@@ -1450,25 +1446,30 @@ const SunShineTimeline = () => {
                                                     </p>
                                                   </div>
 
-                                                  <div className="details-box">
+                                                  <div className="details-box bg-add">
                                                     <p className="timeline-details-heading">
                                                       Credentials
                                                     </p>
+                                                    <div className="bg-add">
                                                     <p>
-                                                      Name:{" "}
+                                                      <span>Name |</span>{" "}
                                                       {details?.rawData?.name}
                                                     </p>
+                                                    <span>.</span>
                                                     <p>
-                                                      Email:{" "}
+                                                      <span>Email |</span>{" "}
                                                       {details?.rawData?.email}
                                                     </p>
+                                                    <span>.</span>
                                                     <p>
-                                                      Password:{" "}
+                                                    <span>Password |</span>{" "}
                                                       {
                                                         details?.rawData
                                                           ?.password
                                                       }
+                                                      <img src={path_image+ "hide.svg"} alt=""/>
                                                     </p>
+                                                    </div>
                                                   </div>
                                                 </div>
                                               </div>
@@ -1503,17 +1504,20 @@ const SunShineTimeline = () => {
                                                     </p>
                                                   </div>
 
-                                                  <div className="details-box">
+                                                  <div className="details-box bg-add">
                                                     <p className="timeline-details-heading">
                                                       Password
                                                     </p>
+                                                    <div className="bg-add">
                                                     <p>
-                                                      Password:{" "}
+                                                      <span>Password |</span>{" "}
                                                       {
                                                         details?.rawData
                                                           ?.password
                                                       }
+                                                      <img src={path_image+ "hide.svg"} alt=""/>
                                                     </p>
+                                                    </div>
                                                   </div>
                                                 </div>
                                               </div>
@@ -1548,39 +1552,48 @@ const SunShineTimeline = () => {
                                                     </p>
                                                   </div>
 
-                                                  <div className="details-box">
+                                                  <div className="details-box bg-add">
                                                     <p className="timeline-details-heading">
                                                       Credentials
                                                     </p>
+                                                    <div className="bg-add">
                                                     <p>
-                                                      Name:{" "}
+                                                      <span>Name |</span>{" "}
                                                       {details?.rawData?.name}
                                                     </p>
+                                                    <span>.</span>
                                                     <p>
-                                                      Email:{" "}
+                                                      <span>Email |</span>
+                                                      {" "}
                                                       {details?.rawData?.email}
                                                     </p>
+                                                    <span>.</span>
                                                     <p>
-                                                      Password:{" "}
+                                                      <span>Password |</span>
+                                                      {" "}
                                                       {
                                                         details?.rawData
                                                           ?.password
                                                       }
+                                                      <img src={path_image+ "hide.svg"} alt=""/>
                                                     </p>
+                                                    <span>.</span>
                                                     <p>
-                                                      Country:{" "}
+                                                      <span>Country |</span>{" "}
                                                       {
                                                         details?.rawData
                                                           ?.country
                                                       }
                                                     </p>
+                                                    <span>.</span>
                                                     <p>
-                                                      Company:{" "}
+                                                      <span>Company |</span>{" "}
                                                       {
                                                         details?.rawData
                                                           ?.company
                                                       }
                                                     </p>
+                                                    </div>
                                                   </div>
                                                 </div>
                                               </div>
