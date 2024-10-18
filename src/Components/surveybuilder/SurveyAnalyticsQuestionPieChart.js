@@ -198,7 +198,7 @@ const SurveyAnalyticsQuestionPieChart = memo(({ key, data, show, type,colors,cha
     const baseBarChartOptions = {
         chart: {
             type: "bar",
-            height: 193
+            height: 300
         },
         title: {
             text: "",
