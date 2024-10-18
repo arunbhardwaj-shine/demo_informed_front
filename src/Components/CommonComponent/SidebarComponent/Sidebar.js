@@ -251,7 +251,7 @@ const Sidebar = () => {
     if (
 
       currentLocation === '/webinar/event-listing' || currentLocation === '/library-add-link' || currentLocation === '/survey/survey-builder' || currentLocation === '/survey/form-builder' || currentLocation === '/survey/survey-configure' || currentLocation === '/survey/survey-setup' || currentLocation === '/survey/404' || currentLocation === '/survey/thank-you' || currentLocation === '/survey/survey-preview'
-
+      || currentLocation === '/sunshine-timeline' || currentLocation === '/change-password'
     ) {
       divElement?.classList.add('hidesidebar');
     } else {
@@ -780,6 +780,7 @@ const Sidebar = () => {
             window.location.pathname == "/spc" ||
             window.location.pathname == "/all-events" ||
             window.location.pathname == "/set-popup" ||
+            window.location.pathname == "/library-popup" ||
             window.location.pathname == "/preview-content" ||
             window.location.pathname == "/spc-edit" ||
             window.location.pathname == "/spc-view" ||
@@ -898,6 +899,7 @@ const Sidebar = () => {
                       location.pathname == "/library-sublink" ||
                       location.pathname == "/library-topics" ||
                       location.pathname == "/set-popup" ||
+                      location.pathname == "/library-popup" ||
                       location.pathname == "/preview-content" ||
                       location.pathname == "/library-create-user" ||
                       location.pathname == "/library-add-link" ||
@@ -1173,6 +1175,7 @@ const Sidebar = () => {
             window.location.pathname == "/license-sublink" ||
             window.location.pathname == "/license-topics" ||
             window.location.pathname == "/license-set-popup" ||
+            window.location.pathname == "/license-popup" ||
             window.location.pathname == "/license-preview-content" ||
             window.location.pathname == "/license-delete" ||
             window.location.pathname == "/license-create-user" ||
@@ -1237,6 +1240,7 @@ const Sidebar = () => {
                     location.pathname == "/license-edit" ||
                     location.pathname == "/license-sublink" ||
                     location.pathname == "/license-set-popup" ||
+                    location.pathname == "/license-popup" ||
                     location.pathname == "/license-preview-content" ||
                     location.pathname == "/license-create-user" ||
                     location.pathname == "/edit-Consent-Options" ||

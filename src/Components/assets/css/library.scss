@@ -745,6 +745,107 @@
     background: transparent;
     padding: 36px 12px;
   }
+  &.sunshine{
+    padding: 17px 0px 7px 8px;
+    .sublink_left{
+        flex: 0 0 635px;
+        padding-right: 0px;
+      .product-unit{
+        .form-group{
+          &.blank {
+            min-height: initial;
+            line-height: 1;
+        }
+        .dropdown-basic-button {
+          max-width: 100%;
+          &.split-button-dropup{
+            &> div:nth-child(3) {
+              max-width: 100%;
+            }
+          } 
+        }
+        }
+      } 
+      .no_content_selected{
+        .library-content-box-layuot{
+          .doc-content-main-box{
+            margin: 20px auto 28px 22%;
+          }
+        }
+      }
+    } 
+    .sublink_right{
+      padding:0 0 0 123px;
+      .timeline-layout{
+        &.crm-timeline{
+          padding:0 0;
+          .timeline-layout-inset{
+            padding: 0 8px;
+            border-radius: 15px;
+            border: 0.5px solid #97B6CF;
+            background: #FFF;
+            box-shadow: 0px 0px 15px 0px rgba(0, 102, 190, 0.24) inset;
+            .timeline-right-list{
+              overflow-y: auto;
+              max-height: 70vh;
+              margin: 11px 0 0;
+              .timeline-right-header{
+                display: none;
+              }
+              .timeline-box{
+                padding-right: 16px;
+                padding-left: 84px;
+                .timeline-sticky{
+                  background: #ffffff;
+                  top:0px;
+                  &:before {
+                    background: #ffffff;
+                }
+                }
+              } 
+            }
+          }
+        }
+        .timeline-block{
+          .timeline-details{
+            .details-box{
+              .bg-add{
+                border-radius: 4px;
+                background: rgba(0, 102, 190, 0.03);
+                padding:2px 8px;
+                display:flex;
+                align-items: center;
+                gap:12px;
+                flex-wrap: wrap;
+                span{
+                  line-height: normal;
+                  color: #70899E;
+                }
+                p{
+                  color: #004A89;
+                  font-size: 10px;
+                  line-height: 1;
+                  span{
+                    color: #70899E;
+                  }
+                  img{
+                    width:12px;
+                    margin-left: 4px;
+                  }
+                }
+              }
+              p{
+                &.timeline-details-heading{
+                  width:74px;
+                  flex:0 0 74px
+                }
+              }
+            } 
+          } 
+        } 
+      }
+    }
+  }
 
   .form-group {
     .ebook-format {

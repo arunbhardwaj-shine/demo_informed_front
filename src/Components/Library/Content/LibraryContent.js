@@ -2616,6 +2616,16 @@ const LibraryContent = (props) => {
                                     >
                                       Analytics
                                     </Link>
+                                    {
+                                      isUSAPharmaAccount && data.articleOwner == 1 ?
+                                      <Link
+                                              to="/sunshine-timeline"
+                                              state={{ pdfid: data.id }}
+                                              className="footer-btn"
+                                            >
+                                              Timeline
+                                            </Link>: null
+                                    }
                                     <Button
                                       className="footer-btn reset"
                                       onClick={(e) =>

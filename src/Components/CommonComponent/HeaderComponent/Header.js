@@ -249,6 +249,7 @@ const Header = () => {
                       window.location.pathname == "/library-campaign" ||
                       window.location.pathname == "/library-content" ||
                       window.location.pathname == "/library-mandatory" ||
+                      window.location.pathname == "/library-popup" ||
                       window.location.pathname == "/library-mandatory-content" ||
                       window.location.pathname == "/library-create" ||
                       window.location.pathname == "/library-edit" ||
@@ -431,6 +432,7 @@ const Header = () => {
                         window.location.pathname == "/license-sublink" ||
                         window.location.pathname == "/license-topics" ||
                         window.location.pathname == "/license-set-popup" ||
+                        window.location.pathname == "/license-popup" ||
                         window.location.pathname == "/license-preview-content" ||
                         window.location.pathname == "/license-create-user" ||
                         window.location.pathname == "/license-content-detail" ||

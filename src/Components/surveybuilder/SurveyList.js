@@ -465,31 +465,25 @@ const SurveyList = (props) => {
   };
 
   const clearFilter = () => {
+    // loader("show")
     document.querySelectorAll("input")?.forEach((checkbox) => {
       checkbox.checked = false;
     });
     
-    if (Object.keys(filterObject)?.length) {
-      setFilterObject({});
-      console.log("filterObject-->",filterObject)
-      // setIsData(getoriginalSurveylistdata)
-      // applyFilter()
-    }
-    setOtherFilter({});
     setAppliedFilter({});
+    setOtherFilter({});
+    setFilterObject({});
+   
+    setIsData(getoriginalSurveylistdata)
     setShowFilter(false);
   };
-  useEffect(()=>{
-    console.log("filter object--->",filterObject)
-    if(Object.keys(filterObject)?.length==0){    
-      applyFilter()
-    }
-  },[filterObject])
 
-  const applyFilter = () => {
+
+  const applyFilter = (flag="") => {
     setFilterApplyflag(1);
     setIsData([])
     setFilterObject(appliedFilter);
+  
     const hasAllNonEmptyValues = Object.keys(otherFilter).every(key => {
       const value = filter[key];
       if (Array.isArray(value)) {
@@ -1021,7 +1015,7 @@ const SurveyList = (props) => {
                                                           "object"
                                                           ? appliedFilter[
                                                             key
-                                                          ]?.includes(
+                                                          ]?.includes(        
                                                             item.id
                                                           )
                                                             ? true
@@ -1184,7 +1178,7 @@ const SurveyList = (props) => {
             ) : null}
             <div className="email-result survey-listing">
               <div className="col email-result-block library-content-box-layout">
-                {!deletestatus && !filterapplied && (
+                {!deletestatus && filterApplyflag > 0 && (
                   <div className="email_box_block">
                     <div className="email-block-add">
                       <button onClick={createNewEmail}>
