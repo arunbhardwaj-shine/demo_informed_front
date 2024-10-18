@@ -225,6 +225,8 @@ import InformedSurveyData from "./Components/survey/InformedSurveyData";
 import IRTRole from "./Components/Emails/IRTRole";
 import Check8SurveyData from "./Components/survey/Check8SurveyData";
 import MandatoryContent from "./Components/Library/Content/MandatoryContent";
+import CreateSetPopup from "./Components/Library/CreateChange/CreateSetPopup";
+import SunShineTimeline from "./Components/Library/Content/SunShineTimeline";
 
 
 // Routes related to survey builder
@@ -557,10 +559,10 @@ const Routing = () => {
           path="/library-create"
           element={<LoginLayout component={LibraryCreate} />}
         />
-        <Route
+        {/* <Route
           path="/library-popup"
           element={<LoginLayout component={LibraryPopupSet} />}
-        />
+        /> */}
         <Route path="/site" element={<LoginLayout component={TrialSite} />} />
         <Route path="/add-site" element={<LoginLayout component={AddSite} />} />
         <Route
@@ -587,6 +589,10 @@ const Routing = () => {
         <Route
           path="/edit-Consent-Options"
           element={<LoginLayout component={EditConsentOptions} />}
+        />
+        <Route
+          path="/library-popup"
+          element={<LoginLayout component={CreateSetPopup} />}
         />
         <Route
           path="/set-popup"
@@ -910,6 +916,10 @@ const Routing = () => {
           element={<LoginLayout component={LicenseSublink} />}
         />
         <Route
+          path="/license-popup"
+          element={<LoginLayout component={CreateSetPopup} />}
+        />
+        <Route
           path="/license-set-popup"
           element={<LoginLayout component={LicenseSetPopup} />}
         />
@@ -1101,6 +1111,10 @@ const Routing = () => {
         <Route
           path="/survey/survey-analytics-detail"
           element={<LoginLayout component={SurveyAnalyticsDetail} />}
+        />
+        <Route
+          path="/sunshine-timeline"
+          element={<LoginLayout component={SunShineTimeline} />}
         />
       </Routes>
     </Router>

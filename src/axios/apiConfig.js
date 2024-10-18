@@ -16,6 +16,7 @@ export const ENDPOINT = {
   LIBRARYGETPOPUP: `/library/get-popup`,
   LIBRARYDETAIL: `/library/user-detail`,
   LIBRARYSAVEPOPUP: `/library/save-pdf-popup`,
+  UPDATEPOPUPTEMPLATE:"/library/save-popup",
   LIBRARYGETARTICLE: `/library/get-pdffile`,
   LIBRARY_VIDEO_LISTING: `/library/video-listing`,
   LIBRARY_UPLOAD_VIDEO: `/library/upload-video`,
@@ -232,4 +233,5 @@ export const ENDPOINT = {
   ACCOUNT_SETUP: `auth/account-setup`,
   CLIENT_DETAILS: `/library/get-client-details`,
   RESET_CLIENT_ACCOUNT: `/library/reset-client-details`,
+  GET_ARTICLE_TIMELINE_DATA:"/library/get-article-timeline-data",
 };

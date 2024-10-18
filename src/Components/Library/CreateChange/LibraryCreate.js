@@ -71,7 +71,8 @@ const LibraryCreate = () => {
         },
       });
     } else if (value == 3) {
-      navigate("/set-popup");
+      // navigate("/set-popup");
+      navigate("/library-popup");
     } else if (value == 4) {
       navigate("/library-topics", {
         state: {
