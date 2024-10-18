@@ -791,7 +791,58 @@
       margin: 18px 0;
     }
   }
-
+  .change-password{
+    min-height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .change-password-form{
+      max-width: 600px;
+    .form-group{
+      label{
+        &.form-label{
+          margin:0;
+          flex:1 1;
+        }
+      }
+      input{
+        &.form-control{
+          margin:0;
+          max-width: 410px;
+          padding-right:42px;
+          flex: 0 0 100%;
+        }
+       
+      }
+      img{
+        &.change-password-image {
+          right: 20px;
+      }
+      }
+      .login-validation{
+        text-align: right;
+        right:0;
+        left:auto!important;
+      }
+    }
+    .submit-button{
+      button{
+        min-width: 140px;
+      }
+    }
+  }
+  }
+  @media (max-width:1479px){
+    .change-password{
+      .change-password-form{
+      .submit-button{
+        button{
+          margin-top:10px;
+        }
+      }
+    }
+    }
+  }
   .form-group {
     display: inline-flex;
     align-items: center;
@@ -799,7 +850,7 @@
     width: 100%;
     position: relative;
     min-height: 53px;
-
+    
     label {
       font-size: 18px;
       line-height: 21px;
@@ -25547,7 +25598,7 @@ background-size: cover;
               text-align: left;
               text-overflow: ellipsis;
               white-space: nowrap;
-              min-height: auto;
+              min-height: initial;
               &>div {
                 padding: 0;
                 div{
