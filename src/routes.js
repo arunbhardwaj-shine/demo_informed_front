@@ -411,6 +411,10 @@ const Routing = () => {
           element={<LoginLayout component={TrendingContentOcta} />}
         />
         <Route
+          path="/sunshine-trending-content"
+          element={<LoginLayout component={TrendingContentOcta} />}
+        />
+        <Route
           path="/top-clients"
           element={<LoginLayout component={TopClients} />}
         />
