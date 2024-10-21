@@ -1536,19 +1536,20 @@ const SunShineTimeline = () => {
                                                       </p>
                                                       <span>.</span>
                                                       <p>
-                                                        <span>Password |</span>{" "}
-                                                        {
-                                                          details?.rawData
-                                                            ?.password
+                                                      <span>Password |</span>{" "}
+                                                      {passwordVisibility[`pass-${index}`]
+                                                        ? details?.rawData?.password
+                                                        : "•".repeat(details?.rawData?.password.length)}
+                                                      <img
+                                                        src={
+                                                          passwordVisibility[`pass-${index}`]
+                                                            ? path_image + "show_p.svg"
+                                                            : path_image + "hide.svg"
                                                         }
-                                                        <img
-                                                          src={
-                                                            path_image +
-                                                            "hide.svg"
-                                                          }
-                                                          alt=""
-                                                        />
-                                                      </p>
+                                                        onClick={() => togglePassword(`pass-${index}`)}
+                                                        alt=""
+                                                      />
+                                                    </p>
                                                     </div>
                                                   </div>
                                                 </div>
@@ -1590,19 +1591,20 @@ const SunShineTimeline = () => {
                                                     </p>
                                                     <div className="bg-add">
                                                       <p>
-                                                        <span>Password |</span>{" "}
-                                                        {
-                                                          details?.rawData
-                                                            ?.password
+                                                      <span>Password |</span>{" "}
+                                                      {passwordVisibility[`loginPass-${index}`]
+                                                        ? details?.rawData?.password
+                                                        : "•".repeat(details?.rawData?.password.length)}
+                                                      <img
+                                                        src={
+                                                          passwordVisibility[`loginPass-${index}`]
+                                                            ? path_image + "show_p.svg"
+                                                            : path_image + "hide.svg"
                                                         }
-                                                        <img
-                                                          src={
-                                                            path_image +
-                                                            "hide.svg"
-                                                          }
-                                                          alt=""
-                                                        />
-                                                      </p>
+                                                        onClick={() => togglePassword(`loginPass-${index}`)}
+                                                        alt=""
+                                                      />
+                                                    </p>
                                                     </div>
                                                   </div>
                                                 </div>
@@ -1657,19 +1659,20 @@ const SunShineTimeline = () => {
                                                       </p>
                                                       <span>.</span>
                                                       <p>
-                                                        <span>Password |</span>{" "}
-                                                        {
-                                                          details?.rawData
-                                                            ?.password
+                                                      <span>Password |</span>{" "}
+                                                      {passwordVisibility[`setUpPass-${index}`]
+                                                        ? details?.rawData?.password
+                                                        : "•".repeat(details?.rawData?.password.length)}
+                                                      <img
+                                                        src={
+                                                          passwordVisibility[`setUpPass-${index}`]
+                                                            ? path_image + "show_p.svg"
+                                                            : path_image + "hide.svg"
                                                         }
-                                                        <img
-                                                          src={
-                                                            path_image +
-                                                            "hide.svg"
-                                                          }
-                                                          alt=""
-                                                        />
-                                                      </p>
+                                                        onClick={() => togglePassword(`setUpPass-${index}`)}
+                                                        alt=""
+                                                      />
+                                                    </p>
                                                       <span>.</span>
                                                       <p>
                                                         <span>Country |</span>{" "}
