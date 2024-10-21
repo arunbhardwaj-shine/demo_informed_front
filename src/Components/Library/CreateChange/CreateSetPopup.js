@@ -313,25 +313,16 @@ const CreateSetPopup = (props) => {
   const updateTemplate = async (e) => {
     e.preventDefault();
   
-    // Find the index of the selected popupNo in the template list
     let findTemplateIndex = templateList?.findIndex((el) => el.popupNo === popupNo);
   
-    // If a valid template is found, update its source code
     if (findTemplateIndex !== -1) {
       templateList[findTemplateIndex].source_code = templateSaving;
   
-      // Set the updated template list in the state
       setTemplateList(templateList);
   
-      // Prepare the data to be sent to the API
       const updatedTemplateData = {
-        userId: localStorage.getItem("user_id"),
         language:selectOptions.language,  
         popupData:templateList,
-        // popupNo: templateList[findTemplateIndex].popupNo,  
-        // source_code: templateList[findTemplateIndex].source_code,
-        // name: templateList[findTemplateIndex].name,  
-        // template_img: templateList[findTemplateIndex].template_img || '',  
       };
 
       // console.log(updatedTemplateData,'updatedTemplateData')

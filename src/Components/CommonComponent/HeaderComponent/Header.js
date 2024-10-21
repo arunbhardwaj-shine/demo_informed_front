@@ -272,7 +272,8 @@ const Header = () => {
                       window.location.pathname == "/spc-view" ||
                       window.location.pathname == "/spc-render" ||
                       window.location.pathname == "/spc-delete" ||
-                      window.location.pathname == "/products"
+                      window.location.pathname == "/products" ||
+                       window.location.pathname == "/sunshine-timeline"
                       ? "nav-item active active-main"
                       : "nav-item"
                   } onClick={handleMenuItemClick}

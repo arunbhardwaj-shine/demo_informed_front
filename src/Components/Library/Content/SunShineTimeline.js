@@ -44,7 +44,6 @@ const SunShineTimeline = () => {
   const [userId, setUserId] = useState();
   const [update, setUpdate] = useState(0);
   const [consentValue, setConsentValue] = useState("");
-  const [identifier, setIdentifier] = useState("");
   const location = useLocation();
   const [types, setTypes] = useState([
     { value: "Online ", label: "Online Offer" },
@@ -53,6 +52,12 @@ const SunShineTimeline = () => {
   const navigate = useNavigate();
   const [accountTimelineData, setAccountTimelineData] = useState({});
   const [page, setPage] = useState(1);
+  const [showPagination, setShowPagination] = useState(false);
+  const isUSAPharmaAccount =
+    localStorage?.getItem("account_type") === "USA_PHARMA" ? 1 : 0;
+  const [consentType, setConsetnType] = useState([
+    { value: "Sunshine USA", label: "Sunshine USA" },
+  ]);
 
   useEffect(() => {
     if (!isLikeRdAccount) {
@@ -280,10 +285,6 @@ const SunShineTimeline = () => {
     );
   }
 
-  const onIdentifierChange = (event) => {
-    setIdentifier(event.target.value);
-  };
-
   const changeFormatForPrint = (value) => {
     let data = "";
     if (value?.allow_print) {
@@ -310,10 +311,15 @@ const SunShineTimeline = () => {
     try {
       loader("show");
 
-      const response = await getData(ENDPOINT.GET_ARTICLE_TIMELINE_DATA);
-      console.log(response?.data, "response");
+      const response = await getData(
+        `${ENDPOINT.GET_ARTICLE_TIMELINE_DATA}?page=${pageNo}`
+      );
       if (response?.data) {
-        setAccountTimelineData(response?.data);
+        setAccountTimelineData((prev) => ({
+          ...prev,
+          ...response?.data?.data,
+        }));
+        setShowPagination(response?.data?.showPagination);
       }
     } catch (err) {
       console.log("--err", err);
@@ -1034,33 +1040,59 @@ const SunShineTimeline = () => {
                                             <label htmlFor="">
                                               Consent type
                                             </label>
-                                            <Select
-                                              options={types}
-                                              // value={consentValue}
-                                              defaultValue={
-                                                articleData.linkType == "Online"
-                                                  ? types[0]
-                                                  : articleData.linkType ==
-                                                    "Offline"
-                                                  ? types[1]
-                                                  : articleData.linkType ==
-                                                    "Sunshine"
-                                                  ? types[2]
-                                                  : "Select"
-                                              }
-                                              onChange={(event) =>
-                                                onConsentChange(
-                                                  event,
+                                            {isUSAPharmaAccount &&
+                                            articleData.articleOwner == 1 ? (
+                                              <Select
+                                                options={consentType}
+                                                defaultValue={
+                                                  articleData.linkType ==
+                                                  "Sunshine USA"
+                                                    ? consentType?.[0]
+                                                    : "Select"
+                                                }
+                                                onChange={(event) =>
+                                                  onConsentChange(
+                                                    event,
+                                                    articleData.id
+                                                  )
+                                                }
+                                                id={
+                                                  "consent_dropdown_" +
                                                   articleData.id
-                                                )
-                                              }
-                                              id={
-                                                "consent_dropdown_" +
-                                                articleData.id
-                                              }
-                                              className="dropdown-basic-button split-button-dropup"
-                                              isClearable
-                                            />
+                                                }
+                                                className="dropdown-basic-button split-button-dropup"
+                                                isClearable
+                                              />
+                                            ) : (
+                                              <Select
+                                                options={types}
+                                                // value={consentValue}
+                                                defaultValue={
+                                                  articleData.linkType ==
+                                                  "Online"
+                                                    ? types[0]
+                                                    : articleData.linkType ==
+                                                      "Offline"
+                                                    ? types[1]
+                                                    : articleData.linkType ==
+                                                      "Sunshine"
+                                                    ? types[2]
+                                                    : "Select"
+                                                }
+                                                onChange={(event) =>
+                                                  onConsentChange(
+                                                    event,
+                                                    articleData.id
+                                                  )
+                                                }
+                                                id={
+                                                  "consent_dropdown_" +
+                                                  articleData.id
+                                                }
+                                                className="dropdown-basic-button split-button-dropup"
+                                                isClearable
+                                              />
+                                            )}
                                             <Button
                                               onClick={(e) =>
                                                 updateConset(articleData.id)
@@ -1393,24 +1425,35 @@ const SunShineTimeline = () => {
                                                       Password
                                                     </p>
                                                     <div className="bg-add">
-                                                    <p>
-                                                      <span>Old |</span>{" "}
-                                                      {
-                                                        details?.rawData
-                                                          ?.oldPass
-                                                      }
-                                                      <img src={path_image+ "hide.svg"} alt=""/>
-                                                    </p>
+                                                      <p>
+                                                        <span>Old |</span>{" "}
+                                                        {
+                                                          details?.rawData
+                                                            ?.oldPass
+                                                        }
+                                                        <img
+                                                          src={
+                                                            path_image +
+                                                            "hide.svg"
+                                                          }
+                                                          alt=""
+                                                        />
+                                                      </p>
                                                       <span>.</span>
-                                                    <p>
-                                                      <span>New |</span>
-                                                      {" "}
-                                                      {
-                                                        details?.rawData
-                                                          ?.newpassword
-                                                      }
-                                                      <img src={path_image+ "show_p.svg"} alt=""/>
-                                                    </p>
+                                                      <p>
+                                                        <span>New |</span>{" "}
+                                                        {
+                                                          details?.rawData
+                                                            ?.newpassword
+                                                        }
+                                                        <img
+                                                          src={
+                                                            path_image +
+                                                            "show_p.svg"
+                                                          }
+                                                          alt=""
+                                                        />
+                                                      </p>
                                                     </div>
                                                   </div>
                                                 </div>
@@ -1451,24 +1494,33 @@ const SunShineTimeline = () => {
                                                       Credentials
                                                     </p>
                                                     <div className="bg-add">
-                                                    <p>
-                                                      <span>Name |</span>{" "}
-                                                      {details?.rawData?.name}
-                                                    </p>
-                                                    <span>.</span>
-                                                    <p>
-                                                      <span>Email |</span>{" "}
-                                                      {details?.rawData?.email}
-                                                    </p>
-                                                    <span>.</span>
-                                                    <p>
-                                                    <span>Password |</span>{" "}
-                                                      {
-                                                        details?.rawData
-                                                          ?.password
-                                                      }
-                                                      <img src={path_image+ "hide.svg"} alt=""/>
-                                                    </p>
+                                                      <p>
+                                                        <span>Name |</span>{" "}
+                                                        {details?.rawData?.name}
+                                                      </p>
+                                                      <span>.</span>
+                                                      <p>
+                                                        <span>Email |</span>{" "}
+                                                        {
+                                                          details?.rawData
+                                                            ?.email
+                                                        }
+                                                      </p>
+                                                      <span>.</span>
+                                                      <p>
+                                                        <span>Password |</span>{" "}
+                                                        {
+                                                          details?.rawData
+                                                            ?.password
+                                                        }
+                                                        <img
+                                                          src={
+                                                            path_image +
+                                                            "hide.svg"
+                                                          }
+                                                          alt=""
+                                                        />
+                                                      </p>
                                                     </div>
                                                   </div>
                                                 </div>
@@ -1509,14 +1561,20 @@ const SunShineTimeline = () => {
                                                       Password
                                                     </p>
                                                     <div className="bg-add">
-                                                    <p>
-                                                      <span>Password |</span>{" "}
-                                                      {
-                                                        details?.rawData
-                                                          ?.password
-                                                      }
-                                                      <img src={path_image+ "hide.svg"} alt=""/>
-                                                    </p>
+                                                      <p>
+                                                        <span>Password |</span>{" "}
+                                                        {
+                                                          details?.rawData
+                                                            ?.password
+                                                        }
+                                                        <img
+                                                          src={
+                                                            path_image +
+                                                            "hide.svg"
+                                                          }
+                                                          alt=""
+                                                        />
+                                                      </p>
                                                     </div>
                                                   </div>
                                                 </div>
@@ -1557,42 +1615,49 @@ const SunShineTimeline = () => {
                                                       Credentials
                                                     </p>
                                                     <div className="bg-add">
-                                                    <p>
-                                                      <span>Name |</span>{" "}
-                                                      {details?.rawData?.name}
-                                                    </p>
-                                                    <span>.</span>
-                                                    <p>
-                                                      <span>Email |</span>
-                                                      {" "}
-                                                      {details?.rawData?.email}
-                                                    </p>
-                                                    <span>.</span>
-                                                    <p>
-                                                      <span>Password |</span>
-                                                      {" "}
-                                                      {
-                                                        details?.rawData
-                                                          ?.password
-                                                      }
-                                                      <img src={path_image+ "hide.svg"} alt=""/>
-                                                    </p>
-                                                    <span>.</span>
-                                                    <p>
-                                                      <span>Country |</span>{" "}
-                                                      {
-                                                        details?.rawData
-                                                          ?.country
-                                                      }
-                                                    </p>
-                                                    <span>.</span>
-                                                    <p>
-                                                      <span>Company |</span>{" "}
-                                                      {
-                                                        details?.rawData
-                                                          ?.company
-                                                      }
-                                                    </p>
+                                                      <p>
+                                                        <span>Name |</span>{" "}
+                                                        {details?.rawData?.name}
+                                                      </p>
+                                                      <span>.</span>
+                                                      <p>
+                                                        <span>Email |</span>{" "}
+                                                        {
+                                                          details?.rawData
+                                                            ?.email
+                                                        }
+                                                      </p>
+                                                      <span>.</span>
+                                                      <p>
+                                                        <span>Password |</span>{" "}
+                                                        {
+                                                          details?.rawData
+                                                            ?.password
+                                                        }
+                                                        <img
+                                                          src={
+                                                            path_image +
+                                                            "hide.svg"
+                                                          }
+                                                          alt=""
+                                                        />
+                                                      </p>
+                                                      <span>.</span>
+                                                      <p>
+                                                        <span>Country |</span>{" "}
+                                                        {
+                                                          details?.rawData
+                                                            ?.country
+                                                        }
+                                                      </p>
+                                                      <span>.</span>
+                                                      <p>
+                                                        <span>Company |</span>{" "}
+                                                        {
+                                                          details?.rawData
+                                                            ?.company
+                                                        }
+                                                      </p>
                                                     </div>
                                                   </div>
                                                 </div>
@@ -1675,6 +1740,16 @@ const SunShineTimeline = () => {
                                   ))}
                               </div>
                             </div>
+                            {showPagination && (
+                              <div className="text-center load_more">
+                                <button
+                                  className="btn btn-primary"
+                                  onClick={handleLoadMore}
+                                >
+                                  Load More
+                                </button>
+                              </div>
+                            )}
                           </div>
                         </div>
                       </>
