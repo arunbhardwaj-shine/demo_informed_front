@@ -352,10 +352,7 @@ const SunShineTimeline = () => {
     setPassShow(!passshow);
   };
 
-  const [passwordVisibility, setPasswordVisibility] = useState({
-    oldPass: false,
-    newPass: false,
-  });
+  const [passwordVisibility, setPasswordVisibility] = useState({});
 
   const togglePassword = (key) => {
     setPasswordVisibility((prevState) => ({
@@ -363,7 +360,7 @@ const SunShineTimeline = () => {
       [key]: !prevState[key],
     }));
   };
-  
+
 
   return (
     <>
@@ -1451,27 +1448,41 @@ const SunShineTimeline = () => {
                                                     <p className="timeline-details-heading">
                                                       Password
                                                     </p>
-                                                    <div className="bg-add">
+                                                    <div className="bg-add" key={index}>
                                                     <p>
                                                       <span>Old |</span>{" "}
-                                                      {passwordVisibility.oldPass ? details?.rawData?.oldPass : "•".repeat(details?.rawData?.oldPass.length)}
+                                                      {/* Unique key for old password */}
+                                                      {passwordVisibility[`oldPass-${index}`]
+                                                        ? details?.rawData?.oldPass
+                                                        : "•".repeat(details?.rawData?.oldPass.length)}
                                                       <img
-                                                        src={passwordVisibility.oldPass ? path_image + "show_p.svg" : path_image + "hide.svg"}
-                                                        onClick={() => togglePassword('oldPass')}
+                                                        src={
+                                                          passwordVisibility[`oldPass-${index}`]
+                                                            ? path_image + "show_p.svg"
+                                                            : path_image + "hide.svg"
+                                                        }
+                                                        onClick={() => togglePassword(`oldPass-${index}`)}
                                                         alt=""
                                                       />
                                                     </p>
                                                     <span>.</span>
                                                     <p>
                                                       <span>New |</span>{" "}
-                                                      {passwordVisibility.newPass ? details?.rawData?.newpassword : "•".repeat(details?.rawData?.newpassword.length)}
+                                                      {/* Unique key for new password */}
+                                                      {passwordVisibility[`newPass-${index}`]
+                                                        ? details?.rawData?.newpassword
+                                                        : "•".repeat(details?.rawData?.newpassword.length)}
                                                       <img
-                                                        src={passwordVisibility.newPass ? path_image + "show_p.svg" : path_image + "hide.svg"}
-                                                        onClick={() => togglePassword('newPass')}
+                                                        src={
+                                                          passwordVisibility[`newPass-${index}`]
+                                                            ? path_image + "show_p.svg"
+                                                            : path_image + "hide.svg"
+                                                        }
+                                                        onClick={() => togglePassword(`newPass-${index}`)}
                                                         alt=""
                                                       />
                                                     </p>
-                                                    </div>
+                                                  </div>
                                                   </div>
                                                 </div>
                                               </div>
