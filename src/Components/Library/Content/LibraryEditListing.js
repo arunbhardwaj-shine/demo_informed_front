@@ -28,6 +28,7 @@ import QRCode from "qrcode.react";
 const LibraryEditListing = () => {
   const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
   const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
+  const isUSAPharmaAccount = localStorage?.getItem("account_type") === 'USA_PHARMA' ? 1 : 0;
   const limit = 24;
   const [flag, setFlag] = useState(0);
   const [types, setTypes] = useState([
@@ -72,7 +73,9 @@ const LibraryEditListing = () => {
     value: "",
   });
   const [qrSize, setQrSize] = useState(290);
-
+  const [consentType, setConsetnType] = useState([
+    { value: "Sunshine USA", label: "Sunshine USA" },
+  ]);
   const [isOpen, setIsOpen] = useState(false);
   const [allTags, setAllTags] = useState({});
   const [resetDataId, setResetDataId] = useState();
@@ -491,8 +494,14 @@ const LibraryEditListing = () => {
   const updateConset = async (pdf_id, index) => {
     try {
       loader("show");
+      let consent_value = "";
       const index = changeConsent.findIndex((el) => el.index === pdf_id);
-      let consent_value = changeConsent[index].value;
+      if (index != -1) {
+        consent_value = changeConsent[index].value;
+      }else{
+        const consentIndex = libraryData.findIndex((el) => el?.id === pdf_id)
+        consent_value = libraryData[consentIndex]?.linkType;
+      }
 
       let body = {
         pdfId: pdf_id,
@@ -1077,24 +1086,45 @@ const LibraryEditListing = () => {
                             </div>
                             {location?.state?.data == "edit" ? (
                               <div className="dlt_btn">
-                                <Link
-                                  to="/library-edit"
-                                  state={{ pdfid: data.id ,  
-                                    // title : location?.state?.title,
-                                    title: isLikeRdAccount ? location?.state?.title : '',
-                                    flag: isLikeRdAccount
-                                    ? (location?.state?.flag === "Non-mandatory" ? 'Non-mandatory' : "mandatory")
-                                    : '' 
-                                  }}
-                                  className="footer-btn"
-                                >
-                                  <button>
-                                    <img
-                                      src={path_image + "edit-white.svg"}
-                                      alt="Delete Row"
-                                    />
-                                  </button>
-                                </Link>
+                                {
+                                  isUSAPharmaAccount && data.articleOwner == 1
+                                  ?
+                                    <Link
+                                        to="/set-popup"
+                                        state={{ 
+                                          pdfId: data.id , 
+                                          fileType: data.file_type,
+                                          isEdit: 1
+                                        }}
+                                        className="footer-btn"
+                                      >
+                                        <button>
+                                          <img
+                                            src={path_image + "edit-white.svg"}
+                                            alt="Delete Row"
+                                          />
+                                        </button>
+                                    </Link>
+                                  :
+                                    <Link
+                                      to="/library-edit"
+                                      state={{ pdfid: data.id ,  
+                                        // title : location?.state?.title,
+                                        title: isLikeRdAccount ? location?.state?.title : '',
+                                        flag: isLikeRdAccount
+                                        ? (location?.state?.flag === "Non-mandatory" ? 'Non-mandatory' : "mandatory")
+                                        : '' 
+                                      }}
+                                      className="footer-btn"
+                                    >
+                                      <button>
+                                        <img
+                                          src={path_image + "edit-white.svg"}
+                                          alt="Delete Row"
+                                        />
+                                      </button>
+                                    </Link>
+                                }
                               </div>
                             ) : deletestatus ? (
                               <div className="dlt_btn">
@@ -1928,26 +1958,45 @@ const LibraryEditListing = () => {
                                   <ul className="tab-mail-list data change">
                                     <div className="form-group d-flex align-items-center">
                                       <label htmlFor="">Consent type</label>
-                                      <Select
-                                        options={types}
-                                        defaultValue={
-                                          data.linkType == "Online"
-                                            ? types[0]
-                                            : data.linkType == "Offline"
-                                            ? types[1]
-                                            : data.linkType == "Sunshine"
-                                            ? types[2]
-                                            : data.linkType == "Sunshine USA"
-                                            ? types?.[3]
+                                      {
+                                        isUSAPharmaAccount && data.articleOwner == 1
+                                        ?
+                                        <Select
+                                          options={consentType}
+                                          defaultValue={
+                                            data.linkType == "Sunshine USA" 
+                                            ? consentType?.[0]
                                             : "Select"
-                                        }
-                                        onChange={(event) =>
-                                          onConsentChange(event, data.id)
-                                        }
-                                        id={"consent_dropdown_" + index}
-                                        className="dropdown-basic-button split-button-dropup"
-                                        isClearable
-                                      />
+                                          }
+                                          onChange={(event) =>
+                                            onConsentChange(event, data.id)
+                                          }
+                                          id={"consent_dropdown_" + index}
+                                          className="dropdown-basic-button split-button-dropup"
+                                          isClearable
+                                        />
+                                        :
+                                        <Select
+                                          options={types}
+                                          defaultValue={
+                                            data.linkType == "Online"
+                                              ? types[0]
+                                              : data.linkType == "Offline"
+                                              ? types[1]
+                                              : data.linkType == "Sunshine"
+                                              ? types[2]
+                                              : data.linkType == "Sunshine USA"
+                                              ? types?.[3]
+                                              : "Select"
+                                          }
+                                          onChange={(event) =>
+                                            onConsentChange(event, data.id)
+                                          }
+                                          id={"consent_dropdown_" + index}
+                                          className="dropdown-basic-button split-button-dropup"
+                                          isClearable
+                                        />
+                                      }
                                       <Button
                                         onClick={(e) =>
                                           updateConset(data.id, index)
