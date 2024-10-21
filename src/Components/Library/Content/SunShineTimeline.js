@@ -1,17 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState ,useRef} from "react";
 import {
   Button,
   Col,
-  Dropdown,
-  Modal,
-  DropdownButton,
-  Form,
   Row,
   ProgressBar,
   Tab,
   Tabs,
 } from "react-bootstrap";
-import { useLocation, Link, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Select from "react-select";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
@@ -22,6 +18,7 @@ import { loader } from "../../../loader";
 import { ENDPOINT } from "../../../axios/apiConfig";
 import { postData, getData } from "../../../axios/apiHelper";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import { Spinner } from "react-activity";
 // import SubLinkListing from "./SubLinkListing";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const SunShineTimeline = () => {
@@ -53,12 +50,14 @@ const SunShineTimeline = () => {
   const [accountTimelineData, setAccountTimelineData] = useState({});
   const [page, setPage] = useState(1);
   const [showPagination, setShowPagination] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const containerRef = useRef(null);
   const isUSAPharmaAccount =
     localStorage?.getItem("account_type") === "USA_PHARMA" ? 1 : 0;
   const [consentType, setConsetnType] = useState([
     { value: "Sunshine USA", label: "Sunshine USA" },
   ]);
-  const [passshow, setPassShow] = useState(false);
+
   useEffect(() => {
     if (!isLikeRdAccount) {
       let linktype = types;
@@ -69,7 +68,6 @@ const SunShineTimeline = () => {
       setTypes(linktype);
     }
     getLibraryData();
-    getAccountTimelineData();
   }, []);
 
   useEffect(() => {
@@ -115,16 +113,17 @@ const SunShineTimeline = () => {
             value: item.id,
             label: item.title.replace(/(<([^>]+)>)/gi, ""),
           });
+          
+          // Push to codearr only if linkType matches
+          codearr.push({
+            value: item.id,
+            label: item.code,
+          });
         }
-        
-        codearr.push({
-          value: item.id,
-          label: item.code,
-        });
-        
+  
+        console.log(item, 'arr');
       });
   
-      // Only set allContents if there are any valid items
       if (arr.length > 0) {
         setallContents(arr);
       }
@@ -331,19 +330,45 @@ const SunShineTimeline = () => {
     return data;
   };
 
+ 
+  useEffect(() => {
+    // Fetch initial data on mount
+    getAccountTimelineData(page);
+
+    // Event listener for scroll on the ref container
+    const handleScroll = () => {
+      if (containerRef.current) {
+        const { scrollTop, scrollHeight, clientHeight } = containerRef.current;
+
+        // Check if we are at the bottom of the scrollable container
+        if (scrollTop + clientHeight >= scrollHeight) {
+          handleLoadMore();
+        }
+      }
+    };
+
+    const currentRef = containerRef.current;
+    currentRef.addEventListener('scroll', handleScroll);
+
+    // Cleanup the event listener on component unmount
+    return () => {
+      currentRef.removeEventListener('scroll', handleScroll);
+    };
+  }, [page]);
+
   const getAccountTimelineData = async (pageNo = 1) => {
     try {
-      loader("show");
-  
+      setLoading(true); 
+
       const response = await getData(
         `${ENDPOINT.GET_ARTICLE_TIMELINE_DATA}?page=${pageNo}`
       );
-      
+
       if (response?.data) {
         setAccountTimelineData((prev) => {
           const newData = response?.data?.data || {};
           const mergedData = { ...prev };
-  
+
           Object.keys(newData).forEach((date) => {
             if (mergedData[date]) {
               mergedData[date] = [...mergedData[date], ...newData[date]];
@@ -351,7 +376,7 @@ const SunShineTimeline = () => {
               mergedData[date] = newData[date];
             }
           });
-  
+
           return mergedData;
         });
         setShowPagination(response?.data?.showPagination);
@@ -359,21 +384,18 @@ const SunShineTimeline = () => {
     } catch (err) {
       console.log("--err", err);
     } finally {
-      loader("hide");
+      setLoading(false); 
     }
   };
-  
+
   const handleLoadMore = () => {
-    setPage((prev) => prev + 1);
-    getAccountTimelineData(page + 1);
+    if (!loading) { 
+      setPage((prev) => prev + 1);
+    }
   };
-  
 
   const printPage = () => {
     window.print();
-  };
-  const toggleState = () => {
-    setPassShow(!passshow);
   };
 
   const [passwordVisibility, setPasswordVisibility] = useState({});
@@ -1388,8 +1410,8 @@ const SunShineTimeline = () => {
                     accountTimelineData ? (
                       <>
                         <div className="timeline-layout crm-timeline">
-                          <div className="timeline-layout-inset">
-                            <div className="timeline-right-list">
+                          <div className="timeline-layout-inset" >
+                            <div className="timeline-right-list"ref={containerRef}>
                               <div className="timeline-right-header">
                                 <div className="timeline-indicator">
                                   <img
@@ -1798,16 +1820,18 @@ const SunShineTimeline = () => {
                                   ))}
                               </div>
                             </div>
-                            {showPagination && (
-                              <div className="text-center load_more">
-                                <button
-                                  className="btn btn-primary"
-                                  onClick={handleLoadMore}
-                                >
-                                  Load More
-                                </button>
-                              </div>
-                            )}
+                            {loading && (
+                                    <div
+                                    className="load_more"
+                                    style={{
+                                      margin: "10 auto",
+                                      justifyContent: "center",
+                                      display: "flex",
+                                    }}
+                                  >
+                                    <Spinner color="#53aff4" size={32} speed={1} animating={true} />
+                                  </div>
+                                  )}
                           </div>
                         </div>
                       </>
