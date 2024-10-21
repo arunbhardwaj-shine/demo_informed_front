@@ -58,7 +58,7 @@ const SunShineTimeline = () => {
   const [consentType, setConsetnType] = useState([
     { value: "Sunshine USA", label: "Sunshine USA" },
   ]);
-
+  const [passshow, setPassShow] = useState(false);
   useEffect(() => {
     if (!isLikeRdAccount) {
       let linktype = types;
@@ -336,6 +336,9 @@ const SunShineTimeline = () => {
 
   const printPage = () => {
     window.print();
+  };
+  const toggleState = () => {
+    setPassShow(!passshow);
   };
 
   return (
@@ -1427,30 +1430,34 @@ const SunShineTimeline = () => {
                                                     <div className="bg-add">
                                                       <p>
                                                         <span>Old |</span>{" "}
-                                                        {
+                                                        {/* {
                                                           details?.rawData
                                                             ?.oldPass
-                                                        }
+                                                        } */}
+                                                         {passshow
+                                                          ? details?.rawData?.oldPass 
+                                                          : "•".repeat(details?.rawData?.oldPass.length)}
                                                         <img
-                                                          src={
-                                                            path_image +
-                                                            "hide.svg"
-                                                          }
+                                                          src=
+                                                          {passshow ? path_image + "show_p.svg" : path_image + "hide.svg"}
+                                                          onClick={toggleState}
                                                           alt=""
                                                         />
                                                       </p>
                                                       <span>.</span>
                                                       <p>
                                                         <span>New |</span>{" "}
-                                                        {
+                                                        {/* {
                                                           details?.rawData
                                                             ?.newpassword
-                                                        }
+                                                        } */}
+                                                         {passshow
+                                                          ? details?.rawData?.newpassword 
+                                                          : "•".repeat(details?.rawData?.newpassword.length)}
                                                         <img
-                                                          src={
-                                                            path_image +
-                                                            "show_p.svg"
-                                                          }
+                                                          src=
+                                                          {passshow ? path_image + "show_p.svg" : path_image + "hide.svg"}
+                                                          onClick={toggleState}
                                                           alt=""
                                                         />
                                                       </p>
