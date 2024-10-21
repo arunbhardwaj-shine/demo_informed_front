@@ -236,4 +236,5 @@ export const ENDPOINT = {
   USA_ANALYTICS:"/analytics/usa_hcp_graph",
   USA_COUNTRY_REGISTRATION: `analytics/usa_country`,
   GET_ARTICLE_TIMELINE_DATA:"/library/get-article-timeline-data",
+  USA_CONTENT: "analytics/usa_content",
 };

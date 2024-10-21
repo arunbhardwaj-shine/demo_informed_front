@@ -16,6 +16,7 @@ import solidGauge from "highcharts/modules/solid-gauge";
 const TrendingContentOcta = () => {
   const [data, setData] = useState({});
   const [isDataFound, setIsDataFound] = useState(false);
+  const [isSunshineAccount,setIsSunshineAccount]=useState(localStorage.getItem("user_id")=="EtWPMu4 sPArPm9tsehC2Q=="?true:false)
 
   Highcharts.setOptions({
     colors: [
@@ -45,11 +46,12 @@ const TrendingContentOcta = () => {
       //   if(localStorage.getItem("user_id")=="iSnEsKu5gB/DRlycxB6G4g=="){
 
       //   }
+      let analyticsRoute=isSunshineAccount?ENDPOINT.USA_CONTENT:ENDPOINT.CONTENTTYPE
 
       const requestBody = {
-        type: "octa",
+        type:isSunshineAccount?"sunshine": "octa",
       };
-      const response = await postData(ENDPOINT.CONTENTTYPE, requestBody);
+      const response = await postData(analyticsRoute, requestBody);
       const hadData = response?.data?.data;
       if (hadData.length <= 0) {
         setIsDataFound(false);
