@@ -120,8 +120,6 @@ const SunShineTimeline = () => {
             label: item.code,
           });
         }
-  
-        console.log(item, 'arr');
       });
   
       if (arr.length > 0) {
