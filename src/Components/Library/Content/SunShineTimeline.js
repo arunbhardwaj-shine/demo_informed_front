@@ -310,15 +310,26 @@ const SunShineTimeline = () => {
   const getAccountTimelineData = async (pageNo = 1) => {
     try {
       loader("show");
-
+  
       const response = await getData(
         `${ENDPOINT.GET_ARTICLE_TIMELINE_DATA}?page=${pageNo}`
       );
+      
       if (response?.data) {
-        setAccountTimelineData((prev) => ({
-          ...prev,
-          ...response?.data?.data,
-        }));
+        setAccountTimelineData((prev) => {
+          const newData = response?.data?.data || {};
+          const mergedData = { ...prev };
+  
+          Object.keys(newData).forEach((date) => {
+            if (mergedData[date]) {
+              mergedData[date] = [...mergedData[date], ...newData[date]];
+            } else {
+              mergedData[date] = newData[date];
+            }
+          });
+  
+          return mergedData;
+        });
         setShowPagination(response?.data?.showPagination);
       }
     } catch (err) {
@@ -327,12 +338,12 @@ const SunShineTimeline = () => {
       loader("hide");
     }
   };
-  // console.log(accountTimelineData,'hf3ihfo3tirjtgr')
-
+  
   const handleLoadMore = () => {
-    setPage(page + 1);
+    setPage((prev) => prev + 1);
     getAccountTimelineData(page + 1);
   };
+  
 
   const printPage = () => {
     window.print();
@@ -340,6 +351,19 @@ const SunShineTimeline = () => {
   const toggleState = () => {
     setPassShow(!passshow);
   };
+
+  const [passwordVisibility, setPasswordVisibility] = useState({
+    oldPass: false,
+    newPass: false,
+  });
+
+  const togglePassword = (key) => {
+    setPasswordVisibility((prevState) => ({
+      ...prevState,
+      [key]: !prevState[key],
+    }));
+  };
+  
 
   return (
     <>
@@ -1428,39 +1452,25 @@ const SunShineTimeline = () => {
                                                       Password
                                                     </p>
                                                     <div className="bg-add">
-                                                      <p>
-                                                        <span>Old |</span>{" "}
-                                                        {/* {
-                                                          details?.rawData
-                                                            ?.oldPass
-                                                        } */}
-                                                         {passshow
-                                                          ? details?.rawData?.oldPass 
-                                                          : "•".repeat(details?.rawData?.oldPass.length)}
-                                                        <img
-                                                          src=
-                                                          {passshow ? path_image + "show_p.svg" : path_image + "hide.svg"}
-                                                          onClick={toggleState}
-                                                          alt=""
-                                                        />
-                                                      </p>
-                                                      <span>.</span>
-                                                      <p>
-                                                        <span>New |</span>{" "}
-                                                        {/* {
-                                                          details?.rawData
-                                                            ?.newpassword
-                                                        } */}
-                                                         {passshow
-                                                          ? details?.rawData?.newpassword 
-                                                          : "•".repeat(details?.rawData?.newpassword.length)}
-                                                        <img
-                                                          src=
-                                                          {passshow ? path_image + "show_p.svg" : path_image + "hide.svg"}
-                                                          onClick={toggleState}
-                                                          alt=""
-                                                        />
-                                                      </p>
+                                                    <p>
+                                                      <span>Old |</span>{" "}
+                                                      {passwordVisibility.oldPass ? details?.rawData?.oldPass : "•".repeat(details?.rawData?.oldPass.length)}
+                                                      <img
+                                                        src={passwordVisibility.oldPass ? path_image + "show_p.svg" : path_image + "hide.svg"}
+                                                        onClick={() => togglePassword('oldPass')}
+                                                        alt=""
+                                                      />
+                                                    </p>
+                                                    <span>.</span>
+                                                    <p>
+                                                      <span>New |</span>{" "}
+                                                      {passwordVisibility.newPass ? details?.rawData?.newpassword : "•".repeat(details?.rawData?.newpassword.length)}
+                                                      <img
+                                                        src={passwordVisibility.newPass ? path_image + "show_p.svg" : path_image + "hide.svg"}
+                                                        onClick={() => togglePassword('newPass')}
+                                                        alt=""
+                                                      />
+                                                    </p>
                                                     </div>
                                                   </div>
                                                 </div>
@@ -1692,7 +1702,10 @@ const SunShineTimeline = () => {
                                                     <p className="timeline-details-heading">
                                                       Article
                                                     </p>
-                                                    <p>{details?.article}</p>
+                                                    <p>{
+                                                          details?.rawData
+                                                            ?.title
+                                                        }</p>
                                                   </div>
 
                                                   <div className="details-box">
