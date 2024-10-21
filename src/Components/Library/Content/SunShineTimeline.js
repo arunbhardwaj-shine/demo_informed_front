@@ -44,7 +44,6 @@ const SunShineTimeline = () => {
   const [userId, setUserId] = useState();
   const [update, setUpdate] = useState(0);
   const [consentValue, setConsentValue] = useState("");
-  const [identifier, setIdentifier] = useState("");
   const location = useLocation();
   const [types, setTypes] = useState([
     { value: "Online ", label: "Online Offer" },
@@ -53,7 +52,13 @@ const SunShineTimeline = () => {
   const navigate = useNavigate();
   const [accountTimelineData, setAccountTimelineData] = useState({});
   const [page, setPage] = useState(1);
-
+  const [showPagination, setShowPagination] = useState(false);
+  const isUSAPharmaAccount =
+    localStorage?.getItem("account_type") === "USA_PHARMA" ? 1 : 0;
+  const [consentType, setConsetnType] = useState([
+    { value: "Sunshine USA", label: "Sunshine USA" },
+  ]);
+  const [passshow, setPassShow] = useState(false);
   useEffect(() => {
     if (!isLikeRdAccount) {
       let linktype = types;
@@ -280,10 +285,6 @@ const SunShineTimeline = () => {
     );
   }
 
-  const onIdentifierChange = (event) => {
-    setIdentifier(event.target.value);
-  };
-
   const changeFormatForPrint = (value) => {
     let data = "";
     if (value?.allow_print) {
@@ -309,11 +310,27 @@ const SunShineTimeline = () => {
   const getAccountTimelineData = async (pageNo = 1) => {
     try {
       loader("show");
-
-      const response = await getData(ENDPOINT.GET_ARTICLE_TIMELINE_DATA);
-      console.log(response?.data, "response");
+  
+      const response = await getData(
+        `${ENDPOINT.GET_ARTICLE_TIMELINE_DATA}?page=${pageNo}`
+      );
+      
       if (response?.data) {
-        setAccountTimelineData(response?.data);
+        setAccountTimelineData((prev) => {
+          const newData = response?.data?.data || {};
+          const mergedData = { ...prev };
+  
+          Object.keys(newData).forEach((date) => {
+            if (mergedData[date]) {
+              mergedData[date] = [...mergedData[date], ...newData[date]];
+            } else {
+              mergedData[date] = newData[date];
+            }
+          });
+  
+          return mergedData;
+        });
+        setShowPagination(response?.data?.showPagination);
       }
     } catch (err) {
       console.log("--err", err);
@@ -321,16 +338,29 @@ const SunShineTimeline = () => {
       loader("hide");
     }
   };
-  // console.log(accountTimelineData,'hf3ihfo3tirjtgr')
-
+  
   const handleLoadMore = () => {
-    setPage(page + 1);
+    setPage((prev) => prev + 1);
     getAccountTimelineData(page + 1);
   };
+  
 
   const printPage = () => {
     window.print();
   };
+  const toggleState = () => {
+    setPassShow(!passshow);
+  };
+
+  const [passwordVisibility, setPasswordVisibility] = useState({});
+
+  const togglePassword = (key) => {
+    setPasswordVisibility((prevState) => ({
+      ...prevState,
+      [key]: !prevState[key],
+    }));
+  };
+
 
   return (
     <>
@@ -1034,33 +1064,59 @@ const SunShineTimeline = () => {
                                             <label htmlFor="">
                                               Consent type
                                             </label>
-                                            <Select
-                                              options={types}
-                                              // value={consentValue}
-                                              defaultValue={
-                                                articleData.linkType == "Online"
-                                                  ? types[0]
-                                                  : articleData.linkType ==
-                                                    "Offline"
-                                                  ? types[1]
-                                                  : articleData.linkType ==
-                                                    "Sunshine"
-                                                  ? types[2]
-                                                  : "Select"
-                                              }
-                                              onChange={(event) =>
-                                                onConsentChange(
-                                                  event,
+                                            {isUSAPharmaAccount &&
+                                            articleData.articleOwner == 1 ? (
+                                              <Select
+                                                options={consentType}
+                                                defaultValue={
+                                                  articleData.linkType ==
+                                                  "Sunshine USA"
+                                                    ? consentType?.[0]
+                                                    : "Select"
+                                                }
+                                                onChange={(event) =>
+                                                  onConsentChange(
+                                                    event,
+                                                    articleData.id
+                                                  )
+                                                }
+                                                id={
+                                                  "consent_dropdown_" +
                                                   articleData.id
-                                                )
-                                              }
-                                              id={
-                                                "consent_dropdown_" +
-                                                articleData.id
-                                              }
-                                              className="dropdown-basic-button split-button-dropup"
-                                              isClearable
-                                            />
+                                                }
+                                                className="dropdown-basic-button split-button-dropup"
+                                                isClearable
+                                              />
+                                            ) : (
+                                              <Select
+                                                options={types}
+                                                // value={consentValue}
+                                                defaultValue={
+                                                  articleData.linkType ==
+                                                  "Online"
+                                                    ? types[0]
+                                                    : articleData.linkType ==
+                                                      "Offline"
+                                                    ? types[1]
+                                                    : articleData.linkType ==
+                                                      "Sunshine"
+                                                    ? types[2]
+                                                    : "Select"
+                                                }
+                                                onChange={(event) =>
+                                                  onConsentChange(
+                                                    event,
+                                                    articleData.id
+                                                  )
+                                                }
+                                                id={
+                                                  "consent_dropdown_" +
+                                                  articleData.id
+                                                }
+                                                className="dropdown-basic-button split-button-dropup"
+                                                isClearable
+                                              />
+                                            )}
                                             <Button
                                               onClick={(e) =>
                                                 updateConset(articleData.id)
@@ -1368,7 +1424,7 @@ const SunShineTimeline = () => {
                                                       <img
                                                         src={
                                                           path_image +
-                                                          "irt-invited-training.svg"
+                                                          "account-password-change.svg"
                                                         }
                                                         alt=""
                                                       />
@@ -1392,26 +1448,41 @@ const SunShineTimeline = () => {
                                                     <p className="timeline-details-heading">
                                                       Password
                                                     </p>
-                                                    <div className="bg-add">
+                                                    <div className="bg-add" key={index}>
                                                     <p>
                                                       <span>Old |</span>{" "}
-                                                      {
-                                                        details?.rawData
-                                                          ?.oldPass
-                                                      }
-                                                      <img src={path_image+ "hide.svg"} alt=""/>
+                                                      {/* Unique key for old password */}
+                                                      {passwordVisibility[`oldPass-${index}`]
+                                                        ? details?.rawData?.oldPass
+                                                        : "•".repeat(details?.rawData?.oldPass.length)}
+                                                      <img
+                                                        src={
+                                                          passwordVisibility[`oldPass-${index}`]
+                                                            ? path_image + "show_p.svg"
+                                                            : path_image + "hide.svg"
+                                                        }
+                                                        onClick={() => togglePassword(`oldPass-${index}`)}
+                                                        alt=""
+                                                      />
                                                     </p>
-                                                      <span>.</span>
+                                                    <span>.</span>
                                                     <p>
-                                                      <span>New |</span>
-                                                      {" "}
-                                                      {
-                                                        details?.rawData
-                                                          ?.newpassword
-                                                      }
-                                                      <img src={path_image+ "show_p.svg"} alt=""/>
+                                                      <span>New |</span>{" "}
+                                                      {/* Unique key for new password */}
+                                                      {passwordVisibility[`newPass-${index}`]
+                                                        ? details?.rawData?.newpassword
+                                                        : "•".repeat(details?.rawData?.newpassword.length)}
+                                                      <img
+                                                        src={
+                                                          passwordVisibility[`newPass-${index}`]
+                                                            ? path_image + "show_p.svg"
+                                                            : path_image + "hide.svg"
+                                                        }
+                                                        onClick={() => togglePassword(`newPass-${index}`)}
+                                                        alt=""
+                                                      />
                                                     </p>
-                                                    </div>
+                                                  </div>
                                                   </div>
                                                 </div>
                                               </div>
@@ -1426,7 +1497,7 @@ const SunShineTimeline = () => {
                                                       <img
                                                         src={
                                                           path_image +
-                                                          "irt-invited-training.svg"
+                                                          "account-credential-reset.svg"
                                                         }
                                                         alt=""
                                                       />
@@ -1451,23 +1522,33 @@ const SunShineTimeline = () => {
                                                       Credentials
                                                     </p>
                                                     <div className="bg-add">
-                                                    <p>
-                                                      <span>Name |</span>{" "}
-                                                      {details?.rawData?.name}
-                                                    </p>
-                                                    <span>.</span>
-                                                    <p>
-                                                      <span>Email |</span>{" "}
-                                                      {details?.rawData?.email}
-                                                    </p>
-                                                    <span>.</span>
-                                                    <p>
-                                                    <span>Password |</span>{" "}
-                                                      {
-                                                        details?.rawData
-                                                          ?.password
-                                                      }
-                                                      <img src={path_image+ "hide.svg"} alt=""/>
+                                                      <p>
+                                                        <span>Name |</span>{" "}
+                                                        {details?.rawData?.name}
+                                                      </p>
+                                                      <span>.</span>
+                                                      <p>
+                                                        <span>Email |</span>{" "}
+                                                        {
+                                                          details?.rawData
+                                                            ?.email
+                                                        }
+                                                      </p>
+                                                      <span>.</span>
+                                                      <p>
+                                                      <span>Password |</span>{" "}
+                                                      {passwordVisibility[`pass-${index}`]
+                                                        ? details?.rawData?.password
+                                                        : "•".repeat(details?.rawData?.password.length)}
+                                                      <img
+                                                        src={
+                                                          passwordVisibility[`pass-${index}`]
+                                                            ? path_image + "show_p.svg"
+                                                            : path_image + "hide.svg"
+                                                        }
+                                                        onClick={() => togglePassword(`pass-${index}`)}
+                                                        alt=""
+                                                      />
                                                     </p>
                                                     </div>
                                                   </div>
@@ -1484,7 +1565,7 @@ const SunShineTimeline = () => {
                                                       <img
                                                         src={
                                                           path_image +
-                                                          "irt-invited-training.svg"
+                                                          "account-login.svg"
                                                         }
                                                         alt=""
                                                       />
@@ -1509,13 +1590,20 @@ const SunShineTimeline = () => {
                                                       Password
                                                     </p>
                                                     <div className="bg-add">
-                                                    <p>
+                                                      <p>
                                                       <span>Password |</span>{" "}
-                                                      {
-                                                        details?.rawData
-                                                          ?.password
-                                                      }
-                                                      <img src={path_image+ "hide.svg"} alt=""/>
+                                                      {passwordVisibility[`loginPass-${index}`]
+                                                        ? details?.rawData?.password
+                                                        : "•".repeat(details?.rawData?.password.length)}
+                                                      <img
+                                                        src={
+                                                          passwordVisibility[`loginPass-${index}`]
+                                                            ? path_image + "show_p.svg"
+                                                            : path_image + "hide.svg"
+                                                        }
+                                                        onClick={() => togglePassword(`loginPass-${index}`)}
+                                                        alt=""
+                                                      />
                                                     </p>
                                                     </div>
                                                   </div>
@@ -1532,7 +1620,7 @@ const SunShineTimeline = () => {
                                                       <img
                                                         src={
                                                           path_image +
-                                                          "irt-invited-training.svg"
+                                                          "account-setup.svg"
                                                         }
                                                         alt=""
                                                       />
@@ -1557,42 +1645,50 @@ const SunShineTimeline = () => {
                                                       Credentials
                                                     </p>
                                                     <div className="bg-add">
-                                                    <p>
-                                                      <span>Name |</span>{" "}
-                                                      {details?.rawData?.name}
+                                                      <p>
+                                                        <span>Name |</span>{" "}
+                                                        {details?.rawData?.name}
+                                                      </p>
+                                                      <span>.</span>
+                                                      <p>
+                                                        <span>Email |</span>{" "}
+                                                        {
+                                                          details?.rawData
+                                                            ?.email
+                                                        }
+                                                      </p>
+                                                      <span>.</span>
+                                                      <p>
+                                                      <span>Password |</span>{" "}
+                                                      {passwordVisibility[`setUpPass-${index}`]
+                                                        ? details?.rawData?.password
+                                                        : "•".repeat(details?.rawData?.password.length)}
+                                                      <img
+                                                        src={
+                                                          passwordVisibility[`setUpPass-${index}`]
+                                                            ? path_image + "show_p.svg"
+                                                            : path_image + "hide.svg"
+                                                        }
+                                                        onClick={() => togglePassword(`setUpPass-${index}`)}
+                                                        alt=""
+                                                      />
                                                     </p>
-                                                    <span>.</span>
-                                                    <p>
-                                                      <span>Email |</span>
-                                                      {" "}
-                                                      {details?.rawData?.email}
-                                                    </p>
-                                                    <span>.</span>
-                                                    <p>
-                                                      <span>Password |</span>
-                                                      {" "}
-                                                      {
-                                                        details?.rawData
-                                                          ?.password
-                                                      }
-                                                      <img src={path_image+ "hide.svg"} alt=""/>
-                                                    </p>
-                                                    <span>.</span>
-                                                    <p>
-                                                      <span>Country |</span>{" "}
-                                                      {
-                                                        details?.rawData
-                                                          ?.country
-                                                      }
-                                                    </p>
-                                                    <span>.</span>
-                                                    <p>
-                                                      <span>Company |</span>{" "}
-                                                      {
-                                                        details?.rawData
-                                                          ?.company
-                                                      }
-                                                    </p>
+                                                      <span>.</span>
+                                                      <p>
+                                                        <span>Country |</span>{" "}
+                                                        {
+                                                          details?.rawData
+                                                            ?.country
+                                                        }
+                                                      </p>
+                                                      <span>.</span>
+                                                      <p>
+                                                        <span>Company |</span>{" "}
+                                                        {
+                                                          details?.rawData
+                                                            ?.company
+                                                        }
+                                                      </p>
                                                     </div>
                                                   </div>
                                                 </div>
@@ -1608,7 +1704,7 @@ const SunShineTimeline = () => {
                                                       <img
                                                         src={
                                                           path_image +
-                                                          "irt-invited-training.svg"
+                                                          "registration-popup-update.svg"
                                                         }
                                                         alt=""
                                                       />
@@ -1620,7 +1716,10 @@ const SunShineTimeline = () => {
                                                     <p className="timeline-details-heading">
                                                       Article
                                                     </p>
-                                                    <p>{details?.article}</p>
+                                                    <p>{
+                                                          details?.rawData
+                                                            ?.title
+                                                        }</p>
                                                   </div>
 
                                                   <div className="details-box">
@@ -1675,6 +1774,16 @@ const SunShineTimeline = () => {
                                   ))}
                               </div>
                             </div>
+                            {showPagination && (
+                              <div className="text-center load_more">
+                                <button
+                                  className="btn btn-primary"
+                                  onClick={handleLoadMore}
+                                >
+                                  Load More
+                                </button>
+                              </div>
+                            )}
                           </div>
                         </div>
                       </>
