@@ -94,17 +94,41 @@ const SunShineTimeline = () => {
       const res = await postData(ENDPOINT.LIBRARY, body);
       let arr = [];
       let codearr = [];
+
+      // Object.entries(res?.data?.data?.library).map(([index, item]) => {
+      //   arr.push({
+      //     value: item.id,
+      //     label: item.title.replace(/(<([^>]+)>)/gi, ""),
+      //   });
+      //   codearr.push({
+      //     value: item.id,
+      //     label: item.code,
+      //   });
+      //   setallContents(arr);
+      //   console.log(item,'arr')
+      // });
+
       Object.entries(res?.data?.data?.library).map(([index, item]) => {
-        arr.push({
-          value: item.id,
-          label: item.title.replace(/(<([^>]+)>)/gi, ""),
-        });
+        // Check if the item has linkType "Sunshine USA"
+        if (item?.linkType === "Sunshine USA") {
+          arr.push({
+            value: item.id,
+            label: item.title.replace(/(<([^>]+)>)/gi, ""),
+          });
+        }
+        
         codearr.push({
           value: item.id,
           label: item.code,
         });
-        setallContents(arr);
+        
       });
+  
+      // Only set allContents if there are any valid items
+      if (arr.length > 0) {
+        setallContents(arr);
+      }
+
       codearr.sort((a, b) => {
         let x = a.label.toLowerCase();
         let y = b.label.toLowerCase();
