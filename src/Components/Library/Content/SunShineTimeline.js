@@ -47,6 +47,7 @@ const SunShineTimeline = () => {
   ]);
   const [activeTab, setActiveTab] = useState("docintel-link");
   const navigate = useNavigate();
+  const [passwordVisibility, setPasswordVisibility] = useState({});
   const [accountTimelineData, setAccountTimelineData] = useState({});
   const [page, setPage] = useState(1);
   const [showPagination, setShowPagination] = useState(false);
@@ -396,7 +397,7 @@ const SunShineTimeline = () => {
     window.print();
   };
 
-  const [passwordVisibility, setPasswordVisibility] = useState({});
+
 
   const togglePassword = (key) => {
     setPasswordVisibility((prevState) => ({
@@ -1818,7 +1819,7 @@ const SunShineTimeline = () => {
                                   ))}
                               </div>
                             </div>
-                            {loading && (
+                            {loading && showPagination &&(
                                     <div
                                     className="load_more"
                                     style={{
