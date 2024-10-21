@@ -3883,18 +3883,14 @@ const Sidebar = () => {
                             </li>
                             <li
                               className={
-                                location.pathname == "/content-type" ||
-                                  location.pathname == "/analytic-content-type"
+                                location.pathname == "/content-type" 
+                                 
                                   ? "active"
                                   : "side_li"
                               }
                             >
                               <Link
-                                to={
-                                  localStorage.getItem("user_id") ==
-                                    "B7SHpAc XDXSH NXkN0rdQ=="
-                                    ? "/content-type"
-                                    : "/analytic-content-type"
+                                to={"/content-type"                                
                                 }
                               >
                                 <svg
