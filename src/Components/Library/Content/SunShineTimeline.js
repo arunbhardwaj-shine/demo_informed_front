@@ -1427,7 +1427,7 @@ const SunShineTimeline = () => {
                                                       <img
                                                         src={
                                                           path_image +
-                                                          "irt-invited-training.svg"
+                                                          "account-password-change.svg"
                                                         }
                                                         alt=""
                                                       />
@@ -1486,7 +1486,7 @@ const SunShineTimeline = () => {
                                                       <img
                                                         src={
                                                           path_image +
-                                                          "irt-invited-training.svg"
+                                                          "account-credential-reset.svg"
                                                         }
                                                         alt=""
                                                       />
@@ -1553,7 +1553,7 @@ const SunShineTimeline = () => {
                                                       <img
                                                         src={
                                                           path_image +
-                                                          "irt-invited-training.svg"
+                                                          "account-login.svg"
                                                         }
                                                         alt=""
                                                       />
@@ -1607,7 +1607,7 @@ const SunShineTimeline = () => {
                                                       <img
                                                         src={
                                                           path_image +
-                                                          "irt-invited-training.svg"
+                                                          "account-setup.svg"
                                                         }
                                                         alt=""
                                                       />
@@ -1690,7 +1690,7 @@ const SunShineTimeline = () => {
                                                       <img
                                                         src={
                                                           path_image +
-                                                          "irt-invited-training.svg"
+                                                          "registration-popup-update.svg"
                                                         }
                                                         alt=""
                                                       />
