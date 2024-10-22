@@ -3657,7 +3657,8 @@ const Sidebar = () => {
                           window.location.pathname == "/country-registration" ||
                           window.location.pathname == "/delivery-stats" ||
                           window.location.pathname == "/trending-topics" ||
-                          window.location.pathname == "/sunshine-trending-content" ||
+                          // window.location.pathname == "/sunshine-trending-content" ||
+                          window.location.pathname == "/trending-content" ||
                           window.location.pathname == "/content-type" ||
                           window.location.pathname == "/content-analytics" ||
                           window.location.pathname == "/analytic-trending-topics" ||
@@ -3847,14 +3848,16 @@ const Sidebar = () => {
                             </li>
                             <li
                               className={
-                                location.pathname == "/sunshine-trending-content" 
+                                // location.pathname == "/sunshine-trending-content" 
+                                location.pathname == "/trending-content" 
                                   ? "active"
                                   : "side_li"
                               }
                             >
                               <Link
                                 to={
-                                    "/sunshine-trending-content"
+                                    // "/sunshine-trending-content"
+                                     "/trending-content" 
                                 }
                               >
                                 <svg

@@ -410,10 +410,10 @@ const Routing = () => {
           path="/octa-trending-content"
           element={<LoginLayout component={TrendingContentOcta} />}
         />
-        <Route
+        {/* <Route
           path="/sunshine-trending-content"
           element={<LoginLayout component={TrendingContentOcta} />}
-        />
+        /> */}
         <Route
           path="/top-clients"
           element={<LoginLayout component={TopClients} />}

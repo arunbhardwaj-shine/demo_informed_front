@@ -12,6 +12,7 @@ const TrendingContent = () => {
   const [isDataFound, setIsDataFound] = useState(false);
   const [sectionLoader, setSectionLoader] = useState(false);
   const [apiCallStatus, setApiCallStatus] = useState(false);
+  const [isSunshineAccount,setIsSunshineAccount]=useState(localStorage.getItem("user_id")=="EtWPMu4 sPArPm9tsehC2Q=="?true:false)
 
   Highcharts.setOptions({
     colors: [
@@ -39,9 +40,11 @@ const TrendingContent = () => {
     setApiCallStatus(false);
     try {
       const requestBody = {
-        type: type,
+        // type: type,
+        type:isSunshineAccount?"sunshine": type,
       };
-      const response = await postData(ENDPOINT.CONTENT, requestBody);
+      let analyticsRoute=isSunshineAccount?ENDPOINT.USA_CONTENT:ENDPOINT.CONTENT
+      const response = await postData(analyticsRoute, requestBody);
       const hadData = response?.data?.data;
       if (hadData.length <= 0) {
         setIsDataFound(false);
@@ -116,6 +119,7 @@ const TrendingContent = () => {
             <div className="create-change-content spc-content analytic-charts">
               <div className="delivery-trends">
                 <div className="tabs_content_load">
+                  {!isSunshineAccount?
                   <Tabs
                     defaultActiveKey={activeTab.current}
                     onSelect={handleTabChange}
@@ -176,6 +180,16 @@ const TrendingContent = () => {
                       ) : null}
                     </Tab>
                   </Tabs>
+                  :
+                  isDataFound && data.length > 0 ? (
+                    <DocintelAccount
+                      data={activeTab.current == 1 ? data : null}
+                    />
+                  ) : apiCallStatus ? (
+                    <div className="no_found">
+                      <p>No Data Found</p>
+                    </div>
+                  ) : null}
                   {sectionLoader ? (
                     <div
                       className={
