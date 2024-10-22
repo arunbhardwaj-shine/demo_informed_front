@@ -747,6 +747,7 @@
   }
   &.sunshine{
     padding: 17px 0px 7px 8px;
+    margin: 0 0 0px;
     .sublink_left{
         flex: 0 0 635px;
         padding-right: 0px;
@@ -771,15 +772,36 @@
           .doc-content-main-box{
             margin: 20px auto 28px 22%;
           }
+          @media (max-width:1549px){
+            .doc-content-main-box{
+              margin: 20px auto 28px 13%;
+            }
+          }
+          @media (max-width:1199px){
+            .doc-content-main-box{
+              margin: 20px auto 28px 2%;
+            }
+          }
         }
       }
     } 
+    @media (max-width:1549px){
+      .sublink_left {
+        flex: 0 0 525px;
+      }
+    }
+    @media (max-width:1199px){
+      .sublink_left {
+        flex: 0 0 460px;
+      }
+    }
     .sublink_right{
-      padding:0 0 0 123px;
+      padding:0 12px 0 123px;
       .timeline-layout{
         &.crm-timeline{
           padding:0 0;
           border-radius: 0;
+          position: relative;
           .timeline-layout-inset{
             padding: 0 8px;
             border-radius: 15px;
@@ -789,7 +811,7 @@
             .timeline-right-list{
               overflow-y: auto;
               max-height: 70vh;
-              margin: 11px 0 0;
+              margin: 11px 0 10px;
               .timeline-right-header{
                 display: none;
               }
@@ -805,6 +827,17 @@
                 }
               } 
             }
+            .load_more {
+              margin: 0 auto!important;
+              box-sizing: border-box;
+              width: 90%;
+              left: 0;
+              right: 0;
+              background: rgb(255 255 255 / 52%);
+              bottom: 8px;
+              position: absolute;
+              z-index: 2;
+          }
           }
         }
         .timeline-block{
@@ -844,6 +877,16 @@
             } 
           } 
         } 
+      }
+    }
+    @media (max-width:1400px){
+      .sublink_right{
+        padding:0 12px 0 80px;
+      }
+    }
+    @media (max-width:1199px){
+      .sublink_right{
+        padding:0 12px 0 60px;
       }
     }
   }
