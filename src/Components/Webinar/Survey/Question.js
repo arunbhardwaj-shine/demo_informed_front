@@ -57,9 +57,9 @@ function Question(props) {
   } = props;
   const checkBoxOptions = [
     // { id: "YesNo", label: "Yes OR No" },
-    { id: "RADIO", label: "Multiple Choices(One Answer)" },
-    { id: "MULTIPLE", label: "Multiple Choices(Multiple Answer)" },
-    { id: "INPUT", label: "Free Text" },
+    { id: "RADIO", label: "Multiple Choices (One Answer)" },
+    { id: "MULTIPLE", label: "Multiple Choices (Multiple Answers)" },
+    { id: "INPUT", label: "Include Free Text" },
   ];
   const {
     question,

@@ -25897,8 +25897,9 @@ background-size: cover;
   }
 
   .poll-question .poll-question-create .form-check-inline {
-    gap: 15px;
-    margin-right: 21px;
+    gap: 6px;
+    margin-right: 10px;
+    padding-left: 12px;
   }
 
   .poll-question .poll-question-create .speaker-detail .display-result {
@@ -26376,8 +26377,8 @@ background-size: cover;
   }
 
   .poll-question .poll-question-create .form-check-inline {
-    gap: 10px;
-    margin-right: 15px;
+    gap: 6px;
+    margin-right: 8px;
   }
 
   .poster-url-detail .split-button-dropup>div:nth-child(3) {
@@ -26920,6 +26921,12 @@ background-size: cover;
   .crm-timeline .timeline-article-detail-full:after {
     width: calc(100% + 132px);
   }
+
+        .poll-question .poll-question-create .form-check-inline {
+          gap: 10px;
+          margin-right: 15px;
+          padding-left: 0;
+      }
 }
 
 @media only screen and (min-width: 1000px) and (max-width: 1500px) {
@@ -27373,7 +27380,7 @@ background-size: cover;
 
   .poll-question .poll-question-create .form-check-inline {
     gap: 14px;
-    margin-right: 22px;
+    margin-right: 16px;
   }
 
   .poll-question .poll-question-create .answer-option .options .row .form-control {
