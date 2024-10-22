@@ -184,7 +184,7 @@ const SurveySublink = () => {
         survey_id: selectedSurveyId,
       });
 
-      console.log(res)
+    
       const survey_data = res?.data?.data;
 
       if (survey_data.length > 0) {

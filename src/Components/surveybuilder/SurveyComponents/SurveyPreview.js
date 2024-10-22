@@ -169,7 +169,7 @@ const SurveyPreview = (props) => {
         return;
       }
     }
-    console.log("prom preview drop===>");
+ 
     if (type.trim()) {
       handleAddElement(type);
     }
@@ -184,7 +184,7 @@ const SurveyPreview = (props) => {
 
   const handleQuestionDragStart = (e, index) => {
     e.stopPropagation();
-    console.log("from the handlequetion drag ===>");
+ 
     
     setDraggedElementIndex(index);
   };
@@ -193,7 +193,7 @@ const SurveyPreview = (props) => {
   const handleQuestionDrop = (e, index) => {
     e.preventDefault();
 
-    console.log("from the quesion frop ====>");
+ 
     setSpecificIndex(index);
     if (draggedElementIndex !== null) {
       e.stopPropagation();
@@ -541,7 +541,7 @@ const SurveyPreview = (props) => {
                             key={index}
                             onMouseDown={(e) => {
                               if (isEdit) {
-                                  console.log("Key down event triggered, index:", index);
+                                
                                   e.stopPropagation();
                                   dispatch(setCurrentElementIndex(index));
                               }
