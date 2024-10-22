@@ -319,9 +319,11 @@ const CreateSetPopup = (props) => {
       templateList[findTemplateIndex].source_code = templateSaving;
   
       setTemplateList(templateList);
+      const language = selectOptions.language ? selectOptions.language : 0;
   
       const updatedTemplateData = {
-        language:selectOptions.language,  
+        // language:selectOptions.language, 
+        language, 
         popupData:templateList,
       };
 
