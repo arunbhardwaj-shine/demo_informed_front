@@ -14,7 +14,7 @@ export const UPDATE_SURVEY_ID = "UPDATE_SURVEY_ID";
 export const ADD_RES_QUESTION = "ADD_RES_QUESTION";
 export const EMPTY_REDUX_STATES = "EMPTY_REDUX_STATES";
 export const UPDATE_EDIT_DISABLE = "UPDATE_EDIT_DISABLE";
-export const ADD_AT_POSITION = "ADD_AT_POSITION";
+ 
 export const UPDATE_CURRENT_ELEMENT_INDEX="UPDATE_CURRENT_ELEMENT_INDEX"
 
 export const addElement = (type,index) => ({
@@ -94,10 +94,7 @@ export const updateEditDisable = (value) => ({
   payload: value,
 });
 
-export const addElementAtPosition = (index) => ({
-  type: ADD_AT_POSITION,
-  payload: index,
-});
+ 
 
 export const updateCurrentElementIndex=()=>({
   type:UPDATE_CURRENT_ELEMENT_INDEX

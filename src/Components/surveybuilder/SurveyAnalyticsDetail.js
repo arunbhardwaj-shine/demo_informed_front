@@ -225,6 +225,7 @@ const SurveyAnalyticsDetail = () => {
       setApiStatus(true);
       const res = await surveyAxiosInstance.post("/survey/qns-analytics", {
         survey_id: stateData?.survey_id,
+        unique_code:stateData?.unique_code
       });
       let data = res?.data?.data;
       let valueupdate = { ...options };
@@ -272,6 +273,7 @@ const SurveyAnalyticsDetail = () => {
         "/survey/survey-takers-over-time",
         {
           survey_id: stateData?.survey_id,
+          unique_code:stateData?.unique_code
         }
       );
 
@@ -308,6 +310,7 @@ const SurveyAnalyticsDetail = () => {
         "/survey/analytic-qns-detail",
         {
           survey_id: stateData?.survey_id,
+          unique_code:stateData?.unique_code
         }
       );
       const data = res?.data?.data?.allData;
@@ -470,6 +473,7 @@ const SurveyAnalyticsDetail = () => {
           "/survey/survey-takers-status",
           {
             survey_id: stateData?.survey_id,
+            unique_code:stateData?.unique_code
           }
         );
         

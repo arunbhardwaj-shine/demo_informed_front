@@ -331,21 +331,31 @@ export const UpdateQuestion = async (questionId) => {
   }
 };
 
-export const analyticButtonClicked = (data,navigate) => {
+export const analyticButtonClicked = (data, navigate, addUniqueCode) => {
+  console.log(data, "from analyticd button clicked");
   let item = {
     Title: data?.survey_title,
     survey_id: data?.survey_id,
     CreatedDate: data?.date,
   };
+  if (addUniqueCode) {
+    item = {
+      ...item,
+      unique_code: data?.unique_code,
+    };
+  } else {
+    item = {
+      ...item,
+      unique_code: undefined,
+    };
+  }
   navigate("/survey/survey-analytics-detail", { state: { item } });
 };
 
-
 // "This function checks whether a valid user submitted the survey or if an anonymous user submitted it. based on ip "
-export const ValidateIPaddress = (isIpaddress) => {  
-  if (/(\d{1,3}\.){3}\d{1,3}/.test(isIpaddress)) {  
-    return (true)  
-  }  
-  return (false)  
-}  
-
+export const ValidateIPaddress = (isIpaddress) => {
+  if (/(\d{1,3}\.){3}\d{1,3}/.test(isIpaddress)) {
+    return true;
+  }
+  return false;
+};

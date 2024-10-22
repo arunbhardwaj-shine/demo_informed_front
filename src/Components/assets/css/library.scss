@@ -45,11 +45,13 @@
             }
           }
 
-          h6.tab-content-title {
-            font-weight: 500;
-            color: rgba(0, 74, 137, 0.55);
-            flex: 0 0 100px;
-            margin: 0;
+          h6{
+            &.tab-content-title {
+              font-weight: 500;
+              color: rgba(0, 74, 137, 0.55);
+              flex: 0 0 100px;
+              margin: 0;
+            }
           }
         }
 
@@ -132,8 +134,7 @@
       }
 
       p {
-        font-size: 12px;
-        line-height: 14px;
+        @include p;
         color: $library-box-heading;
         margin: 0 0 8px;
       }
@@ -143,11 +144,11 @@
 
         div {
           background: $light-blue;
+          color: $primary-color;
           border-radius: 3px;
           font-weight: 300;
           font-size: 11px;
           line-height: 13px;
-          color: $primary-color;
           margin: 0 8px 5px 0;
           padding: 2px 10px;
         }
@@ -201,13 +202,13 @@
               border-radius: 20px 20px 0 0;
 
               &:after {
+                content: "";
                 background: $white;
                 right: 0;
                 top: auto;
                 height: 22px;
                 border-radius: 0px;
                 bottom: -14px;
-                content: "";
                 position: absolute;
                 width: 30px;
                 display: block;
@@ -235,27 +236,27 @@
             &:before {
               content: "";
               background: url(../images/box-left-shape.png) no-repeat;
-              width: 34px;
+              background-size: 34px;
               position: absolute;
+              width: 34px;
               height: 34px;
               top: 1px;
               left: -18px;
               border-radius: 0;
               z-index: -1;
-              background-size: 34px;
             }
 
             &:after {
               content: "";
               background: url(../images/box-right-shape.png) no-repeat;
-              width: 34px;
               position: absolute;
+              background-size: 34px;
+              width: 34px;
               height: 34px;
               top: 1px;
               right: -18px;
               border-radius: 0;
               z-index: -1;
-              background-size: 34px;
             }
           }
         }
@@ -365,16 +366,18 @@
               .dropdown-menu {
                 @include split-btn-dropdown;
 
-                a.dropdown-item {
-                  color: $dark-blue;
-                  border-radius: 15px;
-                  cursor: pointer;
-                  margin: 0 0 2px;
-                  word-break: break-word;
-                  white-space: normal;
-                  font-size: 14px;
-                  line-height: 15px;
-                  padding: 3px 7px;
+                a{
+                  .dropdown-item {
+                    color: $dark-blue;
+                    border-radius: 15px;
+                    cursor: pointer;
+                    margin: 0 0 2px;
+                    word-break: break-word;
+                    white-space: normal;
+                    font-size: 14px;
+                    line-height: 15px;
+                    padding: 3px 7px;
+                  }
                 }
               }
             }
@@ -406,10 +409,10 @@
                       color: $primary-color;
                       font-size: 14px;
                       line-height: 17px;
-                      padding: 0.3rem 1rem;
                       border-radius: 15px;
-                      cursor: pointer;
+                      padding: 0.3rem 1rem;
                       margin: 0 0 2px;
+                      cursor: pointer;
                       word-break: break-word;
                       white-space: normal;
                     }
@@ -462,21 +465,23 @@
           }
         }
 
-        h6.tab-content-title {
-          font-weight: 500;
-          color: $library-box-heading;
-          flex: 0 0 122px;
-          word-break: break-word;
-          margin: 0;
+        h6{
+          &.tab-content-title {
+            font-weight: 500;
+            color: $library-box-heading;
+            flex: 0 0 122px;
+            word-break: break-word;
+            margin: 0;
+        
+            img {
+              width: 12px;
+              margin-left: 4px;
 
-          img {
-            width: 12px;
-            margin-left: 4px;
-
-            &.library_go {
-              margin: 0;
-              width: 100%;
-              max-width: 70px;
+              &.library_go {
+                margin: 0;
+                width: 100%;
+                max-width: 70px;
+              }
             }
           }
         }
@@ -692,7 +697,6 @@
         margin: 0;
         flex: 0 0 200px;
         align-self: center;
-        // padding: 16px 0 0;
         font-size: 16px;
       }
 
@@ -700,12 +704,6 @@
         max-width: 100%;
         flex: 1 1;
       }
-
-      // textarea {
-      //   &.form-control {
-      //     min-height: 139px;
-      //   }
-      // }
 
       .dropdown-basic-button {
         flex: 1 1;
@@ -2861,22 +2859,25 @@ ul.tab-mail-list.data span.total-left small {
   }
 }
 
-#download-qr .modal-body .form-group textarea {
-  resize: none;
-}
-
-.update_logs #download-qr .modal-body .form-group label {
-  flex: 0 0 115px;
-}
-
-.update_logs #download-qr .modal-body .form-group .login-validation {
-  position: static;
-  margin: 5px 0 0;
-}
-
-.update_logs #download-qr .modal-body .form-group textarea {
-  border-radius: 15px;
-  min-height: 160px;
+.update_logs {
+	#download-qr {
+		.modal-body {
+			.form-group {
+				label {
+					flex: 0 0 115px;
+				}
+				.login-validation {
+					position: static;
+					margin: 5px 0 0;
+				}
+				textarea {
+					border-radius: 15px;
+					min-height: 160px;
+					resize: none;
+				}
+			}
+		}
+	}
 }
 
 .update_logs ::-webkit-scrollbar {
@@ -8016,7 +8017,7 @@ header.top-0~div .template_builder-option.library-cosent.sticky-view {
 .content_analytics_accordian .accordion-button:not(.collapsed) {
   color: #1c3d7c;
   background-color: $white;
-  box-shadow: 0px 2px 10px 0px rgba(0, 102, 190, 0.2);
+  box-shadow: $library-box-shadow;
 }
 
 .content_analytics_accordian .accordion-header {
@@ -8063,7 +8064,7 @@ header.top-0~div .template_builder-option.library-cosent.sticky-view {
 .content_analytics_accordian .accordion-collapse .accordion-body .accordion .accordion-body {
   padding: 0;
   border-color: $white;
-  box-shadow: 0px 2px 10px 0px rgba(0, 102, 190, 0.2);
+  box-shadow: $library-box-shadow;
   border-radius: 0 0 7px 7px;
   border: 0;
   overflow: hidden;
@@ -8231,7 +8232,7 @@ caption.highcharts-table-caption {
   color: #1c3d7c;
   font-weight: 500;
   font-size: 20px;
-  box-shadow: 0px 2px 10px 0px rgba(0, 102, 190, 0.2);
+  box-shadow: $library-box-shadow;
   border-radius: 8px !important;
 }
 
