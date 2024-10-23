@@ -331,7 +331,7 @@ const CreateSetPopup = (props) => {
   
       try {
         const res = await postData(ENDPOINT.UPDATEPOPUPTEMPLATE, updatedTemplateData);
-        if (res?.data?.status === 200 ) {
+        if (res?.data?.status === 200 || res?.data?.status === 201 ) {
           toast.success("Popup updated successfully.");
         } else {
           toast.error("Failed to update the popup.");
