@@ -140,7 +140,7 @@ const navigate=useNavigate();
                       </div>
                       <Button
                         className={"btn-bordered send-new"}
-                        onClick={() => analyticButtonClicked(data,navigate)}
+                        onClick={() => analyticButtonClicked(data,navigate,"true")}
                       >
                         Analytics
                       </Button>
