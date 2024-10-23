@@ -10,9 +10,12 @@ import Select from "react-select";
 import { Button } from "react-bootstrap";
 
 const validExtensions = ["png", "jpeg", "jpg", "gif"];
+
 export const surveyAxiosInstance = axios.create({
   baseURL: process.env.REACT_APP_API_KEY_NEW_SURVEY,
 });
+
+
 export const saveAsDraft = async (e, draft, pathname, navigate) => {
   e.preventDefault();
   let liveFlag = draft == 0 ? 0 : 1;

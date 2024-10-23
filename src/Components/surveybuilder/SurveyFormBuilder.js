@@ -63,7 +63,6 @@ const SurveyFormBuilder = (props) => {
   const [newSavedTemplateName, setNewSavedTemplateName] = useState("");
   const [error, setError] = useState({});
   const [savednewCustomTempflag, setsavednewCustomTempflag] = useState(0);
-
   const updateTemplatesData = async (updatedTemp, saveNewTemplate) => {
     if (
       customHtmlData &&
@@ -76,13 +75,16 @@ const SurveyFormBuilder = (props) => {
         } else {
           let updatedcustomhtmldata = {
             ...customHtmlData,
-            header_background_image:
-              template.default_values.header_background_image,
-            header_background_type:
-              template.default_values.header_background_type,
-            header_background_color:
-              template.default_values.header_background_color,
-            template_name: template.default_values.template_name,
+            header_background_image: template.default_values?.header_background_image,
+            header_background_type: template.default_values?.header_background_type,
+            header_background_color: template.default_values?.header_background_color,
+            template_name: template.default_values?.template_name,
+            button_color: template.default_values?.button_color,
+            title_color: template.default_values?.title_color,
+            question_answer_color: template.default_values?.question_answer_color,
+            page_background_color: template.default_values?.page_background_color,
+            logoWidth: template.default_values?.logoWidth,
+            bodyTextColor: template.default_values?.bodyTextColor
           };
           return { ...template, default_values: updatedcustomhtmldata };
         }
