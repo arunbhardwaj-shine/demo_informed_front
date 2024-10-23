@@ -20,6 +20,7 @@ import html2canvas from "html2canvas";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { ValidateIPaddress } from "./CommonFunctions/CommonFunction";
+import { countryRegionArray } from "./surveyObjects/SurveyRegion";
 
 exporting(Highcharts);
 exportData(Highcharts);
@@ -225,7 +226,7 @@ const SurveyAnalyticsDetail = () => {
       setApiStatus(true);
       const res = await surveyAxiosInstance.post("/survey/qns-analytics", {
         survey_id: stateData?.survey_id,
-        unique_code:stateData?.unique_code
+        unique_code: stateData?.unique_code,
       });
       let data = res?.data?.data;
       let valueupdate = { ...options };
@@ -273,7 +274,7 @@ const SurveyAnalyticsDetail = () => {
         "/survey/survey-takers-over-time",
         {
           survey_id: stateData?.survey_id,
-          unique_code:stateData?.unique_code
+          unique_code: stateData?.unique_code,
         }
       );
 
@@ -310,7 +311,7 @@ const SurveyAnalyticsDetail = () => {
         "/survey/analytic-qns-detail",
         {
           survey_id: stateData?.survey_id,
-          unique_code:stateData?.unique_code
+          unique_code: stateData?.unique_code,
         }
       );
       const data = res?.data?.data?.allData;
@@ -473,10 +474,9 @@ const SurveyAnalyticsDetail = () => {
           "/survey/survey-takers-status",
           {
             survey_id: stateData?.survey_id,
-            unique_code:stateData?.unique_code
+            unique_code: stateData?.unique_code,
           }
         );
-        
 
         setSurveyTakerTableData(res?.data?.data);
         setSurveyTakerTableDataBackup(res?.data?.data);
@@ -732,12 +732,6 @@ const SurveyAnalyticsDetail = () => {
       console.log("--err", err);
     }
   };
-
-
- 
-
-
-
 
   return (
     <>
@@ -1705,13 +1699,24 @@ const SurveyAnalyticsDetail = () => {
                                             )
                                           }
                                         >
-                                          {
-                                            ValidateIPaddress(item?.name) ? <td>N/A</td> : <td>{item?.name ? item?.name : "N/A" }</td>
-                                          }
-                                           
-                                          
+                                          {ValidateIPaddress(item?.name) ? (
+                                            <td>N/A</td>
+                                          ) : (
+                                            <td>
+                                              {item?.name ? item?.name : "N/A"}
+                                            </td>
+                                          )}
+
                                           <td>{item?.email}</td>
-                                          <td>{item?.region}</td>
+
+                                          <td>
+                                            {countryRegionArray?.[item?.country]
+                                              ? countryRegionArray?.[
+                                                  item?.country
+                                                ]
+                                              : "N/A"}
+                                          </td>
+
                                           <td>{item?.country}</td>
                                           <td>
                                             {moment(item?.date).format(
