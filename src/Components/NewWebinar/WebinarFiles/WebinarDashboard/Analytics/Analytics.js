@@ -695,7 +695,7 @@ const Analytics = (props) => {
         });
       // const response = await postData(ENDPOINT.WEBINAR_EMAIL_COMPAIGN_LIST, body)
       let listData = response?.response?.data?.filter(
-        (item) => !item?.subject?.includes("Thank you for registering")
+        (item) => item?.status === 1 && !item?.subject?.includes("Thank you for registering")
       );
       setEmailListData(listData);
       let updateNewOptions = [];
@@ -1380,7 +1380,7 @@ const Analytics = (props) => {
                   <p>{eventData?.formattedEventStartDateTime}</p>
                 </div>
 
-                {(isOneSourceEvent == 1 && eventStatus == -1 && eventId >= 402) ? (
+                {(/*isOneSourceEvent == 1 &&&&*/ eventStatus == -1 && eventId >= 402) ? (
                   <Button
                     title="Download Site Engagements"
                     className="download filled"
@@ -2323,7 +2323,7 @@ const Analytics = (props) => {
               {emailListData?.map((data, index) => {
                 return (
                   <>
-                    <div
+                  <div
                       className="analytics_campaign"
                       id={`analytics_campaign_${index}`}
                     >
