@@ -3657,10 +3657,11 @@ const Sidebar = () => {
                           window.location.pathname == "/country-registration" ||
                           window.location.pathname == "/delivery-stats" ||
                           window.location.pathname == "/trending-topics" ||
-                          window.location.pathname == "/sunshine-trending-content" ||
+                          // window.location.pathname == "/sunshine-trending-content" ||
+                          window.location.pathname == "/trending-content" ||
                           window.location.pathname == "/content-type" ||
                           window.location.pathname == "/content-analytics" ||
-                          window.location.pathname == "/analytic-trending-topics" ||
+                          // window.location.pathname == "/analytic-trending-topics" ||
                           window.location.pathname == "/analytic-delivery-registration" ||
                           window.location.pathname == "/analytic-delivery-trends" ||
                           window.location.pathname == "/analytic-content-type" ||
@@ -3807,18 +3808,15 @@ const Sidebar = () => {
                             </li>
                             <li
                               className={
-                                location.pathname == "/trending-topics" ||
-                                  location.pathname == "/analytic-trending-topics"
+                                location.pathname == "/trending-topics"
                                   ? "active"
                                   : "side_li"
                               }
                             >
                               <Link
                                 to={
-                                  localStorage.getItem("user_id") ==
-                                    "B7SHpAc XDXSH NXkN0rdQ=="
-                                    ? "/trending-topics"
-                                    : "/analytic-trending-topics"
+                                   "/trending-topics"
+                                   
                                 }
                               >
                                 <svg
@@ -3847,14 +3845,16 @@ const Sidebar = () => {
                             </li>
                             <li
                               className={
-                                location.pathname == "/sunshine-trending-content" 
+                                // location.pathname == "/sunshine-trending-content" 
+                                location.pathname == "/trending-content" 
                                   ? "active"
                                   : "side_li"
                               }
                             >
                               <Link
                                 to={
-                                    "/sunshine-trending-content"
+                                    // "/sunshine-trending-content"
+                                     "/trending-content" 
                                 }
                               >
                                 <svg

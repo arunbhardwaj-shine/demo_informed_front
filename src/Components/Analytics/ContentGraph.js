@@ -320,6 +320,7 @@ const ContentGraph = () => {
                 style={{ padding: "10px" }}
               >
                 <div className="tabs_content_load">
+                  {!isSunshineAccount?
                   <Tabs
                     defaultActiveKey={activeTab.current}
                     onSelect={handleTabChange}
@@ -332,6 +333,7 @@ const ContentGraph = () => {
                       {" "}
                     </Tab>
                   </Tabs>
+                  :null}
 
                   {isDataFound && data.length > 0 ? (
                     <>

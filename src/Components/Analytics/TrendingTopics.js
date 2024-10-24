@@ -33,6 +33,7 @@ const TrendingTopics = () => {
   const activeTab = useRef(1);
   const [sectionLoader, setSectionLoader] = useState(false);
   const [apiCallStatus, setApiCallStatus] = useState(false);
+  const [isSunshineAccount,setIsSunshineAccount]=useState(localStorage.getItem("user_id")=="EtWPMu4 sPArPm9tsehC2Q=="?true:false)
   const [options, setOptions] = useState({
     chart: {
       marginTop: 100,
@@ -95,7 +96,8 @@ const TrendingTopics = () => {
       const requestBody = {
         type: type,
       };
-      const response = await postData(ENDPOINT.TRENDING_TOPIC, requestBody);
+      let analyticsRoute=isSunshineAccount?ENDPOINT.USA_TRENDING_TOPIC:ENDPOINT.TRENDING_TOPIC
+      const response = await postData(analyticsRoute, requestBody);
       const data = response.data;
       const graphData = JSON.parse(data.data[0].graph_data);
       setOptions((prevOptions) => ({
@@ -178,6 +180,7 @@ const TrendingTopics = () => {
             <div className="create-change-content spc-content analytic-charts">
                 <div className="delivery-trends">
                   <div className="tabs_content_load">
+                    {!isSunshineAccount?
                     <Tabs
                       defaultActiveKey={activeTab.current}
                       onSelect={handleTabChange}
@@ -188,6 +191,7 @@ const TrendingTopics = () => {
                       <Tab eventKey="4" title="Immunotherapy"></Tab>
                       <Tab eventKey="5" title="IBU"></Tab>
                     </Tabs>
+                    :null}
                     {sectionLoader ? (
                       <div
                         className={
