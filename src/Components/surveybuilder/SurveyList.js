@@ -29,6 +29,7 @@ import { popup_alert } from "../../popup_alert";
 import { updateLiveFlag } from "./CommonFunctions/CommonFunction";
 import QRCode from "qrcode.react";
 import { Spinner } from "react-activity";
+import { surveyEndpoints } from "./SurveyEndpoints/SurveyEndpoints";
 
 const SurveyList = (props) => {
   const rdLikeArray = [
@@ -36,6 +37,7 @@ const SurveyList = (props) => {
     "sNl1hra39QmFk9HwvXETJA==",
     "MXl8m36VZFYXpgFVz3Pg0g==",
   ];
+  const {FETCH_SURVEY_DATA,DUPLICATE_SURVEY,FETCH_SURVEY_SUBLINK,DELETE_ALL_DETAILS}=surveyEndpoints;
   const isLikeRdAccount = rdLikeArray.includes(localStorage.getItem("user_id"));
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -88,17 +90,16 @@ const SurveyList = (props) => {
   const fetchSurveyListing = async () => {
     try {
       loader("show");
-      let res = await surveyAxiosInstance.post("/survey/fetch-survey-data", {
+      let res = await surveyAxiosInstance.post(FETCH_SURVEY_DATA, {
         admin_id: "18207",
         survey_id: 0,
       });
-      const survey_data = res?.data?.data;
-
       // if(survey_data.length<1){
       //   showDeleteButtons()
       // }
 
-      if (res) {
+      if (res.status === 200) {
+        const survey_data = res?.data?.data;
         setOriginalSurveyData(survey_data);
         setIsData(survey_data);
       }
@@ -181,11 +182,13 @@ const SurveyList = (props) => {
         is_draft: 0,
       };
       const response = await surveyAxiosInstance.post(
-        "/survey/duplicate-survey",
+        DUPLICATE_SURVEY,
         body
       );
 
-      if (response) {
+      console.log(response ,"this is from duplicate")
+
+      if (response.status === 200) {
         window.location.reload();
       }
       loader("hide");
@@ -203,11 +206,12 @@ const SurveyList = (props) => {
         setApiStatus(true);
         setSectionLoaderIndex(survey_id);
         const res = await surveyAxiosInstance.post(
-          "/survey/fetch-survey-sublink",
+          FETCH_SURVEY_SUBLINK,
           { survey_id }
         );
 
-        let codearr = [];
+        if(res.status === 200){
+          let codearr = [];
         res?.data?.data.forEach((item) => {
           codearr.push({
             value: item.sublink_id,
@@ -227,7 +231,12 @@ const SurveyList = (props) => {
         });
 
         // loader("hide");
+       
+
+        }
         setApiStatus(false);
+
+        
       } catch (err) {
         console.log("--err", err);
         toast.error("Something went wrong");
@@ -364,11 +373,13 @@ const SurveyList = (props) => {
     try {
       loader("show");
       const res = await surveyAxiosInstance.post(
-        `/survey/delete-all-details`,
+        DELETE_ALL_DETAILS,
         body
       );
 
-      if (res) {
+      console.log(res,"this is fromdelete survey")
+
+      if (res.status === 200) {
         hideConfirmationModal();
         const surveyAfterDeleted = getoriginalSurveylistdata.filter((item) => {
           return item.survey_id != deletecardid;

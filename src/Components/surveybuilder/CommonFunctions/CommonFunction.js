@@ -6,15 +6,26 @@ import { Form } from "react-bootstrap";
 import "../../../Components/assets/css/survey.scss";
 import "../../../Components/assets/fonts/fonts.css";
 import Select from "react-select";
-
+import { surveyEndpoints } from "../SurveyEndpoints/SurveyEndpoints";
 import { Button } from "react-bootstrap";
+
+const {
+  INSERT_SURVEY_DATA,
+  INSERT_TMPLATE_DATA,
+  SURVEY_CONFIG_INFORMATION,
+  INSERT_QUESTION_DETAIL,
+  INSERT_FINAL_INFORMATION,
+  SURVEY_DRAFT_INFORMATION,
+  IMAGE_UPLOAD_AWS,
+  UPDATE_LIVE_FLAG,
+  DELETE_SURVEY_QUESTION
+} = surveyEndpoints;
 
 const validExtensions = ["png", "jpeg", "jpg", "gif"];
 
 export const surveyAxiosInstance = axios.create({
   baseURL: process.env.REACT_APP_API_KEY_NEW_SURVEY,
 });
-
 
 export const saveAsDraft = async (e, draft, pathname, navigate) => {
   e.preventDefault();
@@ -30,19 +41,19 @@ export const saveAsDraft = async (e, draft, pathname, navigate) => {
       const body = {
         ...currentPagesData.setUpData,
         survey_id: survey_id,
-        tags: JSON.stringify(currentPagesData.setUpData.tags),
+        tags: JSON.stringify(currentPagesData?.setUpData?.tags),
         unique_code: unique_code,
       };
 
       try {
         const res = await surveyAxiosInstance.post(
-          "/survey/insert-survey-data",
+          INSERT_SURVEY_DATA,
           body
         );
 
-        if (res) {
-          unique_code = res.data.data.unique_code;
-          survey_id = res.data.data.survey_id;
+        if (res.status === 200) {
+          unique_code = res?.data?.data?.unique_code;
+          survey_id = res?.data?.data?.survey_id;
         }
       } catch (error) {
         loader("hide");
@@ -64,7 +75,7 @@ export const saveAsDraft = async (e, draft, pathname, navigate) => {
           template_status: 0,
         };
         const response = await surveyAxiosInstance.post(
-          "/survey/insert-custom-template",
+          INSERT_TMPLATE_DATA,
           body
         );
       } catch (error) {
@@ -83,7 +94,7 @@ export const saveAsDraft = async (e, draft, pathname, navigate) => {
       const body = { ...currentPagesData.surveyConfigData, survey_id };
       try {
         const response = await surveyAxiosInstance.post(
-          "/survey/survey-config-information",
+          SURVEY_CONFIG_INFORMATION,
           body
         );
       } catch (error) {
@@ -105,7 +116,7 @@ export const saveAsDraft = async (e, draft, pathname, navigate) => {
 
       try {
         const response = await surveyAxiosInstance.post(
-          "/survey/insert-question-detail",
+          INSERT_QUESTION_DETAIL,
           body
         );
       } catch (error) {
@@ -125,7 +136,7 @@ export const saveAsDraft = async (e, draft, pathname, navigate) => {
 
       try {
         const response = await surveyAxiosInstance.post(
-          "/survey/insert-Final-information",
+          INSERT_FINAL_INFORMATION,
           body
         );
       } catch (error) {
@@ -147,11 +158,11 @@ export const saveAsDraft = async (e, draft, pathname, navigate) => {
     };
 
     const response = await surveyAxiosInstance.post(
-      "/survey/survey-draft-information",
+      SURVEY_DRAFT_INFORMATION,
       body
     );
 
-    if (response) {
+    if (response.status === 200) {
       navigate("/survey/survey-list");
     }
   } catch (error) {
@@ -163,8 +174,10 @@ export const saveAsDraft = async (e, draft, pathname, navigate) => {
 };
 
 export const uploadImageToServer = async (file, fileInputRef) => {
+
   if (file) {
     try {
+     
       const extension = file.name.split(".").pop().toLowerCase();
       if (!validExtensions.includes(extension)) {
         throw new Error(
@@ -173,21 +186,21 @@ export const uploadImageToServer = async (file, fileInputRef) => {
       }
       const formData = new FormData();
       formData.append("file", file);
-      loader("show");
+       
       const res = await surveyAxiosInstance.post(
-        "/survey/image-uploadaws",
+        IMAGE_UPLOAD_AWS,
         formData
       );
       if (fileInputRef && fileInputRef.current) {
         fileInputRef.current.value = "";
       }
-      if (res) {
-        loader("hide");
+      
+      if (res.status === 200) {
         return res.data.data;
       }
-      loader("hide");
+   
     } catch (error) {
-      loader("hide");
+       
       toast.error("Something went wrong");
     }
   }
@@ -197,11 +210,13 @@ export const updateLiveFlag = async (survey_id, flag) => {
   const body = { survey_id: survey_id, status: flag };
   try {
     const response = await surveyAxiosInstance.post(
-      "/survey/update-live-flag",
+      UPDATE_LIVE_FLAG,
       body
     );
+    if(response.status === 200){
+      return true;
+    }
 
-    return true;
   } catch (error) {
     loader("hide");
     toast.error("Something went wrong");
@@ -320,7 +335,7 @@ export const UpdateQuestion = async (questionId) => {
     loader("show");
     if (questionId != 0) {
       const response = surveyAxiosInstance.post(
-        "/survey/delete-survey-question",
+        DELETE_SURVEY_QUESTION,
         {
           questionId,
         }

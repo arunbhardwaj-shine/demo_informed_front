@@ -13,8 +13,10 @@ import { Link, useLocation } from "react-router-dom";
 import { loader } from "../../loader";
 import { surveyAxiosInstance } from "./CommonFunctions/CommonFunction";
 import moment from "moment";
+import { surveyEndpoints } from "./SurveyEndpoints/SurveyEndpoints";
 
 const SurveyAnalytics = () => {
+  const {SURVEY_ANALYTIC_DETAILS}=surveyEndpoints
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const { state } = useLocation();
   const [filterdata, setFilterData] = useState([]);
@@ -70,7 +72,7 @@ const getSurveyAnalyticsDetail=async()=>{
   try{
     loader("show")
     setApiStatus(true)
-    const res=await surveyAxiosInstance.post("/survey/survey-analytic-details", {
+    const res=await surveyAxiosInstance.post(SURVEY_ANALYTIC_DETAILS, {
       admin_id: "18207"
     });
     const data=res?.data?.data?.allDetails

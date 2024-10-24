@@ -9,12 +9,13 @@ import { loader } from "../../loader";
 import { connect } from "react-redux";
 import { toast } from "react-toastify";
 import { surveyAxiosInstance } from "./CommonFunctions/CommonFunction";
+import { surveyEndpoints } from "./SurveyEndpoints/SurveyEndpoints";
 
 var surveySetupData = {};
 
 const SurveySetup = (props) => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
-
+  const {FETCH_ALL_TAGS,INSERT_SURVEY_CREATOR,GET_CREATOR}=surveyEndpoints;
   const [isSelected, setIsSelected] = useState(false);
   const [show, setShow] = useState(false);
   const [modalCounter, setModalCounter] = useState(0);
@@ -147,7 +148,7 @@ const SurveySetup = (props) => {
       loader("show");
 
       await surveyAxiosInstance
-        .post("/survey/fetch-All-tags", body)
+        .post(FETCH_ALL_TAGS, body)
         .then((res) => {
           setAllTags(res?.data?.data);
           loader("hide");
@@ -186,11 +187,11 @@ const SurveySetup = (props) => {
     try {
       loader("show");
       const res = await surveyAxiosInstance.post(
-        "/survey/insert-survey-creator",
+        INSERT_SURVEY_CREATOR,
         { user_id: "18207", creator_name: addCreater?.label }
       );
 
-      if (res) {
+      if (res.status === 200) {
         setAddCreator({ label: "", value: "" });
         await fetchCreaters();
         setCount(1);
@@ -216,11 +217,11 @@ const SurveySetup = (props) => {
   const fetchCreaters = async () => {
     try {
       loader("show");
-      const res = await surveyAxiosInstance.post("/survey/get-creator", {
+      const res = await surveyAxiosInstance.post(GET_CREATOR, {
         user_id: 18207,
       });
 
-      if (res) {
+      if (res.status === 200) {
         const creators = res.data.data.map((creator) => ({
           label: creator.creator_name,
           value: creator.id,
@@ -235,8 +236,9 @@ const SurveySetup = (props) => {
             },
           }));
         }
-        loader("hide");
+       
       }
+      loader("hide");
     } catch (error) {
       loader("hide");
       toast.error("Something went wrong");

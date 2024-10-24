@@ -14,11 +14,19 @@ import { saveAsDraft } from "./CommonFunctions/CommonFunction";
 import { surveyAxiosInstance } from "./CommonFunctions/CommonFunction";
 import { uploadImageToServer } from "./CommonFunctions/CommonFunction";
 import html2canvas from "html2canvas";
+import { surveyEndpoints } from "./SurveyEndpoints/SurveyEndpoints";
 const validExtensions = ["png", "jpeg", "jpg", "gif"];
 
 var surveyValues = {};
 
 const SurveyFormBuilder = (props) => {
+  const {
+    FETCH_SAVED_TEMPLATE,
+    IMAGE_UPLOAD_AWS,
+    DELETE_SURVEY_TEMPLATE,
+    INSERT_CUSTOM_TEMPLATE,
+  } = surveyEndpoints;
+
   const [elements, setElements] = useState([]);
   // let path = process.env.REACT_APP_ASSETS_PATH_INFORMED;
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -75,16 +83,21 @@ const SurveyFormBuilder = (props) => {
         } else {
           let updatedcustomhtmldata = {
             ...customHtmlData,
-            header_background_image: template.default_values?.header_background_image,
-            header_background_type: template.default_values?.header_background_type,
-            header_background_color: template.default_values?.header_background_color,
+            header_background_image:
+              template.default_values?.header_background_image,
+            header_background_type:
+              template.default_values?.header_background_type,
+            header_background_color:
+              template.default_values?.header_background_color,
             template_name: template.default_values?.template_name,
             button_color: template.default_values?.button_color,
             title_color: template.default_values?.title_color,
-            question_answer_color: template.default_values?.question_answer_color,
-            page_background_color: template.default_values?.page_background_color,
+            question_answer_color:
+              template.default_values?.question_answer_color,
+            page_background_color:
+              template.default_values?.page_background_color,
             logoWidth: template.default_values?.logoWidth,
-            bodyTextColor: template.default_values?.bodyTextColor
+            bodyTextColor: template.default_values?.bodyTextColor,
           };
           return { ...template, default_values: updatedcustomhtmldata };
         }
@@ -107,7 +120,7 @@ const SurveyFormBuilder = (props) => {
 
       const body = { account_id: 18207 };
       const response = await surveyAxiosInstance.post(
-        "/survey/fetch-saved-template",
+        FETCH_SAVED_TEMPLATE,
         body
       );
 
@@ -258,28 +271,31 @@ const SurveyFormBuilder = (props) => {
   };
 
   const TemplatePreviewUpload = async (file) => {
-    if (file) {
-      try {
-        const extension = file.name.split(".").pop().toLowerCase();
-        if (!validExtensions.includes(extension)) {
-          throw new Error(
-            "Invalid file extension. Please select a valid extension file."
-          );
-        }
-        const formData = new FormData();
-        formData.append("file", file);
+    const filePath = uploadImageToServer(file);
+    if (filePath) {
+      return filePath;
+    }
+  };
 
-        const res = await surveyAxiosInstance.post(
-          "/survey/image-uploadaws",
-          formData
-        );
-        if (res) {
-          return res.data.data;
-        }
-      } catch (error) {
-        loader("hide");
-        toast.error("Something went wrong");
-      }
+  const uploadCustomTempImages = async (e, key, imgInputRef) => {
+    try {
+      loader("show");
+
+      const result = await uploadImageToServer(e.target.files[0], imgInputRef);
+      setDynamicValues((prevState) => ({
+        ...prevState,
+        [key]: result,
+      }));
+      setTemplateDefaultValues((prevState) => ({
+        ...prevState,
+        [key]: result,
+      }));
+      setUserMadeChanges(true);
+      loader("hide");
+    } catch (error) {
+      console.log(error.message());
+      toast.error("Something went wrong");
+      loader("hide");
     }
   };
 
@@ -426,7 +442,7 @@ const SurveyFormBuilder = (props) => {
           survey_id: survey_id ?? 0,
         };
         const response = await surveyAxiosInstance.post(
-          "/survey/delete-survey-template",
+          DELETE_SURVEY_TEMPLATE,
           body
         );
 
@@ -571,36 +587,7 @@ const SurveyFormBuilder = (props) => {
     }));
   };
 
-  const handleImgFileChange = async (e) => {
-    const file = e.target.files[0];
-    handleUpload(file, setHeaderImgPath);
-  };
-
-  const handleLogoChange = async (e) => {
-    const file = e.target.files[0];
-    handleUpload(file, setHeaderLogoImgPath);
-  };
-
-  const handleUpload = async (file, setPath) => {
-    if (file) {
-      try {
-        const formData = new FormData();
-        formData.append("file", file);
-        loader("show");
-        const res = await surveyAxiosInstance.post(
-          "/survey/image-uploadaws",
-          formData
-        );
-        setPath(res.data.data);
-
-        setUserMadeChanges(true);
-        loader("hide");
-      } catch (error) {
-        loader("hide");
-        toast.error("Something went wrong");
-      }
-    }
-  };
+   
 
   const backHandler = () => {
     setCurrentTemplate(false);
@@ -632,7 +619,8 @@ const SurveyFormBuilder = (props) => {
     if (changeTitleToggle && dynamicValues.main_heading === "") {
       setDynamicValues((prev) => ({
         ...prev,
-        main_heading: dynamicValues.main_heading || templateDefaultValues.main_heading ,
+        main_heading:
+          dynamicValues.main_heading || templateDefaultValues.main_heading,
       }));
     }
   };
@@ -718,7 +706,7 @@ const SurveyFormBuilder = (props) => {
         }
 
         const response = await surveyAxiosInstance.post(
-          "/survey/insert-custom-template",
+          INSERT_CUSTOM_TEMPLATE,
           {
             ...body,
             survey_id: 0,
@@ -842,27 +830,16 @@ const SurveyFormBuilder = (props) => {
                                       </div>
                                       <div className="input-file-container">
                                         <input
-                                         ref={backgroundImgref}
+                                          ref={backgroundImgref}
                                           type="file"
                                           name="file"
                                           className="input-file"
                                           onInput={async (e) => {
-                                            const result =
-                                              await uploadImageToServer(
-                                                e.target.files[0],
-                                                backgroundImgref
-                                              );
-                                            setDynamicValues((prevState) => ({
-                                              ...prevState,
-                                              header_background_image: result,
-                                            }));
-                                            setTemplateDefaultValues(
-                                              (prevState) => ({
-                                                ...prevState,
-                                                header_background_image: result,
-                                              })
+                                            uploadCustomTempImages(
+                                              e,
+                                              "header_background_image",
+                                              backgroundImgref
                                             );
-                                            setUserMadeChanges(true);
                                           }}
                                         ></input>
                                         <label
@@ -943,27 +920,16 @@ const SurveyFormBuilder = (props) => {
                                     </div>
                                     <div className="input-file-container">
                                       <input
-                                      ref={logoImgRef}
+                                        ref={logoImgRef}
                                         type="file"
                                         name="file"
                                         className="input-file"
                                         onInput={async (e) => {
-                                          const result =
-                                            await uploadImageToServer(
-                                              e.target.files[0],
-                                              logoImgRef
-                                            );
-                                          setDynamicValues((prevState) => ({
-                                            ...prevState,
-                                            logo: result,
-                                          }));
-                                          setTemplateDefaultValues(
-                                            (prevState) => ({
-                                              ...prevState,
-                                              logo: result,
-                                            })
+                                          uploadCustomTempImages(
+                                            e,
+                                            "logo",
+                                            logoImgRef
                                           );
-                                          setUserMadeChanges(true);
                                         }}
                                       ></input>
                                       <label
@@ -1019,7 +985,10 @@ const SurveyFormBuilder = (props) => {
                                 {changeTitleToggle && (
                                   <div className="text-editor">
                                     <QuestionEditor
-                                      value={ dynamicValues.main_heading || templateDefaultValues.main_heading}
+                                      value={
+                                        dynamicValues.main_heading ||
+                                        templateDefaultValues.main_heading
+                                      }
                                       handleUpdateElement={updateElement}
                                       index={index}
                                       Placeholder=""
@@ -1082,7 +1051,10 @@ const SurveyFormBuilder = (props) => {
                                 {changeBodyToggle && (
                                   <div className="text-editor">
                                     <QuestionEditor
-                                      value={dynamicValues.bodyText  || templateDefaultValues.bodyText}
+                                      value={
+                                        dynamicValues.bodyText ||
+                                        templateDefaultValues.bodyText
+                                      }
                                       handleUpdateElement={updateBody}
                                       index={index}
                                       Placeholder=""
@@ -1117,7 +1089,10 @@ const SurveyFormBuilder = (props) => {
                                 {changeFooterToggle && (
                                   <div className="text-editor">
                                     <QuestionEditor
-                                      value={dynamicValues.main_footer || templateDefaultValues.main_footer}
+                                      value={
+                                        dynamicValues.main_footer ||
+                                        templateDefaultValues.main_footer
+                                      }
                                       handleUpdateElement={updateFooter}
                                       index={index}
                                       Placeholder=""
@@ -1542,7 +1517,8 @@ const SurveyFormBuilder = (props) => {
               type="button"
               className="btn btn-primary save btn-filled"
               onClick={(e) => {
-                if (newSavedTemplateName === "") {
+                console.log(newSavedTemplateName);
+                if (!newSavedTemplateName.trim()) {
                   setError({
                     addTemplateName: "Please add template Name",
                   });
@@ -1562,7 +1538,6 @@ const SurveyFormBuilder = (props) => {
 
 const mapStateToProps = (state) => {
   surveyValues = state?.getSurveyData;
-
   return state;
 };
 
