@@ -587,51 +587,7 @@ const SurveyFormBuilder = (props) => {
     }));
   };
 
-  // const handleImgFileChange = async (e) => {
-  //   const file = e.target.files[0];
-  //   // handleUpload(file, setHeaderImgPath);
-  // };
-
-  // const handleLogoChange = async (e) => {
-  //   const file = e.target.files[0];
-  //   // handleUpload(file, setHeaderLogoImgPath);
-  // };
-
-  // const handleUpload = async (file, setPath) => {
-  //   const filePath = await uploadImageToServer(file);
-  //   if (filePath) {
-  //     setPath(filePath);
-  //     setUserMadeChanges(true);
-  //   }
-
-  // if (file) {
-  //   try {
-  //     const extension = file.name.split(".").pop().toLowerCase();
-  //     if (!validExtensions.includes(extension)) {
-  //       throw new Error(
-  //         "Invalid file extension. Please select a valid extension file."
-  //       );
-  //     }
-  //     const formData = new FormData();
-  //     formData.append("file", file);
-  //     loader("show");
-  //     const res = await surveyAxiosInstance.post(
-  //       IMAGE_UPLOAD_AWS,
-  //       formData
-  //     );
-
-  //     if(res.status === 200){
-  //       setPath(res.data.data);
-  //       setUserMadeChanges(true);
-  //     }
-
-  //     loader("hide");
-  //   } catch (error) {
-  //     loader("hide");
-  //     toast.error("Something went wrong");
-  //   }
-  // }
-  // };
+   
 
   const backHandler = () => {
     setCurrentTemplate(false);
