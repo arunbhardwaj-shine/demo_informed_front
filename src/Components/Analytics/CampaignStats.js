@@ -20,10 +20,11 @@ const  CampaignStats = () => {
   const [newData, setNewData] = useState([]);
   const [pieData, setPieData] = useState({});
 
-  const [isDataFound, setIsDataFound] = useState(false);
+  const [isDataFound, setIsDataFound] = useState(true);
   const [isLoaded, setIsLoaded] = useState(false);
   const selectFilter = useRef(null);
   const [newValue, setNewValue] = useState([]);
+  const [isSunshineAccount,setIsSunshineAccount]=useState(localStorage.getItem("user_id")=="EtWPMu4 sPArPm9tsehC2Q=="?true:false)
   
   const [campaignStatsPieOptions, setCampaignStatsPieOptions] = useState({
     chart: {
@@ -94,7 +95,7 @@ const  CampaignStats = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
     initiFun();
-    getDataFromApi();
+    // getDataFromApi();
   }, []);
 
 
@@ -104,7 +105,8 @@ const  CampaignStats = () => {
  const initiFun = async () => {
   try {
     loader("show");
-    const result = await getData(ENDPOINT.CAMPAINGSTAT);
+    let analyticsRoute=isSunshineAccount?ENDPOINT.USA_CAMPAINGSTAT:ENDPOINT.CAMPAINGSTAT
+    const result = await getData(analyticsRoute);
      
     const newSeries = result?.data?.data.map((element, index) => ({
       name: element.label,
@@ -531,6 +533,7 @@ setCampaignStatsPieOptions({
               </div>
               <div className="create-change-content spc-content analytic-charts">
                 <div className="high_charts">
+                  {console.log("campaignStatsPieOptions-->",campaignStatsPieOptions)}
                   <HighchartsReact
                     highcharts={Highcharts}
                     options={campaignStatsPieOptions}

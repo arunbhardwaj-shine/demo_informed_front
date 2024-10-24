@@ -3662,7 +3662,7 @@ const Sidebar = () => {
                           window.location.pathname == "/content-type" ||
                           window.location.pathname == "/content-analytics" ||
                           // window.location.pathname == "/analytic-trending-topics" ||
-                          window.location.pathname == "/analytic-delivery-registration" ||
+                          // window.location.pathname == "/analytic-delivery-registration" ||
                           window.location.pathname == "/analytic-delivery-trends" ||
                           window.location.pathname == "/analytic-content-type" ||
                           window.location.pathname == "/campaign-stats" ? (
@@ -3728,19 +3728,13 @@ const Sidebar = () => {
                             </li>
                             <li
                               className={
-                                location.pathname == "/campaign-stats" ||
-                                  location.pathname == "/analytic-delivery-registration"
+                                location.pathname == "/campaign-stats" 
                                   ? "active"
                                   : "side_li"
                               }
                             >
                               <Link
-                                to={
-                                  localStorage.getItem("user_id") ==
-                                    "B7SHpAc XDXSH NXkN0rdQ=="
-                                    ? "/campaign-stats"
-                                    : "/analytic-delivery-registration"
-                                }
+                                to={"/campaign-stats"}
                               >
                                 <svg
                                   version="1.0"

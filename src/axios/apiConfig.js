@@ -240,4 +240,5 @@ export const ENDPOINT = {
   USA_CONTENT_TYPE: "analytics/usaContentTypeData",
   USA_CONTENT_TYPE_GRAPH: "/analytics/usa-content-type-graph",
   USA_TRENDING_TOPIC: "analytics/usa_topic",
+  USA_CAMPAINGSTAT: "analytics/usa-delivery-campaign-stats",
 };
