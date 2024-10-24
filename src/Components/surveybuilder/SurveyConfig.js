@@ -10,8 +10,10 @@ import { toast } from "react-toastify";
 import { loader } from "../../loader";
 import { surveyAxiosInstance } from "./CommonFunctions/CommonFunction";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import { surveyEndpoints } from "./SurveyEndpoints/SurveyEndpoints";
 var surveyValues = {};
 const SurveyConfig = (props) => {
+  const {IMAGE_UPLOAD_AWS}=surveyEndpoints
   const [elements, setElements] = useState([]);
   // let path = process.env.REACT_APP_ASSETS_PATH_INFORMED;
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -97,7 +99,7 @@ const SurveyConfig = (props) => {
 
         loader("show");
         const response = await surveyAxiosInstance.post(
-          "/survey/image-uploadaws",
+          IMAGE_UPLOAD_AWS,
           uploadFormData,
           {
             headers: {
@@ -106,16 +108,19 @@ const SurveyConfig = (props) => {
           }
         );
 
-        setFormData((prevData) => ({
-          ...prevData,
-          selectedThumbnailFilePath: response?.data?.data,
-        }));
+        if(response.status === 200){
+          setFormData((prevData) => ({
+            ...prevData,
+            selectedThumbnailFilePath: response?.data?.data,
+          }));
+        } else {
+          toast.error("Please select valid image file");
+        }
+        }
         if (fileInputRef.current) {
           fileInputRef.current.value = "";
         }
-      } else {
-        toast.error("Please select valid image file");
-      }
+       
       loader("hide");
     } catch (error) {
       loader("hide");

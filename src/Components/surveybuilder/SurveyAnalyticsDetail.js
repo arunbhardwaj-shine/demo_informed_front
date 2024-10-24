@@ -21,10 +21,13 @@ import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { ValidateIPaddress } from "./CommonFunctions/CommonFunction";
 import { countryRegionArray } from "./surveyObjects/SurveyRegion";
+import { surveyEndpoints } from "./SurveyEndpoints/SurveyEndpoints";
 
 exporting(Highcharts);
 exportData(Highcharts);
 const SurveyAnalyticsDetail = () => {
+
+  const {QNS_ANALYTICS,SURVEY_TAKERS_OVER_TIME,ANALYTIC_QNS_DETAIL,SURVEY_TAKERS_STATUS,GET_DROPOFF_RESPONSES,TAKERS_RESPONSES_DETAIL}=surveyEndpoints
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const location = useLocation();
   const [stateData, setStateData] = useState(location?.state?.item);
@@ -224,7 +227,7 @@ const SurveyAnalyticsDetail = () => {
       setIsOverviewSkeleton(true);
       setIsOuestionDataSkeleton(true);
       setApiStatus(true);
-      const res = await surveyAxiosInstance.post("/survey/qns-analytics", {
+      const res = await surveyAxiosInstance.post(QNS_ANALYTICS, {
         survey_id: stateData?.survey_id,
         unique_code: stateData?.unique_code,
       });
@@ -271,7 +274,7 @@ const SurveyAnalyticsDetail = () => {
   const getLineChartDetails = async () => {
     try {
       const res = await surveyAxiosInstance.post(
-        "/survey/survey-takers-over-time",
+        SURVEY_TAKERS_OVER_TIME,
         {
           survey_id: stateData?.survey_id,
           unique_code: stateData?.unique_code,
@@ -308,7 +311,7 @@ const SurveyAnalyticsDetail = () => {
   const getTempQuestionData = async () => {
     try {
       const res = await surveyAxiosInstance.post(
-        "/survey/analytic-qns-detail",
+         ANALYTIC_QNS_DETAIL,
         {
           survey_id: stateData?.survey_id,
           unique_code: stateData?.unique_code,
@@ -471,7 +474,7 @@ const SurveyAnalyticsDetail = () => {
       setApiStatus(true);
       if (surveyTakerTableData?.length == 0) {
         const res = await surveyAxiosInstance.post(
-          "/survey/survey-takers-status",
+          SURVEY_TAKERS_STATUS,
           {
             survey_id: stateData?.survey_id,
             unique_code: stateData?.unique_code,
@@ -557,8 +560,8 @@ const SurveyAnalyticsDetail = () => {
         setLoaderIndex(id);
         let Url =
           status == "drop-off"
-            ? "/survey/get-dropoff-responses"
-            : "/survey/takers-responses-detail";
+            ? GET_DROPOFF_RESPONSES
+            : TAKERS_RESPONSES_DETAIL;
         const res = await surveyAxiosInstance.post(Url, {
           user_id: id,
           survey_id: stateData?.survey_id,
