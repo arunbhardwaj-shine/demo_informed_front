@@ -91,7 +91,7 @@ const SurveyList = (props) => {
     try {
       loader("show");
       let res = await surveyAxiosInstance.post(FETCH_SURVEY_DATA, {
-        admin_id: "18207",
+        // admin_id: "18207",
         survey_id: 0,
       });
       // if(survey_data.length<1){
@@ -419,12 +419,12 @@ const SurveyList = (props) => {
         survey_live_flag: data.survey_live_flag,
         survey_type: data?.survey_type,
         creator_id: data.creator_id,
-        admin_id: "18207",
+        // admin_id: "18207",
         tags: tags,
       };
 
       const formBuilderData = {
-        account_id: "18207",
+        // account_id: "18207",
         template_id: data.template_html,
         custom_html: parsedCustomHtml,
       };

@@ -140,15 +140,15 @@ const SurveySetup = (props) => {
   };
 
   useEffect(() => {
-    const body = {
-      admin_id: 18207,
-    };
+    // const body = {
+    //   admin_id: 18207,
+    // };
 
     const getAllTags = async () => {
       loader("show");
 
       await surveyAxiosInstance
-        .post(FETCH_ALL_TAGS, body)
+        .post(FETCH_ALL_TAGS/*, body*/)
         .then((res) => {
           setAllTags(res?.data?.data);
           loader("hide");
@@ -188,7 +188,7 @@ const SurveySetup = (props) => {
       loader("show");
       const res = await surveyAxiosInstance.post(
         INSERT_SURVEY_CREATOR,
-        { user_id: "18207", creator_name: addCreater?.label }
+        { /*user_id: "18207",*/ creator_name: addCreater?.label }
       );
 
       if (res.status === 200) {
@@ -217,9 +217,10 @@ const SurveySetup = (props) => {
   const fetchCreaters = async () => {
     try {
       loader("show");
-      const res = await surveyAxiosInstance.post(GET_CREATOR, {
-        user_id: 18207,
-      });
+      // const res = await surveyAxiosInstance.post(GET_CREATOR, {
+      //   user_id: 18207,
+      // });
+      const res = await surveyAxiosInstance.post(GET_CREATOR);
 
       if (res.status === 200) {
         const creators = res.data.data.map((creator) => ({
@@ -283,7 +284,7 @@ const SurveySetup = (props) => {
         survey_live_flag: "0",
         survey_type: formData?.surveyType,
         creator_id: formData.surveyCreator.value,
-        admin_id: "18207",
+        // admin_id: "18207",
         tags: formData.surveyFinalTags,
       };
 

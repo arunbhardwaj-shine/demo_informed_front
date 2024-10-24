@@ -91,9 +91,10 @@ const SurveySublink = () => {
     try {
       loader("show");
 
-      const res = await surveyAxiosInstance.post(FETCH_ALL_SURVEY_TITLE, {
-        admin_id: 18207,
-      });
+      // const res = await surveyAxiosInstance.post(FETCH_ALL_SURVEY_TITLE, {
+      //   admin_id: 18207,
+      // });
+      const res = await surveyAxiosInstance.post(FETCH_ALL_SURVEY_TITLE);
 
       let arr = [];
       let codearr = [];
@@ -181,8 +182,11 @@ const SurveySublink = () => {
 
       setIsData([]);
 
+      // let res = await surveyAxiosInstance.post(FETCH_SURVEY_DATA, {
+      //   admin_id: 18207,
+      //   survey_id: selectedSurveyId,
+      // });
       let res = await surveyAxiosInstance.post(FETCH_SURVEY_DATA, {
-        admin_id: 18207,
         survey_id: selectedSurveyId,
       });
 

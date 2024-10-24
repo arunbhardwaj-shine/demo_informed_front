@@ -72,9 +72,10 @@ const getSurveyAnalyticsDetail=async()=>{
   try{
     loader("show")
     setApiStatus(true)
-    const res=await surveyAxiosInstance.post(SURVEY_ANALYTIC_DETAILS, {
-      admin_id: "18207"
-    });
+    // const res=await surveyAxiosInstance.post(SURVEY_ANALYTIC_DETAILS, {
+    //   admin_id: "18207"
+    // });
+    const res=await surveyAxiosInstance.post(SURVEY_ANALYTIC_DETAILS);
     const data=res?.data?.data?.allDetails
     setData(data)
     setTotalData(data)

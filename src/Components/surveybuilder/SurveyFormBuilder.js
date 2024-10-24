@@ -118,10 +118,10 @@ const SurveyFormBuilder = (props) => {
     try {
       loader("show");
 
-      const body = { account_id: 18207 };
+      // const body = { account_id: 18207 };
       const response = await surveyAxiosInstance.post(
         FETCH_SAVED_TEMPLATE,
-        body
+        // body
       );
 
       if (response.status == 200) {
@@ -684,7 +684,7 @@ const SurveyFormBuilder = (props) => {
     }
 
     const body = {
-      account_id: "18207",
+      // account_id: "18207",
       template_id: originalSelectedTemplate.id,
       custom_html: custom_html,
       template_status: newTemplateStatus ?? 0,

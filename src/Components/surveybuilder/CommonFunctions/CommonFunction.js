@@ -27,6 +27,28 @@ export const surveyAxiosInstance = axios.create({
   baseURL: process.env.REACT_APP_API_KEY_NEW_SURVEY,
 });
 
+
+surveyAxiosInstance.interceptors.request.use(
+  (req) => {
+    req.timeout = 600000;
+    const switch_account_detail=JSON.parse(localStorage.getItem("switch_account_detail"))
+    const token=switch_account_detail &&switch_account_detail !=null && switch_account_detail!="undefined"
+                ?switch_account_detail?.user_id
+                :localStorage.getItem("user_id");
+
+    const jt=switch_account_detail &&switch_account_detail !=null && switch_account_detail!="undefined"
+              ?switch_account_detail?.decrypted_token
+              :localStorage.getItem("decrypted_token");
+
+    req.headers["token"] = token;
+    req.headers["auth"]  = jt;
+    return req;
+  },
+  (err) => {
+    return Promise.reject(err);
+  }
+);
+
 export const saveAsDraft = async (e, draft, pathname, navigate) => {
   e.preventDefault();
   let liveFlag = draft == 0 ? 0 : 1;
@@ -214,8 +236,10 @@ export const updateLiveFlag = async (survey_id, flag) => {
       body
     );
     if(response.status === 200){
+      loader("hide");
       return true;
     }
+    loader("hide");
 
   } catch (error) {
     loader("hide");
