@@ -363,8 +363,7 @@ const Header = () => {
                           localStorage.getItem("user_id") ==
                           "z2TunmZQf3QwCsICFTLGGQ==" ||
                           (localStorage.getItem("user_id") ==
-                            "qDgwPdToP05Kgzc g2VjIQ==" || localStorage.getItem("user_id") ==
-                            "EtWPMu4 sPArPm9tsehC2Q==")
+                            "qDgwPdToP05Kgzc g2VjIQ==" || localStorage.getItem("account_type") == "USA_PHARMA")
                           ? "/totalhcp"
                           : localStorage.getItem("user_id") ==
                             "iSnEsKu5gB/DRlycxB6G4g=="

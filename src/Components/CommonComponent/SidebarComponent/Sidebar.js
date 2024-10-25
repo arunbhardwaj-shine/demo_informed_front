@@ -3652,7 +3652,7 @@ const Sidebar = () => {
                         ) : null
                       ) :
                       
-                      localStorage.getItem("user_id") == "EtWPMu4 sPArPm9tsehC2Q=="? (
+                      localStorage.getItem("account_type") == "USA_PHARMA"? (
                         window.location.pathname == "/totalhcp" ||
                           window.location.pathname == "/country-registration" ||
                           window.location.pathname == "/delivery-stats" ||

@@ -141,8 +141,7 @@ const Totalhcp = () => {
   const getDataFromApi = async () => {
     try {
       loader("show");
-      let analyticsRoute=localStorage.getItem("user_id") ==
-                                    "EtWPMu4 sPArPm9tsehC2Q=="?ENDPOINT.USA_ANALYTICS:ENDPOINT.ANALYTICS
+      let analyticsRoute = localStorage.getItem("account_type") == "USA_PHARMA" ?ENDPOINT.USA_ANALYTICS:ENDPOINT.ANALYTICS
                                     
       const response = await getData(analyticsRoute);
       const data = response.data.data;
@@ -317,8 +316,7 @@ const Totalhcp = () => {
                   </p>
                 ) : 
                 
-                localStorage.getItem("user_id") ==
-                "EtWPMu4 sPArPm9tsehC2Q==" ? (
+                localStorage.getItem("account_type") == "USA_PHARMA" ? (
                 <p>
                   These are based on registrations from the whole Sunshine USA.
                 </p>
