@@ -10,6 +10,7 @@ const DeliveryTrends = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [sectionLoader, setSectionLoader] = useState(false);
   const [apiCallStatus, setApiCallStatus] = useState(false);
+  const [isSunshineAccount,setIsSunshineAccount]=useState(localStorage.getItem("account_type")=="USA_PHARMA"?true:false)
   const activeTab = useRef(1);
 
   Highcharts.setOptions({
@@ -36,7 +37,8 @@ const DeliveryTrends = () => {
     setSectionLoader(true);
     setApiCallStatus(false);
     try {
-      const response = await postData(ENDPOINT.DELIVERYTRENDS, { type: type });
+      let analyticsRoute=isSunshineAccount?ENDPOINT.USA_DELIVERYTRENDS:ENDPOINT.DELIVERYTRENDS
+      const response = await postData(analyticsRoute, { type: type });
       const hadData = response?.data?.data;
       if (hadData.length <= 0) {
         setIsDataFound(false);
@@ -463,6 +465,7 @@ const DeliveryTrends = () => {
             <div className="create-change-content spc-content analytic-charts small-space">
               <div className="delivery-trends">
                 <div className="tabs_content_load">
+                  {!isSunshineAccount?
                   <Tabs
                     defaultActiveKey={activeTab.current}
                     onSelect={handleTabChange}
@@ -514,6 +517,14 @@ const DeliveryTrends = () => {
                       ) : null}
                     </Tab>
                   </Tabs>
+                  :
+                  isDataFound ? (
+                    <GaugeComponent tab={data.tab} list={listData.tab} />
+                  ) : apiCallStatus ? (
+                    <div className="no_found">
+                      <p>No Data Found</p>
+                    </div>
+                  ) : null}
 
                   {/* {sectionLoader ? ( */}
                   <div
