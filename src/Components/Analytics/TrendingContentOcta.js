@@ -16,7 +16,7 @@ import solidGauge from "highcharts/modules/solid-gauge";
 const TrendingContentOcta = () => {
   const [data, setData] = useState({});
   const [isDataFound, setIsDataFound] = useState(false);
-  const [isSunshineAccount,setIsSunshineAccount]=useState(localStorage.getItem("user_id")=="EtWPMu4 sPArPm9tsehC2Q=="?true:false)
+  const [isSunshineAccount,setIsSunshineAccount]=useState(localStorage.getItem("account_type")=="USA_PHARMA"?true:false)
 
   Highcharts.setOptions({
     colors: [

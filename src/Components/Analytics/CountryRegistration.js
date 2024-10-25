@@ -20,7 +20,7 @@ const CountryRegistration = () => {
   const [isDataFound, setIsDataFound] = useState(false);
   const [newData, setNewData] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
-  const [isSunshineAccount,setIsSunshineAccount]=useState(localStorage.getItem("user_id")=="EtWPMu4 sPArPm9tsehC2Q=="?true:false)
+  const [isSunshineAccount,setIsSunshineAccount]=useState(localStorage.getItem("account_type")=="USA_PHARMA"?true:false)
 
   useEffect(() => {
     window.scrollTo(0, 0);

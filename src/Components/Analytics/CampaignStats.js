@@ -24,7 +24,7 @@ const  CampaignStats = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const selectFilter = useRef(null);
   const [newValue, setNewValue] = useState([]);
-  const [isSunshineAccount,setIsSunshineAccount]=useState(localStorage.getItem("user_id")=="EtWPMu4 sPArPm9tsehC2Q=="?true:false)
+  const [isSunshineAccount,setIsSunshineAccount]=useState(localStorage.getItem("account_type")=="USA_PHARMA"?true:false)
   
   const [campaignStatsPieOptions, setCampaignStatsPieOptions] = useState({
     chart: {
@@ -95,7 +95,7 @@ const  CampaignStats = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
     initiFun();
-    // getDataFromApi();
+    getDataFromApi();
   }, []);
 
 
@@ -137,18 +137,29 @@ const  CampaignStats = () => {
         return null;
     }).filter(series => series !== null);
   
-  
-setCampaignStatsPieOptions({
-  ...campaignStatsPieOptions,
-  series: [{
-    name: "Article Registration based on delivery",
-    colorByPoint: true,
-    data: newSeries,
-  }],
-  drilldown: {
-    series: drilldownSeries,
-  },
-});
+  if(isSunshineAccount){
+    setCampaignStatsPieOptions({
+      ...campaignStatsPieOptions,
+      series: [{
+        name: "Article Registration based on delivery",
+        colorByPoint: true,
+        data: newSeries,
+      }],
+    });
+  }else{
+
+    setCampaignStatsPieOptions({
+      ...campaignStatsPieOptions,
+      series: [{
+        name: "Article Registration based on delivery",
+        colorByPoint: true,
+        data: newSeries,
+      }],
+      drilldown: {
+        series: drilldownSeries,
+      },
+    });
+  }
 
     loader("hide");
   } catch (err) {
@@ -164,7 +175,7 @@ setCampaignStatsPieOptions({
       type: "line",
     },
     title: {
-      text: "Registered HCP's (CIS)",
+      text: isSunshineAccount?"Registered HCP's":"Registered HCP's (CIS)",
     },
     credits: {
       enabled: false,
@@ -334,7 +345,8 @@ setCampaignStatsPieOptions({
   const getDataFromApi = async () => {
     try {
       loader("show");
-      const response = await getData(ENDPOINT.REPORTS);
+      let analyticsRoute=isSunshineAccount?ENDPOINT.USA_REPORTS:ENDPOINT.REPORTS
+      const response = await getData(analyticsRoute);
       const hadData = response?.data?.data;
       if (hadData.length <= 0) {
         setIsDataFound(false);
@@ -580,7 +592,7 @@ setCampaignStatsPieOptions({
                     </table>
                   </div>
                 </div>
-
+{!isSunshineAccount?
                 <div className="high_charts">
                   <HighchartsReact
                     highcharts={Highcharts}
@@ -623,6 +635,7 @@ setCampaignStatsPieOptions({
                     </div>
                   </div>
                 </div>
+                :null}
               </div>
             </Row>
           </div>
