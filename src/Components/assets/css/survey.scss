@@ -802,7 +802,6 @@ span {
                                                 min-width: 55px;
                                                 padding: 0;
                                                 background: transparent;
-                                                // border-right: 1px solid #EAECF0;
                                                 padding-right: 10px;
                                                 position: relative;
                                                 overflow: visible;
@@ -847,7 +846,6 @@ span {
                                         button {
                                             &.tox-tbtn--enabled {
                                                 background: transparent;
-
                                                 span {
                                                     svg {
                                                         path {
@@ -4832,7 +4830,7 @@ body {
                 }
                 span{
                     font-size: 13px;
-                    color:#97B6CF;
+                    color:$light-gray;
                     padding-left: 3px;
                 }
             }

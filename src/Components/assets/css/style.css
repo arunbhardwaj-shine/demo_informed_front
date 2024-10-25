@@ -237,7 +237,7 @@ header.-top-24~div .sidebar-menu .left-sidebar-secondary {
 }
 }
 .left-sidebar.hidesidebar~.survey-builder {
-  background: #E7EFF6;
+  background: var(--light-skyblue);
   padding: 0;
   width: 100%;
 }
@@ -411,7 +411,7 @@ header.-top-24~div .sidebar-menu .left-sidebar-secondary {
   justify-content: center;
 }
 .clear-search button.rd:hover{
-background: #8A4E9C;
+background: var(--violet);
 }
 
 .modal .mail-box-heading-block .clear-search.top-right-action .btn.print:active, .mail-box-heading-block button.btn.print:hover {
@@ -894,18 +894,18 @@ z-index: 5;
   border-radius: 50%;
 }
 .rd .dlt_btn button {
-  background: #8A4E9C;
+  background: var(--violet);
 }
 
 .rd .dlt_btn button:hover {
   background: #7a348f;
 }
 .rd .dlt_btn.edit button {
-  background: #0066be;
+  background: var(--light-blue);
 }
 
 .rd .dlt_btn.edit button:hover {
-  background: #004a89;
+  background: var(--dark-blue);
 }
 .dlt_btn button img {
   width: 20px;
@@ -1269,11 +1269,11 @@ z-index: 5;
   fill: var(--light-violet);
 }
 .approved .mail-stats ul li .mail-status.irts {
-  border-color: #0066BE;
+  border-color: var(--light-blue);
 }
 
 .approved .mail-stats ul li .mail-status.irts svg path {
-  fill:#0066BE;
+  fill:var(--light-blue);
 }
 
 .approved .mail-stats ul li .mail-status.mail_view {
@@ -2803,7 +2803,7 @@ form .input-group {
 .result-hcp-table .table tbody tr.no-user-selected td {
   background: transparent;
   font-size: 32px;
-  color: #97B6CF;
+  color: var(--skyblue);
   padding: 50px 0;
   line-height: 1;
 }
@@ -3143,7 +3143,7 @@ form .input-group {
   font-size: 13px;
   font-weight: 500;
   color: var(--dark-blue);
-  border-left: 1px solid #004A89;
+  border-left: 1px solid var(--dark-blue);
   line-height: 1;
   padding-left: 5px;
 }
@@ -3170,7 +3170,7 @@ form .input-group {
   background: rgba(0, 102, 190, 0.03);
  }
  .survey_data_accordion_heading table tbody tr.fold td {
-  border-top:1px dashed #97b6cf;
+  border-top:1px dashed var(--skyblue);
    border-radius: 0 0 9px 9px;
  }
  .survey_data_accordion_heading table tbody .view.show {
@@ -3317,12 +3317,12 @@ form .input-group {
   padding: 32px 8px 0;
 }
 .select-irt h4{
-color:#004A89;
+color:var(--dark-blue);
 font-weight: 700;
 margin:0 0 27px;
 }
 .select-irt p{
-  color:#97B6CF;
+  color:var(--skyblue);
   font-size: 18px;
   font-weight: 400;
   }
@@ -3481,7 +3481,7 @@ h5 {
 }
 
 .search-hcp .accordion .content_unsubscribed {
-  box-shadow: 0px 0px 10px 0px #FAC755;
+  box-shadow: 0px 0px 10px 0px var(--yellow);
 }
 
 .search-hcp .accordion .content_added {
@@ -3563,13 +3563,13 @@ h5 {
 .email-unsubscribe .accordion table thead {
   position: sticky;
   top:0;
-  background: #fff;
+  background: var(--white);
   z-index: 2;
 }
 .email-unsubscribe .accordion table thead:after {
   position: absolute;
   top: 0;
-  background: #fff;
+  background: var(--white);
   content: "";
   width: 34px;
   height: 31px;
@@ -3734,10 +3734,10 @@ h5 {
   margin-right: 8px;
 }
 .selected-hcp-list.rd table tr td.delete_row .img{
-  background: #8A4E9C;
+  background: var(--violet);
 }
 .selected-hcp-list.rd table tr td.delete_row .edit{
-  background: #0066be;
+  background: var(--light-blue);
 }
 
 .selected-hcp-list table tr td.delete_row .img img,
@@ -3777,7 +3777,7 @@ table tr:hover td.delete_row img {
 }
 
 .selected-hcp-list.rd table tr td.delete_row .edit:hover {
-  background: #0066be;
+  background: var(--light-blue);
 }
 
 .selected-hcp-list table tr td.delete_row:hover img,
@@ -7326,8 +7326,8 @@ button.btn-filled.btn-primary.disabled {
 
 button.btn-bordered.disabled {
   background: transparent;
-  border-color: #97B6CF;
-  color: #97B6CF;
+  border-color: var(--skyblue);
+  color: var(--skyblue);
 }
 
 .modal #add-list .smartlist-view .smartlist-buttons button.btn-filled.view {
@@ -7984,12 +7984,6 @@ header.top-0~div .custom-change .invitee table#table-to-xls thead.sticky-header 
 .modal .split-button-dropup.edit-country-dropdown>div:nth-child(3) div {
   color: var(--light-gray);
   font-size: 14px;
-}
-
-@-moz-document url-prefix() {
-  a.show-less-info p::after {
-    top: 3px;
-  }
 }
 
 .modal .form-search-hcp .form-inline .form-group label {

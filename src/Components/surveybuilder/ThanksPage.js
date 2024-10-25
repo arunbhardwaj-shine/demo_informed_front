@@ -119,9 +119,11 @@ const ThanksPage = (props) => {
                                   name="file"
                                   className="input-file"
                                   onInput={async (e) => {
+                                    loader("show")
                                     const result = await uploadImageToServer(
                                       e.target.files[0],fileInputRef
                                     );
+                                    loader("hide")
                                     updatePageData("thanksImgPath", result);
                                   }}
                                 ></input>

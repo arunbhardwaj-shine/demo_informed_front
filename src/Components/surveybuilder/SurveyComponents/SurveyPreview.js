@@ -8,6 +8,7 @@ import { SidebarItems } from "../surveyObjects/SidebarItems";
 import { SidebarCommonItems } from "../surveyObjects/SidebarCommonItems";
 import { saveAsDraft } from "../CommonFunctions/CommonFunction";
 import { Modal } from "react-bootstrap";
+import { surveyEndpoints } from "../SurveyEndpoints/SurveyEndpoints";
 
 import {
   emptySurveyReduxStates,
@@ -20,7 +21,6 @@ import {
   deleteElement,
   swapElements,
   addResQuestions,
-  addElementAtPosition,
 } from "../../../actions/surveyActions";
 import { getSurveyData } from "../../../actions";
 import { useDispatch, useSelector } from "react-redux";
@@ -33,13 +33,13 @@ import { updateLiveFlag } from "../CommonFunctions/CommonFunction";
 
 var surveyValues = {};
 const SurveyPreview = (props) => {
+  const {FETCH_QUESTION,DELETE_SURVEY_QUESTION}=surveyEndpoints
   let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const { currentElementIndex, elements, isAddClicked } = useSelector(
     (state) => state.surveyData
   );
   const [questionDeleteCount, setQuestionDeleteCount] = useState(0);
- 
 
   const updatedSurveyData = {
     ...surveyValues,
@@ -48,7 +48,6 @@ const SurveyPreview = (props) => {
 
   const updateQuestioData = async () => {
     if (questionDeleteCount > 0) {
-     
       await props.getSurveyData(updatedSurveyData);
     }
   };
@@ -105,7 +104,7 @@ const SurveyPreview = (props) => {
       const result = elements.filter((item) => {
         return item.type === "consent";
       });
-     
+
       if (result.length > 0) {
         toast.warning("Consent already added");
         return;
@@ -119,16 +118,20 @@ const SurveyPreview = (props) => {
     try {
       loader("show");
       const fetchResponse = await surveyAxiosInstance.post(
-        "/survey/fetch-question",
+        FETCH_QUESTION,
         { survey_id }
       );
+      
+      if(fetchResponse.status === 200){
+        dispatch(addResQuestions(fetchResponse.data.data));
+        const updatedSurveyData = {
+          ...surveyValues,
+          question_data: fetchResponse.data.data,
+        };
+        props.getSurveyData(updatedSurveyData);
+      }
 
-      dispatch(addResQuestions(fetchResponse.data.data));
-      const updatedSurveyData = {
-        ...surveyValues,
-        question_data: fetchResponse.data.data,
-      };
-      props.getSurveyData(updatedSurveyData);
+     
       loader("hide");
     } catch (error) {
       loader("hide");
@@ -147,12 +150,10 @@ const SurveyPreview = (props) => {
       (surveyValues?.question_data === undefined ||
         surveyValues?.question_data === "" ||
         elements.length === 0);
-  
+
     if (shouldFetchQuestions) {
-     
       fetchQuestiondetails();
     } else if (surveyValues?.question_data) {
-     
       dispatch(addResQuestions(surveyValues.question_data));
     } else {
       dispatch(updateCurrentElementIndex());
@@ -168,12 +169,13 @@ const SurveyPreview = (props) => {
       const result = elements.filter((item) => {
         return item.type === "consent";
       });
-   
+
       if (result.length > 0) {
         toast.warning("Consent already added");
         return;
       }
     }
+ 
     if (type.trim()) {
       handleAddElement(type);
     }
@@ -188,16 +190,24 @@ const SurveyPreview = (props) => {
 
   const handleQuestionDragStart = (e, index) => {
     e.stopPropagation();
+ 
+    
     setDraggedElementIndex(index);
   };
   const handleQuestionDragOver = (e) => e.preventDefault();
 
   const handleQuestionDrop = (e, index) => {
     e.preventDefault();
+
+ 
     setSpecificIndex(index);
     if (draggedElementIndex !== null) {
       e.stopPropagation();
       if (draggedElementIndex !== index) {
+        // if(currentElementIndex != draggedElementIndex){
+        //   toast("Please select a question before dragging.");
+        //   return;
+        // }
         dispatch(swapElements(draggedElementIndex, index));
         setDraggedElementIndex(null);
       }
@@ -214,9 +224,10 @@ const SurveyPreview = (props) => {
           return;
         }
       }
-      setTimeout(() => {
-        dispatch(addElementAtPosition(index));
-      });
+      handleAddElement(type, index);
+      // setTimeout(() => {
+      //   dispatch(addElementAtPosition(index));
+      // });
     }
   };
 
@@ -226,14 +237,19 @@ const SurveyPreview = (props) => {
 
       if (questionId != 0) {
         const response = surveyAxiosInstance.post(
-          "/survey/delete-survey-question",
+          DELETE_SURVEY_QUESTION,
           {
             questionId,
           }
         );
+
+        if(response.status === 200){
+          setQuestionDeleteCount(questionDeleteCount + 1);
+        }
+ 
       }
       setConfirmationPopup(false);
-      setQuestionDeleteCount(questionDeleteCount + 1);
+     
       loader("hide");
     } catch (error) {
       loader("hide");
@@ -382,13 +398,10 @@ const SurveyPreview = (props) => {
                         ? "btn btn-primary btn-filled next send_btn"
                         : "btn btn-primary btn-filled next send_btn"
                     }
-                    onClick={
-                        async (e) => {
-                            await nextHandler(e);
-                            await navigateFunction(e);
-                          }
-                        
-                    }
+                    onClick={async (e) => {
+                      await nextHandler(e);
+                      await navigateFunction(e);
+                    }}
                   >
                     {" "}
                     {isEdit ? "Next" : "Publish"}
@@ -398,7 +411,9 @@ const SurveyPreview = (props) => {
             </Row>
           )}
         </div>
-        <div className="preview-survey">
+        <div
+          className="preview-survey"
+        >
           <div
             className={
               isChecked ? `informed-survey mobile-view` : "informed-survey"
@@ -535,12 +550,19 @@ const SurveyPreview = (props) => {
                             }
                             draggable={isEdit} // Only make it draggable if isEdit is true
                             key={index}
-                            onClick={(e) => {
+                            onMouseDown={(e) => {
                               if (isEdit) {
-                                e.stopPropagation();
-                                dispatch(setCurrentElementIndex(index));
+                                
+                                  e.stopPropagation();
+                                  dispatch(setCurrentElementIndex(index));
                               }
-                            }}
+                          }}
+                            // onClick={(e) => {
+                            //   if (isEdit) {
+                            //     e.stopPropagation();
+                            //     dispatch(setCurrentElementIndex(index));
+                            //   }
+                            // }}
                             onDragStart={(e) => {
                               if (isEdit) {
                                 handleQuestionDragStart(e, index);
@@ -552,6 +574,7 @@ const SurveyPreview = (props) => {
                               }
                             }}
                             onDrop={(e) => {
+                              e.stopPropagation();
                               if (isEdit) {
                                 handleQuestionDrop(e, index);
                               }
@@ -765,7 +788,7 @@ const SurveyPreview = (props) => {
                                             e.stopPropagation();
                                             handleAddElement(
                                               item.type,
-                                              questionIndex
+                                              questionIndex+1
                                             );
                                           }}
                                         >
@@ -796,7 +819,7 @@ const SurveyPreview = (props) => {
                                                 e.stopPropagation();
                                                 handleAddElement(
                                                   item.type,
-                                                  questionIndex
+                                                  questionIndex+1
                                                 );
                                               }}
                                             >
