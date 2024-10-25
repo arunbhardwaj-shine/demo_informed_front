@@ -639,7 +639,9 @@ const  CampaignStats = () => {
               </div>
             </Row>
           </div>
-        ) : null}
+        ) : (<div className="no_found">
+                      <p>No Data Found</p>
+                    </div>)}
       </Col>
     </>
   );
