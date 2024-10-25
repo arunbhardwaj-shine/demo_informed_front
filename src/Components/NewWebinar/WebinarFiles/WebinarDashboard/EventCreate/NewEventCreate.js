@@ -1354,7 +1354,7 @@ const [apiCallStatus,setApiCallStatus]=useState(false)
                                 >
                                   <img
                                     title="Registration"
-                                    src={path_image + "webinar-icon.svg"}
+                                    src={path_image + "register-icon.svg"}
                                     alt="Registration"
                                   />
                                 </button>

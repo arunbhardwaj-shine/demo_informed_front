@@ -3,7 +3,7 @@ import { Col } from "react-bootstrap";
 import SurveyMenu from "./SurveyComponents/SurveyMenu";
 import SurveyPreview from "./SurveyComponents/SurveyPreview";
 import { loader } from "../../loader";
-import { surveyAxiosInstance } from "./CommonFunctions/CommonFunction";
+ 
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch, connect } from "react-redux";
 import { getSurveyData } from "../../actions";

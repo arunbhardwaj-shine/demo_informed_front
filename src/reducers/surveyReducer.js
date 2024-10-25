@@ -15,7 +15,6 @@ import {
   ADD_RES_QUESTION,
   EMPTY_REDUX_STATES,
   UPDATE_EDIT_DISABLE,
-  ADD_AT_POSITION,
   UPDATE_CURRENT_ELEMENT_INDEX,
 } from "../actions/surveyActions";
 import { menuType } from "./menuType";
@@ -60,36 +59,7 @@ const addResQuestions = (state, action) => {
   };
 };
 
-// const addElement = (state, action) => {
-//   const newElement = structuredClone({ ...menuType[action.payload.type] }); //used to make deep copy
-//   newElement.questionNo = state.globalIndex;
-//   newElement.survey_id = state.surveyId;
-
-//   return {
-//     ...state,
-//     elements: [...state.elements, newElement],
-//     currentElementIndex: state.elements.length,
-//     globalIndex: state.globalIndex + 1,
-//     isAddClicked: false,
-//     isEditModeOn: true,
-//   };
-// };
-
-// const addElement = (state, action) => {
-
-//   const newElement = structuredClone({ ...menuType[action.payload.type] }); //used to make deep copy
-//   newElement.questionNo = state.globalIndex;
-//   newElement.survey_id = state.surveyId;
-
-//   return {
-//     ...state,
-//     elements: [...state.elements, newElement],
-//     currentElementIndex:  state.elements.length,
-//     globalIndex: state.globalIndex + 1,
-//     isAddClicked: false,
-//     isEditModeOn: true,
-//   };
-// };
+ 
 
 const addElement = (state, action) => {
   // Deep clone the element from menuType based on the action payload
@@ -102,7 +72,7 @@ const addElement = (state, action) => {
  
   // Insert the copied element at the specified index if provided
   if (action.payload.index !== undefined) {
-    updatedElements.splice(action.payload.index + 1, 0, newElement);
+    updatedElements.splice(action.payload.index, 0, newElement);
   } else {
     // If no index is provided, add the newElement at the end of the array
     updatedElements.push(newElement);
@@ -118,7 +88,7 @@ const addElement = (state, action) => {
     elements: updatedElements,
     currentElementIndex:
       action.payload.index !== undefined
-        ? action.payload.index + 1
+        ? action.payload.index
         : state.elements.length,
     globalIndex: state.globalIndex + 1,
     isAddClicked: false,
@@ -126,27 +96,6 @@ const addElement = (state, action) => {
   };
 };
 
-const addElementAtPosition = (state, action) => {
-  const index = action.payload;
-  const newElements = [...state.elements];
-  // Insert the last element at the given index
-  const elementToInsert = newElements.pop();
-  newElements.splice(index, 0, elementToInsert);
-
-  // Update question numbers
-  const newUpdatedElements = newElements.map((item, idx) => {
-    return { ...item, questionNo: idx + 1 };
-  });
-
-  return {
-    ...state,
-    elements: newUpdatedElements,
-    currentElementIndex: index,
-    globalIndex: state.elements.length + 1,
-    isAddClicked: false,
-    isEditModeOn: true,
-  };
-};
 
 const setExtraAndStyling = (state, action) => {
   const { outerkey, innerKey, value, index } = action.payload;
@@ -259,6 +208,7 @@ const swapElements = (state, action) => {
     ...state,
     elements: newUpdatedElements,
     currentElementIndex: destinationIndex,
+    isEditModeOn: true,
   };
 };
 
@@ -382,8 +332,6 @@ export const surveyReducer = (state = initialState, action) => {
       return emptySurveyReduxStates(state, action);
     case UPDATE_EDIT_DISABLE:
       return updateEditDisable(state, action);
-    case ADD_AT_POSITION:
-      return addElementAtPosition(state, action);
     case UPDATE_CURRENT_ELEMENT_INDEX:
       return {
         ...state,

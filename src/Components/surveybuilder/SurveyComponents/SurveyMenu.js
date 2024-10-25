@@ -19,6 +19,7 @@ import DivideLine from "./DivideLine";
 import FreeText from "./FreeText";
 import QuestionEditor from "./QuestionEditor";
 import Consent from "./Consent";
+import { surveyEndpoints } from "../SurveyEndpoints/SurveyEndpoints";
 import {
   surveyAxiosInstance,
   uploadImageToServer,
@@ -43,7 +44,7 @@ import { useLocation } from "react-router-dom";
 
 const SurveyMenu = ({ menuRef, consentOption }) => {
   const location = useLocation();
-
+  const {DELETE_OPTION}=surveyEndpoints
   const validExtensions = ["png", "jpeg", "jpg", "gif"];
 
   const fileInputRef = useRef();
@@ -211,7 +212,8 @@ const SurveyMenu = ({ menuRef, consentOption }) => {
   const deleteOptions = async (optionId) => {
     try {
       loader("show");
-      const response = await surveyAxiosInstance.post("/survey/delete-option", {
+      console.log("from option")
+       await surveyAxiosInstance.post(DELETE_OPTION, {
         answerId: optionId,
       });
       loader("hide");
@@ -220,6 +222,8 @@ const SurveyMenu = ({ menuRef, consentOption }) => {
       toast.error("Something went wrong");
     }
   };
+
+
   const addRowInMiddle = (itemIndex, key, answerIndex) => {
     const currentOptions = elements[itemIndex].answer;
 
@@ -802,10 +806,12 @@ const SurveyMenu = ({ menuRef, consentOption }) => {
                   name="file"
                   className="input-file"
                   onInput={async (e) => {
+                    loader('show')
                     const result = await uploadImageToServer(
                       e.target.files[0],
                       fileInputRef
                     );
+                    loader("hide")
                     handleUpdateElement(index, "question", result);
                   }}
                 ></input>

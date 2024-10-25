@@ -2704,11 +2704,11 @@ const LibraryCreateUser = () => {
                       </div>
                     </Col>
                   ) : null}
-                  {(ebookFile?.length &&
+                  {((ebookFile?.length &&
                     userInputs.docintelFormat == "ebook"
                   ) ||
                     (["ebook", "pdf", "pdfSpc"].includes(userInputs.docintelFormat)) ||
-                    (ebookFile?.length && userInputs.docintelFormat == "ebookVideo" && chapter.some((element) => element?.type == "pdf"))
+                    (ebookFile?.length && userInputs.docintelFormat == "ebookVideo" && chapter.some((element) => element?.type == "pdf")))
                     && (localStorage.getItem("user_id") ==
                       "rjiGlqA9DXJVH7bDDTX0Lg==" || localStorage.getItem("user_id") ==
                       "iSnEsKu5gB/DRlycxB6G4g==" || isLikeRdAccount) ? (
