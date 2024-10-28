@@ -1950,7 +1950,7 @@ const getDownloadData = async (viewEmailData) => {
                     );
                   })
                 ) : (
-                  <div className="email_box_block no_found no_found_dlt">
+                  <div className="email_box_block no_found">
                     <p>No Data Found</p>
                   </div>
                 )}
