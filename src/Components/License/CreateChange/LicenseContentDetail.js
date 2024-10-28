@@ -358,7 +358,7 @@ Let me know if you’d like any further adjustments!`;
                                       </h6>
                                       
                                       {
-                                        data?.first_popup == 1 && data?.only_first_popup == 2 ?
+                                        localStorage.getItem('user_id') == 'rjiGlqA9DXJVH7bDDTX0Lg==' && data?.first_popup == 1 && data?.only_first_popup == 2 ?
                                         <h6>
                                           <strong>Client Account | </strong>
                                           <div className="d-flex">

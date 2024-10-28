@@ -111,6 +111,7 @@ const ClinetAccount = () => {
     event.preventDefault();
     try {
       if (validateForm()) {
+        loader("show");
         const payload = {
           "token": token,
           "name": pharmaFormData?.name,
