@@ -84,7 +84,8 @@ const LicenseContent = (props) => {
   const [tagsReRender, setTagsReRender] = useState(0);
   const [tagsCounter, setTagsCounter] = useState(0);
   const [pdftagsid, setpdftagsid] = useState();
-
+  const [client_details, setClientDetails] = useState([]);
+  const [clientDetailLoader, setClientDetailLoader] = useState(false);
   const navigate = useNavigate();
   let obj = {};
   const [userId, setUserId] = useState();
@@ -164,7 +165,7 @@ const LicenseContent = (props) => {
     });
   };
   useEffect(() => {
-    if (localStorage.getItem("user_id") == "b3APser7L8OELDIG8ee2HQ==" || localStorage.getItem("user_id") == "rOhdD02MgXkownQqcreqAw==") {
+    if (localStorage.getItem("user_id") == "b3APser7L8OELDIG8ee2HQ==" || localStorage.getItem("user_id") == "rOhdD02MgXkownQqcreqAw==" || localStorage.getItem("user_id") == "rjiGlqA9DXJVH7bDDTX0Lg==") {
       const newObj = { value: "Sunshine USA", label: "Sunshine USA" };
       const updatedArray = [...types, newObj];
       setTypes(updatedArray);
@@ -284,7 +285,7 @@ const LicenseContent = (props) => {
     setForceRender(!forceRender);
   };
 
-  const tabClicked = async (event, id) => {
+  const tabClicked = async (event, id,pharma="") => {
     setFlag(0);
     setUserId(id);
 
@@ -306,6 +307,35 @@ const LicenseContent = (props) => {
           }
         } catch (err) {
           console.log(err);
+        }
+      }
+    }else if(event == "client"){
+      if(typeof pharma === 'string' && pharma.length != 0 ){
+        const getPharma = JSON.parse(pharma);
+        let filteredArray = getPharma.filter(item => item !== '9808');
+        if(filteredArray.length > 0){
+          // HIT API TO GET THE PHARMA DETAILS
+          let index = client_details.findIndex((el) => el.pdfId == id);
+          if (index === -1) {
+            setClientDetailLoader(true);
+            let normal_data = client_details;
+            try {
+              let body = {
+                client_ids: filteredArray,
+              };
+              const res = await postData(ENDPOINT.CLIENT_DETAILS, body);
+              if (res?.data?.data) {
+                let new_data = res?.data?.data;
+                new_data['pdfId'] = id
+                normal_data.push(new_data);
+                setClientDetails(normal_data);
+                setClientDetailLoader(false);
+              }
+            } catch (err) {
+              setClientDetailLoader(false);
+              console.log(err);
+            }
+          }
         }
       }
     }
@@ -441,6 +471,19 @@ const LicenseContent = (props) => {
       setResetDataId(id);
 
       setIsRenewOpen(!isRenewOpen);
+    } else if (stateMsg == 'reset_client_account'){
+      setResetDataId(id);
+      setCommonConfirmModelFun(() => resetClientDetails);
+      setPopupMessage({
+        message1: " Resetting the client account will retain all data but reset the login details.",
+        message2: "Are you sure you want to proceed?",
+        footerButton: "Yes Please!",
+      });
+      if (confirmationpopup) {
+        setConfirmationPopup(false);
+      } else {
+        setConfirmationPopup(true);
+      }
     } else {
       // setDeleteStatus(false);
       setResetDataId(id);
@@ -890,6 +933,38 @@ const LicenseContent = (props) => {
     } finally {
       loader("hide"); 
     }
+  };
+
+  const resetClientDetails = async (pdf_id) => {
+    loader("show");
+    try {
+      let body = {
+        pdfId: pdf_id,
+      };
+      const res = await resetStats(ENDPOINT.RESET_CLIENT_ACCOUNT, body);
+      console.log(res?.data?.data)
+      if(res?.data?.data == 1){
+        loader("hide");
+        popup_alert({
+          visible: "show",
+          message: "The client have been sent a reset email and can <br /> change their password. If they no longer have access <br /> to the email please sent them ",
+          type: "success",
+          redirect: "",
+        });
+      }else{
+        loader("hide");
+        popup_alert({
+          visible: "show",
+          message: "Something went wrong, Please try again.",
+          type: "error",
+          redirect: "",
+        });
+      }
+    } catch (err) {
+      console.log("err", err);
+      loader("hide");
+    }
+    hideConfirmationModal();
   };
   
 
@@ -1389,7 +1464,7 @@ const LicenseContent = (props) => {
                           </div>
                           <div className="tabs-data">
                             <Tabs
-                              onSelect={(key) => tabClicked(key, data?.id)}
+                              onSelect={(key) => tabClicked(key, data?.id, data?.pharma_id)}
                               defaultActiveKey="docintel-link"
                               fill
                             >
@@ -2510,6 +2585,148 @@ const LicenseContent = (props) => {
                                   </ul>
                                 </div>
                               </Tab>
+                              {
+                                localStorage.getItem("group_id") == 2 && data?.first_popup == 1 && data?.only_first_popup == 2 && (
+                                  <Tab
+                                    eventKey="client"
+                                    title="Client"
+                                    className="flex-column justify-content-between"
+                                  >
+                                    <div className="tab-panel d-flex flex-column justify-content-between">
+                                      <ul className="tab-mail-list">
+                                        {
+                                          clientDetailLoader ? 
+                                          <div
+                                            style={{
+                                              display: "flex",
+                                              justifyContent: "center",
+                                              alignItems: "center",
+                                              width: "100%",
+                                              height: "100%",
+                                            }}
+                                          >
+                                            <Spinner
+                                              color="#53aff4"
+                                              size={32}
+                                              speed={1}
+                                              animating={true}
+                                            />
+                                          </div>
+                                          :
+                                          <>
+                                            <li>
+                                              <h6 className="tab-content-title">
+                                                Client account
+                                              </h6>
+                                              <h6 style={{userSelect: "none"}}>
+                                                {
+                                                  client_details.findIndex((el) => el.pdfId == data?.id) !== -1
+                                                  ? 
+                                                  client_details[client_details.findIndex((el) =>el.pdfId == data?.id)].account_link
+                                                  : "N/A"
+                                                }
+
+                                                {
+                                                  client_details.findIndex((el) => el.pdfId == data?.id) !== -1 ?
+                                                  <span
+                                                    className="copy-content"
+                                                    onClick={() => {
+                                                      copyToClipboard(client_details[client_details.findIndex((el) =>el.pdfId == data?.id)].account_link);
+                                                    }}
+                                                  >
+                                                    <img
+                                                      src={
+                                                        path_image + "copy-content.svg"
+                                                      }
+                                                      alt="Copy"
+                                                    />
+                                                  </span>
+                                                  : null
+                                                }
+
+                                              </h6>
+                                            </li>
+                                            <li>
+                                              <h6 className="tab-content-title">
+                                                Client name
+                                              </h6>
+                                              <h6>
+                                                {
+                                                  client_details.findIndex((el) => el.pdfId == data?.id) !== -1
+                                                  ? 
+                                                  client_details[client_details.findIndex((el) =>el.pdfId == data?.id)].name
+                                                  : "N/A"
+                                                }
+                                              </h6>
+                                            </li>
+                                            <li>
+                                              <h6 className="tab-content-title">
+                                                Company
+                                              </h6>
+                                              <h6>
+                                                {
+                                                  client_details.findIndex((el) => el.pdfId == data?.id) !== -1
+                                                  ? 
+                                                  client_details[client_details.findIndex((el) =>el.pdfId == data?.id)].company
+                                                  : "N/A"
+                                                }
+                                              </h6>
+                                            </li>
+                                            <li>
+                                              <h6 className="tab-content-title">
+                                                Client Product
+                                              </h6>
+                                              <h6>
+                                                {/* {data?.product ? data.product : "N/A"} */}
+                                                {
+                                                  client_details.findIndex((el) => el.pdfId == data?.id) !== -1
+                                                  ? data?.product ?  data.product : "N/A"
+                                                  : "N/A"
+                                                }
+                                              </h6>
+                                            </li>
+                                            <li>
+                                              <h6 className="tab-content-title">
+                                                Country
+                                              </h6>
+                                              <h6>
+                                                {
+                                                  client_details.findIndex((el) => el.pdfId == data?.id) !== -1
+                                                  ? 
+                                                  client_details[client_details.findIndex((el) =>el.pdfId == data?.id)].country
+                                                  : "N/A"
+                                                }
+                                              </h6>
+                                            </li>
+                                          </>
+                                        }
+                                      </ul>
+                                    </div>
+
+                                    {location?.state?.data != "edit" &&
+                                      deletestatus == false
+                                      && client_details.findIndex((el) => el.pdfId == data?.id) !== -1
+                                       ? (
+                                        <div className="data-main-footer-sec">
+                                          <div className="footer-btn-wrapper justify-content-end">
+                                            <Button
+                                              onClick={(e) =>
+                                                showConfirmationPopup(
+                                                  "reset_client_account",
+                                                  e,
+                                                  data?.id
+                                                )
+                                              }
+                                              className="footer-btn reset btn btn-primary"
+                                            >
+                                              Reset client account credentials
+                                            </Button>
+                                          </div>
+                                        </div>
+                                      ) : null}
+                                  </Tab>
+                                )
+                              }
                             </Tabs>
                           </div>
                         </div>

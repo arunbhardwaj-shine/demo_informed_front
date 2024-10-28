@@ -54,9 +54,9 @@ const ChangePassword = () => {
       <div className="custom-container">
         {/* <Row> */}
         <div className="create-reader create-change-content reader_added">
-          <div className="form_action">
+          <div className="form_action change-password">
             <div className="row justify-content-center ">
-              <Col md="5">
+              <div className="change-password-form">
                 <Form.Group className="form-group">
                   <Form.Label htmlFor="">
                     Old Password<span>*</span>
@@ -75,8 +75,8 @@ const ChangePassword = () => {
                     className="change-password-image"
                     src={
                       enable["oldPassword"]
-                        ? path_image + "Union.png"
-                        : path_image + "password-eye.png"
+                        ? path_image + "show_p.svg"
+                        : path_image + "hide.svg"
                     }
                     onClick={() => handleDisplay("oldPassword")}
                   />
@@ -106,8 +106,8 @@ const ChangePassword = () => {
                     className="change-password-image"
                     src={
                       enable["newPassword"]
-                        ? path_image + "Union.png"
-                        : path_image + "password-eye.png"
+                        ? path_image + "show_p.svg"
+                        : path_image + "hide.svg"
                     }
                     onClick={() => handleDisplay("newPassword")}
                   />
@@ -138,8 +138,8 @@ const ChangePassword = () => {
                     className="change-password-image"
                     src={
                       enable["confirmPassword"]
-                        ? path_image + "Union.png"
-                        : path_image + "password-eye.png"
+                         ? path_image + "show_p.svg"
+                        : path_image + "hide.svg"
                     }
                     onClick={() => handleDisplay("confirmPassword")}
                   />
@@ -160,7 +160,7 @@ const ChangePassword = () => {
                     Submit
                   </button>
                 </div>
-              </Col>
+              </div>
             </div>
           </div>
         </div>
