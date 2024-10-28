@@ -94,6 +94,7 @@ const SetPopup = (props) => {
   // ]);
 
   const [timeList, setTimeList] = useState([
+    { value: "2000", label: "2 Second" },
     { value: "5000", label: "5 Second" },
     { value: "10000", label: "10 Second" },
     { value: "15000", label: "15 Second" },
@@ -237,10 +238,10 @@ const SetPopup = (props) => {
           first_consent == "Sunshine USA"
         ) {
           setIsOnline(false);
-          data = res?.data?.data?.usaPopup;
+          // data = res?.data?.data?.usaPopup;
+          data = res?.data?.data?.usaPopup.filter((item) => item?.display === true);
         } else {
           setIsOnline(false);
-
           data = res?.data?.data?.popupData;
         }
         setTemplateList(data);
