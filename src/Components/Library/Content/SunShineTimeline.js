@@ -1497,16 +1497,16 @@ const SunShineTimeline = () => {
                                                     <p>
                                                       <span>Old |</span>{" "}
                                                       {/* Unique key for old password */}
-                                                      {passwordVisibility[`oldPass-${index}`]
+                                                      {passwordVisibility[`oldPass-${details?.userId}-${details?.action}-${details?.created}`]
                                                         ? details?.rawData?.oldPass
                                                         : "•".repeat(details?.rawData?.oldPass.length)}
                                                       <img
                                                         src={
-                                                          passwordVisibility[`oldPass-${index}`]
+                                                          passwordVisibility[`oldPass-${details?.userId}-${details?.action}-${details?.created}`]
                                                             ? path_image + "show_p.svg"
                                                             : path_image + "hide.svg"
                                                         }
-                                                        onClick={() => togglePassword(`oldPass-${index}`)}
+                                                        onClick={() => togglePassword(`oldPass-${details?.userId}-${details?.action}-${details?.created}`)}
                                                         alt=""
                                                       />
                                                     </p>
@@ -1514,16 +1514,16 @@ const SunShineTimeline = () => {
                                                     <p>
                                                       <span>New |</span>{" "}
                                                       {/* Unique key for new password */}
-                                                      {passwordVisibility[`newPass-${index}`]
+                                                      {passwordVisibility[`newPass-${details?.userId}-${details?.action}-${details?.created}`]
                                                         ? details?.rawData?.newpassword
                                                         : "•".repeat(details?.rawData?.newpassword.length)}
                                                       <img
                                                         src={
-                                                          passwordVisibility[`newPass-${index}`]
+                                                          passwordVisibility[`newPass-${details?.userId}-${details?.action}-${details?.created}`]
                                                             ? path_image + "show_p.svg"
                                                             : path_image + "hide.svg"
                                                         }
-                                                        onClick={() => togglePassword(`newPass-${index}`)}
+                                                        onClick={() => togglePassword(`newPass-${details?.userId}-${details?.action}-${details?.created}`)}
                                                         alt=""
                                                       />
                                                     </p>
@@ -1582,16 +1582,16 @@ const SunShineTimeline = () => {
                                                       <span>.</span>
                                                       <p>
                                                       <span>Password |</span>{" "}
-                                                      {passwordVisibility[`pass-${index}`]
+                                                      {passwordVisibility[`pass-${details?.userId}-${details?.action}-${details?.created}`]
                                                         ? details?.rawData?.password
                                                         : "•".repeat(details?.rawData?.password.length)}
                                                       <img
                                                         src={
-                                                          passwordVisibility[`pass-${index}`]
+                                                          passwordVisibility[`pass-${details?.userId}-${details?.action}-${details?.created}`]
                                                             ? path_image + "show_p.svg"
                                                             : path_image + "hide.svg"
                                                         }
-                                                        onClick={() => togglePassword(`pass-${index}`)}
+                                                        onClick={() => togglePassword(`pass-${details?.userId}-${details?.action}-${details?.created}`)}
                                                         alt=""
                                                       />
                                                     </p>
@@ -1637,18 +1637,19 @@ const SunShineTimeline = () => {
                                                     <div className="bg-add">
                                                       <p>
                                                       <span>Password |</span>{" "}
-                                                      {passwordVisibility[`loginPass-${index}`]
+                                                      {passwordVisibility[`loginPass-${details?.userId}-${details?.action}-${details?.created}`]
                                                         ? details?.rawData?.password
                                                         : "•".repeat(details?.rawData?.password.length)}
                                                       <img
                                                         src={
-                                                          passwordVisibility[`loginPass-${index}`]
+                                                          passwordVisibility[`loginPass-${details?.userId}-${details?.action}-${details?.created}`]
                                                             ? path_image + "show_p.svg"
                                                             : path_image + "hide.svg"
                                                         }
-                                                        onClick={() => togglePassword(`loginPass-${index}`)}
+                                                        onClick={() => togglePassword(`loginPass-${details?.userId}-${details?.action}-${details?.created}`)}
                                                         alt=""
                                                       />
+                                                      
                                                     </p>
                                                     </div>
                                                   </div>
@@ -1705,16 +1706,16 @@ const SunShineTimeline = () => {
                                                       <span>.</span>
                                                       <p>
                                                       <span>Password |</span>{" "}
-                                                      {passwordVisibility[`setUpPass-${index}`]
+                                                      {passwordVisibility[`setUpPass-${details?.userId}-${details?.action}-${details?.created}`]
                                                         ? details?.rawData?.password
                                                         : "•".repeat(details?.rawData?.password.length)}
                                                       <img
                                                         src={
-                                                          passwordVisibility[`setUpPass-${index}`]
+                                                          passwordVisibility[`setUpPass-${details?.userId}-${details?.action}-${details?.created}`]
                                                             ? path_image + "show_p.svg"
                                                             : path_image + "hide.svg"
                                                         }
-                                                        onClick={() => togglePassword(`setUpPass-${index}`)}
+                                                        onClick={() => togglePassword(`setUpPass-${details?.userId}-${details?.action}-${details?.created}`)}
                                                         alt=""
                                                       />
                                                     </p>
