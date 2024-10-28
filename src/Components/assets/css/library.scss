@@ -7057,7 +7057,40 @@ input.viewer-toolbar-current-page-input {
 
   .tabs_content_load {
     margin-bottom: 9px;
-
+    .sunshine-content{
+      padding: 10px 10px 0;
+      .col {
+        h3{
+          font-size: 16px;
+          line-height: 1.2;
+          margin-bottom: 5px;
+        }
+        .btn{
+          font-size: 15px;
+          font-weight: 400;
+          line-height: normal;
+          padding: 7px 12px;
+        }
+      }
+      .high_charts-leftside{
+        .img-box{
+          img{
+            -webkit-filter: drop-shadow(0 0 6px rgba(0, 102, 190, .29));
+            filter: drop-shadow(0 0 6px rgba(0, 102, 190, .29));
+          }
+        }
+      }
+      .no-margin{
+        &.highchart-listed{
+          &.row{
+            &:last-child{
+              margin-bottom:0;
+            }
+           
+          }
+        }
+      }
+    }
     .tab-content {
       padding: 7px 0px;
     }

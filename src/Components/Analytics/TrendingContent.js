@@ -182,9 +182,11 @@ const TrendingContent = () => {
                   </Tabs>
                   :
                   isDataFound && data.length > 0 ? (
+                    <div className="sunshine-content">
                     <DocintelAccount
                       data={activeTab.current == 1 ? data : null}
                     />
+                    </div>
                   ) : apiCallStatus ? (
                     <div className="no_found">
                       <p>No Data Found</p>
