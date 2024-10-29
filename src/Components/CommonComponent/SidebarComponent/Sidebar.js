@@ -3655,17 +3655,12 @@ const Sidebar = () => {
                       localStorage.getItem("account_type") == "USA_PHARMA"? (
                         window.location.pathname == "/totalhcp" ||
                           window.location.pathname == "/country-registration" ||
-                          window.location.pathname == "/delivery-stats" ||
+                          window.location.pathname == "/campaign-stats" ||
+                          window.location.pathname == "/analytic-delivery-trends" ||
                           window.location.pathname == "/trending-topics" ||
-                          // window.location.pathname == "/sunshine-trending-content" ||
                           window.location.pathname == "/trending-content" ||
-                          window.location.pathname == "/content-type" ||
-                          window.location.pathname == "/content-analytics" ||
-                          // window.location.pathname == "/analytic-trending-topics" ||
-                          // window.location.pathname == "/analytic-delivery-registration" ||
-                          // window.location.pathname == "/analytic-delivery-trends" ||
-                          window.location.pathname == "/analytic-content-type" ||
-                          window.location.pathname == "/campaign-stats" ? (
+                          window.location.pathname == "/content-type"                         
+                         ? (
                           <ul>
                             <li
                               className={
@@ -3762,13 +3757,13 @@ const Sidebar = () => {
                             </li>
                             <li
                               className={
-                                location.pathname == "/delivery-stats" 
+                                location.pathname == "/analytic-delivery-trends" 
                                   ? "active"
                                   : "side_li"
                               }
                             >
                               <Link
-                                to={"/delivery-stats"                              
+                                to={"/analytic-delivery-trends"                              
                                 }
                               >
                                 <svg
