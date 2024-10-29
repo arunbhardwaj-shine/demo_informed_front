@@ -415,7 +415,7 @@ const SurveySetup = (props) => {
                         <li className="active active-main">
                           <Link to="">Set-up</Link>
                         </li>
-                        <li className="active">
+                        <li className={currentStep > 1 ? "active" : ""}>
                           <Link  to={currentStep > 1 ? "/survey/survey-configure" : "" } >Survey config</Link>
                         </li>
                         <li className={currentStep > 2 ? "active" : "" }>
