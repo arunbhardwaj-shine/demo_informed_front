@@ -574,7 +574,7 @@ const SurveyAnalyticsDetail = () => {
   };
 
   const downloadExcelUsers = (data, tableName) => {
-    console.log(data, "======> from the data");
+     
     try {
       data = data?.map((item, index) => {
         let finalData = {};
@@ -587,14 +587,14 @@ const SurveyAnalyticsDetail = () => {
         return finalData;
       });
 
-      console.log(data);
+       
       const worksheet = XLSX.utils.json_to_sheet(data);
       const workbook = XLSX.utils.book_new();
       // Set column widths dynamically based on the content
       const columnWidths = data.reduce((acc, row) => {
-        console.log(row, "===> from row");
+        
         Object.keys(row).forEach((key, index) => {
-          console.log(key, index, "from the rowss keeyyyy");
+     
           const value = row[key] ? row[key].toString() : "";
           const width = Math.max(value.length, key.length) + 2;
           acc[index] = Math.max(acc[index] || 0, width);
@@ -602,13 +602,11 @@ const SurveyAnalyticsDetail = () => {
         return acc;
       }, []);
 
-      console.log(columnWidths, "from the column width ===>");
-
-      console.log(worksheet, "worksheet from the first");
+  
 
       worksheet["!cols"] = columnWidths.map((width) => ({ wch: width }));
 
-      console.log("from the workesheet ", workbook, worksheet);
+  
 
       XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
       const excelBuffer = XLSX.write(workbook, {

@@ -77,11 +77,11 @@ const SurveyExport = ({ survey_id, unique_code }) => {
             }
           });
 
-          console.log(answer)
+         
 
           if (answer) {
             if (answer.type === "matrix") {
-              console.log("inside matrix");
+             
               // Handle matrix answers
               return (
                 answer.question_detail

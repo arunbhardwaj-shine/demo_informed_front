@@ -217,7 +217,7 @@ const handleDropdownchange=(e,selectType)=>{
 
   const nextButtonClicked = async (e) => {
     e.preventDefault();
-    console.log(formData)
+   
 
     try {
       surveyValues = {

@@ -31,7 +31,7 @@ const SurveyFormBuilder = (props) => {
   } = surveyEndpoints;
 
   const {currentStep}=useSelector((state)=>state.surveyStepReducer);
-  console.log(currentStep,"from the form bulder")
+  
 const dispatch=useDispatch()
   const [elements, setElements] = useState([]);
   // let path = process.env.REACT_APP_ASSETS_PATH_INFORMED;
@@ -1524,7 +1524,7 @@ const dispatch=useDispatch()
               type="button"
               className="btn btn-primary save btn-filled"
               onClick={(e) => {
-                console.log(newSavedTemplateName);
+               
                 if (!newSavedTemplateName.trim()) {
                   setError({
                     addTemplateName: "Please add template Name",

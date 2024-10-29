@@ -189,8 +189,7 @@ const SurveyList = (props) => {
         is_draft: 0,
       };
       const response = await surveyAxiosInstance.post(DUPLICATE_SURVEY, body);
-
-      console.log(response, "this is from duplicate");
+ 
 
       if (response.status === 200) {
         window.location.reload();
@@ -367,8 +366,7 @@ const SurveyList = (props) => {
     try {
       loader("show");
       const res = await surveyAxiosInstance.post(DELETE_ALL_DETAILS, body);
-
-      console.log(res, "this is fromdelete survey");
+ 
 
       if (res.status === 200) {
         hideConfirmationModal();

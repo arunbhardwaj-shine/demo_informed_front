@@ -218,7 +218,7 @@ export const uploadImageToServer = async (file, fileInputRef) => {
       }
       
       if (res.status === 200) {
-        console.log(res.data.data)
+        
         return res.data.data;
       }
    
@@ -375,7 +375,7 @@ export const UpdateQuestion = async (questionId) => {
 };
 
 export const analyticButtonClicked = (data, navigate, addUniqueCode) => {
-  console.log(data, "from analyticd button clicked");
+ 
   let item = {
     Title: data?.survey_title,
     survey_id: data?.survey_id,
