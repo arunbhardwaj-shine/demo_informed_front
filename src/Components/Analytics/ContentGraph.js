@@ -12,6 +12,7 @@ const ContentGraph = () => {
   const [isDataFound, setIsDataFound] = useState(false);
   const [sectionLoader, setSectionLoader] = useState(false);
   const [apiCallStatus, setApiCallStatus] = useState(false);
+  const [isSunshineAccount,setIsSunshineAccount]=useState(localStorage.getItem("account_type")=="USA_PHARMA"?true:false)
 
   Highcharts.setOptions({
     colors: [
@@ -110,13 +111,19 @@ const ContentGraph = () => {
         requestBody = {
           type: "octa",
         };
-      } else {
+      }else if(isSunshineAccount){
+        requestBody = {
+          type: "sunshine",
+        };
+      }
+       else {
         requestBody = {
           type: type,
         };
       }
+      let analyticsRoute=isSunshineAccount?ENDPOINT.USA_CONTENT_TYPE:ENDPOINT.CIS_CONTENT_TYPE
 
-      const response = await postData(ENDPOINT.CIS_CONTENT_TYPE, requestBody);
+      const response = await postData(analyticsRoute, requestBody);
       const hadData = response?.data?.data;
       if (hadData.length <= 0) {
         setIsDataFound(false);
@@ -150,7 +157,8 @@ const ContentGraph = () => {
     // setApiCallStatus(false);
     try {
       let requestBody = { type: type };
-      const response = await postData(ENDPOINT.CONTENT_TYPE_GRAPH, requestBody);
+      let analyticsRoute=isSunshineAccount?ENDPOINT.USA_CONTENT_TYPE_GRAPH:ENDPOINT.CONTENT_TYPE_GRAPH
+      const response = await postData(analyticsRoute, requestBody);
 
       const hadData = response?.data?.data?.data;
       const months = response?.data?.data?.month;
@@ -312,6 +320,7 @@ const ContentGraph = () => {
                 style={{ padding: "10px" }}
               >
                 <div className="tabs_content_load">
+                  {!isSunshineAccount?
                   <Tabs
                     defaultActiveKey={activeTab.current}
                     onSelect={handleTabChange}
@@ -324,6 +333,7 @@ const ContentGraph = () => {
                       {" "}
                     </Tab>
                   </Tabs>
+                  :null}
 
                   {isDataFound && data.length > 0 ? (
                     <>

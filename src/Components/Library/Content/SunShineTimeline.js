@@ -1,17 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState ,useRef} from "react";
 import {
   Button,
   Col,
-  Dropdown,
-  Modal,
-  DropdownButton,
-  Form,
   Row,
   ProgressBar,
   Tab,
   Tabs,
 } from "react-bootstrap";
-import { useLocation, Link, useNavigate} from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Select from "react-select";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
@@ -22,41 +18,46 @@ import { loader } from "../../../loader";
 import { ENDPOINT } from "../../../axios/apiConfig";
 import { postData, getData } from "../../../axios/apiHelper";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
-import SubLinkListing from "./SubLinkListing";
+import { Spinner } from "react-activity";
+// import SubLinkListing from "./SubLinkListing";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
-const LibrarySublink = () => {
-  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
-  const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
-  const isUSAPharmaAccount = localStorage?.getItem("account_type") === 'USA_PHARMA' ? 1 : 0;
+const SunShineTimeline = () => {
+  const rdLikeArray = [
+    "56Ek4feL/1A8mZgIKQWEqg==",
+    "sNl1hra39QmFk9HwvXETJA==",
+    "MXl8m36VZFYXpgFVz3Pg0g==",
+  ];
+  const isLikeRdAccount = rdLikeArray.includes(localStorage.getItem("user_id"));
   const { state } = useLocation();
   const [allContents, setallContents] = useState([]);
   const [allCodes, setAllCodes] = useState([]);
   const [selectedArticle, setSelectedArticle] = useState();
   const [articleData, setArticleData] = useState();
   const [libraryData, setLibraryData] = useState([]);
-  const [createNewLink, setCreateNewLink] = useState(false);
   const [reRenderFlag, setreRenderFlag] = useState(0);
-  const [showSubLinkList, setshowSubLinkList] = useState(false);
-  const [linkRenderCount, setLinkRenderCount] = useState(0);
   const [changeConsent, setchangeConsent] = useState([]);
   const [flag, setFlag] = useState(0);
   const [opening_details, setOpeningDetails] = useState([]);
   const [userId, setUserId] = useState();
   const [update, setUpdate] = useState(0);
   const [consentValue, setConsentValue] = useState("");
-  const [identifier, setIdentifier] = useState("");
-  const [consentType, setConsetnType] = useState([
-    { value: "Sunshine USA", label: "Sunshine USA" },
-  ]);
-  const [newLink, setLink] = useState({
-    delivery: "",
-  });
   const location = useLocation();
   const [types, setTypes] = useState([
     { value: "Online ", label: "Online Offer" },
   ]);
   const [activeTab, setActiveTab] = useState("docintel-link");
   const navigate = useNavigate();
+  const [passwordVisibility, setPasswordVisibility] = useState({});
+  const [accountTimelineData, setAccountTimelineData] = useState({});
+  const [page, setPage] = useState(1);
+  const [showPagination, setShowPagination] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const containerRef = useRef(null);
+  const isUSAPharmaAccount =
+    localStorage?.getItem("account_type") === "USA_PHARMA" ? 1 : 0;
+  const [consentType, setConsetnType] = useState([
+    { value: "Sunshine USA", label: "Sunshine USA" },
+  ]);
 
   useEffect(() => {
     if (!isLikeRdAccount) {
@@ -92,17 +93,40 @@ const LibrarySublink = () => {
       const res = await postData(ENDPOINT.LIBRARY, body);
       let arr = [];
       let codearr = [];
+
+      // Object.entries(res?.data?.data?.library).map(([index, item]) => {
+      //   arr.push({
+      //     value: item.id,
+      //     label: item.title.replace(/(<([^>]+)>)/gi, ""),
+      //   });
+      //   codearr.push({
+      //     value: item.id,
+      //     label: item.code,
+      //   });
+      //   setallContents(arr);
+      //   console.log(item,'arr')
+      // });
+
       Object.entries(res?.data?.data?.library).map(([index, item]) => {
-        arr.push({
-          value: item.id,
-          label: item.title.replace(/(<([^>]+)>)/gi, ""),
-        });
-        codearr.push({
-          value: item.id,
-          label: item.code,
-        });
-        setallContents(arr);
+        // Check if the item has linkType "Sunshine USA"
+        if (item?.linkType === "Sunshine USA") {
+          arr.push({
+            value: item.id,
+            label: item.title.replace(/(<([^>]+)>)/gi, ""),
+          });
+          
+          // Push to codearr only if linkType matches
+          codearr.push({
+            value: item.id,
+            label: item.code,
+          });
+        }
       });
+  
+      if (arr.length > 0) {
+        setallContents(arr);
+      }
+
       codearr.sort((a, b) => {
         let x = a.label.toLowerCase();
         let y = b.label.toLowerCase();
@@ -131,38 +155,6 @@ const LibrarySublink = () => {
 
   const onArticleChange = async (event) => {
     setSelectedArticle(event.value);
-  };
-
-  const createNewLinkClicked = () => {
-    setCreateNewLink(true);
-  };
-  const handleChange = (name, e) => {
-    setLink({ ...newLink, [name]: e });
-  };
-
-  const handleSubmit = async () => {
-    try {
-      loader("show");
-      let body = {
-        pdfId: selectedArticle,
-        campaignId: newLink.delivery,
-        name: identifier,
-      };
-
-      const res = await postData(ENDPOINT.LIBRARYREADDSUBLINK, body);
-      setLink({
-        ...newLink,
-        delivery: "",
-      });
-
-      setshowSubLinkList(true);
-      setLinkRenderCount(linkRenderCount + 1);
-    } catch (err) {
-      console.log("err", err);
-    } finally {
-      loader("hide");
-    }
-    setCreateNewLink(false);
   };
 
   const getArticleData = () => {
@@ -254,12 +246,7 @@ const LibrarySublink = () => {
     try {
       loader("show");
       const index = changeConsent.findIndex((el) => el.index === pdf_id);
-      let consent_value = changeConsent[index]?.value || '';
-
-      if(consent_value == ''){
-        const get_actual_consent = libraryData.findIndex((el) => el.id === pdf_id);
-        consent_value = libraryData[get_actual_consent].linkType;
-      }
+      let consent_value = changeConsent[index].value;
 
       let body = {
         pdfId: pdf_id,
@@ -320,10 +307,6 @@ const LibrarySublink = () => {
     );
   }
 
-  const onIdentifierChange = (event) => {
-    setIdentifier(event.target.value);
-  };
-
   const changeFormatForPrint = (value) => {
     let data = "";
     if (value?.allow_print) {
@@ -346,6 +329,84 @@ const LibrarySublink = () => {
     return data;
   };
 
+ 
+  useEffect(() => {
+    // Fetch initial data on mount
+    getAccountTimelineData(page);
+
+    // Event listener for scroll on the ref container
+    const handleScroll = () => {
+      if (containerRef.current) {
+        const { scrollTop, scrollHeight, clientHeight } = containerRef.current;
+
+        // Check if we are at the bottom of the scrollable container
+        if (scrollTop + clientHeight >= scrollHeight) {
+          handleLoadMore();
+        }
+      }
+    };
+
+    const currentRef = containerRef.current;
+    currentRef.addEventListener('scroll', handleScroll);
+
+    // Cleanup the event listener on component unmount
+    return () => {
+      currentRef.removeEventListener('scroll', handleScroll);
+    };
+  }, [page]);
+
+  const getAccountTimelineData = async (pageNo = 1) => {
+    try {
+      setLoading(true); 
+
+      const response = await getData(
+        `${ENDPOINT.GET_ARTICLE_TIMELINE_DATA}?page=${pageNo}`
+      );
+
+      if (response?.data) {
+        setAccountTimelineData((prev) => {
+          const newData = response?.data?.data || {};
+          const mergedData = { ...prev };
+
+          Object.keys(newData).forEach((date) => {
+            if (mergedData[date]) {
+              mergedData[date] = [...mergedData[date], ...newData[date]];
+            } else {
+              mergedData[date] = newData[date];
+            }
+          });
+
+          return mergedData;
+        });
+        setShowPagination(response?.data?.showPagination);
+      }
+    } catch (err) {
+      console.log("--err", err);
+    } finally {
+      setLoading(false); 
+    }
+  };
+
+  const handleLoadMore = () => {
+    if (!loading) { 
+      setPage((prev) => prev + 1);
+    }
+  };
+
+  const printPage = () => {
+    window.print();
+  };
+
+
+
+  const togglePassword = (key) => {
+    setPasswordVisibility((prevState) => ({
+      ...prevState,
+      [key]: !prevState[key],
+    }));
+  };
+
+
   return (
     <>
       <Col className="right-sidebar">
@@ -353,42 +414,7 @@ const LibrarySublink = () => {
           <Row>
             <div className="top-header">
               <div className="page-title d-flex">
-                <Link
-                  className="btn btn-primary btn-bordered back-btn"
-                  // to="/library-create"
-                  to={
-                    location?.state?.flag === "mandatory"
-                      ? "/library-mandatory-content"
-                      : location?.state?.flag === "Non-mandatory"
-                      ? "/library-content"
-                      : "/library-create"
-                  }
-                  state={{  
-
-                    flag : isLikeRdAccount?(location?.state?.flag === "mandatory"
-                      ? "mandatory"
-                      : location?.state?.flag === "Non-mandatory"
-                      ? "Non-mandatory" : '') :'',
-                      title: isLikeRdAccount
-                      ? (location?.state?.title)
-                      : ''
-                 
-                  }}
-                >
-                  <svg
-                    width="14"
-                    height="24"
-                    viewBox="0 0 14 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M0.159662 12.0019C0.159662 11.5718 0.323895 11.1417 0.65167 10.8138L10.9712 0.494292C11.6277 -0.16216 12.692 -0.16216 13.3482 0.494292C14.0044 1.15048 14.0044 2.21459 13.3482 2.8711L4.21687 12.0019L13.3479 21.1327C14.0041 21.7892 14.0041 22.8532 13.3479 23.5093C12.6917 24.1661 11.6274 24.1661 10.9709 23.5093L0.65135 13.19C0.323523 12.8619 0.159662 12.4319 0.159662 12.0019Z"
-                      fill="#97B6CF"
-                    />
-                  </svg>
-                </Link>
-                <h2>New SubLink</h2>
+                <h2>Sunshine Details</h2>
               </div>
               {/* <div className="header-btn">
                 <Button
@@ -399,12 +425,12 @@ const LibrarySublink = () => {
                 </Button>
               </div> */}
             </div>
-            <div className="create-change-content spc-content">
+            <div className="create-change-content spc-content sunshine">
               <div className="form_action">
                 <div className="row">
                   <Col className="sublink_left">
                     <h5>
-                      Please find the content you'd like a new subLink for
+                      Please find the content you'd like to see it's timeline:
                     </h5>
                     <div className="product-unit d-flex justify-content-between align-items-center">
                       <div className="form-group">
@@ -456,15 +482,6 @@ const LibrarySublink = () => {
                             <div className="library-content-box-layuot">
                               <div className="doc-content-main-box col">
                                 <div className="doc-content-header">
-                                  <div className="doc-content-header-logo">
-                                    <a href="#">
-                                      <img
-                                        alt="doc-logo"
-                                        src={articleData?.coverImage}
-                                        style={{ width: "67px" }}
-                                      />
-                                    </a>
-                                  </div>
                                   <div className="doc-content">
                                     <h5
                                       dangerouslySetInnerHTML={{
@@ -1092,12 +1109,13 @@ const LibrarySublink = () => {
                                             <label htmlFor="">
                                               Consent type
                                             </label>
-                                            {
-                                              isUSAPharmaAccount && articleData.articleOwner == 1 ?
+                                            {isUSAPharmaAccount &&
+                                            articleData.articleOwner == 1 ? (
                                               <Select
                                                 options={consentType}
                                                 defaultValue={
-                                                  articleData.linkType == "Sunshine USA"
+                                                  articleData.linkType ==
+                                                  "Sunshine USA"
                                                     ? consentType?.[0]
                                                     : "Select"
                                                 }
@@ -1114,12 +1132,13 @@ const LibrarySublink = () => {
                                                 className="dropdown-basic-button split-button-dropup"
                                                 isClearable
                                               />
-                                              :
+                                            ) : (
                                               <Select
                                                 options={types}
                                                 // value={consentValue}
                                                 defaultValue={
-                                                  articleData.linkType == "Online"
+                                                  articleData.linkType ==
+                                                  "Online"
                                                     ? types[0]
                                                     : articleData.linkType ==
                                                       "Offline"
@@ -1142,7 +1161,7 @@ const LibrarySublink = () => {
                                                 className="dropdown-basic-button split-button-dropup"
                                                 isClearable
                                               />
-                                            }
+                                            )}
                                             <Button
                                               onClick={(e) =>
                                                 updateConset(articleData.id)
@@ -1213,7 +1232,7 @@ const LibrarySublink = () => {
                                             </>
                                           )}
 
-                                          {isLikeRdAccount&&
+                                          {isLikeRdAccount &&
                                           localStorage.getItem("group_id") ==
                                             "3" ? (
                                             <>
@@ -1313,23 +1332,514 @@ const LibrarySublink = () => {
                   </Col>
                   <Col className="sublink_right d-flex flex-column">
                     <div className="d-flex justify-content-between align-items-center">
-                      <h5>SubLinks:</h5>
-                      <Button
-                        className={
-                          !selectedArticle
-                            ? "btn-filled btn-disabled"
-                            : "btn-filled"
-                        }
-                        onClick={createNewLinkClicked}
-                      >
-                        Create New Link +
-                      </Button>
+                      <h5>Timeline:</h5>
+                      <div className="header-btn d-flex justify-content-end">
+                        <button
+                          className="btn print"
+                          onClick={(e) => printPage()}
+                        >
+                          <svg
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                          >
+                            <mask
+                              id="mask0_1144_989"
+                              maskUnits="userSpaceOnUse"
+                              x="0"
+                              y="0"
+                              width="24"
+                              height="24"
+                            >
+                              <path
+                                d="M0 1.90735e-06H24V24H0V1.90735e-06Z"
+                                fill="white"
+                              />
+                            </mask>
+                            <g mask="url(#mask0_1144_989)">
+                              <path
+                                fill-rule="evenodd"
+                                clip-rule="evenodd"
+                                d="M3.51562 17.4023C2.29226 17.4023 1.30078 16.4109 1.30078 15.1875V9.5625C1.30078 8.33914 2.29226 7.34766 3.51562 7.34766H20.4844C21.7077 7.34766 22.6992 8.33914 22.6992 9.5625V15.1875C22.6992 16.4109 21.7077 17.4023 20.4844 17.4023H19.125C18.7949 17.4023 18.5273 17.6699 18.5273 18C18.5273 18.3301 18.7949 18.5977 19.125 18.5977H20.4844C22.3679 18.5977 23.8945 17.071 23.8945 15.1875V9.5625C23.8945 7.67899 22.3679 6.15234 20.4844 6.15234H3.51562C1.63211 6.15234 0.105469 7.67899 0.105469 9.5625V15.1875C0.105469 17.071 1.63211 18.5977 3.51562 18.5977H4.875C5.20508 18.5977 5.47266 18.3301 5.47266 18C5.47266 17.6699 5.20508 17.4023 4.875 17.4023H3.51562Z"
+                                fill="#0066BE"
+                              />
+                              <path
+                                fill-rule="evenodd"
+                                clip-rule="evenodd"
+                                d="M3.15234 14.25C3.15234 14.5801 3.41992 14.8477 3.75 14.8477H20.25C20.5801 14.8477 20.8477 14.5801 20.8477 14.25C20.8477 13.9199 20.5801 13.6523 20.25 13.6523H3.75C3.41992 13.6523 3.15234 13.9199 3.15234 14.25Z"
+                                fill="#0066BE"
+                              />
+                              <path
+                                fill-rule="evenodd"
+                                clip-rule="evenodd"
+                                d="M6.28125 22.6992C5.8347 22.6992 5.47266 22.3372 5.47266 21.8906V14.8477H18.5273V21.8906C18.5273 22.3372 18.1653 22.6992 17.7187 22.6992H6.28125ZM4.27734 21.8906C4.27734 22.9973 5.17455 23.8945 6.28125 23.8945H17.7187C18.8254 23.8945 19.7227 22.9973 19.7227 21.8906V14.25C19.7227 13.9199 19.4551 13.6523 19.125 13.6523H4.875C4.54492 13.6523 4.27734 13.9199 4.27734 14.25V21.8906Z"
+                                fill="#0066BE"
+                              />
+                              <path
+                                fill-rule="evenodd"
+                                clip-rule="evenodd"
+                                d="M9.52734 17.25C9.52734 17.5801 9.79492 17.8477 10.125 17.8477H13.875C14.2051 17.8477 14.4727 17.5801 14.4727 17.25C14.4727 16.9199 14.2051 16.6523 13.875 16.6523H10.125C9.79492 16.6523 9.52734 16.9199 9.52734 17.25Z"
+                                fill="#0066BE"
+                              />
+                              <path
+                                fill-rule="evenodd"
+                                clip-rule="evenodd"
+                                d="M9.52734 20.25C9.52734 20.5801 9.79492 20.8477 10.125 20.8477H13.875C14.2051 20.8477 14.4727 20.5801 14.4727 20.25C14.4727 19.9199 14.2051 19.6523 13.875 19.6523H10.125C9.79492 19.6523 9.52734 19.9199 9.52734 20.25Z"
+                                fill="#0066BE"
+                              />
+                              <path
+                                fill-rule="evenodd"
+                                clip-rule="evenodd"
+                                d="M3.15234 9.75C3.15234 10.0801 3.42029 10.3477 3.75081 10.3477H4.23543C4.56595 10.3477 4.8339 10.0801 4.8339 9.75C4.8339 9.41992 4.56595 9.15234 4.23543 9.15234H3.75081C3.42029 9.15234 3.15234 9.41992 3.15234 9.75Z"
+                                fill="#0066BE"
+                              />
+                              <path
+                                fill-rule="evenodd"
+                                clip-rule="evenodd"
+                                d="M4.27734 6.75C4.27734 7.08008 4.54492 7.34766 4.875 7.34766H19.125C19.4551 7.34766 19.7227 7.08008 19.7227 6.75V3.51562C19.7227 1.63225 18.1959 0.105469 16.3125 0.105469H7.6875C5.80413 0.105469 4.27734 1.63225 4.27734 3.51562V6.75ZM5.47266 6.15234V3.51562C5.47266 2.2924 6.46428 1.30078 7.6875 1.30078H16.3125C17.5357 1.30078 18.5273 2.2924 18.5273 3.51562V6.15234H5.47266Z"
+                                fill="#0066BE"
+                              />
+                            </g>
+                          </svg>
+                        </button>
+                      </div>
                     </div>
-                    <SubLinkListing
-                      pdfid={selectedArticle}
-                      render={showSubLinkList}
-                      count={linkRenderCount}
-                    />
+                    {Object.keys(accountTimelineData)?.length > 0 ||
+                    accountTimelineData ? (
+                      <>
+                        <div className="timeline-layout crm-timeline">
+                          <div className="timeline-layout-inset" >
+                            <div className="timeline-right-list"ref={containerRef}>
+                              <div className="timeline-right-header">
+                                <div className="timeline-indicator">
+                                  <img
+                                    src={
+                                      path_image + "informed-circle-icon.svg"
+                                    }
+                                    alt=""
+                                  />
+                                </div>
+                                <div className="timeline-date"></div>
+                              </div>
+
+                              <div className="timeline-box">
+                                {/* Sorting the dates in descending order */}
+                                {Object.keys(accountTimelineData)
+                                  .sort(
+                                    (a, b) =>
+                                      moment(b, "DD MMM YYYY").toDate() -
+                                      moment(a, "DD MMM YYYY").toDate()
+                                  )
+                                  .map((date) => (
+                                    <React.Fragment key={date}>
+                                      <div className="timeline-sticky">
+                                        <div className="timeline-indicator">
+                                          <span>&nbsp;</span>
+                                        </div>
+                                        <div className="timeline-date">
+                                          <p>
+                                            {date ===
+                                            moment("1970-01-01").format(
+                                              "MMMM. DD. YYYY"
+                                            )
+                                              ? "N/A"
+                                              : moment(
+                                                  date,
+                                                  "DD MMM YYYY"
+                                                ).format("MMMM. DD. YYYY")}
+                                          </p>
+                                        </div>
+                                      </div>
+
+                                      {accountTimelineData?.[date].map(
+                                        (details, index) => (
+                                          <div
+                                            className="timeline-box-inset"
+                                            key={index}
+                                          >
+                                            {details?.action ===
+                                            "Account Password Changed" ? (
+                                              <div className="timeline-block">
+                                                <div className="timeline-status">
+                                                  <p>{details?.action}</p>
+                                                  <span>{details?.time}</span>
+                                                  <div className="timeline-indicator">
+                                                    <div className="indicator-box">
+                                                      <img
+                                                        src={
+                                                          path_image +
+                                                          "account-password-change.svg"
+                                                        }
+                                                        alt=""
+                                                      />
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                                <div className="timeline-details">
+                                                  <div className="details-box">
+                                                    <p className="timeline-details-heading">
+                                                      IP
+                                                    </p>
+                                                    <p>
+                                                      {details?.ipAddress?.replace(
+                                                        "::ffff:",
+                                                        ""
+                                                      )}
+                                                    </p>
+                                                  </div>
+
+                                                  <div className="details-box">
+                                                    <p className="timeline-details-heading">
+                                                      Password
+                                                    </p>
+                                                    <div className="bg-add" key={index}>
+                                                    <p>
+                                                      <span>Old |</span>{" "}
+                                                      {/* Unique key for old password */}
+                                                      {passwordVisibility[`oldPass-${details?.userId}-${details?.action}-${details?.created}`]
+                                                        ? details?.rawData?.oldPass
+                                                        : "•".repeat(details?.rawData?.oldPass.length)}
+                                                      <img
+                                                        src={
+                                                          passwordVisibility[`oldPass-${details?.userId}-${details?.action}-${details?.created}`]
+                                                            ? path_image + "show_p.svg"
+                                                            : path_image + "hide.svg"
+                                                        }
+                                                        onClick={() => togglePassword(`oldPass-${details?.userId}-${details?.action}-${details?.created}`)}
+                                                        alt=""
+                                                      />
+                                                    </p>
+                                                    <span>.</span>
+                                                    <p>
+                                                      <span>New |</span>{" "}
+                                                      {/* Unique key for new password */}
+                                                      {passwordVisibility[`newPass-${details?.userId}-${details?.action}-${details?.created}`]
+                                                        ? details?.rawData?.newpassword
+                                                        : "•".repeat(details?.rawData?.newpassword.length)}
+                                                      <img
+                                                        src={
+                                                          passwordVisibility[`newPass-${details?.userId}-${details?.action}-${details?.created}`]
+                                                            ? path_image + "show_p.svg"
+                                                            : path_image + "hide.svg"
+                                                        }
+                                                        onClick={() => togglePassword(`newPass-${details?.userId}-${details?.action}-${details?.created}`)}
+                                                        alt=""
+                                                      />
+                                                    </p>
+                                                  </div>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            ) : details?.action ===
+                                              "Account Credential Reset" ? (
+                                              <div className="timeline-block">
+                                                <div className="timeline-status">
+                                                  <p>{details?.action}</p>
+                                                  <span>{details?.time}</span>
+                                                  <div className="timeline-indicator">
+                                                    <div className="indicator-box">
+                                                      <img
+                                                        src={
+                                                          path_image +
+                                                          "account-credential-reset.svg"
+                                                        }
+                                                        alt=""
+                                                      />
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                                <div className="timeline-details">
+                                                  <div className="details-box">
+                                                    <p className="timeline-details-heading">
+                                                      IP
+                                                    </p>
+                                                    <p>
+                                                      {details?.ipAddress?.replace(
+                                                        "::ffff:",
+                                                        ""
+                                                      )}
+                                                    </p>
+                                                  </div>
+
+                                                  <div className="details-box bg-add">
+                                                    <p className="timeline-details-heading">
+                                                      Credentials
+                                                    </p>
+                                                    <div className="bg-add">
+                                                      <p>
+                                                        <span>Name |</span>{" "}
+                                                        {details?.rawData?.name}
+                                                      </p>
+                                                      <span>.</span>
+                                                      <p>
+                                                        <span>Email |</span>{" "}
+                                                        {
+                                                          details?.rawData
+                                                            ?.email
+                                                        }
+                                                      </p>
+                                                      <span>.</span>
+                                                      <p>
+                                                      <span>Password |</span>{" "}
+                                                      {passwordVisibility[`pass-${details?.userId}-${details?.action}-${details?.created}`]
+                                                        ? details?.rawData?.password
+                                                        : "•".repeat(details?.rawData?.password.length)}
+                                                      <img
+                                                        src={
+                                                          passwordVisibility[`pass-${details?.userId}-${details?.action}-${details?.created}`]
+                                                            ? path_image + "show_p.svg"
+                                                            : path_image + "hide.svg"
+                                                        }
+                                                        onClick={() => togglePassword(`pass-${details?.userId}-${details?.action}-${details?.created}`)}
+                                                        alt=""
+                                                      />
+                                                    </p>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            ) : details?.action ===
+                                              "Account Login" ? (
+                                              <div className="timeline-block">
+                                                <div className="timeline-status">
+                                                  <p>{details?.action}</p>
+                                                  <span>{details?.time}</span>
+                                                  <div className="timeline-indicator">
+                                                    <div className="indicator-box">
+                                                      <img
+                                                        src={
+                                                          path_image +
+                                                          "account-login.svg"
+                                                        }
+                                                        alt=""
+                                                      />
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                                <div className="timeline-details">
+                                                  <div className="details-box">
+                                                    <p className="timeline-details-heading">
+                                                      IP
+                                                    </p>
+                                                    <p>
+                                                      {details?.ipAddress?.replace(
+                                                        "::ffff:",
+                                                        ""
+                                                      )}
+                                                    </p>
+                                                  </div>
+
+                                                  <div className="details-box bg-add">
+                                                    <p className="timeline-details-heading">
+                                                      Password
+                                                    </p>
+                                                    <div className="bg-add">
+                                                      <p>
+                                                      <span>Password |</span>{" "}
+                                                      {passwordVisibility[`loginPass-${details?.userId}-${details?.action}-${details?.created}`]
+                                                        ? details?.rawData?.password
+                                                        : "•".repeat(details?.rawData?.password.length)}
+                                                      <img
+                                                        src={
+                                                          passwordVisibility[`loginPass-${details?.userId}-${details?.action}-${details?.created}`]
+                                                            ? path_image + "show_p.svg"
+                                                            : path_image + "hide.svg"
+                                                        }
+                                                        onClick={() => togglePassword(`loginPass-${details?.userId}-${details?.action}-${details?.created}`)}
+                                                        alt=""
+                                                      />
+                                                      
+                                                    </p>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            ) : details?.action ===
+                                              "Account Set-up" ? (
+                                              <div className="timeline-block">
+                                                <div className="timeline-status">
+                                                  <p>{details?.action}</p>
+                                                  <span>{details?.time}</span>
+                                                  <div className="timeline-indicator">
+                                                    <div className="indicator-box">
+                                                      <img
+                                                        src={
+                                                          path_image +
+                                                          "account-setup.svg"
+                                                        }
+                                                        alt=""
+                                                      />
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                                <div className="timeline-details">
+                                                  <div className="details-box">
+                                                    <p className="timeline-details-heading">
+                                                      IP
+                                                    </p>
+                                                    <p>
+                                                      {details?.ipAddress?.replace(
+                                                        "::ffff:",
+                                                        ""
+                                                      )}
+                                                    </p>
+                                                  </div>
+
+                                                  <div className="details-box bg-add">
+                                                    <p className="timeline-details-heading">
+                                                      Credentials
+                                                    </p>
+                                                    <div className="bg-add">
+                                                      <p>
+                                                        <span>Name |</span>{" "}
+                                                        {details?.rawData?.name}
+                                                      </p>
+                                                      <span>.</span>
+                                                      <p>
+                                                        <span>Email |</span>{" "}
+                                                        {
+                                                          details?.rawData
+                                                            ?.email
+                                                        }
+                                                      </p>
+                                                      <span>.</span>
+                                                      <p>
+                                                      <span>Password |</span>{" "}
+                                                      {passwordVisibility[`setUpPass-${details?.userId}-${details?.action}-${details?.created}`]
+                                                        ? details?.rawData?.password
+                                                        : "•".repeat(details?.rawData?.password.length)}
+                                                      <img
+                                                        src={
+                                                          passwordVisibility[`setUpPass-${details?.userId}-${details?.action}-${details?.created}`]
+                                                            ? path_image + "show_p.svg"
+                                                            : path_image + "hide.svg"
+                                                        }
+                                                        onClick={() => togglePassword(`setUpPass-${details?.userId}-${details?.action}-${details?.created}`)}
+                                                        alt=""
+                                                      />
+                                                    </p>
+                                                      <span>.</span>
+                                                      <p>
+                                                        <span>Country |</span>{" "}
+                                                        {
+                                                          details?.rawData
+                                                            ?.country
+                                                        }
+                                                      </p>
+                                                      <span>.</span>
+                                                      <p>
+                                                        <span>Company |</span>{" "}
+                                                        {
+                                                          details?.rawData
+                                                            ?.company
+                                                        }
+                                                      </p>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            ) : details?.action ===
+                                              "Registration Pop-up Update" ? (
+                                              <div className="timeline-block">
+                                                <div className="timeline-status">
+                                                  <p>{details?.action}</p>
+                                                  <span>{details?.time}</span>
+                                                  <div className="timeline-indicator">
+                                                    <div className="indicator-box">
+                                                      <img
+                                                        src={
+                                                          path_image +
+                                                          "registration-popup-update.svg"
+                                                        }
+                                                        alt=""
+                                                      />
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                                <div className="timeline-details">
+                                                  <div className="details-box">
+                                                    <p className="timeline-details-heading">
+                                                      Article
+                                                    </p>
+                                                    <p>{
+                                                          details?.rawData
+                                                            ?.title
+                                                        }</p>
+                                                  </div>
+
+                                                  <div className="details-box">
+                                                    <p className="timeline-details-heading">
+                                                      IP
+                                                    </p>
+                                                    <p>
+                                                      {details?.ipAddress?.replace(
+                                                        "::ffff:",
+                                                        ""
+                                                      )}
+                                                    </p>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            ) : (
+                                              <div className="timeline-block">
+                                                <div className="timeline-status">
+                                                  <p>{details?.action}</p>
+                                                  <span>{details?.time}</span>
+                                                  <div className="timeline-indicator">
+                                                    <div className="indicator-box">
+                                                      <img
+                                                        src={
+                                                          path_image +
+                                                          "irt-invited-training.svg"
+                                                        }
+                                                        alt=""
+                                                      />
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                                <div className="timeline-details">
+                                                  <div className="details-box">
+                                                    <p className="timeline-details-heading">
+                                                      IP
+                                                    </p>
+                                                    <p>
+                                                      {details?.ipAddress?.replace(
+                                                        "::ffff:",
+                                                        ""
+                                                      )}
+                                                    </p>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            )}
+                                          </div>
+                                        )
+                                      )}
+                                    </React.Fragment>
+                                  ))}
+                              </div>
+                            </div>
+                            {loading && showPagination &&(
+                                    <div
+                                    className="load_more"
+                                    style={{
+                                      margin: "10 auto",
+                                      justifyContent: "center",
+                                      display: "flex",
+                                    }}
+                                  >
+                                    <Spinner color="#53aff4" size={32} speed={1} animating={true} />
+                                  </div>
+                                  )}
+                          </div>
+                        </div>
+                      </>
+                    ) : (
+                      <div className="no_found">
+                        <p>No Data Found</p>
+                      </div>
+                    )}
                   </Col>
                 </div>
               </div>
@@ -1337,96 +1847,8 @@ const LibrarySublink = () => {
           </Row>
         </div>
       </Col>
-
-      <Modal show={createNewLink} className="send-confirm" id="download-qr">
-        <Modal.Header>
-          <h5 className="modal-title" id="staticBackdropLabel">
-            Create New Link
-          </h5>
-          <button
-            type="button"
-            className="btn-close"
-            data-bs-dismiss="modal"
-            onClick={() => {
-              setCreateNewLink(false);
-            }}
-          ></button>
-        </Modal.Header>
-        <Modal.Body>
-          <div className="form-group">
-            <label htmlFor="">Delivery</label>
-            <DropdownButton
-              className={
-                "dropdown-basic-button split-button-dropup " +
-                (newLink?.delivery ? "addval" : "")
-              }
-              title={
-                newLink?.delivery ? newLink?.delivery : "Select delivery type"
-              }
-              name="delivery"
-              onSelect={(e) => handleChange("delivery", e)}
-            >
-              <div className="scroll_div delivery_popup">
-                <div className="scroll_div_inset">
-                  <Dropdown.Item
-                    eventKey="Email"
-                    className={newLink?.delivery == "Email" ? "active" : ""}
-                  >
-                    Email
-                  </Dropdown.Item>
-                  <Dropdown.Item
-                    eventKey="InforMedGO"
-                    className={
-                      newLink?.delivery == "InforMedGO" ? "active" : ""
-                    }
-                  >
-                    InforMedGO
-                  </Dropdown.Item>
-                  <Dropdown.Item
-                    eventKey="Social"
-                    className={newLink?.delivery == "Social" ? "active" : ""}
-                  >
-                    Social
-                  </Dropdown.Item>
-
-                  <Dropdown.Item
-                    eventKey="Website"
-                    className={newLink?.delivery == "Website" ? "active" : ""}
-                  >
-                    Website
-                  </Dropdown.Item>
-                </div>
-              </div>
-            </DropdownButton>
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="">Identifier</label>
-            <input
-              type="text"
-              className="form-control"
-              placeholder=""
-              onChange={(event) => onIdentifierChange(event)}
-            />
-          </div>
-        </Modal.Body>
-
-        <div className="modal-footer">
-          <button
-            type="button"
-            className={
-              !(newLink?.delivery && identifier.trim().length > 0)
-                ? "btn btn-primary save btn-filled btn-disabled"
-                : "btn btn-primary save btn-filled"
-            }
-            onClick={() => handleSubmit()}
-          >
-            Apply
-          </button>
-        </div>
-      </Modal>
     </>
   );
 };
 
-export default LibrarySublink;
+export default SunShineTimeline;

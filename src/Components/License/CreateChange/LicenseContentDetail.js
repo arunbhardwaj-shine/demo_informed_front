@@ -38,6 +38,7 @@ const LicenseContentDetail = (props) => {
     reseller: "",
   });
 
+  const [accountSetupLink, setAccountSetupLink] = useState('');
   const [reRender, setReRender] = useState(0);
   const navigate = useNavigate();
   const [articleId, setArticleId] = useState(
@@ -111,6 +112,7 @@ const LicenseContentDetail = (props) => {
           ? res?.data?.data?.resellerData?.join()
           : "",
       });
+      setAccountSetupLink(res?.data?.data?.pharmaDetail);
 
       loader("hide");
     } catch (err) {
@@ -119,7 +121,24 @@ const LicenseContentDetail = (props) => {
     }
   };
 
-  const copyToClipboard = (content) => {
+  const copyToClipboard = (content,type='') => {
+
+    if(type == 'setupLink'){
+      let url = content;
+      content = `
+Here is your new ePrint to share: ${url}
+
+Once you’ve finished testing, let me know, and we will reset the usage so you can begin distributing the ePrint.
+
+To view the Sunshine data and the list of registrations, please click the link below and finalize your personal account:
+
+Sunshine data: ${url}
+
+In your account, you can also update the compliance text for registrations.
+
+Let me know if you’d like any further adjustments!`;
+    }
+
     if (window.isSecureContext && navigator.clipboard) {
       navigator.clipboard.writeText(content);
       toast.success("content copied to the clipboard!");
@@ -337,6 +356,36 @@ const LicenseContentDetail = (props) => {
                                         </span>
                                         </div>
                                       </h6>
+                                      
+                                      {
+                                        localStorage.getItem('user_id') == 'rjiGlqA9DXJVH7bDDTX0Lg==' && data?.first_popup == 1 && data?.only_first_popup == 2 ?
+                                        <h6>
+                                          <strong>Client Account | </strong>
+                                          <div className="d-flex">
+                                          <a
+                                            href={accountSetupLink}
+                                            className="doc-link"
+                                            target="_blank"
+                                          >
+                                            {accountSetupLink}
+                                          </a>
+                                          <span
+                                            className="copy-content"
+                                            onClick={() => {
+                                              copyToClipboard(accountSetupLink,'setupLink');
+                                            }}
+                                          >
+                                            <img
+                                              src={
+                                                path_image + "copy-content.svg"
+                                              }
+                                              alt="Copy"
+                                            />
+                                          </span>
+                                          </div>
+                                        </h6>
+                                        : null
+                                      }
 
                                       <div className="info_btn">
                                         <Button

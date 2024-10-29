@@ -57,7 +57,7 @@ const LicenseCreate = () => {
         },
       });
     } else if (value == 3) {
-      navigate("/license-set-popup");
+      navigate("/license-popup");
     } else if (value == 4) {
       navigate("/license-topics", {
         state: {

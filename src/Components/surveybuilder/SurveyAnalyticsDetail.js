@@ -1712,10 +1712,13 @@ const SurveyAnalyticsDetail = () => {
 
                                           <td>{item?.country}</td>
                                           <td>
+                                            {item?.date ? item?.date : "N/A"}
+                                          </td>
+                                          {/* <td>
                                             {moment(item?.date).format(
                                               "DD MMM. YYYY"
                                             )}
-                                          </td>
+                                          </td> */}
                                           <td className={item?.status}>
                                             {item?.status}
                                           </td>

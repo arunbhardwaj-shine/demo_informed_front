@@ -131,7 +131,7 @@ const LicenseEditListing = () => {
     applyFilters();
     getLibraryData(page, filterObject, search);
 
-    if(localStorage.getItem('user_id') == 'b3APser7L8OELDIG8ee2HQ==' || localStorage.getItem('user_id') == "rOhdD02MgXkownQqcreqAw=="){
+    if(localStorage.getItem('user_id') == 'b3APser7L8OELDIG8ee2HQ==' || localStorage.getItem('user_id') == "rOhdD02MgXkownQqcreqAw==" || localStorage.getItem("user_id") == "rjiGlqA9DXJVH7bDDTX0Lg=="){
       const newObj = {value: "Sunshine USA", label: "Sunshine USA"};
       const updatedArray = [...types, newObj];
       setTypes(updatedArray);
