@@ -1623,7 +1623,7 @@ const LibraryContent = (props) => {
                               </a>
                             </div>
                             <div className="doc-content">
-                              <h5
+                            <h5
                                 dangerouslySetInnerHTML={{
                                   __html: data?.title,
                                 }}
@@ -1633,7 +1633,7 @@ const LibraryContent = (props) => {
                                   ? data.pdf_sub_title
                                   : data?.folder_name}
                               </h6>
-                              <p>{data?.key_author}</p>
+                              <p className="author">{data?.key_author}</p>
                               <div className="select-tags">
                                 {data?.tags?.length
                                   ? JSON.parse(data.tags)?.map((data) => {
