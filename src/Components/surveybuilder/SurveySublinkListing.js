@@ -6,9 +6,12 @@ import { loader } from "../../loader";
 import { toast } from "react-toastify";
 import QRCode from "qrcode.react";
 import { analyticButtonClicked } from "./CommonFunctions/CommonFunction";
+import { surveyEndpoints } from "./SurveyEndpoints/SurveyEndpoints";
+ 
 
 const SurveySublinkListing = ({ survey_id, render, count }) => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+  const {FETCH_SURVEY_SUBLINK}=surveyEndpoints
 const navigate=useNavigate();
   const [sectionLoader, setSectionLoader] = useState(false);
   const [subLinkData, setSubLinkData] = useState([]);
@@ -25,7 +28,7 @@ const navigate=useNavigate();
         // setSectionLoader(true);
         // loader('show');
         const res = await surveyAxiosInstance.post(
-          "/survey/fetch-survey-sublink",
+          FETCH_SURVEY_SUBLINK,
           { survey_id }
         );
 

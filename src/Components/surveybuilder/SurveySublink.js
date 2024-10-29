@@ -27,10 +27,16 @@ import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 // import SubLinkListing from "../../Components/Library/CreateChange/SubLinkListing";
 import SurveySublinkListing from "./SurveySublinkListing";
 import { surveyAxiosInstance } from "./CommonFunctions/CommonFunction";
+import { surveyEndpoints } from "./SurveyEndpoints/SurveyEndpoints";
 import { format } from "date-fns";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const SurveySublink = () => {
+  const {
+    FETCH_ALL_SURVEY_TITLE,
+    INSERT_SUBLINK_INFORMATION,
+    FETCH_SURVEY_DATA,
+  } = surveyEndpoints;
   const { state } = useLocation();
   const [allContents, setallContents] = useState([]);
   const [allCodes, setAllCodes] = useState([]);
@@ -49,7 +55,6 @@ const SurveySublink = () => {
   const [consentValue, setConsentValue] = useState("");
   const [identifier, setIdentifier] = useState("");
   const [data, setIsData] = useState([]);
- 
 
   const [newLink, setLink] = useState({
     delivery: "",
@@ -70,23 +75,26 @@ const SurveySublink = () => {
       );
       setTypes(linktype);
     }
-    getSurveyData();
+   
+       getSurveyData();
+    
+   
   }, []);
 
   useEffect(() => {
-    getArticleData();
+    if(selectedSurveyId){
+      getArticleData();
+    }
   }, [selectedSurveyId]);
 
   const getSurveyData = async () => {
     try {
       loader("show");
-      
-    
 
-      const res = await surveyAxiosInstance.post(
-        "/survey/fetch-all-survey-title",
-        { admin_id: 18207 }
-      );
+      // const res = await surveyAxiosInstance.post(FETCH_ALL_SURVEY_TITLE, {
+      //   admin_id: 18207,
+      // });
+      const res = await surveyAxiosInstance.post(FETCH_ALL_SURVEY_TITLE);
 
       let arr = [];
       let codearr = [];
@@ -121,10 +129,7 @@ const SurveySublink = () => {
         }
       }
 
-       
-        loader('hide')
-      
-
+      loader("hide");
     } catch (err) {
       console.log("err");
       toast.error("Something went wrong");
@@ -153,7 +158,7 @@ const SurveySublink = () => {
         identifier: identifier,
       };
       const res = await surveyAxiosInstance.post(
-        "/survey/insert-sublink-information",
+        INSERT_SUBLINK_INFORMATION,
         body
       );
       setLink((prevLink) => ({
@@ -171,40 +176,37 @@ const SurveySublink = () => {
     setCreateNewLink(false);
   };
 
-
-
   const getArticleData = async () => {
     try {
       loader("show");
 
       setIsData([]);
-    
-      let res = await surveyAxiosInstance.post("/survey/fetch-survey-data", {
-        admin_id: 18207,
+
+      // let res = await surveyAxiosInstance.post(FETCH_SURVEY_DATA, {
+      //   admin_id: 18207,
+      //   survey_id: selectedSurveyId,
+      // });
+      let res = await surveyAxiosInstance.post(FETCH_SURVEY_DATA, {
         survey_id: selectedSurveyId,
       });
 
-    
       const survey_data = res?.data?.data;
 
       if (survey_data.length > 0) {
         setIsData(survey_data[0]);
       }
 
-      
-        loader("hide");
+      loader("hide");
     } catch (error) {
       loader("hide");
       toast.error("Something went wrong");
     }
   };
 
-
   const onIdentifierChange = (event) => {
     setIdentifier(event.target.value);
   };
 
- 
   return (
     <>
       <Col className="right-sidebar">
@@ -862,14 +864,12 @@ const SurveySublink = () => {
                         Create New Link +
                       </Button>
                     </div>
-      
-                      <SurveySublinkListing
-                        survey_id={selectedSurveyId}
-                        render={showSubLinkList}
-                        count={linkRenderCount}
-                      
-                      />
-                   
+
+                    <SurveySublinkListing
+                      survey_id={selectedSurveyId}
+                      render={showSubLinkList}
+                      count={linkRenderCount}
+                    />
                   </Col>
                 </div>
               </div>

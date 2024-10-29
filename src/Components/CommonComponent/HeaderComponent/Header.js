@@ -32,8 +32,8 @@ function useScrollDirection() {
 }
 
 const Header = () => {
-  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
-  const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
+  const rdLikeArray = ["56Ek4feL/1A8mZgIKQWEqg==", "sNl1hra39QmFk9HwvXETJA==", "MXl8m36VZFYXpgFVz3Pg0g=="]
+  const isLikeRdAccount = rdLikeArray.includes(localStorage.getItem("user_id"))
   const queryParams = queryString.parse(window.location.search);
   const scrollDirection = useScrollDirection();
   const [getUserName, setUserName] = useState("");
@@ -66,6 +66,11 @@ const Header = () => {
 
   const logout = () => {
     // localStorage.clear();
+    let navigateRoute = "/";
+    if (typeof localStorage.getItem('account_type') != 'undefined' && localStorage.getItem('account_type') == 'USA_PHARMA') {
+      let userToken = localStorage.getItem('user_id')?.replace(/ /g, '+')
+      navigateRoute = "/account/" + userToken;
+    }
     const keysToKeep = ['uname', 'pass', 'acceptedCookies'];
     for (let i = localStorage.length - 1; i >= 0; i--) {
       const key = localStorage.key(i);
@@ -73,7 +78,7 @@ const Header = () => {
         localStorage.removeItem(key);
       }
     }
-    navigate("/");
+    navigate(navigateRoute);
   };
   const location = useLocation();
   useEffect(() => {
@@ -244,6 +249,7 @@ const Header = () => {
                       window.location.pathname == "/library-campaign" ||
                       window.location.pathname == "/library-content" ||
                       window.location.pathname == "/library-mandatory" ||
+                      window.location.pathname == "/library-popup" ||
                       window.location.pathname == "/library-mandatory-content" ||
                       window.location.pathname == "/library-create" ||
                       window.location.pathname == "/library-edit" ||
@@ -266,7 +272,8 @@ const Header = () => {
                       window.location.pathname == "/spc-view" ||
                       window.location.pathname == "/spc-render" ||
                       window.location.pathname == "/spc-delete" ||
-                      window.location.pathname == "/products"
+                      window.location.pathname == "/products" ||
+                       window.location.pathname == "/sunshine-timeline"
                       ? "nav-item active active-main"
                       : "nav-item"
                   } onClick={handleMenuItemClick}
@@ -319,7 +326,8 @@ const Header = () => {
                       window.location.pathname == "/delivery-stats" ||
                       window.location.pathname == "/trending-topics" ||
                       window.location.pathname == "/campaign-stats" ||
-                      window.location.pathname == "/trending-content" ||
+                      window.location.pathname == "/trending-content" || 
+                      window.location.pathname == "/sunshine-trending-content" ||
                       window.location.pathname == "/octa-trending-content" ||
                       window.location.pathname == "/content-type" ||
                       window.location.pathname == "/octalatch-totalhcp" ||
@@ -354,8 +362,8 @@ const Header = () => {
                           "wW0geGtDPvig5gF 6KbJrg==" ||
                           localStorage.getItem("user_id") ==
                           "z2TunmZQf3QwCsICFTLGGQ==" ||
-                          localStorage.getItem("user_id") ==
-                          "qDgwPdToP05Kgzc g2VjIQ=="
+                          (localStorage.getItem("user_id") ==
+                            "qDgwPdToP05Kgzc g2VjIQ==" || localStorage.getItem("account_type") == "USA_PHARMA")
                           ? "/totalhcp"
                           : localStorage.getItem("user_id") ==
                             "iSnEsKu5gB/DRlycxB6G4g=="
@@ -365,12 +373,12 @@ const Header = () => {
                               ? "/LEX-210-analytics"
                               :
                               localStorage.getItem("user_id") ==
-                              "MXl8m36VZFYXpgFVz3Pg0g==" 
-                              ? "/trial-analytics"
-                              :
-                              localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+                                "MXl8m36VZFYXpgFVz3Pg0g=="
                                 ? "/trial-analytics"
-                                : "/content-analytics"
+                                :
+                                localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+                                  ? "/trial-analytics"
+                                  : "/content-analytics"
                     }
 
                   >
@@ -425,6 +433,7 @@ const Header = () => {
                         window.location.pathname == "/license-sublink" ||
                         window.location.pathname == "/license-topics" ||
                         window.location.pathname == "/license-set-popup" ||
+                        window.location.pathname == "/license-popup" ||
                         window.location.pathname == "/license-preview-content" ||
                         window.location.pathname == "/license-create-user" ||
                         window.location.pathname == "/license-content-detail" ||
@@ -503,7 +512,8 @@ const Header = () => {
                   ) : (
                     ""
                   )}
-                {localStorage.getItem("user_id") == "rjiGlqA9DXJVH7bDDTX0Lg==" && (<li className={window.location.pathname == "/survey/survey-list" || window.location.pathname == "/survey/survey-sublink" || window.location.pathname == "/survey/survey-analytics" || window.location.pathname == "/survey/survey-analytics-detail" || window.location.pathname == "/survey/survey-setup" || window.location.pathname == "/survey/survey-builder" || window.location.pathname == "/survey/survey-configure" || window.location.pathname == "/survey/form-builder" || window.location.pathname == "/survey/thank-you" || window.location.pathname == "/survey/survey-preview"
+                {(localStorage.getItem("user_id") == "rjiGlqA9DXJVH7bDDTX0Lg==" || localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==")
+                 && (<li className={window.location.pathname == "/survey/survey-list" || window.location.pathname == "/survey/survey-sublink" || window.location.pathname == "/survey/survey-analytics" || window.location.pathname == "/survey/survey-analytics-detail" || window.location.pathname == "/survey/survey-setup" || window.location.pathname == "/survey/survey-builder" || window.location.pathname == "/survey/survey-configure" || window.location.pathname == "/survey/form-builder" || window.location.pathname == "/survey/thank-you" || window.location.pathname == "/survey/survey-preview"
                   ? "nav-item active active-main"
                   : "nav-item"
                 } onClick={handleMenuItemClick}>

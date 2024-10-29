@@ -7302,10 +7302,11 @@ a.color_blue:hover {
   color: var(--white);
 }
 
-.email-result .email_box_block.no_found {
+.email-result .email_box_block.no_found , .smart-list-result .email_box_block.no_found{
   width: 66%;
   justify-content: flex-start;
   padding: 15px 15px 15px 9%;
+  min-height: 380px;
 }
 
 .email-result .email_box_block.no_found_dlt {

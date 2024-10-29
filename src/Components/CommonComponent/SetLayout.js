@@ -92,6 +92,8 @@ const SetLayout = () => {
                       ? navigate("/totalhcp")
                       : localStorage.getItem("user_id") == "qDgwPdToP05Kgzc g2VjIQ=="
                         ? navigate("/totalhcp")
+                        : localStorage.getItem("account_type") == "USA_PHARMA"
+                        ? navigate("/totalhcp")
                         : navigate("/content-analytics");
     } else if (title == "Email") {
 

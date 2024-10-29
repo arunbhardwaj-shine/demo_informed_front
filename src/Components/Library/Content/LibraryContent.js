@@ -46,10 +46,14 @@ const LibraryContent = (props) => {
   const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
   const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
   const isRDAccount = isLikeRdAccount
+  const isUSAPharmaAccount = localStorage?.getItem("account_type") === 'USA_PHARMA' ? 1 : 0;
   const deletButtonColor =isRDAccount  ? '#8A4E9C' : '#0066be'
   const [flag, setFlag] = useState(0);
   const [types, setTypes] = useState([
     { value: "Online Offer", label: "Online Offer" },
+  ]);
+  const [consentType, setConsetnType] = useState([
+    { value: "Sunshine USA", label: "Sunshine USA" },
   ]);
   const statusOptions=[
     { label: "Sold", value: "sold" },
@@ -2612,6 +2616,16 @@ const LibraryContent = (props) => {
                                     >
                                       Analytics
                                     </Link>
+                                    {
+                                      isUSAPharmaAccount && data.articleOwner == 1 ?
+                                      <Link
+                                              to="/sunshine-timeline"
+                                              state={{ pdfid: data.id }}
+                                              className="footer-btn"
+                                            >
+                                              Timeline
+                                            </Link>: null
+                                    }
                                     <Button
                                       className="footer-btn reset"
                                       onClick={(e) =>
@@ -2642,26 +2656,45 @@ const LibraryContent = (props) => {
                                       </h6>
                                       <div className="select-dropdown-wrapper">
                                         <div className="select">
-                                          <Select
-                                            options={types}
-                                            defaultValue={
-                                              data.linkType == "Online"
-                                                ? types[0]
-                                                : data.linkType == "Offline"
-                                                  ? types[1]
-                                                  : data.linkType == "Sunshine"
-                                                    ? types[2]
-                                                    : data.linkType == "Sunshine USA"
-                                                      ? types?.[3]
-                                                      : "Select"
-                                            }
-                                            onChange={(event) =>
-                                              onConsentChange(event, data?.id)
-                                            }
-                                            id={"consent_dropdown_" + index}
-                                            className="dropdown-basic-button split-button-dropup"
-                                            isClearable
-                                          />
+                                          {
+                                            isUSAPharmaAccount && data.articleOwner == 1
+                                            ?
+                                            <Select
+                                              options={consentType}
+                                              defaultValue={
+                                                data.linkType == "Sunshine USA" 
+                                                ? consentType?.[0]
+                                                : "Select"
+                                              }
+                                              onChange={(event) =>
+                                                onConsentChange(event, data?.id)
+                                              }
+                                              id={"consent_dropdown_" + index}
+                                              className="dropdown-basic-button split-button-dropup"
+                                              isClearable
+                                            />
+                                            :
+                                            <Select
+                                              options={types}
+                                              defaultValue={
+                                                data.linkType == "Online"
+                                                  ? types[0]
+                                                  : data.linkType == "Offline"
+                                                    ? types[1]
+                                                    : data.linkType == "Sunshine"
+                                                      ? types[2]
+                                                      : data.linkType == "Sunshine USA"
+                                                        ? types?.[3]
+                                                        : "Select"
+                                              }
+                                              onChange={(event) =>
+                                                onConsentChange(event, data?.id)
+                                              }
+                                              id={"consent_dropdown_" + index}
+                                              className="dropdown-basic-button split-button-dropup"
+                                              isClearable
+                                            />
+                                          }
                                         </div>
                                       </div>
                                     </li>
@@ -2718,20 +2751,36 @@ const LibraryContent = (props) => {
                                     {/* <Button className="footer-btn">
                                         Edit Docintel Link
                                       </Button> */}
-                                    <Link
-                                      to="/library-edit"
-                                      // state={{ pdfid: data.id }}
-                                      state={{ pdfid: data.id , 
-                                        // title : location?.state?.title,
-                                        title: isLikeRdAccount ? location?.state?.title : '',
-                                        flag: isLikeRdAccount
-                                        ? (location?.state?.flag === "Non-mandatory" ? 'Non-mandatory' : "mandatory")
-                                        : '' 
-                                      }}
-                                      className="footer-btn"
-                                    >
-                                      Edit link
-                                    </Link>
+                                    {
+                                      isUSAPharmaAccount && data.articleOwner == 1
+                                      ? 
+                                      <Link
+                                        to="/set-popup"
+                                        state={{ 
+                                          pdfId: data.id , 
+                                          fileType: data.file_type,
+                                          isEdit: 1
+                                        }}
+                                        className="footer-btn"
+                                      >
+                                        Edit link
+                                      </Link>
+                                      :
+                                      <Link
+                                        to="/library-edit"
+                                        // state={{ pdfid: data.id }}
+                                        state={{ pdfid: data.id , 
+                                          // title : location?.state?.title,
+                                          title: isLikeRdAccount ? location?.state?.title : '',
+                                          flag: isLikeRdAccount
+                                          ? (location?.state?.flag === "Non-mandatory" ? 'Non-mandatory' : "mandatory")
+                                          : '' 
+                                        }}
+                                        className="footer-btn"
+                                      >
+                                        Edit link
+                                      </Link>
+                                    }  
                                     {localStorage.getItem("group_id") == 3 ? (
                                       <Button
                                         className="footer-btn"

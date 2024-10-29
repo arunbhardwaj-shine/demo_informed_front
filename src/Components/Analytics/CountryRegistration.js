@@ -20,6 +20,7 @@ const CountryRegistration = () => {
   const [isDataFound, setIsDataFound] = useState(false);
   const [newData, setNewData] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [isSunshineAccount,setIsSunshineAccount]=useState(localStorage.getItem("account_type")=="USA_PHARMA"?true:false)
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -65,7 +66,10 @@ const CountryRegistration = () => {
       userId === "UbCJcnLM9fe HsRMgX8c1A=="
     ) {
       zoomCoordinates = { lat: 19.41944, lon: -99.14556 };
-    } else {
+    } else if(isSunshineAccount){
+      zoomCoordinates = { lat:37.090240, lon: -95.712891 };
+    }
+    else {
       zoomCoordinates = { lat: 7.85794, lon: 24.115716 };
     }
 
@@ -167,7 +171,7 @@ const CountryRegistration = () => {
   const [countryList, SetCountryList] = useState({
     chart: {
       type: "bar",
-      height: 1500,
+      height:isSunshineAccount?2000: 1500,
     },
     title: {
       text: "Country List",
@@ -260,11 +264,16 @@ const CountryRegistration = () => {
       loader("show");
       const month = optionMonth.current;
       const year = optionYear.current;
-      const response = await postData(ENDPOINT.COUNTRY_REGISTRATION, {
+      let analyticsRoute=isSunshineAccount?ENDPOINT.USA_COUNTRY_REGISTRATION:ENDPOINT.COUNTRY_REGISTRATION
+                                    
+      const response = await postData(analyticsRoute, {
         year,
         month,
       });
+
       const apiData = response.data;
+     
+       if(!isSunshineAccount){
       const countryData = apiData.data.coordination
         .map((coordObject, index) => {
           const [lat, lon] = Object.values(coordObject)[0].split("~");
@@ -291,6 +300,8 @@ const CountryRegistration = () => {
           };
         })
         .filter(Boolean);
+      
+
       setIsLoaded(true);
       setMonthYear(true);
       setNewData(countryData);
@@ -411,8 +422,91 @@ const CountryRegistration = () => {
       };
       setTableData(newTable);
 
+
       loader("hide");
-    } catch (error) {
+    }else if(isSunshineAccount){
+
+
+      const countryData = apiData?.data?.coordination
+      ?.map((coordObject, index) => {
+        const [lat, lon] = Object.values(coordObject)[0].split("~");
+        const formattedIndex =
+          apiData?.data?.totalHCP[index] 
+        const totalIndex = isNaN(formattedIndex) ? 0 : formattedIndex;
+        // Skip countries with totalIndex equal to zero
+        if (totalIndex === 0) {
+          return null;
+        }
+        return {
+          name: apiData?.data?.country[index],
+          // name: Object.keys(coordObject)[0],
+          lat: parseFloat(lat),
+          lon: parseFloat(lon),
+          totalHCP: apiData?.data?.totalHCP[index],
+          totalIndex: totalIndex,
+          countryLat: apiData?.data?.lat,
+          countryLon: apiData?.data?.long,
+        };
+      })
+      ?.filter(Boolean);
+    
+
+    setIsLoaded(true);
+    setMonthYear(true);
+    setNewData(countryData);
+
+    let newSeries = [
+      {
+        name: `TotalHCP (${apiData?.data?.totalHCP?.reduce(
+          (acc, val) => acc + val,
+          0
+        )})`,
+        data: apiData?.data?.totalHCP,
+        color: Highcharts?.getOptions()?.colors[0],
+      }
+    ];
+
+    const categories = apiData?.data?.country;
+
+    const newCountryList = {
+      ...countryList,
+      xAxis: {
+        categories: categories,
+      },
+      series: newSeries,
+    };
+    setIsLoaded(true);
+    SetCountryList(newCountryList);
+    setIsDataFound(true);
+
+    //create table
+    const tableCountry = apiData?.data?.country;
+    const totalHCP = apiData?.data?.totalHCP || [];
+    let tableDatas = [
+      {
+        name: `TotalHCP (${totalHCP?.reduce(
+          (acc, val) => acc + val,
+          0
+        )})`,
+        data: totalHCP,
+      },     
+      
+    ];    
+
+    const newTable = {
+      ...tableData,
+      xAxis: {
+        categories: tableDatas,
+      },
+      series: tableDatas,
+      tableCountry: tableCountry,
+    };
+    setTableData(newTable);
+
+    loader("hide");
+    }
+  }
+    catch (error) {
       setIsDataFound(false);
       console.log(error);
       loader("hide");
@@ -424,18 +518,6 @@ const CountryRegistration = () => {
     return acc + serie.data.reduce((a, b) => a + b, 0);
   }, 0);
 
-  // const selectMonthYear = useCallback(
-  //   (selectedOption) => {
-  //     window.scrollTo(0, 0);
-  //     setMonthYear(selectedOption?.value);
-  //     const [month, year] = selectedOption?.value?.split(" ") || [];
-  //     optionMonth.current = month;
-  //     optionYear.current = year;
-  //     setNewData([]);
-  //     getDataFromApi();
-  //   },
-  //   [getDataFromApi]
-  // );
 
   const selectMonthYear = (e) => {
     window.scrollTo(0, 0);

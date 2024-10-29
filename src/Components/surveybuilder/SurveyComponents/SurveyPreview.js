@@ -8,6 +8,7 @@ import { SidebarItems } from "../surveyObjects/SidebarItems";
 import { SidebarCommonItems } from "../surveyObjects/SidebarCommonItems";
 import { saveAsDraft } from "../CommonFunctions/CommonFunction";
 import { Modal } from "react-bootstrap";
+import { surveyEndpoints } from "../SurveyEndpoints/SurveyEndpoints";
 
 import {
   emptySurveyReduxStates,
@@ -32,6 +33,7 @@ import { updateLiveFlag } from "../CommonFunctions/CommonFunction";
 
 var surveyValues = {};
 const SurveyPreview = (props) => {
+  const {FETCH_QUESTION,DELETE_SURVEY_QUESTION}=surveyEndpoints
   let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const { currentElementIndex, elements, isAddClicked } = useSelector(
@@ -116,16 +118,20 @@ const SurveyPreview = (props) => {
     try {
       loader("show");
       const fetchResponse = await surveyAxiosInstance.post(
-        "/survey/fetch-question",
+        FETCH_QUESTION,
         { survey_id }
       );
+      
+      if(fetchResponse.status === 200){
+        dispatch(addResQuestions(fetchResponse.data.data));
+        const updatedSurveyData = {
+          ...surveyValues,
+          question_data: fetchResponse.data.data,
+        };
+        props.getSurveyData(updatedSurveyData);
+      }
 
-      dispatch(addResQuestions(fetchResponse.data.data));
-      const updatedSurveyData = {
-        ...surveyValues,
-        question_data: fetchResponse.data.data,
-      };
-      props.getSurveyData(updatedSurveyData);
+     
       loader("hide");
     } catch (error) {
       loader("hide");
@@ -231,14 +237,19 @@ const SurveyPreview = (props) => {
 
       if (questionId != 0) {
         const response = surveyAxiosInstance.post(
-          "/survey/delete-survey-question",
+          DELETE_SURVEY_QUESTION,
           {
             questionId,
           }
         );
+
+        if(response.status === 200){
+          setQuestionDeleteCount(questionDeleteCount + 1);
+        }
+ 
       }
       setConfirmationPopup(false);
-      setQuestionDeleteCount(questionDeleteCount + 1);
+     
       loader("hide");
     } catch (error) {
       loader("hide");

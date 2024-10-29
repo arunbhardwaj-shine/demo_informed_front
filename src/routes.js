@@ -225,6 +225,8 @@ import InformedSurveyData from "./Components/survey/InformedSurveyData";
 import IRTRole from "./Components/Emails/IRTRole";
 import Check8SurveyData from "./Components/survey/Check8SurveyData";
 import MandatoryContent from "./Components/Library/Content/MandatoryContent";
+import CreateSetPopup from "./Components/Library/CreateChange/CreateSetPopup";
+import SunShineTimeline from "./Components/Library/Content/SunShineTimeline";
 
 
 // Routes related to survey builder
@@ -241,6 +243,7 @@ import SurveyAnalyticsDetail from "./Components/surveybuilder/SurveyAnalyticsDet
 import SurveyFinalPreview from "./Components/surveybuilder/SurveyFinalPreview";
 import SetLayoutNew from "./Components/CommonComponent/SetLayoutNew";
 import SetLayoutNewTimeline from "./Components/CommonComponent/SetLayoutNewTimeline";
+import ClinetAccount from "./Components/Login/ClientAccount";
 
 let platform = 0;
 let show = 0;
@@ -305,6 +308,7 @@ const Routing = () => {
         //DefaultLayout for Login pages
         <Route path="/pdfviewer" element={<DefaultLayout component={PdfViewer} />} />
         <Route path="/" element={<DefaultLayout component={MainLanding} />} />
+        <Route path="/account/:token" element={<DefaultLayout component={ClinetAccount} />} />
         <Route
           path="/informed"
           element={<DefaultLayout component={MainLanding} />}
@@ -406,6 +410,10 @@ const Routing = () => {
           path="/octa-trending-content"
           element={<LoginLayout component={TrendingContentOcta} />}
         />
+        {/* <Route
+          path="/sunshine-trending-content"
+          element={<LoginLayout component={TrendingContentOcta} />}
+        /> */}
         <Route
           path="/top-clients"
           element={<LoginLayout component={TopClients} />}
@@ -555,10 +563,10 @@ const Routing = () => {
           path="/library-create"
           element={<LoginLayout component={LibraryCreate} />}
         />
-        <Route
+        {/* <Route
           path="/library-popup"
           element={<LoginLayout component={LibraryPopupSet} />}
-        />
+        /> */}
         <Route path="/site" element={<LoginLayout component={TrialSite} />} />
         <Route path="/add-site" element={<LoginLayout component={AddSite} />} />
         <Route
@@ -585,6 +593,10 @@ const Routing = () => {
         <Route
           path="/edit-Consent-Options"
           element={<LoginLayout component={EditConsentOptions} />}
+        />
+        <Route
+          path="/library-popup"
+          element={<LoginLayout component={CreateSetPopup} />}
         />
         <Route
           path="/set-popup"
@@ -908,6 +920,10 @@ const Routing = () => {
           element={<LoginLayout component={LicenseSublink} />}
         />
         <Route
+          path="/license-popup"
+          element={<LoginLayout component={CreateSetPopup} />}
+        />
+        <Route
           path="/license-set-popup"
           element={<LoginLayout component={LicenseSetPopup} />}
         />
@@ -1099,6 +1115,10 @@ const Routing = () => {
         <Route
           path="/survey/survey-analytics-detail"
           element={<LoginLayout component={SurveyAnalyticsDetail} />}
+        />
+        <Route
+          path="/sunshine-timeline"
+          element={<LoginLayout component={SunShineTimeline} />}
         />
       </Routes>
     </Router>
