@@ -30,6 +30,9 @@ import { updateLiveFlag } from "./CommonFunctions/CommonFunction";
 import QRCode from "qrcode.react";
 import { Spinner } from "react-activity";
 import { surveyEndpoints } from "./SurveyEndpoints/SurveyEndpoints";
+import { updateCurrentStep } from "../../actions/surveyStepAction";
+import { setDefaultCurrentStep } from "../../actions/surveyStepAction";
+ 
 
 const SurveyList = (props) => {
   const rdLikeArray = [
@@ -37,7 +40,12 @@ const SurveyList = (props) => {
     "sNl1hra39QmFk9HwvXETJA==",
     "MXl8m36VZFYXpgFVz3Pg0g==",
   ];
-  const {FETCH_SURVEY_DATA,DUPLICATE_SURVEY,FETCH_SURVEY_SUBLINK,DELETE_ALL_DETAILS}=surveyEndpoints;
+  const {
+    FETCH_SURVEY_DATA,
+    DUPLICATE_SURVEY,
+    FETCH_SURVEY_SUBLINK,
+    DELETE_ALL_DETAILS,
+  } = surveyEndpoints;
   const isLikeRdAccount = rdLikeArray.includes(localStorage.getItem("user_id"));
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -67,11 +75,11 @@ const SurveyList = (props) => {
   const [sectionLoaderIndex, setSectionLoaderIndex] = useState();
 
   const [filterdata, setFilterData] = useState({
-    'Survey': ['Live', 'Draft', 'Completed']
+    Survey: ["Live", "Draft", "Completed"],
   });
   const [filterApplyflag, setFilterApplyflag] = useState(0);
   const [filterObject, setFilterObject] = useState({});
-  const [appliedFilter, setAppliedFilter] = useState({})
+  const [appliedFilter, setAppliedFilter] = useState({});
   const [otherFilter, setOtherFilter] = useState({});
 
   const navigate = useNavigate();
@@ -81,7 +89,7 @@ const SurveyList = (props) => {
 
     setShowFilter(false);
     // getFilterAppliedData();
-    applyFilter()
+    applyFilter();
     setSubmiHandle(1);
 
     return false;
@@ -113,6 +121,7 @@ const SurveyList = (props) => {
   useEffect(() => {
     props.getSurveyData(null);
     dispatch(emptySurveyReduxStates());
+    dispatch(setDefaultCurrentStep())
     fetchSurveyListing();
   }, []);
 
@@ -127,7 +136,7 @@ const SurveyList = (props) => {
   }, [search]);
 
   const searchChange = (e) => {
-    setSearch(e.target.value);   
+    setSearch(e.target.value);
   };
 
   const showDeleteButtons = () => {
@@ -136,7 +145,6 @@ const SurveyList = (props) => {
 
   const getFilterAppliedData = async () => {
     if (filter?.Survey?.length > 0) {
-
       let filteredData = getoriginalSurveylistdata.filter((item) => {
         return filter.Survey.includes(parseInt(item.is_draft));
       });
@@ -159,7 +167,6 @@ const SurveyList = (props) => {
     }
   };
 
-
   const createNewEmail = () => {
     navigate("/survey/survey-setup");
   };
@@ -181,12 +188,9 @@ const SurveyList = (props) => {
         survey_id: survey_id,
         is_draft: 0,
       };
-      const response = await surveyAxiosInstance.post(
-        DUPLICATE_SURVEY,
-        body
-      );
+      const response = await surveyAxiosInstance.post(DUPLICATE_SURVEY, body);
 
-      console.log(response ,"this is from duplicate")
+      console.log(response, "this is from duplicate");
 
       if (response.status === 200) {
         window.location.reload();
@@ -205,38 +209,33 @@ const SurveyList = (props) => {
         // loader("show"); // Assuming `loader` is a function to show/hide a loading spinner
         setApiStatus(true);
         setSectionLoaderIndex(survey_id);
-        const res = await surveyAxiosInstance.post(
-          FETCH_SURVEY_SUBLINK,
-          { survey_id }
-        );
+        const res = await surveyAxiosInstance.post(FETCH_SURVEY_SUBLINK, {
+          survey_id,
+        });
 
-        if(res.status === 200){
+        if (res.status === 200) {
           let codearr = [];
-        res?.data?.data.forEach((item) => {
-          codearr.push({
-            value: item.sublink_id,
-            label: item.unique_code,
+          res?.data?.data.forEach((item) => {
+            codearr.push({
+              value: item.sublink_id,
+              label: item.unique_code,
+            });
           });
-        });
-        codearr.sort((a, b) =>
-          a.label.toLowerCase().localeCompare(b.label.toLowerCase())
-        );
+          codearr.sort((a, b) =>
+            a.label.toLowerCase().localeCompare(b.label.toLowerCase())
+          );
 
-        // setAllCodes(codearr);
-        setSubLinkData((prev) => {
-          return {
-            ...prev,
-            [survey_id]: codearr,
-          };
-        });
+          // setAllCodes(codearr);
+          setSubLinkData((prev) => {
+            return {
+              ...prev,
+              [survey_id]: codearr,
+            };
+          });
 
-        // loader("hide");
-       
-
+          // loader("hide");
         }
         setApiStatus(false);
-
-        
       } catch (err) {
         console.log("--err", err);
         toast.error("Something went wrong");
@@ -305,8 +304,6 @@ const SurveyList = (props) => {
     setSelectedSublinkId(selectedOption ? selectedOption.value : null);
   };
 
-
-
   const handleLiveToogle = async (e, survey_id) => {
     e.preventDefault();
     setIsChecked(!isChecked);
@@ -327,8 +324,6 @@ const SurveyList = (props) => {
   const hideConfirmationModal = () => {
     setConfirmationPopup(false);
   };
-
-
 
   const buttonRef = useRef(null);
   const filterRef = useRef(null);
@@ -351,7 +346,6 @@ const SurveyList = (props) => {
     };
   }, []);
 
-
   const copyHandler = (surveyLink) => {
     navigator.clipboard
       .writeText(surveyLink)
@@ -372,12 +366,9 @@ const SurveyList = (props) => {
 
     try {
       loader("show");
-      const res = await surveyAxiosInstance.post(
-        DELETE_ALL_DETAILS,
-        body
-      );
+      const res = await surveyAxiosInstance.post(DELETE_ALL_DETAILS, body);
 
-      console.log(res,"this is fromdelete survey")
+      console.log(res, "this is fromdelete survey");
 
       if (res.status === 200) {
         hideConfirmationModal();
@@ -403,6 +394,28 @@ const SurveyList = (props) => {
     }
   };
 
+  const setCurrentStepPath = (path) => {
+    switch (path) {
+      case "/survey/survey-builder":
+       dispatch(updateCurrentStep(1))
+        break;
+      case "/survey/survey-configure":
+        dispatch(updateCurrentStep(2))
+        break;
+      case "/survey/form-builder":
+        dispatch(updateCurrentStep(3))
+        break;
+      case "/survey/thank-you ":
+        dispatch(updateCurrentStep(4))
+        break;
+      case "/survey/survey-preview":
+        dispatch(updateCurrentStep(5))
+        break;
+      default:
+      // code block
+    }
+  };
+
   const editHandler = async (e, path, data) => {
     e.preventDefault();
     let surveyConfigData;
@@ -422,6 +435,11 @@ const SurveyList = (props) => {
         // admin_id: "18207",
         tags: tags,
       };
+
+      if(path){
+        setCurrentStepPath(path);
+      }
+      
 
       const formBuilderData = {
         // account_id: "18207",
@@ -472,41 +490,47 @@ const SurveyList = (props) => {
     document.querySelectorAll("input")?.forEach((checkbox) => {
       checkbox.checked = false;
     });
-    
+
     setAppliedFilter({});
     setOtherFilter({});
     setFilterObject({});
-   
-    setIsData(getoriginalSurveylistdata)
+
+    setIsData(getoriginalSurveylistdata);
     setShowFilter(false);
   };
 
-
-  const applyFilter = (flag="") => {
+  const applyFilter = (flag = "") => {
     setFilterApplyflag(1);
-    setIsData([])
+    setIsData([]);
     setFilterObject(appliedFilter);
-  
-    const hasAllNonEmptyValues = Object.keys(otherFilter).every(key => {
+
+    const hasAllNonEmptyValues = Object.keys(otherFilter).every((key) => {
       const value = filter[key];
       if (Array.isArray(value)) {
         return value.length > 0;
       }
-      return value !== null && value !== undefined && value !== '';
+      return value !== null && value !== undefined && value !== "";
     });
     if (!hasAllNonEmptyValues) {
-      let data = getoriginalSurveylistdata?.filter(item => {
-        const matchesFilters = Object.keys(otherFilter).every(key => {
+      let data = getoriginalSurveylistdata?.filter((item) => {
+        const matchesFilters = Object.keys(otherFilter).every((key) => {
           if (Array.isArray(otherFilter[key])) {
-            return otherFilter[key].some(value => {
-              if (typeof value === 'string') {
+            return otherFilter[key].some((value) => {
+              if (typeof value === "string") {
                 if (key == "Survey") {
-                  let filterValue = value == "Draft" ? 0 : value == "Live" ? 1 : value == "Completed" ? 2 : 0
-                  return item["is_draft"] == filterValue
+                  let filterValue =
+                    value == "Draft"
+                      ? 0
+                      : value == "Live"
+                      ? 1
+                      : value == "Completed"
+                      ? 2
+                      : 0;
+                  return item["is_draft"] == filterValue;
                 } else {
                   return item[key] && item[key].includes(value);
                 }
-              } else if (typeof value === 'number') {
+              } else if (typeof value === "number") {
                 return item[key] === value;
               }
               return false;
@@ -518,18 +542,21 @@ const SurveyList = (props) => {
       });
       if (search?.trim()?.length > 0) {
         data = data?.filter((item) => {
-          return item?.survey_title?.toLowerCase()?.includes(search?.toLowerCase())
-        })
+          return item?.survey_title
+            ?.toLowerCase()
+            ?.includes(search?.toLowerCase());
+        });
       }
-      setIsData(data)
-    }
-    else if (search?.trim()?.length > 0) {
+      setIsData(data);
+    } else if (search?.trim()?.length > 0) {
       const data = getoriginalSurveylistdata?.filter((item) => {
-        return item?.survey_title?.toLowerCase()?.includes(search?.toLowerCase())
-      })
-      setIsData(data)
+        return item?.survey_title
+          ?.toLowerCase()
+          ?.includes(search?.toLowerCase());
+      });
+      setIsData(data);
     } else {
-      setIsData(getoriginalSurveylistdata)
+      setIsData(getoriginalSurveylistdata);
     }
     setShowFilter(false);
   };
@@ -555,8 +582,7 @@ const SurveyList = (props) => {
     setAppliedFilter(old_object);
     setOtherFilter(otherFilterObj);
     setFilterObject(old_object);
-    applyFilter()
-
+    applyFilter();
   };
   const handleOnFilterChange = (e, item, index, key, data = []) => {
     let newObj = JSON.parse(JSON.stringify(appliedFilter));
@@ -574,14 +600,12 @@ const SurveyList = (props) => {
         // key == "user_type" ||
         // key == "site_number"
         key == "Radio"
-
       ) {
         newObj[key] = [];
         newObj[key]?.push(item);
         otherObj[key] = [];
         otherObj[key]?.push(item);
-      }
-      else {
+      } else {
         if (item == "All") {
           newObj[key] = ["All"];
           otherObj[key] = data;
@@ -985,20 +1009,26 @@ const SurveyList = (props) => {
                           return (
                             <>
                               {filterdata[key]?.length > 0 ? (
-                                <Accordion.Item key={index}
+                                <Accordion.Item
+                                  key={index}
                                   className={
                                     key == "role" ? "card upper" : "card"
                                   }
                                   eventKey={index}
                                 >
                                   <Accordion.Header className="card-header">
-                                    {key == "training_status_code" ? "Status" : key == "user_type" ? "Role" : key == "site_number" ? "Site" : key}
+                                    {key == "training_status_code"
+                                      ? "Status"
+                                      : key == "user_type"
+                                      ? "Role"
+                                      : key == "site_number"
+                                      ? "Site"
+                                      : key}
                                   </Accordion.Header>
                                   <Accordion.Body className="card-body">
                                     <ul>
                                       {filterdata[key]?.length
-                                        ? filterdata[key]
-                                          ?.map(
+                                        ? filterdata[key]?.map(
                                             (item, index) => (
                                               <li key={index}>
                                                 {item != "" ? (
@@ -1007,27 +1037,23 @@ const SurveyList = (props) => {
                                                       type="checkbox"
                                                       id={`custom-checkbox-${item}-${index}`}
                                                       value={
-                                                        typeof item ==
-                                                          "object"
+                                                        typeof item == "object"
                                                           ? item?.title
                                                           : item
                                                       }
                                                       name={key}
                                                       checked={
-                                                        typeof item ==
-                                                          "object"
+                                                        typeof item == "object"
                                                           ? appliedFilter[
-                                                            key
-                                                          ]?.includes(        
-                                                            item.id
-                                                          )
+                                                              key
+                                                            ]?.includes(item.id)
                                                             ? true
                                                             : false
                                                           : appliedFilter[
-                                                            key
-                                                          ]?.includes(item)
-                                                            ? true
-                                                            : false
+                                                              key
+                                                            ]?.includes(item)
+                                                          ? true
+                                                          : false
                                                       }
                                                       onChange={(e) =>
                                                         handleOnFilterChange(
@@ -1128,8 +1154,7 @@ const SurveyList = (props) => {
                 </div>
               </div>
             </div>
-            {Object.keys(filterObject)?.length !== 0 &&
-              filterApplyflag > 0 ? (
+            {Object.keys(filterObject)?.length !== 0 && filterApplyflag > 0 ? (
               <div className="apply-filter">
                 <div className="filter-block">
                   <div className="filter-block-left full">
@@ -1139,12 +1164,22 @@ const SurveyList = (props) => {
                           {filterObject[key]?.length ? (
                             <div key={index} className="filter-div">
                               <div className="filter-div-title">
-                                <span>{key == "training_status_code" ? "Status" : key == "user_type" ? "Role" : key == "site_number" ? "Site" : key} |</span>
+                                <span>
+                                  {key == "training_status_code"
+                                    ? "Status"
+                                    : key == "user_type"
+                                    ? "Role"
+                                    : key == "site_number"
+                                    ? "Site"
+                                    : key}{" "}
+                                  |
+                                </span>
                               </div>
 
                               <div className="filter-div-list">
                                 {filterObject[key]?.map((item, index) => (
-                                  <div key={index}
+                                  <div
+                                    key={index}
                                     className={
                                       key == "Role"
                                         ? "filter-result upper"
@@ -1203,608 +1238,611 @@ const SurveyList = (props) => {
                 )}
                 {isData?.length || updateflag
                   ? isData?.map((data, index) => {
-                    const sublinkoptions =
-                      subLinkData?.[data.survey_id] || [];
-                    return (
-                      <>
-                        <div className="email_box_block" key={index}>
-                          <div
-                            className={
-                              data?.is_draft != null && data?.is_draft == "0"
-                                ? "email_box email-draft"
-                                : "email_box approved"
-                            }
-                          >
-                            {data?.is_draft != null &&
-                              data?.is_draft == "0" && (
-                                <div className="mail-top-title">
-                                  <span>Draft</span>
+                      const sublinkoptions =
+                        subLinkData?.[data.survey_id] || [];
+                      return (
+                        <>
+                          <div className="email_box_block" key={index}>
+                            <div
+                              className={
+                                data?.is_draft != null && data?.is_draft == "0"
+                                  ? "email_box email-draft"
+                                  : "email_box approved"
+                              }
+                            >
+                              {data?.is_draft != null &&
+                                data?.is_draft == "0" && (
+                                  <div className="mail-top-title">
+                                    <span>Draft</span>
+                                  </div>
+                                )}
+
+                              <div className="mail-box-content">
+                                <div className="mail-box-content-top">
+                                  <div className="mail-box-content-top-view">
+                                    {data?.is_draft == "1" && (
+                                      <div className="survey_status">
+                                        <span>Live</span>
+                                      </div>
+                                    )}
+                                    {data?.is_draft == "2" && (
+                                      <div className="survey_status completed">
+                                        <span>Completed</span>
+                                      </div>
+                                    )}
+                                    <h5>{data.survey_title}</h5>
+                                    <p>{data.subtitle}</p>
+                                  </div>
                                 </div>
-                              )}
-
-                            <div className="mail-box-content">
-                              <div className="mail-box-content-top">
-                                <div className="mail-box-content-top-view">
-                                  {data?.is_draft == "1" && (
-                                    <div className="survey_status">
-                                      <span>Live</span>
-                                    </div>
-                                  )}
-                                  {data?.is_draft == "2" && (
-                                    <div className="survey_status completed">
-                                      <span>Completed</span>
-                                    </div>
-                                  )}
-                                  <h5>{data.survey_title}</h5>
-                                  <p>{data.subtitle}</p>
-                                </div>
-                              </div>
-                              <div className="tabs-data">
-                                <Tabs
-                                  defaultActiveKey="link"
-                                  onSelect={(e) =>
-                                    handleClick(e, data.survey_id)
-                                  }
-                                >
-                                  <Tab eventKey="link" title="Link">
-                                    <div className="survey_tabs_data">
-                                      <div className="tab-panel">
-                                        <div className="tab-content-links">
-                                          <a
-                                            href={`https://survey.docintel.app/survey?Utmde=${data.unique_code}`}
-                                            className={
-                                              data?.is_draft != null &&
-                                                data?.is_draft == "0"
-                                                ? "doc-link no-click"
-                                                : "doc-link "
-                                            }
-                                            target="_blank"
-                                          >
-                                            https://survey.docintel.app/survey?Utmde=
-                                            {data.unique_code}
-                                          </a>
-                                          {data.is_draft ? (
-                                            <span
-                                              className="copy-content"
-                                              onClick={() =>
-                                                copyHandler(
-                                                  `https://survey.docintel.app/survey?Utmde=${data.unique_code}`
-                                                )
-                                              }
-                                            >
-                                              <img
-                                                src={
-                                                  path_image +
-                                                  "copy-content.svg"
-                                                }
-                                                alt="Copy"
-                                              />
-                                            </span>
-                                          ) : (
-                                            <span className="copy-content">
-                                              <img
-                                                src={
-                                                  path_image +
-                                                  "copy-content-disabled.svg"
-                                                }
-                                                alt="Copy"
-                                              />
-                                            </span>
-                                          )}
-                                          {data.is_draft ? (
-                                            <div
-                                              className="tab-content-qr"
-                                              onClick={() => {
-                                                setQr({
-                                                  ...qrState,
-                                                  value: `https://survey.docintel.app/survey?Utmde=${data.unique_code}&dl=QR`,
-                                                });
-                                                setTimeout(function () {
-                                                  downloadQRCode();
-                                                }, 500);
-                                              }}
-                                            >
-                                              <img
-                                                src={
-                                                  path_image +
-                                                  "qr-code-icon.svg"
-                                                }
-                                                alt="QR"
-                                              />
-                                              <img
-                                                src={
-                                                  path_image +
-                                                  "download-icon.svg"
-                                                }
-                                                alt="Download"
-                                              />
-                                            </div>
-                                          ) : (
-                                            <div className="tab-content-qr">
-                                              <img
-                                                src={
-                                                  path_image +
-                                                  "qr-code-icon-disabled.svg"
-                                                }
-                                                alt="QR"
-                                              />
-                                              <img
-                                                src={
-                                                  path_image +
-                                                  "download-icon-disabled.svg"
-                                                }
-                                                alt="Download"
-                                              />
-                                            </div>
-                                          )}
-                                        </div>
-                                        <ul className="survey-consent">
-                                          <li className="d-flex align-items-center">
-                                            <h6 className="tab-content-title">
-                                              Consent
-                                            </h6>
-                                            {data.survey_consent != "" ? (
-                                              data.survey_consent ===
-                                                "Mandatory consent" ? (
-                                                <h6>Mandatory</h6>
-                                              ) : data.survey_consent ===
-                                                "Optional consent" ? (
-                                                <h6>Optional</h6>
-                                              ) : (
-                                                <h6>Anonymous</h6>
-                                              )
-                                            ) : (
-                                              <h6>N/A</h6>
-                                            )}
-                                          </li>
-                                          <li className="d-flex align-items-center">
-                                            <h6 className="tab-content-title">
-                                              Creator
-                                            </h6>
-                                            <h6>{data.creator_name}</h6>
-                                          </li>
-                                        </ul>
-                                        <div className="mailbox-tags">
-                                          <ul>
-                                            {JSON.parse(data?.tags)?.length >
-                                              0 ? (
-                                              JSON.parse(data.tags).map(
-                                                (tag, index) => (
-                                                  <li key={index}>{tag}</li>
-                                                )
-                                              )
-                                            ) : (
-                                              <li>N/A</li>
-                                            )}
-                                          </ul>
-                                        </div>
-                                        <div className="mail-time">
-                                          <span>
-                                            {format(
-                                              new Date(data.date),
-                                              "MMMM d, yyyy '|' h:mm a"
-                                            )}
-                                          </span>
-                                        </div>
-
-                                        {data?.is_draft != null &&
-                                          data?.is_draft == "0" ? (
-                                          <div className="mail-stats">
-                                            <ul>
-                                              <li>
-                                                <div
-                                                  className="mail-status irts"
-                                                  title="Sublinks"
-                                                >
-                                                  <svg
-                                                    width="16"
-                                                    height="16"
-                                                    viewBox="0 0 16 16"
-                                                    fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                  >
-                                                    <path
-                                                      d="M9.59862 1.09837L6.34653 4.35044C6.34025 4.35669 6.33634 4.36428 6.33009 4.37059C7.13125 4.25391 7.95428 4.33391 8.71722 4.63141L10.9244 2.42422C11.6556 1.693 12.8448 1.693 13.5761 2.42422C14.3073 3.15537 14.3073 4.34466 13.5761 5.07581C13.4514 5.20056 10.136 8.51597 10.324 8.32787C9.587 9.06494 8.37787 9.03341 7.67234 8.32787C7.30694 7.96247 6.712 7.96247 6.34653 8.32787L5.77734 8.89706C5.93522 9.16531 6.11622 9.42344 6.34653 9.65375C7.73528 11.0425 10.1257 11.1534 11.6297 9.67019C11.636 9.66394 11.6435 9.66 11.6498 9.65375L14.9019 6.40169C16.3663 4.93719 16.3663 2.56287 14.9019 1.09837C13.4374 -0.366125 11.0631 -0.366125 9.59862 1.09837Z"
-                                                      fill="#97B6CF"
-                                                      fillOpacity="0.6"
-                                                    />
-                                                    <path
-                                                      d="M7.29013 11.3608L5.07582 13.5751C4.34466 14.3063 3.15538 14.3063 2.42423 13.5751C1.69301 12.8439 1.69301 11.6546 2.42423 10.9234C2.54891 10.7987 5.87141 7.47623 5.68338 7.66426C6.42038 6.92726 7.62951 6.95873 8.33504 7.66426C8.70044 8.02973 9.29541 8.02973 9.66085 7.66426L10.23 7.09507C10.0722 6.82682 9.89116 6.56869 9.66085 6.33844C8.27476 4.95229 5.88607 4.83435 4.3777 6.32198C4.37141 6.32823 4.36385 6.33216 4.35754 6.33844L1.09835 9.59763C-0.366086 11.0621 -0.366148 13.4364 1.09835 14.9009C2.56285 16.3654 4.93723 16.3654 6.40166 14.9009L9.66082 11.6417C9.6671 11.6355 9.67101 11.6279 9.67726 11.6216C8.8761 11.7383 8.0531 11.6583 7.29013 11.3608Z"
-                                                      fill="#97B6CF"
-                                                      fillOpacity="0.6"
-                                                    />
-                                                  </svg>
-                                                </div>
-                                                <span>0</span>
-                                              </li>
-                                              <li>
-                                                <div
-                                                  className="mail-status mail-hit"
-                                                  title="Link opening"
-                                                >
-                                                  <svg
-                                                    width="14"
-                                                    height="16"
-                                                    viewBox="0 0 14 16"
-                                                    fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                  >
-                                                    <path
-                                                      d="M2.96391 5.30631C2.85416 4.93468 2.74879 4.56243 2.6696 4.20577C2.14894 3.89774 1.79477 3.33718 1.79477 2.68932C1.79477 1.71473 2.58729 0.922837 3.56126 0.922837C4.53522 0.922837 5.32774 1.71535 5.32774 2.68932C5.32774 2.82338 5.30966 2.95246 5.2816 3.07779C5.45058 3.45004 5.58713 3.86906 5.70685 4.29493C6.04356 3.84599 6.25058 3.29415 6.25058 2.68932C6.25058 1.20343 5.04715 0 3.56126 0C2.07536 0 0.872559 1.20343 0.872559 2.68932C0.872559 3.96882 1.76734 5.03445 2.96391 5.30631Z"
-                                                      fill="#C8D1D9"
-                                                    ></path>
-                                                    <path
-                                                      d="M1.10616 11.673C1.76898 10.9566 2.51286 11.2372 3.50865 11.3887C4.36415 11.5203 5.20655 11.2802 5.15043 10.8182C5.06189 10.0705 4.93718 9.73632 4.65347 8.76797C4.42713 7.9979 3.99751 6.6099 3.60655 5.28301C3.08278 3.50779 2.93126 2.68348 3.62837 2.47771C4.37974 2.25885 4.8106 3.32635 5.20094 4.80663C5.64552 6.49143 5.87935 7.23531 6.01029 7.19603C6.241 7.12993 5.92549 6.40912 6.52907 6.23141C7.28356 6.01193 7.42946 6.60179 7.64084 6.54256C7.85222 6.47896 7.78052 5.88161 8.38223 5.70577C8.98706 5.53118 9.29073 6.27568 9.54014 6.20148C9.78706 6.12853 9.78145 5.85978 10.1543 5.75316C10.5278 5.64217 11.9333 6.27132 12.7376 9.01925C13.7472 12.4743 12.6098 13.1165 12.9546 14.2863L8.44833 15.9998C8.08356 15.1224 6.9537 15.0576 5.95417 14.4983C4.94716 13.9315 4.26314 12.8272 1.63866 12.8808C0.6516 12.9008 0.698366 12.1139 1.10616 11.673Z"
-                                                      fill="#C8D1D9"
-                                                    ></path>
-                                                  </svg>
-                                                </div>
-                                                <span>0</span>
-                                              </li>
-                                              <li>
-                                                <div
-                                                  className="mail-status mail_view"
-                                                  title="Started"
-                                                >
-                                                  <svg
-                                                    width="17"
-                                                    height="16"
-                                                    viewBox="0 0 17 16"
-                                                    fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                  >
-                                                    <path
-                                                      d="M6.46443 6.80015C8.34247 6.80015 9.86464 5.27769 9.86464 3.39993C9.86464 1.52217 8.34218 0 6.46443 0C4.58667 0 3.06363 1.52246 3.06363 3.40022C3.06363 5.27797 4.58667 6.80015 6.46443 6.80015Z"
-                                                      fill="#97B6CF"
-                                                      fillOpacity="0.6"
-                                                    />
-                                                    <path
-                                                      d="M7.90674 7.0319H5.02153C2.62095 7.0319 0.667969 8.98517 0.667969 11.3858V14.9141L0.676938 14.9694L0.919976 15.0455C3.2109 15.7613 5.20121 16 6.8394 16C8.20976 16 9.3334 15.8327 10.1793 15.6368C9.44888 14.8611 9.0013 13.8162 9.0013 12.6667C9.0013 10.9692 9.97731 9.4997 11.3988 8.78873C10.6046 7.7232 9.33488 7.0319 7.90674 7.0319Z"
-                                                      fill="#97B6CF"
-                                                      fillOpacity="0.6"
-                                                    />
-                                                    <path
-                                                      fillRule="evenodd"
-                                                      clipRule="evenodd"
-                                                      d="M13.3346 9.33333C11.4938 9.33333 10.0013 10.8258 10.0013 12.6667C10.0013 14.5076 11.4938 16 13.3346 16C15.1755 16 16.668 14.5076 16.668 12.6667C16.668 10.8258 15.1755 9.33333 13.3346 9.33333ZM11.8679 12.2998C11.5918 12.2998 11.3679 12.5237 11.3679 12.7998C11.3679 13.0759 11.5918 13.2998 11.8679 13.2998H14.8679C15.1441 13.2998 15.3679 13.0759 15.3679 12.7998C15.3679 12.5237 15.1441 12.2998 14.8679 12.2998H11.8679Z"
-                                                      fill="#97B6CF"
-                                                      fillOpacity="0.6"
-                                                    />
-                                                  </svg>
-                                                </div>
-                                                <span>0 </span>
-                                              </li>
-                                              <li>
-                                                <div
-                                                  className="mail-status mail_click"
-                                                  title="Completed"
-                                                >
-                                                  <svg
-                                                    width="16"
-                                                    height="16"
-                                                    viewBox="0 0 16 16"
-                                                    fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                  >
-                                                    <path
-                                                      d="M5.79646 6.80015C7.6745 6.80015 9.19667 5.27769 9.19667 3.39993C9.19667 1.52217 7.67421 0 5.79646 0C3.9187 0 2.39566 1.52246 2.39566 3.40022C2.39566 5.27797 3.9187 6.80015 5.79646 6.80015Z"
-                                                      fill="#97B6CF"
-                                                      fillOpacity="0.6"
-                                                    />
-                                                    <path
-                                                      d="M7.23877 7.0319H4.35356C1.95298 7.0319 0 8.98517 0 11.3858V14.9141L0.00896932 14.9694L0.252007 15.0455C2.54293 15.7613 4.53324 16 6.17143 16C7.54179 16 8.66543 15.8327 9.5113 15.6368C8.78091 14.8611 8.33333 13.8162 8.33333 12.6667C8.33333 10.9692 9.30935 9.4997 10.7308 8.78873C9.93663 7.7232 8.66691 7.0319 7.23877 7.0319Z"
-                                                      fill="#97B6CF"
-                                                      fillOpacity="0.6"
-                                                    />
-                                                    <path
-                                                      fillRule="evenodd"
-                                                      clipRule="evenodd"
-                                                      d="M9.33333 12.6667C9.33333 10.8258 10.8258 9.33333 12.6667 9.33333C14.5076 9.33333 16 10.8258 16 12.6667C16 14.5076 14.5076 16 12.6667 16C10.8258 16 9.33333 14.5076 9.33333 12.6667ZM12.4583 14.0404L14.5652 11.9336C14.6073 11.8915 14.6407 11.8416 14.6634 11.7866C14.6862 11.7316 14.6979 11.6727 14.6979 11.6132C14.6979 11.5537 14.6862 11.4948 14.6634 11.4399C14.6406 11.3849 14.6072 11.335 14.5652 11.2929C14.5231 11.2508 14.4732 11.2175 14.4182 11.1947C14.3632 11.172 14.3043 11.1602 14.2448 11.1602C14.1853 11.1603 14.1264 11.172 14.0714 11.1947C14.0165 11.2175 13.9665 11.2509 13.9245 11.293L12.1379 13.0793L11.4087 12.3501C11.3669 12.3071 11.3169 12.2728 11.2617 12.2493C11.2064 12.2257 11.1471 12.2134 11.0871 12.213C11.027 12.2126 10.9675 12.2241 10.912 12.2469C10.8564 12.2697 10.806 12.3033 10.7635 12.3457C10.7211 12.3882 10.6875 12.4386 10.6647 12.4941C10.6419 12.5497 10.6304 12.6092 10.6308 12.6692C10.6312 12.7292 10.6436 12.7886 10.6671 12.8438C10.6907 12.899 10.7249 12.949 10.768 12.9909L11.8176 14.0404C11.8596 14.0824 11.9096 14.1158 11.9646 14.1386C12.0195 14.1614 12.0785 14.1731 12.138 14.1731C12.1975 14.1731 12.2564 14.1614 12.3114 14.1386C12.3663 14.1158 12.4163 14.0824 12.4583 14.0404Z"
-                                                      fill="#97B6CF"
-                                                      fillOpacity="0.6"
-                                                    />
-                                                  </svg>
-                                                </div>
-                                                <span>0 </span>
-                                              </li>
-                                            </ul>
-                                          </div>
-                                        ) : (
-                                          <div className="mail-stats">
-                                            <ul>
-                                              <li>
-                                                <div
-                                                  className="mail-status mail_send"
-                                                  title="Sublinks"
-                                                >
-                                                  <svg
-                                                    width="16"
-                                                    height="16"
-                                                    viewBox="0 0 16 16"
-                                                    fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                  >
-                                                    <path
-                                                      d="M9.59862 1.09837L6.34653 4.35044C6.34025 4.35669 6.33634 4.36428 6.33009 4.37059C7.13125 4.25391 7.95428 4.33391 8.71722 4.63141L10.9244 2.42422C11.6556 1.693 12.8448 1.693 13.5761 2.42422C14.3073 3.15537 14.3073 4.34466 13.5761 5.07581C13.4514 5.20056 10.136 8.51597 10.324 8.32787C9.587 9.06494 8.37787 9.03341 7.67234 8.32787C7.30694 7.96247 6.712 7.96247 6.34653 8.32787L5.77734 8.89706C5.93522 9.16531 6.11622 9.42344 6.34653 9.65375C7.73528 11.0425 10.1257 11.1534 11.6297 9.67019C11.636 9.66394 11.6435 9.66 11.6498 9.65375L14.9019 6.40169C16.3663 4.93719 16.3663 2.56287 14.9019 1.09837C13.4374 -0.366125 11.0631 -0.366125 9.59862 1.09837Z"
-                                                      fill="#97B6CF"
-                                                      fillOpacity="1"
-                                                    ></path>
-                                                    <path
-                                                      d="M7.29013 11.3608L5.07582 13.5751C4.34466 14.3063 3.15538 14.3063 2.42423 13.5751C1.69301 12.8439 1.69301 11.6546 2.42423 10.9234C2.54891 10.7987 5.87141 7.47623 5.68338 7.66426C6.42038 6.92726 7.62951 6.95873 8.33504 7.66426C8.70044 8.02973 9.29541 8.02973 9.66085 7.66426L10.23 7.09507C10.0722 6.82682 9.89116 6.56869 9.66085 6.33844C8.27476 4.95229 5.88607 4.83435 4.3777 6.32198C4.37141 6.32823 4.36385 6.33216 4.35754 6.33844L1.09835 9.59763C-0.366086 11.0621 -0.366148 13.4364 1.09835 14.9009C2.56285 16.3654 4.93723 16.3654 6.40166 14.9009L9.66082 11.6417C9.6671 11.6355 9.67101 11.6279 9.67726 11.6216C8.8761 11.7383 8.0531 11.6583 7.29013 11.3608Z"
-                                                      fill="#97B6CF"
-                                                      fillOpacity="1"
-                                                    ></path>
-                                                  </svg>
-                                                </div>
-                                                <span>
-                                                  {data.total_sublinks}
-                                                </span>
-                                              </li>
-                                              <li>
-                                                <div
-                                                  className="mail-status mail-hit"
-                                                  title="Link opening"
-                                                >
-                                                  <svg
-                                                    width="14"
-                                                    height="16"
-                                                    viewBox="0 0 14 16"
-                                                    fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                  >
-                                                    <path
-                                                      d="M2.96391 5.30631C2.85416 4.93468 2.74879 4.56243 2.6696 4.20577C2.14894 3.89774 1.79477 3.33718 1.79477 2.68932C1.79477 1.71473 2.58729 0.922837 3.56126 0.922837C4.53522 0.922837 5.32774 1.71535 5.32774 2.68932C5.32774 2.82338 5.30966 2.95246 5.2816 3.07779C5.45058 3.45004 5.58713 3.86906 5.70685 4.29493C6.04356 3.84599 6.25058 3.29415 6.25058 2.68932C6.25058 1.20343 5.04715 0 3.56126 0C2.07536 0 0.872559 1.20343 0.872559 2.68932C0.872559 3.96882 1.76734 5.03445 2.96391 5.30631Z"
-                                                      fill="#0066BE"
-                                                    ></path>
-                                                    <path
-                                                      d="M1.10616 11.673C1.76898 10.9566 2.51286 11.2372 3.50865 11.3887C4.36415 11.5203 5.20655 11.2802 5.15043 10.8182C5.06189 10.0705 4.93718 9.73632 4.65347 8.76797C4.42713 7.9979 3.99751 6.6099 3.60655 5.28301C3.08278 3.50779 2.93126 2.68348 3.62837 2.47771C4.37974 2.25885 4.8106 3.32635 5.20094 4.80663C5.64552 6.49143 5.87935 7.23531 6.01029 7.19603C6.241 7.12993 5.92549 6.40912 6.52907 6.23141C7.28356 6.01193 7.42946 6.60179 7.64084 6.54256C7.85222 6.47896 7.78052 5.88161 8.38223 5.70577C8.98706 5.53118 9.29073 6.27568 9.54014 6.20148C9.78706 6.12853 9.78145 5.85978 10.1543 5.75316C10.5278 5.64217 11.9333 6.27132 12.7376 9.01925C13.7472 12.4743 12.6098 13.1165 12.9546 14.2863L8.44833 15.9998C8.08356 15.1224 6.9537 15.0576 5.95417 14.4983C4.94716 13.9315 4.26314 12.8272 1.63866 12.8808C0.6516 12.9008 0.698366 12.1139 1.10616 11.673Z"
-                                                      fill="#0066BE"
-                                                    ></path>
-                                                  </svg>
-                                                </div>
-                                                <span>
-                                                  {data.user_opening}
-                                                </span>
-                                              </li>
-                                              <li>
-                                                <div
-                                                  className="mail-status mail_view"
-                                                  title="Started"
-                                                >
-                                                  <svg
-                                                    width="17"
-                                                    height="16"
-                                                    viewBox="0 0 17 16"
-                                                    fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                  >
-                                                    <path
-                                                      d="M6.46443 6.80015C8.34247 6.80015 9.86464 5.27769 9.86464 3.39993C9.86464 1.52217 8.34218 0 6.46443 0C4.58667 0 3.06363 1.52246 3.06363 3.40022C3.06363 5.27797 4.58667 6.80015 6.46443 6.80015Z"
-                                                      fill="#FAC755"
-                                                      fillOpacity="1"
-                                                    ></path>
-                                                    <path
-                                                      d="M7.90674 7.0319H5.02153C2.62095 7.0319 0.667969 8.98517 0.667969 11.3858V14.9141L0.676938 14.9694L0.919976 15.0455C3.2109 15.7613 5.20121 16 6.8394 16C8.20976 16 9.3334 15.8327 10.1793 15.6368C9.44888 14.8611 9.0013 13.8162 9.0013 12.6667C9.0013 10.9692 9.97731 9.4997 11.3988 8.78873C10.6046 7.7232 9.33488 7.0319 7.90674 7.0319Z"
-                                                      fill="#FAC755"
-                                                      fillOpacity="1"
-                                                    ></path>
-                                                    <path
-                                                      fillRule="evenodd"
-                                                      clipRule="evenodd"
-                                                      d="M13.3346 9.33333C11.4938 9.33333 10.0013 10.8258 10.0013 12.6667C10.0013 14.5076 11.4938 16 13.3346 16C15.1755 16 16.668 14.5076 16.668 12.6667C16.668 10.8258 15.1755 9.33333 13.3346 9.33333ZM11.8679 12.2998C11.5918 12.2998 11.3679 12.5237 11.3679 12.7998C11.3679 13.0759 11.5918 13.2998 11.8679 13.2998H14.8679C15.1441 13.2998 15.3679 13.0759 15.3679 12.7998C15.3679 12.5237 15.1441 12.2998 14.8679 12.2998H11.8679Z"
-                                                      fill="#FAC755"
-                                                      fillOpacity="1"
-                                                    ></path>
-                                                  </svg>
-                                                </div>
-                                                <span>{data.Dropoff}</span>
-                                              </li>
-                                              <li>
-                                                <div
-                                                  className="mail-status mail_click"
-                                                  title="Completed"
-                                                >
-                                                  <svg
-                                                    width="16"
-                                                    height="16"
-                                                    viewBox="0 0 16 16"
-                                                    fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                  >
-                                                    <path
-                                                      d="M5.79646 6.80015C7.6745 6.80015 9.19667 5.27769 9.19667 3.39993C9.19667 1.52217 7.67421 0 5.79646 0C3.9187 0 2.39566 1.52246 2.39566 3.40022C2.39566 5.27797 3.9187 6.80015 5.79646 6.80015Z"
-                                                      fill="#39CABC"
-                                                    />
-                                                    <path
-                                                      d="M7.23877 7.0319H4.35356C1.95298 7.0319 0 8.98517 0 11.3858V14.9141L0.00896932 14.9694L0.252007 15.0455C2.54293 15.7613 4.53324 16 6.17143 16C7.54179 16 8.66543 15.8327 9.5113 15.6368C8.78091 14.8611 8.33333 13.8162 8.33333 12.6667C8.33333 10.9692 9.30935 9.4997 10.7308 8.78873C9.93663 7.7232 8.66691 7.0319 7.23877 7.0319Z"
-                                                      fill="#39CABC"
-                                                    />
-                                                    <path
-                                                      fillRule="evenodd"
-                                                      clipRule="evenodd"
-                                                      d="M9.33333 12.6667C9.33333 10.8258 10.8258 9.33333 12.6667 9.33333C14.5076 9.33333 16 10.8258 16 12.6667C16 14.5076 14.5076 16 12.6667 16C10.8258 16 9.33333 14.5076 9.33333 12.6667ZM12.4583 14.0404L14.5652 11.9336C14.6073 11.8915 14.6407 11.8416 14.6634 11.7866C14.6862 11.7316 14.6979 11.6727 14.6979 11.6132C14.6979 11.5537 14.6862 11.4948 14.6634 11.4399C14.6406 11.3849 14.6072 11.335 14.5652 11.2929C14.5231 11.2508 14.4732 11.2175 14.4182 11.1947C14.3632 11.172 14.3043 11.1602 14.2448 11.1602C14.1853 11.1603 14.1264 11.172 14.0714 11.1947C14.0165 11.2175 13.9665 11.2509 13.9245 11.293L12.1379 13.0793L11.4087 12.3501C11.3669 12.3071 11.3169 12.2728 11.2617 12.2493C11.2064 12.2257 11.1471 12.2134 11.0871 12.213C11.027 12.2126 10.9675 12.2241 10.912 12.2469C10.8564 12.2697 10.806 12.3033 10.7635 12.3457C10.7211 12.3882 10.6875 12.4386 10.6647 12.4941C10.6419 12.5497 10.6304 12.6092 10.6308 12.6692C10.6312 12.7292 10.6436 12.7886 10.6671 12.8438C10.6907 12.899 10.7249 12.949 10.768 12.9909L11.8176 14.0404C11.8596 14.0824 11.9096 14.1158 11.9646 14.1386C12.0195 14.1614 12.0785 14.1731 12.138 14.1731C12.1975 14.1731 12.2564 14.1614 12.3114 14.1386C12.3663 14.1158 12.4163 14.0824 12.4583 14.0404Z"
-                                                      fill="#39CABC"
-                                                    />
-                                                  </svg>
-                                                </div>
-                                                <span>
-                                                  {data.percentage}%
-                                                </span>
-                                              </li>
-                                            </ul>
-                                          </div>
-                                        )}
-                                      </div>
-                                      <div className="mailbox-buttons">
-                                        <div className="send_new">
-                                          {data?.is_draft == 0 ? (
-                                            <Button
-                                              className={
-                                                "btn-bordered send-new disabled"
-                                              }
-                                            >
-                                              Analytics
-                                            </Button>
-                                          ) : (
-                                            <Button
-                                              className={
-                                                "btn-bordered send-new"
-                                              }
-                                              onClick={() =>
-                                                analyticButtonClicked(data,navigate)
-                                              }
-                                            >
-                                              Analytics
-                                            </Button>
-                                          )}
-                                        </div>
-                                        <div className="mailbox-buttons-list">
-                                          <Button
-                                            className="send btn-bordered"
-                                            onClick={(e) =>
-                                              editHandler(
-                                                e,
-                                                data?.current_route,
-                                                data
-                                              )
-                                            }
-                                          >
-                                            Edit
-                                          </Button>
-                                          <Button
-                                            className={
-                                              data?.is_draft
-                                                ? "edit btn-filled"
-                                                : "edit btn-filled disabled"
-                                            }
-                                            onClick={(e) => {
-                                              window.open(
-                                                `https://survey.docintel.app/survey?Utmde=${data.unique_code}`,
-                                                "_blank"
-                                              );
-                                            }}
-                                          >
-                                            Preview
-                                          </Button>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </Tab>
-                                  <Tab
-                                    eventKey="sublinks"
-                                    title="Sublinks"
-                                    className="change-tab flex-column justify-content-between"
-                                  >
-                                    <div className="survey_tabs_data">
-                                      {apiStatus &&
-                                        sectionLoaderIndex ==
-                                        data?.survey_id ? (
-                                        <div
-                                          className="load_more"
-                                          style={{
-                                            margin: "10 auto",
-                                            justifyContent: "center",
-                                            display: "flex",
-                                            height: 148,
-                                          }}
-                                        >
-                                          <Spinner
-                                            color="#53aff4"
-                                            size={32}
-                                            speed={1}
-                                            animating={true}
-                                          />
-                                        </div>
-                                      ) : (
-                                        <>
-                                          <SublinkHandler
-                                            handleCopy={handleCopy}
-                                            setDownloadLink={setDownloadLink}
-                                            sublinkoptions={sublinkoptions}
-                                            survey_id={data.survey_id}
-                                          />
-
-                                          <div className="mailbox-buttons justify-content-end">
-                                            <div className="send_new">
-                                              <Button
-                                                className="btn-bordered send-new"
-                                                onClick={() => {
-                                                  navigate(
-                                                    "/survey/survey-sublink",
-                                                    {
-                                                      state: {
-                                                        survey_id:
-                                                          data.survey_id,
-                                                      },
-                                                    }
-                                                  );
-                                                }}
-                                              >
-                                                New Sublink
-                                              </Button>
-                                            </div>
-                                          </div>
-                                        </>
-                                      )}
-                                    </div>
-                                  </Tab>
-                                  <Tab eventKey="setting" title="Setting">
-                                    <div className="survey_tabs_data survey-setting">
-                                      <div className="d-flex align-items-center justify-content-start">
-                                        {data.is_draft ? (
-                                          // <>
-                                          <SurveyLiveButton
-                                            key={data.survey_id}
-                                            survey_id={data.survey_id}
-                                            updateLiveFlag={updateLiveFlag}
-                                            fetchSurveyListing={
-                                              fetchSurveyListing
-                                            }
-                                            liveFlagValue={data.is_draft}
-                                          />
-                                        ) : (
-                                          ""
-                                        )}
-                                      </div>
-                                      <div className="mailbox-buttons justify-content-end">
-                                        <div className="send_new">
-                                          <Button
-                                            className="btn-bordered send-new"
-                                            onClick={(e) => {
-                                              handleDuplicateSurvey(
-                                                e,
-                                                data.survey_id
-                                              );
-                                            }}
-                                          >
-                                            Duplicate Survey
-                                          </Button>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </Tab>
-                                </Tabs>
-                              </div>
-                              {deletestatus && (
-                                <div className="dlt_btn">
-                                  <button
-                                    onClick={(e) =>
-                                      showConfirmationPopup(data.survey_id)
+                                <div className="tabs-data">
+                                  <Tabs
+                                    defaultActiveKey="link"
+                                    onSelect={(e) =>
+                                      handleClick(e, data.survey_id)
                                     }
                                   >
-                                    <img
-                                      src={path + "delete.svg"}
-                                      alt="Delete Row"
-                                    />
-                                  </button>
+                                    <Tab eventKey="link" title="Link">
+                                      <div className="survey_tabs_data">
+                                        <div className="tab-panel">
+                                          <div className="tab-content-links">
+                                            <a
+                                              href={`https://survey.docintel.app/survey?Utmde=${data.unique_code}`}
+                                              className={
+                                                data?.is_draft != null &&
+                                                data?.is_draft == "0"
+                                                  ? "doc-link no-click"
+                                                  : "doc-link "
+                                              }
+                                              target="_blank"
+                                            >
+                                              https://survey.docintel.app/survey?Utmde=
+                                              {data.unique_code}
+                                            </a>
+                                            {data.is_draft ? (
+                                              <span
+                                                className="copy-content"
+                                                onClick={() =>
+                                                  copyHandler(
+                                                    `https://survey.docintel.app/survey?Utmde=${data.unique_code}`
+                                                  )
+                                                }
+                                              >
+                                                <img
+                                                  src={
+                                                    path_image +
+                                                    "copy-content.svg"
+                                                  }
+                                                  alt="Copy"
+                                                />
+                                              </span>
+                                            ) : (
+                                              <span className="copy-content">
+                                                <img
+                                                  src={
+                                                    path_image +
+                                                    "copy-content-disabled.svg"
+                                                  }
+                                                  alt="Copy"
+                                                />
+                                              </span>
+                                            )}
+                                            {data.is_draft ? (
+                                              <div
+                                                className="tab-content-qr"
+                                                onClick={() => {
+                                                  setQr({
+                                                    ...qrState,
+                                                    value: `https://survey.docintel.app/survey?Utmde=${data.unique_code}&dl=QR`,
+                                                  });
+                                                  setTimeout(function () {
+                                                    downloadQRCode();
+                                                  }, 500);
+                                                }}
+                                              >
+                                                <img
+                                                  src={
+                                                    path_image +
+                                                    "qr-code-icon.svg"
+                                                  }
+                                                  alt="QR"
+                                                />
+                                                <img
+                                                  src={
+                                                    path_image +
+                                                    "download-icon.svg"
+                                                  }
+                                                  alt="Download"
+                                                />
+                                              </div>
+                                            ) : (
+                                              <div className="tab-content-qr">
+                                                <img
+                                                  src={
+                                                    path_image +
+                                                    "qr-code-icon-disabled.svg"
+                                                  }
+                                                  alt="QR"
+                                                />
+                                                <img
+                                                  src={
+                                                    path_image +
+                                                    "download-icon-disabled.svg"
+                                                  }
+                                                  alt="Download"
+                                                />
+                                              </div>
+                                            )}
+                                          </div>
+                                          <ul className="survey-consent">
+                                            <li className="d-flex align-items-center">
+                                              <h6 className="tab-content-title">
+                                                Consent
+                                              </h6>
+                                              {data.survey_consent != "" ? (
+                                                data.survey_consent ===
+                                                "Mandatory consent" ? (
+                                                  <h6>Mandatory</h6>
+                                                ) : data.survey_consent ===
+                                                  "Optional consent" ? (
+                                                  <h6>Optional</h6>
+                                                ) : (
+                                                  <h6>Anonymous</h6>
+                                                )
+                                              ) : (
+                                                <h6>N/A</h6>
+                                              )}
+                                            </li>
+                                            <li className="d-flex align-items-center">
+                                              <h6 className="tab-content-title">
+                                                Creator
+                                              </h6>
+                                              <h6>{data.creator_name}</h6>
+                                            </li>
+                                          </ul>
+                                          <div className="mailbox-tags">
+                                            <ul>
+                                              {JSON.parse(data?.tags)?.length >
+                                              0 ? (
+                                                JSON.parse(data.tags).map(
+                                                  (tag, index) => (
+                                                    <li key={index}>{tag}</li>
+                                                  )
+                                                )
+                                              ) : (
+                                                <li>N/A</li>
+                                              )}
+                                            </ul>
+                                          </div>
+                                          <div className="mail-time">
+                                            <span>
+                                              {format(
+                                                new Date(data.date),
+                                                "MMMM d, yyyy '|' h:mm a"
+                                              )}
+                                            </span>
+                                          </div>
+
+                                          {data?.is_draft != null &&
+                                          data?.is_draft == "0" ? (
+                                            <div className="mail-stats">
+                                              <ul>
+                                                <li>
+                                                  <div
+                                                    className="mail-status irts"
+                                                    title="Sublinks"
+                                                  >
+                                                    <svg
+                                                      width="16"
+                                                      height="16"
+                                                      viewBox="0 0 16 16"
+                                                      fill="none"
+                                                      xmlns="http://www.w3.org/2000/svg"
+                                                    >
+                                                      <path
+                                                        d="M9.59862 1.09837L6.34653 4.35044C6.34025 4.35669 6.33634 4.36428 6.33009 4.37059C7.13125 4.25391 7.95428 4.33391 8.71722 4.63141L10.9244 2.42422C11.6556 1.693 12.8448 1.693 13.5761 2.42422C14.3073 3.15537 14.3073 4.34466 13.5761 5.07581C13.4514 5.20056 10.136 8.51597 10.324 8.32787C9.587 9.06494 8.37787 9.03341 7.67234 8.32787C7.30694 7.96247 6.712 7.96247 6.34653 8.32787L5.77734 8.89706C5.93522 9.16531 6.11622 9.42344 6.34653 9.65375C7.73528 11.0425 10.1257 11.1534 11.6297 9.67019C11.636 9.66394 11.6435 9.66 11.6498 9.65375L14.9019 6.40169C16.3663 4.93719 16.3663 2.56287 14.9019 1.09837C13.4374 -0.366125 11.0631 -0.366125 9.59862 1.09837Z"
+                                                        fill="#97B6CF"
+                                                        fillOpacity="0.6"
+                                                      />
+                                                      <path
+                                                        d="M7.29013 11.3608L5.07582 13.5751C4.34466 14.3063 3.15538 14.3063 2.42423 13.5751C1.69301 12.8439 1.69301 11.6546 2.42423 10.9234C2.54891 10.7987 5.87141 7.47623 5.68338 7.66426C6.42038 6.92726 7.62951 6.95873 8.33504 7.66426C8.70044 8.02973 9.29541 8.02973 9.66085 7.66426L10.23 7.09507C10.0722 6.82682 9.89116 6.56869 9.66085 6.33844C8.27476 4.95229 5.88607 4.83435 4.3777 6.32198C4.37141 6.32823 4.36385 6.33216 4.35754 6.33844L1.09835 9.59763C-0.366086 11.0621 -0.366148 13.4364 1.09835 14.9009C2.56285 16.3654 4.93723 16.3654 6.40166 14.9009L9.66082 11.6417C9.6671 11.6355 9.67101 11.6279 9.67726 11.6216C8.8761 11.7383 8.0531 11.6583 7.29013 11.3608Z"
+                                                        fill="#97B6CF"
+                                                        fillOpacity="0.6"
+                                                      />
+                                                    </svg>
+                                                  </div>
+                                                  <span>0</span>
+                                                </li>
+                                                <li>
+                                                  <div
+                                                    className="mail-status mail-hit"
+                                                    title="Link opening"
+                                                  >
+                                                    <svg
+                                                      width="14"
+                                                      height="16"
+                                                      viewBox="0 0 14 16"
+                                                      fill="none"
+                                                      xmlns="http://www.w3.org/2000/svg"
+                                                    >
+                                                      <path
+                                                        d="M2.96391 5.30631C2.85416 4.93468 2.74879 4.56243 2.6696 4.20577C2.14894 3.89774 1.79477 3.33718 1.79477 2.68932C1.79477 1.71473 2.58729 0.922837 3.56126 0.922837C4.53522 0.922837 5.32774 1.71535 5.32774 2.68932C5.32774 2.82338 5.30966 2.95246 5.2816 3.07779C5.45058 3.45004 5.58713 3.86906 5.70685 4.29493C6.04356 3.84599 6.25058 3.29415 6.25058 2.68932C6.25058 1.20343 5.04715 0 3.56126 0C2.07536 0 0.872559 1.20343 0.872559 2.68932C0.872559 3.96882 1.76734 5.03445 2.96391 5.30631Z"
+                                                        fill="#C8D1D9"
+                                                      ></path>
+                                                      <path
+                                                        d="M1.10616 11.673C1.76898 10.9566 2.51286 11.2372 3.50865 11.3887C4.36415 11.5203 5.20655 11.2802 5.15043 10.8182C5.06189 10.0705 4.93718 9.73632 4.65347 8.76797C4.42713 7.9979 3.99751 6.6099 3.60655 5.28301C3.08278 3.50779 2.93126 2.68348 3.62837 2.47771C4.37974 2.25885 4.8106 3.32635 5.20094 4.80663C5.64552 6.49143 5.87935 7.23531 6.01029 7.19603C6.241 7.12993 5.92549 6.40912 6.52907 6.23141C7.28356 6.01193 7.42946 6.60179 7.64084 6.54256C7.85222 6.47896 7.78052 5.88161 8.38223 5.70577C8.98706 5.53118 9.29073 6.27568 9.54014 6.20148C9.78706 6.12853 9.78145 5.85978 10.1543 5.75316C10.5278 5.64217 11.9333 6.27132 12.7376 9.01925C13.7472 12.4743 12.6098 13.1165 12.9546 14.2863L8.44833 15.9998C8.08356 15.1224 6.9537 15.0576 5.95417 14.4983C4.94716 13.9315 4.26314 12.8272 1.63866 12.8808C0.6516 12.9008 0.698366 12.1139 1.10616 11.673Z"
+                                                        fill="#C8D1D9"
+                                                      ></path>
+                                                    </svg>
+                                                  </div>
+                                                  <span>0</span>
+                                                </li>
+                                                <li>
+                                                  <div
+                                                    className="mail-status mail_view"
+                                                    title="Started"
+                                                  >
+                                                    <svg
+                                                      width="17"
+                                                      height="16"
+                                                      viewBox="0 0 17 16"
+                                                      fill="none"
+                                                      xmlns="http://www.w3.org/2000/svg"
+                                                    >
+                                                      <path
+                                                        d="M6.46443 6.80015C8.34247 6.80015 9.86464 5.27769 9.86464 3.39993C9.86464 1.52217 8.34218 0 6.46443 0C4.58667 0 3.06363 1.52246 3.06363 3.40022C3.06363 5.27797 4.58667 6.80015 6.46443 6.80015Z"
+                                                        fill="#97B6CF"
+                                                        fillOpacity="0.6"
+                                                      />
+                                                      <path
+                                                        d="M7.90674 7.0319H5.02153C2.62095 7.0319 0.667969 8.98517 0.667969 11.3858V14.9141L0.676938 14.9694L0.919976 15.0455C3.2109 15.7613 5.20121 16 6.8394 16C8.20976 16 9.3334 15.8327 10.1793 15.6368C9.44888 14.8611 9.0013 13.8162 9.0013 12.6667C9.0013 10.9692 9.97731 9.4997 11.3988 8.78873C10.6046 7.7232 9.33488 7.0319 7.90674 7.0319Z"
+                                                        fill="#97B6CF"
+                                                        fillOpacity="0.6"
+                                                      />
+                                                      <path
+                                                        fillRule="evenodd"
+                                                        clipRule="evenodd"
+                                                        d="M13.3346 9.33333C11.4938 9.33333 10.0013 10.8258 10.0013 12.6667C10.0013 14.5076 11.4938 16 13.3346 16C15.1755 16 16.668 14.5076 16.668 12.6667C16.668 10.8258 15.1755 9.33333 13.3346 9.33333ZM11.8679 12.2998C11.5918 12.2998 11.3679 12.5237 11.3679 12.7998C11.3679 13.0759 11.5918 13.2998 11.8679 13.2998H14.8679C15.1441 13.2998 15.3679 13.0759 15.3679 12.7998C15.3679 12.5237 15.1441 12.2998 14.8679 12.2998H11.8679Z"
+                                                        fill="#97B6CF"
+                                                        fillOpacity="0.6"
+                                                      />
+                                                    </svg>
+                                                  </div>
+                                                  <span>0 </span>
+                                                </li>
+                                                <li>
+                                                  <div
+                                                    className="mail-status mail_click"
+                                                    title="Completed"
+                                                  >
+                                                    <svg
+                                                      width="16"
+                                                      height="16"
+                                                      viewBox="0 0 16 16"
+                                                      fill="none"
+                                                      xmlns="http://www.w3.org/2000/svg"
+                                                    >
+                                                      <path
+                                                        d="M5.79646 6.80015C7.6745 6.80015 9.19667 5.27769 9.19667 3.39993C9.19667 1.52217 7.67421 0 5.79646 0C3.9187 0 2.39566 1.52246 2.39566 3.40022C2.39566 5.27797 3.9187 6.80015 5.79646 6.80015Z"
+                                                        fill="#97B6CF"
+                                                        fillOpacity="0.6"
+                                                      />
+                                                      <path
+                                                        d="M7.23877 7.0319H4.35356C1.95298 7.0319 0 8.98517 0 11.3858V14.9141L0.00896932 14.9694L0.252007 15.0455C2.54293 15.7613 4.53324 16 6.17143 16C7.54179 16 8.66543 15.8327 9.5113 15.6368C8.78091 14.8611 8.33333 13.8162 8.33333 12.6667C8.33333 10.9692 9.30935 9.4997 10.7308 8.78873C9.93663 7.7232 8.66691 7.0319 7.23877 7.0319Z"
+                                                        fill="#97B6CF"
+                                                        fillOpacity="0.6"
+                                                      />
+                                                      <path
+                                                        fillRule="evenodd"
+                                                        clipRule="evenodd"
+                                                        d="M9.33333 12.6667C9.33333 10.8258 10.8258 9.33333 12.6667 9.33333C14.5076 9.33333 16 10.8258 16 12.6667C16 14.5076 14.5076 16 12.6667 16C10.8258 16 9.33333 14.5076 9.33333 12.6667ZM12.4583 14.0404L14.5652 11.9336C14.6073 11.8915 14.6407 11.8416 14.6634 11.7866C14.6862 11.7316 14.6979 11.6727 14.6979 11.6132C14.6979 11.5537 14.6862 11.4948 14.6634 11.4399C14.6406 11.3849 14.6072 11.335 14.5652 11.2929C14.5231 11.2508 14.4732 11.2175 14.4182 11.1947C14.3632 11.172 14.3043 11.1602 14.2448 11.1602C14.1853 11.1603 14.1264 11.172 14.0714 11.1947C14.0165 11.2175 13.9665 11.2509 13.9245 11.293L12.1379 13.0793L11.4087 12.3501C11.3669 12.3071 11.3169 12.2728 11.2617 12.2493C11.2064 12.2257 11.1471 12.2134 11.0871 12.213C11.027 12.2126 10.9675 12.2241 10.912 12.2469C10.8564 12.2697 10.806 12.3033 10.7635 12.3457C10.7211 12.3882 10.6875 12.4386 10.6647 12.4941C10.6419 12.5497 10.6304 12.6092 10.6308 12.6692C10.6312 12.7292 10.6436 12.7886 10.6671 12.8438C10.6907 12.899 10.7249 12.949 10.768 12.9909L11.8176 14.0404C11.8596 14.0824 11.9096 14.1158 11.9646 14.1386C12.0195 14.1614 12.0785 14.1731 12.138 14.1731C12.1975 14.1731 12.2564 14.1614 12.3114 14.1386C12.3663 14.1158 12.4163 14.0824 12.4583 14.0404Z"
+                                                        fill="#97B6CF"
+                                                        fillOpacity="0.6"
+                                                      />
+                                                    </svg>
+                                                  </div>
+                                                  <span>0 </span>
+                                                </li>
+                                              </ul>
+                                            </div>
+                                          ) : (
+                                            <div className="mail-stats">
+                                              <ul>
+                                                <li>
+                                                  <div
+                                                    className="mail-status mail_send"
+                                                    title="Sublinks"
+                                                  >
+                                                    <svg
+                                                      width="16"
+                                                      height="16"
+                                                      viewBox="0 0 16 16"
+                                                      fill="none"
+                                                      xmlns="http://www.w3.org/2000/svg"
+                                                    >
+                                                      <path
+                                                        d="M9.59862 1.09837L6.34653 4.35044C6.34025 4.35669 6.33634 4.36428 6.33009 4.37059C7.13125 4.25391 7.95428 4.33391 8.71722 4.63141L10.9244 2.42422C11.6556 1.693 12.8448 1.693 13.5761 2.42422C14.3073 3.15537 14.3073 4.34466 13.5761 5.07581C13.4514 5.20056 10.136 8.51597 10.324 8.32787C9.587 9.06494 8.37787 9.03341 7.67234 8.32787C7.30694 7.96247 6.712 7.96247 6.34653 8.32787L5.77734 8.89706C5.93522 9.16531 6.11622 9.42344 6.34653 9.65375C7.73528 11.0425 10.1257 11.1534 11.6297 9.67019C11.636 9.66394 11.6435 9.66 11.6498 9.65375L14.9019 6.40169C16.3663 4.93719 16.3663 2.56287 14.9019 1.09837C13.4374 -0.366125 11.0631 -0.366125 9.59862 1.09837Z"
+                                                        fill="#97B6CF"
+                                                        fillOpacity="1"
+                                                      ></path>
+                                                      <path
+                                                        d="M7.29013 11.3608L5.07582 13.5751C4.34466 14.3063 3.15538 14.3063 2.42423 13.5751C1.69301 12.8439 1.69301 11.6546 2.42423 10.9234C2.54891 10.7987 5.87141 7.47623 5.68338 7.66426C6.42038 6.92726 7.62951 6.95873 8.33504 7.66426C8.70044 8.02973 9.29541 8.02973 9.66085 7.66426L10.23 7.09507C10.0722 6.82682 9.89116 6.56869 9.66085 6.33844C8.27476 4.95229 5.88607 4.83435 4.3777 6.32198C4.37141 6.32823 4.36385 6.33216 4.35754 6.33844L1.09835 9.59763C-0.366086 11.0621 -0.366148 13.4364 1.09835 14.9009C2.56285 16.3654 4.93723 16.3654 6.40166 14.9009L9.66082 11.6417C9.6671 11.6355 9.67101 11.6279 9.67726 11.6216C8.8761 11.7383 8.0531 11.6583 7.29013 11.3608Z"
+                                                        fill="#97B6CF"
+                                                        fillOpacity="1"
+                                                      ></path>
+                                                    </svg>
+                                                  </div>
+                                                  <span>
+                                                    {data.total_sublinks}
+                                                  </span>
+                                                </li>
+                                                <li>
+                                                  <div
+                                                    className="mail-status mail-hit"
+                                                    title="Link opening"
+                                                  >
+                                                    <svg
+                                                      width="14"
+                                                      height="16"
+                                                      viewBox="0 0 14 16"
+                                                      fill="none"
+                                                      xmlns="http://www.w3.org/2000/svg"
+                                                    >
+                                                      <path
+                                                        d="M2.96391 5.30631C2.85416 4.93468 2.74879 4.56243 2.6696 4.20577C2.14894 3.89774 1.79477 3.33718 1.79477 2.68932C1.79477 1.71473 2.58729 0.922837 3.56126 0.922837C4.53522 0.922837 5.32774 1.71535 5.32774 2.68932C5.32774 2.82338 5.30966 2.95246 5.2816 3.07779C5.45058 3.45004 5.58713 3.86906 5.70685 4.29493C6.04356 3.84599 6.25058 3.29415 6.25058 2.68932C6.25058 1.20343 5.04715 0 3.56126 0C2.07536 0 0.872559 1.20343 0.872559 2.68932C0.872559 3.96882 1.76734 5.03445 2.96391 5.30631Z"
+                                                        fill="#0066BE"
+                                                      ></path>
+                                                      <path
+                                                        d="M1.10616 11.673C1.76898 10.9566 2.51286 11.2372 3.50865 11.3887C4.36415 11.5203 5.20655 11.2802 5.15043 10.8182C5.06189 10.0705 4.93718 9.73632 4.65347 8.76797C4.42713 7.9979 3.99751 6.6099 3.60655 5.28301C3.08278 3.50779 2.93126 2.68348 3.62837 2.47771C4.37974 2.25885 4.8106 3.32635 5.20094 4.80663C5.64552 6.49143 5.87935 7.23531 6.01029 7.19603C6.241 7.12993 5.92549 6.40912 6.52907 6.23141C7.28356 6.01193 7.42946 6.60179 7.64084 6.54256C7.85222 6.47896 7.78052 5.88161 8.38223 5.70577C8.98706 5.53118 9.29073 6.27568 9.54014 6.20148C9.78706 6.12853 9.78145 5.85978 10.1543 5.75316C10.5278 5.64217 11.9333 6.27132 12.7376 9.01925C13.7472 12.4743 12.6098 13.1165 12.9546 14.2863L8.44833 15.9998C8.08356 15.1224 6.9537 15.0576 5.95417 14.4983C4.94716 13.9315 4.26314 12.8272 1.63866 12.8808C0.6516 12.9008 0.698366 12.1139 1.10616 11.673Z"
+                                                        fill="#0066BE"
+                                                      ></path>
+                                                    </svg>
+                                                  </div>
+                                                  <span>
+                                                    {data.user_opening}
+                                                  </span>
+                                                </li>
+                                                <li>
+                                                  <div
+                                                    className="mail-status mail_view"
+                                                    title="Started"
+                                                  >
+                                                    <svg
+                                                      width="17"
+                                                      height="16"
+                                                      viewBox="0 0 17 16"
+                                                      fill="none"
+                                                      xmlns="http://www.w3.org/2000/svg"
+                                                    >
+                                                      <path
+                                                        d="M6.46443 6.80015C8.34247 6.80015 9.86464 5.27769 9.86464 3.39993C9.86464 1.52217 8.34218 0 6.46443 0C4.58667 0 3.06363 1.52246 3.06363 3.40022C3.06363 5.27797 4.58667 6.80015 6.46443 6.80015Z"
+                                                        fill="#FAC755"
+                                                        fillOpacity="1"
+                                                      ></path>
+                                                      <path
+                                                        d="M7.90674 7.0319H5.02153C2.62095 7.0319 0.667969 8.98517 0.667969 11.3858V14.9141L0.676938 14.9694L0.919976 15.0455C3.2109 15.7613 5.20121 16 6.8394 16C8.20976 16 9.3334 15.8327 10.1793 15.6368C9.44888 14.8611 9.0013 13.8162 9.0013 12.6667C9.0013 10.9692 9.97731 9.4997 11.3988 8.78873C10.6046 7.7232 9.33488 7.0319 7.90674 7.0319Z"
+                                                        fill="#FAC755"
+                                                        fillOpacity="1"
+                                                      ></path>
+                                                      <path
+                                                        fillRule="evenodd"
+                                                        clipRule="evenodd"
+                                                        d="M13.3346 9.33333C11.4938 9.33333 10.0013 10.8258 10.0013 12.6667C10.0013 14.5076 11.4938 16 13.3346 16C15.1755 16 16.668 14.5076 16.668 12.6667C16.668 10.8258 15.1755 9.33333 13.3346 9.33333ZM11.8679 12.2998C11.5918 12.2998 11.3679 12.5237 11.3679 12.7998C11.3679 13.0759 11.5918 13.2998 11.8679 13.2998H14.8679C15.1441 13.2998 15.3679 13.0759 15.3679 12.7998C15.3679 12.5237 15.1441 12.2998 14.8679 12.2998H11.8679Z"
+                                                        fill="#FAC755"
+                                                        fillOpacity="1"
+                                                      ></path>
+                                                    </svg>
+                                                  </div>
+                                                  <span>{data.Dropoff}</span>
+                                                </li>
+                                                <li>
+                                                  <div
+                                                    className="mail-status mail_click"
+                                                    title="Completed"
+                                                  >
+                                                    <svg
+                                                      width="16"
+                                                      height="16"
+                                                      viewBox="0 0 16 16"
+                                                      fill="none"
+                                                      xmlns="http://www.w3.org/2000/svg"
+                                                    >
+                                                      <path
+                                                        d="M5.79646 6.80015C7.6745 6.80015 9.19667 5.27769 9.19667 3.39993C9.19667 1.52217 7.67421 0 5.79646 0C3.9187 0 2.39566 1.52246 2.39566 3.40022C2.39566 5.27797 3.9187 6.80015 5.79646 6.80015Z"
+                                                        fill="#39CABC"
+                                                      />
+                                                      <path
+                                                        d="M7.23877 7.0319H4.35356C1.95298 7.0319 0 8.98517 0 11.3858V14.9141L0.00896932 14.9694L0.252007 15.0455C2.54293 15.7613 4.53324 16 6.17143 16C7.54179 16 8.66543 15.8327 9.5113 15.6368C8.78091 14.8611 8.33333 13.8162 8.33333 12.6667C8.33333 10.9692 9.30935 9.4997 10.7308 8.78873C9.93663 7.7232 8.66691 7.0319 7.23877 7.0319Z"
+                                                        fill="#39CABC"
+                                                      />
+                                                      <path
+                                                        fillRule="evenodd"
+                                                        clipRule="evenodd"
+                                                        d="M9.33333 12.6667C9.33333 10.8258 10.8258 9.33333 12.6667 9.33333C14.5076 9.33333 16 10.8258 16 12.6667C16 14.5076 14.5076 16 12.6667 16C10.8258 16 9.33333 14.5076 9.33333 12.6667ZM12.4583 14.0404L14.5652 11.9336C14.6073 11.8915 14.6407 11.8416 14.6634 11.7866C14.6862 11.7316 14.6979 11.6727 14.6979 11.6132C14.6979 11.5537 14.6862 11.4948 14.6634 11.4399C14.6406 11.3849 14.6072 11.335 14.5652 11.2929C14.5231 11.2508 14.4732 11.2175 14.4182 11.1947C14.3632 11.172 14.3043 11.1602 14.2448 11.1602C14.1853 11.1603 14.1264 11.172 14.0714 11.1947C14.0165 11.2175 13.9665 11.2509 13.9245 11.293L12.1379 13.0793L11.4087 12.3501C11.3669 12.3071 11.3169 12.2728 11.2617 12.2493C11.2064 12.2257 11.1471 12.2134 11.0871 12.213C11.027 12.2126 10.9675 12.2241 10.912 12.2469C10.8564 12.2697 10.806 12.3033 10.7635 12.3457C10.7211 12.3882 10.6875 12.4386 10.6647 12.4941C10.6419 12.5497 10.6304 12.6092 10.6308 12.6692C10.6312 12.7292 10.6436 12.7886 10.6671 12.8438C10.6907 12.899 10.7249 12.949 10.768 12.9909L11.8176 14.0404C11.8596 14.0824 11.9096 14.1158 11.9646 14.1386C12.0195 14.1614 12.0785 14.1731 12.138 14.1731C12.1975 14.1731 12.2564 14.1614 12.3114 14.1386C12.3663 14.1158 12.4163 14.0824 12.4583 14.0404Z"
+                                                        fill="#39CABC"
+                                                      />
+                                                    </svg>
+                                                  </div>
+                                                  <span>
+                                                    {data.percentage}%
+                                                  </span>
+                                                </li>
+                                              </ul>
+                                            </div>
+                                          )}
+                                        </div>
+                                        <div className="mailbox-buttons">
+                                          <div className="send_new">
+                                            {data?.is_draft == 0 ? (
+                                              <Button
+                                                className={
+                                                  "btn-bordered send-new disabled"
+                                                }
+                                              >
+                                                Analytics
+                                              </Button>
+                                            ) : (
+                                              <Button
+                                                className={
+                                                  "btn-bordered send-new"
+                                                }
+                                                onClick={() =>
+                                                  analyticButtonClicked(
+                                                    data,
+                                                    navigate
+                                                  )
+                                                }
+                                              >
+                                                Analytics
+                                              </Button>
+                                            )}
+                                          </div>
+                                          <div className="mailbox-buttons-list">
+                                            <Button
+                                              className="send btn-bordered"
+                                              onClick={(e) =>
+                                                editHandler(
+                                                  e,
+                                                  data?.current_route,
+                                                  data
+                                                )
+                                              }
+                                            >
+                                              Edit
+                                            </Button>
+                                            <Button
+                                              className={
+                                                data?.is_draft
+                                                  ? "edit btn-filled"
+                                                  : "edit btn-filled disabled"
+                                              }
+                                              onClick={(e) => {
+                                                window.open(
+                                                  `https://survey.docintel.app/survey?Utmde=${data.unique_code}`,
+                                                  "_blank"
+                                                );
+                                              }}
+                                            >
+                                              Preview
+                                            </Button>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </Tab>
+                                    <Tab
+                                      eventKey="sublinks"
+                                      title="Sublinks"
+                                      className="change-tab flex-column justify-content-between"
+                                    >
+                                      <div className="survey_tabs_data">
+                                        {apiStatus &&
+                                        sectionLoaderIndex ==
+                                          data?.survey_id ? (
+                                          <div
+                                            className="load_more"
+                                            style={{
+                                              margin: "10 auto",
+                                              justifyContent: "center",
+                                              display: "flex",
+                                              height: 148,
+                                            }}
+                                          >
+                                            <Spinner
+                                              color="#53aff4"
+                                              size={32}
+                                              speed={1}
+                                              animating={true}
+                                            />
+                                          </div>
+                                        ) : (
+                                          <>
+                                            <SublinkHandler
+                                              handleCopy={handleCopy}
+                                              setDownloadLink={setDownloadLink}
+                                              sublinkoptions={sublinkoptions}
+                                              survey_id={data.survey_id}
+                                            />
+
+                                            <div className="mailbox-buttons justify-content-end">
+                                              <div className="send_new">
+                                                <Button
+                                                  className="btn-bordered send-new"
+                                                  onClick={() => {
+                                                    navigate(
+                                                      "/survey/survey-sublink",
+                                                      {
+                                                        state: {
+                                                          survey_id:
+                                                            data.survey_id,
+                                                        },
+                                                      }
+                                                    );
+                                                  }}
+                                                >
+                                                  New Sublink
+                                                </Button>
+                                              </div>
+                                            </div>
+                                          </>
+                                        )}
+                                      </div>
+                                    </Tab>
+                                    <Tab eventKey="setting" title="Setting">
+                                      <div className="survey_tabs_data survey-setting">
+                                        <div className="d-flex align-items-center justify-content-start">
+                                          {data.is_draft ? (
+                                            // <>
+                                            <SurveyLiveButton
+                                              key={data.survey_id}
+                                              survey_id={data.survey_id}
+                                              updateLiveFlag={updateLiveFlag}
+                                              fetchSurveyListing={
+                                                fetchSurveyListing
+                                              }
+                                              liveFlagValue={data.is_draft}
+                                            />
+                                          ) : (
+                                            ""
+                                          )}
+                                        </div>
+                                        <div className="mailbox-buttons justify-content-end">
+                                          <div className="send_new">
+                                            <Button
+                                              className="btn-bordered send-new"
+                                              onClick={(e) => {
+                                                handleDuplicateSurvey(
+                                                  e,
+                                                  data.survey_id
+                                                );
+                                              }}
+                                            >
+                                              Duplicate Survey
+                                            </Button>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </Tab>
+                                  </Tabs>
                                 </div>
-                              )}
+                                {deletestatus && (
+                                  <div className="dlt_btn">
+                                    <button
+                                      onClick={(e) =>
+                                        showConfirmationPopup(data.survey_id)
+                                      }
+                                    >
+                                      <img
+                                        src={path + "delete.svg"}
+                                        alt="Delete Row"
+                                      />
+                                    </button>
+                                  </div>
+                                )}
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      </>
-                    );
-                  })
+                        </>
+                      );
+                    })
                   : null}
 
                 <div className="delete">

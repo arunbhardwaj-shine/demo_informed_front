@@ -10,10 +10,12 @@ import { connect } from "react-redux";
 import { toast } from "react-toastify";
 import { surveyAxiosInstance } from "./CommonFunctions/CommonFunction";
 import { surveyEndpoints } from "./SurveyEndpoints/SurveyEndpoints";
+import { useSelector } from "react-redux";
 
 var surveySetupData = {};
 
 const SurveySetup = (props) => {
+  const {currentStep}=useSelector((state)=>state.surveyStepReducer);
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const {FETCH_ALL_TAGS,INSERT_SURVEY_CREATOR,GET_CREATOR}=surveyEndpoints;
   const [isSelected, setIsSelected] = useState(false);
@@ -413,17 +415,18 @@ const SurveySetup = (props) => {
                         <li className="active active-main">
                           <Link to="">Set-up</Link>
                         </li>
-                        <li className="">
-                          <Link to="">Survey config</Link>
+                        <li className="active active-main">
+                          <Link  to={currentStep > 1 ? "/survey/survey-configure" : "" } >Survey config</Link>
                         </li>
-                        <li className="">
-                          <Link to="">Build survey</Link>
+                        <li className={currentStep > 2 ? "active" : "" }>
+                          <Link  to={currentStep > 2 ? "/survey/form-builder" : "" }>Build survey</Link>
                         </li>
-                        <li className="">
-                          <Link to="">Thank you</Link>
+
+                        <li className={currentStep > 3 ? "active" : "" }>
+                          <Link to={currentStep > 3 ? "/survey/thank-you" : "" }>Thank you</Link>
                         </li>
-                        <li className="">
-                          <Link to="">Preview</Link>
+                        <li className={currentStep > 4 ? "active" : "" }>
+                          <Link to={currentStep > 4 ? "/survey/survey-preview" : "" }>Preview</Link>
                         </li>
                       </ul>
                     </Col>

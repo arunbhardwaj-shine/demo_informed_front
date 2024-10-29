@@ -3,7 +3,7 @@ import { Button, Col, Form, Row, Tab, Tabs, Tooltip } from "react-bootstrap";
 import { saveAsDraft } from "./CommonFunctions/CommonFunction";
 import { useNavigate, Link } from "react-router-dom";
 import Select from "react-select";
-import { connect } from "react-redux";
+import { connect, useSelector } from "react-redux";
 import { getSurveyData } from "../../actions";
 import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -11,10 +11,17 @@ import { loader } from "../../loader";
 import { surveyAxiosInstance } from "./CommonFunctions/CommonFunction";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import { surveyEndpoints } from "./SurveyEndpoints/SurveyEndpoints";
+import {updateCurrentStep} from "../../actions/surveyStepAction"
+import { useDispatch } from "react-redux";
 var surveyValues = {};
 const SurveyConfig = (props) => {
   const {IMAGE_UPLOAD_AWS}=surveyEndpoints
   const [elements, setElements] = useState([]);
+  const {currentStep}=useSelector((state)=>state.surveyStepReducer);
+  const dispatch=useDispatch()
+
+
+
   // let path = process.env.REACT_APP_ASSETS_PATH_INFORMED;
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [surveyLink, setSurveyLink] = useState("");
@@ -225,6 +232,7 @@ const handleDropdownchange=(e,selectType)=>{
         },
       };
       props.getSurveyData(surveyValues);
+      dispatch(updateCurrentStep(3))
     } catch (error) {
       loader("hide");
       toast.error("Something went wrong");
@@ -573,17 +581,17 @@ const handleDropdownchange=(e,selectType)=>{
                           <Link to="/survey/survey-builder"> Set-up</Link>
                         </li>
                         <li className="active active-main">
-                          <Link to="">Survey config</Link>
+                          <Link  to={currentStep > 1 ? "/survey/survey-configure" : "" } >Survey config</Link>
                         </li>
-                        <li className="">
-                          <Link to="">Build survey</Link>
+                        <li className={currentStep > 2 ? "active" : "" }>
+                          <Link  to={currentStep > 2 ? "/survey/form-builder" : "" }>Build survey</Link>
                         </li>
 
-                        <li className="">
-                          <Link to="">Thank you</Link>
+                        <li className={currentStep > 3 ? "active" : "" }>
+                          <Link to={currentStep > 3 ? "/survey/thank-you" : "" }>Thank you</Link>
                         </li>
-                        <li className="">
-                          <Link to="">Preview</Link>
+                        <li className={currentStep > 4 ? "active" : "" }>
+                          <Link to={currentStep > 4 ? "/survey/survey-preview" : "" }>Preview</Link>
                         </li>
                       </ul>
                     </Col>

@@ -9,7 +9,6 @@ import { SidebarCommonItems } from "../surveyObjects/SidebarCommonItems";
 import { saveAsDraft } from "../CommonFunctions/CommonFunction";
 import { Modal } from "react-bootstrap";
 import { surveyEndpoints } from "../SurveyEndpoints/SurveyEndpoints";
-
 import {
   emptySurveyReduxStates,
   toggleEditMode,
@@ -31,8 +30,10 @@ import { useNavigate } from "react-router-dom";
 import { color } from "highcharts";
 import { updateLiveFlag } from "../CommonFunctions/CommonFunction";
 
+ 
 var surveyValues = {};
 const SurveyPreview = (props) => {
+  const {currentStep}=useSelector((state)=>state.surveyStepReducer);
   const {FETCH_QUESTION,DELETE_SURVEY_QUESTION}=surveyEndpoints
   let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -40,6 +41,7 @@ const SurveyPreview = (props) => {
     (state) => state.surveyData
   );
   const [questionDeleteCount, setQuestionDeleteCount] = useState(0);
+ 
 
   const updatedSurveyData = {
     ...surveyValues,
@@ -292,14 +294,12 @@ const SurveyPreview = (props) => {
                       Build survey
                     </Link>
                   </li>
-                  <li className={isEdit ? "" : "active"}>
-                    <Link to={isEdit ? "" : "/survey/thank-you"}>
-                      Thank you
-                    </Link>
-                  </li>
-                  <li className={isEdit ? "" : "active active-main"}>
-                    <Link to="">Preview</Link>
-                  </li>
+                  <li className={currentStep > 3 ? "active" : "" }>
+                          <Link to={currentStep > 3 ? "/survey/thank-you" : "" }>Thank you</Link>
+                        </li>
+                        <li className={currentStep > 4 ? "active" : "" }>
+                          <Link to={currentStep > 4 ? "/survey/survey-preview" : "" }>Preview</Link>
+                        </li>
                 </ul>
               </Col>
               <Col md={3}>

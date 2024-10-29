@@ -218,6 +218,7 @@ export const uploadImageToServer = async (file, fileInputRef) => {
       }
       
       if (res.status === 200) {
+        console.log(res.data.data)
         return res.data.data;
       }
    
