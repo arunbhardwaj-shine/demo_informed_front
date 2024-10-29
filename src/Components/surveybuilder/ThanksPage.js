@@ -6,14 +6,18 @@ import { uploadImageToServer } from "./CommonFunctions/CommonFunction";
 import { loader } from "../../loader";
 import { toast } from "react-toastify";
 import { useLocation, useNavigate } from "react-router-dom";
-
+import { useSelector } from "react-redux";
 import { saveAsDraft } from "./CommonFunctions/CommonFunction";
 import { getSurveyData } from "../../actions";
 import { connect } from "react-redux";
+import { useDispatch } from "react-redux";
+import {updateCurrentStep} from "../../actions/surveyStepAction"
 
 import QuestionEditor from "./SurveyComponents/QuestionEditor";
 var surveyValues = {};
 const ThanksPage = (props) => {
+  const dispatch=useDispatch()
+  const {currentStep}=useSelector((state)=>state.surveyStepReducer);
   const navigate = useNavigate();
   const location = useLocation();
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -60,7 +64,9 @@ const ThanksPage = (props) => {
           thanku_body_text: thanksPageData.bodyText,
         },
       };
+      
       props.getSurveyData({ ...surveyValues });
+      dispatch(updateCurrentStep(5))
     } catch (error) {
       loader("hide");
       toast.error("Something went wrong");
@@ -222,9 +228,9 @@ const ThanksPage = (props) => {
                           <li className="active active-main">
                             <a href="#">Thank you</a>
                           </li>
-                          <li className="">
-                            <a href="">Preview</a>
-                          </li>
+                          <li className={currentStep > 4 ? "active" : "" }>
+                          <Link to={currentStep > 4 ? "/survey/survey-preview" : "" }>Preview</Link>
+                        </li>
                         </ul>
                       </Col>
                       <Col md={3}>

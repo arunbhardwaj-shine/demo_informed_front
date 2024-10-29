@@ -7,6 +7,7 @@ import { useSelector, useDispatch, connect } from "react-redux";
 import { getSurveyData } from "../../actions";
 import { updateLiveFlag } from "./CommonFunctions/CommonFunction";
 import { toast } from "react-toastify";
+
 var surveyValues = {};
 
 const SurveyFinalPreview = () => {

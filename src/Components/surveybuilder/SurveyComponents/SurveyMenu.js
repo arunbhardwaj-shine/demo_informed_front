@@ -212,7 +212,7 @@ const SurveyMenu = ({ menuRef, consentOption }) => {
   const deleteOptions = async (optionId) => {
     try {
       loader("show");
-      console.log("from option")
+     
        await surveyAxiosInstance.post(DELETE_OPTION, {
         answerId: optionId,
       });

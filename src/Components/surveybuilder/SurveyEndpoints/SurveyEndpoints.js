@@ -34,6 +34,7 @@ export const surveyEndpoints = {
     SURVEY_TAKERS_STATUS: "/survey/survey-takers-status",
     GET_DROPOFF_RESPONSES: "/survey/get-dropoff-responses",
     TAKERS_RESPONSES_DETAIL: "/survey/takers-responses-detail",
+    DOWNLOAD_ALL_EXCEL_SHEET:"/survey/get-all-excel-data",
 
     // Last Publish Page Endpoints
     INSERT_SURVEY_DATA: "/survey/insert-survey-data",
@@ -44,4 +45,9 @@ export const surveyEndpoints = {
     SURVEY_DRAFT_INFORMATION: "/survey/survey-draft-information",
     UPDATE_LIVE_FLAG: "/survey/update-live-flag",
     // DELETE_SURVEY_QUESTION_2: "/survey/delete-survey-question", // Duplicate
+
+
+
+
+
 };

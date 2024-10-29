@@ -15,6 +15,9 @@ import { surveyAxiosInstance } from "./CommonFunctions/CommonFunction";
 import { uploadImageToServer } from "./CommonFunctions/CommonFunction";
 import html2canvas from "html2canvas";
 import { surveyEndpoints } from "./SurveyEndpoints/SurveyEndpoints";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import {updateCurrentStep} from "../../actions/surveyStepAction"
 const validExtensions = ["png", "jpeg", "jpg", "gif"];
 
 var surveyValues = {};
@@ -27,6 +30,9 @@ const SurveyFormBuilder = (props) => {
     INSERT_CUSTOM_TEMPLATE,
   } = surveyEndpoints;
 
+  const {currentStep}=useSelector((state)=>state.surveyStepReducer);
+  
+const dispatch=useDispatch()
   const [elements, setElements] = useState([]);
   // let path = process.env.REACT_APP_ASSETS_PATH_INFORMED;
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -729,6 +735,7 @@ const SurveyFormBuilder = (props) => {
     if (newTemplateStatus != 1) {
       await props.getSurveyData(updatedTemplateData);
     }
+    dispatch(updateCurrentStep(2))
   };
 
   return (
@@ -1407,19 +1414,19 @@ const SurveyFormBuilder = (props) => {
                           <li className="active active-main">
                             <Link to="">Set-up</Link>
                           </li>
-                          <li className="">
-                            <Link to="">Survey config</Link>
-                          </li>
-                          <li className="">
-                            <Link to="">Build survey</Link>
-                          </li>
+                          <li className={currentStep > 1 ? "active" : "" }>
+                          <Link  to={currentStep > 1 ? "/survey/survey-configure" : "" } >Survey config</Link>
+                        </li>
+                        <li className={currentStep > 2 ? "active" : "" }>
+                          <Link  to={currentStep > 2 ? "/survey/form-builder" : "" }>Build survey</Link>
+                        </li>
 
-                          <li className="">
-                            <Link to="">Thank you</Link>
-                          </li>
-                          <li className="">
-                            <Link to="">Preview</Link>
-                          </li>
+                        <li className={currentStep > 3 ? "active" : "" }>
+                          <Link to={currentStep > 3 ? "/survey/thank-you" : "" }>Thank you</Link>
+                        </li>
+                        <li className={currentStep > 4 ? "active" : "" }>
+                          <Link to={currentStep > 4 ? "/survey/survey-preview" : "" }>Preview</Link>
+                        </li>
                         </ul>
                       </Col>
                       <Col md={3}>
@@ -1517,7 +1524,7 @@ const SurveyFormBuilder = (props) => {
               type="button"
               className="btn btn-primary save btn-filled"
               onClick={(e) => {
-                console.log(newSavedTemplateName);
+               
                 if (!newSavedTemplateName.trim()) {
                   setError({
                     addTemplateName: "Please add template Name",
