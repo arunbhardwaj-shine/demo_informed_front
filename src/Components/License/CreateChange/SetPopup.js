@@ -270,7 +270,7 @@ const SetPopup = (props) => {
         loader("hide");
         setTemplateId(res?.data?.data?.popupTempId);
         templateIdRef.current=res?.data?.data?.popupTempId
-
+        setActualTemplateData(res);
         setTimeout(function () {
           const div_img = document.querySelector("#template_dyn1");
           if (div_img !== null && typeof div_img != "undefined") {
@@ -333,6 +333,7 @@ const SetPopup = (props) => {
         htmlEditor2: templateList?.[second]?.source_code,
         htmlEditor3: templateList?.[third]?.source_code,
         htmlEditor4: templateList?.[fourth]?.source_code,
+        submitCancelPopupType: actualTemplateData?.data?.data?.submitCancelPopupType ? actualTemplateData?.data?.data?.submitCancelPopupType: 0,
       };
       const res = await postData(ENDPOINT.LIBRARYSAVEPOPUP, body);
       loader("hide");
@@ -964,7 +965,7 @@ const SetPopup = (props) => {
                           content_style:
                             "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
                           content_css: [
-                            "https://docintel.app/react_informed.css?v=1.4",
+                            "https://docintel.app/react_informed.css?v=1.5",
                             "https://use.fontawesome.com/releases/v5.8.2/css/all.css",
                           ],
 
