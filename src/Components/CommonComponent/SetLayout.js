@@ -60,6 +60,14 @@ const SetLayout = () => {
       });
     }
 
+    if (localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" ){
+      newdata.push({
+        image: `${path_image}Survey_home_icon.svg`,
+        title: "Survey",
+        subtitle: "Make surveys to hear what they think",
+      });
+    }
+
     setData(newdata);
   }, []);
 
@@ -117,6 +125,8 @@ const SetLayout = () => {
       // navigate("/license-content");
       // navigate("/license-content");
       navigate("/license-content");
+    }else if (title == "Survey") {
+      navigate("/survey/survey-list");
     } else if (title == "Q&A/SURVEY") {
       if (isLikeRdAccount) {
         window.open(

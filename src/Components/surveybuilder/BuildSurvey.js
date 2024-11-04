@@ -3,7 +3,7 @@ import { Col } from "react-bootstrap";
 import SurveyMenu from "./SurveyComponents/SurveyMenu";
 import SurveyPreview from "./SurveyComponents/SurveyPreview";
 import { loader } from "../../loader";
- 
+import {updateCurrentStep} from "../../actions/surveyStepAction"
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch, connect } from "react-redux";
 import { getSurveyData } from "../../actions";
@@ -15,6 +15,7 @@ var surveyValues = {};
 const BuildSurvey = (props) => {
   const { elements } = useSelector((state) => state.surveyData);
   const consentOption = surveyValues?.surveyConfigData?.survey_consent;
+  const dispatch=useDispatch()
  
   const navigate = useNavigate();
 
@@ -63,7 +64,7 @@ const BuildSurvey = (props) => {
         ...surveyValues,
         question_data: filteredSuvryQuestion,
       }; //preparing the final paylaod to store in localStorage
-
+      dispatch(updateCurrentStep(4))
       props.getSurveyData(updatedSurveyData); //insert questiondata into loaclStorage
     } catch (error) {
       loader("hide");

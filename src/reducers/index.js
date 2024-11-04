@@ -1,5 +1,6 @@
 import { combineReducers } from "redux";
 import { surveyReducer } from "./surveyReducer";
+import { surveyStepReducer } from "./surveyStepReducer";
 
 
 
@@ -145,6 +146,7 @@ export default combineReducers({
   getWebinarSelected: getWebinarSelected,
   getSearched: getSearched,
   getSurveyData: getSurveyData,
-  surveyData:surveyReducer
+  surveyData:surveyReducer,
+  surveyStepReducer:surveyStepReducer
 });
 

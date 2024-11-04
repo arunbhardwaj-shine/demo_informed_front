@@ -94,6 +94,7 @@ const SetPopup = (props) => {
   // ]);
 
   const [timeList, setTimeList] = useState([
+    { value: "2000", label: "2 Second" },
     { value: "5000", label: "5 Second" },
     { value: "10000", label: "10 Second" },
     { value: "15000", label: "15 Second" },
@@ -237,10 +238,10 @@ const SetPopup = (props) => {
           first_consent == "Sunshine USA"
         ) {
           setIsOnline(false);
-          data = res?.data?.data?.usaPopup;
+          // data = res?.data?.data?.usaPopup;
+          data = res?.data?.data?.usaPopup.filter((item) => item?.display === true);
         } else {
           setIsOnline(false);
-
           data = res?.data?.data?.popupData;
         }
         setTemplateList(data);
@@ -269,7 +270,7 @@ const SetPopup = (props) => {
         loader("hide");
         setTemplateId(res?.data?.data?.popupTempId);
         templateIdRef.current=res?.data?.data?.popupTempId
-
+        setActualTemplateData(res);
         setTimeout(function () {
           const div_img = document.querySelector("#template_dyn1");
           if (div_img !== null && typeof div_img != "undefined") {
@@ -332,6 +333,7 @@ const SetPopup = (props) => {
         htmlEditor2: templateList?.[second]?.source_code,
         htmlEditor3: templateList?.[third]?.source_code,
         htmlEditor4: templateList?.[fourth]?.source_code,
+        submitCancelPopupType: actualTemplateData?.data?.data?.submitCancelPopupType ? actualTemplateData?.data?.data?.submitCancelPopupType: 0,
       };
       const res = await postData(ENDPOINT.LIBRARYSAVEPOPUP, body);
       loader("hide");
@@ -963,7 +965,7 @@ const SetPopup = (props) => {
                           content_style:
                             "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
                           content_css: [
-                            "https://docintel.app/react_informed.css?v=1.2",
+                            "https://docintel.app/react_informed.css?v=1.5",
                             "https://use.fontawesome.com/releases/v5.8.2/css/all.css",
                           ],
 

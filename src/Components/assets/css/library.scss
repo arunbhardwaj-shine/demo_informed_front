@@ -137,6 +137,12 @@
         @include p;
         color: $library-box-heading;
         margin: 0 0 8px;
+        &.author{
+          color: rgba(0, 74, 137, 0.50);
+          font-size: 12px;
+          font-weight: 400;
+          line-height: normal;
+        }
       }
 
       .select-tags {
@@ -27824,7 +27830,19 @@ background-size: cover;
   .register-page-right-view {
     margin: 40px auto 10px;
   }
-
+  .register-page .register-page-right-view {
+    margin: 0px auto 10px;
+}
+.register-page .register-page-action p {
+  font-size: 15px;
+}
+.register-page .register-page-action p span {
+  font-size: 11px;
+}
+.register-page .register-page-action button.btn {
+  padding: 6px;
+  font-size: 11px;
+}
   .survey-rating {
     .question-rating {
 
@@ -28166,6 +28184,13 @@ background-size: cover;
 }
 
 @media (max-width: $layout-breakpoint-large) {
+  .register-page .register-page-right-view {
+    margin: 40px auto 10px;
+}
+.register-page .register-page-action button.btn {
+  margin-left: auto;
+  margin-right: 7px;
+}
   .custom-change .top-sticky {
     top: 48px;
   }
