@@ -42,7 +42,6 @@ const SurveyPreview = (props) => {
   );
   const [questionDeleteCount, setQuestionDeleteCount] = useState(0);
   const [hoveredIndex, setHoveredIndex] = useState(null);
- 
 
   const updatedSurveyData = {
     ...surveyValues,
@@ -117,11 +116,6 @@ const SurveyPreview = (props) => {
     dispatch(addElement(type, index));
   };
 
-  const handleDragLeave = () => {
-    setHoveredIndex(null);
-  };
-
-
   const fetchQuestiondetails = async () => {
     try {
       loader("show");
@@ -170,7 +164,7 @@ const SurveyPreview = (props) => {
 
   const handlePreviewDrop = (e) => {
     e.preventDefault();
-
+    setHoveredIndex(null)
     const type = e.dataTransfer.getData("type");
 
     if (type === "consent") {
@@ -197,24 +191,24 @@ const SurveyPreview = (props) => {
   const handlePreviewDragOver = (e) => e.preventDefault();
 
   const handleQuestionDragStart = (e, index) => {
-    console.log("from the drag start ",index)
     e.stopPropagation();
     setDraggedElementIndex(index);
   };
 
   const handleQuestionDragOver = (e,index) =>{
-    console.log("from the drag over " ,index)
-    e.preventDefault();
-    e.stopPropagation();
-    setHoveredIndex(index);
- }
+     e.preventDefault();
+     setHoveredIndex(index)
+    }
+
 
   const handleQuestionDrop = (e, index) => {
     e.preventDefault();
-    setHoveredIndex(null);
+    setHoveredIndex(null)
+ 
     setSpecificIndex(index);
     if (draggedElementIndex !== null) {
       e.stopPropagation();
+  
       if (draggedElementIndex !== index) {
         // if(currentElementIndex != draggedElementIndex){
         //   toast("Please select a question before dragging.");
@@ -545,18 +539,21 @@ const SurveyPreview = (props) => {
                         return;
                       } else {
                         return (
-                          <div 
-                            // className={`dragable-box ${
-                            //   index == currentElementIndex ? "active" : ""
-                            // } `}
-                            className={`dragable-box ${
-                              index === currentElementIndex ? "active" :""
-                            } ${index === hoveredIndex && index !== draggedElementIndex ? "dropArea": ""}`}
-                            
+                          <>
+                           {index === hoveredIndex &&
+                            index !== draggedElementIndex ? (
+                              <div className="dropArea"></div>
+                            ) : (
+                              ""
+                            )}
                           
+                          <div
+                            className={`dragable-box ${
+                              index == currentElementIndex ? "active" : ""
+                            }`}
                             style={
                               isEdit
-                                ? { padding: "60px 6px 4px 6px"  }
+                                ? { padding: "60px 6px 4px 6px" }
                                 : {
                                     backgroundColor:
                                       templateData.page_background_color,
@@ -567,6 +564,7 @@ const SurveyPreview = (props) => {
                             key={index}
                             onMouseDown={(e) => {
                               if (isEdit) {
+                                
                                   e.stopPropagation();
                                   dispatch(setCurrentElementIndex(index));
                               }
@@ -577,7 +575,6 @@ const SurveyPreview = (props) => {
                             //     dispatch(setCurrentElementIndex(index));
                             //   }
                             // }}
-                            onDragLeave={handleDragLeave}
                             onDragStart={(e) => {
                               if (isEdit) {
                                 handleQuestionDragStart(e, index);
@@ -854,6 +851,7 @@ const SurveyPreview = (props) => {
                               </>
                             )}
                           </div>
+                          </>
                         );
                       }
                     })}
