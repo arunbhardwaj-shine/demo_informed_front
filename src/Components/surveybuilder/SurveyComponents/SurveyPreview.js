@@ -579,12 +579,6 @@ const SurveyPreview = (props) => {
                         return;
                       } else {
                         return (
-                          <>
-                          {placeholderIndex === index ? (
-                              <div className="dropArea"></div>
-                            ) : (
-                              ""
-                            )}
                           
                           <div
                             className={`dragable-box ${
@@ -632,6 +626,11 @@ const SurveyPreview = (props) => {
                               }
                             }}
                           >
+                            {placeholderIndex === index ? (
+                              <div className="dropArea"></div>
+                            ) : (
+                              ""
+                            )}
                             {index == currentElementIndex && (
                               <div className="active-drag">
                                 {" "}
@@ -891,12 +890,7 @@ const SurveyPreview = (props) => {
                               </>
                             )}
                           </div>
-                          {/* {placeholderIndex === elements.length ? (
-                              <div className="dropArea"></div>
-                            ) : (
-                              ""
-                            )} */}
-                          </>
+                        
                         );
                       }
                     })}
