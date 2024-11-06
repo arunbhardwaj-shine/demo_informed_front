@@ -210,9 +210,10 @@ const SurveyPreview = (props) => {
   const handleQuestionDragOver = (e,index) =>{ 
     e.preventDefault();
     console.log(index ,draggedElementIndex,"from drag over====>")
-    if (index !== draggedItemIndex && draggedElementIndex ) {
-      setHoveredIndex(index); // Set the hovered index for the blur effect
+    if (index !== draggedItemIndex && draggedElementIndex && index != hoveredIndex) {
+      console.log("inside hovered")
 
+      setHoveredIndex(index); // Set the hovered index  
       const newItems = [...elements];
       const draggedItem = newItems.splice(draggedItemIndex, 1)[0];
       newItems.splice(index, 0, draggedItem);
@@ -222,11 +223,12 @@ const SurveyPreview = (props) => {
       
     }
     if(draggedItemIndex == null){
+      console.log("inside placeholder")
       const bounding = e.currentTarget.getBoundingClientRect();
       const offset = e.clientY - bounding.top;
   
       // Determine placeholder position based on cursor location within the item
-      if (offset < bounding.height / 2) {
+      if (offset < bounding.height / 2 && index != placeholderIndex) {
         setPlaceholderIndex(index); // Show placeholder above
       } else {
         setPlaceholderIndex(index + 1); // Show placeholder below
@@ -303,11 +305,25 @@ const SurveyPreview = (props) => {
     }
   };
 
+  const handleDragLeave=(e)=>{
+    e.preventDefault();
+    console.log("drag leave")
+    
+    setDraggedItemIndex(null);
+    setHoveredIndex(null); // Clear the hovered index when dropping
+    setPlaceholderIndex(null)
+
+
+  }
+
   return (
     <div
       className="top-right-action preview"
       onDrop={handlePreviewDrop}
       onDragOver={handlePreviewDragOver}
+   
+      // onDragEnd={handleDragLeave}
+     
     >
       <div className="d-flex flex-column w-100">
         <div className="page-top-nav sticky">
