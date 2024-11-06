@@ -50,9 +50,13 @@ const updateEditDisable = (state, action) => {
 
 const addResQuestions = (state, action) => {
   const newData = action.payload;
+  let count = 1;
+  const newUpdatedElements = newData.map((item) => {
+    return { ...item, questionNo: count++ };
+  });
   return {
     ...state,
-    elements: newData,
+    elements: newUpdatedElements,
     globalIndex: newData?.length + 1,
     currentElementIndex: null,
     isEditModeOn: false,

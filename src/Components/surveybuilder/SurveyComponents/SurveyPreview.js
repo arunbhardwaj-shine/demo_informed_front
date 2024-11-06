@@ -41,7 +41,10 @@ const SurveyPreview = (props) => {
     (state) => state.surveyData
   );
   const [questionDeleteCount, setQuestionDeleteCount] = useState(0);
+  const [draggedItemIndex, setDraggedItemIndex] = useState(null);
   const [hoveredIndex, setHoveredIndex] = useState(null);
+  const [placeholderIndex, setPlaceholderIndex] = useState(null);
+ 
 
   const updatedSurveyData = {
     ...surveyValues,
@@ -116,6 +119,7 @@ const SurveyPreview = (props) => {
     dispatch(addElement(type, index));
   };
 
+ 
   const fetchQuestiondetails = async () => {
     try {
       loader("show");
@@ -162,9 +166,14 @@ const SurveyPreview = (props) => {
     }
   }, [survey_id, dispatch]);
 
+ 
+
+
   const handlePreviewDrop = (e) => {
     e.preventDefault();
-    setHoveredIndex(null)
+    setDraggedItemIndex(null);
+    setHoveredIndex(null);
+    setPlaceholderIndex(null)
     const type = e.dataTransfer.getData("type");
 
     if (type === "consent") {
@@ -192,30 +201,61 @@ const SurveyPreview = (props) => {
 
   const handleQuestionDragStart = (e, index) => {
     e.stopPropagation();
+    setDraggedItemIndex(index);
     setDraggedElementIndex(index);
   };
 
-  const handleQuestionDragOver = (e,index) =>{
-     e.preventDefault();
-     setHoveredIndex(index)
+
+
+  const handleQuestionDragOver = (e,index) =>{ 
+    e.preventDefault();
+    console.log(index ,draggedElementIndex,"from drag over====>")
+    if (index !== draggedItemIndex && draggedElementIndex ) {
+      setHoveredIndex(index); // Set the hovered index for the blur effect
+
+      const newItems = [...elements];
+      const draggedItem = newItems.splice(draggedItemIndex, 1)[0];
+      newItems.splice(index, 0, draggedItem);
+      setDraggedItemIndex(index);
+      dispatch(addResQuestions(newItems))
+      // setItems(newItems);
+      
+    }
+    if(draggedItemIndex == null){
+      const bounding = e.currentTarget.getBoundingClientRect();
+      const offset = e.clientY - bounding.top;
+  
+      // Determine placeholder position based on cursor location within the item
+      if (offset < bounding.height / 2) {
+        setPlaceholderIndex(index); // Show placeholder above
+      } else {
+        setPlaceholderIndex(index + 1); // Show placeholder below
+      }
+
     }
 
+ 
+    
+  
+  
+  }
 
   const handleQuestionDrop = (e, index) => {
     e.preventDefault();
-    setHoveredIndex(null)
+    setDraggedItemIndex(null);
+    setHoveredIndex(null); // Clear the hovered index when dropping
+    setPlaceholderIndex(null)
  
     setSpecificIndex(index);
     if (draggedElementIndex !== null) {
       e.stopPropagation();
-  
       if (draggedElementIndex !== index) {
         // if(currentElementIndex != draggedElementIndex){
         //   toast("Please select a question before dragging.");
         //   return;
         // }
-        dispatch(swapElements(draggedElementIndex, index));
-        setDraggedElementIndex(null);
+        // dispatch(swapElements(draggedElementIndex, index));
+        // setDraggedElementIndex(null);
       }
     } else {
       const type = e.dataTransfer.getData("type");
@@ -540,8 +580,7 @@ const SurveyPreview = (props) => {
                       } else {
                         return (
                           <>
-                           {index === hoveredIndex &&
-                            index !== draggedElementIndex ? (
+                          {placeholderIndex === index ? (
                               <div className="dropArea"></div>
                             ) : (
                               ""
@@ -553,7 +592,7 @@ const SurveyPreview = (props) => {
                             }`}
                             style={
                               isEdit
-                                ? { padding: "60px 6px 4px 6px" }
+                                ? { padding: "60px 6px 4px 6px" , filter: hoveredIndex === index ? 'opacity:0' : 'none' }
                                 : {
                                     backgroundColor:
                                       templateData.page_background_color,
@@ -562,19 +601,20 @@ const SurveyPreview = (props) => {
                             }
                             draggable={isEdit} // Only make it draggable if isEdit is true
                             key={index}
-                            onMouseDown={(e) => {
-                              if (isEdit) {
+                          //   onMouseDown={(e) => {
+                          //     if (isEdit) {
                                 
-                                  e.stopPropagation();
-                                  dispatch(setCurrentElementIndex(index));
+                          //         e.stopPropagation();
+                          //         dispatch(setCurrentElementIndex(index));
+                          //     }
+                          // }}
+                            onClick={(e) => {
+                              if (isEdit) {
+                                e.stopPropagation();
+                                dispatch(setCurrentElementIndex(index));
                               }
-                          }}
-                            // onClick={(e) => {
-                            //   if (isEdit) {
-                            //     e.stopPropagation();
-                            //     dispatch(setCurrentElementIndex(index));
-                            //   }
-                            // }}
+                            }}
+                      
                             onDragStart={(e) => {
                               if (isEdit) {
                                 handleQuestionDragStart(e, index);
@@ -851,6 +891,11 @@ const SurveyPreview = (props) => {
                               </>
                             )}
                           </div>
+                          {/* {placeholderIndex === elements.length ? (
+                              <div className="dropArea"></div>
+                            ) : (
+                              ""
+                            )} */}
                           </>
                         );
                       }
