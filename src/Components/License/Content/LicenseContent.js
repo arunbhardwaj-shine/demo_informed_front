@@ -2654,7 +2654,7 @@ const LicenseContent = (props) => {
                                                 {
                                                   client_details.findIndex((el) => el.pdfId == data?.id) !== -1
                                                   ? 
-                                                  client_details[client_details.findIndex((el) =>el.pdfId == data?.id)].name
+                                                  client_details[client_details.findIndex((el) =>el.pdfId == data?.id)].name ?  client_details[client_details.findIndex((el) =>el.pdfId == data?.id)].name: "N/A" 
                                                   : "N/A"
                                                 }
                                               </h6>
@@ -2667,7 +2667,7 @@ const LicenseContent = (props) => {
                                                 {
                                                   client_details.findIndex((el) => el.pdfId == data?.id) !== -1
                                                   ? 
-                                                  client_details[client_details.findIndex((el) =>el.pdfId == data?.id)].company
+                                                  client_details[client_details.findIndex((el) =>el.pdfId == data?.id)].company ? client_details[client_details.findIndex((el) =>el.pdfId == data?.id)].company  : "N/A"
                                                   : "N/A"
                                                 }
                                               </h6>
@@ -2693,7 +2693,7 @@ const LicenseContent = (props) => {
                                                 {
                                                   client_details.findIndex((el) => el.pdfId == data?.id) !== -1
                                                   ? 
-                                                  client_details[client_details.findIndex((el) =>el.pdfId == data?.id)].country
+                                                  client_details[client_details.findIndex((el) =>el.pdfId == data?.id)].country ?  client_details[client_details.findIndex((el) =>el.pdfId == data?.id)].country  : "N/A"
                                                   : "N/A"
                                                 }
                                               </h6>
