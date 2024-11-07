@@ -4,7 +4,7 @@ import { useLocation, Link } from "react-router-dom";
 import Highcharts from "highcharts";
 import { loader } from "../../loader";
 import { ENDPOINT } from "../../axios/apiConfig";
-import { postData, getData } from "../../axios/apiHelper";
+import { postData, getData,postFormData } from "../../axios/apiHelper";
 import exporting from "highcharts/modules/exporting";
 import exportData from "highcharts/modules/export-data";
 import Select from "react-select";
@@ -46,6 +46,7 @@ const ContentAnalytics = () => {
   const [sublinkOptions, setSublinkOptions] = useState([]);
   const [activeKey, setActiveKey] = useState(null);
   const [refreshFlag, setRefreshFlag] = useState(false);
+  const [isSunshineAccount, setIsSunshineAccount] = useState(localStorage.getItem("account_type") == "USA_PHARMA" ? true : false)
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -247,6 +248,7 @@ const ContentAnalytics = () => {
       if (!isLinkAccordianOpen) {
         setSectionLoader(true);
         if (!linkData?.length) {
+          
           const response = await postData(ENDPOINT.LINKSANALYTICS, {
             pdfId: selectedPdf,
           });
@@ -288,28 +290,46 @@ const ContentAnalytics = () => {
   const downloadUniqueStats = async () => {
     try {
       loader("show");
-      let durl =
-        "https://webinar.informed.pro/Analytics/download_excel_new/" +
-        selectedPdf;
-      const response = await axios.get(durl, { responseType: "blob" });
-      // .then((response) => {
-      // Create a Blob from the response data
-      const blob = new Blob([response.data], {
-        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-      });
-      // Create a temporary URL for the Blob
-      const url = window.URL.createObjectURL(blob);
-      // Create a link and click it to trigger the download
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = "readers.xlsx";
-      link.click();
-      // Clean up the temporary URL
-      window.URL.revokeObjectURL(url);
-      // })
-      // .catch((error) => {
-      //   console.error('Error downloading the Excel file:', error);
-      // });
+let durl=""
+if(isSunshineAccount){
+durl=await postFormData(ENDPOINT.USA_UNIQUE_STATS,{pdf_id:selectedPdf},{responseType: "blob"})
+
+const link = document.createElement("a");
+const url = window.URL.createObjectURL(durl?.data);
+link.href = url;
+link.download = `Registered_Users.xlsx`;
+
+document.body.appendChild(link);
+link.click();
+link.remove();
+window.URL.revokeObjectURL(url);
+loader("hide");
+}else{
+
+  durl =
+   "https://webinar.informed.pro/Analytics/download_excel_new/" +
+   selectedPdf;
+   console.log("durl-->",durl)
+         const response = await axios.get(durl, { responseType: "blob" });
+         // .then((response) => {
+         // Create a Blob from the response data
+         const blob = new Blob([response.data], {
+           type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+         });
+         // Create a temporary URL for the Blob
+         const url = window.URL.createObjectURL(blob);
+         // Create a link and click it to trigger the download
+         const link = document.createElement("a");
+         link.href = url;
+         link.download = "readers.xlsx";
+         link.click();
+         // Clean up the temporary URL
+         window.URL.revokeObjectURL(url);
+         // })
+         // .catch((error) => {
+         //   console.error('Error downloading the Excel file:', error);
+         // });
+}
       loader("hide");
     } catch (err) {
       console.log(err);
