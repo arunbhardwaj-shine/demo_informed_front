@@ -3660,7 +3660,7 @@ const Sidebar = () => {
                           window.location.pathname == "/delivery-stats" ||
                           window.location.pathname == "/trending-topics" ||
                           window.location.pathname == "/trending-content" ||
-                          window.location.pathname == "/content-type"                         
+                          window.location.pathname == "/content-type" ||    window.location.pathname == "/content-analytics"                      
                          ? (
                           <ul>
                             <li

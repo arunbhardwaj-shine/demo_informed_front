@@ -25794,9 +25794,15 @@ background-size: cover;
                     color:rgba(151, 182, 207, 1);
                   }
                 }
+                
               }
               div[class*="-IndicatorsContainer"]{
                 display: none;
+              }
+              div{
+                div[class*="-indicatorContainer"]{
+                  display: none;
+                }
               }
           }
         }

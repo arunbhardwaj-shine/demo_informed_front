@@ -69,6 +69,7 @@ const Header = () => {
     let navigateRoute = "/";
     if (typeof localStorage.getItem('account_type') != 'undefined' && localStorage.getItem('account_type') == 'USA_PHARMA') {
       let userToken = localStorage.getItem('user_id')?.replace(/ /g, '+')
+      userToken  = userToken?.replace(/\//g, '---');
       navigateRoute = "/account/" + userToken;
     }
     const keysToKeep = ['uname', 'pass', 'acceptedCookies'];
