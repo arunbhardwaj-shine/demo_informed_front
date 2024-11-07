@@ -100,7 +100,7 @@ const eventId = localStorageEvent?.eventId
                       <h2 style= {{
                             color:eventDataSample?.eventStartDate?.color
                           }}>
-                        {formattedDateRange}
+                        {formattedDateRange}{eventId === 505 ? ', ' : ''}
 
                        { eventId != 505 ?<><br />
                          <span style= {{
@@ -127,6 +127,8 @@ const eventId = localStorageEvent?.eventId
                   </div>
 
                   {eventId === 505  ? 
+                   <div className="col-sm-4">
+                   <div className="factor-season-right">
                    <div className="factor__logo">
                    <img
                      src={`${
@@ -136,7 +138,7 @@ const eventId = localStorageEvent?.eventId
                      }`}
                      alt="Factor logo"
                    />
-                 </div>
+                 </div> </div> </div>
                    : <div className="col-sm-4 col-md-4">
                    <div className="factor-season-right">
                      <h3>
