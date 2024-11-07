@@ -43,8 +43,10 @@ const eventId = localStorageEvent?.eventId
 
   return (
     <>
-      
-      <div className="wrapper emory">
+      <div 
+      // className="wrapper emory"
+      className={`wrapper emory ${eventId === 505   ? "French" : ""}`}
+      >
         <section className="factor-season">
           <div className="container">
             <div className="row">
@@ -61,7 +63,20 @@ const eventId = localStorageEvent?.eventId
                 <div className="row">
                   <div className="col-sm-8 col-md-8">
                     <div className="factor-season-left">
-                      <div className="factor__logo">
+                    {eventId === 505  ? 
+                    <h1>
+                      <span style={{
+                          textTransform: "capitalize",
+                          color:eventDataSample?.eventTitle?.color
+                        }}
+                        dangerouslySetInnerHTML={{
+                          __html: eventDataSample?.eventTitle?.value
+                          ? eventDataSample?.eventTitle?.value
+                          : ''
+                        }}
+                       />
+                    </h1>
+                   : <div className="factor__logo">
                         <img
                           src={`${
                             formData?.content?.logoImageUrl
@@ -71,16 +86,27 @@ const eventId = localStorageEvent?.eventId
                           alt="Factor logo"
                         />
                       </div>
+                  }
+                      {/* <div className="factor__logo">
+                        <img
+                          src={`${
+                            formData?.content?.logoImageUrl
+                              ? formData?.content?.logoImageUrl
+                              : ""
+                          }`}
+                          alt="Factor logo"
+                        />
+                      </div> */}
                       <h2 style= {{
                             color:eventDataSample?.eventStartDate?.color
                           }}>
                         {formattedDateRange}
-                        <br />
-                  
-                     <span style= {{
+
+                       { eventId != 505 ?<><br />
+                         <span style= {{
                             color:eventDataSample?.eventStartTime?.color
                           }}>{timeRange}</span>
-                        <br />
+                        <br /></>: ''}
                         <span
                           style={{
                             textTransform: "capitalize",
@@ -99,7 +125,38 @@ const eventId = localStorageEvent?.eventId
                       </h2>
                     </div>
                   </div>
-                  <div className="col-sm-4 col-md-4">
+
+                  {eventId === 505  ? 
+                   <div className="factor__logo">
+                   <img
+                     src={`${
+                       formData?.content?.logoImageUrl
+                         ? formData?.content?.logoImageUrl
+                         : ""
+                     }`}
+                     alt="Factor logo"
+                   />
+                 </div>
+                   : <div className="col-sm-4 col-md-4">
+                   <div className="factor-season-right">
+                     <h3>
+                       <span style={{
+                           textTransform: "capitalize",
+                           color:eventDataSample?.speakerName?.color
+                         }}
+                         dangerouslySetInnerHTML={{
+                           __html: eventDataSample?.speakerName?.value
+                           ? eventDataSample?.speakerName?.value
+                           : eventData.speaker_name
+                         }}
+                        />
+                         {" "}
+                     </h3>
+                   </div>
+                 </div>
+                  }
+
+                  {/* <div className="col-sm-4 col-md-4">
                     <div className="factor-season-right">
                       <h3>
                         <span style={{
@@ -113,30 +170,9 @@ const eventId = localStorageEvent?.eventId
                           }}
                          />
                           {" "}
-                          {/* {eventDataSample?.speakerName?.value
-                            ? eventDataSample?.speakerName?.value
-                            : eventData.speaker_name} */}
-                        {/* </span> */}
                       </h3>
                     </div>
-
-                    {eventId === 505  ? 
-                    <div className="factor-season-right">
-                    <h3>
-                      <span style={{
-                          textTransform: "capitalize",
-                          color:eventDataSample?.eventTitle?.color
-                        }}
-                        dangerouslySetInnerHTML={{
-                          __html: eventDataSample?.eventTitle?.value
-                          ? eventDataSample?.eventTitle?.value
-                          : ''
-                        }}
-                       />
-                    </h3>
-                  </div> : ''
-                  }
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>
