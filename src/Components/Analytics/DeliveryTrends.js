@@ -10,6 +10,7 @@ const DeliveryTrends = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [sectionLoader, setSectionLoader] = useState(false);
   const [apiCallStatus, setApiCallStatus] = useState(false);
+  const [isSunshineAccount, setIsSunshineAccount] = useState(localStorage.getItem("account_type") == "USA_PHARMA" ? true : false)
   const activeTab = useRef(1);
 
   Highcharts.setOptions({
@@ -36,7 +37,8 @@ const DeliveryTrends = () => {
     setSectionLoader(true);
     setApiCallStatus(false);
     try {
-      const response = await postData(ENDPOINT.DELIVERYTRENDS, { type: type });
+      let analyticsRoute = isSunshineAccount ? ENDPOINT.USA_DELIVERYTRENDS : ENDPOINT.DELIVERYTRENDS
+      const response = await postData(analyticsRoute, { type: type });
       const hadData = response?.data?.data;
       if (hadData.length <= 0) {
         setIsDataFound(false);
@@ -374,9 +376,8 @@ const DeliveryTrends = () => {
           g0: [
             { "Email Sent": `${isNaN(g0_1) ? 0 : g0_1}% (${g0.outer_radius})` },
             {
-              "Email Opened": `${isNaN(g0_2) ? 0 : g0_2}% (${
-                g0.total_opened_2nd
-              })`,
+              "Email Opened": `${isNaN(g0_2) ? 0 : g0_2}% (${g0.total_opened_2nd
+                })`,
             },
             {
               "Content opened": `${isNaN(g0_3) ? 0 : g0_3}% (${g0.total_ctr})`,
@@ -405,9 +406,8 @@ const DeliveryTrends = () => {
           g4: [
             { Shared: `${g4.total_shared_2nd} ` },
             {
-              "Content Clicked": `${isNaN(g4_2) ? 0 : g4_2}% (${
-                g4.total_opened_2nd
-              })`,
+              "Content Clicked": `${isNaN(g4_2) ? 0 : g4_2}% (${g4.total_opened_2nd
+                })`,
             },
             { Registered: `${isNaN(g4_3) ? 0 : g4_3}% (${g4.total_ctr})` },
             { RTR: `${isNaN(g4_4) ? 0 : g4_4}% (${g4.total_rtr})` },
@@ -445,7 +445,7 @@ const DeliveryTrends = () => {
       getDataFromApi("critical_care");
     } else if (event == 4) {
       getDataFromApi("immunology");
-    }else if (event == 5) {
+    } else if (event == 5) {
       getDataFromApi("ibu");
     }
   };
@@ -463,58 +463,67 @@ const DeliveryTrends = () => {
             <div className="create-change-content spc-content analytic-charts small-space">
               <div className="delivery-trends">
                 <div className="tabs_content_load">
-                  <Tabs
-                    defaultActiveKey={activeTab.current}
-                    onSelect={handleTabChange}
-                  >
-                    <Tab eventKey="1" title="All Business Units">
-                      {isDataFound ? (
-                        <GaugeComponent tab={data.tab} list={listData.tab} />
-                      ) : apiCallStatus ? (
-                        <div className="no_found">
-                          <p>No Data Found</p>
-                        </div>
-                      ) : null}
-                    </Tab>
-                    <Tab eventKey="2" title="Haematology">
-                      {isDataFound ? (
-                        <GaugeComponent tab={data.tab} list={listData.tab} />
-                      ) : apiCallStatus ? (
-                        <div className="no_found">
-                          <p>No Data Found</p>
-                        </div>
-                      ) : null}
-                    </Tab>
-                    <Tab eventKey="3" title="Critical Care">
-                      {isDataFound ? (
-                        <GaugeComponent tab={data.tab} list={listData.tab} />
-                      ) : apiCallStatus ? (
-                        <div className="no_found">
-                          <p>No Data Found</p>
-                        </div>
-                      ) : null}
-                    </Tab>
-                    <Tab eventKey="4" title="Immunotherapy">
-                      {isDataFound ? (
-                        <GaugeComponent tab={data.tab} list={listData.tab} />
-                      ) : apiCallStatus ? (
-                        <div className="no_found">
-                          <p>No Data Found</p>
-                        </div>
-                      ) : null}
-                    </Tab>
+                  {!isSunshineAccount ?
+                    <Tabs
+                      defaultActiveKey={activeTab.current}
+                      onSelect={handleTabChange}
+                    >
+                      <Tab eventKey="1" title="All Business Units">
+                        {isDataFound ? (
+                          <GaugeComponent tab={data.tab} list={listData.tab} />
+                        ) : apiCallStatus ? (
+                          <div className="no_found">
+                            <p>No Data Found</p>
+                          </div>
+                        ) : null}
+                      </Tab>
+                      <Tab eventKey="2" title="Haematology">
+                        {isDataFound ? (
+                          <GaugeComponent tab={data.tab} list={listData.tab} />
+                        ) : apiCallStatus ? (
+                          <div className="no_found">
+                            <p>No Data Found</p>
+                          </div>
+                        ) : null}
+                      </Tab>
+                      <Tab eventKey="3" title="Critical Care">
+                        {isDataFound ? (
+                          <GaugeComponent tab={data.tab} list={listData.tab} />
+                        ) : apiCallStatus ? (
+                          <div className="no_found">
+                            <p>No Data Found</p>
+                          </div>
+                        ) : null}
+                      </Tab>
+                      <Tab eventKey="4" title="Immunotherapy">
+                        {isDataFound ? (
+                          <GaugeComponent tab={data.tab} list={listData.tab} />
+                        ) : apiCallStatus ? (
+                          <div className="no_found">
+                            <p>No Data Found</p>
+                          </div>
+                        ) : null}
+                      </Tab>
 
-                    <Tab eventKey="5" title="IBU">
-                      {isDataFound ? (
-                        <GaugeComponent tab={data.tab} list={listData.tab} />
-                      ) : apiCallStatus ? (
-                        <div className="no_found">
-                          <p>No Data Found</p>
-                        </div>
-                      ) : null}
-                    </Tab>
-                  </Tabs>                 
-
+                      <Tab eventKey="5" title="IBU">
+                        {isDataFound ? (
+                          <GaugeComponent tab={data.tab} list={listData.tab} />
+                        ) : apiCallStatus ? (
+                          <div className="no_found">
+                            <p>No Data Found</p>
+                          </div>
+                        ) : null}
+                      </Tab>
+                    </Tabs>
+                    :
+                    isDataFound ? (
+                      <GaugeComponent tab={data.tab} list={listData.tab} isSunshineAccount={isSunshineAccount} />
+                    ) : apiCallStatus ? (
+                      <div className="no_found">
+                        <p>No Data Found</p>
+                      </div>
+                    ) : null
+                  }
                   {/* {sectionLoader ? ( */}
                   <div
                     className={

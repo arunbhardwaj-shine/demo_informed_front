@@ -10,7 +10,7 @@ const CanadaDeliveryTrends = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [sectionLoader, setSectionLoader] = useState(false);
   const [apiCallStatus, setApiCallStatus] = useState(false);
-  const [isSunshineAccount,setIsSunshineAccount]=useState(localStorage.getItem("account_type")=="USA_PHARMA"?true:false)
+  const [isSunshineAccount,setIsSunshineAccount]=useState(false)
   const activeTab = useRef(1);
 
   Highcharts.setOptions({
