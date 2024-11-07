@@ -37,6 +37,10 @@ const TemplateOne = ({ children, formData }) => {
 const convertedStartTime = convertTo12HourFormat(eventStartTime);
 const convertedEndTime = convertTo12HourFormat(eventEndTime);
 const timeRange = `${convertedStartTime} - ${convertedEndTime}`;
+const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"));
+const eventId = localStorageEvent?.eventId
+// console.log(eventId === 507 ,'eventId')
+
   return (
     <>
       
@@ -115,6 +119,23 @@ const timeRange = `${convertedStartTime} - ${convertedEndTime}`;
                         {/* </span> */}
                       </h3>
                     </div>
+
+                    {eventId === 505  ? 
+                    <div className="factor-season-right">
+                    <h3>
+                      <span style={{
+                          textTransform: "capitalize",
+                          color:eventDataSample?.eventTitle?.color
+                        }}
+                        dangerouslySetInnerHTML={{
+                          __html: eventDataSample?.eventTitle?.value
+                          ? eventDataSample?.eventTitle?.value
+                          : ''
+                        }}
+                       />
+                    </h3>
+                  </div> : ''
+                  }
                   </div>
                 </div>
               </div>

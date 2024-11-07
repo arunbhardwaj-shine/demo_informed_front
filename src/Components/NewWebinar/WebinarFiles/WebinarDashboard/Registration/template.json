@@ -421,6 +421,12 @@
                 "value": "",
                 "color": "#76B5AE"
             },
+            "eventTitle": {
+                "title": "Event Title",
+                "type": "textArea",
+                "value": "",
+                "color": "#ffff"
+            },
             "pageTitle": {
                 "title": "Registration Title",
                 "type": "textArea",
