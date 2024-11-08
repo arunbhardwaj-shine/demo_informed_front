@@ -448,7 +448,7 @@ const LicenseSublink = () => {
                                   >
                                     <Tab
                                       eventKey="docintel-link"
-                                      title="Docintel Link"
+                                      title="Link"
                                       className="flex-column justify-content-between"
                                     >
                                       <div className="tab-panel d-flex flex-column justify-content-between">
