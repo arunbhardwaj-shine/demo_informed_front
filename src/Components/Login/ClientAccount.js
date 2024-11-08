@@ -653,7 +653,7 @@ const ClinetAccount = () => {
                             </button>
 
                             <div className="forgot-details">
-                              <Link onClick={(e) => naviageteToggle("login")}>Back to Login</Link>
+                              <Link onClick={(e) => naviageteToggle("login")}>Back to login</Link>
                             </div>
                           </Row>
                         </Form>
@@ -662,7 +662,7 @@ const ClinetAccount = () => {
                   }
                 </div>
                 <div className="sunshine-footer">
-                  <p>Copyright MedArkive Ltd 2023. Read our <a target="_blank" href="https://albert.docintel.app/privacy_policy/">Privacy Policy</a> and <a target="_blank" href="https://albert.docintel.app/terms_of_use/">Terms of Use</a></p>
+                  <p>Copyright MedArkive Ltd 2024. Read our <a target="_blank" href="https://albert.docintel.app/privacy_policy/">Privacy Policy</a> and <a target="_blank" href="https://albert.docintel.app/terms_of_use/">Terms of Use</a></p>
                 </div>
               </div>
           </Row>

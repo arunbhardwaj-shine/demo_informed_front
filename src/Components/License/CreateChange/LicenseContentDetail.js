@@ -380,8 +380,23 @@ Let me know if you’d like any further adjustments!`;
                                                 path_image + "copy-content.svg"
                                               }
                                               alt="Copy"
+                                              title="Copy Information" 
                                             />
                                           </span>
+                                          <span
+                                          className="copy-content"
+                                          onClick={() => {
+                                            copyToClipboard(accountSetupLink);
+                                          }}
+                                        >
+                                          <img
+                                            src={
+                                              path_image + "copy-content.svg"
+                                            }
+                                            alt="Copy"
+                                            title="Copy Link" 
+                                          />
+                                        </span>
                                           </div>
                                         </h6>
                                         : null

@@ -3658,9 +3658,10 @@ const Sidebar = () => {
                           window.location.pathname == "/campaign-stats" ||
                           window.location.pathname == "/analytic-delivery-trends" ||
                           window.location.pathname == "/delivery-stats" ||
-                          window.location.pathname == "/trending-topics" ||
+                          // window.location.pathname == "/trending-topics" ||
                           window.location.pathname == "/trending-content" ||
-                          window.location.pathname == "/content-type" ||    window.location.pathname == "/content-analytics"                      
+                          // window.location.pathname == "/content-type" ||  
+                          window.location.pathname == "/content-analytics"                      
                          ? (
                           <ul>
                             <li
@@ -3791,7 +3792,7 @@ const Sidebar = () => {
                                 <p>Delivery Trends</p>
                               </Link>
                             </li>
-                            <li
+                            {/* <li
                               className={
                                 location.pathname == "/trending-topics"
                                   ? "active"
@@ -3827,7 +3828,7 @@ const Sidebar = () => {
                                 </svg>
                                 <p>Trending Topics</p>
                               </Link>
-                            </li>
+                            </li> */}
                             <li
                               className={
                                 // location.pathname == "/sunshine-trending-content" 
@@ -3866,7 +3867,7 @@ const Sidebar = () => {
                                 <p>Trending Content</p>
                               </Link>
                             </li>
-                            <li
+                            {/* <li
                               className={
                                 location.pathname == "/content-type" 
                                  
@@ -3921,7 +3922,7 @@ const Sidebar = () => {
                                 </svg>
                                 <p>Content Type</p>
                               </Link>
-                            </li>
+                            </li> */}
                           </ul>
                         ) : null
                       ) 
