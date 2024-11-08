@@ -306,29 +306,45 @@ window.URL.revokeObjectURL(url);
 loader("hide");
 }else{
 
-  durl =
-   "https://webinar.informed.pro/Analytics/download_excel_new/" +
-   selectedPdf;
-   console.log("durl-->",durl)
-         const response = await axios.get(durl, { responseType: "blob" });
-         // .then((response) => {
-         // Create a Blob from the response data
-         const blob = new Blob([response.data], {
-           type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-         });
-         // Create a temporary URL for the Blob
-         const url = window.URL.createObjectURL(blob);
-         // Create a link and click it to trigger the download
-         const link = document.createElement("a");
-         link.href = url;
-         link.download = "readers.xlsx";
-         link.click();
-         // Clean up the temporary URL
-         window.URL.revokeObjectURL(url);
-         // })
-         // .catch((error) => {
-         //   console.error('Error downloading the Excel file:', error);
-         // });
+  // -------------old  API------------------------// 
+  // durl =
+  //  "https://webinar.informed.pro/Analytics/download_excel_new/" +
+  //  selectedPdf;
+   
+  //        const response = await axios.get(durl, { responseType: "blob" });
+      
+  //        const blob = new Blob([response.data], {
+  //          type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+  //        });
+        
+  //        const url = window.URL.createObjectURL(blob);
+  //        const link = document.createElement("a");
+  //        link.href = url;
+  //        link.download = "readers.xlsx";
+  //        link.click();
+         
+  //        window.URL.revokeObjectURL(url);
+
+
+// ------------------------------------------------------------------------------------------//
+
+
+  let payload = {
+    pdfId: selectedPdf
+  };
+
+  const durl = await postFormData(`${ENDPOINT.DOWNLOADARTICLEOPENREADERS}`, payload, {
+    responseType: "blob",
+  });
+  console.log(durl,'durl')
+
+  const url = window.URL.createObjectURL(durl?.data);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "readers.xlsx";
+  link.click();
+  window.URL.revokeObjectURL(url);
+         
 }
       loader("hide");
     } catch (err) {
