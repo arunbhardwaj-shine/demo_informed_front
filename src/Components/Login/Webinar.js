@@ -20,6 +20,7 @@ import * as am4core from "@amcharts/amcharts4/core";
 import * as am4maps from "@amcharts/amcharts4/maps";
 import am4geodata_worldLow from "@amcharts/amcharts4-geodata/worldLow";
 import { HomeValidation } from "../Validations/HomeValidations/HomeValidation";
+import { getCurrentYear } from '../CommonComponent/CurrentYear';
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const Webinar = () => {
@@ -2147,7 +2148,7 @@ const Webinar = () => {
         >
           <div className="copyright">
             <ul>
-              <li>&copy; 2023 DocIntel</li>
+              <li>&copy; {getCurrentYear()} DocIntel</li>
               <li>
                 <a
                   target="_blank"
