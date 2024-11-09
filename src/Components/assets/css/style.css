@@ -13085,33 +13085,7 @@ table thead th.sort_option span button.event_sort_btn.svg_active >img{
 .register-popup-view .factor-season-inner {
   margin: 0;
 }
-.French .factor-season-inner {
-  background: linear-gradient(90deg, rgb(42, 53, 128) 0%, rgb(42, 53, 128) 33%, rgb(111, 148, 175) 75%, rgb(153, 197, 230) 100%);
-  border: 0;
-}
-.French .factor-season-left h1 {
-  font-family: "Roboto Slab";
-}
-.French .factor-season-left h2 {
-  font-family: "Poppins";
-  font-weight: 300;
-}
-.French .factor-season-right .factor__logo img {
-  filter: brightness(0) invert(1);
-  max-width: 190px;
-  margin-top: 120px;
-  transform: skewX(20deg) translate(30%, 75px);
-  position: relative;
-  z-index: 1;
-}
-.French .factor-season-right .factor__logo {
-  width: 120%;
-  height: 100%;
-  transform: skewX(-20deg);
-  margin-right: -18%;
-  overflow: hidden;
-  position: relative;
-}
+
 .register-popup-view .emory .factor-season-left {
   padding: 26px 25px 10px 15px;
 }

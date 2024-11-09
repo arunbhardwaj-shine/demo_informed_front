@@ -3871,6 +3871,121 @@ input:-webkit-autofill:active {
 .emory .factor-season-right::before {
   background: #76B5AE;
 }
+.emory.French .factor-season-right::before {
+  background: #8bd1ca;
+  width: 13px;
+  z-index: 1;
+}
+.French .factor-season-inner {
+  background: linear-gradient(90deg, rgb(42, 53, 128) 0%, rgb(42, 53, 128) 33%, rgb(111, 148, 175) 75%, rgb(153, 197, 230) 100%);
+  border: 0;
+  border-radius: 22px;
+}
+.French .factor-season-left h1 {
+  font-family: "Roboto Slab";
+  font-size: 24px;
+  line-height: 30px;
+}
+.French .factor-season-left h2 {
+  font-family: "Poppins";
+  font-weight: 300;
+}
+.French .factor-season-right .factor__logo img {
+  filter: brightness(0) invert(1);
+  max-width: 190px;
+  margin-top: 120px;
+  transform: skewX(20deg) translate(30%, 75px);
+  position: relative;
+  z-index: 1;
+}
+.French .factor-season-right .factor__logo {
+  width: 136%;
+  height: 100%;
+  transform: skewX(-20deg);
+  margin-left: -4%;
+  overflow: hidden;
+  position: relative;
+}
+.French footer .footer-inner {
+  background: linear-gradient(0deg, rgb(42, 53, 128) 0%, rgb(42, 53, 128) 23%, rgb(111, 148, 175) 75%, rgb(153, 197, 230));
+  overflow: hidden;
+  padding: 30px 20px 15px;
+  border-radius: 20px;
+}
+.French footer .footer-copyright ul li {
+  padding: 0 10px 0 0;
+}
+.French footer .footer-inner:before {
+  background: #fff;
+  content: "";
+  display: block;
+  height: 100%;
+  left: auto;
+  position: absolute;
+  right: -3.5%;
+  transform: skewX(-20deg);
+  width: 30%;
+}
+.French footer .footer-inner .footer-logo {
+  display: flex;
+  justify-content: flex-end;
+  position: relative;
+  z-index: 1;
+}
+.French footer .footer-inner .footer-left img {
+  max-width: 110px;
+  width: 100%;
+}
+.register-popup-view .emory.French .footer-inner::after {
+  right: 141px;
+  width: 10px;
+  background: #8bd1ca;
+  opacity: 1;
+}
+.French footer .footer-inner:before {
+  background: #fff;
+  content: "";
+  display: block !important;
+  height: 100%;
+  left: auto;
+  position: absolute;
+  right: -4.5%;
+  transform: skewX(-20deg);
+  width: 35%;
+  top: 0;
+}
+.register-popup-view .French footer .footer-copyright {
+  margin-top: -35px;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-direction: column;
+}
+.register-popup-view .French footer .footer-copyright span,  .register-popup-view .French footer .footer-copyright ul li a {
+  font-family: Poppins;
+  font-size: 10px;
+  font-weight: 300;
+}
+.French footer .footer-inner::before{
+  display:none;
+}
+.French .factor-season-right .factor__logo img {
+  filter: brightness(0) invert(1);
+  max-width: 100px;
+  margin-top: 69px;
+  transform: skewX(20deg) translate(10%, 56px);
+  position: relative;
+  z-index: 1;
+}
+.French .factor-season-right .factor__logo:after {
+  background: url(../images/aland-header-bg.jpg) no-repeat;
+  content: "";
+  transform: skewX(20deg);
+  position: absolute;
+  width: 105%;
+  height: 100%;
+  left: -15%;
+  background-size: cover;
+}
 .gena .factor-season-right::before {
   background: #ffffff;
 }
@@ -5488,17 +5603,79 @@ font-size: 16px;
 
 /**Octapharma2 template end**/
 
-
+@media only screen and (max-width:1600px) {
+  .French footer .footer-inner:before {
+    width: 37%;
+}
+.French .factor-season-left h1 {
+  font-size: 20px;
+}
+.register-popup-view .factor-season-left h2 {
+  font-size: 13px;
+}
+.French .factor-season-right .factor__logo img {
+  max-width: 90px;
+  transform: skewX(20deg) translate(14%, 49px);
+}
+.French .factor-season-right .factor__logo {
+  width: 140%;
+}
+}
+@media only screen and (max-width:1500px) {
+  .French footer .footer-inner:before {
+    width: 39%;
+}
+}
 @media only screen and (max-width:1399px) {
   .motivate_outer .consent-form-inner .center-sided h2 {
     font-size: 14px;
   }
+  .register-popup-view .emory.French .factor-season-left {
+    padding: 16px 10px 10px 8px;
+}
+.French .factor-season-right .factor__logo {
+  width: 144%;
+}
+.French .factor-season-right .factor__logo img {
+  max-width: 86px;
+  transform: skewX(20deg) translate(11%, 49px);
+  margin-top: 65px;
+}
+.French footer .footer-inner .footer-left img {
+  max-width: 86px;
+  width: 100%;
+}
+.register-popup-view .emory.French .footer-inner::after {
+  right: 120px;
+}
+.French footer .footer-inner:before {
+  width: 37%;
+}
 }
 
 @media only screen and (max-width:1365px) {
   .modal .factor-season-left {
     padding: 44px 28px 10px 28px;
   }
+  .French .factor-season-left h1 {
+    font-size: 18px;
+    line-height: 25px;
+}
+.register-popup-view .factor-season-left h2 {
+  font-size: 11px;
+}
+.register-popup-view .factor-season-right::before {
+  left: -7px;
+}
+.French .factor-season-right .factor__logo img {
+  margin-top: 47px;
+}
+.French footer .footer-inner {
+  padding: 25px 13px 15px;
+}
+.register-popup-view .emory.French .footer-inner::after {
+  right: 114px;
+}
 
   .modal .factor-season-left h1 {
     font-size: 40px;
@@ -5595,6 +5772,15 @@ font-size: 16px;
   .eahad .octapharma_event_content {
     padding: 0 40px;
   }
+}
+@media only screen and (max-width:1199px){
+  .French .factor-season-right .factor__logo img {
+    transform: skewX(20deg) translate(29%, 53px);
+    margin-top: 20px;
+  }
+  .French footer .footer-inner:before {
+    width: 28%;
+}
 }
 
 @media only screen and (max-width:767px) {
