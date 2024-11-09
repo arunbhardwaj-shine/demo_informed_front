@@ -1297,13 +1297,14 @@ const LibraryEditListing = () => {
                                 deletestatus == false ? (
                                   <div className="data-main-footer-sec">
                                     <div className="footer-btn-wrapper">
+                                    {!(isUSAPharmaAccount && data.articleOwner == 1) ? (
                                       <a
                                         className="footer-btn"
                                         href={data?.previewArticle}
                                         target="_blank"
                                       >
                                         Preview article
-                                      </a>
+                                      </a> ) : null}
                                       <Button
                                         onClick={() => {
                                           commonModelFun();
@@ -2186,6 +2187,12 @@ const LibraryEditListing = () => {
                                       </h6>
                                       <h6>{data?.uploadedDate}</h6>
                                     </li>
+                                    {isUSAPharmaAccount && data.articleOwner == 1 ?<li>
+                                      <h6 className="tab-content-title">
+                                       Publisher
+                                      </h6>
+                                      <h6>{data?.publisherName}</h6>
+                                    </li>: null}
                                     {localStorage.getItem("group_id") == "2" ? (
                                       <li>
                                         <h6 className="tab-content-title">

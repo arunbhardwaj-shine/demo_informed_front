@@ -1302,6 +1302,12 @@ const SunShineTimeline = () => {
                                             </h6>
                                             <h6>{articleData?.uploadedDate}</h6>
                                           </li>
+                                          {isUSAPharmaAccount && articleData.articleOwner == 1 ?<li>
+                                          <h6 className="tab-content-title">
+                                          Publisher
+                                          </h6>
+                                          <h6>{articleData?.publisherName}</h6>
+                                        </li>: null}
 
                                           {localStorage.getItem("group_id") ==
                                           "2" ? (
