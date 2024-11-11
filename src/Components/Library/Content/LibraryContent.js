@@ -1702,7 +1702,7 @@ const LibraryContent = (props) => {
                             >
                               <Tab
                                 eventKey="docintel-link"
-                                title="Docintel Link"
+                                title="Link"
                                 className="flex-column justify-content-between"
                               >
                                 <div className="tab-panel d-flex flex-column justify-content-between">
@@ -1884,7 +1884,7 @@ const LibraryContent = (props) => {
                                         : ""
                                         }`}
                                     >
-                                      {data?.spc_included ? (
+                                      {/* {data?.spc_included ? (
                                         <>
                                           <button
                                             className="footer-btn"
@@ -1903,7 +1903,30 @@ const LibraryContent = (props) => {
                                         >
                                           Preview article
                                         </a>
-                                      )}
+                                      )} */}
+
+
+                                      {!(isUSAPharmaAccount && data.articleOwner == 1) ? (
+                                        data?.spc_included ? (
+                                          <button
+                                            className="footer-btn"
+                                            onClick={() => handleSpcFun(data?.spcFile)}
+                                          >
+                                            Preview article
+                                          </button>
+                                        ) : (
+                                          <a
+                                            className="footer-btn"
+                                            href={data?.previewArticle}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                          >
+                                            Preview article
+                                          </a>
+                                        )
+                                      ) : null}
+
+
 
 
                                     {isLikeRdAccount && localStorage.getItem("group_id") == 3 ? (
@@ -2636,7 +2659,7 @@ const LibraryContent = (props) => {
                                         )
                                       }
                                     >
-                                      Reset the collected data
+                                      Reset data
                                     </Button>
                                   </div>
                                 </div>
@@ -3004,6 +3027,13 @@ const LibraryContent = (props) => {
                                       </h6>
                                       <h6>{data?.uploadedDate}</h6>
                                     </li>
+
+                                    {isUSAPharmaAccount && data.articleOwner == 1 ?<li>
+                                      <h6 className="tab-content-title">
+                                       Publisher
+                                      </h6>
+                                      <h6>{data?.publisherName}</h6>
+                                    </li>: null}
 
                                     {localStorage.getItem("group_id") === "2" ? (
                                       <li>

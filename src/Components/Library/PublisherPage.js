@@ -17,6 +17,7 @@ import { ENDPOINT } from "../../axios/apiConfig";
 import { postData } from "../../axios/apiHelper";
 import { HomeValidation } from "../Validations/HomeValidations/HomeValidation";
 import Slider from "react-slick";
+import { getCurrentYear } from '../CommonComponent/CurrentYear';
 
 const PublisherPage = () => {
   const sliderRef = useRef();
@@ -944,7 +945,7 @@ const PublisherPage = () => {
 
         <footer>
           <p>
-            Copyright 2023
+            Copyright {getCurrentYear()}
             <a href="https://informed.pro/"> InforMed.Pro</a>. Read our{" "}
             <a href="javascript:;" onClick={(e) => handleShow("privacy")}>
               {" "}

@@ -16,6 +16,7 @@ import { postData } from "../../axios/apiHelper";
 import { loader } from "../../loader";
 import { HomeValidation } from "../Validations/HomeValidations/HomeValidation";
 import reCAPTCHA from "react-google-recaptcha";
+import { getCurrentYear } from '../CommonComponent/CurrentYear';
 
 const Informed = () => {
   const navigate = useNavigate();
@@ -985,7 +986,7 @@ const Informed = () => {
         </section>
         <footer>
           <p>
-            Copyright 2023
+            Copyright {getCurrentYear()}
             <a href="https://informed.pro/" target="_blank">
               {" "}
               InforMed.Pro
