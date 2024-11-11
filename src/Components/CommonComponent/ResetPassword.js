@@ -214,12 +214,7 @@ const ResetPassword = () => {
             </div>)
             : apiHit == true ? (
                 <div className="link-expire">
-                    {
-                        apiErrorStatus != "" ?
-                            <h3>{apiErrorStatus}</h3>
-                            :
-                            <h3>The link is expired</h3>
-                    }
+                    <h3>The link is expired</h3>
                 </div>
             ) : null
         }

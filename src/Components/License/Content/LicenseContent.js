@@ -947,7 +947,7 @@ const LicenseContent = (props) => {
         loader("hide");
         popup_alert({
           visible: "show",
-          message: "The client have been sent a reset email and can <br /> change their password. Please copy the link and send them so they can Re-register ",
+          message: "The client have been sent a reset email and can <br /> change their password. Please copy the link and send them so they can Re-register.",
           type: "success",
           redirect: "",
         });

@@ -377,7 +377,7 @@ Let me know if you’d like any further adjustments!`;
                                           >
                                             <img
                                               src={
-                                                path_image + "copy-content.svg"
+                                                path_image + "infocopy.svg"
                                               }
                                               alt="Copy"
                                               title="Copy Information" 
