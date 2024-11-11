@@ -245,6 +245,6 @@ export const ENDPOINT = {
   USA_DELIVERYTRENDS: "analytics/usa-trend",
   USA_UNIQUE_STATS:"analytics/usa-douwnload-unique-stats",
   DOWNLOADARTICLEOPENREADERS: `/analytics/download-content-analytics`,
-  CHECK_PASS_LINK:`http://192.168.0.78:3006/auth/check-password-link`,
-  UPDATE_PASSWORD:`http://192.168.0.78:3006/auth/update-password`,
+  CHECK_PASS_LINK:`/auth/check-password-link`,
+  UPDATE_PASSWORD:`/auth/update-password`,
 };

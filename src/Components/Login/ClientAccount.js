@@ -253,6 +253,7 @@ const ClinetAccount = () => {
     event.preventDefault();
     try {
       if (validateResetForm()) {
+        loader("show");
         const payload = {
           "token": token,
           "name": resetFormData?.name,

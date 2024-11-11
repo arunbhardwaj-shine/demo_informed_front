@@ -4,6 +4,7 @@ import { ENDPOINT } from "../../axios/apiConfig";
 import { postData} from "../../axios/apiHelper";
 import { useNavigate } from "react-router-dom";
 import { Form, FormGroup, Container, Row, Col } from "react-bootstrap";
+import { getCurrentYear } from './CurrentYear';
 
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const ResetPassword = () => {
@@ -107,7 +108,7 @@ const ResetPassword = () => {
                         userDetails=setPass?.data?.data?.userdetails
                     }
                     setApiCallStatus(1);
-                    setApiMessage('Password reset successfully. </br >Please check your email for new password.');
+                    setApiMessage('Password reset successfully.');
                     setResetFormData({
                         password: "",
                         cpassword: ""
@@ -144,7 +145,18 @@ const ResetPassword = () => {
         setPassShow(!passshow);
     };
     return (<>
+
         {active == true ? (
+            <>
+            <div className="loader" id="custom_loader">
+                <div className="loader_show">
+                <span className="loader-view"> </span>
+                </div>
+            </div>
+            <meta
+                name="viewport"
+                content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+            />
             <div className="sunshine-account">
                 <Container>
                     <Row>
@@ -206,12 +218,14 @@ const ResetPassword = () => {
                                 </div>
                             </div>
                             <div className="sunshine-footer">
-                                <p>Copyright MedArkive Ltd 2024. Read our <a target="_blank" href="https://albert.docintel.app/privacy_policy/">Privacy Policy</a> and <a target="_blank" href="https://albert.docintel.app/terms_of_use/">Terms of Use</a></p>
+                                <p>Copyright MedArkive Ltd {getCurrentYear()}. Read our <a target="_blank" href="https://albert.docintel.app/privacy_policy/">Privacy Policy</a> and <a target="_blank" href="https://albert.docintel.app/terms_of_use/">Terms of Use</a></p>
                             </div>
                         </div>
                     </Row>
                 </Container>
-            </div>)
+            </div>
+            </>
+            )
             : apiHit == true ? (
                 <div className="link-expire">
                     <h3>The link is expired</h3>
