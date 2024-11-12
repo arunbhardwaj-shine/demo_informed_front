@@ -3977,7 +3977,7 @@ input:-webkit-autofill:active {
   z-index: 1;
 }
 .French .factor-season-right .factor__logo:after {
-  background: url(../images/aland-header-bg.jpg) no-repeat;
+  background: url(../images/aland-header-bg2.jpg) no-repeat;
   content: "";
   transform: skewX(20deg);
   position: absolute;

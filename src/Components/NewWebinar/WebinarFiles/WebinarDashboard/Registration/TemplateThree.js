@@ -23,9 +23,9 @@ const TemplateOne = ({ children, formData }) => {
   if (startDate.isSame(endDate, "day")) {
     formattedDateRange = startDate.format("D MMMM YYYY");
   } else if (startDate.isSame(endDate, "month")) {
-    formattedDateRange = `${startDate.format("D")} - ${endDate.format("D MMMM YYYY")}`;
+    formattedDateRange = `${startDate.format("D")}-${endDate.format("D MMMM YYYY")}`;
   } else {
-    formattedDateRange = `${startDate.format("D MMMM")} - ${endDate.format("D MMMM YYYY")}`;
+    formattedDateRange = `${startDate.format("D MMMM")}-${endDate.format("D MMMM YYYY")}`;
   }
   const eventStartTime = eventDataSample?.eventStartTime?.value ?? '00:00';
   const eventEndTime = eventDataSample?.eventEndTime?.value ?? '00:00';
@@ -208,7 +208,7 @@ const eventId = localStorageEvent?.eventId
                 </div>
                 <div className="footer-right"></div>
                 <div className="footer-copyright">
-                  <span>© 2023 CP. All rights Reserved</span>
+                  <span>© 2024 CP. All rights Reserved</span>
                   <ul>
                     <li>
                       <a
