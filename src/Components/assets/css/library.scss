@@ -31846,3 +31846,20 @@ button {
     background: transparent;
   }
 }
+.link-expire {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.link-expire h3 {
+  font-size: 32px;
+  line-height: 27px;
+  color: #001489;
+  font-family: Poppins;
+  font-weight: 700;
+}
+
+input[type="password"]::-ms-reveal,input::-ms-clear {
+  display: none;
+}

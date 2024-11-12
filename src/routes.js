@@ -24,6 +24,7 @@ import SpcCreate from "./Components/Library/SpcCreate";
 import Products from "./Components/Library/Products";
 import ChangePassword from "./Auth/ChangePassword";
 import WebinarQuestion from "./Components/Firbase/WebinarQuestion";
+import ResetPassword from "./Components/CommonComponent/ResetPassword";
 
 //Firbase
 
@@ -1119,6 +1120,10 @@ const Routing = () => {
         <Route
           path="/sunshine-timeline"
           element={<LoginLayout component={SunShineTimeline} />}
+        />
+        <Route
+          path="/set-password"
+          element={<DefaultLayout component={ResetPassword} />}
         />
       </Routes>
     </Router>

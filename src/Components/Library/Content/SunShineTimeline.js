@@ -511,7 +511,7 @@ const SunShineTimeline = () => {
                                   >
                                     <Tab
                                       eventKey="docintel-link"
-                                      title="Docintel Link"
+                                      title="Link"
                                       className="flex-column justify-content-between"
                                     >
                                       <div className="tab-panel d-flex flex-column justify-content-between">
@@ -1302,6 +1302,12 @@ const SunShineTimeline = () => {
                                             </h6>
                                             <h6>{articleData?.uploadedDate}</h6>
                                           </li>
+                                          {isUSAPharmaAccount && articleData.articleOwner == 1 ?<li>
+                                          <h6 className="tab-content-title">
+                                          Publisher
+                                          </h6>
+                                          <h6>{articleData?.publisherName}</h6>
+                                        </li>: null}
 
                                           {localStorage.getItem("group_id") ==
                                           "2" ? (

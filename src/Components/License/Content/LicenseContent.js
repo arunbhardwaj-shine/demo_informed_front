@@ -947,7 +947,7 @@ const LicenseContent = (props) => {
         loader("hide");
         popup_alert({
           visible: "show",
-          message: "The client have been sent a reset email and can <br /> change their password. If they no longer have access <br /> to the email please sent them ",
+          message: "The client have been sent a reset email and can <br /> change their password. Please copy the link and send them so they can Re-register.",
           type: "success",
           redirect: "",
         });
@@ -1470,7 +1470,7 @@ const LicenseContent = (props) => {
                             >
                               <Tab
                                 eventKey="docintel-link"
-                                title="Docintel Link"
+                                title="Link"
                                 className="flex-column justify-content-between"
                               >
                                 <div className="tab-panel d-flex flex-column justify-content-between">
@@ -2332,7 +2332,7 @@ const LicenseContent = (props) => {
                                         )
                                       }
                                     >
-                                      Reset the collected data
+                                      Reset data
                                     </Button>
                                   </div>
                                 </div>

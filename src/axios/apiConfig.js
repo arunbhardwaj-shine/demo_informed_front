@@ -244,5 +244,7 @@ export const ENDPOINT = {
   USA_REPORTS: "analytics/usa-delivery-registration-reports",
   USA_DELIVERYTRENDS: "analytics/usa-trend",
   USA_UNIQUE_STATS:"analytics/usa-douwnload-unique-stats",
-  DOWNLOADARTICLEOPENREADERS: `/analytics/download-content-analytics`
+  DOWNLOADARTICLEOPENREADERS: `/analytics/download-content-analytics`,
+  CHECK_PASS_LINK:`/auth/check-password-link`,
+  UPDATE_PASSWORD:`/auth/update-password`,
 };
