@@ -352,18 +352,18 @@ const defaultTemplateIds = [10];
             : templateList[[tempId - 1 < 0 ? 0 : tempId - 1]]?.logoImageUrl
         );
         setLogoOne(
-          newFormData?.logoImageUrl
-            ? newFormData?.logoImageUrl
+          newFormData?.logoOneImageUrl
+            ? newFormData?.logoOneImageUrl
             : templateList[[tempId - 1 < 0 ? 0 : tempId - 1]]?.logoOneImageUrl
         );
         setLogoTwo(
-          newFormData?.logoImageUrl
-            ? newFormData?.logoImageUrl
+          newFormData?.logoTwoImageUrl
+            ? newFormData?.logoTwoImageUrl
             : templateList[[tempId - 1 < 0 ? 0 : tempId - 1]]?.logoTwoImageUrl
         );
       }
       setFormData(newFormData);
-      // console.log(newFormData);
+      console.log(newFormData,'ergtrggg');
       if (Object.keys(newFormData.eventDetails)?.length > 0) {
         textAreaRefs.current = Array(Object.keys(newFormData.eventDetails)?.length).fill(null)
       }
