@@ -84,7 +84,7 @@ export default function TemplateTwo({ children, formData }) {
                     </div>
                   </div>
 
-                  <div className="invertor-metting">
+                  <div className={`invertor-metting ${eventId === 508 || eventId === 509 ? "workshop-event" : ""}`}>
                     <div className="meeting-logo">
                       {/* <img src="https://webinar.docintel.app/MOTIVATE-study/Regi/images/motivate-modern-logo-min.png" alt="" /> */}
                       <img
@@ -120,7 +120,7 @@ export default function TemplateTwo({ children, formData }) {
                       </p>
                     </div>
                   </div>
-                  <div className="invertor-metting">
+                  <div className={`invertor-metting ${eventId === 508 || eventId === 509 ? "event-speaker" : ""}`}>
                     <div className="meeting-logo">
                       {/* <img src="images/im-workshop.png" alt=""> */}
                       <img

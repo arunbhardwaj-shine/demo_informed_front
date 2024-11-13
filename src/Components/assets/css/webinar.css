@@ -4514,7 +4514,14 @@ input:-webkit-autofill:active {
   font-size: 35px;
   padding: 15px;
 }
-
+.workshop2024 .top_header h2 {
+  background: #44b6ac;
+  font-size: 37px;
+  padding: 30px 10px;
+}
+.workshop2024 {
+  border: 2px solid #44b6ac;
+}
 .motivate_outer .motivation-body {
   max-width: 670px;
   padding: 15px;
@@ -4529,19 +4536,36 @@ input:-webkit-autofill:active {
   margin: 15px auto 0;
   align-items: center;
 }
-
+.workshop2024 .invertor-metting {
+  max-width: 100%;
+}
 .meeting-logo {
   max-width: 230px;
   flex: 0 0 230px;
   text-align: center;
   width: 100%;
 }
-
+.workshop2024 .meeting-logo {
+  max-width: 100px;
+  flex: 0 0 100px;
+}
 .invertor-metting .logo-top {
   padding-left: 10px;
   margin-bottom: 0;
 }
-
+.workshop2024 .invertor-metting.workshop-event {
+  margin: 10px 0 30px;
+}
+.workshop2024 .invertor-metting .logo-top h5 {
+  font-size: 14px;
+}
+.workshop2024 .invertor-metting .logo-top h5 span {
+  font-weight: 400;
+}
+.workshop2024 .invertor-metting.event-speaker p {
+  font-size: 14px;
+  margin-top: 12px;
+}
 .invertor-metting .meeting-logo img {
   max-height: 100px;
   max-width: 190px;
@@ -4554,7 +4578,19 @@ input:-webkit-autofill:active {
   margin: 0;
   line-height: 24px;
 }
-
+.workshop2024 .workshop-event .logo-top h5 {
+  font-size: 27px;
+  line-height: 30px;
+}
+.workshop2024 .motivate_inner {
+  background: #fff!important;
+}
+.workshop2024 .motivate-mid-sec {
+  padding: 90px 0 25px 0;
+}
+.workshop2024 .motivate-mid-sec p {
+  font-size: 14px;
+}
 .invertor-metting .logo-top p {
   font-size: 15px;
   color: #04b39a;
@@ -4742,7 +4778,20 @@ background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/200
   box-shadow: none;
   border-bottom: 1px solid #264c9b;
 }
-
+.workshop2024 .consent-form .btn#submit_registration {
+  background: #e2f1ff;
+  color:#004b95;
+  border:2px solid #004b95;
+  font-weight:700;
+  padding: 4px 10px;
+}
+.workshop2024 .consent-form .btn#submit_registration:hover {
+  background: #004b95;
+  color:#ffffff;
+}
+.workshop2024 .motivation-body .consent-form-inner {
+  padding: 20px 0;
+}
 /** Template four **/
 .octapharma_event {
   max-width: 750px;
@@ -5651,6 +5700,35 @@ font-size: 16px;
 .French footer .footer-inner:before {
   width: 37%;
 }
+.workshop2024 .workshop-event .logo-top h5 {
+  font-size: 23px;
+}
+.workshop2024 .invertor-metting.event-speaker p {
+  font-size: 13px;
+  margin-top: 10px;
+}
+.workshop2024 .invertor-metting .logo-top h5 {
+  font-size: 13px;
+}
+.workshop2024 .meeting-logo {
+  max-width: 85px;
+  flex: 0 0 90px;
+}
+.workshop2024 .invertor-metting .logo-top h5 {
+  font-size: 12px;
+}
+.workshop2024 .invertor-metting.workshop-event .logo-top h5 {
+  font-size: 23px;
+}
+.workshop2024 .motivate-mid-sec {
+  padding: 40px 0 20px 0;
+}
+.workshop2024 .invertor-metting.workshop-event {
+  margin: 10px 0 20px;
+}
+.workshop2024 .top_header h2 {
+  padding: 20px 10px;
+}
 }
 
 @media only screen and (max-width:1365px) {
@@ -5794,7 +5872,50 @@ font-size: 16px;
     background-size: 90px;
     padding: 50px 15px 10px 15px;
   }
-
+  .workshop2024 .top_header h2 {
+    padding: 15px 10px;
+  }
+  .workshop2024 .invertor-metting.workshop-event .meeting-logo img {
+    max-height: 75px;
+    max-width: 75px;
+  }
+  .workshop2024 .workshop-event.invertor-metting .logo-top h5 {
+    font-size: 22px;
+    line-height: 26px;
+  }
+  .workshop2024 .invertor-metting {
+    flex-wrap: wrap;
+  }
+  .invertor-metting.event-speaker .meeting-logo {
+    margin: 0 0 12px;
+  }
+  .workshop2024 .motivate-mid-sec {
+    padding: 30px 0 17px 0;
+  }
+  .workshop2024 .motivate-mid-sec p {
+    font-size: 12px;
+  }
+  .workshop2024 .invertor-metting.workshop-event {
+    margin: 10px 0 16px;
+  }
+  .workshop2024 .invertor-metting .logo-top {
+    padding-left: 0;
+    margin-bottom: 0;
+  }
+  .workshop2024 .meeting-logo {
+    text-align: left;
+  }
+  .workshop2024 .invertor-metting .meeting-logo img {
+    max-height: 75px;
+  }
+  .workshop2024 .invertor-metting .logo-top h5 {
+    font-size: 14px;
+    line-height: 1.2;
+  }
+  .workshop2024 .invertor-metting.event-speaker p {
+    font-size: 14px;
+    margin-top: 11px;
+  }
   .eahad .octapharma_event_content h4.mb-4 {
     margin-bottom: 5px !important;
   }
