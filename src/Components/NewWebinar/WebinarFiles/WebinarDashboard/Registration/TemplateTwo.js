@@ -35,7 +35,7 @@ export default function TemplateTwo({ children, formData }) {
     <>
       <div
         // className="motivate_outer"
-        className={`motivate_outer ${eventId === 508 ? "workshop2024" : ""}`}
+        className={`motivate_outer ${eventId === 508 || eventId === 509  ? "workshop2024" : ""}`}
       >
         <div
           className="motivate_inner"
@@ -155,7 +155,7 @@ export default function TemplateTwo({ children, formData }) {
                           : ""}
                       </p>
 
-                      {eventId === 508 ? (
+                      {eventId === 508  || eventId === 509 ? (
                         <h5
                           style={{
                             color: eventData?.location?.color,
@@ -173,30 +173,26 @@ export default function TemplateTwo({ children, formData }) {
               </div>
             </div>
             <div className="motivate-mid-sec text-center">
-              {eventId != 508 ? (
+            {!(eventId === 508 || eventId === 509) && (
+              <>
                 <h2
                   style={{
                     color: eventData?.speakerName?.color,
                   }}
                   dangerouslySetInnerHTML={{
-                    __html: eventData?.speakerName?.value
-                      ? eventData?.speakerName?.value
-                      : "",
+                    __html: eventData?.speakerName?.value || "",
                   }}
                 />
-              ) : null}
-              {eventId != 508 ? (
                 <h5
                   style={{
                     color: eventData?.location?.color,
                   }}
                   dangerouslySetInnerHTML={{
-                    __html: eventData?.location?.value
-                      ? eventData?.location?.value
-                      : "",
+                    __html: eventData?.location?.value || "",
                   }}
                 />
-              ) : null}
+              </>
+            )}
               {/* {eventData?.speakerName?.value}</h2> */}
               <p> These meetings are for healthcare professionals only.</p>
             </div>
