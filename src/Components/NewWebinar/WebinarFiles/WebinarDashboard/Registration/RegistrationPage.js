@@ -598,6 +598,7 @@ const RegistrationPage = ({ prevData,type }) => {
                       setFormFieldData={setFormFieldData}
                       formErrors={formErrors}
                       pageColors={pageColors}
+                      eventId={formData?.event_id}
                       level="root"
                       templateId={formData?.content?.templateId}
                     />
@@ -1816,6 +1817,7 @@ const FormField2 = ({
   setFormFieldData,
   formErrors,
   pageColors,
+  eventId,
   level,
   templateId,
 }) => {
@@ -1877,6 +1879,10 @@ const FormField2 = ({
     form.inputType = "selection-state";
   }
 
+  if ((label?.includes("country") || label?.includes("Country")) && (eventId == 508 || eventId == 509)  ){
+    form.inputType = "selection";
+  }
+
   const isRequired = form.required === "yes";
 
   let fieldInput = null;
@@ -1904,7 +1910,7 @@ const FormField2 = ({
       label: op.optionLabel,
       value: op.optionLabel,
     }));
-
+console.log(form.inputType,'form.inputType')
     fieldInput = (
       <Select
         options={
