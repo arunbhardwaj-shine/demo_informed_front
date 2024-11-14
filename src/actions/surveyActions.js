@@ -79,9 +79,9 @@ export const addOption = (index, key) => ({
   payload: { index, key },
 });
 
-export const addResQuestions = (elements) => ({
+export const addResQuestions = (elements,currentIndex) => ({
   type: ADD_RES_QUESTION,
-  payload: elements,
+  payload: {elements,currentIndex},
 });
 
 export const emptySurveyReduxStates = (elements) => ({

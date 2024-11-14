@@ -30,21 +30,33 @@ import { useNavigate } from "react-router-dom";
 import { color } from "highcharts";
 import { updateLiveFlag } from "../CommonFunctions/CommonFunction";
 
- 
 var surveyValues = {};
+
+const throttle = (func, delay) => {
+  let lastCall = 0;
+  return function (...args) {
+    const now = Date.now();
+    if (now - lastCall >= delay) {
+      lastCall = now;
+      func.apply(this, args);
+    }
+  };
+};
+
 const SurveyPreview = (props) => {
-  const {currentStep}=useSelector((state)=>state.surveyStepReducer);
-  const {FETCH_QUESTION,DELETE_SURVEY_QUESTION}=surveyEndpoints
+  const { currentStep } = useSelector((state) => state.surveyStepReducer);
+  const { FETCH_QUESTION, DELETE_SURVEY_QUESTION } = surveyEndpoints;
   let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const { currentElementIndex, elements, isAddClicked } = useSelector(
     (state) => state.surveyData
   );
+  const [localElements, setLocalElements] = useState(elements);
   const [questionDeleteCount, setQuestionDeleteCount] = useState(0);
   const [draggedItemIndex, setDraggedItemIndex] = useState(null);
   const [hoveredIndex, setHoveredIndex] = useState(null);
+  let previousHoveredIndex = null;
   const [placeholderIndex, setPlaceholderIndex] = useState(null);
- 
 
   const updatedSurveyData = {
     ...surveyValues,
@@ -119,16 +131,14 @@ const SurveyPreview = (props) => {
     dispatch(addElement(type, index));
   };
 
- 
   const fetchQuestiondetails = async () => {
     try {
       loader("show");
-      const fetchResponse = await surveyAxiosInstance.post(
-        FETCH_QUESTION,
-        { survey_id }
-      );
-      
-      if(fetchResponse.status === 200){
+      const fetchResponse = await surveyAxiosInstance.post(FETCH_QUESTION, {
+        survey_id,
+      });
+
+      if (fetchResponse.status === 200) {
         dispatch(addResQuestions(fetchResponse.data.data));
         const updatedSurveyData = {
           ...surveyValues,
@@ -137,7 +147,6 @@ const SurveyPreview = (props) => {
         props.getSurveyData(updatedSurveyData);
       }
 
-     
       loader("hide");
     } catch (error) {
       loader("hide");
@@ -166,14 +175,15 @@ const SurveyPreview = (props) => {
     }
   }, [survey_id, dispatch]);
 
- 
-
+  useEffect(() => {
+    setLocalElements(elements); // Sync local state with Redux only on initial load or state changes
+  }, [elements]);
 
   const handlePreviewDrop = (e) => {
     e.preventDefault();
     setDraggedItemIndex(null);
     setHoveredIndex(null);
-    setPlaceholderIndex(null)
+    setPlaceholderIndex(null);
     const type = e.dataTransfer.getData("type");
 
     if (type === "consent") {
@@ -186,7 +196,8 @@ const SurveyPreview = (props) => {
         return;
       }
     }
- 
+    console.log("handle preview drop")
+
     if (type.trim()) {
       handleAddElement(type);
     }
@@ -201,67 +212,105 @@ const SurveyPreview = (props) => {
 
   const handleQuestionDragStart = (e, index) => {
     e.stopPropagation();
+
     setDraggedItemIndex(index);
     setDraggedElementIndex(index);
   };
 
+  // const handleQuestionDragOver = (e, index) => {
+  //   e.preventDefault();
+
+  //   if (draggedElementIndex != null && hoveredIndex !== index) {
+  //     console.log("inside hovered =====> ",index,hoveredIndex,draggedElementIndex)
+     
+
+  //     const newItems = [...elements];
+
+  //     const draggedItem = newItems.splice(draggedElementIndex, 1);
+
+  //     newItems.splice(index, 0, draggedItem[0]);
+
+  //     setLocalElements(newItems);
+  //     setHoveredIndex(index); // Set the hovered index
+  //   }
+  //   if (draggedItemIndex === null) {
+  //     console.log("dropped ====?")
+  //     const bounding = e.currentTarget.getBoundingClientRect();
+  //     const offset = e.clientY - bounding.top;
+  //     if (index === elements.length - 1 && offset >= bounding.height / 2) {
+  //       setPlaceholderIndex(elements.length);
+  //     } else {
+  //       handlePlaceholderPosition(e, index);
+  //     }
+  //   }
+  // };
 
 
-  const handleQuestionDragOver = (e,index) =>{ 
-    e.preventDefault();
-    console.log(index ,draggedElementIndex,"from drag over====>")
-    if (index !== draggedItemIndex && draggedElementIndex && index != hoveredIndex) {
-      console.log("inside hovered")
-
-      setHoveredIndex(index); // Set the hovered index  
-      const newItems = [...elements];
-      const draggedItem = newItems.splice(draggedItemIndex, 1)[0];
-      newItems.splice(index, 0, draggedItem);
-      setDraggedItemIndex(index);
-      dispatch(addResQuestions(newItems))
-      // setItems(newItems);
-      
-    }
-    if(draggedItemIndex == null){
-      console.log("inside placeholder")
-      const bounding = e.currentTarget.getBoundingClientRect();
-      const offset = e.clientY - bounding.top;
   
-      // Determine placeholder position based on cursor location within the item
-      if (offset < bounding.height / 2 && index != placeholderIndex) {
-        setPlaceholderIndex(index); // Show placeholder above
-      } else {
-        setPlaceholderIndex(index + 1); // Show placeholder below
+
+
+
+  const handleQuestionDragOver = throttle((e, index) => {
+      e.preventDefault();
+  
+      if (draggedElementIndex != null && hoveredIndex !== index) {
+          if (index !== previousHoveredIndex) {
+              previousHoveredIndex = index; // Store last unique index to reduce flickering
+              setHoveredIndex(index);
+              
+          
+              const newItems = [...elements];
+              const draggedItem = newItems.splice(draggedElementIndex, 1);
+              newItems.splice(index, 0, draggedItem[0]);
+              setLocalElements(newItems);
+          }
       }
+  
+      if (draggedItemIndex === null) {
+          const bounding = e.currentTarget.getBoundingClientRect();
+          const offset = e.clientY - bounding.top;
+          if (index === elements.length - 1 && offset >= bounding.height / 2) {
+              setPlaceholderIndex(elements.length);
+          } else {
+              handlePlaceholderPosition(e, index);
+          }
+      }
+  }, 700); // Adjusted throttle delay to reduce rapid flickering
 
+
+
+  
+
+  const handlePlaceholderPosition = (e, index) => {
+    const bounding = e.currentTarget.getBoundingClientRect();
+    const offset = e.clientY - bounding.top;
+    const newPlaceholderIndex =
+      offset < bounding.height / 2 ? index : index + 1;
+
+    // Update the placeholder index only if it has changed
+    if (newPlaceholderIndex !== placeholderIndex) {
+      setPlaceholderIndex(newPlaceholderIndex);
     }
-
+  };
  
-    
-  
-  
-  }
 
   const handleQuestionDrop = (e, index) => {
+    e.stopPropagation();
     e.preventDefault();
     setDraggedItemIndex(null);
     setHoveredIndex(null); // Clear the hovered index when dropping
-    setPlaceholderIndex(null)
- 
+    setPlaceholderIndex(null);
+    previousHoveredIndex=null;
+
     setSpecificIndex(index);
     if (draggedElementIndex !== null) {
-      e.stopPropagation();
-      if (draggedElementIndex !== index) {
-        // if(currentElementIndex != draggedElementIndex){
-        //   toast("Please select a question before dragging.");
-        //   return;
-        // }
-        // dispatch(swapElements(draggedElementIndex, index));
-        // setDraggedElementIndex(null);
-      }
+      dispatch(addResQuestions(localElements, index)); // Update Redux state with final order
+      setDraggedElementIndex(null);
     } else {
-      const type = e.dataTransfer.getData("type");
 
+      console.log("handle question drop")
+
+      const type = e.dataTransfer.getData("type");
       if (type === "consent") {
         const result = elements.filter((item) => {
           return item.type === "consent";
@@ -272,58 +321,57 @@ const SurveyPreview = (props) => {
           return;
         }
       }
-      handleAddElement(type, index);
-      // setTimeout(() => {
-      //   dispatch(addElementAtPosition(index));
-      // });
+      handleAddElement(type, placeholderIndex);
     }
   };
-
+ 
   const UpdateQuestion = async (e, questionId) => {
     try {
       loader("show");
 
       if (questionId != 0) {
-        const response = surveyAxiosInstance.post(
-          DELETE_SURVEY_QUESTION,
-          {
-            questionId,
-          }
-        );
+        const response = surveyAxiosInstance.post(DELETE_SURVEY_QUESTION, {
+          questionId,
+        });
 
-        if(response.status === 200){
+        if (response.status === 200) {
           setQuestionDeleteCount(questionDeleteCount + 1);
         }
- 
       }
       setConfirmationPopup(false);
-     
+
       loader("hide");
     } catch (error) {
       loader("hide");
       toast.error("Something went wrong");
     }
   };
+  const handleDragLeave = (e) => {
 
-  const handleDragLeave=(e)=>{
     e.preventDefault();
-    console.log("drag leave")
-    
-    setDraggedItemIndex(null);
-    setHoveredIndex(null); // Clear the hovered index when dropping
-    setPlaceholderIndex(null)
+    if (e.target === e.currentTarget) { // Only trigger if the mouse leaves the container, not individual items
+      console.log("placeholder  ndex")
+      setPlaceholderIndex(null);
+      previousHoveredIndex=null;
+    }
+  
+  };
 
 
-  }
+  const handleDragEnter = (e) => {
+    e.preventDefault();
+    // setIsHovered(true); // Set isHovered to true when entering the container
+    console.log('Drag Enter: Container');
+  };
+
 
   return (
     <div
       className="top-right-action preview"
       onDrop={handlePreviewDrop}
+      // onDragEnter={handleDragEnter}
       onDragOver={handlePreviewDragOver}
-   
-      // onDragEnd={handleDragLeave}
-     
+      onDragLeave={handleDragLeave} // Only trigger clear when truly leaving
     >
       <div className="d-flex flex-column w-100">
         <div className="page-top-nav sticky">
@@ -354,12 +402,16 @@ const SurveyPreview = (props) => {
                       Build survey
                     </Link>
                   </li>
-                  <li className={currentStep > 3 ? "active" : "" }>
-                          <Link to={currentStep > 3 ? "/survey/thank-you" : "" }>Thank you</Link>
-                        </li>
-                        <li className={currentStep > 4 ? "active" : "" }>
-                          <Link to={currentStep > 4 ? "/survey/survey-preview" : "" }>Preview</Link>
-                        </li>
+                  <li className={currentStep > 3 ? "active" : ""}>
+                    <Link to={currentStep > 3 ? "/survey/thank-you" : ""}>
+                      Thank you
+                    </Link>
+                  </li>
+                  <li className={currentStep > 4 ? "active" : ""}>
+                    <Link to={currentStep > 4 ? "/survey/survey-preview" : ""}>
+                      Preview
+                    </Link>
+                  </li>
                 </ul>
               </Col>
               <Col md={3}>
@@ -471,9 +523,7 @@ const SurveyPreview = (props) => {
             </Row>
           )}
         </div>
-        <div
-          className="preview-survey"
-        >
+        <div className="preview-survey">
           <div
             className={
               isChecked ? `informed-survey mobile-view` : "informed-survey"
@@ -585,7 +635,7 @@ const SurveyPreview = (props) => {
               <div className="informed-survey-question" ref={surveyRef}>
                 <Form>
                   <div className="d-flex flex-column">
-                    {elements?.map((item, index) => {
+                    {localElements?.map((item, index) => {
                       let questionIndex = index;
 
                       if (
@@ -595,20 +645,19 @@ const SurveyPreview = (props) => {
                         return;
                       } else {
                         return (
-                          <>
-                          {placeholderIndex === index ? (
-                              <div className="dropArea"></div>
-                            ) : (
-                              ""
-                            )}
-                          
                           <div
                             className={`dragable-box ${
                               index == currentElementIndex ? "active" : ""
                             }`}
                             style={
                               isEdit
-                                ? { padding: "60px 6px 4px 6px" , filter: hoveredIndex === index ? 'opacity:0' : 'none' }
+                                ? {
+                                    padding: "60px 6px 4px 6px",
+                                    filter:
+                                      hoveredIndex === index
+                                        ? "opacity:0"
+                                        : "none",
+                                  }
                                 : {
                                     backgroundColor:
                                       templateData.page_background_color,
@@ -617,20 +666,18 @@ const SurveyPreview = (props) => {
                             }
                             draggable={isEdit} // Only make it draggable if isEdit is true
                             key={index}
-                          //   onMouseDown={(e) => {
-                          //     if (isEdit) {
-                                
-                          //         e.stopPropagation();
-                          //         dispatch(setCurrentElementIndex(index));
-                          //     }
-                          // }}
+                            // onMouseDown={(e) => {
+                            //   if (isEdit) {
+                            //     e.stopPropagation();
+                            //     dispatch(setCurrentElementIndex(index));
+                            //   }
+                            // }}
                             onClick={(e) => {
                               if (isEdit) {
                                 e.stopPropagation();
                                 dispatch(setCurrentElementIndex(index));
                               }
                             }}
-                      
                             onDragStart={(e) => {
                               if (isEdit) {
                                 handleQuestionDragStart(e, index);
@@ -638,7 +685,7 @@ const SurveyPreview = (props) => {
                             }}
                             onDragOver={(e) => {
                               if (isEdit) {
-                                handleQuestionDragOver(e,index);
+                                handleQuestionDragOver(e, index);
                               }
                             }}
                             onDrop={(e) => {
@@ -648,6 +695,10 @@ const SurveyPreview = (props) => {
                               }
                             }}
                           >
+                            {" "}
+                            {placeholderIndex === index && (
+                              <div className="dropArea"></div>
+                            )}
                             {index == currentElementIndex && (
                               <div className="active-drag">
                                 {" "}
@@ -856,7 +907,7 @@ const SurveyPreview = (props) => {
                                             e.stopPropagation();
                                             handleAddElement(
                                               item.type,
-                                              questionIndex+1
+                                              questionIndex + 1
                                             );
                                           }}
                                         >
@@ -887,7 +938,7 @@ const SurveyPreview = (props) => {
                                                 e.stopPropagation();
                                                 handleAddElement(
                                                   item.type,
-                                                  questionIndex+1
+                                                  questionIndex + 1
                                                 );
                                               }}
                                             >
@@ -907,15 +958,13 @@ const SurveyPreview = (props) => {
                               </>
                             )}
                           </div>
-                          {/* {placeholderIndex === elements.length ? (
-                              <div className="dropArea"></div>
-                            ) : (
-                              ""
-                            )} */}
-                          </>
                         );
                       }
                     })}
+
+                    {placeholderIndex === localElements.length && (
+                      <div className="dropArea"></div>
+                    )}
                   </div>
                   <div className="form-footer">
                     <button

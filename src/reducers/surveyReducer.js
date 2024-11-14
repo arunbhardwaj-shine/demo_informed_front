@@ -49,17 +49,17 @@ const updateEditDisable = (state, action) => {
 };
 
 const addResQuestions = (state, action) => {
-  const newData = action.payload;
+  const {elements,currentIndex} = action.payload;
   let count = 1;
-  const newUpdatedElements = newData.map((item) => {
+  const newUpdatedElements = elements.map((item) => {
     return { ...item, questionNo: count++ };
   });
   return {
     ...state,
     elements: newUpdatedElements,
-    globalIndex: newData?.length + 1,
-    currentElementIndex: null,
-    isEditModeOn: false,
+    globalIndex: elements?.length + 1,
+    currentElementIndex: currentIndex != null && currentIndex != undefined ? currentIndex:null,
+    isEditModeOn:currentIndex != null && currentIndex != undefined ? true : false,
   };
 };
 

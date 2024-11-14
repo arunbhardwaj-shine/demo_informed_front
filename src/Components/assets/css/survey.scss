@@ -5744,12 +5744,14 @@ body {
 .dropArea {
   color: $white !important;
   background: white !important;
-  border: 3px dashed #8A4E9C;
+  border: 1px dashed #8A4E9C;
   width: 100%;
   height: 130px;
+  margin-top: -40px;
+  margin-bottom: 15px;
 
   &::before {
-    content: "Drop Here";
+    content: "Leave your question to add it here";
     color: #8A4E9C;
     font-size: 20px;
     text-transform: uppercase;
