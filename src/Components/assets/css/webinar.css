@@ -5649,7 +5649,27 @@ font-size: 16px;
 .octapharma-two .footer-text p {
   font-size: 11px;
 }
-
+.register-popup-view .emory.French .consent-form-list.attend-sec>label.organize-label {
+  font-size: 13px;
+  font-style: italic;
+}
+.register-popup-view .emory.French .consent-form-list.attend-sec>label.organize-label a{
+  color:inherit;
+  text-decoration: underline;
+  }
+  .emory.French .consent-form-inner input[type=tel].form-control {
+    padding: 10px 20px 10px 100px;
+}
+.emory.French .consent-form-inner .PhoneInput {
+  left: 28px;
+  position: absolute;
+  top: 38px;
+  width: 82px;
+}
+.emory.French .consent-form-inner .PhoneInputInput {
+  color: #263474;
+  font-size: 14px;
+}
 /**Octapharma2 template end**/
 
 @media only screen and (max-width:1600px) {
