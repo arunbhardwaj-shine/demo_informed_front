@@ -3137,6 +3137,9 @@ form .input-group {
   font-weight: 500;
   margin: 0 0 6px;
 }
+.survey_data_accordion_heading table tbody tr.fold td .survey-data h6 > span{
+  min-width: 19px;
+}
 .survey_data_accordion_heading table tbody tr.fold td .survey-data h6 >p {
   display: inline-block;
   margin: 0 1px;
