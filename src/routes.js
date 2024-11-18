@@ -245,6 +245,10 @@ import SetLayoutNew from "./Components/CommonComponent/SetLayoutNew";
 import SetLayoutNewTimeline from "./Components/CommonComponent/SetLayoutNewTimeline";
 import ClinetAccount from "./Components/Login/ClientAccount";
 
+//Aland activity route
+
+import AlandActivity from "./Components/AlandActivity/AlandActivity";
+
 let platform = 0;
 let show = 0;
 
@@ -1120,6 +1124,12 @@ const Routing = () => {
           path="/sunshine-timeline"
           element={<LoginLayout component={SunShineTimeline} />}
         />
+
+        <Route
+          path="/aland-activity"
+          element={<LoginLayout component={AlandActivity} />}
+        />
+        
       </Routes>
     </Router>
   );

@@ -43,6 +43,9 @@ const throttle = (func, delay) => {
   };
 };
 
+let previousHoveredIndex = null;
+let hoveredIndex=null;
+
 const SurveyPreview = (props) => {
   const { currentStep } = useSelector((state) => state.surveyStepReducer);
   const { FETCH_QUESTION, DELETE_SURVEY_QUESTION } = surveyEndpoints;
@@ -51,11 +54,11 @@ const SurveyPreview = (props) => {
   const { currentElementIndex, elements, isAddClicked } = useSelector(
     (state) => state.surveyData
   );
-  const [localElements, setLocalElements] = useState(elements);
+  const [localElements, setLocalElements] = useState([]);
   const [questionDeleteCount, setQuestionDeleteCount] = useState(0);
   const [draggedItemIndex, setDraggedItemIndex] = useState(null);
-  const [hoveredIndex, setHoveredIndex] = useState(null);
-  let previousHoveredIndex = null;
+  // const [hoveredIndex, setHoveredIndex] = useState(null);
+  
   const [placeholderIndex, setPlaceholderIndex] = useState(null);
 
   const updatedSurveyData = {
@@ -158,6 +161,14 @@ const SurveyPreview = (props) => {
     setConfirmationPopup(false);
   };
 
+
+  useEffect(()=>{
+    setLocalElements(elements)
+
+  },[])
+
+
+
   useEffect(() => {
     const shouldFetchQuestions =
       survey_id &&
@@ -181,8 +192,10 @@ const SurveyPreview = (props) => {
 
   const handlePreviewDrop = (e) => {
     e.preventDefault();
+    console.log("preview drop")
     setDraggedItemIndex(null);
-    setHoveredIndex(null);
+    // setHoveredIndex(null);
+    hoveredIndex=null;
     setPlaceholderIndex(null);
     const type = e.dataTransfer.getData("type");
 
@@ -211,8 +224,10 @@ const SurveyPreview = (props) => {
   const handlePreviewDragOver = (e) => e.preventDefault();
 
   const handleQuestionDragStart = (e, index) => {
-    e.stopPropagation();
 
+    console.log("from the drag drat ====>",index)
+    e.stopPropagation();
+    previousHoveredIndex=index;
     setDraggedItemIndex(index);
     setDraggedElementIndex(index);
   };
@@ -252,21 +267,45 @@ const SurveyPreview = (props) => {
 
   const handleQuestionDragOver = throttle((e, index) => {
       e.preventDefault();
+      console.log("from the drag over ====>",index,hoveredIndex,draggedElementIndex,previousHoveredIndex)
   
-      if (draggedElementIndex != null && hoveredIndex !== index) {
-          if (index !== previousHoveredIndex) {
-              previousHoveredIndex = index; // Store last unique index to reduce flickering
-              setHoveredIndex(index);
-              
-          
-              const newItems = [...elements];
-              const draggedItem = newItems.splice(draggedElementIndex, 1);
-              newItems.splice(index, 0, draggedItem[0]);
-              setLocalElements(newItems);
-          }
-      }
+      // if (draggedElementIndex != null && hoveredIndex !== index) {
+      //     if (index !== previousHoveredIndex) {
+      //       console.log("inside the question sort")
+      //         previousHoveredIndex = index; // Store last unique index to reduce flickering
+ 
+      //         const newItems = [...elements];
+      //         const draggedItem = newItems.splice(draggedElementIndex, 1);
+      //         newItems.splice(index, 0, draggedItem[0]);
+           
+      //         setLocalElements(newItems);
+      //         hoveredIndex=index;
+      //         // setHoveredIndex(index);
+      //     }
+      // }
+
+
+        // Calculate bounding box of the target element
+        const bounding = e.currentTarget.getBoundingClientRect();
+        const offset = e.clientY - bounding.top;
+ 
+        if ( draggedItemIndex != null &&  offset < bounding.height / 2) {
+          console.log("inside the question sort")
+            previousHoveredIndex = index; // Store last unique index to reduce flickering
+            const newItems = [...elements];
+            const draggedItem = newItems.splice(draggedElementIndex, 1)
+            newItems.splice(index, 0, draggedItem[0]);
+            setLocalElements(newItems);
+            hoveredIndex=index;
+        }
+
+    
+
+
+      
   
       if (draggedItemIndex === null) {
+        console.log("inside the question drop")
           const bounding = e.currentTarget.getBoundingClientRect();
           const offset = e.clientY - bounding.top;
           if (index === elements.length - 1 && offset >= bounding.height / 2) {
@@ -275,13 +314,14 @@ const SurveyPreview = (props) => {
               handlePlaceholderPosition(e, index);
           }
       }
-  }, 700); // Adjusted throttle delay to reduce rapid flickering
+  }, 100); // Adjusted throttle delay to reduce rapid flickering
 
 
 
   
 
   const handlePlaceholderPosition = (e, index) => {
+
     const bounding = e.currentTarget.getBoundingClientRect();
     const offset = e.clientY - bounding.top;
     const newPlaceholderIndex =
@@ -295,10 +335,13 @@ const SurveyPreview = (props) => {
  
 
   const handleQuestionDrop = (e, index) => {
+
+    console.log("handle question drop ",index)
     e.stopPropagation();
     e.preventDefault();
     setDraggedItemIndex(null);
-    setHoveredIndex(null); // Clear the hovered index when dropping
+    // setHoveredIndex(null); // Clear the hovered index when dropping
+    hoveredIndex=null;
     setPlaceholderIndex(null);
     previousHoveredIndex=null;
 
@@ -347,10 +390,10 @@ const SurveyPreview = (props) => {
     }
   };
   const handleDragLeave = (e) => {
-
     e.preventDefault();
+    
     if (e.target === e.currentTarget) { // Only trigger if the mouse leaves the container, not individual items
-      console.log("placeholder  ndex")
+      console.log("DragLeave") 
       setPlaceholderIndex(null);
       previousHoveredIndex=null;
     }
@@ -358,12 +401,7 @@ const SurveyPreview = (props) => {
   };
 
 
-  const handleDragEnter = (e) => {
-    e.preventDefault();
-    // setIsHovered(true); // Set isHovered to true when entering the container
-    console.log('Drag Enter: Container');
-  };
-
+ 
 
   return (
     <div
