@@ -5670,6 +5670,19 @@ font-size: 16px;
   color: #263474;
   font-size: 14px;
 }
+.create-change-content.register-page .form-group.organize-label {
+  width: 100%;
+}
+
+.webinarRegistrationBody #registration-form .form-group.organize-label label {
+  flex: 1 1;
+  font-style: italic;
+}
+
+.webinarRegistrationBody #registration-form .form-group.organize-label label a {
+  text-decoration: underline;
+  color: inherit;
+}
 /**Octapharma2 template end**/
 
 @media only screen and (max-width:1600px) {
