@@ -1,16 +1,14 @@
-import React, { useEffect, useRef, useState,useCallback } from "react";
-import {
-  Col,
-  Row,
-  Button,
-  Form,
-  Modal,
-} from "react-bootstrap";
+import React, { useEffect, useRef, useState, useCallback } from "react";
+import { Col, Row, Button, Form, Modal } from "react-bootstrap";
 import CommonAddQuestionModal from "./CommonAddQuestionModal";
 import { toast } from "react-toastify";
 import Select from "react-select";
 import { loader } from "../../../../../loader";
-import { getData, postData, postFormData } from "../../../../../axios/apiHelper";
+import {
+  getData,
+  postData,
+  postFormData,
+} from "../../../../../axios/apiHelper";
 import { ENDPOINT } from "../../../../../axios/apiConfig";
 import { useLocation } from "react-router-dom";
 import WebinarRegistrationValidation from "./WebinarRegistrationValidation";
@@ -22,28 +20,28 @@ import RegistrationPage from "./RegistrationPage";
 import CommonConfirmModel from "../../../../../Model/CommonConfirmModel";
 import templateData from "./template.json";
 import { useSidebar } from "../../../../CommonComponent/LoginLayout";
-import QRCode from 'qrcode';
+import QRCode from "qrcode";
 import ChangeCountry from "./ChangeCountryModel";
 import Countries from "./Countries.json";
-import domtoimage from 'dom-to-image-more';
+import domtoimage from "dom-to-image-more";
 
 import axios from "axios";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 let dynamicFieldNo = 0;
 const template = {
-  1:["logo","header"],
-  2:['logoOne',"logoTwo"],
-  3:['logo','header','footer'],
-  4:[],
-  5:['header'],
-  6:['logo','templateOne','templateTwo'],
-  7:['header'],
-  8:[],
-  9:['header'],
-  10:['logo','header','footer'],
-  11:['logo','header','footer'],
-}
+  1: ["logo", "header"],
+  2: ["logoOne", "logoTwo"],
+  3: ["logo", "header", "footer"],
+  4: [],
+  5: ["header"],
+  6: ["logo", "templateOne", "templateTwo"],
+  7: ["header"],
+  8: [],
+  9: ["header"],
+  10: ["logo", "header", "footer"],
+  11: ["logo", "header", "footer"],
+};
 const WebinarRegistration = () => {
   const { eventIdContext } = useSidebar();
   const validExtensions = ["png", "jpeg", "jpg"];
@@ -53,32 +51,40 @@ const WebinarRegistration = () => {
   const syncActiveIndex = ({ item }) => setActiveIndex(item);
   const [thumbnails, setThumbnails] = useState({}); // Store thumbnails per template
 
-
-const templateUserIDs={"iSnEsKu5gB/DRlycxB6G4g==":[1,2,3,4,5,6,7],"B7SHpAc XDXSH NXkN0rdQ==":[1,2,3,4,5,6,7], "wW0geGtDPvig5gF 6KbJrg==":[1,2,3,4,5,6,7],
-"UbCJcnLM9fe HsRMgX8c1A==":[1,2,3,4,5,6,7],"z2TunmZQf3QwCsICFTLGGQ==":[1,2,3,5,6,7,8,9],"qDgwPdToP05Kgzc g2VjIQ==":[1,2,3,4,5,6,7],"rjiGlqA9DXJVH7bDDTX0Lg==":[1,2,3,4,5,6,7,10],
-"MpEPwXLqTPveAfumxT/KXw==":[1,2,3,4,5,6,7],"5EdDBhVCQm08iLJwBENCWw==":[1,2,3,4,5,6,7],"I3yCIhnPAd0Ma6sNY4augA==":[1,2,3,4,5,6,7],"Y/I8/x8K0syk/ulWyKwKhg==":[1,2,3,4,5,6,7]," LRIehnvaQFB8Df5dWKrtw==":[3]
-,"bWmUjqX7J011   WUTYn9g==":[1,2,3,4,5,6,7],"56Ek4feL/1A8mZgIKQWEqg==":[11],"sNl1hra39QmFk9HwvXETJA==":[12]}
-const userId = localStorage.getItem("user_id");
-const defaultTemplateIds = [10]; 
- 
+  const templateUserIDs = {
+    "iSnEsKu5gB/DRlycxB6G4g==": [1, 2, 3, 4, 5, 6, 7],
+    "B7SHpAc XDXSH NXkN0rdQ==": [1, 2, 3, 4, 5, 6, 7],
+    "wW0geGtDPvig5gF 6KbJrg==": [1, 2, 3, 4, 5, 6, 7],
+    "UbCJcnLM9fe HsRMgX8c1A==": [1, 2, 3, 4, 5, 6, 7],
+    "z2TunmZQf3QwCsICFTLGGQ==": [1, 2, 3, 5, 6, 7, 8, 9],
+    "qDgwPdToP05Kgzc g2VjIQ==": [1, 2, 3, 4, 5, 6, 7],
+    "rjiGlqA9DXJVH7bDDTX0Lg==": [1, 2, 3, 4, 5, 6, 7, 10],
+    "MpEPwXLqTPveAfumxT/KXw==": [1, 2, 3, 4, 5, 6, 7],
+    "5EdDBhVCQm08iLJwBENCWw==": [1, 2, 3, 4, 5, 6, 7],
+    "I3yCIhnPAd0Ma6sNY4augA==": [1, 2, 3, 4, 5, 6, 7],
+    "Y/I8/x8K0syk/ulWyKwKhg==": [1, 2, 3, 4, 5, 6, 7],
+    " LRIehnvaQFB8Df5dWKrtw==": [3],
+    "bWmUjqX7J011   WUTYn9g==": [1, 2, 3, 4, 5, 6, 7],
+    "56Ek4feL/1A8mZgIKQWEqg==": [11],
+    "sNl1hra39QmFk9HwvXETJA==": [12],
+  };
+  const userId = localStorage.getItem("user_id");
+  const defaultTemplateIds = [10];
 
   const [templateList, setTemplateList] = useState(() => {
-
-    return templateData.filter(template => {
+    return templateData.filter((template) => {
       if (templateUserIDs[userId]?.includes(template.templateId)) {
         return true;
-      }
-
-      else if (!templateUserIDs.hasOwnProperty(userId) && defaultTemplateIds.includes(template.templateId)) {
+      } else if (
+        !templateUserIDs.hasOwnProperty(userId) &&
+        defaultTemplateIds.includes(template.templateId)
+      ) {
         return true;
-      }
-
-      else {
+      } else {
         return false;
       }
     });
   });
-
 
   const responsive = {
     0: { items: 1 },
@@ -96,11 +102,12 @@ const defaultTemplateIds = [10];
       textAreaRef.style.height = textAreaRef.scrollHeight + "px";
     }
   };
-  const event_code=
+  const event_code =
     location?.state?.eventCode ||
     eventIdContext?.eventCode ||
-    JSON.parse(localStorage.getItem("EventIdContext"))?.eventCode || null;
-  
+    JSON.parse(localStorage.getItem("EventIdContext"))?.eventCode ||
+    null;
+
   const [logo, setLogo] = useState();
   const [logoOne, setLogoOne] = useState();
   const [templateOne, setTemplateOne] = useState();
@@ -146,13 +153,21 @@ const defaultTemplateIds = [10];
   };
 
   const [formData, setFormData] = useState(initialFormData);
-  const [originalFormData, setOriginalFormData] = useState(initialFormData);  
+  const [originalFormData, setOriginalFormData] = useState(initialFormData);
   const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"));
   const [eventData, setEventData] = useState({
-    event_id: location?.state?.eventId || eventIdContext?.eventId || localStorageEvent?.eventId || null,
-    company_id: location?.state?.companyId || eventIdContext?.companyId || localStorageEvent?.companyId || null,
+    event_id:
+      location?.state?.eventId ||
+      eventIdContext?.eventId ||
+      localStorageEvent?.eventId ||
+      null,
+    company_id:
+      location?.state?.companyId ||
+      eventIdContext?.companyId ||
+      localStorageEvent?.companyId ||
+      null,
   });
-  
+
   const countryList = CountryList;
   const [errorMsg, setErrorMsg] = useState("");
   const [index, setIndex] = useState();
@@ -160,7 +175,7 @@ const defaultTemplateIds = [10];
   const [extIndex, setExtIndex] = useState();
   const [fieldData, setFieldData] = useState();
   const [extFieldData, setExtFieldData] = useState();
-  const stateOptions=[
+  const stateOptions = [
     { label: "Alabama", value: "Alabama" },
     { label: "Alaska", value: "Alaska" },
     { label: "Arizona", value: "Arizona" },
@@ -215,10 +230,10 @@ const defaultTemplateIds = [10];
 
   const [showModalPreview, setShowModalPreview] = useState(false);
   const textAreaRefs = useRef(null);
-  const [downloadType, setDownloadType] = useState("png")
-  const ref = useRef(null); 
-  const thumbnailRef = useRef(null); 
-  const localStorageUserId = localStorage.getItem("user_id")
+  const [downloadType, setDownloadType] = useState("png");
+  const ref = useRef(null);
+  const thumbnailRef = useRef(null);
+  const localStorageUserId = localStorage.getItem("user_id");
   useEffect(() => {
     if (event_code) {
       getWebinarData(event_code);
@@ -227,14 +242,13 @@ const defaultTemplateIds = [10];
   useEffect(() => {
     if (textAreaRefs.current) {
       textAreaRefs.current.map((value, index) => {
-        const textAreaRef = value
+        const textAreaRef = value;
         if (textAreaRef) {
           textAreaRef.style.height = "auto";
           textAreaRef.style.height = textAreaRef.scrollHeight + "px";
         }
-      })
+      });
     }
-
   }, [formData]);
   const getWebinarData = async (event_code) => {
     try {
@@ -247,8 +261,10 @@ const defaultTemplateIds = [10];
       let raw = hadData?.raw_description
         ? JSON.parse(hadData?.raw_description)
         : {};
-       let savedThumbnails = hadData?.content ? JSON.parse(hadData?.content)?.thumbnails : {};
-       setThumbnails(savedThumbnails || {});
+      let savedThumbnails = hadData?.content
+        ? JSON.parse(hadData?.content)?.thumbnails
+        : {};
+      setThumbnails(savedThumbnails || {});
 
       let parseSpeakerName = "";
       try {
@@ -286,7 +302,9 @@ const defaultTemplateIds = [10];
         // templateListData[0] = tempData;
 
         let templateListData = [...templateList];
-        let index = templateListData.findIndex((item)=>item.templateId==tempId);
+        let index = templateListData.findIndex(
+          (item) => item.templateId == tempId
+        );
         let tempData = templateListData[index];
         templateListData[index] = templateListData[0];
         templateListData[0] = tempData;
@@ -363,16 +381,22 @@ const defaultTemplateIds = [10];
         );
       }
       setFormData(newFormData);
-      console.log(newFormData,'ergtrggg');
+      console.log(newFormData, "ergtrggg");
       if (Object.keys(newFormData.eventDetails)?.length > 0) {
-        textAreaRefs.current = Array(Object.keys(newFormData.eventDetails)?.length).fill(null)
+        textAreaRefs.current = Array(
+          Object.keys(newFormData.eventDetails)?.length
+        ).fill(null);
       }
       setOriginalFormData(JSON.parse(JSON.stringify(newFormData)));
       setActiveIndex(tempId ? tempId : 0);
       setFile(newFormData?.headerImageUrl ? newFormData?.headerImageUrl : "");
       setFoot(newFormData?.footerImageUrl ? newFormData?.footerImageUrl : "");
-      setTemplateOne(newFormData?.templateOneImageUrl ? newFormData?.templateOneImageUrl : "");
-      setTemplateTwo(newFormData?.templateTwoImageUrl ? newFormData?.templateTwoImageUrl : "");
+      setTemplateOne(
+        newFormData?.templateOneImageUrl ? newFormData?.templateOneImageUrl : ""
+      );
+      setTemplateTwo(
+        newFormData?.templateTwoImageUrl ? newFormData?.templateTwoImageUrl : ""
+      );
       setApiStatus(true);
     } catch (err) {
       setApiStatus(true);
@@ -381,7 +405,6 @@ const defaultTemplateIds = [10];
       loader("hide");
     }
   };
-
 
   const handleFileSelect = (e, isSelectedName) => {
     setIsFormChange(true);
@@ -409,23 +432,19 @@ const defaultTemplateIds = [10];
             setErrorMsg(
               `Invalid file extension of footer. Please select a valid extension file.`
             );
-          }
-          else if (isSelectedName === "logoOneImageUrl") {
+          } else if (isSelectedName === "logoOneImageUrl") {
             setErrorMsg(
               `Invalid file extension of logoOne. Please select a valid extension file.`
             );
-          }
-          else if (isSelectedName === "logoTwoImageUrl") {
+          } else if (isSelectedName === "logoTwoImageUrl") {
             setErrorMsg(
               `Invalid file extension of logoTwo. Please select a valid extension file.`
             );
-          }
-          else if (isSelectedName === "templateOneImageUrl") {
+          } else if (isSelectedName === "templateOneImageUrl") {
             setErrorMsg(
               `Invalid file extension of templateOne. Please select a valid extension file.`
             );
-          }
-          else if (isSelectedName === "templateTwoImageUrl") {
+          } else if (isSelectedName === "templateTwoImageUrl") {
             setErrorMsg(
               `Invalid file extension of templateTwo. Please select a valid extension file.`
             );
@@ -513,8 +532,7 @@ const defaultTemplateIds = [10];
     setIndex();
     setFieldData();
     setModal(false);
-    setChangeCountry(false)
-
+    setChangeCountry(false);
   };
 
   const handleModalSave = (form) => {
@@ -534,16 +552,13 @@ const defaultTemplateIds = [10];
   };
 
   const editFieldData = (e, index, changeCountryStatus = false) => {
-
     e.preventDefault();
     setIndex(index);
     setFieldData(formData?.body[index]);
     if (changeCountryStatus) {
-      setChangeCountry(changeCountryStatus)
-
+      setChangeCountry(changeCountryStatus);
     } else {
       setModal(true);
-
     }
   };
 
@@ -764,16 +779,15 @@ const defaultTemplateIds = [10];
 
             showAllCountries: false,
           };
-          if(isSelectedName=="state"){
-            newObj.stateCountry="Bahrain"
-            newObj.option=Countries["Bahrain"]?.states.map((item) => ({
+          if (isSelectedName == "state") {
+            newObj.stateCountry = "Bahrain";
+            newObj.option = Countries["Bahrain"]?.states.map((item) => ({
               checked: "",
               optionLabel: item.label,
               extension: [],
             }));
-    
-          }else if(isSelectedName=="country (region)"){
-            newObj.option=Object.keys(Countries).map((item) => ({
+          } else if (isSelectedName == "country (region)") {
+            newObj.option = Object.keys(Countries).map((item) => ({
               checked: "",
               optionLabel: item,
               extension: [],
@@ -790,7 +804,7 @@ const defaultTemplateIds = [10];
         if (index > -1) {
           updateFormBody?.splice(index, 1);
         }
-      
+
         setFormData({ ...formData, body: updateFormBody });
       } else if (isSelectedName == "company_id") {
         setEventData({
@@ -892,61 +906,60 @@ const defaultTemplateIds = [10];
     }
   };
 
-    const saveClicked = async (e) => {
-      if (e) {
-        e.preventDefault();
-      }
-      if (!formData?.templateId) {
-        setShowModalPreview(true);
+  const saveClicked = async (e) => {
+    if (e) {
+      e.preventDefault();
+    }
+    if (!formData?.templateId) {
+      setShowModalPreview(true);
+      return;
+    }
+
+    setFormData(formData);
+    try {
+      const error = WebinarRegistrationValidation(formData, eventData);
+      if (Object.keys(error)?.length) {
+        toast.error(error[Object.keys(error)[0]]);
         return;
       }
-  
-      setFormData(formData);
-      try {
-        const error = WebinarRegistrationValidation(formData, eventData);
-        if (Object.keys(error)?.length) {
-          toast.error(error[Object.keys(error)[0]]);
-          return;
-        }
-        if (errorMsg) {
-          toast.error(errorMsg);
-          return;
-        }
-  
-        loader("show");
-        let data = {
-          eventId: eventData?.event_id,
-          companyId: eventData?.company_id,
-          // content: JSON.stringify(formData),
-          content: JSON.stringify({
-            ...formData,
-            thumbnails, // Include the updated thumbnails in the payload
-          }),
-        };
-  
-        const response = await postData(
-          ENDPOINT.CREATE_WEBINAR_REGISTRATION,
-          data
-        );
-        setSave((save) => save + 1);
-        setIsDataSaved(true);
-  
-      } catch (err) {
-        console.error("--err", err);
-      } finally {
-        loader("hide");
+      if (errorMsg) {
+        toast.error(errorMsg);
+        return;
       }
-      if (e) {
-        // navigate("/webinar/event-listing");
-        // setIsSavedClicked(true)
-        toast.success("Your changes has been saved successfully !");
-      } else {
-        setIsFormChange(false);
-        setConfirmationPopup(false);
-        setOriginalFormData(JSON.parse(JSON.stringify(formData)));
-        templateClicked(tempTemplate);
-      }
-    };
+
+      loader("show");
+      let data = {
+        eventId: eventData?.event_id,
+        companyId: eventData?.company_id,
+        // content: JSON.stringify(formData),
+        content: JSON.stringify({
+          ...formData,
+          thumbnails, // Include the updated thumbnails in the payload
+        }),
+      };
+
+      const response = await postData(
+        ENDPOINT.CREATE_WEBINAR_REGISTRATION,
+        data
+      );
+      setSave((save) => save + 1);
+      setIsDataSaved(true);
+    } catch (err) {
+      console.error("--err", err);
+    } finally {
+      loader("hide");
+    }
+    if (e) {
+      // navigate("/webinar/event-listing");
+      // setIsSavedClicked(true)
+      toast.success("Your changes has been saved successfully !");
+    } else {
+      setIsFormChange(false);
+      setConfirmationPopup(false);
+      setOriginalFormData(JSON.parse(JSON.stringify(formData)));
+      templateClicked(tempTemplate);
+    }
+  };
 
   const handlePreviewInNewTab = async (e, newLink) => {
     e.preventDefault();
@@ -954,7 +967,7 @@ const defaultTemplateIds = [10];
       setShowModalPreview(true);
       return;
     }
-    let link = '';
+    let link = "";
     if (eventData?.event_id > 402) {
       link = `https://events.docintel.app/event-registration?event=${event_code}`;
     } else {
@@ -964,10 +977,7 @@ const defaultTemplateIds = [10];
     try {
       await navigator.clipboard.writeText(link);
       // Open link in a new tab
-      window.open(
-        link,
-        "_blank"
-      );
+      window.open(link, "_blank");
     } catch (error) {
       console.error("Error preview in new window:", error);
     }
@@ -1009,21 +1019,21 @@ const defaultTemplateIds = [10];
     setFormData({ ...formData, logoImageUrl: "" });
   };
   const handleDeleteLogoOneImage = () => {
-    setLogoOne("")
+    setLogoOne("");
     setFormData({ ...formData, logoOneImageUrl: "" });
   };
   const handleDeleteLogoTwoImage = () => {
-    setLogoTwo("")
+    setLogoTwo("");
     setFormData({ ...formData, logoTwoImageUrl: "" });
   };
 
   const handleDeleteTemplateOneImage = () => {
-    setTemplateOne("")
+    setTemplateOne("");
     setFormData({ ...formData, templateOneImageUrl: "" });
   };
 
   const handleDeleteTemplateTwoImage = () => {
-    setTemplateTwo("")
+    setTemplateTwo("");
     setFormData({ ...formData, templateTwoImageUrl: "" });
   };
 
@@ -1063,7 +1073,6 @@ const defaultTemplateIds = [10];
         setConfirmationPopup(true);
       }
     } else {
-
       if (originalFormData?.templateId == template?.templateId) {
         let updatedBody = JSON.parse(JSON.stringify(originalFormData));
         setLogo(
@@ -1104,8 +1113,9 @@ const defaultTemplateIds = [10];
         // console.log(Object.keys(updatedBody.eventDetails)?.length>0);
 
         if (Object.keys(updatedBody.eventDetails)?.length > 0) {
-
-          textAreaRefs.current = Array(Object.keys(updatedBody.eventDetails)?.length).fill(null)
+          textAreaRefs.current = Array(
+            Object.keys(updatedBody.eventDetails)?.length
+          ).fill(null);
         }
         setFormData(JSON.parse(JSON.stringify(updatedBody)));
       } else {
@@ -1129,7 +1139,6 @@ const defaultTemplateIds = [10];
             updatedBody?.eventDetails?.eventStartDate?.value == "" &&
             updatedBody?.eventDetails?.eventStartDate?.value != undefined
           ) {
-
             updatedBody.eventDetails.eventStartDate.value = new Date(
               rawData?.dateStart
             );
@@ -1180,16 +1189,29 @@ const defaultTemplateIds = [10];
         }
 
         setLogo(updatedBody?.logoImageUrl ? updatedBody?.logoImageUrl : "");
-        setLogoOne(updatedBody?.logoOneImageUrl ? updatedBody?.logoOneImageUrl : "");
-        setLogoTwo(updatedBody?.logoTwoImageUrl ? updatedBody?.logoTwoImageUrl : "");
-        setTemplateOne(updatedBody?.templateOneImageUrl ? updatedBody?.templateOneImageUrl : "");
-        setTemplateTwo(updatedBody?.templateTwoImageUrl ? updatedBody?.templateTwoImageUrl : "");
+        setLogoOne(
+          updatedBody?.logoOneImageUrl ? updatedBody?.logoOneImageUrl : ""
+        );
+        setLogoTwo(
+          updatedBody?.logoTwoImageUrl ? updatedBody?.logoTwoImageUrl : ""
+        );
+        setTemplateOne(
+          updatedBody?.templateOneImageUrl
+            ? updatedBody?.templateOneImageUrl
+            : ""
+        );
+        setTemplateTwo(
+          updatedBody?.templateTwoImageUrl
+            ? updatedBody?.templateTwoImageUrl
+            : ""
+        );
         setFile(updatedBody?.headerImageUrl ? updatedBody?.headerImageUrl : "");
         setFoot(updatedBody?.footerImageUrl ? updatedBody?.footerImageUrl : "");
         // console.log(updatedBody);
         if (Object.keys(updatedBody.eventDetails)?.length > 0) {
-
-          textAreaRefs.current = Array(Object.keys(updatedBody.eventDetails)?.length).fill(null)
+          textAreaRefs.current = Array(
+            Object.keys(updatedBody.eventDetails)?.length
+          ).fill(null);
         }
         setFormData(JSON.parse(JSON.stringify(updatedBody)));
       }
@@ -1206,7 +1228,6 @@ const defaultTemplateIds = [10];
     //   setFormData(updatedBody);
     // }
     // setActiveIndex(template?.templateId);
-
 
     setSave((save) => save + 1);
   };
@@ -1245,9 +1266,10 @@ const defaultTemplateIds = [10];
 
   const generateQRUrl = () => {
     // Generate the QR code URL based on your logic
-    const url = eventData?.event_id > 402 ?
-      `https://events.docintel.app/event-registration?event=${event_code}&urtyhjd=qdhjjkr` :
-      `${window.location.host}/event-registration?event=${event_code}&urtyhjd=qdhjjkr`;
+    const url =
+      eventData?.event_id > 402
+        ? `https://events.docintel.app/event-registration?event=${event_code}&urtyhjd=qdhjjkr`
+        : `${window.location.host}/event-registration?event=${event_code}&urtyhjd=qdhjjkr`;
     return url;
   };
 
@@ -1258,128 +1280,125 @@ const defaultTemplateIds = [10];
     const qrUrl = generateQRUrl();
 
     try {
-      let fileName = (localStorageEvent?.eventTitle).replaceAll(" ", "_")
+      let fileName = (localStorageEvent?.eventTitle).replaceAll(" ", "_");
       const canvas = await QRCode.toCanvas(qrUrl, { width: 300 });
       if (downloadType == "png") {
-        console.log("in png")
+        console.log("in png");
 
-        const pngUrl = canvas.toDataURL('image/png').replace(/^data:image\/[^;]/, 'data:application/octet-stream');
+        const pngUrl = canvas
+          .toDataURL("image/png")
+          .replace(/^data:image\/[^;]/, "data:application/octet-stream");
 
-        const downloadLink = document.createElement('a');
+        const downloadLink = document.createElement("a");
         downloadLink.href = pngUrl;
         downloadLink.download = `${fileName}_Registration.png`; // Set the filename
         document.body.appendChild(downloadLink);
         downloadLink.click();
         document.body.removeChild(downloadLink);
-      }
-      else if (downloadType == "eps") {
+      } else if (downloadType == "eps") {
         const pngUrl = canvas
           .toDataURL("image/png")
           .replace("image/png", "image/png");
-        const res = await postFormData(ENDPOINT.DOWNLOAD_EPS_FILE, { "svgCode": pngUrl },
+        const res = await postFormData(
+          ENDPOINT.DOWNLOAD_EPS_FILE,
+          { svgCode: pngUrl },
           {
             responseType: "blob",
           }
         );
         const url = URL.createObjectURL(res?.data);
-        const downloadLink = document.createElement('a');
+        const downloadLink = document.createElement("a");
         downloadLink.href = url;
         downloadLink.download = `${fileName}_Registration.eps`;
-        // downloadLink.style.display = 'none';    
+        // downloadLink.style.display = 'none';
         document.body.appendChild(downloadLink);
         downloadLink.click();
         URL.revokeObjectURL(url);
         document.body.removeChild(downloadLink);
-
       }
-
     } catch (error) {
-      console.error('Error generating QR code:', error);
+      console.error("Error generating QR code:", error);
     }
   };
 
-// Function to generate the thumbnail and upload it
-const generate_thumb = async (templateId) => {
-  if (!thumbnailRef.current || !templateId) {
-    toast.warning("Template ID is missing.");
-    return;
-  }
-
-  loader("show");
-
-  try {
-    const element = thumbnailRef.current;
-
-    // Configure dom-to-image-more for better CORS handling
-    const options = {
-      quality: 1, // Ensure high-quality output
-      width: element.offsetWidth * 2, // Increase width for better resolution
-      height: element.offsetHeight * 2, // Increase height for better resolution
-      style: {
-        transform: 'scale(2)', // Scale up for better resolution
-        transformOrigin: 'top left',
-        width: `${element.offsetWidth}px`,
-        height: `${element.offsetHeight}px`,
-      },
-      filter: (node) => {
-        // You can add filtering logic here if needed
-        return true;
-      },
-      cacheBust: true, // Prevent caching issues
-      useCORS: true, // Enable CORS for cross-origin images
-    };
-
-    // Generate the image using dom-to-image-more
-    const dataUrl = await domtoimage.toPng(element, options);
-    
-    // Convert the Data URL (base64) to Blob
-    const resizedBlob = await (await fetch(dataUrl)).blob();
-
-    if (resizedBlob) {
-      const formData = new FormData();
-      formData.append("image_url", resizedBlob, "image.png");
-      formData.append("user_id", localStorageUserId);
-      formData.append("template_id", templateId);
-      formData.append("template_name", "");
-      formData.append("event_id", eventData?.event_id);
-
-      // Upload the thumbnail
-      const res = await axios.post(
-        "https://onesource.informed.pro/api/update-template",
-        formData,
-        { headers: { "Content-Type": "multipart/form-data" } }
-      );
-
-      if (res.data.status_code === 200) {
-        const thumbnailUrl = res.data.url;
-        setThumbnails((prevThumbnails) => ({
-          ...prevThumbnails,
-          [templateId]: thumbnailUrl,
-        }));
-        toast.success("Thumbnail uploaded successfully!");
-      } else {
-        toast.warning(res.data.message);
-      }
-      // loader("hide");
+  // Function to generate the thumbnail and upload it
+  const generate_thumb = async (templateId) => {
+    if (!thumbnailRef.current || !templateId) {
+      toast.warning("Template ID is missing.");
+      return;
     }
-    loader("hide");
-  } catch (err) {
-    toast.error("Something went wrong.");
-    console.error(err);
-  } 
-  // finally {
-  //   loader("hide");
-  // }
-};
 
+    loader("show");
+
+    try {
+      const element = thumbnailRef.current;
+
+      // Configure dom-to-image-more for better CORS handling
+      const options = {
+        quality: 1, // Ensure high-quality output
+        width: element.offsetWidth * 2, // Increase width for better resolution
+        height: element.offsetHeight * 2, // Increase height for better resolution
+        style: {
+          transform: "scale(2)", // Scale up for better resolution
+          transformOrigin: "top left",
+          width: `${element.offsetWidth}px`,
+          height: `${element.offsetHeight}px`,
+        },
+        filter: (node) => {
+          // You can add filtering logic here if needed
+          return true;
+        },
+        cacheBust: true, // Prevent caching issues
+        useCORS: true, // Enable CORS for cross-origin images
+      };
+
+      // Generate the image using dom-to-image-more
+      const dataUrl = await domtoimage.toPng(element, options);
+
+      // Convert the Data URL (base64) to Blob
+      const resizedBlob = await (await fetch(dataUrl)).blob();
+
+      if (resizedBlob) {
+        const formData = new FormData();
+        formData.append("image_url", resizedBlob, "image.png");
+        formData.append("user_id", localStorageUserId);
+        formData.append("template_id", templateId);
+        formData.append("template_name", "");
+        formData.append("event_id", eventData?.event_id);
+
+        // Upload the thumbnail
+        const res = await axios.post(
+          "https://onesource.informed.pro/api/update-template",
+          formData,
+          { headers: { "Content-Type": "multipart/form-data" } }
+        );
+
+        if (res.data.status_code === 200) {
+          const thumbnailUrl = res.data.url;
+          setThumbnails((prevThumbnails) => ({
+            ...prevThumbnails,
+            [templateId]: thumbnailUrl,
+          }));
+          toast.success("Thumbnail uploaded successfully!");
+        } else {
+          toast.warning(res.data.message);
+        }
+        // loader("hide");
+      }
+      loader("hide");
+    } catch (err) {
+      toast.error("Something went wrong.");
+      console.error(err);
+    }
+    // finally {
+    //   loader("hide");
+    // }
+  };
 
   return (
     <>
       <Col className="right-sidebar custom-change">
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1"
-        />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <div className="custom-container">
           <div className="row">
             <div className="top-header regi-web sticky">
@@ -1388,15 +1407,16 @@ const generate_thumb = async (templateId) => {
               </div>
               <div className="top-right-action">
                 <div className="d-flex justify-content-center header_btns">
-                  <div className={`dropdown qr-download ${!isDataSaved ? "disabled" : ""
-                    }`}>
+                  <div
+                    className={`dropdown qr-download ${!isDataSaved ? "disabled" : ""
+                      }`}
+                  >
                     <button
                       className="btn btn-primary dropdown"
                       type="button"
                       onClick={handleDownload}
                     >
                       Download QR
-
                     </button>
                     {/* <button
                       className="btn btn-primary dropdown"
@@ -1449,7 +1469,11 @@ const generate_thumb = async (templateId) => {
                   <a
                     className={`copy_link btn-bordered ${!isDataSaved ? "disabled" : ""
                       }`}
-                    href={eventData?.event_id > 402 ? `https://events.docintel.app/event-registration?event=${event_code}` : `${window.location.host}/event-registration?event=${event_code}`}
+                    href={
+                      eventData?.event_id > 402
+                        ? `https://events.docintel.app/event-registration?event=${event_code}`
+                        : `${window.location.host}/event-registration?event=${event_code}`
+                    }
                     onClick={(e) => {
                       e.preventDefault();
                       if (!isDataSaved) {
@@ -1464,7 +1488,8 @@ const generate_thumb = async (templateId) => {
                   </a>
                   <Button
                     type="button"
-                    className={`save btn-filled ${!isDataSaved ? "disabled" : ""}`}
+                    className={`save btn-filled ${!isDataSaved ? "disabled" : ""
+                      }`}
                     disabled={isDataSaved ? false : true}
                     onClick={(e) => {
                       handlePreviewInNewTab(e);
@@ -1490,40 +1515,41 @@ const generate_thumb = async (templateId) => {
                     responsive={responsive}
                     onSlideChanged={syncActiveIndex}
                   >
-                    {templateList.filter(template => template).map((template, index) => {
-                      // console.log(templateList,'templateList')
-                      return (
-                        <>
-                          <div
-                            key={index}
-                            className="item"
-                            onClick={(e) => templateClicked(template, e)}
-                          >
-                            <img
-                              id={`"template_dyn" + template?.popupNo`}
-                              // src={thumbnail ? thumbnail :`${path_image}/template-${template?.templateId}.png`}
-                              src={
-                                thumbnails[template.templateId] // Show the updated thumbnail if available
-                                  ? thumbnails[template.templateId] // Use the new thumbnail from the state
-                                  : `${path_image}/template-${template?.templateId}.png` // Fallback to default image
-                              }
-                              alt=""
-                              className={
-                                typeof activeIndex !== "undefined" &&
-                                  activeIndex == template?.templateId
-                                  ? "select_mm"
-                                  : ""
-                              }
-                              style={{ objectFit: 'fill' }}
-                            />
-                            {/* <p>{template?.name}</p> */}
-                            <p>{template?.templateName}</p>
-                          </div>
-                        </>
-                      );
-                    })}
+                    {templateList
+                      .filter((template) => template)
+                      .map((template, index) => {
+                        // console.log(templateList,'templateList')
+                        return (
+                          <>
+                            <div
+                              key={index}
+                              className="item"
+                              onClick={(e) => templateClicked(template, e)}
+                            >
+                              <img
+                                id={`"template_dyn" + template?.popupNo`}
+                                // src={thumbnail ? thumbnail :`${path_image}/template-${template?.templateId}.png`}
+                                src={
+                                  thumbnails[template.templateId] // Show the updated thumbnail if available
+                                    ? thumbnails[template.templateId] // Use the new thumbnail from the state
+                                    : `${path_image}/template-${template?.templateId}.png` // Fallback to default image
+                                }
+                                alt=""
+                                className={
+                                  typeof activeIndex !== "undefined" &&
+                                    activeIndex == template?.templateId
+                                    ? "select_mm"
+                                    : ""
+                                }
+                                style={{ objectFit: "fill" }}
+                              />
+                              {/* <p>{template?.name}</p> */}
+                              <p>{template?.templateName}</p>
+                            </div>
+                          </>
+                        );
+                      })}
                   </AliceCarousel>
-
                 </Row>{" "}
               </div>{" "}
             </section>
@@ -1605,7 +1631,6 @@ const generate_thumb = async (templateId) => {
                                       // key={Math.random*1000}
                                       readOnly={true}
                                       value={new Date(field.value)}
-
                                       disabled
                                       // minDate={
                                       //   key == "eventEndDate"
@@ -1617,7 +1642,7 @@ const generate_thumb = async (templateId) => {
                                       selected={
                                         // field.value &&
                                         // field.value >= currentDate
-                                        // ? 
+                                        // ?
                                         new Date(field.value)
                                         // : currentDate
                                       }
@@ -1638,7 +1663,9 @@ const generate_thumb = async (templateId) => {
                                       <div className="color-pick">
                                         <div className="color-pick-point">
                                           <img
-                                            src={path_image + "color-picker.svg"}
+                                            src={
+                                              path_image + "color-picker.svg"
+                                            }
                                             alt=""
                                           />
                                         </div>
@@ -1661,15 +1688,22 @@ const generate_thumb = async (templateId) => {
                                       {field.title}
                                       {/* <span>*</span> */}
                                     </label>
-                                    {field.type == 'textArea' ? <textarea key={`textarea-${index}-${formData?.templateId}`} className={`form-control`}
-                                      ref={(ref) => (textAreaRefs.current[index] = ref)}
-                                      onChange={(e) => {
-                                        handleChange(e)
-                                        resizeTextArea(index);
-                                      }} name={`eventDetails-${key}`}>{field.value}
-
-                                    </textarea> :
-
+                                    {field.type == "textArea" ? (
+                                      <textarea
+                                        key={`textarea-${index}-${formData?.templateId}`}
+                                        className={`form-control`}
+                                        ref={(ref) =>
+                                          (textAreaRefs.current[index] = ref)
+                                        }
+                                        onChange={(e) => {
+                                          handleChange(e);
+                                          resizeTextArea(index);
+                                        }}
+                                        name={`eventDetails-${key}`}
+                                      >
+                                        {field.value}
+                                      </textarea>
+                                    ) : (
                                       <input
                                         key={`${field.type}-${index}-${formData?.templateId}`}
                                         type={field.type}
@@ -1688,15 +1722,16 @@ const generate_thumb = async (templateId) => {
                                             : false
                                         }
                                         className={`form-control ${key == "eventEndTime" ||
-                                            key == "eventStartTime"
-                                            ? "disabled"
-                                            : ""
+                                          key == "eventStartTime"
+                                          ? "disabled"
+                                          : ""
                                           }`}
                                         // className="form-control"
                                         onChange={handleChange}
                                       // disabled
                                       // readOnly={true}
-                                      />}
+                                      />
+                                    )}
                                     {isEventEndTime ? (
                                       <div className="event-endTime"></div>
                                     ) : (
@@ -1706,7 +1741,9 @@ const generate_thumb = async (templateId) => {
                                       <div className="color-pick">
                                         <div className="color-pick-point">
                                           <img
-                                            src={path_image + "color-picker.svg"}
+                                            src={
+                                              path_image + "color-picker.svg"
+                                            }
                                             alt=""
                                           />
                                         </div>
@@ -1732,12 +1769,21 @@ const generate_thumb = async (templateId) => {
                               { label: "Name", name: "userName" },
                               { label: "Email", name: "userEmail" },
                               { label: "Country", name: "country" },
-                              { label: "Country (Region)", name: "country (region)" },
+                              {
+                                label: "Country (Region)",
+                                name: "country (region)",
+                              },
                               { label: "State", name: "state" },
                               { label: "State (US)", name: "state (us)" },
-                              { label: "Travel accommodation", name: "travel accomodation" },
+                              {
+                                label: "Travel accommodation",
+                                name: "travel accomodation",
+                              },
                               { label: "Consent", name: "consent" },
-                              { label: "Onesource Consent", name: "onesource_consent" },
+                              {
+                                label: "Onesource Consent",
+                                name: "onesource_consent",
+                              },
                             ].map(({ label, name }) => (
                               <Form.Check
                                 key={name}
@@ -1746,14 +1792,24 @@ const generate_thumb = async (templateId) => {
                                 label={label}
                                 name={name}
                                 type="checkbox"
-                                checked={formData?.body?.some(item => item?.name?.toLowerCase() === name.toLowerCase())}
+                                checked={formData?.body?.some(
+                                  (item) =>
+                                    item?.name?.toLowerCase() ===
+                                    name.toLowerCase()
+                                )}
                                 onChange={(e) => handleChange(e, name)}
                               />
                             ))}
 
-                            <span className="add-choice" onClick={() => setModal(true)}>
+                            <span
+                              className="add-choice"
+                              onClick={() => setModal(true)}
+                            >
                               Add data field
-                              <img src={`${path_image}add-choice-voilet.svg`} alt="" />
+                              <img
+                                src={`${path_image}add-choice-voilet.svg`}
+                                alt=""
+                              />
                             </span>
                           </div>
                           <section className="webinarRegistrationBody">
@@ -1781,32 +1837,32 @@ const generate_thumb = async (templateId) => {
                                                     }
                                                     onDragOver={handleDragOver}
                                                   >
-                                                    <div className="form-group state">
-                                                      <label htmlFor="">
-                                                        {data?.label
-                                                          ? data?.label
-                                                            ?.charAt(0)
-                                                            .toUpperCase() +
-                                                          data?.label
-                                                            ?.slice(1)
-                                                            ?.toLowerCase()
-                                                          : ""}
-                                                        {data?.required ===
-                                                          "yes" && (
-                                                            <span>*</span>
-                                                          )}
-                                                      </label>
-                                                      {
-                                                        data?.name == "state" && <Button className="btn-bordered" onClick={(e) => {
-                                                          editFieldData(
-                                                            e,
-                                                            index,
-                                                            true
-                                                          )
-                                                        }
-                                                        } >Change country </Button>
+                                                    <div className={`form-group state${data?.inputType === "label" ? " organize-label" : ""}`}>
+                                                      <label
+                                                        htmlFor=""
+                                                        dangerouslySetInnerHTML={{
+                                                          __html: data?.label
+                                                            ? `${data.label.charAt(0).toUpperCase()}${data.label.slice(1).toLowerCase()}${data?.required === "yes" ? ' <span class="required">*</span>' : ''}`
+                                                            : "",
+                                                        }}
+                                                      ></label>
 
-                                                      }
+
+                                                      {data?.name ==
+                                                        "state" && (
+                                                          <Button
+                                                            className="btn-bordered"
+                                                            onClick={(e) => {
+                                                              editFieldData(
+                                                                e,
+                                                                index,
+                                                                true
+                                                              );
+                                                            }}
+                                                          >
+                                                            Change country{" "}
+                                                          </Button>
+                                                        )}
 
                                                       {data?.inputType ===
                                                         "radio" ? (
@@ -1825,9 +1881,9 @@ const generate_thumb = async (templateId) => {
                                                                     data?.inputType
                                                                   }
                                                                   name={`${data?.name
-                                                                      ? data?.name
-                                                                      : "dynamic_" +
-                                                                      dynamicFieldNo
+                                                                    ? data?.name
+                                                                    : "dynamic_" +
+                                                                    dynamicFieldNo
                                                                     }`}
                                                                   value={
                                                                     item?.optionValue
@@ -1910,9 +1966,9 @@ const generate_thumb = async (templateId) => {
                                                                                 }
                                                                                 className="form-control disabled"
                                                                                 name={`${extItem?.name
-                                                                                    ? extItem?.name
-                                                                                    : "dynamic_" +
-                                                                                    dynamicFieldNo
+                                                                                  ? extItem?.name
+                                                                                  : "dynamic_" +
+                                                                                  dynamicFieldNo
                                                                                   }`}
                                                                                 placeholder={
                                                                                   extItem?.placeholder
@@ -1948,9 +2004,9 @@ const generate_thumb = async (templateId) => {
                                                                                         extItem?.inputType
                                                                                       }
                                                                                       name={`${extItem?.name
-                                                                                          ? extItem?.name
-                                                                                          : "dynamic_" +
-                                                                                          dynamicFieldNo
+                                                                                        ? extItem?.name
+                                                                                        : "dynamic_" +
+                                                                                        dynamicFieldNo
                                                                                         }`}
                                                                                       value={
                                                                                         optItem?.optionValue
@@ -1987,9 +2043,9 @@ const generate_thumb = async (templateId) => {
                                                                               </label>
                                                                               <DatePicker
                                                                                 name={`${extItem?.name
-                                                                                    ? extItem?.name
-                                                                                    : "dynamic_" +
-                                                                                    dynamicFieldNo
+                                                                                  ? extItem?.name
+                                                                                  : "dynamic_" +
+                                                                                  dynamicFieldNo
                                                                                   }`}
                                                                                 dateFormat="dd/MM/yyyy"
                                                                                 className="form-control disabled"
@@ -2026,9 +2082,9 @@ const generate_thumb = async (templateId) => {
                                                                                         extItem?.inputType
                                                                                       }
                                                                                       name={`${extItem?.name
-                                                                                          ? extItem?.name
-                                                                                          : "dynamic_" +
-                                                                                          dynamicFieldNo
+                                                                                        ? extItem?.name
+                                                                                        : "dynamic_" +
+                                                                                        dynamicFieldNo
                                                                                         }`}
                                                                                       value={
                                                                                         optItem?.optionValue
@@ -2065,9 +2121,9 @@ const generate_thumb = async (templateId) => {
                                                                               <Select
                                                                                 className="dropdown-basic-button split-button-dropup webinar-select disabled"
                                                                                 name={`${extItem?.name
-                                                                                    ? extItem?.name
-                                                                                    : "dynamic_" +
-                                                                                    dynamicFieldNo
+                                                                                  ? extItem?.name
+                                                                                  : "dynamic_" +
+                                                                                  dynamicFieldNo
                                                                                   }`}
                                                                                 options={
                                                                                   extItem?.label?.includes(
@@ -2121,9 +2177,9 @@ const generate_thumb = async (templateId) => {
                                                                               <textarea
                                                                                 className="form-control disabled"
                                                                                 name={`${extItem?.name
-                                                                                    ? extItem?.name
-                                                                                    : "dynamic_" +
-                                                                                    dynamicFieldNo
+                                                                                  ? extItem?.name
+                                                                                  : "dynamic_" +
+                                                                                  dynamicFieldNo
                                                                                   }`}
                                                                                 type={
                                                                                   extItem?.inputType
@@ -2235,9 +2291,9 @@ const generate_thumb = async (templateId) => {
                                                                     data?.inputType
                                                                   }
                                                                   name={`${data?.name
-                                                                      ? data?.name
-                                                                      : "dynamic_" +
-                                                                      dynamicFieldNo
+                                                                    ? data?.name
+                                                                    : "dynamic_" +
+                                                                    dynamicFieldNo
                                                                     }`}
                                                                   checked={
                                                                     item?.checked
@@ -2308,9 +2364,9 @@ const generate_thumb = async (templateId) => {
                                                                                 }
                                                                                 className="form-control disabled"
                                                                                 name={`${extItem?.name
-                                                                                    ? extItem?.name
-                                                                                    : "dynamic_" +
-                                                                                    dynamicFieldNo
+                                                                                  ? extItem?.name
+                                                                                  : "dynamic_" +
+                                                                                  dynamicFieldNo
                                                                                   }`}
                                                                                 placeholder={
                                                                                   extItem?.placeholder
@@ -2346,9 +2402,9 @@ const generate_thumb = async (templateId) => {
                                                                                         extItem?.inputType
                                                                                       }
                                                                                       name={`${extItem?.name
-                                                                                          ? extItem?.name
-                                                                                          : "dynamic_" +
-                                                                                          dynamicFieldNo
+                                                                                        ? extItem?.name
+                                                                                        : "dynamic_" +
+                                                                                        dynamicFieldNo
                                                                                         }`}
                                                                                       value={
                                                                                         optItem?.optionValue
@@ -2385,9 +2441,9 @@ const generate_thumb = async (templateId) => {
                                                                               </label>
                                                                               <DatePicker
                                                                                 name={`${extItem?.name
-                                                                                    ? extItem?.name
-                                                                                    : "dynamic_" +
-                                                                                    dynamicFieldNo
+                                                                                  ? extItem?.name
+                                                                                  : "dynamic_" +
+                                                                                  dynamicFieldNo
                                                                                   }`}
                                                                                 dateFormat="dd/MM/yyyy"
                                                                                 className="form-control disabled"
@@ -2425,9 +2481,9 @@ const generate_thumb = async (templateId) => {
                                                                                         extItem?.inputType
                                                                                       }
                                                                                       name={`${extItem?.name
-                                                                                          ? extItem?.name
-                                                                                          : "dynamic_" +
-                                                                                          dynamicFieldNo
+                                                                                        ? extItem?.name
+                                                                                        : "dynamic_" +
+                                                                                        dynamicFieldNo
                                                                                         }`}
                                                                                       value={
                                                                                         optItem?.optionValue
@@ -2463,9 +2519,9 @@ const generate_thumb = async (templateId) => {
                                                                               </label>
                                                                               <Select
                                                                                 name={`${extItem?.name
-                                                                                    ? extItem?.name
-                                                                                    : "dynamic_" +
-                                                                                    dynamicFieldNo
+                                                                                  ? extItem?.name
+                                                                                  : "dynamic_" +
+                                                                                  dynamicFieldNo
                                                                                   }`}
                                                                                 className="dropdown-basic-button split-button-dropup webinar-select disabled"
                                                                                 options={
@@ -2520,9 +2576,9 @@ const generate_thumb = async (templateId) => {
                                                                               <textarea
                                                                                 className="form-control disabled"
                                                                                 name={`${extItem?.name
-                                                                                    ? extItem?.name
-                                                                                    : "dynamic_" +
-                                                                                    dynamicFieldNo
+                                                                                  ? extItem?.name
+                                                                                  : "dynamic_" +
+                                                                                  dynamicFieldNo
                                                                                   }`}
                                                                                 type={
                                                                                   extItem?.inputType
@@ -2626,9 +2682,9 @@ const generate_thumb = async (templateId) => {
                                                           <Select
                                                             className="dropdown-basic-button split-button-dropup webinar-select disabled"
                                                             name={`${data?.name
-                                                                ? data?.name
-                                                                : "dynamic_" +
-                                                                dynamicFieldNo
+                                                              ? data?.name
+                                                              : "dynamic_" +
+                                                              dynamicFieldNo
                                                               }`}
                                                             options={
                                                               data?.label?.includes(
@@ -2669,9 +2725,9 @@ const generate_thumb = async (templateId) => {
                                                           <textarea
                                                             className="form-control disabled"
                                                             name={`${data?.name
-                                                                ? data?.name
-                                                                : "dynamic_" +
-                                                                dynamicFieldNo
+                                                              ? data?.name
+                                                              : "dynamic_" +
+                                                              dynamicFieldNo
                                                               }`}
                                                             type={
                                                               data?.inputType
@@ -2682,43 +2738,40 @@ const generate_thumb = async (templateId) => {
                                                             disabled
                                                           />
                                                         </div>
-                                                      ) :
-
-                                                        data?.inputType ==
-                                                          "date" ? (
-                                                          <div
-                                                            className="slt-opt"
-                                                            key={index}
-                                                          >
-                                                            <DatePicker
-                                                              name={`${data?.name
-                                                                  ? data?.name
-                                                                  : "dynamic_" +
-                                                                  dynamicFieldNo
-                                                                }`}
-                                                              dateFormat="dd/MM/yyyy"
-                                                              className="form-control disabled"
-                                                              placeholderText="Select date"
-                                                            // minDate={currentDate}
-                                                            />
-                                                          </div>
-                                                        ) :
-
-                                                          (
-                                                            <input
-                                                              name={`${data?.name
-                                                                  ? data?.name
-                                                                  : "dynamic_" +
-                                                                  dynamicFieldNo
-                                                                }`}
-                                                              className="form-control disabled"
-                                                              type={data?.inputType}
-                                                              placeholder={
-                                                                data?.placeholder
-                                                              }
-                                                              disabled
-                                                            />
-                                                          )}
+                                                      ) : data?.inputType ==
+                                                        "date" ? (
+                                                        <div
+                                                          className="slt-opt"
+                                                          key={index}
+                                                        >
+                                                          <DatePicker
+                                                            name={`${data?.name
+                                                              ? data?.name
+                                                              : "dynamic_" +
+                                                              dynamicFieldNo
+                                                              }`}
+                                                            dateFormat="dd/MM/yyyy"
+                                                            className="form-control disabled"
+                                                            placeholderText="Select date"
+                                                          // minDate={currentDate}
+                                                          />
+                                                        </div>
+                                                      ) : data?.inputType !=
+                                                      "label" && (
+                                                        <input
+                                                          name={`${data?.name
+                                                            ? data?.name
+                                                            : "dynamic_" +
+                                                            dynamicFieldNo
+                                                            }`}
+                                                          className="form-control disabled"
+                                                          type={data?.inputType}
+                                                          placeholder={
+                                                            data?.placeholder
+                                                          }
+                                                          disabled
+                                                        />
+                                                      )}
                                                       <button
                                                         className="btn-edit btn-filled"
                                                         onClick={(e) =>
@@ -3047,7 +3100,7 @@ const generate_thumb = async (templateId) => {
                           </Button>
                         </div> */}
 
-                        {template[formData?.templateId]?.includes("logo") ?
+                        {template[formData?.templateId]?.includes("logo") ? (
                           <div className="form-group d-flex align-items-center less-spacer">
                             <label>Upload Logo</label>
                             <div
@@ -3060,7 +3113,8 @@ const generate_thumb = async (templateId) => {
                                     <h5>Upload your file</h5>
                                     <h6>(Recommended size 300 x 140)</h6>
                                   </div>
-                                  <Button className="upload-img"
+                                  <Button
+                                    className="upload-img"
                                     onClick={(e) =>
                                       handleFileSelect(e, "logoImageUrl")
                                     }
@@ -3106,9 +3160,11 @@ const generate_thumb = async (templateId) => {
                               </div>
                             </div>
                           </div>
-                          : ''}
+                        ) : (
+                          ""
+                        )}
 
-                        {template[formData?.templateId]?.includes("logoOne") ?
+                        {template[formData?.templateId]?.includes("logoOne") ? (
                           <div className="form-group d-flex align-items-center less-spacer">
                             <label>Upload First Logo</label>
                             <div
@@ -3121,7 +3177,8 @@ const generate_thumb = async (templateId) => {
                                     <h5>Upload your file</h5>
                                     <h6>(Recommended size 300 x 140)</h6>
                                   </div>
-                                  <Button className="upload-img"
+                                  <Button
+                                    className="upload-img"
                                     onClick={(e) =>
                                       handleFileSelect(e, "logoOneImageUrl")
                                     }
@@ -3154,7 +3211,10 @@ const generate_thumb = async (templateId) => {
                                     className="dlt_btn_event btn-voilet"
                                     onClick={(e) => {
                                       e.stopPropagation();
-                                      handleDeleteLogoOneImage(e, "logoOneImageUrl");
+                                      handleDeleteLogoOneImage(
+                                        e,
+                                        "logoOneImageUrl"
+                                      );
                                     }}
                                   >
                                     <img
@@ -3167,9 +3227,11 @@ const generate_thumb = async (templateId) => {
                               </div>
                             </div>
                           </div>
-                          : ''}
+                        ) : (
+                          ""
+                        )}
 
-                        {template[formData?.templateId]?.includes("logoTwo") ?
+                        {template[formData?.templateId]?.includes("logoTwo") ? (
                           <div className="form-group d-flex align-items-center less-spacer">
                             <label>Upload Second Logo</label>
                             <div
@@ -3182,7 +3244,8 @@ const generate_thumb = async (templateId) => {
                                     <h5>Upload your file</h5>
                                     <h6>(Recommended size 300 x 140)</h6>
                                   </div>
-                                  <Button className="upload-img"
+                                  <Button
+                                    className="upload-img"
                                     onClick={(e) =>
                                       handleFileSelect(e, "logoTwoImageUrl")
                                     }
@@ -3215,7 +3278,10 @@ const generate_thumb = async (templateId) => {
                                     className="dlt_btn_event btn-voilet"
                                     onClick={(e) => {
                                       e.stopPropagation();
-                                      handleDeleteLogoTwoImage(e, "logoTwoImageUrl");
+                                      handleDeleteLogoTwoImage(
+                                        e,
+                                        "logoTwoImageUrl"
+                                      );
                                     }}
                                   >
                                     <img
@@ -3228,9 +3294,13 @@ const generate_thumb = async (templateId) => {
                               </div>
                             </div>
                           </div>
-                          : ''}
+                        ) : (
+                          ""
+                        )}
 
-                        {template[formData?.templateId]?.includes("templateOne") ?
+                        {template[formData?.templateId]?.includes(
+                          "templateOne"
+                        ) ? (
                           <div className="form-group d-flex align-items-center less-spacer">
                             <label>Upload First Template</label>
                             <div
@@ -3243,7 +3313,8 @@ const generate_thumb = async (templateId) => {
                                     <h5>Upload your file</h5>
                                     <h6>(Recommended size 300 x 140)</h6>
                                   </div>
-                                  <Button className="upload-img"
+                                  <Button
+                                    className="upload-img"
                                     onClick={(e) =>
                                       handleFileSelect(e, "templateOneImageUrl")
                                     }
@@ -3253,7 +3324,10 @@ const generate_thumb = async (templateId) => {
                                 </>
                               )}
 
-                              <img className="templateOne-img" src={templateOne} />
+                              <img
+                                className="templateOne-img"
+                                src={templateOne}
+                              />
                               <div className="logo-text header-text">
                                 {templateOne && (
                                   <button
@@ -3265,7 +3339,10 @@ const generate_thumb = async (templateId) => {
                                       src={path + "edit-button.svg"}
                                       onClick={(e) => {
                                         e.stopPropagation();
-                                        handleFileSelect(e, "templateOneImageUrl");
+                                        handleFileSelect(
+                                          e,
+                                          "templateOneImageUrl"
+                                        );
                                       }}
                                     />
                                   </button>
@@ -3276,7 +3353,10 @@ const generate_thumb = async (templateId) => {
                                     className="dlt_btn_event btn-voilet"
                                     onClick={(e) => {
                                       e.stopPropagation();
-                                      handleDeleteTemplateOneImage(e, "templateOneImageUrl");
+                                      handleDeleteTemplateOneImage(
+                                        e,
+                                        "templateOneImageUrl"
+                                      );
                                     }}
                                   >
                                     <img
@@ -3289,9 +3369,13 @@ const generate_thumb = async (templateId) => {
                               </div>
                             </div>
                           </div>
-                          : ''}
+                        ) : (
+                          ""
+                        )}
 
-                        {template[formData?.templateId]?.includes("templateTwo") ?
+                        {template[formData?.templateId]?.includes(
+                          "templateTwo"
+                        ) ? (
                           <div className="form-group d-flex align-items-center less-spacer">
                             <label>Upload Second Template</label>
                             <div
@@ -3304,7 +3388,8 @@ const generate_thumb = async (templateId) => {
                                     <h5>Upload your file</h5>
                                     <h6>(Recommended size 300 x 140)</h6>
                                   </div>
-                                  <Button className="upload-img"
+                                  <Button
+                                    className="upload-img"
                                     onClick={(e) =>
                                       handleFileSelect(e, "templateTwoImageUrl")
                                     }
@@ -3314,7 +3399,10 @@ const generate_thumb = async (templateId) => {
                                 </>
                               )}
 
-                              <img className="templateTwo-img" src={templateTwo} />
+                              <img
+                                className="templateTwo-img"
+                                src={templateTwo}
+                              />
                               <div className="logo-text header-text">
                                 {templateTwo && (
                                   <button
@@ -3326,7 +3414,10 @@ const generate_thumb = async (templateId) => {
                                       src={path + "edit-button.svg"}
                                       onClick={(e) => {
                                         e.stopPropagation();
-                                        handleFileSelect(e, "templateTwoImageUrl");
+                                        handleFileSelect(
+                                          e,
+                                          "templateTwoImageUrl"
+                                        );
                                       }}
                                     />
                                   </button>
@@ -3337,7 +3428,10 @@ const generate_thumb = async (templateId) => {
                                     className="dlt_btn_event btn-voilet"
                                     onClick={(e) => {
                                       e.stopPropagation();
-                                      handleDeleteTemplateTwoImage(e, "templateTwoImageUrl");
+                                      handleDeleteTemplateTwoImage(
+                                        e,
+                                        "templateTwoImageUrl"
+                                      );
                                     }}
                                   >
                                     <img
@@ -3350,72 +3444,79 @@ const generate_thumb = async (templateId) => {
                               </div>
                             </div>
                           </div>
-                          : ''}
+                        ) : (
+                          ""
+                        )}
 
+                        {template[formData?.templateId]?.includes("header") ? (
+                          <div className="form-group d-flex align-items-center less-spacer">
+                            <label>Upload Header</label>
+                            <div
+                              className="header-section"
+                            // onClick={(e) => handleFileSelect(e, "headerImageUrl")}
+                            >
+                              {!file && (
+                                <>
+                                  <div>
+                                    <h5>Upload your file</h5>
+                                    <h6>(Recommended size 1170 x 323)</h6>
+                                  </div>
+                                  <Button
+                                    className="upload-img"
+                                    onClick={(e) =>
+                                      handleFileSelect(e, "headerImageUrl")
+                                    }
+                                  >
+                                    Choose Your File
+                                  </Button>
+                                </>
+                              )}
 
-                        {template[formData?.templateId]?.includes("header") ? <div className="form-group d-flex align-items-center less-spacer">
-                          <label>Upload Header</label>
-                          <div
-                            className="header-section"
-                          // onClick={(e) => handleFileSelect(e, "headerImageUrl")}
-                          >
-                            {!file && (
-                              <>
-                                <div>
-                                  <h5>Upload your file</h5>
-                                  <h6>(Recommended size 1170 x 323)</h6>
-                                </div>
-                                <Button className="upload-img"
-                                  onClick={(e) =>
-                                    handleFileSelect(e, "headerImageUrl")
-                                  }
-                                >
-                                  Choose Your File
-                                </Button>
-                              </>
-                            )}
+                              <img className="header-img" src={file} />
+                              <div className="header-text">
+                                {file && (
+                                  <button
+                                    className="btn btn-outline-primary"
+                                    title="Edit user"
+                                    type="button"
+                                  >
+                                    <img
+                                      src={path + "edit-button.svg"}
+                                      alt="Edit"
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        handleFileSelect(e, "headerImageUrl");
+                                      }}
+                                    />
+                                  </button>
+                                )}
 
-                            <img className="header-img" src={file} />
-                            <div className="header-text">
-                              {file && (
-                                <button
-                                  className="btn btn-outline-primary"
-                                  title="Edit user"
-                                  type="button"
-                                >
-                                  <img
-                                    src={path + "edit-button.svg"}
-                                    alt="Edit"
+                                {file && (
+                                  <button
+                                    className="dlt_btn_event btn-voilet"
                                     onClick={(e) => {
                                       e.stopPropagation();
-                                      handleFileSelect(e, "headerImageUrl");
+                                      handleDeleteHeaderImage(
+                                        e,
+                                        "headerImageUrl"
+                                      );
                                     }}
-                                  />
-                                </button>
-                              )}
-
-                              {file && (
-                                <button
-                                  className="dlt_btn_event btn-voilet"
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    handleDeleteHeaderImage(e, "headerImageUrl");
-                                  }}
-                                >
-                                  <img
-                                    title="Delete"
-                                    src={path_image + "delete-icon.svg"}
-                                    alt="Delete Row"
-                                  />
-                                </button>
-                              )}
+                                  >
+                                    <img
+                                      title="Delete"
+                                      src={path_image + "delete-icon.svg"}
+                                      alt="Delete Row"
+                                    />
+                                  </button>
+                                )}
+                              </div>
                             </div>
                           </div>
-                        </div> :
-                          ''
-                        }
+                        ) : (
+                          ""
+                        )}
 
-                        {template[formData?.templateId]?.includes("footer") ?
+                        {template[formData?.templateId]?.includes("footer") ? (
                           <div className="form-group d-flex align-items-center less-spacer">
                             <label>Upload Footer</label>
                             <div
@@ -3428,7 +3529,8 @@ const generate_thumb = async (templateId) => {
                                     <h5>Upload your file</h5>
                                     <h6>(Recommended size 1170 x 300)</h6>
                                   </div>
-                                  <Button className="upload-img"
+                                  <Button
+                                    className="upload-img"
                                     onClick={(e) =>
                                       handleFileSelect(e, "footerImageUrl")
                                     }
@@ -3461,7 +3563,10 @@ const generate_thumb = async (templateId) => {
                                     className="dlt_btn_event btn-voilet"
                                     onClick={(e) => {
                                       e.stopPropagation();
-                                      handleDeleteFooterImage(e, "footerImageUrl");
+                                      handleDeleteFooterImage(
+                                        e,
+                                        "footerImageUrl"
+                                      );
                                     }}
                                   >
                                     <img
@@ -3473,7 +3578,10 @@ const generate_thumb = async (templateId) => {
                                 )}
                               </div>
                             </div>
-                          </div> : ''}
+                          </div>
+                        ) : (
+                          ""
+                        )}
 
                         {/* <div className="form-group d-flex align-items-center less-spacer">
                         <label>Upload Footer</label>
@@ -3544,29 +3652,34 @@ const generate_thumb = async (templateId) => {
                   <Col md={5} sm={5}>
                     <div className="register-page-right-view">
                       <div className="register-page-action d-flex align-items-center justify-content-between">
-                        <p>Preview <span>(save it to see the changes)</span></p>
-                        <Button onClick={(e) => saveClicked(e)} className="save">
+                        <p>
+                          Preview <span>(save it to see the changes)</span>
+                        </p>
+                        <Button
+                          onClick={(e) => saveClicked(e)}
+                          className="save"
+                        >
                           Save
                         </Button>
 
                         <button
-                        className="btn btn-primary btn-bordered btn-voilet"
-                        // onClick={openPreviewThumbPopup}
-                        onClick={() => {
-                          if (activeIndex) {
-                            generate_thumb(activeIndex); // Pass the correct templateId
-                          } else {
-                            toast.warning("No template selected.");
-                          }
-                        }}
-                        style={{ margin: "0 0" }}
-                      >
-                        Generate Thumbnail
-                      </button>
+                          className="btn btn-primary btn-bordered btn-voilet"
+                          // onClick={openPreviewThumbPopup}
+                          onClick={() => {
+                            if (activeIndex) {
+                              generate_thumb(activeIndex); // Pass the correct templateId
+                            } else {
+                              toast.warning("No template selected.");
+                            }
+                          }}
+                          style={{ margin: "0 0" }}
+                        >
+                          Generate Thumbnail
+                        </button>
                       </div>
 
-                      <div className="register-popup"   >
-                        <div className="register-popup-view" ref={thumbnailRef} >
+                      <div className="register-popup">
+                        <div className="register-popup-view" ref={thumbnailRef}>
                           <RegistrationPage
                             type="preview"
                             prevData={{
@@ -3600,8 +3713,8 @@ const generate_thumb = async (templateId) => {
         formLabel={formData?.body}
         fieldData={fieldData}
         dynamicFieldNo={dynamicFieldNo}
-
-      /> <ChangeCountry
+      />{" "}
+      <ChangeCountry
         show={changeCountry}
         onClose={handleAddQuestionModalClose}
         handleSave={handleModalSave}
@@ -3628,7 +3741,6 @@ const generate_thumb = async (templateId) => {
         popupMessage={popupMessage}
         path_image={path_image}
       />
-
       {isPrevClicked && (
         <Modal
           show={isPrevClicked}
@@ -3663,7 +3775,7 @@ const generate_thumb = async (templateId) => {
                 height="500px"
                 title="Event Registration"
               /> */}
-              <div className="webinar-popup" >
+              <div className="webinar-popup">
                 <RegistrationPage
                   type="preview"
                   prevData={{
@@ -3679,7 +3791,6 @@ const generate_thumb = async (templateId) => {
           </Modal.Body>
         </Modal>
       )}
-
       <Modal
         className="modal send-confirm"
         id="delete-confirm"
@@ -3710,7 +3821,6 @@ const generate_thumb = async (templateId) => {
           </>
         </Modal.Body>
       </Modal>
-
       {/* <Modal
         className="modal send-confirm"
         id="delete-confirm"
@@ -3747,7 +3857,6 @@ const generate_thumb = async (templateId) => {
           </>
         </Modal.Body>
       </Modal> */}
-
     </>
   );
 };

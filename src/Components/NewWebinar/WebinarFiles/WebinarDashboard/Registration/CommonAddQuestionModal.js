@@ -4,9 +4,6 @@ import Select from "react-select";
 import { toast } from "react-toastify";
 import RegistrationValidation from "./AddQuestionValidation";
 import CountryList from "./CountryList";
-
-let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
-
 const CommonAddQuestionModal = ({
   show,
   onClose,
