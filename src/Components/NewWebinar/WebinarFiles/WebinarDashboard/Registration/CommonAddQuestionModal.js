@@ -15,7 +15,7 @@ const CommonAddQuestionModal = ({
   fieldData,
   dynamicFieldNo,
 }) => {
-  const [inputOptions, setInputOption] = useState([
+  const inputOptions = [
     { label: "Text", value: "text" },
     { label: "Email", value: "email" },
     { label: "Textarea", value: "textarea" },
@@ -23,8 +23,10 @@ const CommonAddQuestionModal = ({
     { label: "Checkbox", value: "checkbox" },
     { label: "Radio", value: "radio" },
     { label: "Date", value: "date" },
-  ]);
-  const [addSpaceOptions, setAddSpaceOptions] = useState([
+    { label: "Label", value: "label" },
+
+  ];
+  const addSpaceOptions=[
     { label: 10, value: 10 },
     { label: 15, value: 15 },
     { label: 20, value: 20 },
@@ -32,11 +34,11 @@ const CommonAddQuestionModal = ({
     { label: 30, value: 30 },
     { label: 35, value: 35 },
     { label: 40, value: 40 }
-  ]);
-  const [requiredOption, setRequiredOption] = useState([
+  ];
+  const requiredOption=[
     { label: "Yes", value: "yes" },
     { label: "No", value: "no" },
-  ]);
+  ];
   const [formData, setFormData] = useState({
     label: "",
     inputType: "",
@@ -121,11 +123,6 @@ const CommonAddQuestionModal = ({
     e.preventDefault();
 
     const error = RegistrationValidation(formData, formLabel, fieldData);
-    let optionObj = {
-      optionLabel: "",
-      extension: [],
-      checked: "",
-    };
 
     if (formData?.option?.length) {
       let index = formData?.option?.findIndex(
