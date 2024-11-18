@@ -24651,6 +24651,8 @@ table {
 }
 
 /**New Landign Page End**/
+
+
 /**8check survey**/
 .check-survey {
   .survey-block {
@@ -25686,6 +25688,7 @@ table {
   }
 }
 
+
 /**Survey rating end**/
 
 
@@ -25697,11 +25700,9 @@ background: url(../../../../public/componentAssets/images/sunshine-bg.jpg) no-re
 background-size: cover;
 
 .sunshine-account-inset {
-  display: flex;
-  flex-direction: column;
+  @include vertical-list;
   justify-content: space-between;
   min-height: 100vh;
-  align-items: center;
   padding: 105px 0 33px;
   .sunshine-form{
     margin:70px 0 150px;

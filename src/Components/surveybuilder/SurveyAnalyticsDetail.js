@@ -1778,9 +1778,9 @@ const SurveyAnalyticsDetail = () => {
                                                               <div className="d-flex">
                                                                 <h6
                                                                   dangerouslySetInnerHTML={{
-                                                                    __html: `Q${
+                                                                    __html: `<span>Q${
                                                                       index + 1
-                                                                    } ${
+                                                                    }</span> ${
                                                                       data?.question_text
                                                                     }`,
                                                                   }}
