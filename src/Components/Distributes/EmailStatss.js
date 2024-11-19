@@ -561,13 +561,17 @@ const EmailStats = (props) => {
               )}
 
             <div
-              className="selected-hcp-list search_view email_stats email-resultss"
+              // className="selected-hcp-list search_view email_stats email-resultss"
+              className={`selected-hcp-list search_view email_stats email-resultss ${isLikeRdAccount ? "rd-account" : ""}`}
               id="analytics-hcp-table"
             >
               <div className="email_stats_title_heading">
                 <table>
                   <thead>
                     <tr>
+                   {isLikeRdAccount ?<th>
+                      Site No.
+                      </th> : null}
                       <th>
                       Subject
                       </th>
@@ -605,6 +609,7 @@ const EmailStats = (props) => {
                                 <table>
                                   <tbody>
                                     <tr>
+                                      {isLikeRdAccount ?<td>{campaignItem?.unique_site_numbers && campaignItem?.unique_site_numbers?.length > 0 ? campaignItem?.unique_site_numbers.join(', ') : 'N/A'}</td> : null}
                                       <td>
                                       {campaignItem?.subject}
                                       </td>
@@ -642,6 +647,7 @@ const EmailStats = (props) => {
                                 <table className="table">
                                   <thead>
                                     <tr>
+                                    {isLikeRdAccount ?<th scope="col">Site No.</th> : null}
                                       <th scope="col">Campaign ID</th>
                                       <th scope="col">
                                         Date{" "}
@@ -686,7 +692,7 @@ const EmailStats = (props) => {
                                         </div> */}
                                       </th>
                                       <th scope="col">Subject</th>
-                                      <th scope="col">
+                                    { !isLikeRdAccount ? <th scope="col">
                                         Article title{" "}
                                         <div className="hcp-sort">
                                           {/* {sortingCount == 0 ? (
@@ -727,11 +733,12 @@ const EmailStats = (props) => {
                                             </>
                                           )} */}
                                         </div>
-                                      </th>
+                                      </th> : null}
 
                                       <th className="smartlistth" scope="col">
                                         Smart list
                                       </th>
+                                     
                                       <th scope="col">Total mail sent</th>
                                       <th scope="col">Email read</th>
                                       <th scope="col">Pending read email</th>
@@ -749,11 +756,13 @@ const EmailStats = (props) => {
                                       campaignItem?.campaignSend.map((item, index) => (
                                         <>
                                           <tr className={item?.campaign_status == 5 ? "queue_row" : "campaign_row"} key={index}>
+                                          {isLikeRdAccount ?<td>{item.sites && item.sites.length > 0 ? item.sites.join(', ') : 'N/A'}</td> : null}
                                             <td> {item.c_id}</td>
                                             <td> {item.sent_data}</td>
                                             <td className="smartlistth"> {item.subject}</td>
-                                            <td className="smartlistth"> {item.pdf_title}</td>
+                                           {!isLikeRdAccount? <td className="smartlistth"> {item.pdf_title}</td> : null}
                                             <td className="smartlistth"> {item.list}</td>
+                                           
                                             <td> {item.total_sent_count}</td>
                                             <td> {item.total_read_count}</td>
                                             <td> {item.total_pending_count}</td>
