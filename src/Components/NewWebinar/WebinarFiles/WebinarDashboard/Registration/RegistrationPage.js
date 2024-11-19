@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { loader } from "../../../../../loader";
 import { getData, postData } from "../../../../../axios/apiHelper";
@@ -25,7 +25,8 @@ import { ToastContainer, toast } from "react-toastify";
 import { options } from "@amcharts/amcharts4/core";
 import { useSidebar } from "../../../../CommonComponent/LoginLayout";
 import CommonPageLinkNotFound from "../../../../CommonComponent/CommonPageLinkNotFound";
-
+import PhoneInput from "react-phone-number-input";
+import "react-phone-number-input/style.css";
 const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const userData = {
@@ -2128,30 +2129,43 @@ const FormField3 = ({
   const [countryList, setCountryList] = useState(CountryList);
   const [extensionData, setExtensionData] = useState({});
   const label = form?.name?.replace(/ /g, "_");
+  const primaryPhoneRef = useRef(null);
 
-  useEffect(()=>{
+  useEffect(() => {
+    if (form.name == "consent") {
+      setFormFieldData({ ...formFieldData, consent: [form?.option[0].optionLabel] })
+    }
+  }, [])
+
+  useEffect(() => {
     const placeholderElements = document.querySelectorAll("#registration_form > div  .css-1jqq78o-placeholder");
-  
+
     placeholderElements.forEach((placeholderElement) => {
       placeholderElement.style.color = pageColors?.placeholderTextColor || "defaultColor";
     });
-    },[form])
+  }, [form])
 
-  const handleFieldChange = (value, e = "") => {
+  const handleFieldChange = (value, e = "", customName = "") => {
+
     const newData = { ...formFieldData };
 
     if (form?.inputType === "datepicker") {
       newData[label] = moment(value).format("YYYY-MM-DD");
     } else if (form?.inputType === "checkbox") {
-      newData[label] = Array.isArray(newData[label]) ? newData[label] : [];
+      console.log();
 
+      if (form.name == "consent" && customName == 0) {
+        return
+      }
+      newData[label] = Array.isArray(newData[label]) ? newData[label] : [];
       if (e.target.checked) {
         newData[label] = [...newData[label], value];
       } else {
         newData[label] = newData[label].filter((item) => item !== value);
       }
     } else {
-      newData[label] = value;
+      customName = customName || label
+      newData[customName] = value;
     }
     setFormFieldData(newData);
   };
@@ -2180,7 +2194,8 @@ const FormField3 = ({
         data-placeholder-color={pageColors?.placeholderTextColor}
       ></textarea>
     );
-  } else if (
+  }
+  else if (
     form.inputType === "selection" ||
     form.inputType === "selection-country" ||
     form.inputType === "selection-state"
@@ -2254,7 +2269,7 @@ const FormField3 = ({
               extensionData[item.optionLabel]?.map((opt, i) => (
                 <FormField3
                   form={opt}
-                  key={i}
+                  key={form.label + i}
                   formFieldData={formFieldData}
                   setFormFieldData={setFormFieldData}
                   formErrors={formErrors}
@@ -2273,12 +2288,13 @@ const FormField3 = ({
           <>
             <li key={index}>
               <input
+                checked={formFieldData[label]?.includes(item.optionLabel)}
                 type={form.inputType}
                 id={label + index}
                 name={label}
                 className="organize_own_selection"
                 onChange={(e) => {
-                  handleFieldChange(item.optionLabel, e);
+                  handleFieldChange(item.optionLabel, e, index);
 
                   if (!extensionData[label + index]) {
                     setExtensionData({
@@ -2318,7 +2334,36 @@ const FormField3 = ({
         ))}
       </ul>
     );
-  } else {
+  }
+  else if (form.inputType === "tel") {
+    fieldInput = <>
+      <PhoneInput
+        international
+        ref={primaryPhoneRef}
+        // className={
+
+        //     "dropdown-basic-button split-button-dropup"
+        // }
+        // value={userInputs?.countryCode}
+        defaultCountry="FR"
+        placeholder=""
+        id="phone_code"
+        onChange={(e) => handleFieldChange(e, "", "phone_code")}
+        onKeyDown={(e) => handleFieldChange(e)}
+      />
+
+      <input
+        type="tel"
+        className={"form-control"}
+        id={label.replace(/[A-Z]/g, (m) => "-" + m.toLowerCase())}
+        placeholder="Phone number"
+        onChange={(e) => handleFieldChange(e.target.value)}
+        style={{ color: pageColors?.typedTextColor }}
+        data-placeholder-color={pageColors?.placeholderTextColor}
+      />
+    </>
+  }
+  else if (form.inputType != "label") {
     fieldInput = (
       <input
         type={form.inputType}
@@ -2330,37 +2375,38 @@ const FormField3 = ({
           color: pageColors?.typedTextColor,
         }}
         data-placeholder-color={pageColors?.placeholderTextColor}
-      />  
+      />
     );
   }
 
   return (
     <div
       className="col-sm-12 col-md-12 consent-form-list attend-sec"
-      style={{ marginBottom: `${form?.addSpace ? form?.addSpace : 10}px` }}
+      style={{ marginBottom: `${form?.addSpace ? form.addSpace : 10}px` }} // Use backticks for template literal
     >
       <label
         style={{
-          color: pageColors?.labelColor,
+          color: pageColors?.labelColor || "#000",
         }}
-      >
-        {form.label}
-        {isRequired ? "*" : ""}
-      </label>
+        dangerouslySetInnerHTML={{
+          __html: `${form.label}${isRequired ? ' <span className="required">*</span>' : ''}`,
+        }}
+        className={`${form.inputType == "label"?"organize-label":""}`}
+      ></label>
+
       {fieldInput}
       <div className="help-block">{formErrors[label]}</div>
       <style>
-      {`
-        #registration_form > div .form-control::placeholder {
-          color: ${pageColors?.placeholderTextColor};
-        }
-        
-      `}
-    </style>
+        {`
+          #registration_form > div .form-control::placeholder {
+            color: ${pageColors?.placeholderTextColor};
+          }
+        `}
+      </style>
     </div>
   );
-};
 
+};
 const FormField4 = ({
   form,
   formFieldData,
