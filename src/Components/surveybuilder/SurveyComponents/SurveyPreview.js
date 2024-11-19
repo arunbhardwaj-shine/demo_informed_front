@@ -43,8 +43,7 @@ const throttle = (func, delay) => {
   };
 };
 
-let previousHoveredIndex = null;
-let hoveredIndex=null;
+let hoveredIndex = null;
 
 const SurveyPreview = (props) => {
   const { currentStep } = useSelector((state) => state.surveyStepReducer);
@@ -54,12 +53,44 @@ const SurveyPreview = (props) => {
   const { currentElementIndex, elements, isAddClicked } = useSelector(
     (state) => state.surveyData
   );
+  const [placeholderIndex, setPlaceholderIndex] = useState(null);
   const [localElements, setLocalElements] = useState([]);
   const [questionDeleteCount, setQuestionDeleteCount] = useState(0);
-  const [draggedItemIndex, setDraggedItemIndex] = useState(null);
-  // const [hoveredIndex, setHoveredIndex] = useState(null);
-  
-  const [placeholderIndex, setPlaceholderIndex] = useState(null);
+  const [isChecked, setIsChecked] = useState(false);
+  const [specificIndex, setSpecificIndex] = useState("");
+  let { surveyRef, isEdit, nextHandler, navigateFunction, consentOption } =
+  props;
+const custom_html = surveyValues?.formBuilderData?.custom_html?.[0];
+const dispatch = useDispatch();
+const location = useLocation();
+const navigate = useNavigate();
+const survey_id = surveyValues?.survey_id;
+const [templateData, setTemplateData] = useState({
+  headerBackground:
+    custom_html?.header_background_type == "color"
+      ? {
+          backgroundColor: custom_html?.header_background_color,
+        }
+      : {
+          backgroundImage: `url(${custom_html?.header_background_image})`,
+          backgroundSize: "cover",
+        },
+  heading: custom_html?.main_heading,
+  logo: custom_html?.logo,
+  button_color: custom_html?.button_color,
+  button_text: custom_html?.button_text,
+  bodyTextColor: custom_html?.bodyTextColor,
+  question_answer_color: custom_html?.question_answer_color,
+  title_color: custom_html?.title_color,
+  page_background_color: custom_html?.page_background_color,
+  main_footer: custom_html?.main_footer,
+  bodyText: custom_html?.bodyText,
+  logoWidth: custom_html?.logoWidth,
+});
+const [confirmationpopup, setConfirmationPopup] = useState(false);
+const [draggedElementIndex, setDraggedElementIndex] = useState(null);
+
+ 
 
   const updatedSurveyData = {
     ...surveyValues,
@@ -76,49 +107,15 @@ const SurveyPreview = (props) => {
     updateQuestioData();
   }, [questionDeleteCount]);
 
-  const [isChecked, setIsChecked] = useState(false);
-  const [specificIndex, setSpecificIndex] = useState("");
-
+ 
   const handleView = () => {
     setIsChecked(!isChecked);
   };
 
-  let { surveyRef, isEdit, nextHandler, navigateFunction, consentOption } =
-    props;
 
-  const custom_html = surveyValues?.formBuilderData?.custom_html?.[0];
 
-  const dispatch = useDispatch();
-  const location = useLocation();
-  const navigate = useNavigate();
-  const survey_id = surveyValues?.survey_id;
 
-  const [templateData, setTemplateData] = useState({
-    headerBackground:
-      custom_html?.header_background_type == "color"
-        ? {
-            backgroundColor: custom_html?.header_background_color,
-          }
-        : {
-            backgroundImage: `url(${custom_html?.header_background_image})`,
-            backgroundSize: "cover",
-          },
-    heading: custom_html?.main_heading,
-    logo: custom_html?.logo,
-    button_color: custom_html?.button_color,
-    button_text: custom_html?.button_text,
-    bodyTextColor: custom_html?.bodyTextColor,
-    question_answer_color: custom_html?.question_answer_color,
-    title_color: custom_html?.title_color,
-    page_background_color: custom_html?.page_background_color,
-    main_footer: custom_html?.main_footer,
-    bodyText: custom_html?.bodyText,
-    logoWidth: custom_html?.logoWidth,
-  });
 
-  const [confirmationpopup, setConfirmationPopup] = useState(false);
-
-  const [draggedElementIndex, setDraggedElementIndex] = useState(null);
   const handleAddElement = (type, index) => {
     if (type === "consent") {
       const result = elements.filter((item) => {
@@ -161,13 +158,9 @@ const SurveyPreview = (props) => {
     setConfirmationPopup(false);
   };
 
-
-  useEffect(()=>{
-    setLocalElements(elements)
-
-  },[])
-
-
+  useEffect(() => {
+    setLocalElements(elements);
+  }, [elements]);
 
   useEffect(() => {
     const shouldFetchQuestions =
@@ -192,10 +185,7 @@ const SurveyPreview = (props) => {
 
   const handlePreviewDrop = (e) => {
     e.preventDefault();
-    console.log("preview drop")
-    setDraggedItemIndex(null);
-    // setHoveredIndex(null);
-    hoveredIndex=null;
+    hoveredIndex = null;
     setPlaceholderIndex(null);
     const type = e.dataTransfer.getData("type");
 
@@ -209,26 +199,19 @@ const SurveyPreview = (props) => {
         return;
       }
     }
-    console.log("handle preview drop")
+    console.log("handle preview drop");
 
     if (type.trim()) {
       handleAddElement(type);
     }
   };
 
-  const handleAddResQuestion = (e, elements) => {
-    e.preventDefault();
-    dispatch(addResQuestions(elements));
-  };
 
   const handlePreviewDragOver = (e) => e.preventDefault();
 
   const handleQuestionDragStart = (e, index) => {
-
-    console.log("from the drag drat ====>",index)
+   
     e.stopPropagation();
-    previousHoveredIndex=index;
-    setDraggedItemIndex(index);
     setDraggedElementIndex(index);
   };
 
@@ -237,7 +220,6 @@ const SurveyPreview = (props) => {
 
   //   if (draggedElementIndex != null && hoveredIndex !== index) {
   //     console.log("inside hovered =====> ",index,hoveredIndex,draggedElementIndex)
-     
 
   //     const newItems = [...elements];
 
@@ -260,68 +242,52 @@ const SurveyPreview = (props) => {
   //   }
   // };
 
-
-  
-
-
-
   const handleQuestionDragOver = throttle((e, index) => {
-      e.preventDefault();
-      console.log("from the drag over ====>",index,hoveredIndex,draggedElementIndex,previousHoveredIndex)
-  
-      // if (draggedElementIndex != null && hoveredIndex !== index) {
-      //     if (index !== previousHoveredIndex) {
-      //       console.log("inside the question sort")
-      //         previousHoveredIndex = index; // Store last unique index to reduce flickering
- 
-      //         const newItems = [...elements];
-      //         const draggedItem = newItems.splice(draggedElementIndex, 1);
-      //         newItems.splice(index, 0, draggedItem[0]);
-           
-      //         setLocalElements(newItems);
-      //         hoveredIndex=index;
-      //         // setHoveredIndex(index);
-      //     }
-      // }
+    e.preventDefault();
 
+    // if (draggedElementIndex != null && hoveredIndex !== index) {
+    //     if (index !== //previousHoveredIndex) {
+    //       console.log("inside the question sort")
+    //         //previousHoveredIndex = index; // Store last unique index to reduce flickering
 
-        // Calculate bounding box of the target element
-        const bounding = e.currentTarget.getBoundingClientRect();
-        const offset = e.clientY - bounding.top;
- 
-        if ( draggedItemIndex != null &&  offset < bounding.height / 2) {
-          console.log("inside the question sort")
-            previousHoveredIndex = index; // Store last unique index to reduce flickering
-            const newItems = [...elements];
-            const draggedItem = newItems.splice(draggedElementIndex, 1)
-            newItems.splice(index, 0, draggedItem[0]);
-            setLocalElements(newItems);
-            hoveredIndex=index;
-        }
+    //         const newItems = [...elements];
+    //         const draggedItem = newItems.splice(draggedElementIndex, 1);
+    //         newItems.splice(index, 0, draggedItem[0]);
 
-    
+    //         setLocalElements(newItems);
+    //         hoveredIndex=index;
+    //         // setHoveredIndex(index);
+    //     }
+    // }
 
+    // Calculate bounding box of the target element
+    const bounding = e.currentTarget.getBoundingClientRect();
+    const offset = e.clientY - bounding.top; // In above two lines we are calculation current position of mouse to check if mouse is above half of quetion then change the dragged element position
 
-      
-  
-      if (draggedItemIndex === null) {
-        console.log("inside the question drop")
-          const bounding = e.currentTarget.getBoundingClientRect();
-          const offset = e.clientY - bounding.top;
-          if (index === elements.length - 1 && offset >= bounding.height / 2) {
-              setPlaceholderIndex(elements.length);
-          } else {
-              handlePlaceholderPosition(e, index);
-          }
+    // in the below coindition we are replacing dragged elemnt position in real time abd show on ui so that user wll able to know where he is going to drop the element
+    if (draggedElementIndex != null && offset < bounding.height / 2) {
+      const newItems = [...elements];
+      const draggedItem = newItems.splice(draggedElementIndex, 1);
+      newItems.splice(index, 0, draggedItem[0]);
+      setLocalElements(newItems);
+      hoveredIndex = index;
+      return;
+    }
+
+    //in the bolew consityion we are also doing checking the same position of mouse if the mouse is below or above the question(element) then set index acoordingly to show the drop placeholder on ui
+    if (draggedElementIndex === null) {
+      // this condition helps if user try to drop the question at the very last so ity helps tos how drop placeholder at last of the survey
+      if (index === elements.length - 1 && offset >= bounding.height / 2) {
+        setPlaceholderIndex(elements.length);
+      } else {
+        handlePlaceholderPosition(e, index);
       }
+      return;
+    }
   }, 100); // Adjusted throttle delay to reduce rapid flickering
 
-
-
-  
-
+  // this is the funtion where we are setting the index for drop placeholder
   const handlePlaceholderPosition = (e, index) => {
-
     const bounding = e.currentTarget.getBoundingClientRect();
     const offset = e.clientY - bounding.top;
     const newPlaceholderIndex =
@@ -332,27 +298,22 @@ const SurveyPreview = (props) => {
       setPlaceholderIndex(newPlaceholderIndex);
     }
   };
- 
 
+
+  // this funtion excecuste when we drop question on question drop 
   const handleQuestionDrop = (e, index) => {
-
-    console.log("handle question drop ",index)
     e.stopPropagation();
     e.preventDefault();
-    setDraggedItemIndex(null);
-    // setHoveredIndex(null); // Clear the hovered index when dropping
-    hoveredIndex=null;
     setPlaceholderIndex(null);
-    previousHoveredIndex=null;
-
     setSpecificIndex(index);
+
+    // in below these condition first one will execute when we are dragging already added question in the survey and second one will execute when we try to add new question
+
     if (draggedElementIndex !== null) {
-      dispatch(addResQuestions(localElements, index)); // Update Redux state with final order
+      dispatch(addResQuestions(localElements, hoveredIndex)); // Update Redux state with final order
       setDraggedElementIndex(null);
+      hoveredIndex = null;
     } else {
-
-      console.log("handle question drop")
-
       const type = e.dataTransfer.getData("type");
       if (type === "consent") {
         const result = elements.filter((item) => {
@@ -367,7 +328,7 @@ const SurveyPreview = (props) => {
       handleAddElement(type, placeholderIndex);
     }
   };
- 
+
   const UpdateQuestion = async (e, questionId) => {
     try {
       loader("show");
@@ -391,17 +352,13 @@ const SurveyPreview = (props) => {
   };
   const handleDragLeave = (e) => {
     e.preventDefault();
-    
-    if (e.target === e.currentTarget) { // Only trigger if the mouse leaves the container, not individual items
-      console.log("DragLeave") 
+
+    if (e.target === e.currentTarget) {
+      // Only trigger if the mouse leaves the container, not individual items
+      console.log("DragLeave");
       setPlaceholderIndex(null);
-      previousHoveredIndex=null;
     }
-  
   };
-
-
- 
 
   return (
     <div
