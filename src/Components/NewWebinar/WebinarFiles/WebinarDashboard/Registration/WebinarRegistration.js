@@ -374,11 +374,20 @@ const WebinarRegistration = () => {
             ? newFormData?.logoOneImageUrl
             : templateList[[tempId - 1 < 0 ? 0 : tempId - 1]]?.logoOneImageUrl
         );
-        setLogoTwo(
-          newFormData?.logoTwoImageUrl
-            ? newFormData?.logoTwoImageUrl
-            : templateList[[tempId - 1 < 0 ? 0 : tempId - 1]]?.logoTwoImageUrl
-        );
+        setLogoTwo(() => {
+          if (newFormData?.logoTwoImageUrl) {
+            return newFormData.logoTwoImageUrl;
+          } else if (hadData?.event_id === 512 || hadData?.event_id === 511) {
+            return newFormData.logoTwoImageUrl;
+          } else {
+            return templateList[[tempId - 1 < 0 ? 0 : tempId - 1]]?.logoTwoImageUrl || "";
+          }
+        });
+        // setLogoTwo(
+        //   newFormData?.logoTwoImageUrl
+        //     ? newFormData?.logoTwoImageUrl
+        //     : templateList[[tempId - 1 < 0 ? 0 : tempId - 1]]?.logoTwoImageUrl
+        // );
       }
       setFormData(newFormData);
       console.log(newFormData, "ergtrggg");
