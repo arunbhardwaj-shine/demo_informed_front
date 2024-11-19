@@ -19404,6 +19404,10 @@ table {
   @include flex-middle;
   font-size: 18px;
   font-weight: 400;
+  background: transparent;
+}
+.webinar-question-results h6.no-found::after {
+  display: none;
 }
 
 .reader_list_footer .reader_list_footer_btns {
