@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState ,useRef} from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
@@ -41,16 +41,29 @@ const EmailStats = (props) => {
 
   const [perPageData, setPerPageData] = useState();
 
+  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
+  const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
+
+  const buttonRef = useRef(null);
+  const filterRef = useRef(null);
+  const [showfilter, setShowFilter] = useState(false);
+  const [filterdata, setFilterData] = useState([]);
+  const [filtersites, setFilterSites] = useState([]);
+  const [filter, setFilter] = useState({});
+  const [updateflag, setUpdateFlag] = useState([]);
+  const [filterapplied, setFilterApply] = useState(false);
+
   useEffect(() => {
     getCampaignList(1, "");
   }, []);
 
-  const getCampaignList = async (page, search) => {
+  const getCampaignList = async (page, search,filter) => {
     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     const body = {
       user_id: localStorage.getItem("user_id"),
       page: page,
       search: search,
+      ...(isLikeRdAccount && { filter: filter }),
     };
     loader("show");
     await axios
@@ -201,7 +214,7 @@ const EmailStats = (props) => {
     if (e.target.value === "") {
       setData([]);
       setSearch("");
-      getCampaignList(1, "");
+      getCampaignList(1, "",isLikeRdAccount ? filter : undefined);
     }
   };
 
@@ -209,7 +222,7 @@ const EmailStats = (props) => {
     event.preventDefault();
 
     setData([]);
-    getCampaignList(1, search);
+    getCampaignList(1, search,isLikeRdAccount ? filter : undefined);
   };
 
   const load_more = () => {
@@ -217,19 +230,118 @@ const EmailStats = (props) => {
     setSortDate(0);
     setSortingCountDate(0);
     setSortingCount(0);
-    getCampaignList(currentPage + 1, search);
+    getCampaignList(currentPage + 1, search,isLikeRdAccount ? filter : undefined);
+  };
+
+  useEffect(() => {
+
+    function handleOutsideClick(event) {
+      if (
+        buttonRef.current &&
+        !buttonRef.current.contains(event.target) &&
+        filterRef.current &&
+        !filterRef.current.contains(event.target)
+      ) {
+        setShowFilter(false);
+      }
+    }
+
+    document.addEventListener("click", handleOutsideClick);
+
+    return () => {
+      document.removeEventListener("click", handleOutsideClick);
+    };
+  }, []);
+
+  const getCampaignFiltereData = async () => {
+    try {
+      loader('show');
+      const body = {
+        user_id: localStorage.getItem("user_id"),
+      };
+      await axios
+        .post(`emailapi/get_campaign_list_filter`, body)
+        .then((res) => {
+          setFilterData(res?.data?.response?.filter ? res?.data?.response?.filter : {});
+
+          // getData("initial");
+        })
+        .catch((err) => {
+          loader("hide");
+          console.log(err);
+        });
+    } catch (err) {
+      console.log(err);
+      loader('hide');
+    }
+  }
+
+  useEffect(() => {
+    if (isLikeRdAccount) {
+      getCampaignFiltereData();
+    }
+  }, [isLikeRdAccount]);
+
+  const handleOnFilterSites = (fsite) => {
+    let tag_index = filtersites.indexOf(fsite);
+    if (tag_index !== -1) {
+      filtersites.splice(tag_index, 1);
+      setFilterSites(filtersites);
+    } else {
+      filtersites.push(fsite);
+      setFilterSites(filtersites);
+    }
+
+    let getfilter = filter;
+    if (getfilter.hasOwnProperty("sites")) {
+      getfilter.sites = filtersites;
+    } else {
+      getfilter = Object.assign({ site: filtersites }, filter);
+    }
+    setFilter(getfilter);
+    let up = updateflag + 1;
+    setUpdateFlag(up);
+  };
+
+  const clearFilter = () => {
+    setFilterSites([]); 
+    setSearch("");
+    setShowFilter(false); 
+    let up = updateflag + 1; 
+    setUpdateFlag(up);
+    getCampaignList(1, "", []); 
+    setData([]); 
+};
+
+
+  const applyFilter = () => {
+    setFilterApply(true);
+    setData([]);
+    getCampaignList(1, search,filter);
+    setShowFilter(false);
+  };
+
+  const removeindividualfilter = (src, item) => {
+    loader("show");
+    if (src == "site") {
+      handleOnFilterSites(item);
+    }
+    if (filterapplied) {
+    setData([]);
+    getCampaignList(1, search,filter);
+    } 
+    else {
+      loader("hide");
+    }
+    setShowFilter(false);
   };
 
   return (
     <>
       <div className="right-sidebar">
         <section className="search-hcp smart-list-view">
-          <div className="result-hcp-table">
-            <div className="table-title">
-              <h4>
-                Total Result <span>| {totalCount}</span>
-              </h4>
-              <div className="search-bar">
+        <div className="top-right-action flex-wrap justify-content-end mb-2">
+        <div className="search-bar">
                       <form
                         className="d-flex"
                         onSubmit={(e) => submitHandler(e)}
@@ -261,16 +373,205 @@ const EmailStats = (props) => {
                           </button>
                         ) : null}
                       </form>
+              </div>
+
+             {isLikeRdAccount? <div
+                  className={
+                    showfilter
+                      ? "filter-by nav-item dropdown highlight"
+                      : "filter-by nav-item dropdown"
+                  }
+                >
+                  <button
+                    ref={buttonRef}
+                    className="btn btn-secondary dropdown"
+                    type="button"
+                    id="dropdownMenuButton2"
+                    onClick={() => setShowFilter((showfilter) => !showfilter)}
+                  >
+                    Filter By
+                    {showfilter ? (
+                      <svg
+                        className="close-arrow"
+                        width="13"
+                        height="12"
+                        viewBox="0 0 13 12"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <rect
+                          width="2.09896"
+                          height="15.1911"
+                          rx="1.04948"
+                          transform="matrix(0.720074 0.693897 -0.720074 0.693897 11.0977 0)"
+                          fill="#0066BE"
+                        />
+                        <rect
+                          width="2.09896"
+                          height="15.1911"
+                          rx="1.04948"
+                          transform="matrix(0.720074 -0.693897 0.720074 0.693897 0 1.45898)"
+                          fill="#0066BE"
+                        />
+                      </svg>
+                    ) : (
+                      <svg
+                        className="filter-arrow"
+                        width="16"
+                        height="14"
+                        viewBox="0 0 16 14"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M0.615385 2.46154H3.07692C3.07692 3.14031 3.62892 3.69231 4.30769 3.69231H5.53846C6.21723 3.69231 6.76923 3.14031 6.76923 2.46154H15.3846C15.7243 2.46154 16 2.18646 16 1.84615C16 1.50585 15.7243 1.23077 15.3846 1.23077H6.76923C6.76923 0.552 6.21723 0 5.53846 0H4.30769C3.62892 0 3.07692 0.552 3.07692 1.23077H0.615385C0.275692 1.23077 0 1.50585 0 1.84615C0 2.18646 0.275692 2.46154 0.615385 2.46154Z"
+                          fill="#97B6CF"
+                        />
+                        <path
+                          d="M15.3846 6.15362H11.6923C11.6923 5.47485 11.1403 4.92285 10.4615 4.92285H9.23077C8.552 4.92285 8 5.47485 8 6.15362H0.615385C0.275692 6.15362 0 6.4287 0 6.76901C0 7.10931 0.275692 7.38439 0.615385 7.38439H8C8 8.06316 8.552 8.61516 9.23077 8.61516H10.4615C11.1403 8.61516 11.6923 8.06316 11.6923 7.38439H15.3846C15.7243 7.38439 16 7.10931 16 6.76901C16 6.4287 15.7243 6.15362 15.3846 6.15362Z"
+                          fill="#97B6CF"
+                        />
+                        <path
+                          d="M15.3846 11.077H6.76923C6.76923 10.3982 6.21723 9.84619 5.53846 9.84619H4.30769C3.62892 9.84619 3.07692 10.3982 3.07692 11.077H0.615385C0.275692 11.077 0 11.352 0 11.6923C0 12.0327 0.275692 12.3077 0.615385 12.3077H3.07692C3.07692 12.9865 3.62892 13.5385 4.30769 13.5385H5.53846C6.21723 13.5385 6.76923 12.9865 6.76923 12.3077H15.3846C15.7243 12.3077 16 12.0327 16 11.6923C16 11.352 15.7243 11.077 15.3846 11.077Z"
+                          fill="#97B6CF"
+                        />
+                      </svg>
+                    )}
+                  </button>
+                  {/*Code for show filters*/}
+                  {showfilter && (
+                    <div
+                      ref={filterRef}
+                      className="dropdown-menu filter-options filter-drop"
+                      aria-labelledby="dropdownMenuButton2"
+                    >
+                      <h4>Filter By</h4>
+                      <Accordion defaultActiveKey="0" flush>
+                        {
+                          isLikeRdAccount ?
+                            // filterdata.hasOwnProperty("sites") &&
+                            //   filterdata.sites.length > 0 && (
+                                <Accordion.Item className="card" eventKey="1">
+                                  <Accordion.Header className="card-header">
+                                    Sites
+                                  </Accordion.Header>
+                                  <Accordion.Body className="card-body">
+                                    <ul>
+                                      {Object.entries(filterdata.sites).map(
+                                        ([index, item]) => (
+                                          
+                                          <li>
+                                            <label className="select-multiple-option">
+                                              <input
+                                                type="checkbox"
+                                                id={`custom-checkbox-sites-${index}`}
+                                                name="sites[]"
+                                                value={item}
+                                                checked={
+                                                  updateflag > 0 &&
+                                                  typeof filtersites !==
+                                                  "undefined" &&
+                                                  filtersites.indexOf(item) !== -1
+                                                }
+                                                onChange={() =>
+                                                  handleOnFilterSites(item)
+                                                }
+                                              />
+                                              {item}
+                                              <span className="checkmark"></span>
+                                            </label>
+                                          </li>
+                                        )
+                                      )}
+                                      
+                                    </ul>
+                                  </Accordion.Body>
+                                </Accordion.Item>
+                              // )
+                              : null
+                        }
+                      </Accordion>
+
+                      <div className="filter-footer">
+                        <button
+                          className="btn btn-primary btn-bordered"
+                          onClick={clearFilter}
+                        >
+                          Clear
+                        </button>
+                        <button
+                          className="btn btn-primary btn-filled"
+                          onClick={applyFilter}
+                        >
+                          Apply
+                        </button>
+                      </div>
                     </div>
+                  )}
+              </div> : null}
+        </div>
+          <div className="result-hcp-table">
+            <div className="table-title">
+              <h4>
+                Total Result <span>| {totalCount}</span>
+              </h4>
+              
             </div>
+
+            {updateflag > 0 &&
+              (filtersites.length > 0 ) && (
+                <div className="apply-filter">
+                  <h6>Applied filters</h6>
+                  <div className="filter-block">
+                    <div className="filter-block-left full">
+                      {filtersites.length > 0 && (
+                        <div className="filter-div">
+                          <div className="filter-div-title">
+                            <span>Sites |</span>
+                          </div>
+                          <div className="filter-div-list">
+                            {Object.entries(filtersites).map(([index, item]) => (
+                              <div
+                                className="filter-result"
+                                onClick={(event) =>
+                                  removeindividualfilter("site", item)
+                                }
+                              >
+                                {item}
+                                <img
+                                  src={path_image + "filter-close.svg"}
+                                  alt="Close-filter"
+                                />
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                    <div className="clear-filter">
+                      <button
+                        className="btn btn-outline-primary btn-bordered"
+                        onClick={clearFilter}
+                      >
+                        Remove All
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
+
             <div
-              className="selected-hcp-list search_view email_stats email-resultss"
+              // className="selected-hcp-list search_view email_stats email-resultss"
+              className={`selected-hcp-list search_view email_stats email-resultss ${isLikeRdAccount ? "rd-account" : ""}`}
               id="analytics-hcp-table"
             >
               <div className="email_stats_title_heading">
                 <table>
                   <thead>
                     <tr>
+                   {isLikeRdAccount ?<th>
+                      Site No.
+                      </th> : null}
                       <th>
                       Subject
                       </th>
@@ -308,6 +609,7 @@ const EmailStats = (props) => {
                                 <table>
                                   <tbody>
                                     <tr>
+                                      {isLikeRdAccount ?<td>{campaignItem?.unique_site_numbers && campaignItem?.unique_site_numbers?.length > 0 ? campaignItem?.unique_site_numbers.join(', ') : 'N/A'}</td> : null}
                                       <td>
                                       {campaignItem?.subject}
                                       </td>
@@ -345,6 +647,7 @@ const EmailStats = (props) => {
                                 <table className="table">
                                   <thead>
                                     <tr>
+                                    {isLikeRdAccount ?<th scope="col">Site No.</th> : null}
                                       <th scope="col">Campaign ID</th>
                                       <th scope="col">
                                         Date{" "}
@@ -389,7 +692,7 @@ const EmailStats = (props) => {
                                         </div> */}
                                       </th>
                                       <th scope="col">Subject</th>
-                                      <th scope="col">
+                                    { !isLikeRdAccount ? <th scope="col">
                                         Article title{" "}
                                         <div className="hcp-sort">
                                           {/* {sortingCount == 0 ? (
@@ -430,11 +733,12 @@ const EmailStats = (props) => {
                                             </>
                                           )} */}
                                         </div>
-                                      </th>
+                                      </th> : null}
 
                                       <th className="smartlistth" scope="col">
                                         Smart list
                                       </th>
+                                     
                                       <th scope="col">Total mail sent</th>
                                       <th scope="col">Email read</th>
                                       <th scope="col">Pending read email</th>
@@ -452,11 +756,13 @@ const EmailStats = (props) => {
                                       campaignItem?.campaignSend.map((item, index) => (
                                         <>
                                           <tr className={item?.campaign_status == 5 ? "queue_row" : "campaign_row"} key={index}>
+                                          {isLikeRdAccount ?<td>{item.sites && item.sites.length > 0 ? item.sites.join(', ') : 'N/A'}</td> : null}
                                             <td> {item.c_id}</td>
                                             <td> {item.sent_data}</td>
                                             <td className="smartlistth"> {item.subject}</td>
-                                            <td className="smartlistth"> {item.pdf_title}</td>
+                                           {!isLikeRdAccount? <td className="smartlistth"> {item.pdf_title}</td> : null}
                                             <td className="smartlistth"> {item.list}</td>
+                                           
                                             <td> {item.total_sent_count}</td>
                                             <td> {item.total_read_count}</td>
                                             <td> {item.total_pending_count}</td>
@@ -517,7 +823,7 @@ const EmailStats = (props) => {
               </Accordion>
               
               {typeof campaignData !== "undefined" &&
-              currentPage !== lastPage &&
+              currentPage !== lastPage && campaignData.length > 12 &&
               showLoader ? (
                 <div className="load_more">
                   <button
