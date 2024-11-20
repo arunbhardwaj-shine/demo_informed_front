@@ -7313,6 +7313,10 @@ a.color_blue:hover {
   padding: 15px 15px 15px 9%;
   min-height: 380px;
 }
+.email-result .email_box_block.no_found {
+  width: 100%;
+  justify-content: center;
+}
 
 .email-result .email_box_block.no_found_dlt {
   width: 100%;

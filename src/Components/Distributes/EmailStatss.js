@@ -334,6 +334,7 @@ const EmailStats = (props) => {
     setFilterSites([]); 
     setFilterRole([]); 
     setSearch("");
+    setFilter([])
     setShowFilter(false); 
     let up = updateflag + 1; 
     setUpdateFlag(up);

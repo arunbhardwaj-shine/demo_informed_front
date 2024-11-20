@@ -2003,8 +2003,12 @@ const getDownloadData = async (viewEmailData) => {
                     );
                   })
                 ) : (
-                  <div className="email_box_block no_found">
-                    <p>No Data Found</p>
+                  // <div className="email_box_block no_found">
+                  //   <p>No Data Found</p>
+                  // </div>
+                  <div
+                  className={`email_box_block no_found ${isRND ? "rd" : ""}`}>
+                     <p>No Data Found</p>
                   </div>
                 )}
               </div>
