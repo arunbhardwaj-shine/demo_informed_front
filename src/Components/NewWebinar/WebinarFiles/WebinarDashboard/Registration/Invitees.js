@@ -57,6 +57,7 @@ const Invitees = () => {
     }
   }, [])
 
+const oneSourceEvent =  JSON.parse(localStorage.getItem("EventIdContext"))?.isOneSourceEvent
 
 
   const getWebinarData = async (page, filter, loadMore = 0, searchClear = "-1") => {
@@ -764,7 +765,7 @@ const Invitees = () => {
                               </div>
                             </div>
                             <div className="invitess-tbl-right">
-                              <div className="clear-search">
+                             { oneSourceEvent === 1 ? <div className="clear-search">
                                 <button
                                   title="Copy SSI"
                                   onClick={() => {
@@ -799,7 +800,7 @@ const Invitees = () => {
                                     </defs>
                                   </svg>
                                 </button>
-                              </div>
+                              </div> : null}
                               <div className="clear-search">
                                 <button
                                   // style={{ marginLeft: "10px" }}
