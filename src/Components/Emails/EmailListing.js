@@ -54,6 +54,7 @@ const EmailList = (props) => {
   const [filtertags, setFilterTags] = useState([]);
   const [filtercreator, setFilterCreators] = useState([]);
   const [filterdate, setFilterDate] = useState([]);
+  const [filtersites, setFilterSites] = useState([]);
   const [filterrole, setFilterRole] = useState([]);
   const [filtercampaign, setFilterCampaigns] = useState([]);
   const [updateflag, setUpdateFlag] = useState([]);
@@ -606,6 +607,27 @@ const EmailList = (props) => {
     setUpdateFlag(up);
   };
 
+  const handleOnFilterSites = (fsite) => {
+    let tag_index = filtersites.indexOf(fsite);
+    if (tag_index !== -1) {
+      filtersites.splice(tag_index, 1);
+      setFilterSites(filtersites);
+    } else {
+      filtersites.push(fsite);
+      setFilterSites(filtersites);
+    }
+
+    let getfilter = filter;
+    if (getfilter.hasOwnProperty("sites")) {
+      getfilter.sites = filtersites;
+    } else {
+      getfilter = Object.assign({ site: filtersites }, filter);
+    }
+    setFilter(getfilter);
+    let up = updateflag + 1;
+    setUpdateFlag(up);
+  };
+
   const handleOnFilterRole = (role) => {
     let tag_index = filterrole.indexOf(role);
     if (role == "No IRT") {
@@ -677,6 +699,7 @@ const EmailList = (props) => {
     setFilterTags([]);
     setFilterCreators([]);
     setFilterDate([]);
+    setFilterSites([]);
     setFilterRole([]);
     setFilterCampaigns([]);
     setFilter([]);
@@ -705,6 +728,8 @@ const EmailList = (props) => {
       handleOnFilterCampaign(item);
     } else if (src == "date") {
       handleOnFilterDate(item);
+    } else if (src == "site") {
+      handleOnFilterSites(item);
     } else if (src == "role") {
       handleOnFilterRole(item);
     } else if (src == "creator") {
@@ -1290,43 +1315,43 @@ const getDownloadData = async (viewEmailData) => {
                             </Accordion.Item>
                             :
 
-                            filterdata.hasOwnProperty("IRT_roles") &&
-                            filterdata.IRT_roles.length > 0 && (
-                              <Accordion.Item className="card" eventKey="3">
-                                <Accordion.Header className="card-header">
-                                  IRT Roles
-                                </Accordion.Header>
-                                <Accordion.Body className="card-body">
-                                  <ul>
-                                    {Object.entries(filterdata.IRT_roles).map(
-                                      ([index, item]) => (
-                                        <li>
-                                          <label className="select-multiple-option">
-                                            <input
-                                              type="checkbox"
-                                              id={`custom-checkbox-IRT_roles-${index}`}
-                                              name="IRT_roles[]"
-                                              value={item}
-                                              checked={
-                                                updateflag > 0 &&
-                                                typeof filterrole !==
-                                                "undefined" &&
-                                                filterrole.indexOf(item) !== -1
-                                              }
-                                              onChange={() =>
-                                                handleOnFilterRole(item)
-                                              }
-                                            />
-                                            {item}
-                                            <span className="checkmark"></span>
-                                          </label>
-                                        </li>
-                                      )
-                                    )}
-                                  </ul>
-                                </Accordion.Body>
-                              </Accordion.Item>
-                            )
+                            filterdata.hasOwnProperty("sites") &&
+                              filterdata.sites.length > 0 && (
+                                <Accordion.Item className="card" eventKey="3">
+                                  <Accordion.Header className="card-header">
+                                    Sites
+                                  </Accordion.Header>
+                                  <Accordion.Body className="card-body">
+                                    <ul>
+                                      {Object.entries(filterdata.sites).map(
+                                        ([index, item]) => (
+                                          <li>
+                                            <label className="select-multiple-option">
+                                              <input
+                                                type="checkbox"
+                                                id={`custom-checkbox-sites-${index}`}
+                                                name="sites[]"
+                                                value={item}
+                                                checked={
+                                                  updateflag > 0 &&
+                                                  typeof filtersites !==
+                                                  "undefined" &&
+                                                  filtersites.indexOf(item) !== -1
+                                                }
+                                                onChange={() =>
+                                                  handleOnFilterSites(item)
+                                                }
+                                              />
+                                              {item}
+                                              <span className="checkmark"></span>
+                                            </label>
+                                          </li>
+                                        )
+                                      )}
+                                    </ul>
+                                  </Accordion.Body>
+                                </Accordion.Item>
+                              )
                         }
 
 
@@ -1411,7 +1436,7 @@ const getDownloadData = async (viewEmailData) => {
             {updateflag > 0 &&
               (filtertags.length > 0 ||
                 filtercreator.length > 0 ||
-                filterdate.length > 0 ||
+                filterdate.length > 0 ||   filtersites.length > 0 ||
                 filterrole.length > 0 ||
                 filtercampaign.length > 0) && (
                 <div className="apply-filter">
@@ -1479,6 +1504,30 @@ const getDownloadData = async (viewEmailData) => {
                                 className="filter-result"
                                 onClick={(event) =>
                                   removeindividualfilter("date", item)
+                                }
+                              >
+                                {item}
+                                <img
+                                  src={path_image + "filter-close.svg"}
+                                  alt="Close-filter"
+                                />
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      {filtersites.length > 0 && (
+                        <div className="filter-div">
+                          <div className="filter-div-title">
+                            <span>Sites |</span>
+                          </div>
+                          <div className="filter-div-list">
+                            {Object.entries(filtersites).map(([index, item]) => (
+                              <div
+                                className="filter-result"
+                                onClick={(event) =>
+                                  removeindividualfilter("site", item)
                                 }
                               >
                                 {item}
@@ -1563,7 +1612,7 @@ const getDownloadData = async (viewEmailData) => {
               <div className="col email-result-block">
                 {filtertags.length == 0 &&
                   filtercreator.length == 0 &&
-                  filterdate.length == 0 &&
+                  filterdate.length == 0 &&   filtersites.length == 0 &&
                   filterrole.length == 0 &&
                   filtercampaign.length == 0 &&
                   !deletestatus && (!isLikeRdAccount && (

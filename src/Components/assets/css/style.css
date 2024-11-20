@@ -4993,7 +4993,7 @@ form#add_hcp_form .row:not(:first-child) {
 
 }
 .dropdown-menu.filter-options .card-header a,
-.dropdown-menu.filter-options .card-header .accordion-button {
+.dropdown-menu.filter-options .card-header .accordion-button, .search-hcp .filter-drop .accordion .accordion-item  button.accordion-button  {
   font-size: 15px;
   line-height: 18px;
   color: var(--dark-blue);
@@ -5012,7 +5012,9 @@ form#add_hcp_form .row:not(:first-child) {
   box-shadow: none;
   border: 0;
 }
-
+.search-hcp .filter-drop .accordion .accordion-item .accordion-body {
+  border-top: none;
+}
 .dropdown-menu.filter-options .card-header .accordion-button:after {
   display: none;
 }
@@ -9197,6 +9199,10 @@ section.search-hcp.smart-list-view .header-btn-left {
   width: 35%;
 }
 
+.search-hcp .email_stats.rd-account#analytics-hcp-table .email_stats_title_heading table tr th:first-child, .search-hcp .email_stats.rd-account .accordion .accordion-item .accordion-header button.accordion-button>table tr td:first-child{
+  width: 100px;
+}
+
 /* .search-hcp .email_stats#analytics-hcp-table  table tr th:first-child{
   padding-left:30px;
 } */
@@ -9204,7 +9210,9 @@ section.search-hcp.smart-list-view .header-btn-left {
 .search-hcp .email_stats#analytics-hcp-table .email_stats_title_heading table tr th:nth-child(2) {
   width: 18%;
 }
-
+.search-hcp .email_stats.rd-account .accordion .accordion-item .accordion-header button.accordion-button>table tr td:nth-child(2), .search-hcp .email_stats.rd-account#analytics-hcp-table .email_stats_title_heading table tr th:nth-child(2){
+  width: 35%;
+}
 .search-hcp .email_stats .accordion .accordion-item .accordion-header button.accordion-button>table tr td:nth-child(3),
 .search-hcp .email_stats#analytics-hcp-table .email_stats_title_heading table tr th:nth-child(3) {
   width: 15%;
