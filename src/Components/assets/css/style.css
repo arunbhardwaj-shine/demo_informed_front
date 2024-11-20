@@ -5067,7 +5067,10 @@ form#add_hcp_form .row:not(:first-child) {
   line-height: 16px;
   color: var(--dark-gray);
 }
-
+.dropdown-menu.filter-options .accordion .card .select-multiple-option::first-letter,
+.select-multiple-option::first-letter {
+  text-transform: capitalize;
+}
 .dropdown-menu.filter-options .accordion .card .select-multiple-option input,
 .select-multiple-option input[type="radio"],
 .qr-download .dropdown-menu.filter-options input[type="checkbox"] {

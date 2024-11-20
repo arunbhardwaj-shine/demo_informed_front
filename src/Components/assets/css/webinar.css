@@ -1427,8 +1427,8 @@ section.blank-space {
 
 .request_demo_main .demo-video-form::after {
   content: "";
-  filter: blur(0.5px);
   -webkit-filter: blur(0.5px);
+  filter: blur(0.5px);
 }
 
 section.blank-space .blank-background {

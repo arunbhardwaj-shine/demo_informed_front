@@ -1591,12 +1591,10 @@ span {
                     }
 
                     .tab-content-links {
-                        gap: 2px 10px;
+                        gap: 2px 8px;
                         margin-bottom: 8px;
-                        // display: flex;
-                        // align-items: center;
-                        // flex-wrap: wrap;
-                        display: inline-block;
+                        @include flex-align-center;
+                        flex-wrap: wrap;
 
                         a {
                             color: $voilet;
@@ -1611,7 +1609,7 @@ span {
                         }
 
                         .copy-content {
-                            margin: 0 8px;
+                            margin: 0 4px 0 0;
                         }
 
                         .tab-content-qr {
@@ -1622,7 +1620,7 @@ span {
                             // display: flex;
                             // align-items: center;
                             // gap: 6px;
-                            display: inline;
+                            display: inline-flex;
                             margin-left:2px;
 
                             img {
@@ -4185,6 +4183,7 @@ body {
                                 width: 145px;
                             }
                         }
+                        
                         @media (max-width:1365px){
                             th {
                                 min-width: 95px;
@@ -4219,6 +4218,10 @@ body {
                             &:nth-child(2) {
                                 width: 25%;
                             }
+                            &:first-child {
+                                width: 80px;
+                                min-width: 80px;
+                            }
                         }
                     }
                     @media (max-width:1400px){
@@ -4227,9 +4230,7 @@ body {
                             &:nth-child(5) {
                                 width: auto;
                             }
-                            &:first-child {
-                                width: 100px;
-                            }
+                            
                         }
                     }
                     @media (max-width:1365px){
@@ -4238,9 +4239,7 @@ body {
                             &:nth-last-child(3) {
                                 width: 105px;
                             }
-                            &:first-child {
-                                width: 90px;
-                            }
+                            
                         }
                     }
                 }
@@ -4351,6 +4350,15 @@ body {
                                 }
                             }
                         }
+                        @media (max-width:1500px){
+                            td{
+
+                                &:first-child {
+                                    width: 80px;
+                                }
+                                
+                            }
+                        }
                         @media (max-width:1400px){
                             td{
                                 padding: 10px 6px;
@@ -4372,7 +4380,6 @@ body {
                                     }
                                 } 
                                 &:first-child{
-                                    width: 100px;
                                     padding-left: 10px;
                                 }
                                 &:nth-child(5){
@@ -5082,7 +5089,7 @@ body {
                 .avg-view {
                     background: $light-gray;
                     border-radius: 0 0 8px 8px;
-                    padding: 10px 68px 5px 12px;
+                    padding: 10px 12px 5px 12px;
                     margin-top: -4px;
 
                     .dispaly-avg-view {
@@ -5109,6 +5116,7 @@ body {
                         .result-view {
                             color: $white;
                             font-size: 11px;
+                            width: 64px;
                         }
                     }
                 }
