@@ -369,11 +369,12 @@ templateIdRef.current=res?.data?.data?.popupTempId
             pdfId: articleId,
             isEdit: isEdit,
             allowVideo: allowStateVideo,
+            draft:state?.draft
           },
         });
       } else {
         navigate("/content-detail", {
-          state: { pdfId: articleId, isEdit: isEdit },
+          state: { pdfId: articleId, isEdit: isEdit,draft:state?.draft },
         });
       }
     } catch (err) {
@@ -631,6 +632,7 @@ templateIdRef.current=res?.data?.data?.popupTempId
                                     pdfId: state?.pdfId,
                                     isEdit: isEdit,
                                     allowVideo: allowStateVideo,
+                                    draft:state?.draft
                                   },
                                 });
                               } else {

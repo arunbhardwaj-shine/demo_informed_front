@@ -1369,7 +1369,8 @@ const AddLinkToPdf = () => {
             ? "Non-mandatory" : '') :'',
             title: isLikeRdAccount
             ? (location?.state?.title)
-            : ''
+            : '',
+            draft:state?.draft
           },
         });
       }else{
@@ -1379,6 +1380,7 @@ const AddLinkToPdf = () => {
             fileType: initFunData?.file_type,
             isEdit: isEdit,
             allowVideo: allowStateVideo,
+            draft:state?.draft
           },
         })
       }
@@ -1411,7 +1413,8 @@ const AddLinkToPdf = () => {
                         : location?.state?.flag === "Non-mandatory"
                         ? "Non-mandatory" : '') :'',
                         title: isLikeRdAccount ? (location?.state?.title)
-                        : ''
+                        : '',
+
                     
                     }}
                   >
