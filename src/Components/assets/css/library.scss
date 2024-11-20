@@ -31369,7 +31369,12 @@ background-size: cover;
   .create-change-content .form-group {
     margin: 6px 0 6px;
   }
-
+  .webinarRegistrationBody #registration-form .form-group.organize-label>label {
+    flex: 1 1;
+}
+.webinarRegistrationBody #registration-form .form-group.organize-label>label a, .register-popup-view .emory .consent-form-list.attend-sec>label.organize-label a {
+  color:#004a89;
+}
   .webinarRegistrationBody #registration-form .form-group>label {
     flex: 0 0 100%;
   }
