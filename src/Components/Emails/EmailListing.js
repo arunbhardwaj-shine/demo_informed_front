@@ -702,7 +702,11 @@ const EmailList = (props) => {
     setFilterSites([]);
     setFilterRole([]);
     setFilterCampaigns([]);
-    setFilter([]);
+    if(state?.IrtObj?.IRTFlag == 1){
+      setFilter({ role: [state?.IrtObj?.siteRole] });
+    }else{
+      setFilter([]);
+    }
     let up = updateflag + 1;
     setUpdateFlag(up);
     if (filterapplied) {
