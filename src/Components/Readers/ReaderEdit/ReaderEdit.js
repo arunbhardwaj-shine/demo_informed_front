@@ -637,6 +637,7 @@ const ReaderEdit = () => {
       try {
         loader("show");
         let data = {
+          readerId: id,
           createdBy: userId,
           firstName: userInputs?.firstName,
           middleName: userInputs?.middleName,
@@ -1186,7 +1187,7 @@ const ReaderEdit = () => {
                             Primary email <span>*</span>
                           </Form.Label>
                           <input
-                            readOnly
+                            readOnly ={localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg==' && state?.status == 1 ? false : true}
                             type="email"
                             className={
                               error?.email
@@ -1197,7 +1198,7 @@ const ReaderEdit = () => {
                             name="email"
                             ref={emailRef}
                             defaultValue={userInputs?.email}
-                          // onInput={(e) => handleChange(e)}
+                            onInput={(e) => handleChange(e)}
                           />
                           {error?.email ? (
                             <div className="login-validation">

@@ -19404,6 +19404,10 @@ table {
   @include flex-middle;
   font-size: 18px;
   font-weight: 400;
+  background: transparent;
+}
+.webinar-question-results h6.no-found::after {
+  display: none;
 }
 
 .reader_list_footer .reader_list_footer_btns {
@@ -31378,10 +31382,10 @@ background-size: cover;
     margin: 6px 0 6px;
   }
 
+
   .webinarRegistrationBody #registration-form .form-group>label {
     flex: 0 0 100%;
   }
-
   .webinarRegistrationBody #registration-form .form-group .slt-opt,
   .create-change-content.register-page .form-group .form-control {
     width: 100%;
@@ -31862,4 +31866,13 @@ button {
 
 input[type="password"]::-ms-reveal,input::-ms-clear {
   display: none;
+}
+.webinarRegistrationBody #registration-form .form-group>label {
+  flex: 0 0 100%;
+}
+.webinarRegistrationBody #registration-form .form-group.organize-label>label {
+  flex: 1 1;
+}
+.webinarRegistrationBody #registration-form .form-group.organize-label>label a, .register-popup-view .emory .consent-form-list.attend-sec>label.organize-label a {
+color:#004a89;
 }
