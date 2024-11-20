@@ -49,9 +49,15 @@ const EmailStats = (props) => {
   const [showfilter, setShowFilter] = useState(false);
   const [filterdata, setFilterData] = useState([]);
   const [filtersites, setFilterSites] = useState([]);
+  const [filterroles, setFilterRole] = useState([]);
   const [filter, setFilter] = useState({});
   const [updateflag, setUpdateFlag] = useState([]);
   const [filterapplied, setFilterApply] = useState(false);
+
+  const roles = [
+    "Site User-Blinded",
+    "Investigator-Blinded",
+    "Site unblinded pharmacist",]
 
   useEffect(() => {
     getCampaignList(1, "");
@@ -303,8 +309,30 @@ const EmailStats = (props) => {
     setUpdateFlag(up);
   };
 
+  const handleOnFilterRole = (frole) => {
+    let tag_index = filterroles.indexOf(frole);
+    if (tag_index !== -1) {
+      filterroles.splice(tag_index, 1);
+      setFilterRole(filterroles);
+    } else {
+      filterroles.push(frole);
+      setFilterRole(filterroles);
+    }
+
+    let getfilter = filter;
+    if (getfilter.hasOwnProperty("role")) {
+      getfilter.role = filterroles;
+    } else {
+      getfilter = Object.assign({ role: filterroles }, filter);
+    }
+    setFilter(getfilter);
+    let up = updateflag + 1;
+    setUpdateFlag(up);
+  };
+
   const clearFilter = () => {
     setFilterSites([]); 
+    setFilterRole([]); 
     setSearch("");
     setShowFilter(false); 
     let up = updateflag + 1; 
@@ -325,6 +353,9 @@ const EmailStats = (props) => {
     loader("show");
     if (src == "site") {
       handleOnFilterSites(item);
+    }
+    if (src == "role") {
+      handleOnFilterRole(item);
     }
     if (filterapplied) {
     setData([]);
@@ -447,10 +478,6 @@ const EmailStats = (props) => {
                     >
                       <h4>Filter By</h4>
                       <Accordion defaultActiveKey="0" flush>
-                        {
-                          isLikeRdAccount ?
-                            // filterdata.hasOwnProperty("sites") &&
-                            //   filterdata.sites.length > 0 && (
                                 <Accordion.Item className="card" eventKey="1">
                                   <Accordion.Header className="card-header">
                                     Sites
@@ -486,10 +513,38 @@ const EmailStats = (props) => {
                                       
                                     </ul>
                                   </Accordion.Body>
-                                </Accordion.Item>
-                              // )
-                              : null
-                        }
+                                </Accordion.Item>   
+                        
+                                <Accordion.Item className="card" eventKey="2">
+                                <Accordion.Header className="card-header">
+                                  IRT Role
+                                </Accordion.Header>
+                                <Accordion.Body className="card-body">
+                                  <ul>
+                                    {roles.map((role, index) => (
+                                      <li key={index}>
+                                        <label className="select-multiple-option">
+                                          <input
+                                            type="checkbox"
+                                            id={`custom-checkbox-role-${index}`}
+                                            name="roles[]"
+                                            value={role}
+                                            checked={
+                                              updateflag > 0 &&
+                                              typeof filterroles !== "undefined" &&
+                                              filterroles.indexOf(role) !== -1
+                                            }
+                                            onChange={() => handleOnFilterRole(role)}
+                                          />
+                                          {role}
+                                          <span className="checkmark"></span>
+                                        </label>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                </Accordion.Body>
+                              </Accordion.Item>
+
                       </Accordion>
 
                       <div className="filter-footer">
@@ -519,7 +574,7 @@ const EmailStats = (props) => {
             </div>
 
             {updateflag > 0 &&
-              (filtersites.length > 0 ) && (
+              (filtersites.length > 0 || filterroles.length > 0) && (
                 <div className="apply-filter">
                   <h6>Applied filters</h6>
                   <div className="filter-block">
@@ -535,6 +590,30 @@ const EmailStats = (props) => {
                                 className="filter-result"
                                 onClick={(event) =>
                                   removeindividualfilter("site", item)
+                                }
+                              >
+                                {item}
+                                <img
+                                  src={path_image + "filter-close.svg"}
+                                  alt="Close-filter"
+                                />
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                        {filterroles.length > 0 && (
+                        <div className="filter-div">
+                          <div className="filter-div-title">
+                            <span>IRT Role |</span>
+                          </div>
+                          <div className="filter-div-list">
+                            {Object.entries(filterroles).map(([index, item]) => (
+                              <div
+                                className="filter-result"
+                                onClick={(event) =>
+                                  removeindividualfilter("role", item)
                                 }
                               >
                                 {item}
@@ -609,7 +688,19 @@ const EmailStats = (props) => {
                                 <table>
                                   <tbody>
                                     <tr>
-                                      {isLikeRdAccount ?<td>{campaignItem?.unique_site_numbers && campaignItem?.unique_site_numbers?.length > 0 ? campaignItem?.unique_site_numbers.join(', ') : 'N/A'}</td> : null}
+                                      {/* {isLikeRdAccount ?<td>{campaignItem?.unique_site_numbers && campaignItem?.unique_site_numbers?.length > 0 ? campaignItem?.unique_site_numbers.join(', ') : 'N/A'}</td> : null} */}
+                                            {isLikeRdAccount ? (
+                                            <td>
+                                              {campaignItem?.unique_site_numbers && campaignItem?.unique_site_numbers?.length > 0 
+                                                ? campaignItem?.unique_site_numbers
+                                                    .map(site => (site === null || site === undefined  || site === ""  ? 'N/A' : site)) 
+                                                    .filter(site => !(site === "0" || site === 0))
+                                                    .join(', ')
+                                                : 'N/A'}
+                                            </td>
+                                          ) : null}
+
+
                                       <td>
                                       {campaignItem?.subject}
                                       </td>
@@ -756,7 +847,18 @@ const EmailStats = (props) => {
                                       campaignItem?.campaignSend.map((item, index) => (
                                         <>
                                           <tr className={item?.campaign_status == 5 ? "queue_row" : "campaign_row"} key={index}>
-                                          {isLikeRdAccount ?<td>{item.sites && item.sites.length > 0 ? item.sites.join(', ') : 'N/A'}</td> : null}
+                                          {isLikeRdAccount ? (
+                                            <td>
+                                              {item.sites && item.sites.length > 0 
+                                                ? item.sites
+                                                    .map(site => (site === null || site === undefined || site === ""  ? 'N/A' : site)) 
+                                                    .filter(site => !(site === "0" || site === 0))
+                                                    .join(', ')
+                                                : 'N/A'}
+                                            </td>
+                                          ) : null}
+
+
                                             <td> {item.c_id}</td>
                                             <td> {item.sent_data}</td>
                                             <td className="smartlistth"> {item.subject}</td>
@@ -823,7 +925,7 @@ const EmailStats = (props) => {
               </Accordion>
               
               {typeof campaignData !== "undefined" &&
-              currentPage !== lastPage && campaignData.length > 12 &&
+              currentPage !== lastPage && campaignData.length > 12 && filterroles  &&
               showLoader ? (
                 <div className="load_more">
                   <button
