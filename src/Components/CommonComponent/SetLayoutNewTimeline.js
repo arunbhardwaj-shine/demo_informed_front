@@ -829,6 +829,28 @@ const SetLayoutNewTimeline = () => {
 
                                             </div>
 
+                                            : (item?.action?.includes('User email has been updated'))
+                                            ?
+                                            <div className="timeline-box-inset" key={i}>
+                                              <div className="timeline-indicator">
+                                                <div className="indicator-box">
+                                                  <img src={path_image + "new-hcp.svg"} alt="" />
+                                                </div>
+                                              </div>
+                                              <div className="timeline-block">
+                                                <div className="timeline-status">
+                                                  <p>Email has been updated</p>
+                                                  <span>{formatTime(item?.time)} </span>
+                                                </div>
+                                                <div className="timeline-details">
+                                                  <div className="details-box">
+                                                    <p className="timeline-details-heading">What</p>
+                                                    <p>{item?.action}</p>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+
                                             : (item?.action?.includes('Certificate of training issued for IRT Role'))
                                               ?
                                               <div className="timeline-box-inset" key={i}>
