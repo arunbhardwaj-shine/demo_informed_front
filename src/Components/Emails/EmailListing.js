@@ -1649,42 +1649,6 @@ const getDownloadData = async (viewEmailData) => {
                         </div>
                       )}
 
-                     {isLikeRdAccount && filtercampaign.length > 0 && (
-                        <div className="filter-div">
-                          <div className="filter-div-title">
-                            <span>Campaign |</span>
-                          </div>
-                          <div className="filter-div-list">
-                            {Object.entries(filtercampaign).map(
-                              ([index, item]) => (
-                                <div
-                                  className="filter-result"
-                                  onClick={(event) =>
-                                    removeindividualfilter("campaign", item)
-                                  }
-                                >
-                                 {
-                                    item === 6
-                                      ? "Stop"
-                                      : item === 7
-                                        ? "Expired"
-                                        : item === 3
-                                          ? "Draft Approved"
-                                          : item === 2
-                                            ? "Draft"
-                                            : "Sent"
-                                  }
-
-                                  <img
-                                    src={path_image + "filter-close.svg"}
-                                    alt="Close-filter"
-                                  />
-                                </div>
-                              )
-                            )}
-                          </div>
-                        </div>
-                      )}
 
                       {filterrole.length > 0 && (
                         <div className="filter-div">
@@ -1724,11 +1688,23 @@ const getDownloadData = async (viewEmailData) => {
                                     removeindividualfilter("campaign", item)
                                   }
                                 >
-                                {item == 3
+                                {/* {item == 3
                                     ? "Draft Approved"
                                     : item == 2
                                       ? "Draft"
-                                      : "Sent"}
+                                      : "Sent"} */}
+
+{
+                                    item === 6
+                                      ? "Stop"
+                                      : item === 7
+                                        ? "Expired"
+                                        : item === 3
+                                          ? "Draft Approved"
+                                          : item === 2
+                                            ? "Draft"
+                                            : "Sent"
+                                  }
 
                                   <img
                                     src={path_image + "filter-close.svg"}
@@ -1782,7 +1758,11 @@ const getDownloadData = async (viewEmailData) => {
                           <div
                             className={
                               "email_box " +
-                              ((data?.status == 5)
+                              ((data?.status == 6)
+                              ? "stop"
+                              : (data?.status == 7)
+                                ? "expired"
+                                :(data?.status == 5)
                                 ? "queue" :
                                 data.status == 1
                                   ? "approved"
@@ -1794,9 +1774,21 @@ const getDownloadData = async (viewEmailData) => {
                             <div className="mail-top-title">
 
                               <span>
-                                {(data?.status == 5)
+                                {/* {(data?.status == 5)
                                   ? "Sending in queue" :
                                   data.status == 2 ? "Draft" : "Approved Draft"
+                                } */}
+
+                                {
+                                (data?.status == 6)
+                                    ? "Stop"
+                                    : (data?.status == 7)
+                                      ? "Expired"
+                                      :(data?.status == 5)
+                                        ? "Sending in queue"
+                                        : (data?.status == 2)
+                                          ? "Draft"
+                                          : "Approved Draft"
                                 }
                               </span>
                             </div>
