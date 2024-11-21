@@ -1625,7 +1625,7 @@ const getDownloadData = async (viewEmailData) => {
                         </div>
                       )}
 
-                      {filtersites.length > 0 && (
+                      { isLikeRdAccount && filtersites.length > 0 && (
                         <div className="filter-div">
                           <div className="filter-div-title">
                             <span>Sites |</span>
@@ -1645,6 +1645,43 @@ const getDownloadData = async (viewEmailData) => {
                                 />
                               </div>
                             ))}
+                          </div>
+                        </div>
+                      )}
+
+                     {isLikeRdAccount && filtercampaign.length > 0 && (
+                        <div className="filter-div">
+                          <div className="filter-div-title">
+                            <span>Campaign |</span>
+                          </div>
+                          <div className="filter-div-list">
+                            {Object.entries(filtercampaign).map(
+                              ([index, item]) => (
+                                <div
+                                  className="filter-result"
+                                  onClick={(event) =>
+                                    removeindividualfilter("campaign", item)
+                                  }
+                                >
+                                 {
+                                    item === 6
+                                      ? "Stop"
+                                      : item === 7
+                                        ? "Expired"
+                                        : item === 3
+                                          ? "Draft Approved"
+                                          : item === 2
+                                            ? "Draft"
+                                            : "Sent"
+                                  }
+
+                                  <img
+                                    src={path_image + "filter-close.svg"}
+                                    alt="Close-filter"
+                                  />
+                                </div>
+                              )
+                            )}
                           </div>
                         </div>
                       )}
@@ -1687,17 +1724,11 @@ const getDownloadData = async (viewEmailData) => {
                                     removeindividualfilter("campaign", item)
                                   }
                                 >
-                                 {
-                                    item === 6
-                                      ? "Stop"
-                                      : item === 7
-                                        ? "Expired"
-                                        : item === 3
-                                          ? "Draft Approved"
-                                          : item === 2
-                                            ? "Draft"
-                                            : "Sent"
-                                  }
+                                {item == 3
+                                    ? "Draft Approved"
+                                    : item == 2
+                                      ? "Draft"
+                                      : "Sent"}
 
                                   <img
                                     src={path_image + "filter-close.svg"}
