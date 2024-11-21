@@ -813,6 +813,11 @@ z-index: 5;
   background: var(--green);
   z-index: 4;
 }
+.expired .mail-top-title {
+background: #d6d6d6;
+z-index: 4;
+
+}
 
 .queue .mail-top-title {
   background: #956ca7;
@@ -8879,7 +8884,17 @@ hr {
 .table_xls.search_view.sync .smart-list-btns {
   justify-content: space-between;
 }
+.smart-list-btns .top-left-action .campaign_stopped {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+}
 
+.smart-list-btns .top-left-action .campaign_stopped p {
+  margin: 0 9px 0 0;
+  font-size: 14px;
+  color: #004a89;
+}
 .table_xls {
   max-width: 1065px;
   position: relative;

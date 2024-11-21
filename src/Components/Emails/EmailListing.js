@@ -1253,7 +1253,7 @@ const getDownloadData = async (viewEmailData) => {
                             </Accordion.Item>
                           )}
                         {
-                          !isLikeRdAccount ?
+                          !isLikeRdAccount ? (
                             <Accordion.Item className="card" eventKey="3">
                               <Accordion.Header className="card-header">
                                 Campaign
@@ -1317,9 +1317,10 @@ const getDownloadData = async (viewEmailData) => {
                                 </ul>
                               </Accordion.Body>
                             </Accordion.Item>
-                            :
+                           ) : (
+                           <>
 
-                            filterdata.hasOwnProperty("sites") &&
+                            {filterdata.hasOwnProperty("sites") &&
                               filterdata.sites.length > 0 && (
                                 <Accordion.Item className="card" eventKey="3">
                                   <Accordion.Header className="card-header">
@@ -1355,7 +1356,110 @@ const getDownloadData = async (viewEmailData) => {
                                     </ul>
                                   </Accordion.Body>
                                 </Accordion.Item>
-                              )
+                              )}
+
+                              <Accordion.Item className="card" eventKey="4">
+                              <Accordion.Header className="card-header">
+                                Campaign
+                              </Accordion.Header>
+                              <Accordion.Body className="card-body">
+                                <ul>
+                                  <li>
+                                    <label className="select-multiple-option">
+                                      <input
+                                        type="checkbox"
+                                        id={`custom-checkbox-campaign-0`}
+                                        name="campaign[]"
+                                        value="Sent"
+                                        checked={
+                                          updateflag > 0 &&
+                                          typeof filtercampaign !== "undefined" &&
+                                          filtercampaign.indexOf(1) !== -1
+                                        }
+                                        onChange={() => handleOnFilterCampaign(1)}
+                                      />
+                                      Sent
+                                      <span className="checkmark"></span>
+                                    </label>
+                                  </li>
+                                  <li>
+                                    <label className="select-multiple-option">
+                                      <input
+                                        type="checkbox"
+                                        id={`custom-checkbox-campaign-1`}
+                                        name="campaign[]"
+                                        value="Draft"
+                                        checked={
+                                          updateflag > 0 &&
+                                          typeof filtercampaign !== "undefined" &&
+                                          filtercampaign.indexOf(2) !== -1
+                                        }
+                                        onChange={() => handleOnFilterCampaign(2)}
+                                      />
+                                      Draft
+                                      <span className="checkmark"></span>
+                                    </label>
+                                  </li>
+                                  <li>
+                                    <label className="select-multiple-option">
+                                      <input
+                                        type="checkbox"
+                                        id={`custom-checkbox-campaign-2`}
+                                        name="campaign[]"
+                                        value="draft-approved"
+                                        checked={
+                                          updateflag > 0 &&
+                                          typeof filtercampaign !== "undefined" &&
+                                          filtercampaign.indexOf(3) !== -1
+                                        }
+                                        onChange={() => handleOnFilterCampaign(3)}
+                                      />
+                                      Draft Approved
+                                      <span className="checkmark"></span>
+                                    </label>
+                                  </li>
+                                  <li>
+                                    <label className="select-multiple-option">
+                                      <input
+                                        type="checkbox"
+                                        id={`custom-checkbox-campaign-3`}
+                                        name="campaign[]"
+                                        value="Stop"
+                                        checked={
+                                          updateflag > 0 &&
+                                          typeof filtercampaign !== "undefined" &&
+                                          filtercampaign.indexOf(6) !== -1
+                                        }
+                                        onChange={() => handleOnFilterCampaign(6)}
+                                      />
+                                      Stop
+                                      <span className="checkmark"></span>
+                                    </label>
+                                  </li>
+                                  <li>
+                                    <label className="select-multiple-option">
+                                      <input
+                                        type="checkbox"
+                                        id={`custom-checkbox-campaign-4`}
+                                        name="campaign[]"
+                                        value="Expired"
+                                        checked={
+                                          updateflag > 0 &&
+                                          typeof filtercampaign !== "undefined" &&
+                                          filtercampaign.indexOf(7) !== -1
+                                        }
+                                        onChange={() => handleOnFilterCampaign(7)}
+                                      />
+                                      Expired
+                                      <span className="checkmark"></span>
+                                    </label>
+                                  </li>
+                                </ul>
+                              </Accordion.Body>
+                            </Accordion.Item>
+                              </>
+                            )
+                            
                         }
 
 
@@ -1521,7 +1625,7 @@ const getDownloadData = async (viewEmailData) => {
                         </div>
                       )}
 
-                      {filtersites.length > 0 && (
+                      { isLikeRdAccount && filtersites.length > 0 && (
                         <div className="filter-div">
                           <div className="filter-div-title">
                             <span>Sites |</span>
@@ -1544,6 +1648,7 @@ const getDownloadData = async (viewEmailData) => {
                           </div>
                         </div>
                       )}
+
 
                       {filterrole.length > 0 && (
                         <div className="filter-div">
@@ -1583,11 +1688,24 @@ const getDownloadData = async (viewEmailData) => {
                                     removeindividualfilter("campaign", item)
                                   }
                                 >
-                                  {item == 3
+                                {/* {item == 3
                                     ? "Draft Approved"
                                     : item == 2
                                       ? "Draft"
-                                      : "Sent"}
+                                      : "Sent"} */}
+
+{
+                                    item === 6
+                                      ? "Stop"
+                                      : item === 7
+                                        ? "Expired"
+                                        : item === 3
+                                          ? "Draft Approved"
+                                          : item === 2
+                                            ? "Draft"
+                                            : "Sent"
+                                  }
+
                                   <img
                                     src={path_image + "filter-close.svg"}
                                     alt="Close-filter"
@@ -1640,7 +1758,11 @@ const getDownloadData = async (viewEmailData) => {
                           <div
                             className={
                               "email_box " +
-                              ((data?.status == 5)
+                              ((data?.status == 6)
+                              ? "stop"
+                              : (data?.status == 7)
+                                ? "expired"
+                                :(data?.status == 5)
                                 ? "queue" :
                                 data.status == 1
                                   ? "approved"
@@ -1652,9 +1774,21 @@ const getDownloadData = async (viewEmailData) => {
                             <div className="mail-top-title">
 
                               <span>
-                                {(data?.status == 5)
+                                {/* {(data?.status == 5)
                                   ? "Sending in queue" :
                                   data.status == 2 ? "Draft" : "Approved Draft"
+                                } */}
+
+                                {
+                                (data?.status == 6)
+                                    ? "Stop"
+                                    : (data?.status == 7)
+                                      ? "Expired"
+                                      :(data?.status == 5)
+                                        ? "Sending in queue"
+                                        : (data?.status == 2)
+                                          ? "Draft"
+                                          : "Approved Draft"
                                 }
                               </span>
                             </div>
