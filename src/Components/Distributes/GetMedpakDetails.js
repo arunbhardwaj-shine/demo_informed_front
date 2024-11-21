@@ -457,7 +457,7 @@ const GetMedpakDetails = () => {
                                     </div>
                                     <div className="table_xls search_view sync">
                                         <div className="smart-list-btns">
-                                            <div className="top-left-action d-flex align-items-center" style={{ gap: "0 10px" }}>
+                                            <div className="top-left-action d-flex align-items-center w-100" style={{ gap: "0 10px" }}>
 
                                                 <div className="search-bar">
                                                     <form
