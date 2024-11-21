@@ -29,6 +29,8 @@ const GetMedpakDetails = () => {
     const [reminderChecked, setReminderChecked] = useState({})
     const [allChecked, setAllChecked] = useState(false);
 
+    const [blocked, setBlocked] = useState(0);
+
     useEffect(() => {
         // console.log("reminder state-->", reminderChecked)
         setData([]);
@@ -333,6 +335,41 @@ const GetMedpakDetails = () => {
         }
     };
 
+
+    const handleBlockedCampaign = async (isChecked) => {
+        try {
+          loader("show");
+          const blockedStatus = isChecked ? 1 : 0;
+    
+          const body = {
+            user_id: localStorage.getItem("user_id"),
+            campaign_id: distributeData?.campaign_id,
+            status: blockedStatus,
+          };
+    
+          const response = await postData(
+            "https://webinar.docintel.app/lmn/api/emailapi/stop_campaign",
+            body
+          );
+    
+          if (response?.success) {
+            setBlocked(blockedStatus); 
+            toast.success(
+              isChecked
+                ? "Campaign blocked successfully"
+                : "Campaign unblocked successfully"
+            );
+          } else {
+            throw new Error("API did not return success");
+          }
+        } catch (error) {
+          console.error("Error toggling campaign status:", error);
+          toast.error("Failed to update campaign status");
+        } finally {
+          loader("hide");
+        }
+      };
+
     return (
         <>
             {" "}
@@ -477,6 +514,22 @@ const GetMedpakDetails = () => {
                                                         />
                                                     </svg>
                                                 </button>
+
+                                                <div className="switch">
+                                                <label className="switch-light">
+                                                    <input
+                                                    type="checkbox"
+                                                    checked={Boolean(blocked)} // Ensure boolean value
+                                                    onChange={(e) => handleBlockedCampaign(e.target.checked)}
+                                                    />
+                                                    <span>
+                                                    <span className="switch-btn active">No</span>
+                                                    <span className="switch-btn">Yes</span>
+                                                    </span>
+                                                    <a className="btn"></a>
+                                                </label>
+                                                </div>
+
                                             </div>
 
                                             {/* <div className="all-checked-reminder">
