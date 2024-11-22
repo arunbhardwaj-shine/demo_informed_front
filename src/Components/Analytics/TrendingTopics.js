@@ -33,7 +33,6 @@ const TrendingTopics = () => {
   const activeTab = useRef(1);
   const [sectionLoader, setSectionLoader] = useState(false);
   const [apiCallStatus, setApiCallStatus] = useState(false);
-  const [isSunshineAccount,setIsSunshineAccount]=useState(localStorage.getItem("account_type")=="USA_PHARMA"?true:false)
   const [options, setOptions] = useState({
     chart: {
       marginTop: 100,
@@ -96,8 +95,7 @@ const TrendingTopics = () => {
       const requestBody = {
         type: type,
       };
-      let analyticsRoute=isSunshineAccount?ENDPOINT.USA_TRENDING_TOPIC:ENDPOINT.TRENDING_TOPIC
-      const response = await postData(analyticsRoute, requestBody);
+      const response = await postData(ENDPOINT.TRENDING_TOPIC, requestBody);
       const data = response.data;
       const graphData = JSON.parse(data.data[0].graph_data);
       setOptions((prevOptions) => ({
@@ -179,36 +177,36 @@ const TrendingTopics = () => {
             </div>
             <div className="create-change-content spc-content analytic-charts">
                 <div className="delivery-trends">
-                {!isSunshineAccount ? (
-                  <Tabs
-                    defaultActiveKey={activeTab.current}
-                    onSelect={handleTabChange}
-                  >
-                    <Tab eventKey="1" title="All Business Units"></Tab>
-                    <Tab eventKey="2" title="Haematology"></Tab>
-                    <Tab eventKey="3" title="Critical Care"></Tab>
-                    <Tab eventKey="4" title="Immunotherapy"></Tab>
-                    <Tab eventKey="5" title="IBU"></Tab>
-                  </Tabs>
-                ) : null}
-                {sectionLoader ? (
-                  <div className="loader tab-inside show" id="custom_loader">
-                    <div className="loader_show">
-                      <span className="loader-view"></span>
-                    </div>
+                  <div className="tabs_content_load">
+                    <Tabs
+                      defaultActiveKey={activeTab.current}
+                      onSelect={handleTabChange}
+                    >
+                      <Tab eventKey="1" title="All Business Units"></Tab>
+                      <Tab eventKey="2" title="Haematology"></Tab>
+                      <Tab eventKey="3" title="Critical Care"></Tab>
+                      <Tab eventKey="4" title="Immunotherapy"></Tab>
+                      <Tab eventKey="5" title="IBU"></Tab>
+                    </Tabs>
+                    {sectionLoader ? (
+                      <div
+                        className={
+                          "loader tab-inside " + (sectionLoader ? "show" : "")
+                        }
+                        id="custom_loader"
+                      >
+                        <div className="loader_show">
+                          <span className="loader-view"> </span>
+                        </div>
+                      </div>
+                    ) : (
+                      ""
+                    )}
+                   <div className="high_charts trending-topics">
+                    <HighchartsReact highcharts={Highcharts} options={options} />
                   </div>
-                ) : (
-                  isDataFound ? (
-                    <div className="high_charts trending-topics">
-                      <HighchartsReact highcharts={Highcharts} options={options} />
-                    </div>
-                  ) : (
-                    <div className="no_found">
-                      <p>No Data Found</p>
-                    </div>
-                  )
-                )}
-              </div>
+                  </div>
+                </div>
              
             </div>
           </Row>
