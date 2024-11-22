@@ -511,7 +511,7 @@ const GetMedpakDetails = () => {
                                                     </svg>
                                                 </button>
 
-                                                <div className="campaign_stopped">
+                                                {/* <div className="campaign_stopped">
                                                  <p>Campaign Stopped</p>
                                                  <div className="switch">
                                                 <label className="switch-light">
@@ -527,7 +527,7 @@ const GetMedpakDetails = () => {
                                                     <a className="btn"></a>
                                                 </label>
                                                 </div>
-                                                </div>
+                                                </div> */}
                                             </div>
 
                                             {/* <div className="all-checked-reminder">

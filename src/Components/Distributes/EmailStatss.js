@@ -407,7 +407,7 @@ const EmailStats = (props) => {
                       </form>
               </div>
 
-             {isLikeRdAccount? <div
+             {/* {isLikeRdAccount? <div
                   className={
                     showfilter
                       ? "filter-by nav-item dropdown highlight"
@@ -470,7 +470,6 @@ const EmailStats = (props) => {
                       </svg>
                     )}
                   </button>
-                  {/*Code for show filters*/}
                   {showfilter && (
                     <div
                       ref={filterRef}
@@ -564,7 +563,7 @@ const EmailStats = (props) => {
                       </div>
                     </div>
                   )}
-              </div> : null}
+              </div> : null} */}
         </div>
           <div className="result-hcp-table">
             <div className="table-title">
