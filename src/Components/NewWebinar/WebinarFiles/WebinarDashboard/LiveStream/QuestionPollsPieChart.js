@@ -308,6 +308,20 @@ const QuestionPollsPieChart = ({ data,show,type }) => {
                 categories: options,
             }, 
             // series: [{ ...barChartOptions?.series[0], data: seriesData }] })
+            plotOptions:{...barChartOptions.plotOptions,series:{...barChartOptions.plotOptions.series, dataLabels: [
+                {
+                    enabled: true,
+                    formatter: function() {
+                        var pcnt=data?.canCustomAnswer==1? this.point.y :this.point.p.toFixed(0) + "%" ;
+                        return '<tspan >' + pcnt  + '</tspan>';
+                    },
+                    style: {
+                        fontSize: "1.2em",
+                        textOutline: "none",
+                        opacity: 0.7,
+                    },
+                },
+            ],}},
             series:barSeriesData?.slice(1)})
            
         }

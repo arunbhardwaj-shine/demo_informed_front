@@ -342,6 +342,7 @@ if(currentQuestion.current && (currentIndexRef.current?.showQuestionToUser!=2 ||
                 questionId: tempData[0]?.questionId,
                 graphType: tempData[0]?.graphType,
                 pollAnswers: tempData[0]?.pollAnswers,
+                canCustomAnswer:tempData[0]?.canCustomAnswer==1?1:0
               });
             }
           }
