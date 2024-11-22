@@ -849,6 +849,7 @@ const LicenseLinkToPdf = () => {
                             fileType: initFunData?.file_type,
                             isEdit: isEdit,
                             allowVideo: allowStateVideo,
+                            draft:state?.draft
                           },
                         })
                       }

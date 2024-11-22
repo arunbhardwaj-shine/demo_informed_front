@@ -323,7 +323,7 @@ const LicenseCreateUser = () => {
           "allowDraft",
           userInputs?.allowDraft
             ? JSON.stringify(userInputs?.allowDraft)
-            : JSON.stringify(false)
+            : JSON.stringify(true)
         );
         formData.append("allowVideo", userInputs?.allowVideo ? 1 : 0);
         formData.append("trial", userInputs?.trial);
@@ -360,6 +360,7 @@ const LicenseCreateUser = () => {
                 pdfId: res?.data?.data?.pdfId,
                 fileType: userInputs?.docintelFormat,
                 isEdit: 0,
+                draft:userInputs?.draft?userInputs?.draft:"default_1"
               },
             });
           } else {
@@ -369,6 +370,7 @@ const LicenseCreateUser = () => {
                   pdfId: res?.data?.data?.pdfId,
                   isEdit: 0,
                   allowVideo: userInputs?.allowVideo,
+                  draft:userInputs?.draft?userInputs?.draft:"default_1"
                 },
               });
             } else {
@@ -377,6 +379,7 @@ const LicenseCreateUser = () => {
                   pdfId: res?.data?.data?.pdfId,
                   fileType: userInputs?.docintelFormat,
                   isEdit: 0,
+                  draft:userInputs?.draft?userInputs?.draft:"default_1"
                 },
               });
             }
@@ -386,6 +389,7 @@ const LicenseCreateUser = () => {
             state: {
               pdfId: res?.data?.data?.pdfId,
               fileType: userInputs?.docintelFormat,
+              draft:userInputs?.draft?userInputs?.draft:"default_1"
             },
           });
         }
