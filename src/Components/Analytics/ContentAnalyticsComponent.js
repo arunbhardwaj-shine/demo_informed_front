@@ -114,7 +114,7 @@ export default function ContentAnalyticsComponent({ data, sublinkData }) {
               </p>
               <p>
                 Agreed Limit:{" "}
-                <span>{data?.limit == 0 ? "Unlimited" : data?.limit}</span>
+                <span>{data?.limit == 0 || data?.limit == 1000 ? "Unlimited" : data?.limit}</span>
               </p>
             </div>
             <div className="detail-box right">
@@ -208,33 +208,59 @@ export default function ContentAnalyticsComponent({ data, sublinkData }) {
                   color="#00003C"
                   limit={agreed_limit}
                   label={`Article Usage (total) Agreed Limit | ${
-                    data?.limit == 0 ? "Unlimited" : data?.limit
+                    data?.limit == 0 || data?.limit == 1000 ? "Unlimited" : data?.limit
                   }`}
                   pdf_id={data?.id}
                   tooltip="Number of unique HCPs who have unique pin codes."
                 />
               </>
                : 
+                (data?.linkType == 'Sunshine' || data?.linkType == 'Sunshine USA') ?
+                  <ContentAnalyticsComponentActivityGauge
+                    value={selectedData?.uniqueReader}
+                    color="#f4c64b"
+                    limit={agreed_limit}
+                    label={`Unique Reader (total)`}
+                    pdf_id={data?.id}
+                    tooltip="Number of unique HCPs who have opened the content (based on ip address, device & browser)."
+                  />
+                :
+                  <ContentAnalyticsComponentActivityGauge
+                    value={selectedData?.uniqueReader}
+                    color="#f4c64b"
+                    limit={agreed_limit}
+                    label={`Unique Reader (total) Agreed Limit | ${
+                      data?.limit == 0 || data?.limit == 1000 ? "Unlimited" : data?.limit
+                    }`}
+                    pdf_id={data?.id}
+                    tooltip="Number of unique HCPs who have opened the content (based on ip address, device & browser)."
+                  />
+            }
+
+            {
+              (data?.linkType == 'Sunshine' || data?.linkType == 'Sunshine USA') && (data?.lastRomanNumber != 2 && data?.lastRomanNumber != 3) 
+              ?
                 <ContentAnalyticsComponentActivityGauge
-                  value={selectedData?.uniqueReader}
-                  color="#f4c64b"
+                  value={selectedData?.registerReader}
+                  color="#ed9ba0"
                   limit={agreed_limit}
-                  label={`Unique Reader (total) Agreed Limit | ${
-                    data?.limit == 0 ? "Unlimited" : data?.limit
+                  label={`Registered Reader (total) Agreed Limit | ${
+                    data?.limit == 0 || data?.limit == 1000 ? "Unlimited" : data?.limit
                   }`}
                   pdf_id={data?.id}
-                  tooltip="Number of unique HCPs who have opened the content (based on ip address, device & browser)."
+                  tooltip="Number of HCPs who have register for or activated the content."
+                />
+              : 
+                <ContentAnalyticsComponentActivityGauge
+                  value={selectedData?.registerReader}
+                  color="#ed9ba0"
+                  limit={agreed_limit}
+                  label=" Registered Reader (total)"
+                  pdf_id={data?.id}
+                  tooltip="Number of HCPs who have register for or activated the content."
                 />
             }
 
-            <ContentAnalyticsComponentActivityGauge
-              value={selectedData?.registerReader}
-              color="#ed9ba0"
-              limit={agreed_limit}
-              label=" Registered Reader (total)"
-              pdf_id={data?.id}
-              tooltip="Number of HCPs who have register for or activated the content."
-            />
             <ContentAnalyticsComponentActivityGauge
               value={selectedData?.rtr}
               color="#956ca7"
