@@ -248,7 +248,7 @@ export default function PollListing({ eventIdContext }) {
                 answerColor: "#64B8B0",
                 speakerName: "",
                 // answerOption: [{ answer: "", color: "#000000" }],
-                answerOption: [{ answer: "", color: colors[0] }],
+                answerOption: [{ answer: "", color: colors[0],addChoiceComment:0 }],
                 answerType: "MULTIPLE",
                 addComment: 0,
                 graphType: "bar",
@@ -360,7 +360,7 @@ export default function PollListing({ eventIdContext }) {
           });
       } else {
         updatedQuestions[key].questionData.answerOption = [
-          { answer: "", color: colors[0] },
+          { answer: "", color: colors[0],addChoiceComment:0 },
         ];
         updatedQuestions[key].questionDataErrors.answerOptionError.push({
           answerError: "",
@@ -393,6 +393,35 @@ export default function PollListing({ eventIdContext }) {
       e?.target?.value == "yes" ? 1 : 0;
     setQuestions(updatedQuestions);
   };
+
+
+
+  // ----------- Gagan code -------// 
+
+  // const handleChoiceChange = (e, questionKey, choiceIndex) => {
+  //   const updatedQuestions = [...questions];
+  //   updatedQuestions[questionKey].questionData.answerOption[
+  //     choiceIndex
+  //   ].answer = e.target.value;
+
+  //   setQuestions(updatedQuestions);
+  // };
+  const handleAddChoiceCommentChange = (e, questionKey, choiceIndex) => {
+    console.log("e-->",e.target.value," -->questionKey--->",questionKey," ---choiceIndex--->",choiceIndex)
+    // const updatedQuestions = JSON.parse(JSON.stringify([...questions]));
+    // updatedQuestions[key].questionData.addChoiceComment =
+    //   e?.target?.value == "yes" ? 1 : 0;
+    // setQuestions(updatedQuestions);
+
+    const updatedQuestions = [...questions];
+    updatedQuestions[questionKey].questionData.answerOption[
+      choiceIndex
+    ].addChoiceComment = e.target.value=="yes"?1:0;
+
+    setQuestions(updatedQuestions);
+  };
+
+  // ----------code end--------//
   const handleSpeakerNameChange = (e, key) => {
     const updatedQuestions = [...questions];
     updatedQuestions[key].questionData.speakerName = e.target.value;
@@ -421,6 +450,7 @@ export default function PollListing({ eventIdContext }) {
       updatedQuestions[key].questionData.answerOption.push({
         answer: "",
         color: colors[length % colors.length],
+        addChoiceComment:0
       });
       updatedQuestions[key].questionDataErrors.answerOptionError.push({
         answerError: "",
@@ -455,6 +485,7 @@ export default function PollListing({ eventIdContext }) {
   };
   const handleSubmit = async () => {
     const isValid = validateQuestions(currentIndex);
+    console.log("isValid-->",isValid)
 
     if (!isValid) {
       return;
@@ -556,6 +587,7 @@ export default function PollListing({ eventIdContext }) {
       questionObj.questionDataErrors.answerTypeError = "";
     }
     questionObj.questionData.answerOption.forEach((choice, choiceIndex) => {
+      console.log("choice-->",choice, " choiceIndex-->",choiceIndex)
       if (
         choice.answer.trim() === "" &&
         questionObj?.questionData?.answerType != "INPUT"
@@ -606,7 +638,7 @@ export default function PollListing({ eventIdContext }) {
         questionColor: "#000000",
         answerColor: "#64B8B0",
         speakerName: "",
-        answerOption: [{ answer: "", color: colors[0] }],
+        answerOption: [{ answer: "", color: colors[0],addChoiceComment:0 }],
         answerType: "MULTIPLE",
         addComment: 0,
         graphType: "bar",
@@ -658,7 +690,7 @@ export default function PollListing({ eventIdContext }) {
             questionColor: "#000000",
             answerColor: "#000000",
             speakerName: "",
-            answerOption: [{ answer: "", color: "#000000" }],
+            answerOption: [{ answer: "", color: "#000000" ,addChoiceComment:0}],
             answerType: "MULTIPLE",
             addComment: 0,
             graphType: "bar",
@@ -1060,6 +1092,10 @@ export default function PollListing({ eventIdContext }) {
                       onHandleIncrementChange={handleIncrementChange}
                       lastQuestionIndex={questions.length}
                       checkValidation={() => validateQuestions(index)}
+                      onHandleAddChoiceCommentChange={(e,choiceIndex) =>
+                        handleAddChoiceCommentChange(e, index,choiceIndex)
+                      }
+                      
                     />
                   )}
                 </>
