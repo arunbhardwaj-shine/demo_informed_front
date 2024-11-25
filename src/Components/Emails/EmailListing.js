@@ -2060,7 +2060,7 @@ const getDownloadData = async (viewEmailData) => {
                                   )}
                                 </div>
                               ) :
-                                data.status == 5 ? (
+                                data.status == 5 || data.status == 6 || data.status == 7 ? (
                                   <div className="mailbox-buttons d-flex justify-content-end">
                                     <button
                                       className="btn btn-primary btn-filled edit"
