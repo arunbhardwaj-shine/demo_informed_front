@@ -1187,7 +1187,8 @@ const ReaderEdit = () => {
                             Primary email <span>*</span>
                           </Form.Label>
                           <input
-                            readOnly ={localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg==' && state?.status == 1 ? false : true}
+                            // readOnly ={localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg==' && state?.status == 1 ? false : true}
+                            readOnly = {true}
                             type="email"
                             className={
                               error?.email

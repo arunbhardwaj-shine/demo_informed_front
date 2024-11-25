@@ -209,6 +209,7 @@ const SunShineTimeline = () => {
               print: res?.data?.data[0]?.print,
               download: res?.data?.data[0]?.download,
               subLink: res?.data?.data[0]?.subLink,
+              pinReaders: res?.data?.data[0]?.pinReaders,
             });
           }
 
@@ -482,6 +483,15 @@ const SunShineTimeline = () => {
                             <div className="library-content-box-layuot">
                               <div className="doc-content-main-box col">
                                 <div className="doc-content-header">
+                                <div className="doc-content-header-logo">
+                                    <a href="#">
+                                      <img
+                                        alt="doc-logo"
+                                        src={articleData?.coverImage}
+                                        style={{ width: "67px" }}
+                                      />
+                                    </a>
+                                  </div>
                                   <div className="doc-content">
                                     <h5
                                       dangerouslySetInnerHTML={{
@@ -744,7 +754,7 @@ const SunShineTimeline = () => {
                                               )
                                             )}
                                           </li>
-                                          <li className="d-flex align-center">
+                                          {/* <li className="d-flex align-center">
                                             <h6 className="tab-content-title">
                                               Unique reader (total)
                                               <LinkWithTooltip tooltip="Number of unique HCPs who have opened the content (based on IP address, device &amp; browser).">
@@ -837,9 +847,274 @@ const SunShineTimeline = () => {
                                                 }
                                               )
                                             )}
-                                          </li>
-                                          {articleData?.linkType !==
-                                          "Online" ? (
+                                          </li> */}
+
+{
+                                            articleData?.lastRomanNumber == 2 || articleData?.lastRomanNumber == 3 || articleData?.linkType == 'Sunshine' || articleData?.linkType == 'Sunshine USA'
+                                              ? (
+                                                <>
+                                                  <li className="d-flex align-center">
+                                                    <h6 className="tab-content-title">
+                                                      Unique reader (total)
+                                                      <LinkWithTooltip tooltip="Number of unique HCPs who have opened the content (based on IP address, device &amp; browser).">
+                                                        <img
+                                                          src={
+                                                            path_image +
+                                                            "info_circle_icon.svg"
+                                                          }
+                                                          alt="refresh-btn"
+                                                        />
+                                                      </LinkWithTooltip>
+                                                    </h6>
+ 
+                                                    {flag == 0 &&
+                                                      userId == articleData?.id ? (
+                                                      <div className="data-progress limited">
+                                                        <ProgressBar
+                                                          variant="default"
+                                                          now={100}
+                                                          label={"Loading"}
+                                                        />
+                                                      </div>
+                                                    ) : (
+                                                      opening_details?.map(
+                                                        (details) => {
+                                                          if (
+                                                            details?.pdf_id ==
+                                                            articleData?.id
+                                                          ) {
+                                                            return (
+                                                              <>
+                                                                <div className="data-progress limited">
+                                                                  <ProgressBar
+                                                                    variant={
+                                                                      details?.uniqueReader ==
+                                                                        0
+                                                                        ? "default"
+                                                                        : "warning"
+                                                                    }
+                                                                    now={
+                                                                      details?.limit ==
+                                                                        0
+                                                                        ? (details?.uniqueReader /
+                                                                          1000) *
+                                                                        100
+                                                                        : (details?.uniqueReader /
+                                                                          details?.limit) *
+                                                                        100
+                                                                    }
+                                                                    label={
+                                                                      details?.uniqueReader
+                                                                    }
+                                                                  />
+                                                                </div>
+                                                              </>
+                                                            );
+                                                          }
+                                                        }
+                                                      )
+                                                    )}
+                                                  </li>
+ 
+                                                  {
+                                                    articleData?.lastRomanNumber == 2 || articleData?.lastRomanNumber == 3 ?
+                                                      <li className="d-flex align-center">
+                                                        <h6 className="tab-content-title">
+                                                          Article Usage
+                                                          <LinkWithTooltip tooltip="Number of usage on the content.">
+                                                            <img
+                                                              src={
+                                                                path_image +
+                                                                "info_circle_icon.svg"
+                                                              }
+                                                              alt="refresh-btn"
+                                                            />
+                                                          </LinkWithTooltip>
+                                                        </h6>
+ 
+                                                        {flag == 0 &&
+                                                          userId == articleData?.id ? (
+                                                          <div className="data-progress limited">
+                                                            <ProgressBar
+                                                              variant="default"
+                                                              now={100}
+                                                              label={"Loading"}
+                                                            />
+                                                          </div>
+                                                        ) : (
+                                                          opening_details?.map(
+                                                            (details) => {
+                                                              if (
+                                                                details?.pdf_id ==
+                                                                articleData?.id
+                                                              ) {
+                                                                return (
+                                                                  <>
+                                                                    <div className="data-progress limited">
+                                                                      <ProgressBar
+                                                                        variant={
+                                                                          details?.pinReaders ==
+                                                                            0
+                                                                            ? "default"
+                                                                            : "pin_usage"
+                                                                        }
+                                                                        now={
+                                                                          details?.limit ==
+                                                                            0
+                                                                            ? (details?.pinReaders /
+                                                                              1000) *
+                                                                            100
+                                                                            : (details?.pinReaders /
+                                                                              details?.limit) *
+                                                                            100
+                                                                        }
+                                                                        label={
+                                                                          details?.pinReaders
+                                                                        }
+                                                                      />
+                                                                      <span>
+                                                                        Agreed Limit :&nbsp;
+                                                                        <strong>
+                                                                          {details?.limit ==
+                                                                            0
+                                                                            ? "Unlimited"
+                                                                            : details?.limit ==
+                                                                              1000
+                                                                              ? "Unlimited"
+                                                                              : details?.limit}
+                                                                        </strong>
+                                                                      </span>
+                                                                    </div>
+                                                                    <span className="total-left">
+                                                                      {details?.limit ==
+                                                                        0 ||
+                                                                        details?.limit ==
+                                                                        1000 ? (
+                                                                        ""
+                                                                      ) : (
+                                                                        <>
+                                                                          {details?.limit ==
+                                                                            0
+                                                                            ? 1000 -
+                                                                            details?.pinReaders
+                                                                            : details?.limit -
+                                                                            details?.pinReaders}
+                                                                          <small>
+                                                                            Left
+                                                                          </small>
+                                                                        </>
+                                                                      )}
+                                                                    </span>
+                                                                  </>
+                                                                );
+                                                              }
+                                                            }
+                                                          )
+                                                        )}
+                                                      </li>
+                                                      : null
+                                                  }
+                                                </>
+                                              ) :
+                                              <li className="d-flex align-center">
+                                                <h6 className="tab-content-title">
+                                                  Unique reader (total)
+                                                  <LinkWithTooltip tooltip="Number of unique HCPs who have opened the content (based on IP address, device &amp; browser).">
+                                                    <img
+                                                      src={
+                                                        path_image +
+                                                        "info_circle_icon.svg"
+                                                      }
+                                                      alt="refresh-btn"
+                                                    />
+                                                  </LinkWithTooltip>
+                                                </h6>
+ 
+                                                {flag == 0 &&
+                                                  userId == articleData?.id ? (
+                                                  <div className="data-progress limited">
+                                                    <ProgressBar
+                                                      variant="default"
+                                                      now={100}
+                                                      label={"Loading"}
+                                                    />
+                                                  </div>
+                                                ) : (
+                                                  opening_details?.map(
+                                                    (details) => {
+                                                      if (
+                                                        details?.pdf_id ==
+                                                        articleData?.id
+                                                      ) {
+                                                        return (
+                                                          <>
+                                                            <div className="data-progress limited">
+                                                              <ProgressBar
+                                                                variant={
+                                                                  details?.uniqueReader ==
+                                                                    0
+                                                                    ? "default"
+                                                                    : "warning"
+                                                                }
+                                                                now={
+                                                                  details?.limit ==
+                                                                    0
+                                                                    ? (details?.uniqueReader /
+                                                                      1000) *
+                                                                    100
+                                                                    : (details?.uniqueReader /
+                                                                      details?.limit) *
+                                                                    100
+                                                                }
+                                                                label={
+                                                                  details?.uniqueReader
+                                                                }
+                                                              />
+                                                              <span>
+                                                                Agreed Limit :&nbsp;
+                                                                <strong>
+                                                                  {details?.limit ==
+                                                                    0
+                                                                    ? "Unlimited"
+                                                                    : details?.limit ==
+                                                                      1000
+                                                                      ? "Unlimited"
+                                                                      : details?.limit}
+                                                                </strong>
+                                                              </span>
+                                                            </div>
+                                                            <span className="total-left">
+                                                              {details?.limit ==
+                                                                0 ||
+                                                                details?.limit ==
+                                                                1000 ? (
+                                                                ""
+                                                              ) : (
+                                                                <>
+                                                                  {details?.limit ==
+                                                                    0
+                                                                    ? 1000 -
+                                                                    details?.uniqueReader
+                                                                    : details?.limit -
+                                                                    details?.uniqueReader}
+                                                                  <small>
+                                                                    Left
+                                                                  </small>
+                                                                </>
+                                                              )}
+                                                            </span>
+                                                          </>
+                                                        );
+                                                      }
+                                                    }
+                                                  )
+                                                )}
+                                              </li>
+                                          }
+
+
+{articleData?.linkType !==
+                                            "Online" ? (
                                             <li>
                                               <h6 className="tab-content-title">
                                                 Registered readers{" "}
@@ -854,7 +1129,7 @@ const SunShineTimeline = () => {
                                                 </LinkWithTooltip>
                                               </h6>
                                               {flag == 0 &&
-                                              userId == articleData.id ? (
+                                                userId == articleData.id ? (
                                                 <div className="data-progress limited">
                                                   <ProgressBar
                                                     variant="default"
@@ -876,25 +1151,67 @@ const SunShineTimeline = () => {
                                                             <ProgressBar
                                                               variant={
                                                                 details.registeredReader ==
-                                                                0
+                                                                  0
                                                                   ? "default"
                                                                   : "danger"
                                                               }
                                                               now={
                                                                 details.limit ==
-                                                                0
+                                                                  0
                                                                   ? (details.registeredReader /
-                                                                      1000) *
-                                                                    100
+                                                                    1000) *
+                                                                  100
                                                                   : (details.registeredReader /
-                                                                      details.limit) *
-                                                                    100
+                                                                    details.limit) *
+                                                                  100
                                                               }
                                                               label={
                                                                 details.registeredReader
                                                               }
                                                             />
+                                                            {
+                                                              (articleData?.linkType == 'Sunshine' || articleData?.linkType == 'Sunshine USA') && (articleData?.lastRomanNumber != 2 && articleData?.lastRomanNumber != 3)
+                                                                ?
+                                                                <span>
+                                                                  Agreed Limit :&nbsp;
+                                                                  <strong>
+                                                                    {details?.limit ==
+                                                                      0
+                                                                      ? "Unlimited"
+                                                                      : details?.limit ==
+                                                                        1000
+                                                                        ? "Unlimited"
+                                                                        : details?.limit}
+                                                                  </strong>
+                                                                </span>
+                                                                : null
+                                                            }
                                                           </div>
+                                                          {
+                                                            (articleData?.linkType == 'Sunshine' || articleData?.linkType == 'Sunshine USA') && (articleData?.lastRomanNumber != 2 && articleData?.lastRomanNumber != 3)
+                                                              ?
+                                                              <span className="total-left">
+                                                                {details?.limit ==
+                                                                  0 ||
+                                                                  details?.limit ==
+                                                                  1000 ? (
+                                                                  ""
+                                                                ) : (
+                                                                  <>
+                                                                    {details?.limit ==
+                                                                      0
+                                                                      ? 1000 -
+                                                                      details?.registeredReader
+                                                                      : details?.limit -
+                                                                      details?.registeredReader}
+                                                                    <small>
+                                                                      Left
+                                                                    </small>
+                                                                  </>
+                                                                )}
+                                                              </span>
+                                                              : null
+                                                          }
                                                         </>
                                                       );
                                                     }
@@ -903,6 +1220,7 @@ const SunShineTimeline = () => {
                                               )}
                                             </li>
                                           ) : null}
+ 
                                           {articleData?.subLinkAdded ? (
                                             <li>
                                               <h6 className="tab-content-title">
@@ -918,7 +1236,7 @@ const SunShineTimeline = () => {
                                                 </LinkWithTooltip>
                                               </h6>
                                               {flag == 0 &&
-                                              userId == articleData?.id ? (
+                                                userId == articleData?.id ? (
                                                 <div className="data-progress limited">
                                                   <ProgressBar
                                                     variant="default"
@@ -939,19 +1257,19 @@ const SunShineTimeline = () => {
                                                             <ProgressBar
                                                               variant={
                                                                 details?.subLink >
-                                                                0
+                                                                  0
                                                                   ? "subLink"
                                                                   : "default"
                                                               }
                                                               now={
                                                                 details.limit ==
-                                                                0
+                                                                  0
                                                                   ? (details.subLink /
-                                                                      1000) *
-                                                                    100
+                                                                    1000) *
+                                                                  100
                                                                   : (details.subLink /
-                                                                      details.limit) *
-                                                                    100
+                                                                    details.limit) *
+                                                                  100
                                                               }
                                                               label={
                                                                 details?.subLink
@@ -968,6 +1286,7 @@ const SunShineTimeline = () => {
                                               )}
                                             </li>
                                           ) : null}
+ 
                                           {articleData?.allow_print ? (
                                             <li>
                                               <h6 className="tab-content-title">
@@ -983,7 +1302,7 @@ const SunShineTimeline = () => {
                                                 </LinkWithTooltip>
                                               </h6>
                                               {flag == 0 &&
-                                              userId == articleData?.id ? (
+                                                userId == articleData?.id ? (
                                                 <div className="data-progress limited">
                                                   <ProgressBar
                                                     variant="default"
@@ -1004,19 +1323,19 @@ const SunShineTimeline = () => {
                                                             <ProgressBar
                                                               variant={
                                                                 details?.print >
-                                                                0
+                                                                  0
                                                                   ? "print"
                                                                   : "default"
                                                               }
                                                               now={
                                                                 details.limit ==
-                                                                0
+                                                                  0
                                                                   ? (details.print /
-                                                                      1000) *
-                                                                    100
+                                                                    1000) *
+                                                                  100
                                                                   : (details.print /
-                                                                      details.limit) *
-                                                                    100
+                                                                    details.limit) *
+                                                                  100
                                                               }
                                                               label={
                                                                 details?.print
@@ -1031,6 +1350,7 @@ const SunShineTimeline = () => {
                                               )}
                                             </li>
                                           ) : null}
+ 
                                           {articleData?.allow_download ? (
                                             <li>
                                               <h6 className="tab-content-title">
@@ -1046,7 +1366,7 @@ const SunShineTimeline = () => {
                                                 </LinkWithTooltip>
                                               </h6>
                                               {flag == 0 &&
-                                              userId == articleData?.id ? (
+                                                userId == articleData?.id ? (
                                                 <div className="data-progress limited">
                                                   <ProgressBar
                                                     variant="default"
@@ -1067,19 +1387,19 @@ const SunShineTimeline = () => {
                                                             <ProgressBar
                                                               variant={
                                                                 details?.download >
-                                                                0
+                                                                  0
                                                                   ? "download"
                                                                   : "default"
                                                               }
                                                               now={
                                                                 details.limit ==
-                                                                0
+                                                                  0
                                                                   ? (details.download /
-                                                                      1000) *
-                                                                    100
+                                                                    1000) *
+                                                                  100
                                                                   : (details.download /
-                                                                      details.limit) *
-                                                                    100
+                                                                    details.limit) *
+                                                                  100
                                                               }
                                                               label={
                                                                 details?.download

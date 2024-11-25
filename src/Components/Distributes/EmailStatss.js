@@ -407,7 +407,7 @@ const EmailStats = (props) => {
                       </form>
               </div>
 
-             {isLikeRdAccount? <div
+             {/* {isLikeRdAccount? <div
                   className={
                     showfilter
                       ? "filter-by nav-item dropdown highlight"
@@ -470,7 +470,6 @@ const EmailStats = (props) => {
                       </svg>
                     )}
                   </button>
-                  {/*Code for show filters*/}
                   {showfilter && (
                     <div
                       ref={filterRef}
@@ -564,7 +563,7 @@ const EmailStats = (props) => {
                       </div>
                     </div>
                   )}
-              </div> : null}
+              </div> : null} */}
         </div>
           <div className="result-hcp-table">
             <div className="table-title">
@@ -692,12 +691,13 @@ const EmailStats = (props) => {
                                       {/* {isLikeRdAccount ?<td>{campaignItem?.unique_site_numbers && campaignItem?.unique_site_numbers?.length > 0 ? campaignItem?.unique_site_numbers.join(', ') : 'N/A'}</td> : null} */}
                                             {isLikeRdAccount ? (
                                             <td>
-                                              {campaignItem?.unique_site_numbers && campaignItem?.unique_site_numbers?.length > 0 
-                                                ? campaignItem?.unique_site_numbers
-                                                    .map(site => (site === null || site === undefined  || site === ""  ? 'N/A' : site)) 
-                                                    .filter(site => !(site === "0" || site === 0))
-                                                    .join(', ')
-                                                : 'N/A'}
+                                              {campaignItem?.unique_site_numbers && campaignItem?.unique_site_numbers.length > 0
+                                                  ? campaignItem?.unique_site_numbers.every(site => site === null || site === undefined || site === "")
+                                                      ? 'N/A'
+                                                      : campaignItem?.unique_site_numbers
+                                                          .filter(site => !(site === null || site === undefined || site === "" || site === "0" || site === 0))
+                                                          .join(', ')
+                                                  : 'N/A'}
                                             </td>
                                           ) : null}
 
@@ -850,12 +850,13 @@ const EmailStats = (props) => {
                                           <tr className={item?.campaign_status == 5 ? "queue_row" : "campaign_row"} key={index}>
                                           {isLikeRdAccount ? (
                                             <td>
-                                              {item.sites && item.sites.length > 0 
-                                                ? item.sites
-                                                    .map(site => (site === null || site === undefined || site === ""  ? 'N/A' : site)) 
-                                                    .filter(site => !(site === "0" || site === 0))
-                                                    .join(', ')
-                                                : 'N/A'}
+                                              {item.sites && item.sites.length > 0
+                                                  ? item.sites.every(site => site === null || site === undefined || site === "")
+                                                      ? 'N/A'
+                                                      : item.sites
+                                                          .filter(site => !(site === null || site === undefined || site === "" || site === "0" || site === 0))
+                                                          .join(', ')
+                                                  : 'N/A'}
                                             </td>
                                           ) : null}
 
