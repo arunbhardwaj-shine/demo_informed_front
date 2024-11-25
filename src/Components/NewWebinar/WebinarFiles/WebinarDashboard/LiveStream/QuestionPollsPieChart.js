@@ -316,8 +316,6 @@ const QuestionPollsPieChart = ({ data,show,type }) => {
                 {
                     enabled: true,
                     formatter: function() {
-                        // var pcnt = this.point.p.toFixed(0);
-                        // return data?.canCustomAnswer==1?'<tspan >' + this.point.y +  '</tspan>':'<tspan >' + pcnt + "%" + '</tspan>';
                         var pcnt=data?.canCustomAnswer==1? this.point.y :this.point.p.toFixed(0) + "%" ;
                         return '<tspan >' + pcnt  + '</tspan>';
                     },
@@ -328,11 +326,7 @@ const QuestionPollsPieChart = ({ data,show,type }) => {
                     },
                 },
             ],}},
-            series:barSeriesData?.slice(1),            
-           
-           
-        })
-            
+            series:barSeriesData?.slice(1)})
            
         }
         

@@ -29,6 +29,8 @@ const GetMedpakDetails = () => {
     const [reminderChecked, setReminderChecked] = useState({})
     const [allChecked, setAllChecked] = useState(false);
 
+    const [isStopped, setStopped] = useState(0); 
+
     useEffect(() => {
         // console.log("reminder state-->", reminderChecked)
         setData([]);
@@ -83,6 +85,8 @@ const GetMedpakDetails = () => {
                     setHeading(heading);
                     setUpdatedData(readers);
                     setDistributeData(res.data.response.data.distribute_data);
+                    const status =res.data.response.data.distribute_data?.campaign_status;
+                    setStopped(status === 6 ? 1 : 0);
 
                     const updatedReminderChecked = {};
                     readers.forEach((user) => {
@@ -333,6 +337,35 @@ const GetMedpakDetails = () => {
         }
     };
 
+      const handleStoppedCampaign = async (isChecked) => {
+        const status = isChecked ? 1 : 0;
+        const body = {
+          user_id: localStorage.getItem("user_id"),
+          campaign_id: distributeData?.campaign_id,
+          status: status,
+        };
+    
+        loader("show");
+        try {
+          const res = await axios.post(`emailapi/stop_campaign`, body);
+          if (res.data.status_code === 200) {
+            setStopped(status);
+            toast.success(
+              isChecked
+                ? "Campaign status update successfully"
+                : "Campaign status update successfully"
+            );
+          } else {
+            toast.warning(res.data.message);
+          }
+        } catch (err) {
+          toast.error("Something went wrong");
+          console.log(err);
+        } finally {
+          loader("hide");
+        }
+      };
+
     return (
         <>
             {" "}
@@ -424,7 +457,7 @@ const GetMedpakDetails = () => {
                                     </div>
                                     <div className="table_xls search_view sync">
                                         <div className="smart-list-btns">
-                                            <div className="top-left-action d-flex align-items-center" style={{ gap: "0 10px" }}>
+                                            <div className="top-left-action d-flex align-items-center w-100" style={{ gap: "0 10px" }}>
 
                                                 <div className="search-bar">
                                                     <form
@@ -477,6 +510,24 @@ const GetMedpakDetails = () => {
                                                         />
                                                     </svg>
                                                 </button>
+
+                                                {/* <div className="campaign_stopped">
+                                                 <p>Campaign Stopped</p>
+                                                 <div className="switch">
+                                                <label className="switch-light">
+                                                    <input
+                                                    type="checkbox"
+                                                    checked={isStopped === 1}
+                                                    onChange={(e) => handleStoppedCampaign(e.target.checked)}
+                                                    />
+                                                    <span>
+                                                    <span className="switch-btn active">No</span>
+                                                    <span className="switch-btn">Yes</span>
+                                                    </span>
+                                                    <a className="btn"></a>
+                                                </label>
+                                                </div>
+                                                </div> */}
                                             </div>
 
                                             {/* <div className="all-checked-reminder">
