@@ -178,7 +178,6 @@ export default function PollListing({ eventIdContext }) {
         if (event_code != "") {
           index = dropDownDataTemp.findIndex((obj) => obj.value === event_code);
         }
-        // console.log(index,"Selected index");
         let selectedData = dropDownDataTemp.length
           ? dropDownDataTemp?.[index]
           : { value: "", label: "" };
@@ -234,9 +233,6 @@ export default function PollListing({ eventIdContext }) {
           },
         };
       });
-      // console.log(data);
-      // setQuestions(data)
-      // console.log(data,'');
       setQuestionFlag(data?.length <= 0 ? true : false);
       data = data?.length
         ? data
@@ -398,27 +394,21 @@ export default function PollListing({ eventIdContext }) {
 
   // ----------- Gagan code -------// 
 
-  // const handleChoiceChange = (e, questionKey, choiceIndex) => {
-  //   const updatedQuestions = [...questions];
-  //   updatedQuestions[questionKey].questionData.answerOption[
-  //     choiceIndex
-  //   ].answer = e.target.value;
-
-  //   setQuestions(updatedQuestions);
-  // };
   const handleAddChoiceCommentChange = (e, questionKey, choiceIndex) => {
-    console.log("e-->",e.target.value," -->questionKey--->",questionKey," ---choiceIndex--->",choiceIndex)
-    // const updatedQuestions = JSON.parse(JSON.stringify([...questions]));
-    // updatedQuestions[key].questionData.addChoiceComment =
-    //   e?.target?.value == "yes" ? 1 : 0;
-    // setQuestions(updatedQuestions);
-
     const updatedQuestions = [...questions];
     updatedQuestions[questionKey].questionData.answerOption[
       choiceIndex
-    ].addChoiceComment = e.target.value=="yes"?1:0;
+    ].addChoiceComment =  e.target.checked?1:0
 
-    setQuestions(updatedQuestions);
+    // e.target.value=="yes"?1:0;  
+    // if(e.target.value=="yes"){
+    //   updatedQuestions[questionKey].questionData.addComment =0      
+    // }
+
+    if(e.target.checked){
+      updatedQuestions[questionKey].questionData.addComment =0      
+    }
+    setQuestions(updatedQuestions);    
   };
 
   // ----------code end--------//
@@ -485,7 +475,6 @@ export default function PollListing({ eventIdContext }) {
   };
   const handleSubmit = async () => {
     const isValid = validateQuestions(currentIndex);
-    console.log("isValid-->",isValid)
 
     if (!isValid) {
       return;
@@ -543,7 +532,6 @@ export default function PollListing({ eventIdContext }) {
       // setCurrentIndex(0);
       setQuestionFlag(false);
       loader("hide");
-
       setQuestions(apiData);
     }
   };
@@ -587,7 +575,6 @@ export default function PollListing({ eventIdContext }) {
       questionObj.questionDataErrors.answerTypeError = "";
     }
     questionObj.questionData.answerOption.forEach((choice, choiceIndex) => {
-      console.log("choice-->",choice, " choiceIndex-->",choiceIndex)
       if (
         choice.answer.trim() === "" &&
         questionObj?.questionData?.answerType != "INPUT"
@@ -619,7 +606,6 @@ export default function PollListing({ eventIdContext }) {
 
     // updatedQuestions = questionObj;
     updatedQuestions[index] = questionObj;
-    // console.log(questionObj);
     setQuestions(updatedQuestions);
     setSelectedQuestion(questionObj);
     return isValid;
@@ -759,7 +745,6 @@ export default function PollListing({ eventIdContext }) {
     setIsPrevClicked(true);
     let ques = JSON.parse(JSON.stringify(questions));
     setQuestionsOrder(ques);
-    // console.log(questionsOrder,'===>order1')
   };
 
   const handleClose = () => {
@@ -767,9 +752,7 @@ export default function PollListing({ eventIdContext }) {
   };
 
   const handleQuestionOrderChange = (questionsOrder) => {
-    // setQuestions(updatedQuestions);
     setQuestionsOrder(questionsOrder);
-    // console.log(questionsOrder,'===>order2')
   };
 
   const handleSave = async () => {
@@ -804,7 +787,6 @@ export default function PollListing({ eventIdContext }) {
     } finally {
       loader("hide");
     }
-    // console.log("Saving questions:", questionsOrder)
   };
   const toggleAccordion = (index) => {
     setAccordionOpen((prevIndex) => (prevIndex === index ? null : index));
@@ -1129,7 +1111,6 @@ export default function PollListing({ eventIdContext }) {
                     }`}
                     onClick={() => {
                       slickRef.current.slickNext();
-                      // console.log(slickRef.current);
                     }}
                   >
                     <svg width="19" height="11" viewBox="0 0 19 11" fill="none">

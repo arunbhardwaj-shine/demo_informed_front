@@ -73,7 +73,6 @@ function Question(props) {
   } = questionData;
 
   const [questionDataSample, setquestionDataSample] = useState(questionData)
-  // console.log(questionData,'===>question')
   const [selectedItem, setSelectedItem] = useState(
     answerType ? { value: answerType, label: dropdownData[answerType] } : ""
   );
@@ -127,7 +126,6 @@ function Question(props) {
     if (checkValidation()) {
       setIsPrevClicked(true);
     }
-
   }
 
   const handleClose = () => {
@@ -182,8 +180,6 @@ function Question(props) {
                       alt=""
                     />
                   </div>
-
-
                   <input
                     type="color"
                     title="Choose Your Color"
@@ -278,7 +274,7 @@ function Question(props) {
                                 type="text"
                                 value={choice.answer}
                                 onChange={(e) => onChoiceChange(e, index)}
-                              />                             
+                              />
 
                               <div className="option-action">
                                 {answerOption?.length > 1 &&
@@ -349,21 +345,21 @@ function Question(props) {
                                 </div>
                               </div>
 
-                               {/* --------add comment to perticular choice start----  */}
-                               <div className="speaker-detail comment d-flex align-items-center">
+                              {/* --------add comment to perticular choice start----  */}
+                              <div className="speaker-detail comment d-flex align-items-center">
                                 <div className="speaker-comment">
-                                  <Form.Group>
+                                  {/* <Form.Group>
                                     <Form.Label>Choice {index + 1} Include Comment:</Form.Label>
-                                    <fieldset id={`choice_comment_${index+1}`}>
+                                    <fieldset id={`choice_comment_${index + 1}`}>
                                       <input
                                         type="radio"
                                         value="yes"
-                                        name={`choice_comment_${index+1}`}
+                                        name={`choice_comment_${index + 1}`}
                                         defaultChecked={
                                           choice.addChoiceComment == 1 ? true : false
                                         }
-                                        onClick={(e)=>
-                                          onHandleAddChoiceCommentChange(e,index)
+                                        onClick={(e) =>
+                                          onHandleAddChoiceCommentChange(e, index)
                                         }
                                         id="limitagreed1"
                                       />
@@ -371,18 +367,39 @@ function Question(props) {
                                       <input
                                         type="radio"
                                         value="no"
-                                        name={`choice_comment_${index+1}`}
+                                        name={`choice_comment_${index + 1}`}
                                         checked={
                                           choice.addChoiceComment != 1 ? true : false
                                         }
-                                        onClick={(e)=>
-                                          onHandleAddChoiceCommentChange(e,index)
+                                        onClick={(e) =>
+                                          onHandleAddChoiceCommentChange(e, index)
                                         }
                                         id="limitagreed2"
                                       />
                                       <label htmlFor="limitagreed2">No</label>
 
                                     </fieldset>
+                                  </Form.Group> */}
+                                  <Form.Group>
+                                  <Form.Label>Choice {index + 1} Add Comment:</Form.Label>
+                                    <div className="switch">
+                                      <label className="switch-light">
+                                        <input
+                                          type="checkbox"
+                                          checked={
+                                            choice.addChoiceComment ? true : false
+                                          }
+                                          onChange={(e) => {
+                                            onHandleAddChoiceCommentChange(e, index)
+                                          }}
+                                        />
+                                        <span>
+                                          <span className="switch-btn active">No</span>
+                                          <span className="switch-btn">Yes</span>
+                                        </span>
+                                        <a className="btn"></a>
+                                      </label>
+                                    </div>
                                   </Form.Group>
                                 </div>
                               </div>
@@ -442,43 +459,45 @@ function Question(props) {
                   </>
                 )}
             </Form.Group>
-            {!(answerType === "INPUT") ?
-              <div className="speaker-detail comment d-flex align-items-center">
-                <div className="speaker-comment">
-                  <Form.Group>
-                    <Form.Label>Include Comment:</Form.Label>
-                    <fieldset id="group2">
-                      <input
-                        type="radio"
-                        value="yes"
-                        name="group2"
-                        defaultChecked={
-                          addComment == 1 ? true : false
-                        }
-                        onClick={
-                          onHandleAddCommentChange
-                        }
-                        id="limitagreed1"
-                      />
-                      <label htmlFor="limitagreed1">Yes</label>
-                      <input
-                        type="radio"
-                        value="no"
-                        name="group2"
-                        checked={
-                          addComment != 1 ? true : false
-                        }
-                        onClick={
-                          onHandleAddCommentChange
-                        }
-                        id="limitagreed2"
-                      />
-                      <label htmlFor="limitagreed2">No</label>
+            {(!(answerType === "INPUT") && !(answerOption.some((choice) => choice.addChoiceComment == 1))) ?
+              <>
+                <div className="speaker-detail comment d-flex align-items-center">
+                  <div className="speaker-comment">
+                    <Form.Group>
+                      <Form.Label>Include Comment:</Form.Label>
+                      <fieldset id="group2">
+                        <input
+                          type="radio"
+                          value="yes"
+                          name="group2"
+                          defaultChecked={
+                            addComment == 1 ? true : false
+                          }
+                          onClick={
+                            onHandleAddCommentChange
+                          }
+                          id="limitagreed1"
+                        />
+                        <label htmlFor="limitagreed1">Yes</label>
+                        <input
+                          type="radio"
+                          value="no"
+                          name="group2"
+                          checked={
+                            addComment != 1 ? true : false
+                          }
+                          onClick={
+                            onHandleAddCommentChange
+                          }
+                          id="limitagreed2"
+                        />
+                        <label htmlFor="limitagreed2">No</label>
 
-                    </fieldset>
-                  </Form.Group>
+                      </fieldset>
+                    </Form.Group>
+                  </div>
                 </div>
-              </div> : null}
+              </> : null}
 
             <div className="speaker-detail d-flex align-items-center">
               <div className="speaker-name">
