@@ -309,7 +309,10 @@ const PreviewContent = () => {
                 title: isLikeRdAccount ? location?.state?.title : '',
                 flag:isLikeRdAccount
                 ? (location?.state?.flag === "Non-mandatory" ? 'Non-mandatory' : "mandatory")
-                : ''},
+                : '',
+                draft:state?.draft
+              },
+                
             });
           }
           setPdfData(pdfData);
@@ -346,7 +349,10 @@ const PreviewContent = () => {
                 title: isLikeRdAccount ? location?.state?.title : '',
                 flag:isLikeRdAccount
                 ? (location?.state?.flag === "Non-mandatory" ? 'Non-mandatory' : "mandatory")
-                : ''},
+                : '',
+                draft:state?.draft
+              },
+                
             });
           }
           setPdfData(pdfData);
@@ -358,7 +364,10 @@ const PreviewContent = () => {
               title: isLikeRdAccount ? location?.state?.title : '',
               flag: isLikeRdAccount
               ? (location?.state?.flag === "Non-mandatory" ? 'Non-mandatory' : "mandatory")
-              : ''},
+              : '',
+              draft:state?.draft
+            },
+              
           });
         }
         setApiCallBackFlag(apiCallBackFlag + 1);
@@ -395,7 +404,8 @@ const PreviewContent = () => {
                               ? "Non-mandatory" : '') :'',
                               title: isLikeRdAccount
                               ? (location?.state?.title)
-                              : ''
+                              : '',
+                              draft:state?.draft
                           }}
                         >
                           Back
@@ -416,7 +426,8 @@ const PreviewContent = () => {
                             ? "Non-mandatory" : '') :'',
                             title:isLikeRdAccount
                             ? (location?.state?.title)
-                            : ''
+                            : '',
+                            draft:state?.draft
                         }}
                       >
                         Back
@@ -433,6 +444,7 @@ const PreviewContent = () => {
                         allowVideo: allowStateVideo,
                         ibu: pdfData?.ibu?pdfData?.ibu:"",
                         lng:pdfData?.popup_email_content_language?newLanguage[pdfData?.popup_email_content_language]:10,
+                        draft:state?.draft
                       }}
                     >
                       Back

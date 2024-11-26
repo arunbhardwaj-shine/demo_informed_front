@@ -231,7 +231,9 @@ templateIdRef.current=res?.data?.data?.popupTempId
           // End : Changes by jacob for offline article text change 13-08-2024
 
           data.push(res?.data?.data?.popupData[0]);
-          data.push(res?.data?.data?.popupData[3]);
+          if(localStorage.getItem("user_id") !== "b3APser7L8OELDIG8ee2HQ==" ){
+            data.push(res?.data?.data?.popupData[3]);
+          }
         } else if (
           consent == "Sunshine USA" ||
           first_consent == "Sunshine USA"
@@ -241,8 +243,7 @@ templateIdRef.current=res?.data?.data?.popupTempId
           data = res?.data?.data?.usaPopup.filter((item) => item?.display === true);
         } else {
           setIsOnline(false);
-
-          data = res?.data?.data?.popupData;
+          data = res?.data?.data?.popupData.filter((item) => item?.display === true);
         }
         setTemplateList(data);
         loader("hide");
@@ -368,11 +369,12 @@ templateIdRef.current=res?.data?.data?.popupTempId
             pdfId: articleId,
             isEdit: isEdit,
             allowVideo: allowStateVideo,
+            draft:state?.draft
           },
         });
       } else {
         navigate("/content-detail", {
-          state: { pdfId: articleId, isEdit: isEdit },
+          state: { pdfId: articleId, isEdit: isEdit,draft:state?.draft },
         });
       }
     } catch (err) {
@@ -630,6 +632,7 @@ templateIdRef.current=res?.data?.data?.popupTempId
                                     pdfId: state?.pdfId,
                                     isEdit: isEdit,
                                     allowVideo: allowStateVideo,
+                                    draft:state?.draft
                                   },
                                 });
                               } else {
@@ -1038,7 +1041,7 @@ templateIdRef.current=res?.data?.data?.popupTempId
                           content_style:
                             "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
                           content_css: [
-                            "https://docintel.app/react_informed.css?v=1.2",
+                            "https://docintel.app/react_informed.css?v=1.9",
                             "https://use.fontawesome.com/releases/v5.8.2/css/all.css",
                           ],
                           init_instance_callback: (editor)=>addTracking(editor),

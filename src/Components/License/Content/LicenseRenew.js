@@ -473,7 +473,7 @@ const LicenseRenew = () => {
                   <h6>Collected Data</h6>
                   <ul className="tab-mail-list data">
                     {data?.lastRomanNumber == 2 ||
-                    data?.lastRomanNumber == 3 ? (
+                    data?.lastRomanNumber == 3  || data?.linkType == 'Sunshine' || data?.linkType == 'Sunshine USA' ? (
                       <>
                         <li className="d-flex align-center">
                           <h6 className="tab-content-title">
@@ -525,6 +525,9 @@ const LicenseRenew = () => {
                             />
                           </div>
                         </li>
+                        {
+                         data?.lastRomanNumber == 2 ||
+                          data?.lastRomanNumber == 3 ?
                         <li>
                           <h6 className="tab-content-title">
                             Article Usage
@@ -635,6 +638,8 @@ const LicenseRenew = () => {
                             ) : null}
                           </span>
                         </li>
+                         : null
+                        }
                       </>
                     ) : (
                       <li className="d-flex align-center">
@@ -799,7 +804,7 @@ const LicenseRenew = () => {
                         />
                       </div>
                     </li>
-
+                    {data?.linkType != "Online" ? (
                     <li>
                       <h6 className="tab-content-title">
                         Registered readers
@@ -854,8 +859,73 @@ const LicenseRenew = () => {
                               : "Loading"
                           }
                         />
+                         {
+                                            (data?.linkType == 'Sunshine' || data?.linkType == 'Sunshine USA') && (data?.lastRomanNumber != 2 && data?.lastRomanNumber != 3) ?
+                                            <span>
+                                              Agreed Limit :&nbsp;
+                                              <strong>
+                                                {openingDetails.findIndex(
+                                                  (el) => el.pdfId == data?.id
+                                                ) !== -1
+                                                  ? openingDetails[
+                                                    openingDetails.findIndex(
+                                                        (el) =>
+                                                          el.pdfId == data?.id
+                                                      )
+                                                    ]?.limit == 1000
+                                                    ? "Unlimited"
+                                                    : openingDetails[
+                                                      openingDetails.findIndex(
+                                                          (el) =>
+                                                            el.pdfId == data?.id
+                                                        )
+                                                      ]?.limit
+                                                  : "Unlimited"}
+                                              </strong>
+                                            </span>
+                                            : null
+                                          }
                       </div>
+                      {
+                                          (data?.linkType == 'Sunshine' || data?.linkType == 'Sunshine USA') && (data?.lastRomanNumber != 2 && data?.lastRomanNumber != 3) ? 
+                                          <span className="total-left">
+                                            {openingDetails.findIndex(
+                                              (el) => el.pdfId == data?.id
+                                            ) !== -1
+                                              ? openingDetails[
+                                                openingDetails.findIndex(
+                                                    (el) => el.pdfId == data?.id
+                                                  )
+                                                ]?.limit == 1000
+                                                ? null
+                                                : openingDetails[
+                                                  openingDetails.findIndex(
+                                                      (el) => el.pdfId == data?.id
+                                                    )
+                                                  ]?.limit -
+                                                  openingDetails[
+                                                    openingDetails.findIndex(
+                                                      (el) => el.pdfId == data?.id
+                                                    )
+                                                  ]?.reader
+                                              : null}
+
+                                            {openingDetails.findIndex(
+                                              (el) => el.pdfId == data?.id
+                                            ) !== -1 ? (
+                                              openingDetails[
+                                                openingDetails.findIndex(
+                                                  (el) => el.pdfId == data?.id
+                                                )
+                                              ]?.limit != 1000 ? (
+                                                <small>Left</small>
+                                              ) : null
+                                            ) : null}
+                                          </span>
+                                          : null
+                                         }
                     </li>
+                      ) : null}
 
                     <li>
                       <h6 className="tab-content-title">

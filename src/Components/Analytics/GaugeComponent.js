@@ -3,8 +3,7 @@ import { Col, Row, Tab, Tabs } from "react-bootstrap";
 
 import ActivityGauge from "./ActivityGauge";
 
-export default function GaugeComponent({ tab, list }) {
-  const [isSunshineAccount,setIsSunshineAccount]=useState(localStorage.getItem("account_type")=="USA_PHARMA"?true:false)
+export default function GaugeComponent({ tab, list,isSunshineAccount }) {
   return (
     <div>
       <Row>
@@ -14,7 +13,7 @@ export default function GaugeComponent({ tab, list }) {
         <ActivityGauge label="Docintel Code" list={list.g2} series={tab.g2} />
         <ActivityGauge label="QR Activity" list={list.g3} series={tab.g3} />
         <ActivityGauge label="Peer Activity" list={list.g4} series={tab.g4} />
-        {(localStorage.getItem("user_id") == "B7SHpAc XDXSH NXkN0rdQ=="||isSunshineAccount) ? (
+        {((localStorage.getItem("user_id") == "B7SHpAc XDXSH NXkN0rdQ==")||isSunshineAccount) ? (
           <ActivityGauge label="Direct Link" list={list.g5} series={tab.g5} />
         ) : null}
       </Row>

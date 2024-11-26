@@ -1226,7 +1226,7 @@ const LicenseEditListing = () => {
                             >
                               <Tab
                                 eventKey="docintel-link"
-                                title="Docintel Link"
+                                title="Link"
                                 className="flex-column justify-content-between"
                               >
                                 <div className="tab-panel d-flex flex-column justify-content-between">
@@ -1478,7 +1478,7 @@ const LicenseEditListing = () => {
                                     </li>
                                     
                                     {
-                                      data?.lastRomanNumber == 2 || data?.lastRomanNumber == 3  ?
+                                      data?.lastRomanNumber == 2 || data?.lastRomanNumber == 3  || data?.linkType == 'Sunshine' || data?.linkType == 'Sunshine USA'  ?
                                       (
                                         <>
                                         <li className="d-flex align-center">
@@ -1534,6 +1534,9 @@ const LicenseEditListing = () => {
                                             />
                                           </div>
                                         </li>
+                                        {
+                                          data?.lastRomanNumber == 2 ||
+                                          data?.lastRomanNumber == 3 ?
                                         <li>
                                           <h6 className="tab-content-title">
                                             Article Usage
@@ -1652,6 +1655,8 @@ const LicenseEditListing = () => {
                                               ) : null}
                                             </span>
                                         </li>
+                                         : null
+                                        }
                                         </>
                                       )
                                        : 
@@ -1773,6 +1778,7 @@ const LicenseEditListing = () => {
                                         </li>
                                     }
 
+                                  {data?.linkType != "Online" ? (
                                     <li>
                                       <h6 className="tab-content-title">
                                         Registered readers
@@ -1831,8 +1837,74 @@ const LicenseEditListing = () => {
                                               : "Loading"
                                           }
                                         />
+
+{
+                                            (data?.linkType == 'Sunshine' || data?.linkType == 'Sunshine USA') && (data?.lastRomanNumber != 2 && data?.lastRomanNumber != 3) ?
+                                            <span>
+                                              Agreed Limit :&nbsp;
+                                              <strong>
+                                                {opening_details.findIndex(
+                                                  (el) => el.pdfId == data?.id
+                                                ) !== -1
+                                                  ? opening_details[
+                                                      opening_details.findIndex(
+                                                        (el) =>
+                                                          el.pdfId == data?.id
+                                                      )
+                                                    ]?.limit == 1000
+                                                    ? "Unlimited"
+                                                    : opening_details[
+                                                        opening_details.findIndex(
+                                                          (el) =>
+                                                            el.pdfId == data?.id
+                                                        )
+                                                      ]?.limit
+                                                  : "Unlimited"}
+                                              </strong>
+                                            </span>
+                                            : null
+                                          }
                                       </div>
+                                      {
+                                          (data?.linkType == 'Sunshine' || data?.linkType == 'Sunshine USA') && (data?.lastRomanNumber != 2 && data?.lastRomanNumber != 3) ? 
+                                          <span className="total-left">
+                                            {opening_details.findIndex(
+                                              (el) => el.pdfId == data?.id
+                                            ) !== -1
+                                              ? opening_details[
+                                                  opening_details.findIndex(
+                                                    (el) => el.pdfId == data?.id
+                                                  )
+                                                ]?.limit == 1000
+                                                ? null
+                                                : opening_details[
+                                                    opening_details.findIndex(
+                                                      (el) => el.pdfId == data?.id
+                                                    )
+                                                  ]?.limit -
+                                                  opening_details[
+                                                    opening_details.findIndex(
+                                                      (el) => el.pdfId == data?.id
+                                                    )
+                                                  ]?.reader
+                                              : null}
+
+                                            {opening_details.findIndex(
+                                              (el) => el.pdfId == data?.id
+                                            ) !== -1 ? (
+                                              opening_details[
+                                                opening_details.findIndex(
+                                                  (el) => el.pdfId == data?.id
+                                                )
+                                              ]?.limit != 1000 ? (
+                                                <small>Left</small>
+                                              ) : null
+                                            ) : null}
+                                          </span>
+                                          : null
+                                         }
                                     </li>
+                                     ) : null}
 
                                     <li>
                                       <h6 className="tab-content-title">

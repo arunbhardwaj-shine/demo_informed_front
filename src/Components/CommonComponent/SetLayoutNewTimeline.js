@@ -91,6 +91,14 @@ const SetLayoutNewTimeline = () => {
       });
     }
 
+    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ){
+      newdata.push({
+        image: `${path_image}Survey_home_icon.svg`,
+        title: "Survey",
+        subtitle: "Make surveys to hear what they think",
+      });
+    }
+
     setData(newdata);
     getTimeLineData()
 
@@ -168,6 +176,8 @@ const SetLayoutNewTimeline = () => {
       // navigate("/license-content");
       // navigate("/license-content");
       navigate("/license-content");
+    } else if (title == "Survey") {
+      navigate("/survey/survey-list");
     } else if (title == "Q&A/SURVEY") {
       if (isLikeRdAccount) {
         window.open(
@@ -817,6 +827,28 @@ const SetLayoutNewTimeline = () => {
                                                 </div>
                                               </div>
 
+                                            </div>
+
+                                            : (item?.action?.includes('User email has been updated'))
+                                            ?
+                                            <div className="timeline-box-inset" key={i}>
+                                              <div className="timeline-indicator">
+                                                <div className="indicator-box">
+                                                  <img src={path_image + "new-hcp.svg"} alt="" />
+                                                </div>
+                                              </div>
+                                              <div className="timeline-block">
+                                                <div className="timeline-status">
+                                                  <p>Email has been updated</p>
+                                                  <span>{formatTime(item?.time)} </span>
+                                                </div>
+                                                <div className="timeline-details">
+                                                  <div className="details-box">
+                                                    <p className="timeline-details-heading">What</p>
+                                                    <p>{item?.action}</p>
+                                                  </div>
+                                                </div>
+                                              </div>
                                             </div>
 
                                             : (item?.action?.includes('Certificate of training issued for IRT Role'))

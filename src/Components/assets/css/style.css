@@ -813,6 +813,14 @@ z-index: 5;
   background: var(--green);
   z-index: 4;
 }
+.expired .mail-top-title {
+background: #d6d6d6;
+z-index: 4;
+}
+.stop .mail-top-title {
+  background: #d6d6d6;
+  z-index: 4;
+  }
 
 .queue .mail-top-title {
   background: #956ca7;
@@ -1170,7 +1178,7 @@ z-index: 5;
   color: #c8d1d9;
 }
 
-.approved .mail-stats ul li span {
+.approved .mail-stats ul li span,.expired .mail-stats ul li span,.stop .mail-stats ul li span {
   color: var(--light-gray);
 }
 
@@ -1242,53 +1250,53 @@ z-index: 5;
   margin-top: 2px;
 }
 
-.approved .mail-box-content h5 {
+.approved .mail-box-content h5, .expired .mail-box-content h5, .stop .mail-box-content h5 {
   color: var(--light-blue);
 }
 
-.approved .mailbox-table th {
+.approved .mailbox-table th, .expired .mailbox-table th, .stop .mailbox-table th {
   color: rgba(0, 74, 137, 0.55);
 }
 
-.approved .mailbox-tags ul li {
+.approved .mailbox-tags ul li, .expired .mailbox-tags ul li, .stop .mailbox-tags ul li {
   color: var(--light-blue);
   background: #e7f4ff;
 }
 
-.approved .mail-stats ul li .mail-status.mail_send {
+.approved .mail-stats ul li .mail-status.mail_send, .expired .mail-stats ul li .mail-status.mail_send, .stop .mail-stats ul li .mail-status.mail_send {
   border-color: var(--light-violet);
 }
 
 
-.approved .mail-stats ul li .mail-status.mail-hit {
+.approved .mail-stats ul li .mail-status.mail-hit, .expired .mail-stats ul li .mail-status.mail-hit, .stop .mail-stats ul li .mail-status.mail-hit {
 
   border: 2px solid var(--light-blue);
 
 }
-.approved .mail-stats ul li .mail-status.mail_send svg path {
+.approved .mail-stats ul li .mail-status.mail_send svg path, .expired .mail-stats ul li .mail-status.mail_send svg path, .stop .mail-stats ul li .mail-status.mail_send svg path {
   fill: var(--light-violet);
 }
-.approved .mail-stats ul li .mail-status.irts {
+.approved .mail-stats ul li .mail-status.irts, .expired .mail-stats ul li .mail-status.irts, .stop .mail-stats ul li .mail-status.irts {
   border-color: var(--light-blue);
 }
 
-.approved .mail-stats ul li .mail-status.irts svg path {
+.approved .mail-stats ul li .mail-status.irts svg path, .expired .mail-stats ul li .mail-status.irts svg path, .stop .mail-stats ul li .mail-status.irts svg path {
   fill:var(--light-blue);
 }
 
-.approved .mail-stats ul li .mail-status.mail_view {
+.approved .mail-stats ul li .mail-status.mail_view, .expired .mail-stats ul li .mail-status.mail_view, .stop .mail-stats ul li .mail-status.mail_view {
   border-color: var(--yellow);
 }
 
-.approved .mail-stats ul li .mail-status.mail_view svg path {
+.approved .mail-stats ul li .mail-status.mail_view svg path, .expired .mail-stats ul li .mail-status.mail_view svg path, .stop .mail-stats ul li .mail-status.mail_view svg path {
   fill: var(--yellow);
 }
 
-.approved .mail-stats ul li .mail-status.mail_click {
+.approved .mail-stats ul li .mail-status.mail_click, .expired .mail-stats ul li .mail-status.mail_click, .stop .mail-stats ul li .mail-status.mail_click {
   border-color: var(--green);
 }
 
-.approved .mail-stats ul li .mail-status.mail_click svg path {
+.approved .mail-stats ul li .mail-status.mail_click svg path, .expired .mail-stats ul li .mail-status.mail_click svg path, .stop .mail-stats ul li .mail-status.mail_click svg path {
   fill: var(--green);
 }
 
@@ -3021,7 +3029,7 @@ form .input-group {
 .survey_data_accordion_heading table thead tr th:first-child,
 .survey_data_accordion_heading table tbody tr td:first-child {
   width: 260px;
-  word-break: break-all;
+  word-break: break-word;
   border-radius: 9px 0 0 9px;
 }
 
@@ -4996,7 +5004,7 @@ form#add_hcp_form .row:not(:first-child) {
 
 }
 .dropdown-menu.filter-options .card-header a,
-.dropdown-menu.filter-options .card-header .accordion-button {
+.dropdown-menu.filter-options .card-header .accordion-button, .search-hcp .filter-drop .accordion .accordion-item  button.accordion-button  {
   font-size: 15px;
   line-height: 18px;
   color: var(--dark-blue);
@@ -5015,7 +5023,9 @@ form#add_hcp_form .row:not(:first-child) {
   box-shadow: none;
   border: 0;
 }
-
+.search-hcp .filter-drop .accordion .accordion-item .accordion-body {
+  border-top: none;
+}
 .dropdown-menu.filter-options .card-header .accordion-button:after {
   display: none;
 }
@@ -5070,7 +5080,10 @@ form#add_hcp_form .row:not(:first-child) {
   line-height: 16px;
   color: var(--dark-gray);
 }
-
+.dropdown-menu.filter-options .accordion .card .select-multiple-option::first-letter,
+.select-multiple-option::first-letter {
+  text-transform: capitalize;
+}
 .dropdown-menu.filter-options .accordion .card .select-multiple-option input,
 .select-multiple-option input[type="radio"],
 .qr-download .dropdown-menu.filter-options input[type="checkbox"] {
@@ -7311,6 +7324,10 @@ a.color_blue:hover {
   padding: 15px 15px 15px 9%;
   min-height: 380px;
 }
+.email-result .email_box_block.no_found {
+  width: 100%;
+  justify-content: center;
+}
 
 .email-result .email_box_block.no_found_dlt {
   width: 100%;
@@ -8873,7 +8890,17 @@ hr {
 .table_xls.search_view.sync .smart-list-btns {
   justify-content: space-between;
 }
+.smart-list-btns .top-left-action .campaign_stopped {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+}
 
+.smart-list-btns .top-left-action .campaign_stopped p {
+  margin: 0 9px 0 0;
+  font-size: 14px;
+  color: #004a89;
+}
 .table_xls {
   max-width: 1065px;
   position: relative;
@@ -9200,6 +9227,10 @@ section.search-hcp.smart-list-view .header-btn-left {
   width: 35%;
 }
 
+.search-hcp .email_stats.rd-account#analytics-hcp-table .email_stats_title_heading table tr th:first-child, .search-hcp .email_stats.rd-account .accordion .accordion-item .accordion-header button.accordion-button>table tr td:first-child {
+  width: 200px;
+}
+
 /* .search-hcp .email_stats#analytics-hcp-table  table tr th:first-child{
   padding-left:30px;
 } */
@@ -9207,7 +9238,15 @@ section.search-hcp.smart-list-view .header-btn-left {
 .search-hcp .email_stats#analytics-hcp-table .email_stats_title_heading table tr th:nth-child(2) {
   width: 18%;
 }
-
+.search-hcp .email_stats.rd-account .accordion .accordion-item .accordion-header button.accordion-button>table tr td:nth-child(2), .search-hcp .email_stats.rd-account#analytics-hcp-table .email_stats_title_heading table tr th:nth-child(2) {
+  width: 30%;
+}
+.search-hcp .email_stats.rd-account#analytics-hcp-table .email_stats_title_heading table tr th:nth-child(5), .search-hcp .email_stats#analytics-hcp-table.rd-account table tr td:nth-child(5) {
+  min-width: 200px;
+}
+.search-hcp .email_stats.rd-account#analytics-hcp-table .email_stats_title_heading table tr th:nth-child(4), .search-hcp .email_stats#analytics-hcp-table.rd-account table tr td:nth-child(4) {
+  width: 20%;
+}
 .search-hcp .email_stats .accordion .accordion-item .accordion-header button.accordion-button>table tr td:nth-child(3),
 .search-hcp .email_stats#analytics-hcp-table .email_stats_title_heading table tr th:nth-child(3) {
   width: 15%;

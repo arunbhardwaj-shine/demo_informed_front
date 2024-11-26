@@ -232,7 +232,10 @@ const SetPopup = (props) => {
           // End : Changes by jacob for offline article text change 13-08-2024
 
           data.push(res?.data?.data?.popupData[0]);
-          data.push(res?.data?.data?.popupData[3]);
+          if(localStorage.getItem("user_id") !== "b3APser7L8OELDIG8ee2HQ==" ){
+            data.push(res?.data?.data?.popupData[3]);
+          }
+          // data.push(res?.data?.data?.popupData[3]);
         } else if (
           consent == "Sunshine USA" ||
           first_consent == "Sunshine USA"
@@ -242,7 +245,7 @@ const SetPopup = (props) => {
           data = res?.data?.data?.usaPopup.filter((item) => item?.display === true);
         } else {
           setIsOnline(false);
-          data = res?.data?.data?.popupData;
+          data = res?.data?.data?.popupData.filter((item) => item?.display === true);
         }
         setTemplateList(data);
         loader("hide");
@@ -270,7 +273,7 @@ const SetPopup = (props) => {
         loader("hide");
         setTemplateId(res?.data?.data?.popupTempId);
         templateIdRef.current=res?.data?.data?.popupTempId
-
+        setActualTemplateData(res);
         setTimeout(function () {
           const div_img = document.querySelector("#template_dyn1");
           if (div_img !== null && typeof div_img != "undefined") {
@@ -333,6 +336,7 @@ const SetPopup = (props) => {
         htmlEditor2: templateList?.[second]?.source_code,
         htmlEditor3: templateList?.[third]?.source_code,
         htmlEditor4: templateList?.[fourth]?.source_code,
+        submitCancelPopupType: actualTemplateData?.data?.data?.submitCancelPopupType ? actualTemplateData?.data?.data?.submitCancelPopupType: 0,
       };
       const res = await postData(ENDPOINT.LIBRARYSAVEPOPUP, body);
       loader("hide");
@@ -342,11 +346,12 @@ const SetPopup = (props) => {
             pdfId: articleId,
             isEdit: isEdit,
             allowVideo: allowStateVideo,
+            draft:state?.draft
           },
         });
       } else {
         navigate("/license-content-detail", {
-          state: { pdfId: articleId },
+          state: { pdfId: articleId,draft:state?.draft },
         });
       }
 
@@ -599,6 +604,7 @@ const SetPopup = (props) => {
                                     pdfId: state?.pdfId,
                                     isEdit: isEdit,
                                     allowVideo: allowStateVideo,
+                                    draft:state?.draft
                                   },
                                 });
                               } else {
@@ -964,7 +970,7 @@ const SetPopup = (props) => {
                           content_style:
                             "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
                           content_css: [
-                            "https://docintel.app/react_informed.css?v=1.2",
+                            "https://docintel.app/react_informed.css?v=1.9",
                             "https://use.fontawesome.com/releases/v5.8.2/css/all.css",
                           ],
 

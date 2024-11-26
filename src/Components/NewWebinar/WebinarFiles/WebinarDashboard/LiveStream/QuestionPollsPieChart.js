@@ -226,9 +226,12 @@ const QuestionPollsPieChart = ({ data,show,type }) => {
                 }
             }
         }
-    } : {
+    }    
+    :
+     {
         ...baseBarChartOptions,
         exporting: {
+            
             enabled: false,
         }
     });
@@ -292,6 +295,7 @@ const QuestionPollsPieChart = ({ data,show,type }) => {
                 series: [{ ...pieChartOptions?.series[0], data: seriesData?.slice(1) }], 
                 drilldown : {"series": drilldownData} })
         } else if(data?.graphType=="bar"){
+           
             let totalAnswer = data?.pollAnswers?.map(item => item.y) // Extracting the 'y' values
             .reduce((total, yValue) => total + yValue, 0);
           data?.pollAnswers?.map((item, index) => {
@@ -308,6 +312,20 @@ const QuestionPollsPieChart = ({ data,show,type }) => {
                 categories: options,
             }, 
             // series: [{ ...barChartOptions?.series[0], data: seriesData }] })
+            plotOptions:{...barChartOptions.plotOptions,series:{...barChartOptions.plotOptions.series, dataLabels: [
+                {
+                    enabled: true,
+                    formatter: function() {
+                        var pcnt=data?.canCustomAnswer==1? this.point.y :this.point.p.toFixed(0) + "%" ;
+                        return '<tspan >' + pcnt  + '</tspan>';
+                    },
+                    style: {
+                        fontSize: "1.2em",
+                        textOutline: "none",
+                        opacity: 0.7,
+                    },
+                },
+            ],}},
             series:barSeriesData?.slice(1)})
            
         }
@@ -326,13 +344,13 @@ const QuestionPollsPieChart = ({ data,show,type }) => {
                 options={ pieChartOptions }
             />
           
-            :(data?.graphType=="bar" && data?.pollAnswers?.length)?
-           
+            :(data?.graphType=="bar" && data?.pollAnswers?.length)?(<>
             <HighchartsReact
                 key={"bar"}
                 highcharts={Highcharts}
                 options={ barChartOptions }
             />
+            </>)
             
             :
             <div className="no_found">

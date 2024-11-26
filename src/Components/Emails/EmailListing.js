@@ -54,6 +54,7 @@ const EmailList = (props) => {
   const [filtertags, setFilterTags] = useState([]);
   const [filtercreator, setFilterCreators] = useState([]);
   const [filterdate, setFilterDate] = useState([]);
+  const [filtersites, setFilterSites] = useState([]);
   const [filterrole, setFilterRole] = useState([]);
   const [filtercampaign, setFilterCampaigns] = useState([]);
   const [updateflag, setUpdateFlag] = useState([]);
@@ -606,6 +607,27 @@ const EmailList = (props) => {
     setUpdateFlag(up);
   };
 
+  const handleOnFilterSites = (fsite) => {
+    let tag_index = filtersites.indexOf(fsite);
+    if (tag_index !== -1) {
+      filtersites.splice(tag_index, 1);
+      setFilterSites(filtersites);
+    } else {
+      filtersites.push(fsite);
+      setFilterSites(filtersites);
+    }
+
+    let getfilter = filter;
+    if (getfilter.hasOwnProperty("sites")) {
+      getfilter.sites = filtersites;
+    } else {
+      getfilter = Object.assign({ site: filtersites }, filter);
+    }
+    setFilter(getfilter);
+    let up = updateflag + 1;
+    setUpdateFlag(up);
+  };
+
   const handleOnFilterRole = (role) => {
     let tag_index = filterrole.indexOf(role);
     if (role == "No IRT") {
@@ -677,9 +699,14 @@ const EmailList = (props) => {
     setFilterTags([]);
     setFilterCreators([]);
     setFilterDate([]);
+    setFilterSites([]);
     setFilterRole([]);
     setFilterCampaigns([]);
-    setFilter([]);
+    if(state?.IrtObj?.IRTFlag == 1){
+      setFilter({ role: [state?.IrtObj?.siteRole] });
+    }else{
+      setFilter([]);
+    }
     let up = updateflag + 1;
     setUpdateFlag(up);
     if (filterapplied) {
@@ -705,6 +732,8 @@ const EmailList = (props) => {
       handleOnFilterCampaign(item);
     } else if (src == "date") {
       handleOnFilterDate(item);
+    } else if (src == "site") {
+      handleOnFilterSites(item);
     } else if (src == "role") {
       handleOnFilterRole(item);
     } else if (src == "creator") {
@@ -1224,7 +1253,7 @@ const getDownloadData = async (viewEmailData) => {
                             </Accordion.Item>
                           )}
                         {
-                          !isLikeRdAccount ?
+                          !isLikeRdAccount ? (
                             <Accordion.Item className="card" eventKey="3">
                               <Accordion.Header className="card-header">
                                 Campaign
@@ -1288,45 +1317,150 @@ const getDownloadData = async (viewEmailData) => {
                                 </ul>
                               </Accordion.Body>
                             </Accordion.Item>
-                            :
+                           ) : 
+                           null
+                          //  (
+                          //   <>
+                          //   {filterdata.hasOwnProperty("sites") &&
+                          //     filterdata.sites.length > 0 && (
+                          //       <Accordion.Item className="card" eventKey="3">
+                          //         <Accordion.Header className="card-header">
+                          //           Sites
+                          //         </Accordion.Header>
+                          //         <Accordion.Body className="card-body">
+                          //           <ul>
+                          //             {Object.entries(filterdata.sites).map(
+                          //               ([index, item]) => (
+                          //                 <li>
+                          //                   <label className="select-multiple-option">
+                          //                     <input
+                          //                       type="checkbox"
+                          //                       id={`custom-checkbox-sites-${index}`}
+                          //                       name="sites[]"
+                          //                       value={item}
+                          //                       checked={
+                          //                         updateflag > 0 &&
+                          //                         typeof filtersites !==
+                          //                         "undefined" &&
+                          //                         filtersites.indexOf(item) !== -1
+                          //                       }
+                          //                       onChange={() =>
+                          //                         handleOnFilterSites(item)
+                          //                       }
+                          //                     />
+                          //                     {item}
+                          //                     <span className="checkmark"></span>
+                          //                   </label>
+                          //                 </li>
+                          //               )
+                          //             )}
+                          //           </ul>
+                          //         </Accordion.Body>
+                          //       </Accordion.Item>
+                          //     )}
 
-                            filterdata.hasOwnProperty("IRT_roles") &&
-                            filterdata.IRT_roles.length > 0 && (
-                              <Accordion.Item className="card" eventKey="3">
-                                <Accordion.Header className="card-header">
-                                  IRT Roles
-                                </Accordion.Header>
-                                <Accordion.Body className="card-body">
-                                  <ul>
-                                    {Object.entries(filterdata.IRT_roles).map(
-                                      ([index, item]) => (
-                                        <li>
-                                          <label className="select-multiple-option">
-                                            <input
-                                              type="checkbox"
-                                              id={`custom-checkbox-IRT_roles-${index}`}
-                                              name="IRT_roles[]"
-                                              value={item}
-                                              checked={
-                                                updateflag > 0 &&
-                                                typeof filterrole !==
-                                                "undefined" &&
-                                                filterrole.indexOf(item) !== -1
-                                              }
-                                              onChange={() =>
-                                                handleOnFilterRole(item)
-                                              }
-                                            />
-                                            {item}
-                                            <span className="checkmark"></span>
-                                          </label>
-                                        </li>
-                                      )
-                                    )}
-                                  </ul>
-                                </Accordion.Body>
-                              </Accordion.Item>
-                            )
+                          //     <Accordion.Item className="card" eventKey="4">
+                          //     <Accordion.Header className="card-header">
+                          //       Campaign
+                          //     </Accordion.Header>
+                          //     <Accordion.Body className="card-body">
+                          //       <ul>
+                          //         <li>
+                          //           <label className="select-multiple-option">
+                          //             <input
+                          //               type="checkbox"
+                          //               id={`custom-checkbox-campaign-0`}
+                          //               name="campaign[]"
+                          //               value="Sent"
+                          //               checked={
+                          //                 updateflag > 0 &&
+                          //                 typeof filtercampaign !== "undefined" &&
+                          //                 filtercampaign.indexOf(1) !== -1
+                          //               }
+                          //               onChange={() => handleOnFilterCampaign(1)}
+                          //             />
+                          //             Sent
+                          //             <span className="checkmark"></span>
+                          //           </label>
+                          //         </li>
+                          //         <li>
+                          //           <label className="select-multiple-option">
+                          //             <input
+                          //               type="checkbox"
+                          //               id={`custom-checkbox-campaign-1`}
+                          //               name="campaign[]"
+                          //               value="Draft"
+                          //               checked={
+                          //                 updateflag > 0 &&
+                          //                 typeof filtercampaign !== "undefined" &&
+                          //                 filtercampaign.indexOf(2) !== -1
+                          //               }
+                          //               onChange={() => handleOnFilterCampaign(2)}
+                          //             />
+                          //             Draft
+                          //             <span className="checkmark"></span>
+                          //           </label>
+                          //         </li>
+                          //         <li>
+                          //           <label className="select-multiple-option">
+                          //             <input
+                          //               type="checkbox"
+                          //               id={`custom-checkbox-campaign-2`}
+                          //               name="campaign[]"
+                          //               value="draft-approved"
+                          //               checked={
+                          //                 updateflag > 0 &&
+                          //                 typeof filtercampaign !== "undefined" &&
+                          //                 filtercampaign.indexOf(3) !== -1
+                          //               }
+                          //               onChange={() => handleOnFilterCampaign(3)}
+                          //             />
+                          //             Draft Approved
+                          //             <span className="checkmark"></span>
+                          //           </label>
+                          //         </li>
+                          //         <li>
+                          //           <label className="select-multiple-option">
+                          //             <input
+                          //               type="checkbox"
+                          //               id={`custom-checkbox-campaign-3`}
+                          //               name="campaign[]"
+                          //               value="Stop"
+                          //               checked={
+                          //                 updateflag > 0 &&
+                          //                 typeof filtercampaign !== "undefined" &&
+                          //                 filtercampaign.indexOf(6) !== -1
+                          //               }
+                          //               onChange={() => handleOnFilterCampaign(6)}
+                          //             />
+                          //             Stop
+                          //             <span className="checkmark"></span>
+                          //           </label>
+                          //         </li>
+                          //         <li>
+                          //           <label className="select-multiple-option">
+                          //             <input
+                          //               type="checkbox"
+                          //               id={`custom-checkbox-campaign-4`}
+                          //               name="campaign[]"
+                          //               value="Expired"
+                          //               checked={
+                          //                 updateflag > 0 &&
+                          //                 typeof filtercampaign !== "undefined" &&
+                          //                 filtercampaign.indexOf(7) !== -1
+                          //               }
+                          //               onChange={() => handleOnFilterCampaign(7)}
+                          //             />
+                          //             Expired
+                          //             <span className="checkmark"></span>
+                          //           </label>
+                          //         </li>
+                          //       </ul>
+                          //     </Accordion.Body>
+                          //   </Accordion.Item>
+                          //     </>
+                          //   )
+                            
                         }
 
 
@@ -1411,7 +1545,7 @@ const getDownloadData = async (viewEmailData) => {
             {updateflag > 0 &&
               (filtertags.length > 0 ||
                 filtercreator.length > 0 ||
-                filterdate.length > 0 ||
+                filterdate.length > 0 ||   filtersites.length > 0 ||
                 filterrole.length > 0 ||
                 filtercampaign.length > 0) && (
                 <div className="apply-filter">
@@ -1492,6 +1626,31 @@ const getDownloadData = async (viewEmailData) => {
                         </div>
                       )}
 
+                      { isLikeRdAccount && filtersites.length > 0 && (
+                        <div className="filter-div">
+                          <div className="filter-div-title">
+                            <span>Sites |</span>
+                          </div>
+                          <div className="filter-div-list">
+                            {Object.entries(filtersites).map(([index, item]) => (
+                              <div
+                                className="filter-result"
+                                onClick={(event) =>
+                                  removeindividualfilter("site", item)
+                                }
+                              >
+                                {item}
+                                <img
+                                  src={path_image + "filter-close.svg"}
+                                  alt="Close-filter"
+                                />
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+
                       {filterrole.length > 0 && (
                         <div className="filter-div">
                           <div className="filter-div-title">
@@ -1530,11 +1689,24 @@ const getDownloadData = async (viewEmailData) => {
                                     removeindividualfilter("campaign", item)
                                   }
                                 >
-                                  {item == 3
+                                {/* {item == 3
                                     ? "Draft Approved"
                                     : item == 2
                                       ? "Draft"
-                                      : "Sent"}
+                                      : "Sent"} */}
+
+{
+                                    item === 6
+                                      ? "Stop"
+                                      : item === 7
+                                        ? "Expired"
+                                        : item === 3
+                                          ? "Draft Approved"
+                                          : item === 2
+                                            ? "Draft"
+                                            : "Sent"
+                                  }
+
                                   <img
                                     src={path_image + "filter-close.svg"}
                                     alt="Close-filter"
@@ -1563,7 +1735,7 @@ const getDownloadData = async (viewEmailData) => {
               <div className="col email-result-block">
                 {filtertags.length == 0 &&
                   filtercreator.length == 0 &&
-                  filterdate.length == 0 &&
+                  filterdate.length == 0 &&   filtersites.length == 0 &&
                   filterrole.length == 0 &&
                   filtercampaign.length == 0 &&
                   !deletestatus && (!isLikeRdAccount && (
@@ -1587,7 +1759,11 @@ const getDownloadData = async (viewEmailData) => {
                           <div
                             className={
                               "email_box " +
-                              ((data?.status == 5)
+                              ((data?.status == 6)
+                              ? "stop"
+                              : (data?.status == 7)
+                                ? "expired"
+                                :(data?.status == 5)
                                 ? "queue" :
                                 data.status == 1
                                   ? "approved"
@@ -1599,9 +1775,21 @@ const getDownloadData = async (viewEmailData) => {
                             <div className="mail-top-title">
 
                               <span>
-                                {(data?.status == 5)
+                                {/* {(data?.status == 5)
                                   ? "Sending in queue" :
                                   data.status == 2 ? "Draft" : "Approved Draft"
+                                } */}
+
+                                {
+                                (data?.status == 6)
+                                    ? "Stop"
+                                    : (data?.status == 7)
+                                      ? "Expired"
+                                      :(data?.status == 5)
+                                        ? "Sending in queue"
+                                        : (data?.status == 2)
+                                          ? "Draft"
+                                          : "Approved Draft"
                                 }
                               </span>
                             </div>
@@ -1872,7 +2060,7 @@ const getDownloadData = async (viewEmailData) => {
                                   )}
                                 </div>
                               ) :
-                                data.status == 5 ? (
+                                data.status == 5 || data.status == 6 || data.status == 7 ? (
                                   <div className="mailbox-buttons d-flex justify-content-end">
                                     <button
                                       className="btn btn-primary btn-filled edit"
@@ -1950,8 +2138,12 @@ const getDownloadData = async (viewEmailData) => {
                     );
                   })
                 ) : (
-                  <div className="email_box_block no_found">
-                    <p>No Data Found</p>
+                  // <div className="email_box_block no_found">
+                  //   <p>No Data Found</p>
+                  // </div>
+                  <div
+                  className={`email_box_block no_found ${isRND ? "rd" : ""}`}>
+                     <p>No Data Found</p>
                   </div>
                 )}
               </div>

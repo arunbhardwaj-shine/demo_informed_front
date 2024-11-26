@@ -59,8 +59,24 @@ const LicenseContentDetail = (props) => {
   const [commonConfirmModelFun, setCommonConfirmModelFun] = useState(() => {});
 
   useEffect(() => {
+    if(state?.draft==="default_1"){
+      console.log("state--->",state)
+      updateArticleState()
+    }
     getLibraryData();
   }, []);
+
+  const updateArticleState=async()=>{
+    try{
+      loader("show");
+      let body = {
+        pdfId: typeof state?.pdfId !== "undefined" ? state?.pdfId : articleId,
+      };
+      const res=await postData(ENDPOINT.UPDATE_DEFAULT_PDF_DRAFT,body)
+    }catch(err){
+      console.log("err-->",err)
+    }
+  }
 
   const getLibraryData = async () => {
     try {
@@ -377,11 +393,26 @@ Let me know if you’d like any further adjustments!`;
                                           >
                                             <img
                                               src={
-                                                path_image + "copy-content.svg"
+                                                path_image + "infocopy.svg"
                                               }
                                               alt="Copy"
+                                              title="Copy Information" 
                                             />
                                           </span>
+                                          <span
+                                          className="copy-content"
+                                          onClick={() => {
+                                            copyToClipboard(accountSetupLink);
+                                          }}
+                                        >
+                                          <img
+                                            src={
+                                              path_image + "copy-content.svg"
+                                            }
+                                            alt="Copy"
+                                            title="Copy Link" 
+                                          />
+                                        </span>
                                           </div>
                                         </h6>
                                         : null

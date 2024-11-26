@@ -293,14 +293,14 @@ const LicensePreviewContent = () => {
         } else {
           setPublishStatus(true);
           navigate("/license-content-detail", {
-            state: { pdfId: articleId },
+            state: { pdfId: articleId,draft:state?.draft },
           });
         }
         setPdfData(pdfData);
       } else {
         setPublishStatus(true);
         navigate("/license-content-detail", {
-          state: { pdfId: articleId },
+          state: { pdfId: articleId,draft:state?.draft },
         });
       }
       setApiCallBackFlag(apiCallBackFlag + 1);

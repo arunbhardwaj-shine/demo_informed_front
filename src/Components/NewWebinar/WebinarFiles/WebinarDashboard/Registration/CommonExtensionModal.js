@@ -19,6 +19,8 @@ const CommonExtensionModal = ({
     { label: "Textarea", value: "textarea" },
     { label: "Selection", value: "selection" },
     { label: "Checkbox", value: "checkbox" },
+    { label: "Label", value: "label" },
+
   ]);
 
   const [formData, setFormData] = useState({

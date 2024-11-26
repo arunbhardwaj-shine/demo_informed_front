@@ -23,9 +23,9 @@ const TemplateOne = ({ children, formData }) => {
   if (startDate.isSame(endDate, "day")) {
     formattedDateRange = startDate.format("D MMMM YYYY");
   } else if (startDate.isSame(endDate, "month")) {
-    formattedDateRange = `${startDate.format("D")} - ${endDate.format("D MMMM YYYY")}`;
+    formattedDateRange = `${startDate.format("D")}-${endDate.format("D MMMM YYYY")}`;
   } else {
-    formattedDateRange = `${startDate.format("D MMMM")} - ${endDate.format("D MMMM YYYY")}`;
+    formattedDateRange = `${startDate.format("D MMMM")}-${endDate.format("D MMMM YYYY")}`;
   }
   const eventStartTime = eventDataSample?.eventStartTime?.value ?? '00:00';
   const eventEndTime = eventDataSample?.eventEndTime?.value ?? '00:00';
@@ -37,10 +37,16 @@ const TemplateOne = ({ children, formData }) => {
 const convertedStartTime = convertTo12HourFormat(eventStartTime);
 const convertedEndTime = convertTo12HourFormat(eventEndTime);
 const timeRange = `${convertedStartTime} - ${convertedEndTime}`;
+const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"));
+const eventId = localStorageEvent?.eventId
+// console.log(eventId === 507 ,'eventId')
+
   return (
     <>
-      
-      <div className="wrapper emory">
+      <div 
+      // className="wrapper emory"
+      className={`wrapper emory ${eventId === 505   ? "French" : ""}`}
+      >
         <section className="factor-season">
           <div className="container">
             <div className="row">
@@ -57,7 +63,20 @@ const timeRange = `${convertedStartTime} - ${convertedEndTime}`;
                 <div className="row">
                   <div className="col-sm-8 col-md-8">
                     <div className="factor-season-left">
-                      <div className="factor__logo">
+                    {eventId === 505  ? 
+                    <h1>
+                      <span style={{
+                          textTransform: "capitalize",
+                          color:eventDataSample?.eventTitle?.color
+                        }}
+                        dangerouslySetInnerHTML={{
+                          __html: eventDataSample?.eventTitle?.value
+                          ? eventDataSample?.eventTitle?.value
+                          : ''
+                        }}
+                       />
+                    </h1>
+                   : <div className="factor__logo">
                         <img
                           src={`${
                             formData?.content?.logoImageUrl
@@ -67,16 +86,27 @@ const timeRange = `${convertedStartTime} - ${convertedEndTime}`;
                           alt="Factor logo"
                         />
                       </div>
+                  }
+                      {/* <div className="factor__logo">
+                        <img
+                          src={`${
+                            formData?.content?.logoImageUrl
+                              ? formData?.content?.logoImageUrl
+                              : ""
+                          }`}
+                          alt="Factor logo"
+                        />
+                      </div> */}
                       <h2 style= {{
                             color:eventDataSample?.eventStartDate?.color
                           }}>
-                        {formattedDateRange}
-                        <br />
-                  
-                     <span style= {{
+                        {formattedDateRange}{eventId === 505 ? ', ' : ''}
+
+                       { eventId != 505 ?<><br />
+                         <span style= {{
                             color:eventDataSample?.eventStartTime?.color
                           }}>{timeRange}</span>
-                        <br />
+                        <br /></>: ''}
                         <span
                           style={{
                             textTransform: "capitalize",
@@ -95,7 +125,40 @@ const timeRange = `${convertedStartTime} - ${convertedEndTime}`;
                       </h2>
                     </div>
                   </div>
-                  <div className="col-sm-4 col-md-4">
+
+                  {eventId === 505  ? 
+                   <div className="col-sm-4">
+                   <div className="factor-season-right">
+                   <div className="factor__logo">
+                   <img
+                     src={`${
+                       formData?.content?.logoImageUrl
+                         ? formData?.content?.logoImageUrl
+                         : ""
+                     }`}
+                     alt="Factor logo"
+                   />
+                 </div> </div> </div>
+                   : <div className="col-sm-4 col-md-4">
+                   <div className="factor-season-right">
+                     <h3>
+                       <span style={{
+                           textTransform: "capitalize",
+                           color:eventDataSample?.speakerName?.color
+                         }}
+                         dangerouslySetInnerHTML={{
+                           __html: eventDataSample?.speakerName?.value
+                           ? eventDataSample?.speakerName?.value
+                           : eventData.speaker_name
+                         }}
+                        />
+                         {" "}
+                     </h3>
+                   </div>
+                 </div>
+                  }
+
+                  {/* <div className="col-sm-4 col-md-4">
                     <div className="factor-season-right">
                       <h3>
                         <span style={{
@@ -109,13 +172,9 @@ const timeRange = `${convertedStartTime} - ${convertedEndTime}`;
                           }}
                          />
                           {" "}
-                          {/* {eventDataSample?.speakerName?.value
-                            ? eventDataSample?.speakerName?.value
-                            : eventData.speaker_name} */}
-                        {/* </span> */}
                       </h3>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>
@@ -149,7 +208,7 @@ const timeRange = `${convertedStartTime} - ${convertedEndTime}`;
                 </div>
                 <div className="footer-right"></div>
                 <div className="footer-copyright">
-                  <span>© 2023 CP. All rights Reserved</span>
+                  <span>© 2024 CP. All rights Reserved</span>
                   <ul>
                     <li>
                       <a

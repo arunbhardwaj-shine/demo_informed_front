@@ -67,7 +67,8 @@ const CountryRegistration = () => {
     ) {
       zoomCoordinates = { lat: 19.41944, lon: -99.14556 };
     } else if(isSunshineAccount){
-      zoomCoordinates = { lat:37.090240, lon: -95.712891 };
+     
+      zoomCoordinates = { lat: 7.85794, lon: -162.115716 };
     }
     else {
       zoomCoordinates = { lat: 7.85794, lon: 24.115716 };

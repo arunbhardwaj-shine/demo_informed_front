@@ -243,4 +243,9 @@ export const ENDPOINT = {
   USA_CAMPAINGSTAT: "analytics/usa-delivery-campaign-stats",
   USA_REPORTS: "analytics/usa-delivery-registration-reports",
   USA_DELIVERYTRENDS: "analytics/usa-trend",
+  USA_UNIQUE_STATS:"analytics/usa-douwnload-unique-stats",
+  DOWNLOADARTICLEOPENREADERS: `/analytics/download-content-analytics`,
+  CHECK_PASS_LINK:`/auth/check-password-link`,
+  UPDATE_PASSWORD:`/auth/update-password`,
+  UPDATE_DEFAULT_PDF_DRAFT: `/library/update_default_pdf_draft`,
 };

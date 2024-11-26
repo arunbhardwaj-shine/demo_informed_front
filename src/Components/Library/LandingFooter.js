@@ -1,6 +1,7 @@
 import React,{useEffect, useState} from 'react'
 import { Container, Row,Modal, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { getCurrentYear } from '../CommonComponent/CurrentYear';
 
 const LandingFooter = () => {
     const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -60,7 +61,7 @@ const LandingFooter = () => {
                         <img src={path_image +"footer-logo.svg"} alt="" /></Link>
                     </div>
                     <div className='copyright'>
-                        <p>Copyright MedArkive Ltd 2023. Read our <Link onClick={(e) => handleShow("privacy")}> Privacy Policy</Link> and <Link onClick={(e) => handleTermShow("term")}> Terms of Use</Link>
+                        <p>Copyright MedArkive Ltd {getCurrentYear()}. Read our <Link onClick={(e) => handleShow("privacy")}> Privacy Policy</Link> and <Link onClick={(e) => handleTermShow("term")}> Terms of Use</Link>
                         </p>
                     </div>
 
