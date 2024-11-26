@@ -1123,10 +1123,10 @@ const [draggedElementIndex, setDraggedElementIndex] = useState(null);
                         );
                       }
                     })}
-
                     {placeholderIndex === localElements.length && (
-                      <div className="dropArea"></div>
+                      <div className="dropArea last"></div>
                     )}
+
                   </div>
                   <div className="form-footer">
                     <button

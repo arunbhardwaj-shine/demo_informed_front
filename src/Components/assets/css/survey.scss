@@ -5749,6 +5749,9 @@ body {
   height: 130px;
   margin-top: -40px;
   margin-bottom: 15px;
+  &.last{
+    margin-top: 0;
+  }
 
   &::before {
     content: "Leave your question to add it here";
