@@ -14119,3 +14119,61 @@ gap:30px;
 /* .email_stats_gap .email-stats-details ::-webkit-scrollbar {
   height: 4px;
 } */
+
+/* -----------internet connection message---------  */
+
+.connection-lost {
+  background: #e7eff6;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  z-index: 6;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  top:0;
+}
+.connection-lost .lost-msg {
+  background: #f8d7da;
+  padding: 30px;
+  border-radius: 4px;
+  text-align: left;
+  box-shadow: 0 1px 6px rgb(248 215 218 / 90%);
+  max-width: min(100% - 40px, 800px);
+  width: 100%;
+  position:relative;
+}
+
+.connection-lost .lost-msg h2 {
+  color: #721c24;
+  font-size: 30px;
+  margin: 0 0 3px;
+}
+
+.lost-msg p {
+  color: #404040;
+}
+.connection-establish {
+  position: fixed;
+  bottom: 0;
+  background: #00A891;
+  z-index: 7;
+  right: 0;
+  color: #fff;
+  /* font-size: 15px; */
+  min-width: 320px;
+  padding: 4px 20px;
+}
+.connection-establish p {
+  font-size: 16px;
+}
+.connection-lost .lost-msg button {
+  position: absolute;
+  right: 20px;
+  background: transparent;
+  color: #721c24;
+  font-weight: 500;
+  top: 20px;
+}

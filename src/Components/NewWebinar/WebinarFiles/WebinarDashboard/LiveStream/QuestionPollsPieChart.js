@@ -226,9 +226,12 @@ const QuestionPollsPieChart = ({ data,show,type }) => {
                 }
             }
         }
-    } : {
+    }    
+    :
+     {
         ...baseBarChartOptions,
         exporting: {
+            
             enabled: false,
         }
     });
@@ -292,6 +295,7 @@ const QuestionPollsPieChart = ({ data,show,type }) => {
                 series: [{ ...pieChartOptions?.series[0], data: seriesData?.slice(1) }], 
                 drilldown : {"series": drilldownData} })
         } else if(data?.graphType=="bar"){
+           
             let totalAnswer = data?.pollAnswers?.map(item => item.y) // Extracting the 'y' values
             .reduce((total, yValue) => total + yValue, 0);
           data?.pollAnswers?.map((item, index) => {
@@ -340,13 +344,13 @@ const QuestionPollsPieChart = ({ data,show,type }) => {
                 options={ pieChartOptions }
             />
           
-            :(data?.graphType=="bar" && data?.pollAnswers?.length)?
-           
+            :(data?.graphType=="bar" && data?.pollAnswers?.length)?(<>
             <HighchartsReact
                 key={"bar"}
                 highcharts={Highcharts}
                 options={ barChartOptions }
             />
+            </>)
             
             :
             <div className="no_found">

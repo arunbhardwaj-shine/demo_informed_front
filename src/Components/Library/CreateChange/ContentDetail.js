@@ -61,8 +61,23 @@ const ContentDetail = (props) => {
   const [commonConfirmModelFun, setCommonConfirmModelFun] = useState(() => {});
 
   useEffect(() => {
+    if(state?.draft==="default_1"){
+      updateArticleState()
+    }
     getLibraryData();
   }, []);
+
+  const updateArticleState=async()=>{
+    try{
+      loader("show");
+      let body = {
+        pdfId: typeof state?.pdfId !== "undefined" ? state?.pdfId : articleId,
+      };
+      const res=await postData(ENDPOINT.UPDATE_DEFAULT_PDF_DRAFT,body)
+    }catch(err){
+      console.log("err-->",err)
+    }
+  }
 
   const getLibraryData = async () => {
     try {

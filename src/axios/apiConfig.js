@@ -247,4 +247,5 @@ export const ENDPOINT = {
   DOWNLOADARTICLEOPENREADERS: `/analytics/download-content-analytics`,
   CHECK_PASS_LINK:`/auth/check-password-link`,
   UPDATE_PASSWORD:`/auth/update-password`,
+  UPDATE_DEFAULT_PDF_DRAFT: `/library/update_default_pdf_draft`,
 };

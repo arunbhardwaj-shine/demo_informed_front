@@ -348,7 +348,7 @@ const LibraryCreateUser = () => {
       loader("show");
       try {
         let formData = new FormData();
-
+        
         formData.append("productionNotes", userInputs?.productionNotes);
         formData.append(
           "production",
@@ -541,7 +541,7 @@ const LibraryCreateUser = () => {
           "allowDraft",
           userInputs?.draft
             ? JSON.stringify(userInputs?.draft)
-            : JSON.stringify(false)
+            : JSON.stringify(true)
         );
         let allowVideoValue = 0;
         if (userInputs?.docintelFormat == "video") {
@@ -590,7 +590,8 @@ const LibraryCreateUser = () => {
                   ? "Non-mandatory" : '') :'',
                   title: isLikeRdAccount
                   ? (location?.state?.title)
-                  : ''
+                  : '',
+                  draft:userInputs?.draft?userInputs?.draft:"default_1"                
             
               }
             });
@@ -607,14 +608,23 @@ const LibraryCreateUser = () => {
                     ? "Non-mandatory" : '') :'',
                     title: isLikeRdAccount
                     ? (location?.state?.title)
-                    : ''
+                    : '',
+                    draft:userInputs?.draft?userInputs?.draft:"default_1"
+                   
                 },
               });
             } else {
               navigate("/preview-content", {
-                state: { pdfId: res?.data?.data?.pdfId, isEdit: 0 , title:location?.state?.title,flag: isLikeRdAccount
+                state: { 
+                  pdfId: res?.data?.data?.pdfId, 
+                  isEdit: 0 , 
+                  title:location?.state?.title,
+                  flag: isLikeRdAccount
                   ? (location?.state?.flag === "Non-mandatory" ? 'Non-mandatory' : "mandatory")
-                  : '' },
+                  : '' ,
+                  draft:userInputs?.draft?userInputs?.draft:"default_1"
+                  
+                },
               });
             }
           }
@@ -629,6 +639,8 @@ const LibraryCreateUser = () => {
                   pdfId: res?.data?.data?.pdfId,
                   fileType: userInputs?.docintelFormat,
                   isEdit: 0,
+                  draft:userInputs?.draft?userInputs?.draft:"default_1"
+                 
                 },
               });
             } else {
@@ -638,6 +650,8 @@ const LibraryCreateUser = () => {
                     pdfId: res?.data?.data?.pdfId,
                     isEdit: 0,
                     allowVideo: userInputs?.allowVideo,
+                    draft:userInputs?.draft?userInputs?.draft:"default_1"
+                    
                   },
                 });
               } else {
@@ -646,6 +660,8 @@ const LibraryCreateUser = () => {
                     pdfId: res?.data?.data?.pdfId,
                     fileType: userInputs?.docintelFormat,
                     isEdit: 0,
+                    draft:userInputs?.draft?userInputs?.draft:"default_1"
+                   
                   },
                 });
               }
@@ -661,6 +677,8 @@ const LibraryCreateUser = () => {
                   fileType: userInputs?.docintelFormat,
                   ibu: userInputs?.ibu ? userInputs?.ibu : "",
                   isEdit: 0,
+                  draft:userInputs?.draft?userInputs?.draft:"default_1"
+                 
                 },
               });
             } else {
@@ -670,6 +688,8 @@ const LibraryCreateUser = () => {
                     pdfId: res?.data?.data?.pdfId,
                     isEdit: 0,
                     allowVideo: userInputs?.allowVideo,
+                    draft:userInputs?.draft?userInputs?.draft:"default_1"
+                   
                   },
                 });
               } else {
@@ -679,6 +699,8 @@ const LibraryCreateUser = () => {
                     fileType: userInputs?.docintelFormat,
                     ibu: userInputs?.ibu ? userInputs?.ibu : "",
                     isEdit: 0,
+                    draft:userInputs?.draft?userInputs?.draft:"default_1"
+                   
                   },
                 });
               }

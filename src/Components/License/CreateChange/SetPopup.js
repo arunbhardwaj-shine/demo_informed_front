@@ -346,11 +346,12 @@ const SetPopup = (props) => {
             pdfId: articleId,
             isEdit: isEdit,
             allowVideo: allowStateVideo,
+            draft:state?.draft
           },
         });
       } else {
         navigate("/license-content-detail", {
-          state: { pdfId: articleId },
+          state: { pdfId: articleId,draft:state?.draft },
         });
       }
 
@@ -603,6 +604,7 @@ const SetPopup = (props) => {
                                     pdfId: state?.pdfId,
                                     isEdit: isEdit,
                                     allowVideo: allowStateVideo,
+                                    draft:state?.draft
                                   },
                                 });
                               } else {
