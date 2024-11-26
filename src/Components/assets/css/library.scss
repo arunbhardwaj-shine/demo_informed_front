@@ -7399,7 +7399,7 @@ input.viewer-toolbar-current-page-input {
 }
 
 .analytic-charts .highcharts-container svg text.highcharts-title {
-  font-size: 16px !important;
+  font-size: 20px !important;
   font-weight: 500;
   color: $secondary-blue !important;
   fill: $secondary-blue !important;
@@ -19404,10 +19404,6 @@ table {
   @include flex-middle;
   font-size: 18px;
   font-weight: 400;
-  background: transparent;
-}
-.webinar-question-results h6.no-found::after {
-  display: none;
 }
 
 .reader_list_footer .reader_list_footer_btns {
@@ -24655,6 +24651,8 @@ table {
 }
 
 /**New Landign Page End**/
+
+
 /**8check survey**/
 .check-survey {
   .survey-block {
@@ -25690,6 +25688,7 @@ table {
   }
 }
 
+
 /**Survey rating end**/
 
 
@@ -25701,11 +25700,9 @@ background: url(../../../../public/componentAssets/images/sunshine-bg.jpg) no-re
 background-size: cover;
 
 .sunshine-account-inset {
-  display: flex;
-  flex-direction: column;
+  @include vertical-list;
   justify-content: space-between;
   min-height: 100vh;
-  align-items: center;
   padding: 105px 0 33px;
   .sunshine-form{
     margin:70px 0 150px;
@@ -25798,15 +25795,9 @@ background-size: cover;
                     color:rgba(151, 182, 207, 1);
                   }
                 }
-                
               }
               div[class*="-IndicatorsContainer"]{
                 display: none;
-              }
-              div{
-                div[class*="-indicatorContainer"]{
-                  display: none;
-                }
               }
           }
         }
@@ -27492,7 +27483,6 @@ background-size: cover;
     min-width: 300px;
     max-width: 300px;
   }
-
 }
 
 @media only screen and (max-width: 1300px) {
@@ -27500,9 +27490,7 @@ background-size: cover;
     font-size: 16px;
     margin: 0 0 12px;
   }
-  .webinarRegistrationBody #registration-form .form-group .btn-container .extension {
-    min-width: 388px;
-  }
+
   .timeline-left-user {
     min-width: 300px;
     max-width: 300px;
@@ -29427,7 +29415,7 @@ background-size: cover;
   }
 
   .webinar-question-results table.table {
-    width: 700px;
+    width: 680px;
   }
 
   .webinar-question-results {
@@ -31381,11 +31369,16 @@ background-size: cover;
   .create-change-content .form-group {
     margin: 6px 0 6px;
   }
-
-
+  .webinarRegistrationBody #registration-form .form-group.organize-label>label {
+    flex: 1 1;
+}
+.webinarRegistrationBody #registration-form .form-group.organize-label>label a, .register-popup-view .emory .consent-form-list.attend-sec>label.organize-label a {
+  color:#004a89;
+}
   .webinarRegistrationBody #registration-form .form-group>label {
     flex: 0 0 100%;
   }
+
   .webinarRegistrationBody #registration-form .form-group .slt-opt,
   .create-change-content.register-page .form-group .form-control {
     width: 100%;
@@ -31849,30 +31842,4 @@ button {
   &.refresh-rotate {
     background: transparent;
   }
-}
-.link-expire {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-.link-expire h3 {
-  font-size: 32px;
-  line-height: 27px;
-  color: #001489;
-  font-family: Poppins;
-  font-weight: 700;
-}
-
-input[type="password"]::-ms-reveal,input::-ms-clear {
-  display: none;
-}
-.webinarRegistrationBody #registration-form .form-group>label {
-  flex: 0 0 100%;
-}
-.webinarRegistrationBody #registration-form .form-group.organize-label>label {
-  flex: 1 1;
-}
-.webinarRegistrationBody #registration-form .form-group.organize-label>label a, .register-popup-view .emory .consent-form-list.attend-sec>label.organize-label a {
-color:#004a89;
 }

@@ -251,7 +251,7 @@ const Sidebar = () => {
     if (
 
       currentLocation === '/webinar/event-listing' || currentLocation === '/library-add-link' || currentLocation === '/survey/survey-builder' || currentLocation === '/survey/form-builder' || currentLocation === '/survey/survey-configure' || currentLocation === '/survey/survey-setup' || currentLocation === '/survey/404' || currentLocation === '/survey/thank-you' || currentLocation === '/survey/survey-preview'
-      || currentLocation === '/sunshine-timeline' || currentLocation === '/change-password'
+      || currentLocation === '/sunshine-timeline' || currentLocation === '/change-password' || currentLocation === '/aland-activity'
     ) {
       divElement?.classList.add('hidesidebar');
     } else {

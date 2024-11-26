@@ -24,7 +24,6 @@ import SpcCreate from "./Components/Library/SpcCreate";
 import Products from "./Components/Library/Products";
 import ChangePassword from "./Auth/ChangePassword";
 import WebinarQuestion from "./Components/Firbase/WebinarQuestion";
-import ResetPassword from "./Components/CommonComponent/ResetPassword";
 
 //Firbase
 
@@ -245,6 +244,10 @@ import SurveyFinalPreview from "./Components/surveybuilder/SurveyFinalPreview";
 import SetLayoutNew from "./Components/CommonComponent/SetLayoutNew";
 import SetLayoutNewTimeline from "./Components/CommonComponent/SetLayoutNewTimeline";
 import ClinetAccount from "./Components/Login/ClientAccount";
+
+//Aland activity route
+
+import AlandActivity from "./Components/AlandActivity/AlandActivity";
 
 let platform = 0;
 let show = 0;
@@ -1121,10 +1124,12 @@ const Routing = () => {
           path="/sunshine-timeline"
           element={<LoginLayout component={SunShineTimeline} />}
         />
+
         <Route
-          path="/set-password"
-          element={<DefaultLayout component={ResetPassword} />}
+          path="/aland-activity"
+          element={<LoginLayout component={AlandActivity} />}
         />
+        
       </Routes>
     </Router>
   );
