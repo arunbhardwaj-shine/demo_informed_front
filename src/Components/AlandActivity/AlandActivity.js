@@ -13,9 +13,7 @@ const AlandActivity = () => {
   const [individualCompletionShow, setIndividualCompletionShow] = useState();
   const [AllUserData, setAlluserData] = useState([]);
   const site_Engagement = useRef(null);
-
-  const videoRegex = /\.(mp4|mov|avi|mkv|wmv|flv|webm|m4v|3gp|ogg|ts)$/i; // Case-insensitive
- 
+  const videoRegex = /\.(mp4|mov|avi|mkv|wmv|flv|webm|m4v|3gp|ogg|ts)$/i;  
   const tableHeaders = {
     name: "Name",
     email: "Email",
@@ -252,10 +250,9 @@ const AlandActivity = () => {
   };
 
   return (
-    <>
+    <div className="container">
       <div className="rd-full-explain">
         <div className="rd-section-title">
-          <h4>Non-mandatory Content</h4>
         </div>
         <div className="rd-training-block" ref={site_Engagement} tabIndex={-1}>
           <div className="d-flex align-items-center justify-content-between">
@@ -385,10 +382,7 @@ const AlandActivity = () => {
                                                 ? data?.filename.split('/').pop()
                                                 : data?.filename :""
                                             }`}
-
-
-
-
+ 
                                             {/* ${
                                               data?.filename
                                                 ? data?.filename
@@ -434,7 +428,7 @@ const AlandActivity = () => {
           </Table>
         </div>
       </div>
-    </>
+      </div>
   );
 };
 

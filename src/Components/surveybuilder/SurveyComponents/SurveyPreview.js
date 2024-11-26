@@ -57,7 +57,6 @@ const SurveyPreview = (props) => {
   const [localElements, setLocalElements] = useState([]);
   const [questionDeleteCount, setQuestionDeleteCount] = useState(0);
   const [isChecked, setIsChecked] = useState(false);
-  const [specificIndex, setSpecificIndex] = useState("");
   let { surveyRef, isEdit, nextHandler, navigateFunction, consentOption } =
   props;
 const custom_html = surveyValues?.formBuilderData?.custom_html?.[0];
@@ -179,9 +178,7 @@ const [draggedElementIndex, setDraggedElementIndex] = useState(null);
     }
   }, [survey_id, dispatch]);
 
-  useEffect(() => {
-    setLocalElements(elements); // Sync local state with Redux only on initial load or state changes
-  }, [elements]);
+  
 
   const handlePreviewDrop = (e) => {
     e.preventDefault();
@@ -212,6 +209,8 @@ const [draggedElementIndex, setDraggedElementIndex] = useState(null);
   const handleQuestionDragStart = (e, index) => {
    
     e.stopPropagation();
+    // dispatch(updateCurrentElementIndex())
+
     setDraggedElementIndex(index);
   };
 
@@ -245,20 +244,7 @@ const [draggedElementIndex, setDraggedElementIndex] = useState(null);
   const handleQuestionDragOver = throttle((e, index) => {
     e.preventDefault();
 
-    // if (draggedElementIndex != null && hoveredIndex !== index) {
-    //     if (index !== //previousHoveredIndex) {
-    //       console.log("inside the question sort")
-    //         //previousHoveredIndex = index; // Store last unique index to reduce flickering
-
-    //         const newItems = [...elements];
-    //         const draggedItem = newItems.splice(draggedElementIndex, 1);
-    //         newItems.splice(index, 0, draggedItem[0]);
-
-    //         setLocalElements(newItems);
-    //         hoveredIndex=index;
-    //         // setHoveredIndex(index);
-    //     }
-    // }
+  
 
     // Calculate bounding box of the target element
     const bounding = e.currentTarget.getBoundingClientRect();
@@ -269,10 +255,19 @@ const [draggedElementIndex, setDraggedElementIndex] = useState(null);
       const newItems = [...elements];
       const draggedItem = newItems.splice(draggedElementIndex, 1);
       newItems.splice(index, 0, draggedItem[0]);
+    
+      // Update question numbers after reordering
+      newItems.forEach((item, i) => {
+        item.questionNo = i + 1;
+      });
+    
+      // Set state only after all operations are complete
       setLocalElements(newItems);
+      // dispatch(setCurrentElementIndex(index));
       hoveredIndex = index;
       return;
     }
+    
 
     //in the bolew consityion we are also doing checking the same position of mouse if the mouse is below or above the question(element) then set index acoordingly to show the drop placeholder on ui
     if (draggedElementIndex === null) {
@@ -305,7 +300,7 @@ const [draggedElementIndex, setDraggedElementIndex] = useState(null);
     e.stopPropagation();
     e.preventDefault();
     setPlaceholderIndex(null);
-    setSpecificIndex(index);
+ 
 
     // in below these condition first one will execute when we are dragging already added question in the survey and second one will execute when we try to add new question
 
@@ -357,6 +352,7 @@ const [draggedElementIndex, setDraggedElementIndex] = useState(null);
       // Only trigger if the mouse leaves the container, not individual items
       console.log("DragLeave");
       setPlaceholderIndex(null);
+      hoveredIndex=null
     }
   };
 
@@ -641,8 +637,9 @@ const [draggedElementIndex, setDraggedElementIndex] = useState(null);
                       } else {
                         return (
                           <div
-                            className={`dragable-box ${
-                              index == currentElementIndex ? "active" : ""
+                            className={`dragable-box ${  
+                              draggedElementIndex != null ? hoveredIndex == index ? "active" : "": index == currentElementIndex ? "active" : ""
+                              
                             }`}
                             style={
                               isEdit
@@ -661,15 +658,17 @@ const [draggedElementIndex, setDraggedElementIndex] = useState(null);
                             }
                             draggable={isEdit} // Only make it draggable if isEdit is true
                             key={index}
-                            // onMouseDown={(e) => {
-                            //   if (isEdit) {
-                            //     e.stopPropagation();
-                            //     dispatch(setCurrentElementIndex(index));
-                            //   }
-                            // }}
+                            onMouseDown={(e) => {
+                              if (isEdit) {
+                                e.stopPropagation();
+                                dispatch(setCurrentElementIndex(index));
+                                hoveredIndex=index
+                              }
+                            }}
                             onClick={(e) => {
                               if (isEdit) {
                                 e.stopPropagation();
+                                hoveredIndex=null;
                                 dispatch(setCurrentElementIndex(index));
                               }
                             }}
@@ -694,15 +693,26 @@ const [draggedElementIndex, setDraggedElementIndex] = useState(null);
                             {placeholderIndex === index && (
                               <div className="dropArea"></div>
                             )}
-                            {index == currentElementIndex && (
-                              <div className="active-drag">
-                                {" "}
-                                <img
-                                  src={path_image + "drag-drop.png"}
-                                  alt="Drag"
-                                />{" "}
-                              </div>
-                            )}
+                            {  
+                              draggedElementIndex != null ? hoveredIndex == index ? (
+                                <div className="active-drag">
+                                  {" "}
+                                  <img
+                                    src={path_image + "drag-drop.png"}
+                                    alt="Drag"
+                                  />{" "}
+                                </div>
+                              ):"" : index == currentElementIndex ? (
+                                <div className="active-drag">
+                                  {" "}
+                                  <img
+                                    src={path_image + "drag-drop.png"}
+                                    alt="Drag"
+                                  />{" "}
+                                </div>
+                              ) : ""
+                              
+                             }
                             <div>
                               {item.accordionType == "questionTypes" ? (
                                 <div
@@ -794,7 +804,7 @@ const [draggedElementIndex, setDraggedElementIndex] = useState(null);
                                 </>
                               )}
                             </div>
-                            {index == currentElementIndex && (
+                            {    draggedElementIndex != null ? hoveredIndex == index ? (
                               <>
                                 <div className="drag-actions">
                                   <Button
@@ -951,7 +961,164 @@ const [draggedElementIndex, setDraggedElementIndex] = useState(null);
                                   </div>
                                 )}
                               </>
-                            )}
+                            ):"" : index == currentElementIndex ? (
+                              <>
+                                <div className="drag-actions">
+                                  <Button
+                                    onClick={(e) => {
+                                      setConfirmationPopup(true);
+                                    }}
+                                  >
+                                    {" "}
+                                    <img
+                                      src={`${path_image}delete-survey.svg`}
+                                      alt="Delete"
+                                      title="Delete"
+                                    />{" "}
+                                  </Button>
+                                  <Button
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      dispatch(copyElement(index));
+                                    }}
+                                  >
+                                    {" "}
+                                    <img
+                                      src={`${path_image}copy-survey.svg`}
+                                      alt="Copy"
+                                      title="Duplicate"
+                                    />{" "}
+                                  </Button>
+                                  <Button
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      dispatch(toggleAddClicked());
+                                    }}
+                                  >
+                                    {" "}
+                                    <img
+                                      src={`${path_image}add-survey.svg`}
+                                      alt="Add"
+                                      title="Add"
+                                    />{" "}
+                                  </Button>
+
+                                  <div className="delete">
+                                    <Modal
+                                      className="modal send-confirm"
+                                      id="delete-confirm"
+                                      show={confirmationpopup}
+                                    >
+                                      <Modal.Header>
+                                        {/* <Modal.Title>Heading Text</Modal.Title>*/}
+                                        <button
+                                          type="button"
+                                          className="btn-close"
+                                          data-bs-dismiss="modal"
+                                          onClick={(e) =>
+                                            hideConfirmationModal()
+                                          }
+                                        ></button>
+                                      </Modal.Header>
+
+                                      <Modal.Body>
+                                        <img src={path + "alert.png"} alt="" />
+                                        <h4>
+                                          This question will be deleted.
+                                          <br />
+                                          Are you sure you wish to go ahead?
+                                        </h4>
+                                        <div className="modal-buttons">
+                                          <button
+                                            type="button"
+                                            className="btn btn-primary btn-filled"
+                                            onClick={async (e) => {
+                                              e.stopPropagation();
+                                              dispatch(deleteElement(index));
+                                              UpdateQuestion(
+                                                e,
+                                                item.questionId
+                                              );
+                                            }}
+                                          >
+                                            Yes Please!
+                                          </button>
+                                          <button
+                                            type="button"
+                                            className="btn btn-primary btn-bordered light"
+                                            onClick={(e) =>
+                                              hideConfirmationModal()
+                                            }
+                                          >
+                                            Cancel
+                                          </button>
+                                        </div>
+                                      </Modal.Body>
+                                    </Modal>
+                                  </div>
+                                </div>
+                                {isAddClicked && (
+                                  <div className="preview-menu">
+                                    <span>Questions Types</span>
+                                    <div className="preview-menu-bunch">
+                                      {SidebarItems.map((item, index) => (
+                                        <div
+                                          key={index}
+                                          className="sidebar-item"
+                                          onClick={(e) => {
+                                            e.stopPropagation();
+                                            handleAddElement(
+                                              item.type,
+                                              questionIndex + 1
+                                            );
+                                          }}
+                                        >
+                                          {item.icon && (
+                                            <div className="options-svg">
+                                              {item.svg}
+                                            </div>
+                                          )}
+                                          {item.label}
+                                        </div>
+                                      ))}
+                                    </div>
+                                    <span>Common Elements</span>
+                                    <div className="preview-menu-bunch">
+                                      {SidebarCommonItems.map((item, index) => {
+                                        if (
+                                          item.type === "consent" &&
+                                          consentOption ==
+                                            "No consent needed (anonymous)"
+                                        ) {
+                                          return;
+                                        } else {
+                                          return (
+                                            <div
+                                              key={index}
+                                              className="sidebar-item"
+                                              onClick={(e) => {
+                                                e.stopPropagation();
+                                                handleAddElement(
+                                                  item.type,
+                                                  questionIndex + 1
+                                                );
+                                              }}
+                                            >
+                                              {item.icon && (
+                                                <div className="options-svg">
+                                                  {item.svg}
+                                                </div>
+                                              )}
+                                              {item.label}
+                                            </div>
+                                          );
+                                        }
+                                      })}
+                                    </div>
+                                  </div>
+                                )}
+                              </>
+                            ):""}
                           </div>
                         );
                       }
