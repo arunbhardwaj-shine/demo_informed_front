@@ -1761,7 +1761,7 @@ const getDownloadData = async (viewEmailData) => {
                               ? "stop"
                               : (data?.status == 7)
                                 ? "expired"
-                                :(data?.status == 5)
+                                :(data?.status == 5 || data?.status == 8)
                                 ? "queue" :
                                 data.status == 1
                                   ? "approved"
@@ -1783,7 +1783,7 @@ const getDownloadData = async (viewEmailData) => {
                                     ? "Stop"
                                     : (data?.status == 7)
                                       ? "Expired"
-                                      :(data?.status == 5)
+                                      :(data?.status == 5 || data?.status == 8)
                                         ? "Sending in queue"
                                         : (data?.status == 2)
                                           ? "Draft"
@@ -2058,7 +2058,7 @@ const getDownloadData = async (viewEmailData) => {
                                   )}
                                 </div>
                               ) :
-                                data.status == 5 || data.status == 6 || data.status == 7 ? (
+                                data.status == 5 || data.status == 6 || data.status == 7 || data.status == 8 ? (
                                   <div className="mailbox-buttons d-flex justify-content-end">
                                     <button
                                       className="btn btn-primary btn-filled edit"
