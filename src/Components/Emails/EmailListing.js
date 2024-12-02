@@ -1783,7 +1783,9 @@ const getDownloadData = async (viewEmailData) => {
                                     ? "Stop"
                                     : (data?.status == 7)
                                       ? "Expired"
-                                      :(data?.status == 5 || data?.status == 8)
+                                      :(data?.status == 5)
+                                        ? "Sending in queue"
+                                      :(data?.status == 8)
                                         ? "Sending in queue"
                                         : (data?.status == 2)
                                           ? "Draft"
