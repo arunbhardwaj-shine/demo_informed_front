@@ -134,7 +134,8 @@ const CommonExtensionModal = ({
       if (extensionData) {
         handleSave({ ...formData });
       } else {
-        handleSave({ ...formData, name: `dynamic_${dynamicFieldNo}` }); 
+        // handleSave({ ...formData, name: `dynamic_${dynamicFieldNo}` });
+        handleSave({ ...formData, name: formData?.label }); 
       }
       handleClose();
       setError();
