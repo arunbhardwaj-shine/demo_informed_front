@@ -267,7 +267,7 @@ function Question(props) {
 
                       {answerOption.map((choice, index) => (
                         <>
-                          <div className="options" key={index}>
+                          <div className="options question-answer-option" key={index}>
                             <Form.Group as={Row} className="mb-3">
                               <Form.Label>Choice {index + 1}</Form.Label>
                               <Form.Control
@@ -381,7 +381,7 @@ function Question(props) {
                                     </fieldset>
                                   </Form.Group> */}
                                   <Form.Group>
-                                  <Form.Label>Choice {index + 1} Add Comment:</Form.Label>
+                                  <Form.Label>Add Comment:</Form.Label>
                                     <div className="switch">
                                       <label className="switch-light">
                                         <input

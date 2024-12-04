@@ -11534,12 +11534,21 @@ table thead th.sort_option span button.event_sort_btn.svg_active >img{
   line-height: 183.984%;
   display: flex;
 }
-
+.question-listing .question-display .answer-options .answer div {
+  flex: 1 1;
+  padding-right:10px;
+}
+.question-listing .question-display .answer-options .answer .answermodel {
+  margin: 5px 0 0 auto;
+  padding: 3px 7px;
+  font-size: 10px;
+  align-self: flex-start;
+}
 .question-listing .question-display .answer-options {
   margin: 0 0 18px;
 }
 
-.question-display .answermodel {
+.question-display .answermodel, .question-display .answermodel:active, .question-display .answermodel:focus {
   font-size: 12px;
   margin: -10px 0 10px;
   padding: 4px 10px;
@@ -11548,7 +11557,9 @@ table thead th.sort_option span button.event_sort_btn.svg_active >img{
   color: var(--white);
   font-weight: 400;
 }
-
+.question-display .answermodel:focus {
+box-shadow: none;
+}
 .question-listing .answer span {
   color: var(--dark-blue);
   font-size: 14px;
@@ -13765,7 +13776,17 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 .poll-question .poll-question-create .speaker-detail.comment {
   padding-bottom: 24px;
 }
-
+.poll-question .poll-question-create .question-answer-option .speaker-detail.comment {
+  padding-bottom: 12px;
+  padding-top: 12px;
+}
+.poll-question .poll-question-create .question-answer-option .speaker-detail.comment::before {
+  top: auto;
+  bottom: 0;
+}
+.poll-question .poll-question-create .question-answer-option .speaker-detail.comment label.form-label {
+  font-size: 16px;
+}
 .polls-preview-header h6 {
   font-size: 18px;
   line-height: 25px;
