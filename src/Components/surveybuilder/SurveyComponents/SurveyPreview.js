@@ -30,17 +30,65 @@ import { useNavigate } from "react-router-dom";
 import { color } from "highcharts";
 import { updateLiveFlag } from "../CommonFunctions/CommonFunction";
 
- 
 var surveyValues = {};
+
+const throttle = (func, delay) => {
+  let lastCall = 0;
+  return function (...args) {
+    const now = Date.now();
+    if (now - lastCall >= delay) {
+      lastCall = now;
+      func.apply(this, args);
+    }
+  };
+};
+
+let hoveredIndex = null;
+
 const SurveyPreview = (props) => {
-  const {currentStep}=useSelector((state)=>state.surveyStepReducer);
-  const {FETCH_QUESTION,DELETE_SURVEY_QUESTION}=surveyEndpoints
+  const { currentStep } = useSelector((state) => state.surveyStepReducer);
+  const { FETCH_QUESTION, DELETE_SURVEY_QUESTION } = surveyEndpoints;
   let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const { currentElementIndex, elements, isAddClicked } = useSelector(
     (state) => state.surveyData
   );
+  const [placeholderIndex, setPlaceholderIndex] = useState(null);
+  const [localElements, setLocalElements] = useState([]);
   const [questionDeleteCount, setQuestionDeleteCount] = useState(0);
+  const [isChecked, setIsChecked] = useState(false);
+  let { surveyRef, isEdit, nextHandler, navigateFunction, consentOption } =
+  props;
+const custom_html = surveyValues?.formBuilderData?.custom_html?.[0];
+const dispatch = useDispatch();
+const location = useLocation();
+const navigate = useNavigate();
+const survey_id = surveyValues?.survey_id;
+const [templateData, setTemplateData] = useState({
+  headerBackground:
+    custom_html?.header_background_type == "color"
+      ? {
+          backgroundColor: custom_html?.header_background_color,
+        }
+      : {
+          backgroundImage: `url(${custom_html?.header_background_image})`,
+          backgroundSize: "cover",
+        },
+  heading: custom_html?.main_heading,
+  logo: custom_html?.logo,
+  button_color: custom_html?.button_color,
+  button_text: custom_html?.button_text,
+  bodyTextColor: custom_html?.bodyTextColor,
+  question_answer_color: custom_html?.question_answer_color,
+  title_color: custom_html?.title_color,
+  page_background_color: custom_html?.page_background_color,
+  main_footer: custom_html?.main_footer,
+  bodyText: custom_html?.bodyText,
+  logoWidth: custom_html?.logoWidth,
+});
+const [confirmationpopup, setConfirmationPopup] = useState(false);
+const [draggedElementIndex, setDraggedElementIndex] = useState(null);
+
  
 
   const updatedSurveyData = {
@@ -58,49 +106,15 @@ const SurveyPreview = (props) => {
     updateQuestioData();
   }, [questionDeleteCount]);
 
-  const [isChecked, setIsChecked] = useState(false);
-  const [specificIndex, setSpecificIndex] = useState("");
-
+ 
   const handleView = () => {
     setIsChecked(!isChecked);
   };
 
-  let { surveyRef, isEdit, nextHandler, navigateFunction, consentOption } =
-    props;
 
-  const custom_html = surveyValues?.formBuilderData?.custom_html?.[0];
 
-  const dispatch = useDispatch();
-  const location = useLocation();
-  const navigate = useNavigate();
-  const survey_id = surveyValues?.survey_id;
 
-  const [templateData, setTemplateData] = useState({
-    headerBackground:
-      custom_html?.header_background_type == "color"
-        ? {
-            backgroundColor: custom_html?.header_background_color,
-          }
-        : {
-            backgroundImage: `url(${custom_html?.header_background_image})`,
-            backgroundSize: "cover",
-          },
-    heading: custom_html?.main_heading,
-    logo: custom_html?.logo,
-    button_color: custom_html?.button_color,
-    button_text: custom_html?.button_text,
-    bodyTextColor: custom_html?.bodyTextColor,
-    question_answer_color: custom_html?.question_answer_color,
-    title_color: custom_html?.title_color,
-    page_background_color: custom_html?.page_background_color,
-    main_footer: custom_html?.main_footer,
-    bodyText: custom_html?.bodyText,
-    logoWidth: custom_html?.logoWidth,
-  });
 
-  const [confirmationpopup, setConfirmationPopup] = useState(false);
-
-  const [draggedElementIndex, setDraggedElementIndex] = useState(null);
   const handleAddElement = (type, index) => {
     if (type === "consent") {
       const result = elements.filter((item) => {
@@ -119,12 +133,11 @@ const SurveyPreview = (props) => {
   const fetchQuestiondetails = async () => {
     try {
       loader("show");
-      const fetchResponse = await surveyAxiosInstance.post(
-        FETCH_QUESTION,
-        { survey_id }
-      );
-      
-      if(fetchResponse.status === 200){
+      const fetchResponse = await surveyAxiosInstance.post(FETCH_QUESTION, {
+        survey_id,
+      });
+
+      if (fetchResponse.status === 200) {
         dispatch(addResQuestions(fetchResponse.data.data));
         const updatedSurveyData = {
           ...surveyValues,
@@ -133,7 +146,6 @@ const SurveyPreview = (props) => {
         props.getSurveyData(updatedSurveyData);
       }
 
-     
       loader("hide");
     } catch (error) {
       loader("hide");
@@ -144,6 +156,10 @@ const SurveyPreview = (props) => {
   const hideConfirmationModal = () => {
     setConfirmationPopup(false);
   };
+
+  useEffect(() => {
+    setLocalElements(elements);
+  }, [elements]);
 
   useEffect(() => {
     const shouldFetchQuestions =
@@ -162,9 +178,12 @@ const SurveyPreview = (props) => {
     }
   }, [survey_id, dispatch]);
 
+  
+
   const handlePreviewDrop = (e) => {
     e.preventDefault();
-
+    hoveredIndex = null;
+    setPlaceholderIndex(null);
     const type = e.dataTransfer.getData("type");
 
     if (type === "consent") {
@@ -177,45 +196,120 @@ const SurveyPreview = (props) => {
         return;
       }
     }
- 
+    console.log("handle preview drop");
+
     if (type.trim()) {
       handleAddElement(type);
     }
   };
 
-  const handleAddResQuestion = (e, elements) => {
-    e.preventDefault();
-    dispatch(addResQuestions(elements));
-  };
 
   const handlePreviewDragOver = (e) => e.preventDefault();
 
   const handleQuestionDragStart = (e, index) => {
+   
     e.stopPropagation();
- 
-    
+    // dispatch(updateCurrentElementIndex())
+
     setDraggedElementIndex(index);
   };
-  const handleQuestionDragOver = (e) => e.preventDefault();
 
-  const handleQuestionDrop = (e, index) => {
+  // const handleQuestionDragOver = (e, index) => {
+  //   e.preventDefault();
+
+  //   if (draggedElementIndex != null && hoveredIndex !== index) {
+  //     console.log("inside hovered =====> ",index,hoveredIndex,draggedElementIndex)
+
+  //     const newItems = [...elements];
+
+  //     const draggedItem = newItems.splice(draggedElementIndex, 1);
+
+  //     newItems.splice(index, 0, draggedItem[0]);
+
+  //     setLocalElements(newItems);
+  //     setHoveredIndex(index); // Set the hovered index
+  //   }
+  //   if (draggedItemIndex === null) {
+  //     console.log("dropped ====?")
+  //     const bounding = e.currentTarget.getBoundingClientRect();
+  //     const offset = e.clientY - bounding.top;
+  //     if (index === elements.length - 1 && offset >= bounding.height / 2) {
+  //       setPlaceholderIndex(elements.length);
+  //     } else {
+  //       handlePlaceholderPosition(e, index);
+  //     }
+  //   }
+  // };
+
+  const handleQuestionDragOver = throttle((e, index) => {
     e.preventDefault();
 
- 
-    setSpecificIndex(index);
-    if (draggedElementIndex !== null) {
-      e.stopPropagation();
-      if (draggedElementIndex !== index) {
-        // if(currentElementIndex != draggedElementIndex){
-        //   toast("Please select a question before dragging.");
-        //   return;
-        // }
-        dispatch(swapElements(draggedElementIndex, index));
-        setDraggedElementIndex(null);
+  
+
+    // Calculate bounding box of the target element
+    const bounding = e.currentTarget.getBoundingClientRect();
+    const offset = e.clientY - bounding.top; // In above two lines we are calculation current position of mouse to check if mouse is above half of quetion then change the dragged element position
+
+    // in the below coindition we are replacing dragged elemnt position in real time abd show on ui so that user wll able to know where he is going to drop the element
+    if (draggedElementIndex != null && offset < bounding.height / 2) {
+      const newItems = [...elements];
+      const draggedItem = newItems.splice(draggedElementIndex, 1);
+      newItems.splice(index, 0, draggedItem[0]);
+    
+      // Update question numbers after reordering
+      newItems.forEach((item, i) => {
+        item.questionNo = i + 1;
+      });
+    
+      // Set state only after all operations are complete
+      setLocalElements(newItems);
+      // dispatch(setCurrentElementIndex(index));
+      hoveredIndex = index;
+      return;
+    }
+    
+
+    //in the bolew consityion we are also doing checking the same position of mouse if the mouse is below or above the question(element) then set index acoordingly to show the drop placeholder on ui
+    if (draggedElementIndex === null) {
+      // this condition helps if user try to drop the question at the very last so ity helps tos how drop placeholder at last of the survey
+      if (index === elements.length - 1 && offset >= bounding.height / 2) {
+        setPlaceholderIndex(elements.length);
+      } else {
+        handlePlaceholderPosition(e, index);
       }
+      return;
+    }
+  }, 100); // Adjusted throttle delay to reduce rapid flickering
+
+  // this is the funtion where we are setting the index for drop placeholder
+  const handlePlaceholderPosition = (e, index) => {
+    const bounding = e.currentTarget.getBoundingClientRect();
+    const offset = e.clientY - bounding.top;
+    const newPlaceholderIndex =
+      offset < bounding.height / 2 ? index : index + 1;
+
+    // Update the placeholder index only if it has changed
+    if (newPlaceholderIndex !== placeholderIndex) {
+      setPlaceholderIndex(newPlaceholderIndex);
+    }
+  };
+
+
+  // this funtion excecuste when we drop question on question drop 
+  const handleQuestionDrop = (e, index) => {
+    e.stopPropagation();
+    e.preventDefault();
+    setPlaceholderIndex(null);
+ 
+
+    // in below these condition first one will execute when we are dragging already added question in the survey and second one will execute when we try to add new question
+
+    if (draggedElementIndex !== null) {
+      dispatch(addResQuestions(localElements, hoveredIndex)); // Update Redux state with final order
+      setDraggedElementIndex(null);
+      hoveredIndex = null;
     } else {
       const type = e.dataTransfer.getData("type");
-
       if (type === "consent") {
         const result = elements.filter((item) => {
           return item.type === "consent";
@@ -226,10 +320,7 @@ const SurveyPreview = (props) => {
           return;
         }
       }
-      handleAddElement(type, index);
-      // setTimeout(() => {
-      //   dispatch(addElementAtPosition(index));
-      // });
+      handleAddElement(type, placeholderIndex);
     }
   };
 
@@ -238,24 +329,30 @@ const SurveyPreview = (props) => {
       loader("show");
 
       if (questionId != 0) {
-        const response = surveyAxiosInstance.post(
-          DELETE_SURVEY_QUESTION,
-          {
-            questionId,
-          }
-        );
+        const response = surveyAxiosInstance.post(DELETE_SURVEY_QUESTION, {
+          questionId,
+        });
 
-        if(response.status === 200){
+        if (response.status === 200) {
           setQuestionDeleteCount(questionDeleteCount + 1);
         }
- 
       }
       setConfirmationPopup(false);
-     
+
       loader("hide");
     } catch (error) {
       loader("hide");
       toast.error("Something went wrong");
+    }
+  };
+  const handleDragLeave = (e) => {
+    e.preventDefault();
+
+    if (e.target === e.currentTarget) {
+      // Only trigger if the mouse leaves the container, not individual items
+      console.log("DragLeave");
+      setPlaceholderIndex(null);
+      hoveredIndex=null
     }
   };
 
@@ -263,7 +360,9 @@ const SurveyPreview = (props) => {
     <div
       className="top-right-action preview"
       onDrop={handlePreviewDrop}
+      // onDragEnter={handleDragEnter}
       onDragOver={handlePreviewDragOver}
+      onDragLeave={handleDragLeave} // Only trigger clear when truly leaving
     >
       <div className="d-flex flex-column w-100">
         <div className="page-top-nav sticky">
@@ -294,12 +393,16 @@ const SurveyPreview = (props) => {
                       Build survey
                     </Link>
                   </li>
-                  <li className={currentStep > 3 ? "active" : "" }>
-                          <Link to={currentStep > 3 ? "/survey/thank-you" : "" }>Thank you</Link>
-                        </li>
-                        <li className={currentStep > 4 ? "active" : "" }>
-                          <Link to={currentStep > 4 ? "/survey/survey-preview" : "" }>Preview</Link>
-                        </li>
+                  <li className={currentStep > 3 ? "active" : ""}>
+                    <Link to={currentStep > 3 ? "/survey/thank-you" : ""}>
+                      Thank you
+                    </Link>
+                  </li>
+                  <li className={currentStep > 4 ? "active" : ""}>
+                    <Link to={currentStep > 4 ? "/survey/survey-preview" : ""}>
+                      Preview
+                    </Link>
+                  </li>
                 </ul>
               </Col>
               <Col md={3}>
@@ -411,9 +514,7 @@ const SurveyPreview = (props) => {
             </Row>
           )}
         </div>
-        <div
-          className="preview-survey"
-        >
+        <div className="preview-survey">
           <div
             className={
               isChecked ? `informed-survey mobile-view` : "informed-survey"
@@ -525,7 +626,7 @@ const SurveyPreview = (props) => {
               <div className="informed-survey-question" ref={surveyRef}>
                 <Form>
                   <div className="d-flex flex-column">
-                    {elements?.map((item, index) => {
+                    {localElements?.map((item, index) => {
                       let questionIndex = index;
 
                       if (
@@ -536,12 +637,19 @@ const SurveyPreview = (props) => {
                       } else {
                         return (
                           <div
-                            className={`dragable-box ${
-                              index == currentElementIndex ? "active" : ""
+                            className={`dragable-box ${  
+                              draggedElementIndex != null ? hoveredIndex == index ? "active" : "": index == currentElementIndex ? "active" : ""
+                              
                             }`}
                             style={
                               isEdit
-                                ? { padding: "60px 6px 4px 6px" }
+                                ? {
+                                    padding: "60px 6px 4px 6px",
+                                    filter:
+                                      hoveredIndex === index
+                                        ? "opacity:0"
+                                        : "none",
+                                  }
                                 : {
                                     backgroundColor:
                                       templateData.page_background_color,
@@ -552,17 +660,18 @@ const SurveyPreview = (props) => {
                             key={index}
                             onMouseDown={(e) => {
                               if (isEdit) {
-                                
-                                  e.stopPropagation();
-                                  dispatch(setCurrentElementIndex(index));
+                                e.stopPropagation();
+                                dispatch(setCurrentElementIndex(index));
+                                hoveredIndex=index
                               }
-                          }}
-                            // onClick={(e) => {
-                            //   if (isEdit) {
-                            //     e.stopPropagation();
-                            //     dispatch(setCurrentElementIndex(index));
-                            //   }
-                            // }}
+                            }}
+                            onClick={(e) => {
+                              if (isEdit) {
+                                e.stopPropagation();
+                                hoveredIndex=null;
+                                dispatch(setCurrentElementIndex(index));
+                              }
+                            }}
                             onDragStart={(e) => {
                               if (isEdit) {
                                 handleQuestionDragStart(e, index);
@@ -570,7 +679,7 @@ const SurveyPreview = (props) => {
                             }}
                             onDragOver={(e) => {
                               if (isEdit) {
-                                handleQuestionDragOver(e);
+                                handleQuestionDragOver(e, index);
                               }
                             }}
                             onDrop={(e) => {
@@ -580,15 +689,30 @@ const SurveyPreview = (props) => {
                               }
                             }}
                           >
-                            {index == currentElementIndex && (
-                              <div className="active-drag">
-                                {" "}
-                                <img
-                                  src={path_image + "drag-drop.png"}
-                                  alt="Drag"
-                                />{" "}
-                              </div>
+                            {" "}
+                            {placeholderIndex === index && (
+                              <div className="dropArea"></div>
                             )}
+                            {  
+                              draggedElementIndex != null ? hoveredIndex == index ? (
+                                <div className="active-drag">
+                                  {" "}
+                                  <img
+                                    src={path_image + "drag-drop.png"}
+                                    alt="Drag"
+                                  />{" "}
+                                </div>
+                              ):"" : index == currentElementIndex ? (
+                                <div className="active-drag">
+                                  {" "}
+                                  <img
+                                    src={path_image + "drag-drop.png"}
+                                    alt="Drag"
+                                  />{" "}
+                                </div>
+                              ) : ""
+                              
+                             }
                             <div>
                               {item.accordionType == "questionTypes" ? (
                                 <div
@@ -680,7 +804,7 @@ const SurveyPreview = (props) => {
                                 </>
                               )}
                             </div>
-                            {index == currentElementIndex && (
+                            {    draggedElementIndex != null ? hoveredIndex == index ? (
                               <>
                                 <div className="drag-actions">
                                   <Button
@@ -788,7 +912,7 @@ const SurveyPreview = (props) => {
                                             e.stopPropagation();
                                             handleAddElement(
                                               item.type,
-                                              questionIndex+1
+                                              questionIndex + 1
                                             );
                                           }}
                                         >
@@ -819,7 +943,7 @@ const SurveyPreview = (props) => {
                                                 e.stopPropagation();
                                                 handleAddElement(
                                                   item.type,
-                                                  questionIndex+1
+                                                  questionIndex + 1
                                                 );
                                               }}
                                             >
@@ -837,11 +961,172 @@ const SurveyPreview = (props) => {
                                   </div>
                                 )}
                               </>
-                            )}
+                            ):"" : index == currentElementIndex ? (
+                              <>
+                                <div className="drag-actions">
+                                  <Button
+                                    onClick={(e) => {
+                                      setConfirmationPopup(true);
+                                    }}
+                                  >
+                                    {" "}
+                                    <img
+                                      src={`${path_image}delete-survey.svg`}
+                                      alt="Delete"
+                                      title="Delete"
+                                    />{" "}
+                                  </Button>
+                                  <Button
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      dispatch(copyElement(index));
+                                    }}
+                                  >
+                                    {" "}
+                                    <img
+                                      src={`${path_image}copy-survey.svg`}
+                                      alt="Copy"
+                                      title="Duplicate"
+                                    />{" "}
+                                  </Button>
+                                  <Button
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      dispatch(toggleAddClicked());
+                                    }}
+                                  >
+                                    {" "}
+                                    <img
+                                      src={`${path_image}add-survey.svg`}
+                                      alt="Add"
+                                      title="Add"
+                                    />{" "}
+                                  </Button>
+
+                                  <div className="delete">
+                                    <Modal
+                                      className="modal send-confirm"
+                                      id="delete-confirm"
+                                      show={confirmationpopup}
+                                    >
+                                      <Modal.Header>
+                                        {/* <Modal.Title>Heading Text</Modal.Title>*/}
+                                        <button
+                                          type="button"
+                                          className="btn-close"
+                                          data-bs-dismiss="modal"
+                                          onClick={(e) =>
+                                            hideConfirmationModal()
+                                          }
+                                        ></button>
+                                      </Modal.Header>
+
+                                      <Modal.Body>
+                                        <img src={path + "alert.png"} alt="" />
+                                        <h4>
+                                          This question will be deleted.
+                                          <br />
+                                          Are you sure you wish to go ahead?
+                                        </h4>
+                                        <div className="modal-buttons">
+                                          <button
+                                            type="button"
+                                            className="btn btn-primary btn-filled"
+                                            onClick={async (e) => {
+                                              e.stopPropagation();
+                                              dispatch(deleteElement(index));
+                                              UpdateQuestion(
+                                                e,
+                                                item.questionId
+                                              );
+                                            }}
+                                          >
+                                            Yes Please!
+                                          </button>
+                                          <button
+                                            type="button"
+                                            className="btn btn-primary btn-bordered light"
+                                            onClick={(e) =>
+                                              hideConfirmationModal()
+                                            }
+                                          >
+                                            Cancel
+                                          </button>
+                                        </div>
+                                      </Modal.Body>
+                                    </Modal>
+                                  </div>
+                                </div>
+                                {isAddClicked && (
+                                  <div className="preview-menu">
+                                    <span>Questions Types</span>
+                                    <div className="preview-menu-bunch">
+                                      {SidebarItems.map((item, index) => (
+                                        <div
+                                          key={index}
+                                          className="sidebar-item"
+                                          onClick={(e) => {
+                                            e.stopPropagation();
+                                            handleAddElement(
+                                              item.type,
+                                              questionIndex + 1
+                                            );
+                                          }}
+                                        >
+                                          {item.icon && (
+                                            <div className="options-svg">
+                                              {item.svg}
+                                            </div>
+                                          )}
+                                          {item.label}
+                                        </div>
+                                      ))}
+                                    </div>
+                                    <span>Common Elements</span>
+                                    <div className="preview-menu-bunch">
+                                      {SidebarCommonItems.map((item, index) => {
+                                        if (
+                                          item.type === "consent" &&
+                                          consentOption ==
+                                            "No consent needed (anonymous)"
+                                        ) {
+                                          return;
+                                        } else {
+                                          return (
+                                            <div
+                                              key={index}
+                                              className="sidebar-item"
+                                              onClick={(e) => {
+                                                e.stopPropagation();
+                                                handleAddElement(
+                                                  item.type,
+                                                  questionIndex + 1
+                                                );
+                                              }}
+                                            >
+                                              {item.icon && (
+                                                <div className="options-svg">
+                                                  {item.svg}
+                                                </div>
+                                              )}
+                                              {item.label}
+                                            </div>
+                                          );
+                                        }
+                                      })}
+                                    </div>
+                                  </div>
+                                )}
+                              </>
+                            ):""}
                           </div>
                         );
                       }
                     })}
+                    {placeholderIndex === localElements.length && (
+                      <div className="dropArea last"></div>
+                    )}
+
                   </div>
                   <div className="form-footer">
                     <button

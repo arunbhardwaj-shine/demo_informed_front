@@ -508,6 +508,15 @@ if(currentQuestion.current && (currentIndexRef.current?.showQuestionToUser!=2 ||
                                 ></p>
                               </div>
 
+                              <div className="question">
+                                Question Type:
+                                <p
+                                  dangerouslySetInnerHTML={{
+                                    __html: item?.type,
+                                  }}
+                                ></p>
+                              </div>
+
                               {item?.totalSubquestion &&
                               item?.totalSubquestion?.length > 0 ? (
                                 <div className="answer-options">

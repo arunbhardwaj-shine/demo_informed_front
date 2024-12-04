@@ -84,7 +84,8 @@ const ChangeCountryModel = ({
       toast.error(error.option);
       return;
     } else {
-      const saveData = fieldData ? formData : { ...formData, name: `dynamic_${dynamicFieldNo}` };
+      // const saveData = fieldData ? formData : { ...formData, name: `dynamic_${dynamicFieldNo}` };
+      const saveData = fieldData ? formData : { ...formData, name: formData?.label };
       handleSave(saveData);
       handleClose();
     }

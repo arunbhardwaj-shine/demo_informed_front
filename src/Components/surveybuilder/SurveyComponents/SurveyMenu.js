@@ -81,6 +81,7 @@ const SurveyMenu = ({ menuRef, consentOption }) => {
   const dispatch = useDispatch();
 
   const [accordionType, setAccordionType] = useState("0");
+  const [isDragging, setIsDragging] = useState(false);
 
   const handleAddElement = (type) => {
     if (type === "consent") {
@@ -93,13 +94,15 @@ const SurveyMenu = ({ menuRef, consentOption }) => {
         return;
       }
     }
-
     dispatch(addElement(type));
   };
 
+  
   const handleDragStart = (e, type) => {
+    setIsDragging(true);
     e.dataTransfer.setData("type", type);
   };
+
   useEffect(() => {
     dispatch(
       updateSurveyId(
@@ -142,6 +145,10 @@ const SurveyMenu = ({ menuRef, consentOption }) => {
     });
 
     handleUpdateElement(index, "answer", updatedColumns);
+  };
+
+  const handleDragEnd = () => {
+    setIsDragging(false);
   };
 
   const deleteOptionInMiddle = async (
@@ -891,14 +898,16 @@ const SurveyMenu = ({ menuRef, consentOption }) => {
               <Accordion.Item eventKey={"0"}>
                 <Accordion.Header>Questions Types</Accordion.Header>
                 <Accordion.Body>
-                  <div className={`top-right-action menu`}>
+                  <div className={`top-right-action menu`} >
                     <div className="d-flex flex-column">
                       {SidebarItems.map((item, index) => (
                         <div
+                       
                           key={index}
                           className="sidebar-item"
                           draggable
                           onDragStart={(e) => handleDragStart(e, item.type)}
+                          onDragEnd={handleDragEnd}
                         >
                           {item.icon && (
                             <div className="options-svg">{item.svg}</div>

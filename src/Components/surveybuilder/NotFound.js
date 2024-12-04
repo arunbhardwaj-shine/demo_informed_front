@@ -31,7 +31,7 @@ const NotFound = () => {
                   <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_1233_45864" />
                   <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_1233_45864" result="shape" />
                 </filter>
-              </defs>
+              </defs>                                                                                                                                 
             </svg>
           </span>
           <span>

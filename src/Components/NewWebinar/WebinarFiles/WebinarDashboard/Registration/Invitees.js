@@ -20,6 +20,7 @@ const Invitees = () => {
   const [userData, setUserData] = useState()
   const [confirmationpopup, setConfirmationPopup] = useState(false);
   const [clickUserId, setClickUserId] = useState(0);
+  const [actionType, setActionType] = useState(""); // To differentiate between actions
   const [sortNameDirection, setSortNameDirection] = useState(0);
   const [sortingCount, setSortingCount] = useState(0);
   const [sorting, setSorting] = useState(0);
@@ -189,24 +190,63 @@ const oneSourceEvent =  JSON.parse(localStorage.getItem("EventIdContext"))?.isOn
     navigate("/webinar/email");
   }
 
-  const userBlockedClicked = async (e, user, index) => {
+  // const userBlockedClicked = async (e, user, index) => {
+  //   setConfirmationPopup(false);
+  //   try {
+  //     loader("show")
+  //     setActionType("block");
+  //     setConfirmationPopup(true)
+  //     let data = {
+  //       "eventId": eventId, "user_id": user?.user_id, "is_blocked": user?.is_blocked == 0 ? 1 : 0
+  //     }
+  //     const response = await postData(ENDPOINT.WEBINAR_BLOCK_UNBLOCK_USER, data)
+  //     let updateUserData = JSON.parse(JSON.stringify([...userData]))
+  //     let updateUser = { ...updateUserData[index] }
+  //     updateUser.is_blocked = user?.is_blocked == 0 ? 1 : 0
+  //     updateUserData[index] = updateUser
+  //     setUserData(updateUserData)
+  //   } catch (err) {
+  //     console.log("--err", err)
+  //   } finally {
+  //     loader("hide")
+  //   }
+  // }
+
+  const userBlockedClicked = async (id) => {
+    setConfirmationPopup(false);
     try {
-      loader("show")
+      loader("show");
+      let user = userData.find((item) => item.user_id === id);
+      let index = userData.findIndex((item) => item.user_id === id);
       let data = {
-        "eventId": eventId, "user_id": user?.user_id, "is_blocked": user?.is_blocked == 0 ? 1 : 0
-      }
-      const response = await postData(ENDPOINT.WEBINAR_BLOCK_UNBLOCK_USER, data)
-      let updateUserData = JSON.parse(JSON.stringify([...userData]))
-      let updateUser = { ...updateUserData[index] }
-      updateUser.is_blocked = user?.is_blocked == 0 ? 1 : 0
-      updateUserData[index] = updateUser
-      setUserData(updateUserData)
+        eventId: eventId,
+        user_id: id,
+        is_blocked: user?.is_blocked === 0 ? 1 : 0,
+      };
+      const response = await postData(ENDPOINT.WEBINAR_BLOCK_UNBLOCK_USER, data);
+  
+      // Update user data locally
+      let updateUserData = [...userData];
+      updateUserData[index].is_blocked = user?.is_blocked === 0 ? 1 : 0;
+      setUserData(updateUserData);
+  
+      popup_alert({
+        visible: "show",
+        message: user?.is_blocked === 1 
+          ? "The user has been blocked successfully!"
+          : "The user has been unblocked successfully!",
+        type: "success",
+        redirect: "",
+      });
     } catch (err) {
-      console.log("--err", err)
+      console.log("--err", err);
     } finally {
-      loader("hide")
+      loader("hide");
     }
-  }
+  };
+  
+
+
   const handleConfirmModel = async (id) => {
     setConfirmationPopup(false);
 
@@ -231,6 +271,24 @@ const oneSourceEvent =  JSON.parse(localStorage.getItem("EventIdContext"))?.isOn
       console.log("--err", err);
       loader("hide");
     }
+  };
+
+  const popupMessages = {
+    delete: {
+      message1: "The deleted user will no longer have access <br> to <b>selected event</b>",
+      message3: "Are you sure you want to delete it?",
+      footerButton: "Yes, delete!",
+    },
+    block: {
+      message1: "",
+      message3: "Are you sure you want to block this user?",
+      footerButton: "Yes, block!",
+    },
+    unblock: {
+      message1: "",
+      message3: "Are you sure you want to unblock this user?",
+      footerButton: "Yes, unblock!",
+    },
   };
 
   const dynamicSort = (key, direction) => (a, b) => {
@@ -821,7 +879,12 @@ const oneSourceEvent =  JSON.parse(localStorage.getItem("EventIdContext"))?.isOn
                               <div className="clear-search">
                                 <button
                                   className={user?.is_blocked == 0 ? "btn-webinar" : "btn-webinar block"}
-                                  onClick={(e) => userBlockedClicked(e, user, index)}
+                                  // onClick={(e) => userBlockedClicked(e, user, index)}
+                                  onClick={() => {
+                                    setActionType(user?.is_blocked === 0 ?"block" : "unblock");
+                                    setClickUserId(user?.user_id);
+                                    setConfirmationPopup(true);
+                                  }}
                                 >
                                   <svg xmlns="http://www.w3.org/2000/svg" width="23" height="24" viewBox="0 0 23 24" fill="none">
                                     <path d="M8.28065 9.71449C10.9636 9.71449 13.1381 7.53955 13.1381 4.85704C13.1381 2.17453 10.9632 0 8.28065 0C5.59814 0 3.42237 2.17494 3.42237 4.85745C3.42237 7.53996 5.59814 9.71449 8.28065 9.71449Z" fill="#0066BE" />
@@ -834,6 +897,7 @@ const oneSourceEvent =  JSON.parse(localStorage.getItem("EventIdContext"))?.isOn
                                 <button
                                   className="btn btn-outline-primary"
                                   onClick={() => {
+                                    setActionType("delete");
                                     setConfirmationPopup(true);
                                     setClickUserId(user?.user_id);
                                   }}
@@ -921,19 +985,29 @@ const oneSourceEvent =  JSON.parse(localStorage.getItem("EventIdContext"))?.isOn
         </div>
 
       </Col>
-      <CommonConfirmModel
+      {/* <CommonConfirmModel
         show={confirmationpopup}
         onClose={setConfirmationPopup}
         onCloseCross={() => setConfirmationPopup(false)}
         fun={handleConfirmModel}
         resetDataId={clickUserId}
         popupMessage={{
-          message1: "The deleted user will no longer have access <br> to <b>One Source</b>",
+          message1: "The deleted user will no longer have access <br> to <b>selected event</b>",
           message3: "Are you sure you want to delete it?",
           footerButton: " Yes please!",
         }}
         path_image={path_image}
-      />
+      /> */}
+
+<CommonConfirmModel
+  show={confirmationpopup}
+  onClose={setConfirmationPopup}
+  onCloseCross={() => setConfirmationPopup(false)}
+  fun={actionType === "delete" ? () => handleConfirmModel(clickUserId) : () => userBlockedClicked(clickUserId)}
+  resetDataId={clickUserId}
+  popupMessage={popupMessages[actionType]} // Dynamic messages
+  path_image={path_image}
+/>
     </>
   );
 };
