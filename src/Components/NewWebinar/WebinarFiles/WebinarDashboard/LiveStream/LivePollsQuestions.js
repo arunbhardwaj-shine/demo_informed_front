@@ -59,7 +59,9 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions,firstTimeTab 
   const [show, setShow] = useState(false);
   const firstTime = useRef(true);
   const [commentPop, setCommentPopup] = useState(false);
+  const [optionCommentPop, setOptionCommentPopup] = useState(false);
   const [comments, setComments] = useState([]);
+  const [optionComments, setOptionComments] = useState([]);
   const [currentQuestionID,setCurrentQuestionID] = useState('')
   const [popupMessage, setPopupMessage] = useState({
     message1: "",
@@ -442,6 +444,14 @@ if(currentQuestion.current && (currentIndexRef.current?.showQuestionToUser!=2 ||
       setCurrentQuestionID(question_id);
     }
   };
+
+  const handleCustomComments = (comments) => {
+    setOptionCommentPopup(true);
+    setOptionComments(comments)
+    console.log("Comments: ", comments);
+    // You can display these comments in a modal, tooltip, or any desired format
+  };
+  
   return (
     <>
       <div className="outer-layout">
@@ -560,37 +570,71 @@ if(currentQuestion.current && (currentIndexRef.current?.showQuestionToUser!=2 ||
                                         //         </>)
                                         //     })
                                         // :
+                                        // item?.allUserAnswers?.length
+                                        //   ? item?.allUserAnswers?.map(
+                                        //       (answer, i) => {
+                                        //         return (
+                                        //           <>
+                                        //             <div
+                                        //               className="answer"
+                                        //               key={i}
+                                        //             >
+                                        //               <span>
+                                        //                 {String.fromCharCode(
+                                        //                   65 + i
+                                        //                 )}
+                                        //                 .
+                                        //               </span>
+                                        //               <div
+                                        //                 dangerouslySetInnerHTML={{
+                                        //                   __html: answer,
+                                        //                 }}
+                                        //               ></div>
+                                                      
+                                        //             </div>
+                                        //           </>
+                                        //         );
+                                        //       }
+                                        //     )
+                                        //   : null
+
+
+
                                         item?.allUserAnswers?.length
-                                          ? item?.allUserAnswers?.map(
-                                              (answer, i) => {
-                                                return (
-                                                  <>
-                                                    <div
-                                                      className="answer"
-                                                      key={i}
-                                                    >
-                                                      <span>
-                                                        {String.fromCharCode(
-                                                          65 + i
-                                                        )}
-                                                        .
-                                                      </span>
-                                                      <div
-                                                        dangerouslySetInnerHTML={{
-                                                          __html: answer,
-                                                        }}
-                                                      ></div>
-                                                    </div>
-                                                  </>
-                                                );
-                                              }
-                                            )
-                                          : null
+                                        ? item?.allUserAnswers?.map((answer, i) => {
+                                            
+                                            const pollAnswer = item?.pollAnswers?.[i];
+                                            return (
+                                              <div className="answer" key={i}>
+                                                <span>{String.fromCharCode(65 + i)}.</span>
+                                                <div
+                                                  dangerouslySetInnerHTML={{
+                                                    __html: answer, 
+                                                  }}
+                                                ></div>
+                                               
+                                                {pollAnswer?.custom_comment?.length > 0 && (
+                                                  <button  type="button"  className="btn btn-info answermodel"
+                                                    onClick={() =>
+                                                      handleCustomComments(pollAnswer.custom_comment)
+                                                    }
+
+                                                  
+                                                  >
+                                                    See Comments
+                                                  </button>
+                                                )}
+                                              </div>
+                                            );
+                                          })
+                                        : null
+
                                       }
                                     </>
                                   )}
                                 </div>
-                              )}
+                              )}        
+
                               {/* {item?.totalSubquestion &&
                                 item?.totalSubquestion?.length > 0 && (
                                   <button
@@ -603,6 +647,7 @@ if(currentQuestion.current && (currentIndexRef.current?.showQuestionToUser!=2 ||
                                     See Comments
                                   </button>
                                 )} */}
+                              
                               {
                                 item?.userComments?.every(
                                   (obj) => obj.comments == ""
@@ -938,6 +983,60 @@ if(currentQuestion.current && (currentIndexRef.current?.showQuestionToUser!=2 ||
               </tbody>
             </table>
           }
+          </div>
+        </Modal.Body>
+      </Modal>
+
+
+      <Modal
+        show={optionCommentPop}
+        backdrop="static"
+        className="show-comments"
+        onHide={() => setOptionCommentPopup(false)}
+        keyboard={false}
+        id="showComments"
+      >
+        <Modal.Header closeButton>
+          <Modal.Title id="contained-modal-title-vcenter">
+            {"Comments"}
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <div className="table-responsive">
+          
+            <table className="table">
+              <thead>
+                <tr>
+                  <th>User Name</th>
+                  <th>Explanation</th>
+                </tr>
+              </thead>
+              <tbody>
+                {optionComments?.every((obj) => obj?.comments === "") ? (
+                  <tr>
+                    <td colSpan={3}>
+                      <p>No Data Found</p>
+                    </td>
+                  </tr>
+                ) : (
+                  optionComments?.map((item, index) => {
+                    return (
+                      <>
+                        {item?.comments ? (
+                          <tr>
+                            <td>{item?.name ? item?.name : "N/A"}</td>
+                            <td>{item?.comments}</td>
+                          </tr>
+                        ) : (
+                          ""
+                        )}
+                      </>
+                    );
+                  })
+                )}
+              </tbody>
+            </table>
+          
           </div>
         </Modal.Body>
       </Modal>
