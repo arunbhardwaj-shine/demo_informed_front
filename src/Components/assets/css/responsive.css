@@ -617,7 +617,16 @@
   .poll-question .poll-question-create .speaker-detail .speaker-comment>div label {
     font-size: 16px;
   }
+  .question-answer-option .speaker-comment {
+    width: 100%;
+}
+.question-answer-option .switch .switch-light > span span {
+  font-size: 13px;
+}
 
+  .poll-question .poll-question-create .question-answer-option .speaker-detail.comment label.form-label {
+    font-size: 14px;
+}
   .smartlist-result-block .mail_trigger_dummy_content h3,
   .webinar-auto-right .mail_trigger_dummy_content h3 {
     font-size: 30px;
@@ -2155,6 +2164,21 @@
     width: 60px;
     max-height: 80px;
   }
+  .question-answer-option .switch label.switch-light {
+    height: 28px;
+  }
+  .question-answer-option .switch a.btn {
+    padding: 13px 20px;
+}
+.question-answer-option .switch .switch-light > span {
+  top: 0px;
+  padding-right: 89px;
+}
+.question-answer-option .switch {
+  padding: 2px 3px;
+  width: 95px;
+}
+
   .trigger_content h6 {
     font-size: 13px;
   }

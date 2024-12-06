@@ -178,7 +178,6 @@ export default function PollListing({ eventIdContext }) {
         if (event_code != "") {
           index = dropDownDataTemp.findIndex((obj) => obj.value === event_code);
         }
-        // console.log(index,"Selected index");
         let selectedData = dropDownDataTemp.length
           ? dropDownDataTemp?.[index]
           : { value: "", label: "" };
@@ -234,9 +233,6 @@ export default function PollListing({ eventIdContext }) {
           },
         };
       });
-      // console.log(data);
-      // setQuestions(data)
-      // console.log(data,'');
       setQuestionFlag(data?.length <= 0 ? true : false);
       data = data?.length
         ? data
@@ -248,7 +244,7 @@ export default function PollListing({ eventIdContext }) {
                 answerColor: "#64B8B0",
                 speakerName: "",
                 // answerOption: [{ answer: "", color: "#000000" }],
-                answerOption: [{ answer: "", color: colors[0] }],
+                answerOption: [{ answer: "", color: colors[0],addChoiceComment:0 }],
                 answerType: "MULTIPLE",
                 addComment: 0,
                 graphType: "bar",
@@ -360,7 +356,7 @@ export default function PollListing({ eventIdContext }) {
           });
       } else {
         updatedQuestions[key].questionData.answerOption = [
-          { answer: "", color: colors[0] },
+          { answer: "", color: colors[0],addChoiceComment:0 },
         ];
         updatedQuestions[key].questionDataErrors.answerOptionError.push({
           answerError: "",
@@ -393,6 +389,29 @@ export default function PollListing({ eventIdContext }) {
       e?.target?.value == "yes" ? 1 : 0;
     setQuestions(updatedQuestions);
   };
+
+
+
+  // ----------- Gagan code -------// 
+
+  const handleAddChoiceCommentChange = (e, questionKey, choiceIndex) => {
+    const updatedQuestions = [...questions];
+    updatedQuestions[questionKey].questionData.answerOption[
+      choiceIndex
+    ].addChoiceComment =  e.target.checked?1:0
+
+    // e.target.value=="yes"?1:0;  
+    // if(e.target.value=="yes"){
+    //   updatedQuestions[questionKey].questionData.addComment =0      
+    // }
+
+    if(e.target.checked){
+      updatedQuestions[questionKey].questionData.addComment =0      
+    }
+    setQuestions(updatedQuestions);    
+  };
+
+  // ----------code end--------//
   const handleSpeakerNameChange = (e, key) => {
     const updatedQuestions = [...questions];
     updatedQuestions[key].questionData.speakerName = e.target.value;
@@ -421,6 +440,7 @@ export default function PollListing({ eventIdContext }) {
       updatedQuestions[key].questionData.answerOption.push({
         answer: "",
         color: colors[length % colors.length],
+        addChoiceComment:0
       });
       updatedQuestions[key].questionDataErrors.answerOptionError.push({
         answerError: "",
@@ -512,7 +532,6 @@ export default function PollListing({ eventIdContext }) {
       // setCurrentIndex(0);
       setQuestionFlag(false);
       loader("hide");
-
       setQuestions(apiData);
     }
   };
@@ -587,7 +606,6 @@ export default function PollListing({ eventIdContext }) {
 
     // updatedQuestions = questionObj;
     updatedQuestions[index] = questionObj;
-    // console.log(questionObj);
     setQuestions(updatedQuestions);
     setSelectedQuestion(questionObj);
     return isValid;
@@ -606,7 +624,7 @@ export default function PollListing({ eventIdContext }) {
         questionColor: "#000000",
         answerColor: "#64B8B0",
         speakerName: "",
-        answerOption: [{ answer: "", color: colors[0] }],
+        answerOption: [{ answer: "", color: colors[0],addChoiceComment:0 }],
         answerType: "MULTIPLE",
         addComment: 0,
         graphType: "bar",
@@ -658,7 +676,7 @@ export default function PollListing({ eventIdContext }) {
             questionColor: "#000000",
             answerColor: "#000000",
             speakerName: "",
-            answerOption: [{ answer: "", color: "#000000" }],
+            answerOption: [{ answer: "", color: "#000000" ,addChoiceComment:0}],
             answerType: "MULTIPLE",
             addComment: 0,
             graphType: "bar",
@@ -727,7 +745,6 @@ export default function PollListing({ eventIdContext }) {
     setIsPrevClicked(true);
     let ques = JSON.parse(JSON.stringify(questions));
     setQuestionsOrder(ques);
-    // console.log(questionsOrder,'===>order1')
   };
 
   const handleClose = () => {
@@ -735,9 +752,7 @@ export default function PollListing({ eventIdContext }) {
   };
 
   const handleQuestionOrderChange = (questionsOrder) => {
-    // setQuestions(updatedQuestions);
     setQuestionsOrder(questionsOrder);
-    // console.log(questionsOrder,'===>order2')
   };
 
   const handleSave = async () => {
@@ -772,7 +787,6 @@ export default function PollListing({ eventIdContext }) {
     } finally {
       loader("hide");
     }
-    // console.log("Saving questions:", questionsOrder)
   };
   const toggleAccordion = (index) => {
     setAccordionOpen((prevIndex) => (prevIndex === index ? null : index));
@@ -1060,6 +1074,10 @@ export default function PollListing({ eventIdContext }) {
                       onHandleIncrementChange={handleIncrementChange}
                       lastQuestionIndex={questions.length}
                       checkValidation={() => validateQuestions(index)}
+                      onHandleAddChoiceCommentChange={(e,choiceIndex) =>
+                        handleAddChoiceCommentChange(e, index,choiceIndex)
+                      }
+                      
                     />
                   )}
                 </>
@@ -1093,7 +1111,6 @@ export default function PollListing({ eventIdContext }) {
                     }`}
                     onClick={() => {
                       slickRef.current.slickNext();
-                      // console.log(slickRef.current);
                     }}
                   >
                     <svg width="19" height="11" viewBox="0 0 19 11" fill="none">
