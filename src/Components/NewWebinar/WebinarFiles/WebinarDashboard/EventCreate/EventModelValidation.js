@@ -13,6 +13,9 @@ const EventModelValidation = (data) => {
   if(!data?.event_type){
     error.event_type="Please select event"
   }
+  if(!data?.stream_type){
+    error.stream_type="Please select streaming type"
+  }
 
   if (!data?.timezone) {
     error.timezone = "Please select time zone";

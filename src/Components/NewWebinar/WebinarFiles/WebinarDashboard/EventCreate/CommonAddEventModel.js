@@ -83,6 +83,16 @@ const CommonAddEventModel = ({
     { label: "Webinar", value: "Webinar" },
     { label: "Conference", value: "Conference" }
   ])
+  const [eventStreamingOptions, setEventStreamingOptions] = useState([
+    { label: "No streaming", value: "No streaming" },
+    { label: "One Source", value: "One Source" },
+    { label: "Zoom", value: "Zoom" }
+  ])
+  const streamTypeMap = {
+    0: "No streaming",
+    1: "One Source",
+    2: "Zoom",
+  };
   const [eventInputs, setEventInputs] = useState({
     dateStart: new Date(moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")),
     dateEnd: new Date(moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")),
@@ -99,6 +109,7 @@ const CommonAddEventModel = ({
     dateEndMin: "",
     event_code: "",
     event_type: "",
+    stream_type:"",
     description: "",
     speaker_name: [{ speakerName: "" }],
     speaker_email: "",
@@ -122,6 +133,7 @@ const CommonAddEventModel = ({
       let speaker_email = "";
       let meeting_type = "";
       let event_type = "";
+      let stream_type = "";
       let countryTimeZoneOptions = []
       if (data?.raw_description) {
         let parseData = JSON.parse(data?.raw_description);
@@ -133,6 +145,7 @@ const CommonAddEventModel = ({
         speaker_email = parseData?.speaker_email;
         meeting_type = parseData?.meeting_type;
         event_type = parseData?.event_type;
+        stream_type = parseData?.stream_type;
       }
       countryTimeZoneOptions = webinarDetail?.timezoneName?.map((item) => (item?.label == data?.timezone ? { label: item?.value, value: item?.value } : null)).filter(Boolean);
       setCountryTimezone(countryTimeZoneOptions)
@@ -155,6 +168,7 @@ const CommonAddEventModel = ({
         dateEndMin: data?.dateEndMin ? data?.dateEndMin : "",
         event_code: data?.event_code,
         event_type: event_type,
+        stream_type: stream_type,
         description: data?.description ? data?.description : "",
         // speaker_name: JSON.parse(speaker_name),
         speaker_name: speaker_name,
@@ -181,6 +195,7 @@ const CommonAddEventModel = ({
         dateEndMin: "",
         event_code: "",
         event_type: "",
+        stream_type: "",
         description: "",
         speaker_name: [{ speakerName: "" }],
         speaker_email: "",
@@ -354,6 +369,7 @@ const CommonAddEventModel = ({
           location: eventInputs?.location,
           type: eventInputs?.type ? eventInputs?.type : "",
           event_type: eventInputs?.event_type ? eventInputs?.event_type : "",
+          stream_type: eventInputs?.stream_type  === "One Source" ? "1" : eventInputs?.stream_type  === "Zoom" ? "2" : "0",
           timezone: eventInputs?.timezone,
           countryTimezone: eventInputs?.country_timezone,
           isClientStream: eventInputs?.is_client_stream == "Yes" ? 1 : 0,
@@ -379,6 +395,7 @@ const CommonAddEventModel = ({
         } else {
           const res = await postData(ENDPOINT.WEBINAR_ADD_NEW_EVENT, dataObj);
         }
+       
 
         // onClose(false);
         setEventInputs({
@@ -533,6 +550,46 @@ const CommonAddEventModel = ({
                               ) : null}
                             </div>
                           </div>
+
+                          <div className="col-12 col-md-12">
+                           <div className="form-group d-flex align-items-center">
+                              <label htmlFor="">
+                                Streaming Type <span>*</span>
+                              </label>
+
+                              <Select
+                                options={eventStreamingOptions}
+                                className={
+                                  error?.stream_type
+                                    ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
+                                    : "dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                }
+                                placeholder="Select streaming type"
+                                onChange={(e) =>
+                                  handleChange(e?.value, "stream_type")
+                                }
+                                value={
+                                  eventStreamingOptions
+                                    ?eventStreamingOptions.find(
+                                      (item) => item?.value === streamTypeMap[eventInputs?.stream_type]
+                                    )  != -1
+                                      ? eventStreamingOptions.find(
+                                        (item) => item?.value === streamTypeMap[eventInputs?.stream_type]
+                                      ) 
+                                      : ""
+                                    : ""
+                                }
+                                isClearable
+                               
+                              />
+                              {error?.stream_type ? (
+                                <div className="login-validation">
+                                  {error?.stream_type}
+                                </div>
+                              ) : null}
+                             </div>
+                            </div>
+
                           <div className="col-12 col-md-12 speaker-name">
                             <div className="multi-speaker-add">
                                 {Object.keys(eventInputs?.speaker_name)?.map((item, index) => (

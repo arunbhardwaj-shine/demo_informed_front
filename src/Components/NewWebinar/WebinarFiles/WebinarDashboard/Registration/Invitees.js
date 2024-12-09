@@ -12,6 +12,8 @@ import { Spinner } from "react-activity";
 import { useSidebar } from "../../../../CommonComponent/LoginLayout";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import axios from "axios";
+const qs = require('qs');
 
 const Invitees = () => {
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -32,6 +34,8 @@ const Invitees = () => {
   const [filterdata, setFilterData] = useState({
     // "User type ": ["HCP", "Staff user", "Test user"],
     // "User ": ["Registered", "Blocked"]
+  });
+  const [eventdata, setEventData] = useState({
   });
   const [otherFilter, setOtherFilter] = useState({
     "UserType": [
@@ -58,7 +62,6 @@ const Invitees = () => {
     }
   }, [])
 
-const oneSourceEvent =  JSON.parse(localStorage.getItem("EventIdContext"))?.isOneSourceEvent
 
 
   const getWebinarData = async (page, filter, loadMore = 0, searchClear = "-1") => {
@@ -94,6 +97,7 @@ const oneSourceEvent =  JSON.parse(localStorage.getItem("EventIdContext"))?.isOn
       setTotalReaders(responseData?.totalReaders);
       const userTypeOptions = responseData?.filterData?.UserType?.map(item => ({ label: item, value: item }));
       setFilterData(responseData?.filterData);
+      setEventData(responseData?.eventData);
       setUserTypeOptions(userTypeOptions);
 
       // Determine if there is more data to load
@@ -451,6 +455,58 @@ const oneSourceEvent =  JSON.parse(localStorage.getItem("EventIdContext"))?.isOn
     }
   };
 
+
+  const copyZoomToClipboard = async (user_id) => {
+    try {
+      const encryptedUserId = await encryptUserId(user_id);
+  
+      let content =
+        "https://webinar.shinedezign.pro/zoom?evnt=" +
+        eventdata?.event_code +
+        "&hefrghh=" +
+        encryptedUserId +
+        "&meetingId=" +
+        eventdata?.meeting_id +
+        "&passCode=" +
+        eventdata?.meeting_pass;
+  
+      if (window.isSecureContext && navigator.clipboard) {
+        navigator.clipboard.writeText(content);
+        toast.success("Content copied to the clipboard!");
+      } else {
+        unsecuredCopyToClipboard(content);
+      }
+    } catch (error) {
+      console.error("Error encrypting user ID:", error);
+      toast.error("Failed to encrypt user ID. Please try again.");
+    }
+  };
+
+  const encryptUserId = async (user_id) => {
+    try {
+      let data = qs.stringify({
+        user_id: user_id,
+      });
+  
+      let config = {
+        method: 'post',
+        maxBodyLength: Infinity,
+        url: 'https://webinar.informed.pro/api/getEncryptionOrg',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        data: data,
+      };
+  
+      const response = await axios.request(config);
+      // console.log(response.data, 'encrypted response'); 
+      return response.data; 
+    } catch (error) {
+      console.error('Error in encryptUserId:', error);
+      throw error; 
+    }
+  };
+  
   const unsecuredCopyToClipboard = (text) => {
     const textArea = document.createElement("textarea");
     textArea.value = text;
@@ -823,12 +879,16 @@ const oneSourceEvent =  JSON.parse(localStorage.getItem("EventIdContext"))?.isOn
                               </div>
                             </div>
                             <div className="invitess-tbl-right">
-                             { oneSourceEvent === 1 ? <div className="clear-search">
+                             { eventdata?.stream_type === 1 || eventdata?.stream_type === 2 ? <div className="clear-search">
                                 <button
                                   title="Copy SSI"
-                                  onClick={() => {
-                                    copyToClipboard(user?.user_id);
-                                  }}
+                                  // onClick={() => {
+                                  //   copyToClipboard(user?.user_id);
+                                  // }}
+                                  onClick={() =>
+                                    eventdata?.stream_type === 1
+                                      ? copyToClipboard(user?.user_id)
+                                      :   eventdata?.stream_type === 2 ? copyZoomToClipboard(user?.user_id) : ''}
                                 >
                                   <svg
                                     xmlns="http://www.w3.org/2000/svg"

@@ -448,7 +448,7 @@ if(currentQuestion.current && (currentIndexRef.current?.showQuestionToUser!=2 ||
   const handleCustomComments = (comments) => {
     setOptionCommentPopup(true);
     setOptionComments(comments)
-    console.log("Comments: ", comments);
+    // console.log("Comments: ", comments);
     // You can display these comments in a modal, tooltip, or any desired format
   };
   
