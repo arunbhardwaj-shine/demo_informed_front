@@ -28,6 +28,7 @@ const FilterSegment = (props) => {
   const [selectedspeciality, setSelectedSpeciality] = useState([]);
   const [selectedinvestigatorType, setSelectedinvestigatorType] = useState([]);
   const [selectedSubRole, setSelectedSubRole] = useState([]);
+  const [selectedAffilation, setSelectedAffilation] = useState([]);
   const [selectedBlindType, setSelectedBlindType] = useState([]);
   const [selectedsitenumber, setSelectedsitenumber] = useState([]);
   const [siteNumber, setSiteNumber] = useState([]);
@@ -159,6 +160,11 @@ const FilterSegment = (props) => {
       if (typeof props?.selectedFilter?.sub_role !== "undefined") {
         setSelectedSubRole(props.selectedFilter.sub_role);
       }
+
+      if (typeof props?.selectedFilter?.affilation !== "undefined") {
+        setSelectedAffilation(props?.selectedFilter?.affilation);
+      }
+
 
       if (typeof props?.selectedFilter?.blind_type !== "undefined") {
         setSelectedBlindType(props.selectedFilter.blind_type);
@@ -494,56 +500,88 @@ const FilterSegment = (props) => {
     setUpdateFlag(up);
   };
 
-  const handleOnSubRoleChange = (subRole) => {
-    if (subRole == "All") {
-      let all_index = selectedSubRole?.indexOf(subRole);
+  // const handleOnSubRoleChange = (subRole) => {
+  //   if (subRole == "All") {
+  //     let all_index = selectedSubRole?.indexOf(subRole);
+
+  //     if (all_index !== -1) {
+  //       setSelectedSubRole([]);
+  //     } else {
+  //       selectedSubRole?.push(subRole);
+  //       Object.keys(filters?.sub_role)?.map((item, index) => {
+  //         selectedSubRole?.push(item);
+  //       });
+
+  //       setSelectedSubRole(selectedSubRole);
+  //     }
+  //   } else {
+  //     let subRoler_index = selectedSubRole?.indexOf(subRole);
+
+  //     if (subRoler_index !== -1) {
+  //       selectedSubRole?.splice(subRoler_index, 1);
+  //       let all_index = selectedSubRole?.indexOf("All");
+  //       if (all_index !== -1) {
+  //         selectedSubRole?.splice(all_index, 1);
+  //       }
+  //       setSelectedSubRole(selectedSubRole);
+  //     } else {
+  //       selectedSubRole?.push(subRole);
+
+  //       let all_item_index = Object.keys(filters?.sub_role)?.every((item) =>
+  //         selectedSubRole.includes(item)
+  //       );
+
+  //       if (all_item_index == true) {
+  //         selectedSubRole?.push("All");
+  //       }
+  //       setSelectedSubRole(selectedSubRole);
+  //     }
+  //   }
+  //   let up = updateflag + 1;
+  //   setUpdateFlag(up);
+  // };
+
+  const handleOnAffilationChange = (affilation) => {
+    if (affilation == "All") {
+      let all_index = selectedAffilation?.indexOf(affilation);
 
       if (all_index !== -1) {
-        setSelectedSubRole([]);
+        setSelectedAffilation([]);
       } else {
-        selectedSubRole?.push(subRole);
-        Object.keys(filters?.sub_role)?.map((item, index) => {
-          selectedSubRole?.push(item);
+        selectedAffilation?.push(affilation);
+        Object.keys(filters?.affilation)?.map((item, index) => {
+          selectedAffilation?.push(item);
         });
 
-        setSelectedSubRole(selectedSubRole);
+        setSelectedAffilation(selectedAffilation);
       }
-    } else {
-      let subRoler_index = selectedSubRole?.indexOf(subRole);
+    }else {
+      let subRoler_index = selectedAffilation?.indexOf(affilation);
 
       if (subRoler_index !== -1) {
-        selectedSubRole?.splice(subRoler_index, 1);
-        let all_index = selectedSubRole?.indexOf("All");
+        selectedAffilation?.splice(subRoler_index, 1);
+        let all_index = selectedAffilation?.indexOf("All");
         if (all_index !== -1) {
-          selectedSubRole?.splice(all_index, 1);
+          selectedAffilation?.splice(all_index, 1);
         }
-        setSelectedSubRole(selectedSubRole);
+        setSelectedAffilation(selectedAffilation);
       } else {
-        selectedSubRole?.push(subRole);
+        selectedAffilation?.push(affilation);
 
-        let all_item_index = Object.keys(filters?.sub_role)?.every((item) =>
-          selectedSubRole.includes(item)
+        let all_item_index = Object.keys(filters?.affilation)?.every((item) =>
+          selectedAffilation.includes(item)
         );
 
         if (all_item_index == true) {
-          selectedSubRole?.push("All");
+          selectedAffilation?.push("All");
         }
-        setSelectedSubRole(selectedSubRole);
+        setSelectedAffilation(selectedAffilation);
       }
     }
-
-    //----------Old code----------//
-
-    // let subrole_index = selectedSubRole.indexOf(subRole);
-    // if (subrole_index !== -1) {
-    //   selectedSubRole.splice(subrole_index, 1);
-    // } else {
-    //   selectedSubRole.push(subRole);
-    // }
-    // setSelectedSubRole(selectedSubRole);
     let up = updateflag + 1;
     setUpdateFlag(up);
   };
+  
 
   const handleOnBlindTypeChange = (blindType) => {
     setSelectedBlindType(blindType);
@@ -971,6 +1009,14 @@ const FilterSegment = (props) => {
       flag_to_check_data = true;
     }
 
+    if (typeof selectedAffilation === "object" && selectedAffilation.length > 0) {
+      let affilation = selectedAffilation?.filter((item) => {
+        return item !== "All";
+      });
+      Object.assign(payload, { affilation: affilation });
+      flag_to_check_data = true;
+    }
+
     // for Campaign listing
     if (typeof selectedcampaign === "object" && selectedcampaign.length > 0) {
       let campaign = selectedcampaign.map((item) => {
@@ -1298,7 +1344,9 @@ const FilterSegment = (props) => {
     } else if (src == "investigator_type") {
       handleOnInvestigatorChange(item);
     } else if (src == "sub_role") {
-      handleOnSubRoleChange(item);
+      // handleOnSubRoleChange(item);
+    }else if (src == "affilation") {
+      handleOnAffilationChange(item);
     } else if (src == "site_number") {
       handleOnSiteNumberChange(item);
     } else if (src == "site_name") {
@@ -1887,7 +1935,7 @@ const FilterSegment = (props) => {
                             </>
                           )}
 
-                        {"sub_role" in filters &&
+                        {/* {"sub_role" in filters &&
                           Object.keys(filters.sub_role).length > 0 && (
                             <>
                               <div className="col block-smart-name">
@@ -1928,7 +1976,51 @@ const FilterSegment = (props) => {
                                 </div>
                               </div>
                             </>
-                          )}
+                          )} */}
+
+
+                        {"affilation" in filters &&
+                          Object.keys(filters.affilation).length > 0 && (
+                            <>
+                              <div className="col block-smart-name">
+                                <h6>Affilation</h6>
+                                <div className="smart-name-list">
+                                  <ul>
+                                    {(() => {
+                                      let entries = Object.entries(
+                                        filters.affilation
+                                      );
+                                      entries.unshift(["All", "All"]);
+                                      return entries.map(([index, item]) => (
+                                        <li key={item}>
+                                          <div className="select-multiple-option">
+                                            <input
+                                              type="checkbox"
+                                              id={`custom-checkbox-affilation-${index}`}
+                                              name="affilation[]"
+                                              value={item}
+                                              checked={
+                                                typeof selectedAffilation !==
+                                                  "undefined" &&
+                                                  selectedAffilation.indexOf(
+                                                  item
+                                                ) !== -1
+                                              }
+                                              onChange={() =>
+                                                handleOnAffilationChange(item)
+                                              }
+                                            />
+                                            <span className="checkmark"></span>
+                                          </div>
+                                          {item}
+                                        </li>
+                                      ));
+                                    })()}
+                                  </ul>
+                                </div>
+                              </div>
+                            </>
+                        )}
 
                         {"country" in filters &&
                           Object.keys(filters.country).length > 0 && (
@@ -3155,7 +3247,7 @@ const FilterSegment = (props) => {
                 ) : null
               ) : null}
 
-              {updateflag > 0 ? (
+              {/* {updateflag > 0 ? (
                 typeof selectedSubRole === "object" &&
                 selectedSubRole.length > 0 ? (
                   <div className="filter-div">
@@ -3181,6 +3273,44 @@ const FilterSegment = (props) => {
                             <img
                               onClick={() =>
                                 removeindividualfilter("sub_role", item)
+                              }
+                              src={path_image + "filter-close.svg"}
+                              alt="Close-filter"
+                            />
+                          </div>
+                        ))
+                      )}
+                    </div>
+                  </div>
+                ) : null
+              ) : null} */}
+
+              {updateflag > 0 ? (
+                typeof selectedAffilation === "object" &&
+                selectedAffilation.length > 0 ? (
+                  <div className="filter-div">
+                    <div className="filter-div-title">
+                      <span>Affilation |</span>
+                    </div>
+                    <div className="filter-div-list">
+                      {selectedAffilation?.includes("All") ? (
+                        <div className="filter-result">
+                          {"All"}{" "}
+                          <img
+                            onClick={() =>
+                              removeindividualfilter("affilation", "All")
+                            }
+                            src={path_image + "filter-close.svg"}
+                            alt="Close-filter"
+                          />
+                        </div>
+                      ) : (
+                        Object.entries(selectedAffilation).map(([index, item]) => (
+                          <div className="filter-result">
+                            {item}{" "}
+                            <img
+                              onClick={() =>
+                                removeindividualfilter("affilation", item)
                               }
                               src={path_image + "filter-close.svg"}
                               alt="Close-filter"
