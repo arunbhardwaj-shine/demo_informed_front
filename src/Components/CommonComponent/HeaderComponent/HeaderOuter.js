@@ -14,12 +14,12 @@ const HeaderOuter = () => {
             <meta name="theme-color" content="#000000" />
             <link rel="icon" href="https://informed.pro/componentAssets/images/favico.png" />
             <meta name="description" content="inforMed.pro" />
-            {/* <link
+            <link
             rel="stylesheet"
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
             integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
             crossorigin="anonymous"
-            /> */}
+            />
             <script
             src="https://unpkg.com/react/umd/react.production.min.js"
             crossorigin

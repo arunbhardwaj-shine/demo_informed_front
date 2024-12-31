@@ -294,7 +294,7 @@ const LandingHeader = () => {
                   className="form-check-input"
                   id="check-remember"
                 />
-                <label className="form-check-label" for="check-remember">Remember me</label>
+                <label className="form-check-label" htmlFor="check-remember">Remember me</label>
               </div>
             </FormGroup>
 
