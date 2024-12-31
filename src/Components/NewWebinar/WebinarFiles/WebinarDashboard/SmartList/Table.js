@@ -16,7 +16,8 @@ import { toast } from "react-toastify";
 import { popup_alert } from "../../../../../popup_alert";
 import queryString from "query-string";
 import { connect } from "react-redux";
-import ReactHTMLTableToExcel from "react-html-table-to-excel";
+// import ReactHTMLTableToExcel from "react-html-table-to-excel";
+import { DownloadTableExcel } from 'react-export-table-to-excel';
 import DropdownButton from "react-bootstrap/DropdownButton";
 import EditCountry from "../../../../CommonComponent/EditCountry";
 import EditContactType from "../../../../CommonComponent/EditContactType";
@@ -117,7 +118,7 @@ const Table = (props, ref) => {
       ? eventIdContext?.eventId
       : localStorageEvent?.eventId
   );
-
+  const tableRef = useRef(null);
   useEffect(() => {
     if (isLikeRdAccount) {
       axiosFun();
@@ -1993,14 +1994,23 @@ const Table = (props, ref) => {
                       <p className="show_less">Show less information</p>
                     )}{" "}
                   </a>
-                  <ReactHTMLTableToExcel
+                  {/* <ReactHTMLTableToExcel
                     id="test-table-xls-button"
                     className="btn btn-outline-primary"
                     table="table-to-xls"
                     filename="tablexls"
                     sheet="tablexls"
                     buttonText="Download "
-                  />
+                  /> */}
+                  <DownloadTableExcel
+                    id="test-table-xls-button"
+                    className="btn btn-outline-primary"
+                    filename="tablexls"
+                    sheet="tablexls"
+                    currentTableRef={tableRef.current}
+                  >
+                    <button> Download </button>
+                  </DownloadTableExcel>
                   <div className="hcp-new-user">
                     <button
                       className="btn btn-outline-primary"
@@ -2085,7 +2095,7 @@ const Table = (props, ref) => {
           {/* {
             props?.upload_by_filter == 1 && localStorageUserId!= 'iSnEsKu5gB/DRlycxB6G4g==' ? */}
           <div className="selected-hcp-list ">
-            <table className="table edit-smart-list" id="table-to-xls">
+            <table className="table edit-smart-list" id="table-to-xls" ref={tableRef}>
               <thead className="sticky-header">
                 <tr>
                   <th scope="col" className="sort_option">

@@ -21,9 +21,10 @@ import { usePdf } from '@mikecousins/react-pdf';
 import PDF from "react-pdf-js";
 import packageJson from '../../../../package.json';
 // import  Viewer, { Worker } from '@phuocng/react-pdf-viewer';
-import  Viewer from '@phuocng/react-pdf-viewer';
-import '@phuocng/react-pdf-viewer/cjs/react-pdf-viewer.css';
-import { RotateEvent, PageChangeEvent, DocumentLoadEvent, RenderPageProps  } from '@react-pdf-viewer/core';
+// import  Viewer from '@phuocng/react-pdf-viewer';
+// import '@phuocng/react-pdf-viewer/cjs/react-pdf-viewer.css';
+import { RotateEvent, PageChangeEvent, DocumentLoadEvent, RenderPageProps, Viewer  } from '@react-pdf-viewer/core';
+import '@react-pdf-viewer/core/lib/styles/index.css';
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const RenderPdf = ({
   next,

@@ -13,13 +13,14 @@ import { useSidebar } from "../../../../CommonComponent/LoginLayout";
 import { toast } from "react-toastify";
 
 import { connect } from "react-redux";
-import ReactHTMLTableToExcel from "react-html-table-to-excel";
+import { DownloadTableExcel } from 'react-export-table-to-excel';
+// import ReactHTMLTableToExcel from "react-html-table-to-excel";
 import { popup_alert } from "../../../../../popup_alert";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import Select, { createFilter } from "react-select";
 import makeAnimated from "react-select/animated";
 const ViewTable = (props) => {
-
+  const tableRef = useRef(null);
   const accountMapping={"56Ek4feL/1A8mZgIKQWEqg==":2147501188,"sNl1hra39QmFk9HwvXETJA==":2147536982,"MXl8m36VZFYXpgFVz3Pg0g==":2147537506}
 
   
@@ -1702,14 +1703,23 @@ const ViewTable = (props) => {
               {editable == false ? (
                 <>
                   <div className="smart-list-download">
-                    <ReactHTMLTableToExcel
+                    {/* <ReactHTMLTableToExcel
                       id="test-table-xls-button"
                       className="btn btn-outline-primary"
                       table="table-to-xls"
                       filename="tablexls"
                       sheet="tablexls"
                       buttonText="Download"
-                    />
+                    /> */}
+                    <DownloadTableExcel
+                      id="test-table-xls-button"
+                      className="btn btn-outline-primary"
+                      filename="tablexls"
+                      sheet="tablexls"
+                      currentTableRef={tableRef.current}
+                    >
+                      <button>Download</button>
+                    </DownloadTableExcel>
                   </div>
                   <div className="hcp-new-user">
                     <button
@@ -1839,7 +1849,7 @@ const ViewTable = (props) => {
             </div>
           </div>
           <div className="selected-hcp-list">
-            <table className="table" id="table-to-xls">
+            <table className="table" id="table-to-xls" ref={tableRef}>
               <thead className="sticky-header">
                 <tr>
                   <th scope="col" className="sort_option">

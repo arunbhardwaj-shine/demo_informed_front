@@ -4,7 +4,7 @@ import { useLocation, Link, useNavigate } from "react-router-dom";
 import { surveyAxiosInstance } from "./CommonFunctions/CommonFunction";
 import { loader } from "../../loader";
 import { toast } from "react-toastify";
-import QRCode from "qrcode.react";
+import {QRCodeSVG} from "qrcode.react";
 import { analyticButtonClicked } from "./CommonFunctions/CommonFunction";
 import { surveyEndpoints } from "./SurveyEndpoints/SurveyEndpoints";
  
@@ -156,7 +156,7 @@ const navigate=useNavigate();
                       </Link> */}
                     </div>
                   </div>
-                  <QRCode
+                  <QRCodeSVG
                     style={{ display: "none" }}
                     id="qr-gen"
                     value={qrState?.value}

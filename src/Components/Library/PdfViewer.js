@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { DocumentLoadEvent, SpecialZoomLevel } from '@react-pdf-viewer/core';
-import Viewer from "@phuocng/react-pdf-viewer";
+import { DocumentLoadEvent, SpecialZoomLevel, Viewer } from '@react-pdf-viewer/core';
+// import Viewer from "@phuocng/react-pdf-viewer";
 import '@react-pdf-viewer/core/lib/styles/index.css';
 
 const PdfViewer = () => {

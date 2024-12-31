@@ -12,7 +12,8 @@ import EditContactType from "../../CommonComponent/EditContactType";
 import { toast } from "react-toastify";
 
 import { connect } from "react-redux";
-import ReactHTMLTableToExcel from "react-html-table-to-excel";
+// import ReactHTMLTableToExcel from "react-html-table-to-excel";
+import { DownloadTableExcel } from 'react-export-table-to-excel';
 import { popup_alert } from "../../../popup_alert";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import Select, { createFilter } from "react-select";
@@ -84,6 +85,7 @@ const ViewTable = (props) => {
   const [sortBy, setSortBy] = useState('first_name'); // Initial sort key
   const [sortOrder, setSortOrder] = useState('asc');
   let file_name = useRef("");
+  const tableRef = useRef(null);
 
   useEffect(() => {
     setUpdatedData(props.data);
@@ -1786,14 +1788,24 @@ const ViewTable = (props) => {
               {editable == false ? (
                 <>
                   <div className="smart-list-download">
-                    <ReactHTMLTableToExcel
+                    {/* <ReactHTMLTableToExcel
                       id="test-table-xls-button"
                       className="btn btn-outline-primary"
                       table="table-to-xls"
                       filename="tablexls"
                       sheet="tablexls"
                       buttonText="Download"
-                    />
+                    /> */}
+                  <DownloadTableExcel
+                    id="test-table-xls-button"
+                    className="btn btn-outline-primary"
+                    filename="tablexls"
+                    sheet="tablexls"
+                    currentTableRef={tableRef.current}
+                  >
+                    <button> Download </button>
+                  </DownloadTableExcel>
+
                   </div>
                   <div className="hcp-new-user">
                     <button
@@ -1923,7 +1935,7 @@ const ViewTable = (props) => {
             </div>
           </div>
           <div className="selected-hcp-list">
-            <table className="table" id="table-to-xls">
+            <table className="table" id="table-to-xls" ref={tableRef}>
               <thead className="sticky-header">
                 <tr>
                   <th scope="col" className="sort_option">

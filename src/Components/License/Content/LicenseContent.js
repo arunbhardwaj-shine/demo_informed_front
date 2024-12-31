@@ -37,7 +37,7 @@ import { loader } from "../../../loader";
 import { toast } from "react-toastify";
 import moment from "moment";
 // import QRCode from "react-qr-code";
-import QRCode from "qrcode.react";
+import {QRCodeSVG} from "qrcode.react";
 import { connect } from "react-redux";
 import {
   getEmailData,
@@ -1319,7 +1319,7 @@ const LicenseContent = (props) => {
                 </div>
               ) : null}
             </div>
-            <QRCode
+            <QRCodeSVG
               style={{ display: "none" }}
               id="qr-gen"
               value={qrState?.value}

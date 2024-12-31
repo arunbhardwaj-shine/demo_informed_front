@@ -15,19 +15,21 @@ import { ENDPOINT } from "../../../axios/apiConfig";
 import { postFormData } from "../../../axios/apiHelper";
 import MessageModel from "../../../Model/MessageModel";
 import { toast } from "react-toastify";
-import QRCode from "qrcode.react";
+import {QRCodeSVG} from "qrcode.react";
 import { usePdf } from "@mikecousins/react-pdf";
 import PDF from "react-pdf-js";
 import packageJson from "../../../../package.json";
-import Viewer from "@phuocng/react-pdf-viewer";
-import "@phuocng/react-pdf-viewer/cjs/react-pdf-viewer.css";
+// import Viewer from "@phuocng/react-pdf-viewer";
+// import "@phuocng/react-pdf-viewer/cjs/react-pdf-viewer.css";
 import {
   RotateEvent,
   PageChangeEvent,
   DocumentLoadEvent,
   RenderPageProps,
   ProgressBar,
+  Viewer
 } from "@react-pdf-viewer/core";
+import '@react-pdf-viewer/core/lib/styles/index.css';
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const RenderPdf = ({
   next,

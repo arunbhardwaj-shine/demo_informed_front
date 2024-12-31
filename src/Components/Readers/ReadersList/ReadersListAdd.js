@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   Col,
   Dropdown,
@@ -10,7 +10,8 @@ import {
 import axios from "axios";
 
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import ReactHTMLTableToExcel from "react-html-table-to-excel";
+// import ReactHTMLTableToExcel from "react-html-table-to-excel";
+import { DownloadTableExcel } from 'react-export-table-to-excel';
 import EditContactType from "../../CommonComponent/EditContactType";
 import EditCountry from "../../CommonComponent/EditCountry";
 import Select, { createFilter } from "react-select";
@@ -26,6 +27,7 @@ let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
 
 const ReadersListAdd = () => {
+  const tableRef = useRef(null);
   const accountMapping={"56Ek4feL/1A8mZgIKQWEqg==":2147501188,"sNl1hra39QmFk9HwvXETJA==":2147536982,"MXl8m36VZFYXpgFVz3Pg0g==":2147537506}
 
   const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
@@ -1530,7 +1532,7 @@ const ReadersListAdd = () => {
                   <div className="selected-hcp-table-action">
                     {editable == false ? (
                       <>
-                        <ReactHTMLTableToExcel
+                        {/* <ReactHTMLTableToExcel
                           id="test-table-xls-button"
                           className="btn btn-outline-primary"
                           table="table-to-xls"
@@ -1539,7 +1541,17 @@ const ReadersListAdd = () => {
                           buttonText="Download "
                           buttonTitle="Download reader list"
                           title="jhfgjhfjhf"
-                        />
+                        /> */}
+
+                      <DownloadTableExcel
+                        id="test-table-xls-button"
+                        className="btn btn-outline-primary"
+                        filename="tablexls"
+                        sheet="tablexls"
+                        currentTableRef={tableRef.current}
+                      >
+                        <button>Download reader list</button>
+                      </DownloadTableExcel>
 
                         <div className="hcp-new-user">
                           <button
@@ -1632,7 +1644,7 @@ const ReadersListAdd = () => {
 
                 <div className="smart-list-view">
                   <div className="selected-hcp-list">
-                    <table className="table" id="table-to-xls">
+                    <table className="table" id="table-to-xls" ref={tableRef}>
                       <thead className="sticky-header">
                         <tr>
                           <th scope="col" className="sort_option">

@@ -27,7 +27,7 @@ import { emptySurveyReduxStates } from "../../actions/surveyActions";
 import { useDispatch } from "react-redux";
 import { popup_alert } from "../../popup_alert";
 import { updateLiveFlag } from "./CommonFunctions/CommonFunction";
-import QRCode from "qrcode.react";
+import {QRCodeSVG} from "qrcode.react";
 import { Spinner } from "react-activity";
 import { surveyEndpoints } from "./SurveyEndpoints/SurveyEndpoints";
 import { updateCurrentStep } from "../../actions/surveyStepAction";
@@ -1891,7 +1891,7 @@ const SurveyList = (props) => {
         </div>
       </Col>
 
-      <QRCode
+      <QRCodeSVG
         style={{ display: "none" }}
         id="qr-gen"
         value={qrState?.value}

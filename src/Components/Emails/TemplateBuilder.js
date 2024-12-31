@@ -12,7 +12,7 @@ import { Editor } from "@tinymce/tinymce-react";
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import Select, { createFilter } from "react-select";
-import "bootstrap/dist/css/bootstrap.min.css";
+// import "bootstrap/dist/css/bootstrap.min.css";
 import { saveNewTemplate } from "../CommonComponent/Validations";
 import html2canvas from 'html2canvas';
 import SmartListLayout from "../CommonComponent/SmartListLayout";

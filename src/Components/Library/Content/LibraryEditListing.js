@@ -23,7 +23,7 @@ import "react-activity/dist/library.css";
 import { loader } from "../../../loader";
 import { toast } from "react-toastify";
 import moment from "moment";
-import QRCode from "qrcode.react";
+import {QRCodeSVG} from "qrcode.react";
 
 const LibraryEditListing = () => {
   const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
@@ -992,7 +992,7 @@ const LibraryEditListing = () => {
                 ) : null*/}
               </div>
             </div>
-            <QRCode
+            <QRCodeSVG
               style={{ display: "none" }}
               id="qr-gen"
               value={qrState?.value}

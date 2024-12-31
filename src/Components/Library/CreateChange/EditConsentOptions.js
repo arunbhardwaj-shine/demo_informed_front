@@ -23,7 +23,7 @@ import { popup_alert } from "../../../popup_alert";
 import Tooltip from "react-bootstrap/Tooltip";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import { ProgressBar } from "react-bootstrap";
-import "bootstrap/dist/css/bootstrap.min.css";
+// import "bootstrap/dist/css/bootstrap.min.css";
 var dxr = 0;
 var state_object = {};
 const EditConsentOptions = (props) => {

@@ -34,7 +34,7 @@ import { loader } from "../../../loader";
 import { toast } from "react-toastify";
 import moment from "moment";
 // import QRCode from "react-qr-code";
-import QRCode from "qrcode.react";
+import {QRCodeSVG} from "qrcode.react";
 
 const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
@@ -1090,7 +1090,7 @@ const LicenseEditListing = () => {
                 ) : null*/}
               </div>
             </div>
-            <QRCode
+            <QRCodeSVG
               style={{ display: "none" }}
               id="qr-gen"
               value={qrState?.value}

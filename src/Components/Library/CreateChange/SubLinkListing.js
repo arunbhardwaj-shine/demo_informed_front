@@ -15,7 +15,7 @@ import { useLocation, Link, useNavigate } from "react-router-dom";
 import { ENDPOINT } from "../../../axios/apiConfig";
 import { postData, getData } from "../../../axios/apiHelper";
 import { toast } from "react-toastify";
-import QRCode from "qrcode.react";
+import {QRCodeSVG} from "qrcode.react";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const SubLinkListing = ({ pdfid, render, count }) => {
@@ -132,7 +132,7 @@ const SubLinkListing = ({ pdfid, render, count }) => {
                       </Link>
                     </div>
                   </div>
-                  <QRCode
+                  <QRCodeSVG
                     style={{ display: "none" }}
                     id="qr-gen"
                     value={qrState?.value}
