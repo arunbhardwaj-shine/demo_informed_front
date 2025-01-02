@@ -2561,11 +2561,15 @@ input:-webkit-autofill {
   padding: 12px 40px;
 }
 
-#pdf_view_box .scroll_pdf {
+#pdf_view_box .scroll_pdf{
   min-height: 61vh;
+  max-height: 61vh;
 }
 
-#pdf_view_box .viewer-layout-container .viewer-layout-toolbar {
+.sublink_right .new_preview_pdflink {
+  margin-bottom: 0;
+}
+#pdf_view_box .viewer-layout-container .viewer-layout-toolbar, #pdf_view_box .rpv-core__inner-container {
   position: relative;
 }
 
@@ -4550,10 +4554,11 @@ form.product-unit button {
     border: 0.5px solid $light-gray;
     box-shadow: inset 0px 0px 15px rgba(0, 102, 190, 0.24);
     border-radius: 15px;
-    min-height: 69vh;
+    min-height: 65vh;
     padding: 24px;
     margin: 0;
     position: relative;
+    height:100%;
 
     .loader {
       position: absolute;
@@ -7958,7 +7963,7 @@ input.viewer-toolbar-current-page-input {
 
   .create-change-content {
     max-width: calc(100% - 24px);
-    margin: 0 auto 40px;
+    margin: 0 auto 25px;
   }
 }
 

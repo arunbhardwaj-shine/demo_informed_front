@@ -5,9 +5,9 @@ import { Navigate } from "react-router-dom";
 // For GET requests
 const requestHelper = axios.create({
   baseURL: process.env.REACT_APP_API_KEY_NEW_DESIGN,
-  headers: {
-    "Content-Type": "application/json",
-  },
+  // headers: {
+  //   "Content-Type": "application/json",
+  // },
 });
 
 const clearLocalStorageExcept = () => {

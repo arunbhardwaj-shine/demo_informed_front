@@ -17,8 +17,6 @@ import {postFormData} from "../../../axios/apiHelper";
 import MessageModel from "../../../Model/MessageModel";
 import { toast } from "react-toastify";
 import QRCode from "qrcode.react";
-import { usePdf } from '@mikecousins/react-pdf';
-import PDF from "react-pdf-js";
 import packageJson from '../../../../package.json';
 // import  Viewer, { Worker } from '@phuocng/react-pdf-viewer';
 // import  Viewer from '@phuocng/react-pdf-viewer';
