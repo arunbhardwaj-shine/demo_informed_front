@@ -1,0 +1,433 @@
+import React, { useEffect, useRef, useState, memo } from "react";
+import Highcharts from "highcharts";
+import HighchartsReact from "highcharts-react-official";
+
+let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+const SurveyAnalyticsQuestionPieChart = memo(({ key, data, show, type,colors,chartRef }) => {   
+    const baseOptions = {
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false,
+            height: 193,
+            type: 'pie',
+            animation: {
+                duration: 0 // Set the animation duration to 0
+            },
+        },
+        title: {
+            text: "",
+        },
+        tooltip: {
+            formatter: function () {
+                // Calculate the total sum of all points in the series
+                var total = 0;
+                this.series.data.forEach(function (point) {
+                    total += point.y;
+                });
+
+                // Calculate the percentage for the current point
+                var percentage = total != 0 ? ((this.point.y / total) * 100).toFixed(0) : 0;
+
+                // Return the tooltip string with both the name and percentage of this.point.y
+                return this.point.name + ' : <b>' + this.point.y + '</b> (' + percentage + '%)';
+            },
+            valueSuffix: '%'
+        },
+        accessibility: {
+            announceNewData: {
+                enabled: true
+            },
+            point: {
+                valueSuffix: '%'
+            }
+        },
+        legend: {
+            verticalAlign: "bottom",
+            labelFormat: '{name} ({percentage:.0f}%)',
+            enabled: false
+        },
+        plotOptions: {
+            // series: {
+            //     borderRadius: 5,
+            //     pointWidth:10,
+            //     allowPointSelect: true,
+            //     cursor: "pointer",
+            //     dataLabels: [
+            //         {
+            //             enabled: true,
+            //             distance: 30,
+            //             format: "{point.percentage:.1f}%",
+            //             style: {
+            //                 fontSize: "1.2em",
+            //                 textOutline: "none",
+            //                 opacity: 0.7,
+            //             },
+            //         },
+            //     ],
+            // },
+            // pie: {
+            //     showInLegend: true,
+            //     size: "100%",
+            //     dataLabels: {
+            //         enabled: false,
+            //     },
+            //     borderWidth: 1,
+            // }
+
+            series:{
+                dataLabels:{
+                style:{
+                    color: "#0066BE",
+                    fill: "#0066BE"
+                }
+            }
+            },
+
+            pie: {
+                showInLegend: true,
+                size: "100%",
+                dataLabels: {
+                    enabled: true, // Enable data labels
+                    // format: "<b>{point.name}</b>: {point.y:.1f} ({point.percentage:.1f}%)", // Show name, value, and percentage
+                    format: "({point.percentage:.1f}%)", // Show name, value, and percentage
+                    style: {
+                        fontWeight: "bold",
+                        // color: "#000", // Text color
+                        textOutline: "none", // No text outline
+                        fontSize: "12px",
+                        color: "#0066BE",
+                        fill: "#0066BE"
+                    },
+                    distance: 30, // Set distance from pie slice (optional)
+                },
+                borderWidth: 0,
+            },
+
+            // pie: {
+            //     size: "90%",
+            //     dataLabels: {
+            //       enabled: true,
+            //       format: "<b>{point.name}</b>: {point.percentage:.1f} %",
+            //       style: {
+            //         fontWeight: "bold",
+            //         color: "#0066be",
+            //         textOutline: "none",
+            //         fontSize: "14px",
+            //       },
+            //       distance: 30, // Set distance from pie slice
+            //       connectorPadding: 0,
+            //     },
+            //     animation: {
+            //       duration: 1000,
+            //     },
+            //     enableMouseTracking: true,
+            //     showInLegend: true,
+            //     borderWidth: 0,
+            //   },
+        },
+        series: [],
+    };
+
+    const [pieChartOptions, setPieChartOptions] = useState(type === "analytics" ? {
+        ...baseOptions,
+
+        exporting: {
+            enabled: true,
+            chartOptions: {
+                title: {
+                    text: ''
+                }
+            },
+            filename: 'Survey_Questions',
+            menuItemDefinitions: {
+                downloadPNG: {
+                    text: 'Download PNG',
+                    onclick: function () {
+                        this.exportChart({ type: 'image/png' });
+                    }
+                },
+                downloadJPEG: {
+                    text: 'Download JPEG',
+                    onclick: function () {
+                        this.exportChart({ type: 'image/jpeg' });
+                    }
+                },
+                downloadPDF: {
+                    text: 'Download PDF',
+                    onclick: function () {
+                        this.exportChart({ type: 'application/pdf' });
+                    }
+                },
+                downloadSVG: {
+                    text: 'Download SVG',
+                    onclick: function () {
+                        this.exportChart({ type: 'image/svg+xml' });
+                    }
+                }
+            },
+            buttons: {
+                contextButton: {
+                    symbol: 'url(https://docintel.app/img/octa/e-templates/options-btn.svg)',
+                    menuItems: [
+                        "downloadPNG",
+                        "downloadJPEG",
+                        "downloadPDF",
+                        "downloadSVG"
+                    ]
+                }
+            }
+        }
+    } :
+    chartRef==="survey_completed_country_pie"?
+     {
+        ...baseOptions,
+        chart:{...baseOptions.chart,height:386},
+        exporting: {
+            enabled: false,
+        }
+    }:
+    {
+        ...baseOptions,
+        exporting: {
+            enabled: false,
+        }
+    }
+);
+
+    const baseBarChartOptions = {
+        chart: {
+            type: "bar",
+            height: 300
+        },
+        title: {
+            text: "",
+        },
+        xAxis: {
+            categories: [],
+            visible: false,
+            style: {
+                color: "#97B6CF",
+                // fontSize: "33px",
+              },
+        },
+        yAxis: {
+            min: 0,
+            tickInterval: 1,
+            allowDecimals: false,
+            title: {
+                text: "",
+            },
+            stackLabels: {
+                enabled: true,
+            },
+            labels: {
+                enabled: true, // enable Y-axis labels
+                color: "#2467C1"
+                // color:"#0066BE"
+            },
+        },
+        exporting: {
+            enabled: false,
+        },
+        legend: {
+            // enabled: true,
+            enabled: false,
+            verticalAlign: "bottom",
+        },
+        tooltip: {
+            formatter: function () {
+                var pcnt = this.point.p.toFixed(0);
+                return '<b>' + this.series.name + ":" + this.point.y + '</b> (' + pcnt + "%)";
+            },
+        },
+        plotOptions: {
+            series: {
+                pointWidth: 10,
+                allowPointSelect: true,
+                cursor: "pointer",
+                dataLabels: [
+                    {
+                        enabled: true,
+                        formatter: function () {
+                            var pcnt = this.point.p.toFixed(0);
+                            return '<tspan >' + pcnt + "%" + '</tspan>';
+                            // return   pcnt + "%" ;
+                        },
+                        style: {
+                            fontSize: "1.2em",
+                            textOutline: "none",
+                            fontWeight: "bold",
+                            color: "#2467C1",
+                            fill: "#2467C1",
+                        },
+                    },
+                ],
+            },
+            bar: {
+                showInLegend: true,
+            }
+        },
+        series: [],
+    };
+
+    const [barChartOptions, setBarChartOptions] = useState(type === "analytics" ? {
+        ...baseBarChartOptions,
+        exporting: {
+            enabled: true,
+            chartOptions: {
+                title: {
+                    text: ''
+                }
+            },
+            filename: 'Survey_Questions',
+            menuItemDefinitions: {
+                downloadPNG: {
+                    text: 'Download PNG',
+                    onclick: function () {
+                        this.exportChart({ type: 'image/png' });
+                    }
+                },
+                downloadJPEG: {
+                    text: 'Download JPEG',
+                    onclick: function () {
+                        this.exportChart({ type: 'image/jpeg' });
+                    }
+                },
+                downloadPDF: {
+                    text: 'Download PDF',
+                    onclick: function () {
+                        this.exportChart({ type: 'application/pdf' });
+                    }
+                },
+                downloadSVG: {
+                    text: 'Download SVG',
+                    onclick: function () {
+                        this.exportChart({ type: 'image/svg+xml' });
+                    }
+                }
+            },
+            buttons: {
+                contextButton: {
+                    symbol: 'url(https://docintel.app/img/octa/e-templates/options-btn.svg)',
+                    menuItems: [
+                        "downloadPNG",
+                        "downloadJPEG",
+                        "downloadPDF",
+                        "downloadSVG"
+                    ]
+                }
+            }
+        }
+    } :
+    chartRef==="survey_completed_country_bar"?
+    {
+       ...baseBarChartOptions,
+       chart:{...baseBarChartOptions.chart,height:386},
+       exporting: {
+           enabled: false,
+       }
+   }
+    : {
+        ...baseBarChartOptions,
+        exporting: {
+            enabled: false,
+        }
+    });
+
+    useEffect(() => {
+        const options = data?.ans?.map((item) => item?.value) || [];
+        const seriesData = [{
+            name: "",
+            y: "",
+            color: "",
+            drilldown: "",
+        }]
+        const barSeriesData = [{
+            name: "",
+            data: "",
+            color: "",
+            y: "",
+        }]
+
+        if (data?.graphType == "pie") {
+            let totalAnswer = data?.ans?.map(item => item.count) // Extracting the 'y' values
+                .reduce((total, yValue) => total + yValue, 0);
+            data?.ans?.map((item, index) => {
+                seriesData.push({
+                    name: item?.value,
+                    y: item?.count,
+                    color: colors[index],
+                    drilldown: item?.drilldown,
+                })
+            })
+            const drilldownData = data?.ans?.filter(question => question?.drillDownData?.length > 0).map(question => ({
+                id: question.drilldown,
+                name: question.name,
+                data: question.drillDownData.map(answer => [answer.name, answer.total]),
+                colors: question.drillDownData.map(answer => answer.color)
+            }));
+            setPieChartOptions({
+                ...pieChartOptions,
+                series: [{ ...pieChartOptions?.series[0], data: seriesData?.slice(1) }],
+                drilldown: { "series": drilldownData }
+            })
+        } else if (data?.graphType == "bar") {
+            let totalAnswer = data?.ans?.map(item => item.count) // Extracting the 'y' values
+                .reduce((total, yValue) => total + yValue, 0);
+
+            data?.ans?.map((item, index) => {
+                barSeriesData.push({
+                    name: item?.value,
+                    data: [{ p:totalAnswer>0? ((item?.count / totalAnswer) * 100):0, y: item?.count }],
+                    color: colors[index],
+                    answer: item?.count
+                })
+            })
+            setBarChartOptions({
+                ...barChartOptions, xAxis: {
+                    ...barChartOptions.xAxis,
+                    categories: options,
+                },
+                series: barSeriesData?.slice(1)
+            })
+        }
+    }, [data?.graphType])
+    return (<>
+        <div className="graph-box">
+          
+            {(data?.graphType == "pie") ?
+                (<>
+                    {data?.ans?.length ?
+                        <HighchartsReact
+                            key={data?.questionId ?`${data?.questionId}_pie`:chartRef}
+                            chartRef={chartRef}
+                            highcharts={Highcharts}
+                            options={pieChartOptions}
+                        /> : <div className={`${data?.questionId>=0?"survey_default_chart":"no_found"}`}>
+                            {/* <img src={path_image + "default-bar-chart.png"} alt="" /> */}
+                            <img src={path_image +`${data?.questionId>=0?"default-bar-chart-survey.png":"default-bar-chart.png"}` } alt="" />
+
+                        </div>}
+                </>)
+                : (data?.graphType == "bar" && data?.ans?.length) ?
+                    (<>
+                        <HighchartsReact
+                            key={data?.questionId ? `${data?.questionId}_bar`:chartRef}                            
+                            highcharts={Highcharts}
+                            options={barChartOptions}
+                            chartRef={chartRef}
+                        />
+                    </>)
+                    :
+                    <div className={`${data?.questionId>=0?"survey_default_chart":"no_found"}`}>
+                        <img src={path_image +`${data?.questionId>=0?"default-bar-chart-survey.png":"default-bar-chart.png"}` } alt="" />
+
+                    </div>
+            }
+        </div>
+
+    </>)
+
+})
+export default SurveyAnalyticsQuestionPieChart

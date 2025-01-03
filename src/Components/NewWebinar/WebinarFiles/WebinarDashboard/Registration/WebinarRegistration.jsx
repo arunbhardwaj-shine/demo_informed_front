@@ -1,0 +1,3873 @@
+import React, { useEffect, useRef, useState, useCallback } from "react";
+import { Col, Row, Button, Form, Modal } from "react-bootstrap";
+import CommonAddQuestionModal from "./CommonAddQuestionModal";
+import { toast } from "react-toastify";
+import Select from "react-select";
+import { loader } from "../../../../../loader";
+import {
+  getData,
+  postData,
+  postFormData,
+} from "../../../../../axios/apiHelper";
+import { ENDPOINT } from "../../../../../axios/apiConfig";
+import { useLocation } from "react-router-dom";
+import WebinarRegistrationValidation from "./WebinarRegistrationValidation";
+import CountryList from "./CountryList";
+import DatePicker from "react-datepicker";
+import CommonExtensionModal from "./CommonExtensionModal";
+import AliceCarousel from "react-alice-carousel";
+import RegistrationPage from "./RegistrationPage";
+import CommonConfirmModel from "../../../../../Model/CommonConfirmModel";
+import templateData from "./template.json";
+import { useSidebar } from "../../../../CommonComponent/LoginLayout";
+import QRCode from "qrcode";
+import ChangeCountry from "./ChangeCountryModel";
+import Countries from "./Countries.json";
+import domtoimage from "dom-to-image-more";
+
+import axios from "axios";
+let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+let path = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+let dynamicFieldNo = 0;
+const template = {
+  1: ["logo", "header"],
+  2: ["logoOne", "logoTwo"],
+  3: ["logo", "header", "footer"],
+  4: [],
+  5: ["header"],
+  6: ["logo", "templateOne", "templateTwo"],
+  7: ["header"],
+  8: [],
+  9: ["header"],
+  10: ["logo", "header", "footer"],
+  11: ["logo", "header", "footer"],
+};
+const WebinarRegistration = () => {
+  const { eventIdContext } = useSidebar();
+  const validExtensions = ["png", "jpeg", "jpg"];
+  // const [templateList, setTemplateList] = useState(templateData);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isPrevClicked, setIsPrevClicked] = useState(false);
+  const syncActiveIndex = ({ item }) => setActiveIndex(item);
+  const [thumbnails, setThumbnails] = useState({}); // Store thumbnails per template
+
+  const templateUserIDs = {
+    "iSnEsKu5gB/DRlycxB6G4g==": [1, 2, 3, 4, 5, 6, 7],
+    "B7SHpAc XDXSH NXkN0rdQ==": [1, 2, 3, 4, 5, 6, 7],
+    "wW0geGtDPvig5gF 6KbJrg==": [1, 2, 3, 4, 5, 6, 7],
+    "UbCJcnLM9fe HsRMgX8c1A==": [1, 2, 3, 4, 5, 6, 7],
+    "z2TunmZQf3QwCsICFTLGGQ==": [1, 2, 3, 5, 6, 7, 8, 9],
+    "qDgwPdToP05Kgzc g2VjIQ==": [1, 2, 3, 4, 5, 6, 7],
+    "rjiGlqA9DXJVH7bDDTX0Lg==": [1, 2, 3, 4, 5, 6, 7, 10],
+    "MpEPwXLqTPveAfumxT/KXw==": [1, 2, 3, 4, 5, 6, 7],
+    "5EdDBhVCQm08iLJwBENCWw==": [1, 2, 3, 4, 5, 6, 7],
+    "I3yCIhnPAd0Ma6sNY4augA==": [1, 2, 3, 4, 5, 6, 7],
+    "Y/I8/x8K0syk/ulWyKwKhg==": [1, 2, 3, 4, 5, 6, 7],
+    " LRIehnvaQFB8Df5dWKrtw==": [3],
+    "bWmUjqX7J011   WUTYn9g==": [1, 2, 3, 4, 5, 6, 7],
+    "56Ek4feL/1A8mZgIKQWEqg==": [11],
+    "sNl1hra39QmFk9HwvXETJA==": [12],
+  };
+  const userId = localStorage.getItem("user_id");
+  const defaultTemplateIds = [10];
+
+  const [templateList, setTemplateList] = useState(() => {
+    return templateData.filter((template) => {
+      if (templateUserIDs[userId]?.includes(template.templateId)) {
+        return true;
+      } else if (
+        !templateUserIDs.hasOwnProperty(userId) &&
+        defaultTemplateIds.includes(template.templateId)
+      ) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+  });
+
+  const responsive = {
+    0: { items: 1 },
+    568: { items: 2 },
+    1024: { items: 4 },
+  };
+
+  const location = useLocation();
+
+  const resizeTextArea = (index) => {
+    const textAreaRef = textAreaRefs.current[index];
+
+    if (textAreaRef) {
+      textAreaRef.style.height = "auto";
+      textAreaRef.style.height = textAreaRef.scrollHeight + "px";
+    }
+  };
+  const event_code =
+    location?.state?.eventCode ||
+    eventIdContext?.eventCode ||
+    JSON.parse(localStorage.getItem("EventIdContext"))?.eventCode ||
+    null;
+
+  const [logo, setLogo] = useState();
+  const [logoOne, setLogoOne] = useState();
+  const [templateOne, setTemplateOne] = useState();
+  const [templateTwo, setTemplateTwo] = useState();
+  const [logoTwo, setLogoTwo] = useState();
+  const [file, setFile] = useState();
+  const [foot, setFoot] = useState();
+  const [showModal, setModal] = useState(false);
+  const [changeCountry, setChangeCountry] = useState(false);
+  const [showExtensionModal, setExtensionModal] = useState(false);
+  const [isFormChange, setIsFormChange] = useState(false);
+  const [isDataSaved, setIsDataSaved] = useState(true);
+  const [save, setSave] = useState(0);
+  const [rawData, setRawData] = useState({});
+  const [popupMessage, setPopupMessage] = useState({
+    message1: "",
+    message2: "",
+    footerButton: "",
+  });
+  const [confirmationPopUp, setConfirmationPopup] = useState(false);
+  const [tempTemplate, setTempTemplate] = useState();
+  const [apiStatus, setApiStatus] = useState(false);
+  const initialFormData = {
+    title: "",
+    pageTitle: "",
+    bodyText: "",
+    logoImageUrl: "",
+    templateOneImageUrl: "",
+    templateTwoImageUrl: "",
+    headerImageUrl: "",
+    body: [],
+    footerImageUrl: "",
+    typedTextColor: "",
+    placeholderTextColor: "",
+    dropdownOptionColor: "",
+    dropdownHoveringColor: "",
+    selectedTextColor: "",
+    labelColor: "",
+    optionColor: "",
+    backgroundColor: "",
+    totalFieldNo: 0,
+    templateId: 0,
+  };
+
+  const [formData, setFormData] = useState(initialFormData);
+  const [originalFormData, setOriginalFormData] = useState(initialFormData);
+  const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"));
+  const [eventData, setEventData] = useState({
+    event_id:
+      location?.state?.eventId ||
+      eventIdContext?.eventId ||
+      localStorageEvent?.eventId ||
+      null,
+    company_id:
+      location?.state?.companyId ||
+      eventIdContext?.companyId ||
+      localStorageEvent?.companyId ||
+      null,
+  });
+
+  const countryList = CountryList;
+  const [errorMsg, setErrorMsg] = useState("");
+  const [index, setIndex] = useState();
+  const [optIndex, setOptIndex] = useState();
+  const [extIndex, setExtIndex] = useState();
+  const [fieldData, setFieldData] = useState();
+  const [extFieldData, setExtFieldData] = useState();
+  const stateOptions = [
+    { label: "Alabama", value: "Alabama" },
+    { label: "Alaska", value: "Alaska" },
+    { label: "Arizona", value: "Arizona" },
+    { label: "Arkansas", value: "Arkansas" },
+    { label: "California", value: "California" },
+    { label: "Colorado", value: "Colorado" },
+    { label: "Connecticut", value: "Connecticut" },
+    { label: "Delaware", value: "Delaware" },
+    { label: "Florida", value: "Florida" },
+    { label: "Georgia", value: "Georgia" },
+    { label: "Hawaii", value: "Hawaii" },
+    { label: "Ldaho", value: "Ldaho" },
+    { label: "Illinois", value: "Illinois" },
+    { label: "Indiana", value: "Indiana" },
+    { label: "Lowa", value: "Lowa" },
+    { label: "Kansas", value: "Kansas" },
+    { label: "Kentucky", value: "Kentucky" },
+    { label: "Louisiana", value: "Louisiana" },
+    { label: "Maine", value: "Maine" },
+    { label: "Maryland", value: "Maryland" },
+    { label: "Massachusetts", value: "Massachusetts" },
+    { label: "Michigan", value: "Michigan" },
+    { label: "Minnesota", value: "Minnesota" },
+    { label: "Mississippi", value: "Mississippi" },
+    { label: "Missouri", value: "Missouri" },
+    { label: "Montana", value: "Montana" },
+    { label: "Nebraska", value: "Nebraska" },
+    { label: "Nevada", value: "Nevada" },
+    { label: "New Hampshire", value: "New Hampshire" },
+    { label: "New Jersey", value: "New Jersy" },
+    { label: "New Mexico", value: "New Mexico" },
+    { label: "New York", value: "New York" },
+    { label: "North Carolina", value: "North Carolina" },
+    { label: "North Dakota", value: "North Dakota" },
+    { label: "Ohio", value: "Ohio" },
+    { label: "Oklahoma", value: "Oklahoma" },
+    { label: "Oregon", value: "Oregon" },
+    { label: "Pennsylvania", value: "Pennsylvania" },
+    { label: "Rhode Island", value: "Rhode Island" },
+    { label: "South Carolina", value: "South Carolina" },
+    { label: "South Dakota", value: "South Dakota" },
+    { label: "Tennessee", value: "Tennessee" },
+    { label: "Texas", value: "Texas" },
+    { label: "Utah", value: "Utah" },
+    { label: "Vermont", value: "Vermont" },
+    { label: "Wyoming", value: "Wyoming" },
+    { label: "Wisconsin", value: "Wisconsin" },
+    { label: "West Virginia", value: "West Virginia" },
+    { label: "Washington", value: "Washington" },
+    { label: "Virginia", value: "Virginia" },
+  ];
+
+  const [showModalPreview, setShowModalPreview] = useState(false);
+  const textAreaRefs = useRef(null);
+  const [downloadType, setDownloadType] = useState("png");
+  const ref = useRef(null);
+  const thumbnailRef = useRef(null);
+  const localStorageUserId = localStorage.getItem("user_id");
+  useEffect(() => {
+    if (event_code) {
+      getWebinarData(event_code);
+    }
+  }, []);
+  useEffect(() => {
+    if (textAreaRefs.current) {
+      textAreaRefs.current.map((value, index) => {
+        const textAreaRef = value;
+        if (textAreaRef) {
+          textAreaRef.style.height = "auto";
+          textAreaRef.style.height = textAreaRef.scrollHeight + "px";
+        }
+      });
+    }
+  }, [formData]);
+  const getWebinarData = async (event_code) => {
+    try {
+      loader("show");
+      setApiStatus(false);
+      const response = await getData(
+        `${ENDPOINT.GET_REGISTRATION_FORM}/${event_code}`
+      );
+      const hadData = response?.data?.data;
+      let raw = hadData?.raw_description
+        ? JSON.parse(hadData?.raw_description)
+        : {};
+      let savedThumbnails = hadData?.content
+        ? JSON.parse(hadData?.content)?.thumbnails
+        : {};
+      setThumbnails(savedThumbnails || {});
+
+      let parseSpeakerName = "";
+      try {
+        parseSpeakerName = JSON.parse(raw?.speaker_name);
+      } catch {
+        parseSpeakerName = raw?.speaker_name
+          ? [{ speakerName: raw?.speaker_name }]
+          : [{ speakerName: "" }];
+      }
+      parseSpeakerName = parseSpeakerName
+        ?.map((item) => item?.speakerName)
+        .join(" , ");
+      setRawData({ ...raw, speaker_name: parseSpeakerName });
+      if (hadData?.event_id != undefined && hadData?.company_id != undefined) {
+        setEventData({
+          ...eventData,
+          event_id: hadData?.event_id,
+          company_id: hadData?.company_id,
+        });
+      }
+      const newFormData = hadData?.content ? JSON.parse(hadData?.content) : [];
+
+      if (newFormData?.length == 0) {
+        setIsDataSaved(false);
+      }
+      dynamicFieldNo = newFormData?.totalFieldNo
+        ? newFormData?.totalFieldNo
+        : dynamicFieldNo;
+
+      let tempId = newFormData?.templateId;
+      if (tempId) {
+        // let templateListData = [...templateList];
+        // let tempData = templateListData[tempId - 1];
+        // templateListData[tempId - 1] = templateListData[0];
+        // templateListData[0] = tempData;
+
+        let templateListData = [...templateList];
+        let index = templateListData.findIndex(
+          (item) => item.templateId == tempId
+        );
+        let tempData = templateListData[index];
+        templateListData[index] = templateListData[0];
+        templateListData[0] = tempData;
+
+        if (!newFormData?.eventDetails) {
+          tempData.eventDetails.eventStartDate.value = new Date(raw?.dateStart);
+          tempData.eventDetails.eventEndDate.value = new Date(raw?.dateEnd);
+          tempData.eventDetails.eventStartTime.value = `${raw?.dateStartHour}:${raw?.dateStartMin}`;
+          tempData.eventDetails.eventEndTime.value = `${raw?.dateEndHour}:${raw?.dateEndMin}`;
+          tempData.eventDetails.eventLocation.value = raw?.location || "";
+          tempData.eventDetails.speakerName.value = raw?.speaker_name || "";
+          newFormData.eventDetails = tempData.eventDetails;
+        } else {
+          if (
+            newFormData.eventDetails.eventStartDate?.value == "" &&
+            newFormData.eventDetails.eventStartDate?.value != undefined
+          ) {
+            newFormData.eventDetails.eventStartDate.value = new Date(
+              raw?.dateStart
+            );
+          }
+          if (
+            newFormData.eventDetails.eventEndDate?.value == "" &&
+            newFormData.eventDetails.eventEndDate?.value != undefined
+          ) {
+            newFormData.eventDetails.eventEndDate.value = new Date(
+              raw?.dateEnd
+            );
+          }
+
+          if (
+            newFormData.eventDetails.eventStartTime?.value == "" &&
+            newFormData.eventDetails.eventStartTime?.value != undefined
+          ) {
+            newFormData.eventDetails.eventStartTime.value = `${raw?.dateStartHour}:${raw?.dateStartMin}`;
+          }
+
+          if (
+            newFormData.eventDetails.eventEndTime?.value == "" &&
+            newFormData.eventDetails.eventEndTime?.value != undefined
+          ) {
+            newFormData.eventDetails.eventEndTime.value = `${raw?.dateEndHour}:${raw?.dateEndMin}`;
+          }
+
+          if (
+            newFormData.eventDetails.eventLocation?.value == "" &&
+            newFormData.eventDetails.eventLocation?.value != undefined
+          ) {
+            newFormData.eventDetails.eventLocation.value = `${raw?.location}`;
+          }
+
+          if (
+            newFormData?.eventDetails?.speakerName?.value == "" &&
+            newFormData?.eventDetails?.speakerName?.value != undefined
+          ) {
+            newFormData.eventDetails.speakerName.value = `${raw?.speaker_name}`;
+          }
+        }
+        setTemplateList(templateListData);
+        setLogo(
+          newFormData?.logoImageUrl
+            ? newFormData?.logoImageUrl
+            : templateList[[tempId - 1 < 0 ? 0 : tempId - 1]]?.logoImageUrl
+        );
+        setLogoOne(
+          newFormData?.logoOneImageUrl
+            ? newFormData?.logoOneImageUrl
+            : templateList[[tempId - 1 < 0 ? 0 : tempId - 1]]?.logoOneImageUrl
+        );
+        setLogoTwo(() => {
+          if (newFormData?.logoTwoImageUrl) {
+            return newFormData.logoTwoImageUrl;
+          } else if (hadData?.event_id === 512 || hadData?.event_id === 511) {
+            return newFormData.logoTwoImageUrl;
+          } else {
+            return templateList[[tempId - 1 < 0 ? 0 : tempId - 1]]?.logoTwoImageUrl || "";
+          }
+        });
+        // setLogoTwo(
+        //   newFormData?.logoTwoImageUrl
+        //     ? newFormData?.logoTwoImageUrl
+        //     : templateList[[tempId - 1 < 0 ? 0 : tempId - 1]]?.logoTwoImageUrl
+        // );
+      }
+      setFormData(newFormData);
+      console.log(newFormData, "ergtrggg");
+      if (Object.keys(newFormData.eventDetails)?.length > 0) {
+        textAreaRefs.current = Array(
+          Object.keys(newFormData.eventDetails)?.length
+        ).fill(null);
+      }
+      setOriginalFormData(JSON.parse(JSON.stringify(newFormData)));
+      setActiveIndex(tempId ? tempId : 0);
+      setFile(newFormData?.headerImageUrl ? newFormData?.headerImageUrl : "");
+      setFoot(newFormData?.footerImageUrl ? newFormData?.footerImageUrl : "");
+      setTemplateOne(
+        newFormData?.templateOneImageUrl ? newFormData?.templateOneImageUrl : ""
+      );
+      setTemplateTwo(
+        newFormData?.templateTwoImageUrl ? newFormData?.templateTwoImageUrl : ""
+      );
+      setApiStatus(true);
+    } catch (err) {
+      setApiStatus(true);
+      console.log("--err", err);
+    } finally {
+      loader("hide");
+    }
+  };
+
+  const handleFileSelect = (e, isSelectedName) => {
+    setIsFormChange(true);
+    const fileInput = document.createElement("input");
+    // const validExtensions = ["png", "jpeg"];
+    fileInput.type = "file";
+    fileInput.style.display = "none";
+    fileInput.accept = ".png, .jpeg, .jpg";
+    fileInput.addEventListener("change", async (e) => {
+      const file = e.target.files[0];
+
+      if (file) {
+        const extension = file.name.split(".").pop().toLowerCase();
+
+        if (!validExtensions.includes(extension)) {
+          if (isSelectedName === "headerImageUrl") {
+            setErrorMsg(
+              `Invalid file extension of header. Please select a valid extension file.`
+            );
+          } else if (isSelectedName === "logoImageUrl") {
+            setErrorMsg(
+              `Invalid file extension of logo. Please select a valid extension file.`
+            );
+          } else if (isSelectedName === "footerImageUrl") {
+            setErrorMsg(
+              `Invalid file extension of footer. Please select a valid extension file.`
+            );
+          } else if (isSelectedName === "logoOneImageUrl") {
+            setErrorMsg(
+              `Invalid file extension of logoOne. Please select a valid extension file.`
+            );
+          } else if (isSelectedName === "logoTwoImageUrl") {
+            setErrorMsg(
+              `Invalid file extension of logoTwo. Please select a valid extension file.`
+            );
+          } else if (isSelectedName === "templateOneImageUrl") {
+            setErrorMsg(
+              `Invalid file extension of templateOne. Please select a valid extension file.`
+            );
+          } else if (isSelectedName === "templateTwoImageUrl") {
+            setErrorMsg(
+              `Invalid file extension of templateTwo. Please select a valid extension file.`
+            );
+          }
+        } else {
+          setErrorMsg("");
+        }
+        if (isSelectedName === "logoImageUrl") {
+          setLogo(URL.createObjectURL(file));
+          const imgElement = document.querySelector(".logo-img");
+        }
+        if (isSelectedName === "headerImageUrl") {
+          setFile(URL.createObjectURL(file));
+          const imgElement = document.querySelector(".header-img");
+        }
+
+        if (isSelectedName === "footerImageUrl") {
+          const imgElement = document.querySelector(".footer-img");
+          setFoot(URL.createObjectURL(file));
+        }
+        if (isSelectedName === "logoOneImageUrl") {
+          const imgElement = document.querySelector(".logoOne-img");
+          setLogoOne(URL.createObjectURL(file));
+        }
+        if (isSelectedName === "logoTwoImageUrl") {
+          const imgElement = document.querySelector(".logoTwo-img");
+          setLogoTwo(URL.createObjectURL(file));
+        }
+        if (isSelectedName === "templateOneImageUrl") {
+          const imgElement = document.querySelector(".templateOne-img");
+          setTemplateOne(URL.createObjectURL(file));
+        }
+        if (isSelectedName === "templateTwoImageUrl") {
+          const imgElement = document.querySelector(".templateTwo-img");
+          setTemplateTwo(URL.createObjectURL(file));
+        }
+
+        try {
+          const uploadedImageUrl = await uploadImageToServer(file);
+          setFormData({ ...formData, [isSelectedName]: uploadedImageUrl });
+        } catch (error) {
+          console.error("Error uploading image:", error);
+        }
+      }
+    });
+    fileInput.click();
+  };
+
+  const uploadImageToServer = async (file) => {
+    try {
+      // const validExtensions = ["png", "jpeg"];
+      const extension = file.name.split(".").pop().toLowerCase();
+      if (!validExtensions.includes(extension)) {
+        throw new Error(
+          "Invalid file extension. Please select a valid extension file."
+        );
+      }
+
+      loader("show");
+      const formData = new FormData();
+      formData.append("image", file);
+      const response = await fetch(
+        "https://onesource.informed.pro/api/upload-image",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+      if (response.ok) {
+        const uploadedData = await response.json();
+        return uploadedData.imageUrl;
+      } else {
+        console.error("Image upload failed");
+        return null;
+      }
+    } catch (error) {
+      console.error("Image upload error:", error);
+      return null;
+    } finally {
+      loader("hide");
+    }
+  };
+
+  const handleAddQuestionModalClose = () => {
+    setIndex();
+    setFieldData();
+    setModal(false);
+    setChangeCountry(false);
+  };
+
+  const handleModalSave = (form) => {
+    setIsFormChange(true);
+    let updateFormBody = formData?.body;
+    if (fieldData) {
+      updateFormBody[index] = form;
+    } else {
+      updateFormBody.push(form);
+    }
+    dynamicFieldNo = dynamicFieldNo + 1;
+    setFormData({
+      ...formData,
+      body: updateFormBody,
+      totalFieldNo: dynamicFieldNo,
+    });
+  };
+
+  const editFieldData = (e, index, changeCountryStatus = false) => {
+    e.preventDefault();
+    setIndex(index);
+    setFieldData(formData?.body[index]);
+    if (changeCountryStatus) {
+      setChangeCountry(changeCountryStatus);
+    } else {
+      setModal(true);
+    }
+  };
+
+  const editExtendedFeildData = (e, index, optIndex, extIndex) => {
+    e.preventDefault();
+    setIndex(index);
+    setOptIndex(optIndex);
+    setExtIndex(extIndex);
+
+    setExtFieldData(
+      formData?.body[index]?.option[optIndex]?.extension[extIndex]
+    );
+    setExtensionModal(true);
+  };
+
+  const addExtension = (e, index, optIndex, extIndex) => {
+    e.preventDefault();
+    setIndex(index);
+    setOptIndex(optIndex);
+    setExtIndex(extIndex);
+    setExtensionModal(true);
+  };
+
+  const handleExtensionModalClose = () => {
+    setIndex();
+    setExtFieldData();
+    setOptIndex();
+    setExtIndex();
+    setExtensionModal(false);
+  };
+
+  const handleExtensionModalSave = (form) => {
+    setIsFormChange(true);
+    let newExtension = formData?.body;
+    if (extFieldData) {
+      newExtension[index].option[optIndex].extension[extIndex] = form;
+    } else {
+      newExtension[index]?.option?.[optIndex]?.extension?.push(form);
+    }
+    dynamicFieldNo = dynamicFieldNo + 1;
+    setFormData({
+      ...formData,
+      body: newExtension,
+      totalFieldNo: dynamicFieldNo,
+    });
+  };
+
+  const deleteField = (e, data, index) => {
+    e.preventDefault();
+    let updatedFormBody = formData?.body;
+    updatedFormBody?.splice(index, 1);
+    setFormData({ ...formData, body: updatedFormBody });
+  };
+
+  const deleteExtField = (e, data, index, optIndex, extIndex) => {
+    e.preventDefault();
+    let updatedFormBody = formData?.body;
+
+    updatedFormBody?.[index]?.option?.[optIndex]?.extension?.splice(
+      extIndex,
+      1
+    );
+    setFormData({ ...formData, body: updatedFormBody });
+  };
+
+  const handleChange = (e, isSelectedName) => {
+    setIsFormChange(true);
+    if (isSelectedName && !isSelectedName?.includes("eventDetails")) {
+      let updateFormBody = formData?.body;
+
+      if (e?.target?.checked == true) {
+        if (
+          formData?.body?.find(
+            (item, index) =>
+              item?.name?.toLowerCase() == isSelectedName?.toLowerCase()
+          )
+        ) {
+          toast.error("Label already exist");
+          return;
+        }
+        if (isSelectedName == "userEmail" || isSelectedName == "userName") {
+          let newObj = {
+            // label: isSelectedName,
+            label: isSelectedName == "userEmail" ? "Email" : "Name",
+            name: isSelectedName,
+            inputType: isSelectedName == "userEmail" ? "email" : "text",
+            placeholder: `Please enter ${isSelectedName == "userEmail" ? "Email" : "Name"
+              }`,
+            option: [],
+            required: "yes",
+            addSpace: 10,
+          };
+          updateFormBody?.push(newObj);
+        } else if (isSelectedName == "travel accomodation") {
+          let newObj = {
+            // label: isSelectedName,
+            label:
+              isSelectedName.charAt(0).toUpperCase() + isSelectedName.slice(1),
+            name: isSelectedName,
+            inputType: "radio",
+            required: "yes",
+            addSpace: 10,
+
+            option: [
+              {
+                optionLabel: "Organize my own travel",
+                extension: [],
+                checked: "",
+              },
+              {
+                optionLabel:
+                  "Have my travel arranged by the meeting organizers",
+                checked: "",
+
+                extension: [
+                  {
+                    name: "departure",
+                    label: "Airport of departure",
+                    inputType: "text",
+                    placeholder: "Airport of departure",
+                  },
+                  {
+                    name: "air_departure_date",
+                    label: "Preferred departure date",
+                    inputType: "date",
+                    placeholder: "dd-mm-yyyy",
+                  },
+                  {
+                    name: "departure_time",
+                    label: "Preferred departure time",
+                    inputType: "radio",
+                    option: [
+                      { optionLabel: "Morning", checked: "" },
+                      { optionLabel: "Afternoon", checked: "" },
+                      { optionLabel: "Evening", checked: "" },
+                    ],
+                  },
+                  {
+                    name: "air_return_date",
+                    label: "Preferred return flight date",
+                    inputType: "date",
+                    placeholder: "dd-mm-yyyy",
+                  },
+                ],
+              },
+            ],
+          };
+          updateFormBody?.push(newObj);
+        } else if (isSelectedName == "eventDetails") {
+          let newObj = {};
+          updateFormBody?.push(newObj);
+        } else if (isSelectedName == "consent") {
+          let newObj = {
+            // label: isSelectedName,
+            label:
+              isSelectedName.charAt(0).toUpperCase() + isSelectedName.slice(1),
+            name: isSelectedName,
+
+            inputType: "checkbox",
+            required: "yes",
+            addSpace: 10,
+
+            option: [
+              {
+                optionLabel:
+                  "Being contacted by FVIII Academy organizing team for the purpose of this meeting*",
+                checked: "",
+              },
+              {
+                optionLabel: "Receive future materials from the FVIII Academy",
+                checked: "",
+              },
+            ],
+          };
+          updateFormBody?.push(newObj);
+        } else if (isSelectedName == "onesource_consent") {
+          let newObj = {
+            // label: isSelectedName,
+            label: "I also consent to: ",
+            name: "onesource_consent",
+
+            inputType: "checkbox",
+            required: "yes",
+            addSpace: 10,
+
+            option: [
+              {
+                optionLabel:
+                  "Receive One Source updates and new materials from Octapharma.",
+                checked: "",
+              },
+              {
+                optionLabel: "Receive invitations to future events.",
+                checked: "",
+              },
+              {
+                optionLabel: "Both of the options above.",
+                checked: "",
+              },
+              {
+                optionLabel: "None of the options above.",
+                checked: "",
+              },
+            ],
+          };
+          updateFormBody?.push(newObj);
+        } else {
+          let newObj = {
+            name: isSelectedName,
+            // label: isSelectedName,
+            label:
+              isSelectedName.charAt(0).toUpperCase() + isSelectedName.slice(1),
+            inputType: "selection",
+            placeholder: `Please enter ${isSelectedName}`,
+            option: [],
+            required: "yes",
+            addSpace: 10,
+
+            showAllCountries: false,
+          };
+          if (isSelectedName == "state") {
+            newObj.stateCountry = "Bahrain";
+            newObj.option = Countries["Bahrain"]?.states.map((item) => ({
+              checked: "",
+              optionLabel: item.label,
+              extension: [],
+            }));
+          } else if (isSelectedName == "country (region)") {
+            newObj.option = Object.keys(Countries).map((item) => ({
+              checked: "",
+              optionLabel: item,
+              extension: [],
+            }));
+          }
+          updateFormBody?.push(newObj);
+        }
+        setFormData({ ...formData, body: updateFormBody });
+      } else if (e?.target?.checked == false) {
+        let index = updateFormBody?.findIndex((item, index) => {
+          return item?.name == isSelectedName;
+        });
+
+        if (index > -1) {
+          updateFormBody?.splice(index, 1);
+        }
+
+        setFormData({ ...formData, body: updateFormBody });
+      } else if (isSelectedName == "company_id") {
+        setEventData({
+          ...eventData,
+          company_id: e?.company_id,
+          event_id: e?.value,
+        });
+      }
+    } else {
+      let name = e?.target?.name;
+      if (name?.includes("eventDetails")) {
+        const fieldName = e.target.name.split("-")[1];
+        let isColor = name.includes("color");
+        if (isColor) {
+          setFormData({
+            ...formData,
+            eventDetails: {
+              ...formData.eventDetails,
+              [fieldName]: {
+                ...formData.eventDetails?.[fieldName],
+                color: e.target.value,
+              },
+            },
+            addSpace: 10,
+            required: "yes",
+          });
+        } else {
+          setFormData({
+            ...formData,
+            eventDetails: {
+              ...formData.eventDetails,
+              [fieldName]: {
+                ...formData.eventDetails?.[fieldName],
+                value: e.target.value,
+              },
+            },
+            addSpace: 10,
+            required: "yes",
+          });
+        }
+      } else if (isSelectedName?.includes("eventDetails")) {
+        const fieldName = isSelectedName.split("-")[1];
+        let isColor = e?.target?.name.includes("color");
+        if (isColor) {
+          setFormData({
+            ...formData,
+            eventDetails: {
+              ...formData.eventDetails,
+              [fieldName]: {
+                ...formData.eventDetails?.[fieldName],
+                color: e,
+              },
+            },
+            addSpace: 10,
+
+            required: "yes",
+          });
+        } else {
+          if (fieldName == "eventStartDate") {
+            setFormData({
+              ...formData,
+              eventDetails: {
+                ...formData.eventDetails,
+                [fieldName]: {
+                  ...formData.eventDetails?.[fieldName],
+                  value: e,
+                },
+                ["eventEndDate"]: {
+                  ...formData.eventDetails?.eventEndDate,
+                  value: e,
+                },
+              },
+              addSpace: 10,
+
+              required: "yes",
+            });
+          } else {
+            setFormData({
+              ...formData,
+              eventDetails: {
+                ...formData.eventDetails,
+                [fieldName]: {
+                  ...formData.eventDetails?.[fieldName],
+                  value: e,
+                },
+              },
+              addSpace: 10,
+              required: "yes",
+            });
+          }
+        }
+      } else {
+        setFormData({
+          ...formData,
+          [e.target.name]: e?.target?.value,
+          required: "yes",
+        });
+      }
+    }
+  };
+
+  const saveClicked = async (e) => {
+    if (e) {
+      e.preventDefault();
+    }
+    if (!formData?.templateId) {
+      setShowModalPreview(true);
+      return;
+    }
+
+    setFormData(formData);
+    try {
+      const error = WebinarRegistrationValidation(formData, eventData);
+      if (Object.keys(error)?.length) {
+        toast.error(error[Object.keys(error)[0]]);
+        return;
+      }
+      if (errorMsg) {
+        toast.error(errorMsg);
+        return;
+      }
+
+      loader("show");
+      let data = {
+        eventId: eventData?.event_id,
+        companyId: eventData?.company_id,
+        // content: JSON.stringify(formData),
+        content: JSON.stringify({
+          ...formData,
+          thumbnails, // Include the updated thumbnails in the payload
+        }),
+      };
+
+      const response = await postData(
+        ENDPOINT.CREATE_WEBINAR_REGISTRATION,
+        data
+      );
+      setSave((save) => save + 1);
+      setIsDataSaved(true);
+    } catch (err) {
+      console.error("--err", err);
+    } finally {
+      loader("hide");
+    }
+    if (e) {
+      // navigate("/webinar/event-listing");
+      // setIsSavedClicked(true)
+      toast.success("Your changes has been saved successfully !");
+    } else {
+      setIsFormChange(false);
+      setConfirmationPopup(false);
+      setOriginalFormData(JSON.parse(JSON.stringify(formData)));
+      templateClicked(tempTemplate);
+    }
+  };
+
+  const handlePreviewInNewTab = async (e, newLink) => {
+    e.preventDefault();
+    if (!formData?.templateId) {
+      setShowModalPreview(true);
+      return;
+    }
+    let link = "";
+    if (eventData?.event_id > 402) {
+      link = `https://events.docintel.app/event-registration?event=${event_code}`;
+    } else {
+      link = `${window.location.origin}/event-registration?event=${event_code}`;
+    }
+
+    try {
+      await navigator.clipboard.writeText(link);
+      // Open link in a new tab
+      window.open(link, "_blank");
+    } catch (error) {
+      console.error("Error preview in new window:", error);
+    }
+  };
+
+  const handleClose = () => {
+    setIsPrevClicked(false);
+  };
+
+  const handleDragStart = (e, index) => {
+    e.dataTransfer.setData("text/plain", index);
+  };
+
+  const handleDrop = (e, newIndex) => {
+    e.preventDefault();
+    const draggedIndex = e.dataTransfer.getData("text/plain");
+    const updatedBody = [...formData.body];
+    const [draggedField] = updatedBody.splice(draggedIndex, 1);
+    updatedBody.splice(newIndex, 0, draggedField);
+    setFormData({ ...formData, body: updatedBody });
+  };
+
+  const handleDragOver = (e) => {
+    e.preventDefault();
+  };
+
+  const handleDeleteHeaderImage = () => {
+    setFile("");
+    setFormData({ ...formData, headerImageUrl: "" });
+  };
+
+  const handleDeleteFooterImage = () => {
+    setFoot("");
+    setFormData({ ...formData, footerImageUrl: "" });
+  };
+
+  const handleDeleteLogoImage = () => {
+    setLogo("");
+    setFormData({ ...formData, logoImageUrl: "" });
+  };
+  const handleDeleteLogoOneImage = () => {
+    setLogoOne("");
+    setFormData({ ...formData, logoOneImageUrl: "" });
+  };
+  const handleDeleteLogoTwoImage = () => {
+    setLogoTwo("");
+    setFormData({ ...formData, logoTwoImageUrl: "" });
+  };
+
+  const handleDeleteTemplateOneImage = () => {
+    setTemplateOne("");
+    setFormData({ ...formData, templateOneImageUrl: "" });
+  };
+
+  const handleDeleteTemplateTwoImage = () => {
+    setTemplateTwo("");
+    setFormData({ ...formData, templateTwoImageUrl: "" });
+  };
+
+  const onColorChange = (e, isSelectedName) => {
+    if (isSelectedName == "labelColor") {
+      setFormData({ ...formData, labelColor: e?.target?.value });
+    } else if (isSelectedName == "typedTextColor") {
+      setFormData({ ...formData, typedTextColor: e?.target?.value });
+    } else if (isSelectedName == "placeholderTextColor") {
+      setFormData({ ...formData, placeholderTextColor: e?.target?.value });
+    } else if (isSelectedName == "dropdownOptionColor") {
+      setFormData({ ...formData, dropdownOptionColor: e?.target?.value });
+    } else if (isSelectedName == "dropdownHoveringColor") {
+      setFormData({ ...formData, dropdownHoveringColor: e?.target?.value });
+    } else if (isSelectedName == "selectedTextColor") {
+      setFormData({ ...formData, selectedTextColor: e?.target?.value });
+    } else if (isSelectedName == "backgroundColor") {
+      setFormData({ ...formData, backgroundColor: e?.target?.value });
+    } else if (isSelectedName == "OptionColor") {
+      setFormData({ ...formData, optionColor: e?.target?.value });
+    }
+  };
+
+  const templateClicked = (template, e) => {
+    if (isFormChange) {
+      setTempTemplate(template);
+      setPopupMessage({
+        message1:
+          "Do you want to save the changes in form otherwise they will vanish.",
+        message2: "Are you sure you want to do this?",
+        footerButton: "Yes please!",
+      });
+      setIsFormChange(false);
+      if (confirmationPopUp) {
+        setConfirmationPopup(false);
+      } else {
+        setConfirmationPopup(true);
+      }
+    } else {
+      if (originalFormData?.templateId == template?.templateId) {
+        let updatedBody = JSON.parse(JSON.stringify(originalFormData));
+        setLogo(
+          updatedBody?.logoImageUrl
+            ? updatedBody?.logoImageUrl
+            : template?.logoImageUrl
+        );
+        setLogoOne(
+          updatedBody?.logoOneImageUrl
+            ? updatedBody?.logoOneImageUrl
+            : template?.logoOneImageUrl
+        );
+        setLogoTwo(
+          updatedBody?.logoTwoImageUrl
+            ? updatedBody?.logoTwoImageUrl
+            : template?.logoTwoImageUrl
+        );
+        setFile(
+          updatedBody?.headerImageUrl
+            ? updatedBody?.headerImageUrl
+            : template?.headerImageUrl
+        );
+        setFoot(
+          updatedBody?.footerImageUrl
+            ? updatedBody?.footerImageUrl
+            : template?.footerImageUrl
+        );
+        setTemplateOne(
+          updatedBody?.templateOneImageUrl
+            ? updatedBody?.templateOneImageUrl
+            : template?.templateOneImageUrl
+        );
+        setTemplateTwo(
+          updatedBody?.templateTwoImageUrl
+            ? updatedBody?.templateTwoImageUrl
+            : template?.templateTwoImageUrl
+        );
+        // console.log(Object.keys(updatedBody.eventDetails)?.length>0);
+
+        if (Object.keys(updatedBody.eventDetails)?.length > 0) {
+          textAreaRefs.current = Array(
+            Object.keys(updatedBody.eventDetails)?.length
+          ).fill(null);
+        }
+        setFormData(JSON.parse(JSON.stringify(updatedBody)));
+      } else {
+        let updatedBody = JSON.parse(JSON.stringify(template));
+
+        if (!updatedBody?.eventDetails) {
+          updatedBody.eventDetails.eventStartDate.value = new Date(
+            rawData?.dateStart
+          );
+          updatedBody.eventDetails.eventEndDate.value = new Date(
+            rawData?.dateEnd
+          );
+          updatedBody.eventDetails.eventStartTime.value = `${rawData?.dateStartHour}:${rawData?.dateStartMin}`;
+          updatedBody.eventDetails.eventEndTime.value = `${rawData?.dateEndHour}:${rawData?.dateEndMin}`;
+          updatedBody.eventDetails.eventLocation.value =
+            rawData?.location || "";
+          updatedBody.eventDetails.speakerName.value =
+            rawData?.speaker_name || "";
+        } else {
+          if (
+            updatedBody?.eventDetails?.eventStartDate?.value == "" &&
+            updatedBody?.eventDetails?.eventStartDate?.value != undefined
+          ) {
+            updatedBody.eventDetails.eventStartDate.value = new Date(
+              rawData?.dateStart
+            );
+          }
+
+          if (
+            updatedBody?.eventDetails?.eventEndDate?.value == "" &&
+            updatedBody?.eventDetails?.eventEndDate?.value != undefined
+          ) {
+            updatedBody.eventDetails.eventEndDate.value = new Date(
+              rawData?.dateEnd
+            );
+          }
+
+          if (
+            updatedBody?.eventDetails?.eventStartTime?.value == "" &&
+            updatedBody?.eventDetails?.eventStartTime?.value != undefined
+          ) {
+            updatedBody.eventDetails.eventStartTime.value = `${rawData?.dateStartHour}:${rawData?.dateStartMin}`;
+          }
+
+          if (
+            updatedBody?.eventDetails?.eventEndTime?.value == "" &&
+            updatedBody?.eventDetails?.eventEndTime?.value != undefined
+          ) {
+            updatedBody.eventDetails.eventEndTime.value = `${rawData?.dateEndHour}:${rawData?.dateEndMin}`;
+          }
+
+          if (
+            updatedBody?.eventDetails?.eventLocation?.value == "" &&
+            updatedBody?.eventDetails?.eventLocation?.value != undefined
+          ) {
+            updatedBody.eventDetails.eventLocation.value =
+              originalFormData?.eventDetails?.eventLocation?.value ||
+              `${rawData?.location}` ||
+              " ";
+          }
+
+          if (
+            updatedBody?.eventDetails?.speakerName?.value == "" &&
+            updatedBody?.eventDetails?.speakerName?.value != undefined
+          ) {
+            updatedBody.eventDetails.speakerName.value =
+              originalFormData?.eventDetails?.speakerName?.value ||
+              `${rawData?.speaker_name}` ||
+              " ";
+          }
+        }
+
+        setLogo(updatedBody?.logoImageUrl ? updatedBody?.logoImageUrl : "");
+        setLogoOne(
+          updatedBody?.logoOneImageUrl ? updatedBody?.logoOneImageUrl : ""
+        );
+        setLogoTwo(
+          updatedBody?.logoTwoImageUrl ? updatedBody?.logoTwoImageUrl : ""
+        );
+        setTemplateOne(
+          updatedBody?.templateOneImageUrl
+            ? updatedBody?.templateOneImageUrl
+            : ""
+        );
+        setTemplateTwo(
+          updatedBody?.templateTwoImageUrl
+            ? updatedBody?.templateTwoImageUrl
+            : ""
+        );
+        setFile(updatedBody?.headerImageUrl ? updatedBody?.headerImageUrl : "");
+        setFoot(updatedBody?.footerImageUrl ? updatedBody?.footerImageUrl : "");
+        // console.log(updatedBody);
+        if (Object.keys(updatedBody.eventDetails)?.length > 0) {
+          textAreaRefs.current = Array(
+            Object.keys(updatedBody.eventDetails)?.length
+          ).fill(null);
+        }
+        setFormData(JSON.parse(JSON.stringify(updatedBody)));
+      }
+      setActiveIndex(template?.templateId);
+    }
+
+    // if (originalFormData?.templateId == template?.templateId) {
+    //   console.log("template  if--->", template);
+    //   let updatedBody = JSON.parse(JSON.stringify(originalFormData));
+    //   setFormData(updatedBody);
+    // } else {
+    //   console.log("template  else--->", template);
+    //   let updatedBody = JSON.parse(JSON.stringify(template));
+    //   setFormData(updatedBody);
+    // }
+    // setActiveIndex(template?.templateId);
+
+    setSave((save) => save + 1);
+  };
+
+  const handleCommonConfirmModal = () => {
+    setConfirmationPopup(false);
+    templateClicked(tempTemplate);
+  };
+
+  const copyToClipboard = (content) => {
+    if (window.isSecureContext && navigator.clipboard) {
+      navigator.clipboard.writeText(content);
+      toast.success("content copied to the clipboard!");
+    } else {
+      unsecuredCopyToClipboard(content);
+    }
+  };
+
+  const unsecuredCopyToClipboard = (text) => {
+    const textArea = document.createElement("textarea");
+    textArea.value = text;
+    document.body.appendChild(textArea);
+    textArea.select();
+    try {
+      document.execCommand("copy");
+      toast.success("content copied to the clipboard!");
+    } catch (err) {
+      console.error("Unable to copy to clipboard", err);
+    }
+    document.body.removeChild(textArea);
+  };
+
+  const handleCloseModal = () => {
+    setShowModalPreview(false);
+  };
+
+  const generateQRUrl = () => {
+    // Generate the QR code URL based on your logic
+    const url =
+      eventData?.event_id > 402
+        ? `https://events.docintel.app/event-registration?event=${event_code}&urtyhjd=qdhjjkr`
+        : `${window.location.host}/event-registration?event=${event_code}&urtyhjd=qdhjjkr`;
+    return url;
+  };
+
+  const handleDownload = async () => {
+    if (!isDataSaved) {
+      return;
+    }
+    const qrUrl = generateQRUrl();
+
+    try {
+      let fileName = (localStorageEvent?.eventTitle).replaceAll(" ", "_");
+      const canvas = await QRCode.toCanvas(qrUrl, { width: 300 });
+      if (downloadType == "png") {
+        console.log("in png");
+
+        const pngUrl = canvas
+          .toDataURL("image/png")
+          .replace(/^data:image\/[^;]/, "data:application/octet-stream");
+
+        const downloadLink = document.createElement("a");
+        downloadLink.href = pngUrl;
+        downloadLink.download = `${fileName}_Registration.png`; // Set the filename
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+      } else if (downloadType == "eps") {
+        const pngUrl = canvas
+          .toDataURL("image/png")
+          .replace("image/png", "image/png");
+        const res = await postFormData(
+          ENDPOINT.DOWNLOAD_EPS_FILE,
+          { svgCode: pngUrl },
+          {
+            responseType: "blob",
+          }
+        );
+        const url = URL.createObjectURL(res?.data);
+        const downloadLink = document.createElement("a");
+        downloadLink.href = url;
+        downloadLink.download = `${fileName}_Registration.eps`;
+        // downloadLink.style.display = 'none';
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        URL.revokeObjectURL(url);
+        document.body.removeChild(downloadLink);
+      }
+    } catch (error) {
+      console.error("Error generating QR code:", error);
+    }
+  };
+
+  // Function to generate the thumbnail and upload it
+  const generate_thumb = async (templateId) => {
+    if (!thumbnailRef.current || !templateId) {
+      toast.warning("Template ID is missing.");
+      return;
+    }
+
+    loader("show");
+
+    try {
+      const element = thumbnailRef.current;
+
+      // Configure dom-to-image-more for better CORS handling
+      const options = {
+        quality: 1, // Ensure high-quality output
+        width: element.offsetWidth * 2, // Increase width for better resolution
+        height: element.offsetHeight * 2, // Increase height for better resolution
+        style: {
+          transform: "scale(2)", // Scale up for better resolution
+          transformOrigin: "top left",
+          width: `${element.offsetWidth}px`,
+          height: `${element.offsetHeight}px`,
+        },
+        filter: (node) => {
+          // You can add filtering logic here if needed
+          return true;
+        },
+        cacheBust: true, // Prevent caching issues
+        useCORS: true, // Enable CORS for cross-origin images
+      };
+
+      // Generate the image using dom-to-image-more
+      const dataUrl = await domtoimage.toPng(element, options);
+
+      // Convert the Data URL (base64) to Blob
+      const resizedBlob = await (await fetch(dataUrl)).blob();
+
+      if (resizedBlob) {
+        const formData = new FormData();
+        formData.append("image_url", resizedBlob, "image.png");
+        formData.append("user_id", localStorageUserId);
+        formData.append("template_id", templateId);
+        formData.append("template_name", "");
+        formData.append("event_id", eventData?.event_id);
+
+        // Upload the thumbnail
+        const res = await axios.post(
+          "https://onesource.informed.pro/api/update-template",
+          formData,
+          { headers: { "Content-Type": "multipart/form-data" } }
+        );
+
+        if (res.data.status_code === 200) {
+          const thumbnailUrl = res.data.url;
+          setThumbnails((prevThumbnails) => ({
+            ...prevThumbnails,
+            [templateId]: thumbnailUrl,
+          }));
+          toast.success("Thumbnail uploaded successfully!");
+        } else {
+          toast.warning(res.data.message);
+        }
+        // loader("hide");
+      }
+      loader("hide");
+    } catch (err) {
+      toast.error("Something went wrong.");
+      console.error(err);
+    }
+    // finally {
+    //   loader("hide");
+    // }
+  };
+
+  return (
+    <>
+      <Col className="right-sidebar custom-change">
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <div className="custom-container">
+          <div className="row">
+            <div className="top-header regi-web sticky">
+              <div className="page-title">
+                <h2>Registration Page</h2>
+              </div>
+              <div className="top-right-action">
+                <div className="d-flex justify-content-center header_btns">
+                  <div
+                    className={`dropdown qr-download ${!isDataSaved ? "disabled" : ""
+                      }`}
+                  >
+                    <button
+                      className="btn btn-primary dropdown"
+                      type="button"
+                      onClick={handleDownload}
+                    >
+                      Download QR
+                    </button>
+                    {/* <button
+                      className="btn btn-primary dropdown"
+                      type="button"
+                      onClick={() => setDownloadQr((downloadqr) => !downloadqr)}
+                    >
+                      Download QR
+                     
+                    </button>
+                   {downloadqr && (
+                      <div
+                        className="dropdown-menu filter-options"
+                        aria-labelledby="dropdownMenuButton2"
+                      >
+                        <ul>
+                          <li>
+                            <label className="select-multiple-option">
+                              <input
+                                type="radio"
+                                name="qr-code"
+                                id="qr-code"
+                                onChange={()=>setDownloadType('png')}
+                              />Download PNG
+                              <span className="checkmark"></span>
+                            </label>
+                          </li>
+                          <li>
+                            <label className="select-multiple-option">
+                              <input
+                                type="radio"
+                                id="qr-code1"
+                                name="qr-code"
+                                onChange={()=>setDownloadType('eps')}
+                              />Download EPS
+                              <span className="checkmark"></span>
+                            </label>
+                          </li>
+                        </ul>
+                        <div className="filter-footer justify-content-end">
+                          <button
+                            className="btn btn-primary btn-filled"
+                            onClick={handleDownload}
+                          >
+                            Download
+                          </button>
+                        </div>
+                      </div>
+                    )}  */}
+                  </div>
+                  <a
+                    className={`copy_link btn-bordered ${!isDataSaved ? "disabled" : ""
+                      }`}
+                    href={
+                      eventData?.event_id > 402
+                        ? `https://events.docintel.app/event-registration?event=${event_code}`
+                        : `${window.location.host}/event-registration?event=${event_code}`
+                    }
+                    onClick={(e) => {
+                      e.preventDefault();
+                      if (!isDataSaved) {
+                        return;
+                      }
+                      console.dir();
+                      let newLink = e.currentTarget.getAttribute("href");
+                      copyToClipboard(newLink);
+                    }}
+                  >
+                    Copy Link
+                  </a>
+                  <Button
+                    type="button"
+                    className={`save btn-filled ${!isDataSaved ? "disabled" : ""
+                      }`}
+                    disabled={isDataSaved ? false : true}
+                    onClick={(e) => {
+                      handlePreviewInNewTab(e);
+                    }}
+                  >
+                    Open Link
+                  </Button>
+                </div>
+              </div>
+            </div>
+            <section className="select-mail-template library-consent create-change-content">
+              <div className="custom-container">
+                <Row>
+                  <div className="page-title">
+                    <h6>Select Template</h6>
+                  </div>
+
+                  <AliceCarousel
+                    mouseTracking
+                    //disableButtonsControls
+                    disableDotsControls
+                    activeIndex={activeIndex}
+                    responsive={responsive}
+                    onSlideChanged={syncActiveIndex}
+                  >
+                    {templateList
+                      .filter((template) => template)
+                      .map((template, index) => {
+                        // console.log(templateList,'templateList')
+                        return (
+                          <>
+                            <div
+                              key={index}
+                              className="item"
+                              onClick={(e) => templateClicked(template, e)}
+                            >
+                              <img
+                                id={`"template_dyn" + template?.popupNo`}
+                                // src={thumbnail ? thumbnail :`${path_image}/template-${template?.templateId}.png`}
+                                src={
+                                  thumbnails[template.templateId] // Show the updated thumbnail if available
+                                    ? thumbnails[template.templateId] // Use the new thumbnail from the state
+                                    : `${path_image}/template-${template?.templateId}.png` // Fallback to default image
+                                }
+                                alt=""
+                                className={
+                                  typeof activeIndex !== "undefined" &&
+                                    activeIndex == template?.templateId
+                                    ? "select_mm"
+                                    : ""
+                                }
+                                style={{ objectFit: "fill" }}
+                              />
+                              {/* <p>{template?.name}</p> */}
+                              <p>{template?.templateName}</p>
+                            </div>
+                          </>
+                        );
+                      })}
+                  </AliceCarousel>
+                </Row>{" "}
+              </div>{" "}
+            </section>
+
+            {formData?.templateId ? (
+              <div className="register-page create-change-content">
+                <Row>
+                  <Col md={7} sm={7}>
+                    <div className="register-page-left">
+                      <Form>
+                        <div>
+                          {formData?.eventDetails &&
+                            Object.keys(formData.eventDetails)?.map(
+                              (key, index) => {
+                                const field = formData.eventDetails[key];
+                                const isEventEndDate = key === "eventEndDate";
+                                const isEventEndTime = key === "eventEndTime";
+                                return field.type == "date" ? (
+                                  <div
+                                    key={index}
+                                    className="form-group d-flex align-items-center "
+                                  >
+                                    <label>
+                                      {field.title} <span>*</span>
+                                    </label>
+                                    {/* {console.log(field.value,'field.value')} */}
+                                    {/* {formData?.templateId === 2 ? 
+                                    <DatePicker
+                                      name={`eventDetails-${key}`}
+                                      dateFormat="dd/MM/yyyy"
+                                      className="form-control"
+                                      placeholderText="Select date"
+                                      // key={Math.random*1000}
+                                      // readOnly={true}
+                                      value={new Date(field.value)}
+
+                                      
+                                      // minDate={
+                                      //   key == "eventEndDate"
+                                      //     ? new Date(
+                                      //         formData?.eventDetails?.eventStartDate?.value
+                                      //       )
+                                      //     : currentDate
+                                      // }
+                                
+                                      // selected={
+                                      //   field.value &&
+                                      //  new Date(field.value) >= currentDate
+                                      //     ? 
+                                      //     new Date(field?.value)
+                                      //     : currentDate
+                                      // }
+                                      selected={
+                                        field.value &&
+                                       new Date(field.value) >= currentDate
+                                          ? 
+                                          new Date(field?.value)
+                                          : currentDate
+                                      }
+                                      onChange={(v, e) => {
+                                        handleChange(v, `eventDetails-${key}`);
+                                      }}
+                                      onKeyDown={(e) => {
+                                        e.preventDefault();
+                                      }}
+                                      // onKeyDown={(e) => {
+                                      //   if (e.keyCode === 8) { // Check if the backspace key is pressed
+                                      //     handleChange(null, `eventDetails-${key}`); // Clear the value
+                                      //   }
+                                      // }}
+                                    /> 
+                                    
+                                    :  */}
+                                    <DatePicker
+                                      name={`eventDetails-${key}`}
+                                      dateFormat="dd/MM/yyyy"
+                                      className="form-control disabled"
+                                      placeholderText="Select date"
+                                      // key={Math.random*1000}
+                                      readOnly={true}
+                                      value={new Date(field.value)}
+                                      disabled
+                                      // minDate={
+                                      //   key == "eventEndDate"
+                                      //     ? new Date(
+                                      //         formData?.eventDetails?.eventStartDate?.value
+                                      //       )
+                                      //     : currentDate
+                                      // }
+                                      selected={
+                                        // field.value &&
+                                        // field.value >= currentDate
+                                        // ?
+                                        new Date(field.value)
+                                        // : currentDate
+                                      }
+                                      onChange={(v, e) => {
+                                        handleChange(v, `eventDetails-${key}`);
+                                      }}
+                                      onKeyDown={(e) => {
+                                        e.preventDefault();
+                                      }}
+                                    />
+                                    {/* } */}
+                                    {isEventEndDate ? (
+                                      <div className="event-endDate"></div>
+                                    ) : (
+                                      ""
+                                    )}
+                                    {field.color && (
+                                      <div className="color-pick">
+                                        <div className="color-pick-point">
+                                          <img
+                                            src={
+                                              path_image + "color-picker.svg"
+                                            }
+                                            alt=""
+                                          />
+                                        </div>
+                                        <input
+                                          type="color"
+                                          title="Choose your color"
+                                          name={`eventDetails-${key}-color`}
+                                          onChange={handleChange}
+                                          value={field.color}
+                                        />
+                                      </div>
+                                    )}
+                                  </div>
+                                ) : (
+                                  <div
+                                    key={index}
+                                    className="form-group d-flex align-items-center"
+                                  >
+                                    <label>
+                                      {field.title}
+                                      {/* <span>*</span> */}
+                                    </label>
+                                    {field.type == "textArea" ? (
+                                      <textarea
+                                        key={`textarea-${index}-${formData?.templateId}`}
+                                        className={`form-control`}
+                                        ref={(ref) =>
+                                          (textAreaRefs.current[index] = ref)
+                                        }
+                                        onChange={(e) => {
+                                          handleChange(e);
+                                          resizeTextArea(index);
+                                        }}
+                                        name={`eventDetails-${key}`}
+                                      >
+                                        {field.value}
+                                      </textarea>
+                                    ) : (
+                                      <input
+                                        key={`${field.type}-${index}-${formData?.templateId}`}
+                                        type={field.type}
+                                        name={`eventDetails-${key}`}
+                                        value={field.value}
+                                        readOnly={
+                                          key == "eventEndTime" ||
+                                            key == "eventStartTime"
+                                            ? true
+                                            : false
+                                        }
+                                        disabled={
+                                          key == "eventEndTime" ||
+                                            key == "eventStartTime"
+                                            ? true
+                                            : false
+                                        }
+                                        className={`form-control ${key == "eventEndTime" ||
+                                          key == "eventStartTime"
+                                          ? "disabled"
+                                          : ""
+                                          }`}
+                                        // className="form-control"
+                                        onChange={handleChange}
+                                      // disabled
+                                      // readOnly={true}
+                                      />
+                                    )}
+                                    {isEventEndTime ? (
+                                      <div className="event-endTime"></div>
+                                    ) : (
+                                      ""
+                                    )}
+                                    {field.color && (
+                                      <div className="color-pick">
+                                        <div className="color-pick-point">
+                                          <img
+                                            src={
+                                              path_image + "color-picker.svg"
+                                            }
+                                            alt=""
+                                          />
+                                        </div>
+                                        <input
+                                          type="color"
+                                          title="Choose your color"
+                                          name={`eventDetails-${key}-color`}
+                                          onChange={handleChange}
+                                          value={field.color}
+                                        />
+                                      </div>
+                                    )}
+                                  </div>
+                                );
+                              }
+                            )}
+                        </div>
+
+                        <div className="feilds-section">
+                          <h5>What data should be collected?</h5>
+                          <div className="select-collected">
+                            {[
+                              { label: "Name", name: "userName" },
+                              { label: "Email", name: "userEmail" },
+                              { label: "Country", name: "country" },
+                              {
+                                label: "Country (Region)",
+                                name: "country (region)",
+                              },
+                              { label: "State", name: "state" },
+                              { label: "State (US)", name: "state (us)" },
+                              {
+                                label: "Travel accommodation",
+                                name: "travel accomodation",
+                              },
+                              { label: "Consent", name: "consent" },
+                              {
+                                label: "Onesource Consent",
+                                name: "onesource_consent",
+                              },
+                            ].map(({ label, name }) => (
+                              <Form.Check
+                                key={name}
+                                className="webinar-checkbox"
+                                inline
+                                label={label}
+                                name={name}
+                                type="checkbox"
+                                checked={formData?.body?.some(
+                                  (item) =>
+                                    item?.name?.toLowerCase() ===
+                                    name.toLowerCase()
+                                )}
+                                onChange={(e) => handleChange(e, name)}
+                              />
+                            ))}
+
+                            <span
+                              className="add-choice"
+                              onClick={() => setModal(true)}
+                            >
+                              Add data field
+                              <img
+                                src={`${path_image}add-choice-voilet.svg`}
+                                alt=""
+                              />
+                            </span>
+                          </div>
+                          <section className="webinarRegistrationBody">
+                            <div className="sec1">
+                              <div className="add_hcp_boxes">
+                                <div className="form_action">
+                                  <div className="row">
+                                    <div id="registration-form">
+                                      {formData &&
+                                        Object.keys(formData)?.length ? (
+                                        <div>
+                                          <div className="center-align-form">
+                                            <div>
+                                              {formData?.body?.map(
+                                                (data, index) => (
+                                                  <div
+                                                    key={index}
+                                                    className="centered-input"
+                                                    draggable
+                                                    onDragStart={(e) =>
+                                                      handleDragStart(e, index)
+                                                    }
+                                                    onDrop={(e) =>
+                                                      handleDrop(e, index)
+                                                    }
+                                                    onDragOver={handleDragOver}
+                                                  >
+                                                    <div className={`form-group state${data?.inputType === "label" ? " organize-label" : ""}`}>
+                                                      <label
+                                                        htmlFor=""
+                                                        dangerouslySetInnerHTML={{
+                                                          __html: data?.label
+                                                            ? `${data.label.charAt(0).toUpperCase()}${data.label.slice(1).toLowerCase()}${data?.required === "yes" ? ' <span class="required">*</span>' : ''}`
+                                                            : "",
+                                                        }}
+                                                      ></label>
+
+
+                                                      {data?.name ==
+                                                        "state" && (
+                                                          <Button
+                                                            className="btn-bordered"
+                                                            onClick={(e) => {
+                                                              editFieldData(
+                                                                e,
+                                                                index,
+                                                                true
+                                                              );
+                                                            }}
+                                                          >
+                                                            Change country{" "}
+                                                          </Button>
+                                                        )}
+
+                                                      {data?.inputType ===
+                                                        "radio" ? (
+                                                        <div className="btn-container">
+                                                          {data?.option?.map(
+                                                            (
+                                                              item,
+                                                              optIndex
+                                                            ) => (
+                                                              <div
+                                                                className="check"
+                                                                key={optIndex}
+                                                              >
+                                                                <input
+                                                                  type={
+                                                                    data?.inputType
+                                                                  }
+                                                                  name={`${data?.name
+                                                                    ? data?.name
+                                                                    : "dynamic_" +
+                                                                    dynamicFieldNo
+                                                                    }`}
+                                                                  value={
+                                                                    item?.optionValue
+                                                                  }
+                                                                  checked={
+                                                                    item?.checked
+                                                                  }
+                                                                />
+                                                                <label
+                                                                  htmlFor={
+                                                                    item?.optionValue
+                                                                  }
+                                                                >
+                                                                  {
+                                                                    item?.optionLabel
+                                                                  }
+                                                                </label>
+                                                                {data?.extension ==
+                                                                  true ? (
+                                                                  <span
+                                                                    className="add-choice"
+                                                                    onClick={(
+                                                                      e
+                                                                    ) =>
+                                                                      addExtension(
+                                                                        e,
+                                                                        index,
+                                                                        optIndex
+                                                                      )
+                                                                    }
+                                                                  >
+                                                                    Add
+                                                                    extension
+                                                                    <img
+                                                                      src={
+                                                                        path_image +
+                                                                        "add-choice-voilet.svg"
+                                                                      }
+                                                                      alt=""
+                                                                    />
+                                                                  </span>
+                                                                ) : (
+                                                                  ""
+                                                                )}
+
+                                                                {/* {item?.extension
+                                                                ?.length > 0 &&
+                                                              item?.checked ==
+                                                                true ?  */}
+                                                                {item?.extension
+                                                                  ?.length >
+                                                                  0 ? (
+                                                                  <div className="extension">
+                                                                    {item?.extension?.map(
+                                                                      (
+                                                                        extItem,
+                                                                        extIndex
+                                                                      ) => (
+                                                                        <div
+                                                                          className="extItem"
+                                                                          key={
+                                                                            extIndex
+                                                                          }
+                                                                        >
+                                                                          {extItem?.inputType ==
+                                                                            "text" ? (
+                                                                            <div className="extOption">
+                                                                              <label
+                                                                                htmlFor={
+                                                                                  extItem?.label
+                                                                                }
+                                                                              >
+                                                                                {
+                                                                                  extItem?.label
+                                                                                }
+                                                                              </label>
+                                                                              <input
+                                                                                type={
+                                                                                  extItem?.inputType
+                                                                                }
+                                                                                className="form-control disabled"
+                                                                                name={`${extItem?.name
+                                                                                  ? extItem?.name
+                                                                                  : "dynamic_" +
+                                                                                  dynamicFieldNo
+                                                                                  }`}
+                                                                                placeholder={
+                                                                                  extItem?.placeholder
+                                                                                }
+                                                                                disabled
+                                                                              />
+                                                                            </div>
+                                                                          ) : extItem?.inputType ==
+                                                                            "radio" ? (
+                                                                            <div className="extOption">
+                                                                              <label
+                                                                                htmlFor={
+                                                                                  extItem?.label
+                                                                                }
+                                                                              >
+                                                                                {
+                                                                                  extItem?.label
+                                                                                }
+                                                                              </label>
+                                                                              {extItem?.option?.map(
+                                                                                (
+                                                                                  optItem,
+                                                                                  optItemIndex
+                                                                                ) => (
+                                                                                  <div
+                                                                                    className="extOptionItem"
+                                                                                    key={
+                                                                                      optItemIndex
+                                                                                    }
+                                                                                  >
+                                                                                    <input
+                                                                                      type={
+                                                                                        extItem?.inputType
+                                                                                      }
+                                                                                      name={`${extItem?.name
+                                                                                        ? extItem?.name
+                                                                                        : "dynamic_" +
+                                                                                        dynamicFieldNo
+                                                                                        }`}
+                                                                                      value={
+                                                                                        optItem?.optionValue
+                                                                                      }
+                                                                                      checked={
+                                                                                        optItem?.checked
+                                                                                      }
+                                                                                    />
+                                                                                    <label
+                                                                                      htmlFor={
+                                                                                        optItem?.optionLabel
+                                                                                      }
+                                                                                    >
+                                                                                      {
+                                                                                        optItem?.optionLabel
+                                                                                      }
+                                                                                    </label>
+                                                                                  </div>
+                                                                                )
+                                                                              )}
+                                                                            </div>
+                                                                          ) : extItem?.inputType ==
+                                                                            "date" ? (
+                                                                            <div className="extOption">
+                                                                              <label
+                                                                                htmlFor={
+                                                                                  extItem?.label
+                                                                                }
+                                                                              >
+                                                                                {" "}
+                                                                                {
+                                                                                  extItem?.label
+                                                                                }
+                                                                              </label>
+                                                                              <DatePicker
+                                                                                name={`${extItem?.name
+                                                                                  ? extItem?.name
+                                                                                  : "dynamic_" +
+                                                                                  dynamicFieldNo
+                                                                                  }`}
+                                                                                dateFormat="dd/MM/yyyy"
+                                                                                className="form-control disabled"
+                                                                                placeholderText="Select date"
+                                                                                // minDate={currentDate}
+                                                                                disabled
+                                                                              />
+                                                                            </div>
+                                                                          ) : extItem?.inputType ==
+                                                                            "checkbox" ? (
+                                                                            <div className="extOption">
+                                                                              <label
+                                                                                htmlFor={
+                                                                                  extItem?.label
+                                                                                }
+                                                                              >
+                                                                                {
+                                                                                  extItem?.label
+                                                                                }
+                                                                              </label>
+                                                                              {extItem?.option?.map(
+                                                                                (
+                                                                                  optItem,
+                                                                                  optItemIndex
+                                                                                ) => (
+                                                                                  <div
+                                                                                    className="extOptionItem"
+                                                                                    key={
+                                                                                      optItemIndex
+                                                                                    }
+                                                                                  >
+                                                                                    <input
+                                                                                      type={
+                                                                                        extItem?.inputType
+                                                                                      }
+                                                                                      name={`${extItem?.name
+                                                                                        ? extItem?.name
+                                                                                        : "dynamic_" +
+                                                                                        dynamicFieldNo
+                                                                                        }`}
+                                                                                      value={
+                                                                                        optItem?.optionValue
+                                                                                      }
+                                                                                      checked={
+                                                                                        optItem?.checked
+                                                                                      }
+                                                                                    />
+                                                                                    <label
+                                                                                      htmlFor={
+                                                                                        optItem?.optionLabel
+                                                                                      }
+                                                                                    >
+                                                                                      {
+                                                                                        optItem?.optionLabel
+                                                                                      }
+                                                                                    </label>
+                                                                                  </div>
+                                                                                )
+                                                                              )}
+                                                                            </div>
+                                                                          ) : extItem?.inputType ==
+                                                                            "selection" ? (
+                                                                            <div className="extOption">
+                                                                              <label
+                                                                                htmlFor={
+                                                                                  extItem?.label
+                                                                                }
+                                                                              >
+                                                                                {
+                                                                                  extItem?.label
+                                                                                }
+                                                                              </label>
+                                                                              <Select
+                                                                                className="dropdown-basic-button split-button-dropup webinar-select disabled"
+                                                                                name={`${extItem?.name
+                                                                                  ? extItem?.name
+                                                                                  : "dynamic_" +
+                                                                                  dynamicFieldNo
+                                                                                  }`}
+                                                                                options={
+                                                                                  extItem?.label?.includes(
+                                                                                    "country"
+                                                                                  ) ||
+                                                                                    extItem?.label?.includes(
+                                                                                      "Country"
+                                                                                    )
+                                                                                    ? countryList
+                                                                                    : extItem?.label?.includes(
+                                                                                      "state"
+                                                                                    ) ||
+                                                                                      extItem?.label?.includes(
+                                                                                        "State"
+                                                                                      )
+                                                                                      ? stateOptions
+                                                                                      : extItem?.option?.map(
+                                                                                        (
+                                                                                          item
+                                                                                        ) => ({
+                                                                                          label:
+                                                                                            item?.optionLabel,
+                                                                                          value:
+                                                                                            item?.optionLabel,
+                                                                                        })
+                                                                                      )
+                                                                                }
+                                                                                placeholder={
+                                                                                  extItem?.placeholder
+                                                                                    ? extItem?.placeholder
+                                                                                    : `Select`
+                                                                                }
+                                                                                isDisabled={
+                                                                                  true
+                                                                                }
+                                                                              />
+                                                                            </div>
+                                                                          ) : extItem?.inputType ==
+                                                                            "textarea" ? (
+                                                                            <div className="extOption">
+                                                                              <label
+                                                                                htmlFor={
+                                                                                  extItem?.label
+                                                                                }
+                                                                              >
+                                                                                {
+                                                                                  extItem?.label
+                                                                                }
+                                                                              </label>
+
+                                                                              <textarea
+                                                                                className="form-control disabled"
+                                                                                name={`${extItem?.name
+                                                                                  ? extItem?.name
+                                                                                  : "dynamic_" +
+                                                                                  dynamicFieldNo
+                                                                                  }`}
+                                                                                type={
+                                                                                  extItem?.inputType
+                                                                                }
+                                                                                placeholder={
+                                                                                  extItem?.placeholder
+                                                                                }
+                                                                                disabled
+                                                                              />
+                                                                            </div>
+                                                                          ) : (
+                                                                            ""
+                                                                          )}
+                                                                          <button
+                                                                            className="btn-edit btn-filled"
+                                                                            onClick={(
+                                                                              e
+                                                                            ) =>
+                                                                              editExtendedFeildData(
+                                                                                e,
+                                                                                index,
+                                                                                optIndex,
+                                                                                extIndex
+                                                                              )
+                                                                            }
+                                                                          >
+                                                                            <svg
+                                                                              xmlns="http://www.w3.org/2000/svg"
+                                                                              width="20"
+                                                                              height="20"
+                                                                              viewBox="0 0 20 20"
+                                                                              fill="none"
+                                                                            >
+                                                                              <path
+                                                                                fillRule="evenodd"
+                                                                                clipRule="evenodd"
+                                                                                d="M3.15259 12.8329C2.97037 13.0151 2.84302 13.2448 2.78507 13.4959L1.90302 17.3182C1.72646 18.0833 2.41215 18.7689 3.17722 18.5924L6.99946 17.7103C7.25056 17.6524 7.48033 17.525 7.66255 17.3428L18.0346 6.97075C18.8157 6.1897 18.8157 4.92337 18.0346 4.14232L16.3531 2.46079C15.572 1.67974 14.3057 1.67974 13.5247 2.46079L3.15259 12.8329ZM3.52201 16.9734L4.2386 13.8682L12.2063 5.90046L14.5949 8.2891L6.62724 16.2568L3.52201 16.9734ZM15.6556 7.22844L13.267 4.8398L14.5853 3.52145C14.7806 3.32618 15.0972 3.32618 15.2924 3.52145L16.974 5.20298C17.1692 5.39824 17.1692 5.71483 16.974 5.91009L15.6556 7.22844Z"
+                                                                                fill="#0066be"
+                                                                              />
+                                                                            </svg>
+                                                                          </button>
+                                                                          <button
+                                                                            className="dlt_btn_event btn-filled"
+                                                                            onClick={(
+                                                                              e
+                                                                            ) => {
+                                                                              // setConfirmationPopup(true);
+                                                                              deleteExtField(
+                                                                                e,
+                                                                                data,
+                                                                                index,
+                                                                                optIndex,
+                                                                                extIndex
+                                                                              );
+                                                                            }}
+                                                                          >
+                                                                            <svg
+                                                                              xmlns="http://www.w3.org/2000/svg"
+                                                                              width="40"
+                                                                              height="40"
+                                                                              viewBox="0 0 40 40"
+                                                                              fill="none"
+                                                                            >
+                                                                              <path
+                                                                                d="M24.8608 31.7609C25.1362 32.0343 25.5082 32.1901 25.8977 32.1951C26.2871 32.1901 26.6592 32.0343 26.9346 31.7609C27.21 31.4876 27.367 31.1183 27.3721 30.7317V15.122C27.3721 14.7338 27.2167 14.3616 26.9402 14.0872C26.6637 13.8127 26.2887 13.6585 25.8977 13.6585C25.5067 13.6585 25.1316 13.8127 24.8551 14.0872C24.5786 14.3616 24.4233 14.7338 24.4233 15.122V30.7317C24.4284 31.1183 24.5854 31.4876 24.8608 31.7609Z"
+                                                                                fill="#0066be"
+                                                                              />
+                                                                              <path
+                                                                                d="M14.1027 32.1951C13.7133 32.1901 13.3412 32.0343 13.0658 31.7609C12.7904 31.4876 12.6334 31.1183 12.6283 30.7317V15.122C12.6283 14.7338 12.7837 14.3616 13.0602 14.0872C13.3367 13.8127 13.7117 13.6585 14.1027 13.6585C14.4937 13.6585 14.8687 13.8127 15.1452 14.0872C15.4217 14.3616 15.5771 14.7338 15.5771 15.122V30.7317C15.572 31.1183 15.415 31.4876 15.1396 31.7609C14.8642 32.0343 14.4921 32.1901 14.1027 32.1951Z"
+                                                                                fill="#0066be"
+                                                                              />
+                                                                              <path
+                                                                                d="M18.9633 31.7609C19.2387 32.0343 19.6107 32.1901 20.0002 32.1951C20.3896 32.1901 20.7617 32.0343 21.0371 31.7609C21.3125 31.4876 21.4695 31.1183 21.4746 30.7317V15.122C21.4746 14.7338 21.3192 14.3616 21.0427 14.0872C20.7662 13.8127 20.3912 13.6585 20.0002 13.6585C19.6092 13.6585 19.2341 13.8127 18.9577 14.0872C18.6812 14.3616 18.5258 14.7338 18.5258 15.122V30.7317C18.5309 31.1183 18.6879 31.4876 18.9633 31.7609Z"
+                                                                                fill="#0066be"
+                                                                              />
+                                                                              <path
+                                                                                fillRule="evenodd"
+                                                                                clipRule="evenodd"
+                                                                                d="M27.3721 3.90252V5.85366H37.6923C38.0833 5.85366 38.4583 6.00784 38.7348 6.28228C39.0113 6.55673 39.1667 6.92895 39.1667 7.31707C39.1667 7.70519 39.0113 8.07742 38.7348 8.35186C38.4583 8.62631 38.0833 8.78049 37.6923 8.78049H35.1489L33.5251 34.4195C33.4302 35.9294 32.7595 37.3467 31.6494 38.3833C30.5393 39.4199 29.0731 39.998 27.5489 40H12.4512C10.9407 39.9783 9.49405 39.3915 8.40063 38.3569C7.30721 37.3222 6.64757 35.916 6.55362 34.4195L4.85518 8.78049H2.3077C1.91668 8.78049 1.54167 8.62631 1.26517 8.35186C0.988677 8.07742 0.833344 7.70519 0.833344 7.31707C0.833344 6.92895 0.988677 6.55673 1.26517 6.28228C1.54167 6.00784 1.91668 5.85366 2.3077 5.85366H12.6283V3.80495C12.6532 2.80361 13.0651 1.85011 13.7787 1.14183C14.4922 0.433555 15.4529 0.0247359 16.4617 0H23.5387C24.5643 0.0254581 25.5393 0.447827 26.2555 1.17695C26.9717 1.90607 27.3724 2.88419 27.3721 3.90252ZM24.4233 3.90252V5.85366H15.5771V3.90252C15.5771 3.66964 15.6703 3.4463 15.8362 3.28163C16.0021 3.11696 16.2271 3.02445 16.4617 3.02445H23.5387C23.7733 3.02445 23.9983 3.11696 24.1642 3.28163C24.3301 3.4463 24.4233 3.66964 24.4233 3.90252ZM9.40411 34.2439L7.8904 8.78049L32.1883 8.87805L30.596 34.2439C30.5414 35.0101 30.1971 35.7274 29.632 36.2522C29.0668 36.7769 28.3228 37.0702 27.5489 37.0732H12.4512C11.676 37.0748 10.9293 36.7831 10.3632 36.2574C9.7971 35.7318 9.45412 35.0117 9.40411 34.2439Z"
+                                                                                fill="#0066be"
+                                                                              />
+                                                                            </svg>
+                                                                          </button>
+                                                                        </div>
+                                                                      )
+                                                                    )}
+                                                                  </div>
+                                                                ) : (
+                                                                  ""
+                                                                )}
+                                                              </div>
+                                                            )
+                                                          )}
+                                                        </div>
+                                                      ) : data?.inputType ==
+                                                        "checkbox" ? (
+                                                        <div className="btn-container">
+                                                          {data?.option?.map(
+                                                            (
+                                                              item,
+                                                              optIndex
+                                                            ) => (
+                                                              <div
+                                                                className="check"
+                                                                key={optIndex}
+                                                              >
+                                                                <input
+                                                                  type={
+                                                                    data?.inputType
+                                                                  }
+                                                                  name={`${data?.name
+                                                                    ? data?.name
+                                                                    : "dynamic_" +
+                                                                    dynamicFieldNo
+                                                                    }`}
+                                                                  checked={
+                                                                    item?.checked
+                                                                  }
+                                                                />
+                                                                <label htmlFor="">
+                                                                  {
+                                                                    item?.optionLabel
+                                                                  }
+                                                                </label>
+                                                                {data?.extension ==
+                                                                  true ? (
+                                                                  <span
+                                                                    className="add-choice"
+                                                                    onClick={(
+                                                                      e
+                                                                    ) =>
+                                                                      addExtension(
+                                                                        e,
+                                                                        index,
+                                                                        optIndex
+                                                                      )
+                                                                    }
+                                                                  >
+                                                                    Add
+                                                                    extension
+                                                                    <img
+                                                                      src={
+                                                                        path_image +
+                                                                        "add-choice.svg"
+                                                                      }
+                                                                      alt=""
+                                                                    />
+                                                                  </span>
+                                                                ) : (
+                                                                  ""
+                                                                )}
+
+                                                                {/* {item?.extension
+                                                                ?.length > 0 &&
+                                                              item?.checked ==
+                                                                true ? */}
+                                                                {item?.extension
+                                                                  ?.length >
+                                                                  0 ? (
+                                                                  <div className="extension">
+                                                                    {item?.extension?.map(
+                                                                      (
+                                                                        extItem,
+                                                                        extIndex
+                                                                      ) => (
+                                                                        <div className="extItem">
+                                                                          {extItem?.inputType ==
+                                                                            "text" ? (
+                                                                            <div className="extOption">
+                                                                              <label
+                                                                                htmlFor={
+                                                                                  extItem?.label
+                                                                                }
+                                                                              >
+                                                                                {
+                                                                                  extItem?.label
+                                                                                }
+                                                                              </label>
+                                                                              <input
+                                                                                type={
+                                                                                  extItem?.inputType
+                                                                                }
+                                                                                className="form-control disabled"
+                                                                                name={`${extItem?.name
+                                                                                  ? extItem?.name
+                                                                                  : "dynamic_" +
+                                                                                  dynamicFieldNo
+                                                                                  }`}
+                                                                                placeholder={
+                                                                                  extItem?.placeholder
+                                                                                }
+                                                                                disabled
+                                                                              />
+                                                                            </div>
+                                                                          ) : extItem?.inputType ==
+                                                                            "radio" ? (
+                                                                            <div className="extOption">
+                                                                              <label
+                                                                                htmlFor={
+                                                                                  extItem?.label
+                                                                                }
+                                                                              >
+                                                                                {
+                                                                                  extItem?.label
+                                                                                }
+                                                                              </label>
+                                                                              {extItem?.option?.map(
+                                                                                (
+                                                                                  optItem,
+                                                                                  optItemIndex
+                                                                                ) => (
+                                                                                  <div
+                                                                                    className="extOptionItem"
+                                                                                    key={
+                                                                                      optItemIndex
+                                                                                    }
+                                                                                  >
+                                                                                    <input
+                                                                                      type={
+                                                                                        extItem?.inputType
+                                                                                      }
+                                                                                      name={`${extItem?.name
+                                                                                        ? extItem?.name
+                                                                                        : "dynamic_" +
+                                                                                        dynamicFieldNo
+                                                                                        }`}
+                                                                                      value={
+                                                                                        optItem?.optionValue
+                                                                                      }
+                                                                                      checked={
+                                                                                        optItem?.checked
+                                                                                      }
+                                                                                    />
+                                                                                    <label
+                                                                                      htmlFor={
+                                                                                        optItem?.optionLabel
+                                                                                      }
+                                                                                    >
+                                                                                      {
+                                                                                        optItem?.optionLabel
+                                                                                      }
+                                                                                    </label>
+                                                                                  </div>
+                                                                                )
+                                                                              )}
+                                                                            </div>
+                                                                          ) : extItem?.inputType ==
+                                                                            "date" ? (
+                                                                            <div className="extOption">
+                                                                              <label
+                                                                                htmlFor={
+                                                                                  extItem?.label
+                                                                                }
+                                                                              >
+                                                                                {" "}
+                                                                                {
+                                                                                  extItem?.label
+                                                                                }
+                                                                              </label>
+                                                                              <DatePicker
+                                                                                name={`${extItem?.name
+                                                                                  ? extItem?.name
+                                                                                  : "dynamic_" +
+                                                                                  dynamicFieldNo
+                                                                                  }`}
+                                                                                dateFormat="dd/MM/yyyy"
+                                                                                className="form-control disabled"
+                                                                                placeholderText="Select date"
+                                                                                // minDate={currentDate}
+
+                                                                                disabled
+                                                                              />
+                                                                            </div>
+                                                                          ) : extItem?.inputType ==
+                                                                            "checkbox" ? (
+                                                                            <div className="extOption">
+                                                                              <label
+                                                                                htmlFor={
+                                                                                  extItem?.label
+                                                                                }
+                                                                              >
+                                                                                {
+                                                                                  extItem?.label
+                                                                                }
+                                                                              </label>
+                                                                              {extItem?.option?.map(
+                                                                                (
+                                                                                  optItem,
+                                                                                  optItemIndex
+                                                                                ) => (
+                                                                                  <div
+                                                                                    className="extOptionItem"
+                                                                                    key={
+                                                                                      optItemIndex
+                                                                                    }
+                                                                                  >
+                                                                                    <input
+                                                                                      type={
+                                                                                        extItem?.inputType
+                                                                                      }
+                                                                                      name={`${extItem?.name
+                                                                                        ? extItem?.name
+                                                                                        : "dynamic_" +
+                                                                                        dynamicFieldNo
+                                                                                        }`}
+                                                                                      value={
+                                                                                        optItem?.optionValue
+                                                                                      }
+                                                                                      checked={
+                                                                                        optItem?.checked
+                                                                                      }
+                                                                                    />
+                                                                                    <label
+                                                                                      htmlFor={
+                                                                                        optItem?.optionLabel
+                                                                                      }
+                                                                                    >
+                                                                                      {
+                                                                                        optItem?.optionLabel
+                                                                                      }
+                                                                                    </label>
+                                                                                  </div>
+                                                                                )
+                                                                              )}
+                                                                            </div>
+                                                                          ) : extItem?.inputType ==
+                                                                            "selection" ? (
+                                                                            <div className="extOption">
+                                                                              <label
+                                                                                htmlFor={
+                                                                                  extItem?.label
+                                                                                }
+                                                                              >
+                                                                                {
+                                                                                  extItem?.label
+                                                                                }
+                                                                              </label>
+                                                                              <Select
+                                                                                name={`${extItem?.name
+                                                                                  ? extItem?.name
+                                                                                  : "dynamic_" +
+                                                                                  dynamicFieldNo
+                                                                                  }`}
+                                                                                className="dropdown-basic-button split-button-dropup webinar-select disabled"
+                                                                                options={
+                                                                                  extItem?.label?.includes(
+                                                                                    "country"
+                                                                                  ) ||
+                                                                                    extItem?.label?.includes(
+                                                                                      "Country"
+                                                                                    )
+                                                                                    ? countryList
+                                                                                    : extItem?.label?.includes(
+                                                                                      "state"
+                                                                                    ) ||
+                                                                                      extItem?.label?.includes(
+                                                                                        "State"
+                                                                                      )
+                                                                                      ? stateOptions
+                                                                                      : extItem?.option?.map(
+                                                                                        (
+                                                                                          item
+                                                                                        ) => ({
+                                                                                          label:
+                                                                                            item?.optionLabel,
+                                                                                          value:
+                                                                                            item?.optionLabel,
+                                                                                        })
+                                                                                      )
+                                                                                }
+                                                                                placeholder={
+                                                                                  extItem?.placeholder
+                                                                                    ? extItem?.placeholder
+                                                                                    : `Select`
+                                                                                }
+                                                                                isDisabled={
+                                                                                  true
+                                                                                }
+                                                                              />
+                                                                            </div>
+                                                                          ) : extItem?.inputType ==
+                                                                            "textarea" ? (
+                                                                            <div className="extOption">
+                                                                              <label
+                                                                                htmlFor={
+                                                                                  extItem?.label
+                                                                                }
+                                                                              >
+                                                                                {
+                                                                                  extItem?.label
+                                                                                }
+                                                                              </label>
+
+                                                                              <textarea
+                                                                                className="form-control disabled"
+                                                                                name={`${extItem?.name
+                                                                                  ? extItem?.name
+                                                                                  : "dynamic_" +
+                                                                                  dynamicFieldNo
+                                                                                  }`}
+                                                                                type={
+                                                                                  extItem?.inputType
+                                                                                }
+                                                                                placeholder={
+                                                                                  extItem?.placeholder
+                                                                                }
+                                                                                disabled
+                                                                              />
+                                                                            </div>
+                                                                          ) : (
+                                                                            ""
+                                                                          )}
+                                                                          <button
+                                                                            className="btn-edit btn-filled"
+                                                                            onClick={(
+                                                                              e
+                                                                            ) =>
+                                                                              editExtendedFeildData(
+                                                                                e,
+                                                                                index,
+                                                                                optIndex,
+                                                                                extIndex
+                                                                              )
+                                                                            }
+                                                                          >
+                                                                            <svg
+                                                                              xmlns="http://www.w3.org/2000/svg"
+                                                                              width="20"
+                                                                              height="20"
+                                                                              viewBox="0 0 20 20"
+                                                                              fill="none"
+                                                                            >
+                                                                              <path
+                                                                                fillRule="evenodd"
+                                                                                clipRule="evenodd"
+                                                                                d="M3.15259 12.8329C2.97037 13.0151 2.84302 13.2448 2.78507 13.4959L1.90302 17.3182C1.72646 18.0833 2.41215 18.7689 3.17722 18.5924L6.99946 17.7103C7.25056 17.6524 7.48033 17.525 7.66255 17.3428L18.0346 6.97075C18.8157 6.1897 18.8157 4.92337 18.0346 4.14232L16.3531 2.46079C15.572 1.67974 14.3057 1.67974 13.5247 2.46079L3.15259 12.8329ZM3.52201 16.9734L4.2386 13.8682L12.2063 5.90046L14.5949 8.2891L6.62724 16.2568L3.52201 16.9734ZM15.6556 7.22844L13.267 4.8398L14.5853 3.52145C14.7806 3.32618 15.0972 3.32618 15.2924 3.52145L16.974 5.20298C17.1692 5.39824 17.1692 5.71483 16.974 5.91009L15.6556 7.22844Z"
+                                                                                fill="#0066be"
+                                                                              />
+                                                                            </svg>
+                                                                          </button>
+                                                                          <button
+                                                                            className="dlt_btn_event btn-filled"
+                                                                            onClick={(
+                                                                              e
+                                                                            ) => {
+                                                                              // setConfirmationPopup(true);
+                                                                              deleteExtField(
+                                                                                e,
+                                                                                data,
+                                                                                index,
+                                                                                optIndex,
+                                                                                extIndex
+                                                                              );
+                                                                            }}
+                                                                          >
+                                                                            <svg
+                                                                              xmlns="http://www.w3.org/2000/svg"
+                                                                              width="40"
+                                                                              height="40"
+                                                                              viewBox="0 0 40 40"
+                                                                              fill="none"
+                                                                            >
+                                                                              <path
+                                                                                d="M24.8608 31.7609C25.1362 32.0343 25.5082 32.1901 25.8977 32.1951C26.2871 32.1901 26.6592 32.0343 26.9346 31.7609C27.21 31.4876 27.367 31.1183 27.3721 30.7317V15.122C27.3721 14.7338 27.2167 14.3616 26.9402 14.0872C26.6637 13.8127 26.2887 13.6585 25.8977 13.6585C25.5067 13.6585 25.1316 13.8127 24.8551 14.0872C24.5786 14.3616 24.4233 14.7338 24.4233 15.122V30.7317C24.4284 31.1183 24.5854 31.4876 24.8608 31.7609Z"
+                                                                                fill="#0066be"
+                                                                              />
+                                                                              <path
+                                                                                d="M14.1027 32.1951C13.7133 32.1901 13.3412 32.0343 13.0658 31.7609C12.7904 31.4876 12.6334 31.1183 12.6283 30.7317V15.122C12.6283 14.7338 12.7837 14.3616 13.0602 14.0872C13.3367 13.8127 13.7117 13.6585 14.1027 13.6585C14.4937 13.6585 14.8687 13.8127 15.1452 14.0872C15.4217 14.3616 15.5771 14.7338 15.5771 15.122V30.7317C15.572 31.1183 15.415 31.4876 15.1396 31.7609C14.8642 32.0343 14.4921 32.1901 14.1027 32.1951Z"
+                                                                                fill="#0066be"
+                                                                              />
+                                                                              <path
+                                                                                d="M18.9633 31.7609C19.2387 32.0343 19.6107 32.1901 20.0002 32.1951C20.3896 32.1901 20.7617 32.0343 21.0371 31.7609C21.3125 31.4876 21.4695 31.1183 21.4746 30.7317V15.122C21.4746 14.7338 21.3192 14.3616 21.0427 14.0872C20.7662 13.8127 20.3912 13.6585 20.0002 13.6585C19.6092 13.6585 19.2341 13.8127 18.9577 14.0872C18.6812 14.3616 18.5258 14.7338 18.5258 15.122V30.7317C18.5309 31.1183 18.6879 31.4876 18.9633 31.7609Z"
+                                                                                fill="#0066be"
+                                                                              />
+                                                                              <path
+                                                                                fillRule="evenodd"
+                                                                                clipRule="evenodd"
+                                                                                d="M27.3721 3.90252V5.85366H37.6923C38.0833 5.85366 38.4583 6.00784 38.7348 6.28228C39.0113 6.55673 39.1667 6.92895 39.1667 7.31707C39.1667 7.70519 39.0113 8.07742 38.7348 8.35186C38.4583 8.62631 38.0833 8.78049 37.6923 8.78049H35.1489L33.5251 34.4195C33.4302 35.9294 32.7595 37.3467 31.6494 38.3833C30.5393 39.4199 29.0731 39.998 27.5489 40H12.4512C10.9407 39.9783 9.49405 39.3915 8.40063 38.3569C7.30721 37.3222 6.64757 35.916 6.55362 34.4195L4.85518 8.78049H2.3077C1.91668 8.78049 1.54167 8.62631 1.26517 8.35186C0.988677 8.07742 0.833344 7.70519 0.833344 7.31707C0.833344 6.92895 0.988677 6.55673 1.26517 6.28228C1.54167 6.00784 1.91668 5.85366 2.3077 5.85366H12.6283V3.80495C12.6532 2.80361 13.0651 1.85011 13.7787 1.14183C14.4922 0.433555 15.4529 0.0247359 16.4617 0H23.5387C24.5643 0.0254581 25.5393 0.447827 26.2555 1.17695C26.9717 1.90607 27.3724 2.88419 27.3721 3.90252ZM24.4233 3.90252V5.85366H15.5771V3.90252C15.5771 3.66964 15.6703 3.4463 15.8362 3.28163C16.0021 3.11696 16.2271 3.02445 16.4617 3.02445H23.5387C23.7733 3.02445 23.9983 3.11696 24.1642 3.28163C24.3301 3.4463 24.4233 3.66964 24.4233 3.90252ZM9.40411 34.2439L7.8904 8.78049L32.1883 8.87805L30.596 34.2439C30.5414 35.0101 30.1971 35.7274 29.632 36.2522C29.0668 36.7769 28.3228 37.0702 27.5489 37.0732H12.4512C11.676 37.0748 10.9293 36.7831 10.3632 36.2574C9.7971 35.7318 9.45412 35.0117 9.40411 34.2439Z"
+                                                                                fill="#0066be"
+                                                                              />
+                                                                            </svg>
+                                                                          </button>
+                                                                        </div>
+                                                                      )
+                                                                    )}
+                                                                  </div>
+                                                                ) : (
+                                                                  ""
+                                                                )}
+                                                              </div>
+                                                            )
+                                                          )}
+                                                        </div>
+                                                      ) : data?.inputType ==
+                                                        "selection" ? (
+                                                        <div
+                                                          className="slt-opt"
+                                                          key={index}
+                                                        >
+                                                          <Select
+                                                            className="dropdown-basic-button split-button-dropup webinar-select disabled"
+                                                            name={`${data?.name
+                                                              ? data?.name
+                                                              : "dynamic_" +
+                                                              dynamicFieldNo
+                                                              }`}
+                                                            options={
+                                                              data?.label?.includes(
+                                                                "country"
+                                                              ) ||
+                                                                data?.label?.includes(
+                                                                  "Country"
+                                                                )
+                                                                ? countryList
+                                                                : data?.label?.includes(
+                                                                  "state (us)"
+                                                                )
+                                                                  ? stateOptions
+                                                                  : data?.option?.map(
+                                                                    (item) => ({
+                                                                      label:
+                                                                        item?.optionLabel,
+                                                                      value:
+                                                                        item?.optionLabel,
+                                                                    })
+                                                                  )
+                                                            }
+                                                            placeholder={
+                                                              data?.placeholder
+                                                                ? data?.placeholder
+                                                                : `Select`
+                                                            }
+                                                            isDisabled={true}
+                                                            readOnly={true}
+                                                          />
+                                                        </div>
+                                                      ) : data?.inputType ==
+                                                        "textarea" ? (
+                                                        <div
+                                                          className="slt-opt"
+                                                          key={index}
+                                                        >
+                                                          <textarea
+                                                            className="form-control disabled"
+                                                            name={`${data?.name
+                                                              ? data?.name
+                                                              : "dynamic_" +
+                                                              dynamicFieldNo
+                                                              }`}
+                                                            type={
+                                                              data?.inputType
+                                                            }
+                                                            placeholder={
+                                                              data?.placeholder
+                                                            }
+                                                            disabled
+                                                          />
+                                                        </div>
+                                                      ) : data?.inputType ==
+                                                        "date" ? (
+                                                        <div
+                                                          className="slt-opt"
+                                                          key={index}
+                                                        >
+                                                          <DatePicker
+                                                            name={`${data?.name
+                                                              ? data?.name
+                                                              : "dynamic_" +
+                                                              dynamicFieldNo
+                                                              }`}
+                                                            dateFormat="dd/MM/yyyy"
+                                                            className="form-control disabled"
+                                                            placeholderText="Select date"
+                                                          // minDate={currentDate}
+                                                          />
+                                                        </div>
+                                                      ) : data?.inputType !=
+                                                      "label" && (
+                                                        <input
+                                                          name={`${data?.name
+                                                            ? data?.name
+                                                            : "dynamic_" +
+                                                            dynamicFieldNo
+                                                            }`}
+                                                          className="form-control disabled"
+                                                          type={data?.inputType}
+                                                          placeholder={
+                                                            data?.placeholder
+                                                          }
+                                                          disabled
+                                                        />
+                                                      )}
+                                                      <button
+                                                        className="btn-edit btn-filled"
+                                                        onClick={(e) =>
+                                                          editFieldData(
+                                                            e,
+                                                            index
+                                                          )
+                                                        }
+                                                      >
+                                                        <svg
+                                                          xmlns="http://www.w3.org/2000/svg"
+                                                          width="20"
+                                                          height="20"
+                                                          viewBox="0 0 20 20"
+                                                          fill="none"
+                                                        >
+                                                          <path
+                                                            fillRule="evenodd"
+                                                            clipRule="evenodd"
+                                                            d="M3.15259 12.8329C2.97037 13.0151 2.84302 13.2448 2.78507 13.4959L1.90302 17.3182C1.72646 18.0833 2.41215 18.7689 3.17722 18.5924L6.99946 17.7103C7.25056 17.6524 7.48033 17.525 7.66255 17.3428L18.0346 6.97075C18.8157 6.1897 18.8157 4.92337 18.0346 4.14232L16.3531 2.46079C15.572 1.67974 14.3057 1.67974 13.5247 2.46079L3.15259 12.8329ZM3.52201 16.9734L4.2386 13.8682L12.2063 5.90046L14.5949 8.2891L6.62724 16.2568L3.52201 16.9734ZM15.6556 7.22844L13.267 4.8398L14.5853 3.52145C14.7806 3.32618 15.0972 3.32618 15.2924 3.52145L16.974 5.20298C17.1692 5.39824 17.1692 5.71483 16.974 5.91009L15.6556 7.22844Z"
+                                                            fill="#0066be"
+                                                          />
+                                                        </svg>
+                                                      </button>
+                                                      <button
+                                                        className="dlt_btn_event btn-filled"
+                                                        onClick={(e) => {
+                                                          deleteField(
+                                                            e,
+                                                            data,
+                                                            index
+                                                          );
+                                                        }}
+                                                      >
+                                                        <svg
+                                                          xmlns="http://www.w3.org/2000/svg"
+                                                          width="40"
+                                                          height="40"
+                                                          viewBox="0 0 40 40"
+                                                          fill="none"
+                                                        >
+                                                          <path
+                                                            d="M24.8608 31.7609C25.1362 32.0343 25.5082 32.1901 25.8977 32.1951C26.2871 32.1901 26.6592 32.0343 26.9346 31.7609C27.21 31.4876 27.367 31.1183 27.3721 30.7317V15.122C27.3721 14.7338 27.2167 14.3616 26.9402 14.0872C26.6637 13.8127 26.2887 13.6585 25.8977 13.6585C25.5067 13.6585 25.1316 13.8127 24.8551 14.0872C24.5786 14.3616 24.4233 14.7338 24.4233 15.122V30.7317C24.4284 31.1183 24.5854 31.4876 24.8608 31.7609Z"
+                                                            fill="#0066be"
+                                                          />
+                                                          <path
+                                                            d="M14.1027 32.1951C13.7133 32.1901 13.3412 32.0343 13.0658 31.7609C12.7904 31.4876 12.6334 31.1183 12.6283 30.7317V15.122C12.6283 14.7338 12.7837 14.3616 13.0602 14.0872C13.3367 13.8127 13.7117 13.6585 14.1027 13.6585C14.4937 13.6585 14.8687 13.8127 15.1452 14.0872C15.4217 14.3616 15.5771 14.7338 15.5771 15.122V30.7317C15.572 31.1183 15.415 31.4876 15.1396 31.7609C14.8642 32.0343 14.4921 32.1901 14.1027 32.1951Z"
+                                                            fill="#0066be"
+                                                          />
+                                                          <path
+                                                            d="M18.9633 31.7609C19.2387 32.0343 19.6107 32.1901 20.0002 32.1951C20.3896 32.1901 20.7617 32.0343 21.0371 31.7609C21.3125 31.4876 21.4695 31.1183 21.4746 30.7317V15.122C21.4746 14.7338 21.3192 14.3616 21.0427 14.0872C20.7662 13.8127 20.3912 13.6585 20.0002 13.6585C19.6092 13.6585 19.2341 13.8127 18.9577 14.0872C18.6812 14.3616 18.5258 14.7338 18.5258 15.122V30.7317C18.5309 31.1183 18.6879 31.4876 18.9633 31.7609Z"
+                                                            fill="#0066be"
+                                                          />
+                                                          <path
+                                                            fillRule="evenodd"
+                                                            clipRule="evenodd"
+                                                            d="M27.3721 3.90252V5.85366H37.6923C38.0833 5.85366 38.4583 6.00784 38.7348 6.28228C39.0113 6.55673 39.1667 6.92895 39.1667 7.31707C39.1667 7.70519 39.0113 8.07742 38.7348 8.35186C38.4583 8.62631 38.0833 8.78049 37.6923 8.78049H35.1489L33.5251 34.4195C33.4302 35.9294 32.7595 37.3467 31.6494 38.3833C30.5393 39.4199 29.0731 39.998 27.5489 40H12.4512C10.9407 39.9783 9.49405 39.3915 8.40063 38.3569C7.30721 37.3222 6.64757 35.916 6.55362 34.4195L4.85518 8.78049H2.3077C1.91668 8.78049 1.54167 8.62631 1.26517 8.35186C0.988677 8.07742 0.833344 7.70519 0.833344 7.31707C0.833344 6.92895 0.988677 6.55673 1.26517 6.28228C1.54167 6.00784 1.91668 5.85366 2.3077 5.85366H12.6283V3.80495C12.6532 2.80361 13.0651 1.85011 13.7787 1.14183C14.4922 0.433555 15.4529 0.0247359 16.4617 0H23.5387C24.5643 0.0254581 25.5393 0.447827 26.2555 1.17695C26.9717 1.90607 27.3724 2.88419 27.3721 3.90252ZM24.4233 3.90252V5.85366H15.5771V3.90252C15.5771 3.66964 15.6703 3.4463 15.8362 3.28163C16.0021 3.11696 16.2271 3.02445 16.4617 3.02445H23.5387C23.7733 3.02445 23.9983 3.11696 24.1642 3.28163C24.3301 3.4463 24.4233 3.66964 24.4233 3.90252ZM9.40411 34.2439L7.8904 8.78049L32.1883 8.87805L30.596 34.2439C30.5414 35.0101 30.1971 35.7274 29.632 36.2522C29.0668 36.7769 28.3228 37.0702 27.5489 37.0732H12.4512C11.676 37.0748 10.9293 36.7831 10.3632 36.2574C9.7971 35.7318 9.45412 35.0117 9.40411 34.2439Z"
+                                                            fill="#0066be"
+                                                          />
+                                                        </svg>
+                                                      </button>
+                                                    </div>
+                                                  </div>
+                                                )
+                                              )}
+                                            </div>
+                                          </div>
+                                        </div>
+                                      ) : null}
+                                    </div>
+                                    <div>
+                                      <h5>Select color of:</h5>
+                                      <div className="d-flex align-items-center reg-color-set">
+                                        <div className="form-group d-flex align-items-center">
+                                          <label>Typed text</label>
+                                          <div className="color-pick">
+                                            <div className="color-pick-point">
+                                              <img
+                                                src={
+                                                  path_image +
+                                                  "color-picker.svg"
+                                                }
+                                                alt=""
+                                              />
+                                            </div>
+                                            <input
+                                              type="color"
+                                              title="Choose your color"
+                                              onChange={(e) =>
+                                                onColorChange(
+                                                  e,
+                                                  "typedTextColor"
+                                                )
+                                              }
+                                              value={
+                                                formData?.typedTextColor
+                                                  ? formData?.typedTextColor
+                                                  : ""
+                                              }
+                                            />
+                                          </div>
+                                        </div>
+                                        <div className="form-group d-flex align-items-center">
+                                          <label>Placeholder text</label>
+                                          <div className="color-pick">
+                                            <div className="color-pick-point">
+                                              <img
+                                                src={
+                                                  path_image +
+                                                  "color-picker.svg"
+                                                }
+                                                alt=""
+                                              />
+                                            </div>
+                                            <input
+                                              type="color"
+                                              title="Choose your color"
+                                              onChange={(e) =>
+                                                onColorChange(
+                                                  e,
+                                                  "placeholderTextColor"
+                                                )
+                                              }
+                                              value={
+                                                formData?.placeholderTextColor
+                                                  ? formData?.placeholderTextColor
+                                                  : ""
+                                              }
+                                            />
+                                          </div>
+                                        </div>
+                                        <div className="form-group d-flex align-items-center">
+                                          <label> Label </label>
+                                          <div className="color-pick">
+                                            <div className="color-pick-point">
+                                              <img
+                                                src={
+                                                  path_image +
+                                                  "color-picker.svg"
+                                                }
+                                                alt=""
+                                              />
+                                            </div>
+                                            <input
+                                              type="color"
+                                              title="Choose your color"
+                                              onChange={(e) =>
+                                                onColorChange(e, "labelColor")
+                                              }
+                                              value={
+                                                formData?.labelColor
+                                                  ? formData?.labelColor
+                                                  : ""
+                                              }
+                                            />
+                                          </div>
+                                        </div>
+                                        {/* <div className="form-group">
+                                          <label>Select Option color</label>
+                                          <div className="option-action">
+                                            <div className="color-pick">
+                                              <img
+                                                src={
+                                                  path_image +
+                                                  "color-picker.svg"
+                                                }
+                                                alt=""
+                                              />
+                                              <input
+                                                type="color"
+                                                title="Choose your color"
+                                                onChange={(e) =>
+                                                  onColorChange(
+                                                    e,
+                                                    "OptionColor"
+                                                  )
+                                                }
+                                                value={
+                                                  formData?.optionColor
+                                                    ? formData?.optionColor
+                                                    : ""
+                                                }
+                                              />
+                                            </div>
+                                          </div>
+                                        </div> */}
+
+                                        {/* <div className="form-group">
+                                        <label>Select background color</label>
+                                        <div className="option-action">
+                                          <div className="color-pick">
+                                            <img
+                                              src={
+                                                path_image + "color-picker.svg"
+                                              }
+                                              alt=""
+                                            />
+                                            <input
+                                              type="color"
+                                              title="Choose your color"
+                                              onChange={(e) =>
+                                                onColorChange(
+                                                  e,
+                                                  "backgroundColor"
+                                                )
+                                              }
+                                              value={
+                                                formData?.backgroundColor
+                                                  ? formData?.backgroundColor
+                                                  : ""
+                                              }
+                                            />
+                                          </div>
+                                        </div>
+                                      </div> */}
+                                      </div>
+                                    </div>
+                                    {/* <div className="dropdown-style">
+                                      <h5>Select color of dropdown list:</h5>
+                                      <div className="d-flex align-items-center reg-color-set">
+                                        <div className="form-group d-flex align-items-center">
+                                          <label>Options text color</label>
+                                          <div className="option-action">
+                                            <div className="color-pick">
+                                              <img
+                                                src={
+                                                  path_image +
+                                                  "color-picker.svg"
+                                                }
+                                                alt=""
+                                              />
+                                              <input
+                                                type="color"
+                                                title="Choose your color"
+                                                onChange={(e) =>
+                                                  onColorChange(
+                                                    e,
+                                                    "dropdownOptionColor"
+                                                  )
+                                                }
+                                                value={
+                                                  formData?.dropdownOptionColor
+                                                    ? formData?.dropdownOptionColor
+                                                    : ""
+                                                }
+                                              />
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div className="form-group d-flex align-items-center">
+                                          <label>Hovering bar</label>
+                                          <div className="option-action">
+                                            <div className="color-pick">
+                                              <img
+                                                src={
+                                                  path_image +
+                                                  "color-picker.svg"
+                                                }
+                                                alt=""
+                                              />
+                                              <input
+                                                type="color"
+                                                title="Choose your color"
+                                                onChange={(e) =>
+                                                  onColorChange(
+                                                    e,
+                                                    "dropdownHoveringColor"
+                                                  )
+                                                }
+                                                value={
+                                                  formData?.dropdownHoveringColor
+                                                    ? formData?.dropdownHoveringColor
+                                                    : ""
+                                                }
+                                              />
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div className="form-group d-flex align-items-center">
+                                          <label>Selected text</label>
+                                          <div className="option-action">
+                                            <div className="color-pick">
+                                              <img
+                                                src={
+                                                  path_image +
+                                                  "color-picker.svg"
+                                                }
+                                                alt=""
+                                              />
+                                              <input
+                                                type="color"
+                                                title="Choose your color"
+                                                onChange={(e) =>
+                                                  onColorChange(
+                                                    e,
+                                                    "selectedTextColor"
+                                                  )
+                                                }
+                                                value={
+                                                  formData?.selectedTextColor
+                                                    ? formData?.selectedTextColor
+                                                    : ""
+                                                }
+                                              />
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div> */}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </section>
+                        </div>
+                        {/* <div className="d-flex justify-content-center">
+                          <Button
+                            type="button"
+                            className="save btn-bordered"
+                            onClick={handlePreview}
+                          >
+                            Preview
+                          </Button>
+                          <Button type="submit" className="save">
+                            Save
+                          </Button>
+                        </div> */}
+
+                        {template[formData?.templateId]?.includes("logo") ? (
+                          <div className="form-group d-flex align-items-center less-spacer">
+                            <label>Upload Logo</label>
+                            <div
+                              className="logo-section"
+                            // onClick={(e) => handleFileSelect(e, "logoImageUrl")}
+                            >
+                              {!logo && (
+                                <>
+                                  <div>
+                                    <h5>Upload your file</h5>
+                                    <h6>(Recommended size 300 x 140)</h6>
+                                  </div>
+                                  <Button
+                                    className="upload-img"
+                                    onClick={(e) =>
+                                      handleFileSelect(e, "logoImageUrl")
+                                    }
+                                  >
+                                    Choose Your File
+                                  </Button>
+                                </>
+                              )}
+
+                              <img className="logo-img" src={logo} />
+                              <div className="logo-text header-text">
+                                {logo && (
+                                  <button
+                                    className="btn btn-outline-primary"
+                                    title="Edit user"
+                                    type="button"
+                                  >
+                                    <img
+                                      src={path + "edit-button.svg"}
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        handleFileSelect(e, "logoImageUrl");
+                                      }}
+                                    />
+                                  </button>
+                                )}
+
+                                {logo && (
+                                  <button
+                                    className="dlt_btn_event btn-voilet"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      handleDeleteLogoImage(e, "logoImageUrl");
+                                    }}
+                                  >
+                                    <img
+                                      title="Delete"
+                                      src={path_image + "delete-icon.svg"}
+                                      alt="Delete Row"
+                                    />
+                                  </button>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        ) : (
+                          ""
+                        )}
+
+                        {template[formData?.templateId]?.includes("logoOne") ? (
+                          <div className="form-group d-flex align-items-center less-spacer">
+                            <label>Upload First Logo</label>
+                            <div
+                              className="logo-section"
+                            // onClick={(e) => handleFileSelect(e, "logoImageUrl")}
+                            >
+                              {!logoOne && (
+                                <>
+                                  <div>
+                                    <h5>Upload your file</h5>
+                                    <h6>(Recommended size 300 x 140)</h6>
+                                  </div>
+                                  <Button
+                                    className="upload-img"
+                                    onClick={(e) =>
+                                      handleFileSelect(e, "logoOneImageUrl")
+                                    }
+                                  >
+                                    Choose Your File
+                                  </Button>
+                                </>
+                              )}
+
+                              <img className="logo-img" src={logoOne} />
+                              <div className="logo-text header-text">
+                                {logoOne && (
+                                  <button
+                                    className="btn btn-outline-primary"
+                                    title="Edit user"
+                                    type="button"
+                                  >
+                                    <img
+                                      src={path + "edit-button.svg"}
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        handleFileSelect(e, "logoOneImageUrl");
+                                      }}
+                                    />
+                                  </button>
+                                )}
+
+                                {logoOne && (
+                                  <button
+                                    className="dlt_btn_event btn-voilet"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      handleDeleteLogoOneImage(
+                                        e,
+                                        "logoOneImageUrl"
+                                      );
+                                    }}
+                                  >
+                                    <img
+                                      title="Delete"
+                                      src={path_image + "delete-icon.svg"}
+                                      alt="Delete Row"
+                                    />
+                                  </button>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        ) : (
+                          ""
+                        )}
+
+                        {template[formData?.templateId]?.includes("logoTwo") ? (
+                          <div className="form-group d-flex align-items-center less-spacer">
+                            <label>Upload Second Logo</label>
+                            <div
+                              className="logo-section"
+                            // onClick={(e) => handleFileSelect(e, "logoImageUrl")}
+                            >
+                              {!logoTwo && (
+                                <>
+                                  <div>
+                                    <h5>Upload your file</h5>
+                                    <h6>(Recommended size 300 x 140)</h6>
+                                  </div>
+                                  <Button
+                                    className="upload-img"
+                                    onClick={(e) =>
+                                      handleFileSelect(e, "logoTwoImageUrl")
+                                    }
+                                  >
+                                    Choose Your File
+                                  </Button>
+                                </>
+                              )}
+
+                              <img className="logo-img" src={logoTwo} />
+                              <div className="logo-text header-text">
+                                {logoTwo && (
+                                  <button
+                                    className="btn btn-outline-primary"
+                                    title="Edit user"
+                                    type="button"
+                                  >
+                                    <img
+                                      src={path + "edit-button.svg"}
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        handleFileSelect(e, "logoTwoImageUrl");
+                                      }}
+                                    />
+                                  </button>
+                                )}
+
+                                {logoTwo && (
+                                  <button
+                                    className="dlt_btn_event btn-voilet"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      handleDeleteLogoTwoImage(
+                                        e,
+                                        "logoTwoImageUrl"
+                                      );
+                                    }}
+                                  >
+                                    <img
+                                      title="Delete"
+                                      src={path_image + "delete-icon.svg"}
+                                      alt="Delete Row"
+                                    />
+                                  </button>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        ) : (
+                          ""
+                        )}
+
+                        {template[formData?.templateId]?.includes(
+                          "templateOne"
+                        ) ? (
+                          <div className="form-group d-flex align-items-center less-spacer">
+                            <label>Upload First Template</label>
+                            <div
+                              className="logo-section"
+                            // onClick={(e) => handleFileSelect(e, "logoImageUrl")}
+                            >
+                              {!templateOne && (
+                                <>
+                                  <div>
+                                    <h5>Upload your file</h5>
+                                    <h6>(Recommended size 300 x 140)</h6>
+                                  </div>
+                                  <Button
+                                    className="upload-img"
+                                    onClick={(e) =>
+                                      handleFileSelect(e, "templateOneImageUrl")
+                                    }
+                                  >
+                                    Choose Your File
+                                  </Button>
+                                </>
+                              )}
+
+                              <img
+                                className="templateOne-img"
+                                src={templateOne}
+                              />
+                              <div className="logo-text header-text">
+                                {templateOne && (
+                                  <button
+                                    className="btn btn-outline-primary"
+                                    title="Edit user"
+                                    type="button"
+                                  >
+                                    <img
+                                      src={path + "edit-button.svg"}
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        handleFileSelect(
+                                          e,
+                                          "templateOneImageUrl"
+                                        );
+                                      }}
+                                    />
+                                  </button>
+                                )}
+
+                                {templateOne && (
+                                  <button
+                                    className="dlt_btn_event btn-voilet"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      handleDeleteTemplateOneImage(
+                                        e,
+                                        "templateOneImageUrl"
+                                      );
+                                    }}
+                                  >
+                                    <img
+                                      title="Delete"
+                                      src={path_image + "delete-icon.svg"}
+                                      alt="Delete Row"
+                                    />
+                                  </button>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        ) : (
+                          ""
+                        )}
+
+                        {template[formData?.templateId]?.includes(
+                          "templateTwo"
+                        ) ? (
+                          <div className="form-group d-flex align-items-center less-spacer">
+                            <label>Upload Second Template</label>
+                            <div
+                              className="logo-section"
+                            // onClick={(e) => handleFileSelect(e, "logoImageUrl")}
+                            >
+                              {!templateTwo && (
+                                <>
+                                  <div>
+                                    <h5>Upload your file</h5>
+                                    <h6>(Recommended size 300 x 140)</h6>
+                                  </div>
+                                  <Button
+                                    className="upload-img"
+                                    onClick={(e) =>
+                                      handleFileSelect(e, "templateTwoImageUrl")
+                                    }
+                                  >
+                                    Choose Your File
+                                  </Button>
+                                </>
+                              )}
+
+                              <img
+                                className="templateTwo-img"
+                                src={templateTwo}
+                              />
+                              <div className="logo-text header-text">
+                                {templateTwo && (
+                                  <button
+                                    className="btn btn-outline-primary"
+                                    title="Edit user"
+                                    type="button"
+                                  >
+                                    <img
+                                      src={path + "edit-button.svg"}
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        handleFileSelect(
+                                          e,
+                                          "templateTwoImageUrl"
+                                        );
+                                      }}
+                                    />
+                                  </button>
+                                )}
+
+                                {templateTwo && (
+                                  <button
+                                    className="dlt_btn_event btn-voilet"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      handleDeleteTemplateTwoImage(
+                                        e,
+                                        "templateTwoImageUrl"
+                                      );
+                                    }}
+                                  >
+                                    <img
+                                      title="Delete"
+                                      src={path_image + "delete-icon.svg"}
+                                      alt="Delete Row"
+                                    />
+                                  </button>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        ) : (
+                          ""
+                        )}
+
+                        {template[formData?.templateId]?.includes("header") ? (
+                          <div className="form-group d-flex align-items-center less-spacer">
+                            <label>Upload Header</label>
+                            <div
+                              className="header-section"
+                            // onClick={(e) => handleFileSelect(e, "headerImageUrl")}
+                            >
+                              {!file && (
+                                <>
+                                  <div>
+                                    <h5>Upload your file</h5>
+                                    <h6>(Recommended size 1170 x 323)</h6>
+                                  </div>
+                                  <Button
+                                    className="upload-img"
+                                    onClick={(e) =>
+                                      handleFileSelect(e, "headerImageUrl")
+                                    }
+                                  >
+                                    Choose Your File
+                                  </Button>
+                                </>
+                              )}
+
+                              <img className="header-img" src={file} />
+                              <div className="header-text">
+                                {file && (
+                                  <button
+                                    className="btn btn-outline-primary"
+                                    title="Edit user"
+                                    type="button"
+                                  >
+                                    <img
+                                      src={path + "edit-button.svg"}
+                                      alt="Edit"
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        handleFileSelect(e, "headerImageUrl");
+                                      }}
+                                    />
+                                  </button>
+                                )}
+
+                                {file && (
+                                  <button
+                                    className="dlt_btn_event btn-voilet"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      handleDeleteHeaderImage(
+                                        e,
+                                        "headerImageUrl"
+                                      );
+                                    }}
+                                  >
+                                    <img
+                                      title="Delete"
+                                      src={path_image + "delete-icon.svg"}
+                                      alt="Delete Row"
+                                    />
+                                  </button>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        ) : (
+                          ""
+                        )}
+
+                        {template[formData?.templateId]?.includes("footer") ? (
+                          <div className="form-group d-flex align-items-center less-spacer">
+                            <label>Upload Footer</label>
+                            <div
+                              className="footer-section"
+                            // onClick={(e) => handleFileSelect(e, "footerImageUrl")}
+                            >
+                              {!foot && (
+                                <>
+                                  <div>
+                                    <h5>Upload your file</h5>
+                                    <h6>(Recommended size 1170 x 300)</h6>
+                                  </div>
+                                  <Button
+                                    className="upload-img"
+                                    onClick={(e) =>
+                                      handleFileSelect(e, "footerImageUrl")
+                                    }
+                                  >
+                                    Choose Your File
+                                  </Button>
+                                </>
+                              )}
+
+                              <img className="footer-img" src={foot} />
+                              <div className="footer-text">
+                                {foot && (
+                                  <button
+                                    className="btn btn-outline-primary"
+                                    title="Edit user"
+                                    type="button"
+                                  >
+                                    <img
+                                      src={path + "edit-button.svg"}
+                                      alt="Edit"
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        handleFileSelect(e, "footerImageUrl");
+                                      }}
+                                    />
+                                  </button>
+                                )}
+                                {foot && (
+                                  <button
+                                    className="dlt_btn_event btn-voilet"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      handleDeleteFooterImage(
+                                        e,
+                                        "footerImageUrl"
+                                      );
+                                    }}
+                                  >
+                                    <img
+                                      title="Delete"
+                                      src={path_image + "delete-icon.svg"}
+                                      alt="Delete Row"
+                                    />
+                                  </button>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        ) : (
+                          ""
+                        )}
+
+                        {/* <div className="form-group d-flex align-items-center less-spacer">
+                        <label>Upload Footer</label>
+                      <div
+                        className="footer-section"
+                        // onClick={(e) => handleFileSelect(e, "footerImageUrl")}
+                      >
+                        {!foot && (
+                          <>
+                            <div>
+                              <h5>Upload your file</h5>
+                              <h6>(Recommended size 000 x 000)</h6>
+                            </div>
+                            <Button className="upload-img"
+                              onClick={(e) =>
+                                handleFileSelect(e, "footerImageUrl")
+                              }
+                            >
+                              Choose Your File
+                            </Button>
+                          </>
+                        )}
+
+                        <img className="footer-img" src={foot} />
+                        <div className="footer-text">
+                          {foot && (
+                            <button
+                              className="btn btn-outline-primary"
+                              title="Edit user"
+                            >
+                              <img
+                                src={path + "edit-button.svg"}
+                                alt="Edit"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleFileSelect(e, "footerImageUrl");
+                                }}
+                              />
+                            </button>
+                          )}
+                          {foot && (
+                            <button
+                              className="dlt_btn_event btn-voilet"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleDeleteFooterImage(e, "footerImageUrl");
+                              }}
+                            >
+                              <img
+                                title="Delete"
+                                src={path_image + "delete-icon.svg"}
+                                alt="Delete Row"
+                              />
+                            </button>
+                          )}
+                        </div>
+                      </div>
+                      </div> */}
+
+                        {/* <div className="registration-preview">
+                            <div className="registration-form-view">
+
+                            </div>
+                    </div> */}
+                      </Form>
+                    </div>
+                  </Col>
+                  <Col md={5} sm={5}>
+                    <div className="register-page-right-view">
+                      <div className="register-page-action d-flex align-items-center justify-content-between">
+                        <p>
+                          Preview <span>(save it to see the changes)</span>
+                        </p>
+                        <Button
+                          onClick={(e) => saveClicked(e)}
+                          className="save"
+                        >
+                          Save
+                        </Button>
+
+                        <button
+                          className="btn btn-primary btn-bordered btn-voilet"
+                          // onClick={openPreviewThumbPopup}
+                          onClick={() => {
+                            if (activeIndex) {
+                              generate_thumb(activeIndex); // Pass the correct templateId
+                            } else {
+                              toast.warning("No template selected.");
+                            }
+                          }}
+                          style={{ margin: "0 0" }}
+                        >
+                          Generate Thumbnail
+                        </button>
+                      </div>
+
+                      <div className="register-popup">
+                        <div className="register-popup-view" ref={thumbnailRef}>
+                          <RegistrationPage
+                            type="preview"
+                            prevData={{
+                              eventId: eventData?.event_id,
+                              companyId: eventData?.company_id,
+                              content: JSON.stringify(formData),
+                              eventCode: event_code,
+                              isDataSaved: save,
+                            }}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </Col>
+                </Row>
+              </div>
+            ) : apiStatus ? (
+              <div className="select-template">
+                <h3>Please select the template first</h3>
+              </div>
+            ) : (
+              ""
+            )}
+          </div>
+        </div>
+      </Col>
+      <CommonAddQuestionModal
+        show={showModal}
+        onClose={handleAddQuestionModalClose}
+        handleSave={handleModalSave}
+        formLabel={formData?.body}
+        fieldData={fieldData}
+        dynamicFieldNo={dynamicFieldNo}
+      />{" "}
+      <ChangeCountry
+        show={changeCountry}
+        onClose={handleAddQuestionModalClose}
+        handleSave={handleModalSave}
+        formLabel={formData?.body}
+        fieldData={fieldData}
+        dynamicFieldNo={dynamicFieldNo}
+      />
+      <CommonExtensionModal
+        show={showExtensionModal}
+        onClose={handleExtensionModalClose}
+        handleSave={handleExtensionModalSave}
+        formLabel={formData?.body}
+        extensionData={extFieldData}
+        dynamicFieldNo={dynamicFieldNo}
+      />
+      <CommonConfirmModel
+        show={confirmationPopUp}
+        onClose={handleCommonConfirmModal}
+        onCloseCross={() => {
+          setConfirmationPopup(false);
+          setIsFormChange(true);
+        }}
+        fun={saveClicked}
+        popupMessage={popupMessage}
+        path_image={path_image}
+      />
+      {isPrevClicked && (
+        <Modal
+          show={isPrevClicked}
+          onHide={handleClose}
+          id="add_hcp"
+          className="event_edit"
+          size="lg"
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+        >
+          <Modal.Header>
+            <div className="modal-header">
+              <h5 className="modal-title" id="staticBackdropLabel">
+                Preview{" "}
+              </h5>
+              <button
+                type="button"
+                onClick={handleClose}
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+          </Modal.Header>
+          <Modal.Body>
+            <>
+              {/* <p>You are previewing the  saved data .</p> */}
+
+              {/* <iframe
+                src={`/event-registration?event=${event_code}`}
+                width="100%"
+                height="500px"
+                title="Event Registration"
+              /> */}
+              <div className="webinar-popup">
+                <RegistrationPage
+                  type="preview"
+                  prevData={{
+                    eventId: eventData?.event_id,
+                    companyId: eventData?.company_id,
+                    content: JSON.stringify(formData),
+                    eventCode: event_code,
+                    isDataSaved: save,
+                  }}
+                />
+              </div>
+            </>
+          </Modal.Body>
+        </Modal>
+      )}
+      <Modal
+        className="modal send-confirm"
+        id="delete-confirm"
+        show={showModalPreview}
+        onHide={handleCloseModal}
+      >
+        <Modal.Header>
+          <button
+            type="button"
+            className="btn-close"
+            data-bs-dismiss="modal"
+            onClick={handleCloseModal}
+          ></button>
+        </Modal.Header>
+        <Modal.Body>
+          <>
+            <img src={path_image + "alert.png"} alt="" />
+            <h4>Please Select Template First</h4>
+            <div className="modal-buttons">
+              <button
+                type="button"
+                className="btn btn-primary btn-bordered"
+                onClick={handleCloseModal}
+              >
+                Okay
+              </button>
+            </div>
+          </>
+        </Modal.Body>
+      </Modal>
+      {/* <Modal
+        className="modal send-confirm"
+        id="delete-confirm"
+        show={isSavedClicked}
+        onHide={()=>{
+          setIsSavedClicked(false)
+        }}
+      >
+        <Modal.Header>
+          <button
+            type="button"
+            className="btn-close"
+            data-bs-dismiss="modal"
+            onClick={()=>{
+              setIsSavedClicked(false)
+            }}
+          ></button>
+        </Modal.Header>
+        <Modal.Body>
+          <>
+            <img src={path_image + "success.png"} alt="" />
+            <h4>Data saved successfully!</h4>
+            <div className="modal-buttons">
+              <button
+                type="button"
+                className="btn btn-primary btn-bordered"
+                onClick={()=>{
+                  setIsSavedClicked(false)
+                }}
+              >
+                Okay
+              </button>
+            </div>
+          </>
+        </Modal.Body>
+      </Modal> */}
+    </>
+  );
+};
+
+export default WebinarRegistration;

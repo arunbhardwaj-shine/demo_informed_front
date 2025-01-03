@@ -14,6 +14,7 @@
 		"@react-pdf-viewer/default-layout": "^3.12.0",
 		"@react-pdf-viewer/page-navigation": "^3.12.0",
 		"@tinymce/tinymce-react": "^5.1.1",
+		"@vitejs/plugin-react": "^4.3.4",
 		"aos": "^3.0.0-beta.6",
 		"apisauce": "^3.1.0",
 		"axios": "^1.7.9",
@@ -68,10 +69,10 @@
 		"yup": "^1.6.1"
 	},
 	"scripts": {
-		"start": "react-scripts start",
-		"build": "react-scripts build",
-		"test": "react-scripts test",
-		"eject": "react-scripts eject"
+		"dev": "vite",
+		"build": "vite build",
+		"lint": "eslint .",
+		"preview": "vite preview"
 	},
 	"eslintConfig": {
 		"extends": [
@@ -96,6 +97,7 @@
 	},
 	"devDependencies": {
 		"@ckeditor/ckeditor5-alignment": "^44.1.0",
-		"@types/react-google-recaptcha": "^2.1.9"
+		"@types/react-google-recaptcha": "^2.1.9",
+		"vite": "^6.0.6"
 	}
 }

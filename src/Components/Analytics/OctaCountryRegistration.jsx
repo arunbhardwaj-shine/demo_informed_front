@@ -9,25 +9,26 @@ import exportData from "highcharts/modules/export-data";
 import HighchartsReact from "highcharts-react-official";
 import HighchartsMap from "highcharts/modules/map";
 import proj4 from "proj4";
-
-import MapModule from "highcharts/modules/map";
 import worldMap from "@highcharts/map-collection/custom/world.geo.json";
+
 import axios from "axios";
 import drilldown from "highcharts/modules/drilldown.js";
 
 import { Link } from "react-router-dom";
 import customWrap from "./customWrap";
 
-HighchartsMap(Highcharts);
+// HighchartsMap(Highcharts);
 
 // Load Highcharts modules
-require("highcharts/modules/map")(Highcharts);
-require("highcharts/modules/exporting")(Highcharts);
-exporting(Highcharts);
-exportData(Highcharts);
-drilldown(Highcharts);
-customWrap(Highcharts);
+// require("highcharts/modules/map")(Highcharts);
+// require("highcharts/modules/exporting")(Highcharts);
 
+// exporting(Highcharts);
+// exportData(Highcharts);
+// drilldown(Highcharts);
+// customWrap(Highcharts);
+
+//set image path
 let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
 const OctaCountryRegestration = () => {
   const [isDataFound, setIsDataFound] = useState(false);
@@ -35,6 +36,7 @@ const OctaCountryRegestration = () => {
   const mapData = useRef([]);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     getDataFromApi();
   }, []);
 
@@ -65,9 +67,9 @@ const OctaCountryRegestration = () => {
         <div className="custom-container">
           <Row>
             <div className="top-header">
-              <div className="page-title d-flex">
+              {/* <div className="page-title d-flex">
                 <h2>Octa Country Registration</h2>
-              </div>
+              </div> */}
             </div>
             <div className="create-change-content spc-content analytic-charts space-added">
               {isDataFound ? (
@@ -92,12 +94,14 @@ export default OctaCountryRegestration;
 
 const MapComponent = ({ data }) => {
   const [newData, setNewData] = useState();
-  // const [mapData, setMapData] = useState(null);
 
   const options = {
     chart: {
       map: "custom/world",
-     
+      proj4,
+      plotBackgroundColor: "#aad3df",
+      animation: false
+
     },
     title: {
       text: "Regions",
@@ -111,8 +115,8 @@ const MapComponent = ({ data }) => {
     series: [
       {
         name: "Basemap",
-        borderColor: "#A0A0A0",
-        nullColor: "rgba(200, 200, 200, 0.3)",
+        borderColor: "grey",
+        nullColor: "#93d38c",
         showInLegend: false,
         mapData: worldMap,
       },
@@ -129,15 +133,11 @@ const MapComponent = ({ data }) => {
         name: "Total Registrations",
         color: "black",
         data: newData,
-        dataLabels: {
-          enabled: true,
-          style: {
-            fontSize: "9px",
-          },
-          format: "{point.name}",
-        },
+
         tooltip: {
-          pointFormat: "{point.totalIndex}",
+          headerFormat: "",
+          pointFormat:
+            '<span style="font-weight: bold">Total Registration : {point.totalIndex}</span>',
         },
         showInLegend: false,
         marker: {
@@ -227,6 +227,7 @@ const PieComponent = ({ data }) => {
       plotBorderWidth: null,
       plotShadow: false,
       type: "pie",
+      height: "600",
     },
     title: {
       text: "",
@@ -246,6 +247,11 @@ const PieComponent = ({ data }) => {
         dataLabels: {
           enabled: true,
           format: "<b>{point.name}</b>: {point.percentage:.1f} %",
+          style: {
+            color: "rgb(0, 51, 153)", 
+            fill: "rgb(0, 51, 153)",
+            fontSize: "0.8em", 
+          },
         },
       },
     },
@@ -292,7 +298,11 @@ const TabComponent = ({ data }) => {
                   <Barcomponent
                     countries={region.countries}
                     countriesData={region.countries_data}
-                    title={region.region_name}
+                    //  title={region.region_name}
+                    title={`HCP (${region?.countries_data?.reduce(
+                      (acc, val) => acc + val,
+                      0
+                    )})`}
                   />
                 </Col>
               </Row>
@@ -339,7 +349,7 @@ const Barcomponent = ({ countries, countriesData, title }) => {
               },
             },
             title: {
-              text: " ",
+              text: "Country List",
             },
             xAxis: {
               categories: sortedCountries,
@@ -352,14 +362,14 @@ const Barcomponent = ({ countries, countriesData, title }) => {
               showTable: true,
               tableCaption: "",
             },
-            legend: {
-              reversed: true,
-              align: "center",
-              verticalAlign: "top",
-              floating: true,
-              x: 0,
-              y: 50,
-            },
+            // legend: {
+            //   reversed: true,
+            //   align: "center",
+            //   verticalAlign: "top",
+            //   floating: true,
+            //   x: 0,
+            //   y: 50,
+            // },
             yAxis: {
               min: 0,
               title: {
