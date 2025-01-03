@@ -4,10 +4,10 @@ import { Navigate } from "react-router-dom";
 
 // For GET requests
 const requestHelper = axios.create({
-  baseURL: import.meta.env.VITE_APP_API_KEY_NEW_DESIGN,
-  headers: {
-    "Content-Type": "application/json",
-  },
+  baseURL: process.env.REACT_APP_API_KEY_NEW_DESIGN,
+  // headers: {
+  //   "Content-Type": "application/json",
+  // },
 });
 
 const clearLocalStorageExcept = () => {

@@ -1,36 +1,17 @@
 import React, { useEffect, useState, useRef } from "react";
-import {
-  Button,
-  Col,
-  Dropdown,
-  Modal,
-  DropdownButton,
-  Form,
-  Row,
-  Tab,
-  Tabs,
-} from "react-bootstrap";
-import { useLocation, Link, useNavigate } from "react-router-dom";
-import { ENDPOINT } from "../../../axios/apiConfig";
-import { postFormData } from "../../../axios/apiHelper";
 import MessageModel from "../../../Model/MessageModel";
-import { toast } from "react-toastify";
-// import { QRCodeSVG } from "qrcode.react";
-import { usePdf } from "@mikecousins/react-pdf";
-import PDF from "react-pdf-js";
-import packageJson from "../../../../package.json";
-// import Viewer from "@phuocng/react-pdf-viewer";
-// import "@phuocng/react-pdf-viewer/cjs/react-pdf-viewer.css";
 import {
-  RotateEvent,
   PageChangeEvent,
   DocumentLoadEvent,
-  RenderPageProps,
-  ProgressBar,
   Viewer
 } from "@react-pdf-viewer/core";
 import '@react-pdf-viewer/core/lib/styles/index.css';
-let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
+import '@react-pdf-viewer/default-layout/lib/styles/index.css';
+import { pageNavigationPlugin } from '@react-pdf-viewer/page-navigation';
+import '@react-pdf-viewer/page-navigation/lib/styles/index.css';
+
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const RenderPdf = ({
   next,
   url,
@@ -43,11 +24,11 @@ const RenderPdf = ({
   customKey
 }) => {
   const [page, setPage] = useState(1);
-  const [scale, setScale] = useState(1);
   const [numPages, setNumPages] = useState(null);
   const [commanShow, setCommanShow] = useState(false);
   const [wordData, setWordData] = useState([]);
   const [modalMessage, setModalMessage] = useState("");
+  const [imgCanvasUrl, setImgCanvasUrl] = useState("");
   const [modalBtn, setModalBtn] = useState("");
   let total_pages = 1000;
  
@@ -57,18 +38,49 @@ const RenderPdf = ({
     }
   }, [trigger]);
 
- 
+  const defaultLayoutPluginInstance = defaultLayoutPlugin({
+    sidebarTabs: (defaultTabs) => [],
+    renderToolbar: (Toolbar) => {
+      return (
+          <Toolbar>
+              {({ CurrentPageInput, NumberOfPages }) => (
+                  <div
+                      style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          width: '100%',
+                          padding: '4px',
+                      }}
+                  >
+                      <CurrentPageInput
+                          style={{
+                              width: '50px',
+                              textAlign: 'center',
+                              marginRight: '4px',
+                              padding: '4px',
+                              border: '1px solid #ddd',
+                              borderRadius: '4px',
+                          }}
+                      />
+                      <span style={{ margin: '0 4px' }}>/</span>
+                      <NumberOfPages />
+                  </div>
+              )}
+          </Toolbar>
+      );
+  },
+  });
+  const pageNavigationPluginInstance = pageNavigationPlugin();
 
   const handleDocumentLoad = (e) => {
     total_pages = e.doc.numPages;
     setNumPages(e.doc.numPages);
     setModalMessage("");
     setModalBtn("");
-
     if (total_pages == 1) {
-      const mainDiv = document.getElementsByClassName("viewer-layout-main")[0];
-      const viewerInnerPage = mainDiv.querySelector(".viewer-inner-page");
-
+      const mainDiv = document.getElementsByClassName("rpv-core__inner-pages")[0];
+      const viewerInnerPage = mainDiv.querySelector(".rpv-core__inner-page");
       if (viewerInnerPage) {
         const viewerInnerPageHeight = viewerInnerPage.clientHeight;
         const scrollPdfHeight = document.querySelector('.scroll_pdf').clientHeight;
@@ -79,10 +91,18 @@ const RenderPdf = ({
     }
   };
 
-  const handlePageChange = (e) => {
+  const handlePageChange = (e: PageChangeEvent) => {
+    if(e.currentPage === 1){
+      var mainDiv = document.getElementsByClassName("rpv-core__inner-pages")[0];
+      let chd = mainDiv.getElementsByClassName("rpv-core__text-layer");
+      var canvas_layer = mainDiv.getElementsByClassName("rpv-core__canvas-layer")[0];
+      var canvas = canvas_layer.querySelector("canvas");
+      var dataURL = canvas.toDataURL("image/png");
+      setImgCanvasUrl(dataURL)
+    }
     setPage(e.currentPage);
-    var mainDiv = document.getElementsByClassName("viewer-layout-main")[0];
-    let chd = mainDiv.getElementsByClassName("viewer-text-layer");
+    var mainDiv = document.getElementsByClassName("rpv-core__inner-pages")[0];
+    let chd = mainDiv.getElementsByClassName("rpv-core__text-layer");
     setTimeout(function () {
       let node = chd[e.currentPage];
       if (typeof node !== "undefined") {
@@ -93,7 +113,6 @@ const RenderPdf = ({
           page: e.currentPage + 1,
           total: words,
         };
-
         wordData.push(wordsInfo);
       }
     }, 300);
@@ -114,24 +133,30 @@ const RenderPdf = ({
   };
 
   const publishClicked = async () => {
-    var mainDiv = document.getElementsByClassName("viewer-layout-main")[0];
-    let chd = mainDiv.getElementsByClassName("viewer-text-layer");
-    var canvas_layer = mainDiv.getElementsByClassName("viewer-canvas-layer")[0];
-    var canvas = canvas_layer.querySelector("canvas");
-    if (canvas == null) {
-      setModalMessage(
-        "All pages of this pdf have not loaded,Please reload to this pdf"
-      );
-      setModalBtn("");
-      setCommanShow(true);
-    } else {
-      var dataURL = canvas.toDataURL("image/png");
+    var dataURL = '';
+    if (numPages == 1) {
+      var mainDiv = document.getElementsByClassName("rpv-core__inner-pages")[0];
+      let chd = mainDiv.getElementsByClassName("rpv-core__text-layer");
+      var canvas_layer = mainDiv.getElementsByClassName("rpv-core__canvas-layer")[0];
+      var canvas = canvas_layer.querySelector("canvas");
+      dataURL = canvas.toDataURL("image/png");
+    }else{
+      dataURL = imgCanvasUrl;
+    }
+
+    if (dataURL && dataURL.startsWith('data:image/png;base64,')) {
       var file = dataURLtoBlob(dataURL);
       var fd = new FormData();
       fd.append("file", file);
       fd.append("data", JSON.stringify(wordData));
       handleNext(fd);
       setWordData([]);
+    } else {
+      setModalMessage(
+        "All pages of this pdf have not loaded,Please reload to this pdf"
+      );
+      setModalBtn("");
+      setCommanShow(true);
     }
   };
 
@@ -151,7 +176,6 @@ const RenderPdf = ({
 
   const scrollEve = (event) => {
     const target = event.target;
-    // if (target.scrollHeight - target.scrollTop  === target.clientHeight) {
     if (target.scrollHeight - target.scrollTop <= target.clientHeight + 70) {
       if (numPages == 1) {
         optimizeSinglePagePdf();
@@ -160,9 +184,9 @@ const RenderPdf = ({
   };
 
   const optimizeSinglePagePdf = () => {
-    var mainDiv = document.getElementsByClassName("viewer-layout-main")[0];
+    var mainDiv = document.getElementsByClassName("rpv-core__inner-pages")[0];
     if (typeof mainDiv !== "undefined") {
-      let chd = mainDiv.getElementsByClassName("viewer-text-layer");
+      let chd = mainDiv.getElementsByClassName("rpv-core__text-layer");
       setTimeout(function () {
         let node = chd[0];
         if (typeof node !== "undefined") {
@@ -211,6 +235,7 @@ const RenderPdf = ({
                 >
                  
                   <Viewer
+                    plugins={[defaultLayoutPluginInstance,pageNavigationPluginInstance]}
                     key={customKey}
                     onPageChange={handlePageChange}
                     onDocumentLoad={handleDocumentLoad}
