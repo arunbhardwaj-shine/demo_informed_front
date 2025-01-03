@@ -1,3 +1,4 @@
+
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
@@ -10,7 +11,7 @@ import { postData, postFormData } from "../../../axios/apiHelper";
 import { ENDPOINT } from "../../../axios/apiConfig";
 import SimpleReactValidator from "simple-react-validator";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
-import RenderPdf from "./LibraryTopics";
+import RenderPdf from "./RenderPdf";
 import Tooltip from "react-bootstrap/Tooltip";
 import {
   Button,
