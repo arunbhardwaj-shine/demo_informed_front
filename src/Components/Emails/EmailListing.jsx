@@ -101,11 +101,11 @@ const EmailList = (props) => {
     title: {
       text: "Mail campaign stats",
     },
-    plotOptions: {
-      column: {
-        depth: 25,
-      },
-    },
+    // plotOptions: {
+    //   column: {
+    //     depth: 25,
+    //   },
+    // },
     xAxis: {
       categories: ["Emails sent", "Emails opened"],
       labels: {
@@ -160,6 +160,9 @@ const EmailList = (props) => {
             );
           },
         },
+      },
+      column: {
+        depth: 25,
       },
     },
     series: [

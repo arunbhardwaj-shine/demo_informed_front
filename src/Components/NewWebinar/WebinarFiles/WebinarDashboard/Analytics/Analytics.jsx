@@ -335,7 +335,7 @@ const Analytics = (props) => {
           backgroundColor: "rgba(255,255,255)",
           borderColor: "rgba(0,0,0,0.9)",
           color: "rgba(0,0,0)",
-          borderWidth: 0.5,
+         // borderWidth: 0.5,
           enabled: true,
           borderRadius: 5,
           borderWidth: 1,

@@ -300,10 +300,12 @@ const colourStyles = {
     // console.log({ data, isDisabled, isFocused, isSelected });
     return {
       ...styles,
-      backgroundColor: isFocused ? "#ffffff" : null,
-      color: isFocused ? "#0066BE" : "#97B6CF",
-      backgroundColor: isSelected ? "#ffffff" : null,
-       color: isSelected ? "#0066BE!important" : "#97B6CF",
+      // backgroundColor: isFocused ? "#ffffff" : null,
+      // color: isFocused ? "#0066BE" : "#97B6CF",
+      // backgroundColor: isSelected ? "#ffffff" : null,
+      //  color: isSelected ? "#0066BE!important" : "#97B6CF",
+      backgroundColor: isFocused || isSelected ? "#ffffff" : null,
+      color: isFocused || isSelected ? "#0066BE" : "#97B6CF",
     };
   }
 };

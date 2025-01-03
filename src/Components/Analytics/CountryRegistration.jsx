@@ -130,7 +130,7 @@ const CountryRegistration = () => {
           name: "Country Registration",
           data: newData?.filter((country) => country.lat && country.lon),
           mapData: worldMap,
-          showInLegend: false,
+          //showInLegend: false,
           joinBy: ["name"],
           keys: ["code", "value"],
           tooltip: {

@@ -354,7 +354,7 @@ const TimelineDetail = (props) => {
       "profile-seeMore": "Profile.svg",
       "profile-setting": "Profile.svg",
       "Highlights": "Highlights.svg",
-      "Expert opinions played": "Expert_opinion.svg",
+    //  "Expert opinions played": "Expert_opinion.svg",
       "Symposium Highlights Video played": "Symposium_highlight.svg",
       "Symposium-add-to-library": "Symposium_highlight.svg",
       "Event-add-to-calendar": "Events.svg",

@@ -763,10 +763,12 @@ const PharmaRd = () => {
       console.log({ data, isDisabled, isFocused, isSelected });
       return {
         ...styles,
-        backgroundColor: isFocused ? "#0066BE" : null,
-        color: isFocused ? "#ffffff" : "#97B6CF",
-        backgroundColor: isSelected ? "#0066BE" : null,
-        color: isSelected ? "#ffffff!important" : "#97B6CF",
+        // backgroundColor: isFocused ? "#0066BE" : null,
+        // color: isFocused ? "#ffffff" : "#97B6CF",
+        // backgroundColor: isSelected ? "#0066BE" : null,
+        // color: isSelected ? "#ffffff!important" : "#97B6CF",
+        backgroundColor: isFocused || isSelected ? "#0066BE" : null,
+        color: isFocused || isSelected ? "#ffffff" : "#97B6CF",
       };
     }
   };
