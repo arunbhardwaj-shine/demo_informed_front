@@ -223,7 +223,7 @@ const AnalyticsRegions = () => {
                 // shape: "callout",
                 size: "100%",
                 style: {
-                  fontWeight: "normal",
+                  //fontWeight: "normal",
                   textShadow: "none",
                   color: "#0066BE",
                   fontWeight: "500",

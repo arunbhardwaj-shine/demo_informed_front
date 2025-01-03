@@ -504,7 +504,7 @@ const PharmaMarketing = () => {
       description:
         "Enhance HCP engagement at events. Add polls to presentations for personalised speaker-audience interaction. Immediate Q&A involvement empowers each HCP. Integrating votes and questions into CRM timelines aids post-event personalisation.",
       para: "",
-      features: ["", "", "", "", ""],
+      // features: ["", "", "", "", ""],
       features: [
         {
           keyFeature: "Real-time interaction and queries",
@@ -932,10 +932,12 @@ const PharmaMarketing = () => {
       // const color = chroma(data.color);
       return {
         ...styles,
-        backgroundColor: isFocused ? "#0066BE" : null,
-        color: isFocused ? "#ffffff" : "#97B6CF",
-        backgroundColor: isSelected ? "#0066BE" : null,
-        color: isSelected ? "#ffffff!important" : "#97B6CF",
+        // backgroundColor: isFocused ? "#0066BE" : null,
+        // color: isFocused ? "#ffffff" : "#97B6CF",
+        // backgroundColor: isSelected ? "#0066BE" : null,
+        // color: isSelected ? "#ffffff!important" : "#97B6CF",
+        backgroundColor: isFocused || isSelected ? "#0066BE" : null,
+        color: isFocused || isSelected ? "#ffffff" : "#97B6CF",
       };
     }
   };

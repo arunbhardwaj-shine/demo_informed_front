@@ -311,7 +311,7 @@ const PharmaRd = () => {
       description:
         "Beyond our elegant and user-friendly interfaces lies perhaps the most sophisticated and versatile technology accessible to publishers. Letting HCPs read on any device means flexibility for your clients and freedom to drive usage.",
       para: "Tailorable consent mechanisms, usage tracking, live analytics, multimedia content choices, and interactivity are all designed to enhance your client offer.",
-      features: ["", "", "", ""],
+      // features: ["", "", "", ""],
       features: [
         {
           keyFeature: "Secure and track limits agreed with client",
@@ -763,10 +763,12 @@ const PharmaRd = () => {
       console.log({ data, isDisabled, isFocused, isSelected });
       return {
         ...styles,
-        backgroundColor: isFocused ? "#0066BE" : null,
-        color: isFocused ? "#ffffff" : "#97B6CF",
-        backgroundColor: isSelected ? "#0066BE" : null,
-        color: isSelected ? "#ffffff!important" : "#97B6CF",
+        // backgroundColor: isFocused ? "#0066BE" : null,
+        // color: isFocused ? "#ffffff" : "#97B6CF",
+        // backgroundColor: isSelected ? "#0066BE" : null,
+        // color: isSelected ? "#ffffff!important" : "#97B6CF",
+        backgroundColor: isFocused || isSelected ? "#0066BE" : null,
+        color: isFocused || isSelected ? "#ffffff" : "#97B6CF",
       };
     }
   };
