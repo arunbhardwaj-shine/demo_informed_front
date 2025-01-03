@@ -9938,7 +9938,7 @@ section.search-hcp.smart-list-view .header-btn-left {
   font-size: 20px;
 }
 
-.viewer-annotation-layer a[href*="Clicklinks/video_player"] {
+.viewer-annotation-layer a[href*="Clicklinks/video_player"],.rpv-core__annotation-layer a[href*="Clicklinks/video_player"]{
   background: rgba(255, 255, 0, 0.2);
 }
 
