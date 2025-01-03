@@ -360,7 +360,7 @@ const ViewTable = (props) => {
       siteCityIndex: "",
       siteStreet: "",
       siteStreetIndex: "",
-      siteName: "",
+     
       siteNameIndex: "",
       siteIrt:
         (isLikeRdAccount)
@@ -374,7 +374,7 @@ const ViewTable = (props) => {
         ? irtInstitutionType?.[0]?.value
         : "",
       instituteIndex: isLikeRdAccount ? 0 : "",
-      siteNumber: "",
+      
       siteName: ""
     },
   ]);
@@ -732,8 +732,8 @@ const ViewTable = (props) => {
           subUserTypeIndex: "",
           blindType: "",
           blindTypeIndex: "",
-          siteNumber: "",
-          siteName: "",
+          // siteNumber: "",
+          // siteName: "",
           siteStreet: "",
           sitePostCode: "",
           siteCity: "",
