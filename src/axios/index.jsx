@@ -4,7 +4,7 @@ import { Navigate } from "react-router-dom";
 
 // For GET requests
 const requestHelper = axios.create({
-  baseURL: process.env.REACT_APP_API_KEY_NEW_DESIGN,
+  baseURL: import.meta.env.VITE_APP_API_KEY_NEW_DESIGN,
   // headers: {
   //   "Content-Type": "application/json",
   // },

@@ -16,7 +16,7 @@ import { ENDPOINT } from "../../../axios/apiConfig";
 import { postData, postFormData, getData } from "../../../axios/apiHelper";
 import MessageModel from "../../../Model/MessageModel";
 import { toast } from "react-toastify";
-import QRCodeSVG from "qrcode.react";
+// import QRCodeSVG from "qrcode.react";
 import packageJson from "../../../../package.json";
 // import Viewer from "@phuocng/react-pdf-viewer";
 // import "@phuocng/react-pdf-viewer/cjs/react-pdf-viewer.css";

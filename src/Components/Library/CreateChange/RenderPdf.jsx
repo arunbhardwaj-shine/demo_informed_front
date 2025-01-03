@@ -11,7 +11,7 @@ import '@react-pdf-viewer/default-layout/lib/styles/index.css';
 import { pageNavigationPlugin } from '@react-pdf-viewer/page-navigation';
 import '@react-pdf-viewer/page-navigation/lib/styles/index.css';
 
-let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
 const RenderPdf = ({
   next,
   url,
@@ -91,7 +91,7 @@ const RenderPdf = ({
     }
   };
 
-  const handlePageChange = (e: PageChangeEvent) => {
+  const handlePageChange = (e) => {
     if(e.currentPage === 1){
       var mainDiv = document.getElementsByClassName("rpv-core__inner-pages")[0];
       let chd = mainDiv.getElementsByClassName("rpv-core__text-layer");
