@@ -1209,7 +1209,7 @@ const ReadersListAdd = () => {
           lastName: data.lastname,
           email: data.email,
           country: data.country,
-          contact_type: data.contact_type,
+          contact_type: data?.contact_type ? data?.contact_type :"HCP",
           role: data.userType ? data.userType : "",
           subRole: data.subUserType ? data.subUserType : "",
           blindType: data.blindType ? data.blindType : "",
@@ -1220,7 +1220,6 @@ const ReadersListAdd = () => {
           siteCity: data.siteCity ? data.siteCity : "",
           irt:
             data.siteIrt == "Yes" ? "Yes" : data.siteIrt == "Training" ? 2 : "No",
-          "contact_type": "HCP",
           institute: data.institute ? data.institute : "",
         };
       });

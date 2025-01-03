@@ -586,7 +586,6 @@ const ReaderEdit = () => {
           [isSelectedName]: e,
           ["role"]: "Site User-Blinded",
           ["irt"]: 1,
-          ["role"]: userDetail?.userIrtRoles[0]?.value,
         });
       } else {
         setAddReaderInputs({
