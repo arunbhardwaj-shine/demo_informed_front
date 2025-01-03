@@ -990,7 +990,7 @@ span {
                 height: 24px;
                 margin-top: 0;
                 background: rgba(0, 102, 190, 0.2)
-                  url(../../../../public/componentAssets/images/toggle-white.svg)
+                  url(/componentAssets/images/toggle-white.svg)
                   no-repeat;
                 border: 0;
                 transition: background-position 0.15s ease-in-out;
@@ -1672,7 +1672,7 @@ span {
                   height: 24px;
                   margin-top: 0;
                   background: rgba(0, 102, 190, 0.2)
-                    url(../../../../public/componentAssets/images/toggle-white.svg)
+                    url(/componentAssets/images/toggle-white.svg)
                     no-repeat;
                   border: 0;
                   transition: background-position 0.15s ease-in-out;
@@ -1995,7 +1995,7 @@ span {
 
     &.choice2 {
       .informed-survey-header {
-        background: url(../../../../public/componentAssets/images/header-choicec2.png)
+        background: url(/componentAssets/images/header-choicec2.png)
           no-repeat 100%;
       }
     }
@@ -2343,7 +2343,7 @@ span {
         select {
           border-radius: 30px;
           background: $white
-            url(../../../../public/componentAssets/images/arrow-down-sign.svg)
+            url(/componentAssets/images/arrow-down-sign.svg)
             no-repeat 94% center;
           box-shadow: 0px 1px 6px 0px rgba(0, 0, 0, 0.16);
           padding: 10px 12px;
@@ -3447,7 +3447,7 @@ body {
   min-height: 100vh;
   align-items: center;
   padding: 90px 0 115px;
-  background: url(../../../../public/componentAssets/images/not_404.jpg)
+  background: url(/componentAssets/images/not_404.jpg)
     no-repeat;
   background-size: cover;
   position: relative;
@@ -3456,7 +3456,7 @@ body {
     content: "";
     position: absolute;
     bottom: 0;
-    background: url(../../../../public/componentAssets/images/notfound-bg-circle.svg)
+    background: url(/componentAssets/images/notfound-bg-circle.svg)
       no-repeat;
     background-size: 100%;
     width: 774px;
@@ -4046,7 +4046,7 @@ body {
     padding: 80px 31px 90px;
     justify-content: center !important;
     background-position: top center;
-    background: url(../../../../public/componentAssets/images/not-found-mob.png)
+    background: url(/componentAssets/images/not-found-mob.png)
       no-repeat;
     background-size: 100%;
 

@@ -9384,7 +9384,7 @@ svg.pencil_icon {
               margin: 0px;
               padding: 0px;
               position: absolute;
-              background: url(../../../../public/componentAssets/images/color-flow-icon1.png) no-repeat top;
+              background: url(/componentAssets/images/color-flow-icon1.png) no-repeat top;
               content: "";
               height: 29px;
               width: 29px;
@@ -9397,7 +9397,7 @@ svg.pencil_icon {
             }
 
             &.c-f2:after {
-              background: url(../../../../public/componentAssets/images/color-flow-icon2.png) no-repeat top;
+              background: url(/componentAssets/images/color-flow-icon2.png) no-repeat top;
               top: 0px;
               left: 10px;
               background-size: cover;
@@ -9548,7 +9548,7 @@ svg.pencil_icon {
         z-index: 99;
         margin: 0px;
         padding: 0px;
-        background: url(../../../../public/componentAssets/images/celander-img.png) no-repeat right top;
+        background: url(/componentAssets/images/celander-img.png) no-repeat right top;
         width: 100%;
 
         .quick-inr {
@@ -10073,7 +10073,7 @@ svg.pencil_icon {
 }
 
 .default-layout {
-  background: #fbfcfd url(../../../../public/componentAssets/images/informed-bigger.svg);
+  background: #fbfcfd url(/componentAssets/images/informed-bigger.svg);
   background-repeat: no-repeat;
   background-position: left bottom;
   background-size: 225px;
@@ -15974,7 +15974,7 @@ img.change-password-image {
                 font-weight: 500;
                 padding: 10px 18px 10px 24px;
                 border: 0.5px solid transparent;
-                background-image: url(../../../../public/componentAssets/images/dropdown-arrow.svg);
+                background-image: url(/componentAssets/images/dropdown-arrow.svg);
                 background-repeat: no-repeat;
                 background-size: 16px;
                 transition: transform 0.2s ease-in-out;
@@ -16196,7 +16196,7 @@ img.change-password-image {
             top: 50%;
             transform: translateY(-50%);
             right: 17px;
-            background: url(../../../../public/componentAssets/images/accordian_arrow.svg) no-repeat;
+            background: url(/componentAssets/images/accordian_arrow.svg) no-repeat;
             background-size: 16px;
             width: 16px;
             height: 10px;
@@ -17624,7 +17624,7 @@ table {
             top: 50%;
             transform: translateY(-50%);
             right: 17px;
-            background: url(../../../../public/componentAssets/images/accordian_arrow.svg) no-repeat;
+            background: url(/componentAssets/images/accordian_arrow.svg) no-repeat;
             background-size: 16px;
             width: 16px;
             height: 10px;
@@ -18033,7 +18033,7 @@ table {
 
           .accordion-header {
             button {
-              background: $white url(../../../../public/componentAssets/images/accordian_arrow.svg) no-repeat;
+              background: $white url(/componentAssets/images/accordian_arrow.svg) no-repeat;
               background-size: 16px;
               transition: all 0.2s ease-out 0s;
               background-origin: content-box;
@@ -19593,7 +19593,7 @@ table {
 
 .landing-banner {
   box-shadow: 0px 1px 32px 0px rgba(0, 74, 137, 0.5);
-  background: #68d1e8 url(../../../../public/componentAssets/images/banner-bg-shade.png) no-repeat;
+  background: #68d1e8 url(/componentAssets/images/banner-bg-shade.png) no-repeat;
   // position: sticky;
   // top: 0;
   background-size: cover;
@@ -19601,17 +19601,17 @@ table {
   // width: 100%;
 
   &.pharma {
-    background: $primary-color url(../../../../public/componentAssets/images/pharma-marketing-bg.png) no-repeat;
+    background: $primary-color url(/componentAssets/images/pharma-marketing-bg.png) no-repeat;
     background-size: cover;
   }
 
   &.rd {
-    background: #af8acd url(../../../../public/componentAssets/images/pharma-rd-bg.png) no-repeat;
+    background: #af8acd url(/componentAssets/images/pharma-rd-bg.png) no-repeat;
     background-size: cover;
   }
 
   &.publish {
-    background: $secondary-green url(../../../../public/componentAssets/images/publisher-bg.png) no-repeat;
+    background: $secondary-green url(/componentAssets/images/publisher-bg.png) no-repeat;
     background-size: cover;
 
     .circular-ring {
@@ -19625,7 +19625,7 @@ table {
 
       .circle {
         &.circle-inner1 {
-          background: url(../../../../public/componentAssets/images/publisher-circle-bg.svg) no-repeat;
+          background: url(/componentAssets/images/publisher-circle-bg.svg) no-repeat;
           background-position: center center;
         }
 
@@ -19861,7 +19861,7 @@ table {
       border: 0;
       width: calc(100% - 50px);
       height: calc(100% - 50px);
-      background: url(../../../../public/componentAssets/images/main-small-circle-landing.svg) no-repeat;
+      background: url(/componentAssets/images/main-small-circle-landing.svg) no-repeat;
       background-size: 100%;
       background-position: center;
       .circle-half-bigger {
@@ -20089,7 +20089,7 @@ table {
 
       .circle {
         &.circle-inner1 {
-          background: url(../../../../public/componentAssets/images/rd-circle-bg.svg) no-repeat;
+          background: url(/componentAssets/images/rd-circle-bg.svg) no-repeat;
           background-position: center;
         }
 
@@ -20254,7 +20254,7 @@ table {
       &.circle-inner1 {
         width: calc(100% - 100px);
         height: calc(100% - 100px);
-        background: url(../../../../public/componentAssets/images/pharma-circle-bg.svg) no-repeat;
+        background: url(/componentAssets/images/pharma-circle-bg.svg) no-repeat;
         background-position: center;
 
         .icon-block {
@@ -20811,7 +20811,7 @@ table {
     margin: 20px auto 0;
     padding: 125px 0 0;
     position: relative;
-    background: url(../../../../public/componentAssets/images/ellipse-half.png) no-repeat;
+    background: url(/componentAssets/images/ellipse-half.png) no-repeat;
     background-size: 100%;
 
     &.pharm-page {
@@ -20894,7 +20894,7 @@ table {
 }
 
 .contact-us {
-  background: #68d1e8 url(../../../../public/componentAssets/images/contact-bg.png) no-repeat;
+  background: #68d1e8 url(/componentAssets/images/contact-bg.png) no-repeat;
   background-size: cover;
   box-shadow: 0px 1px 32px 0px rgba(0, 74, 137, 0.5);
   margin: -15px 0 0;
@@ -20924,7 +20924,7 @@ table {
   }
 
   &.pharma {
-    background: $primary-color url(../../../../public/componentAssets/images/pharma-contact-bg.png) no-repeat;
+    background: $primary-color url(/componentAssets/images/pharma-contact-bg.png) no-repeat;
     box-shadow: 0px 1px 32px 0px rgba(0, 102, 190, 0.16);
     background-size: cover;
 
@@ -20936,13 +20936,13 @@ table {
   }
 
   &.rd {
-    background: url(../../../../public/componentAssets/images/rd-contact-bg.jpg) no-repeat;
+    background: url(/componentAssets/images/rd-contact-bg.jpg) no-repeat;
     box-shadow: 0px 1px 32px 0px rgba(0, 102, 190, 0.16);
     background-size: cover;
   }
 
   &.publish {
-    background: $secondary-green url(../../../../public/componentAssets/images/publisher-contact.png) no-repeat;
+    background: $secondary-green url(/componentAssets/images/publisher-contact.png) no-repeat;
     background-size: cover;
     box-shadow: 0px 1px 32px 0px rgba(0, 102, 190, 0.16);
 
@@ -21060,7 +21060,7 @@ table {
             font-size: 14px;
             font-weight: 400;
             color: $white;
-            background-image: url(../../../../public/componentAssets/images/dropdown-arrow-contact.svg);
+            background-image: url(/componentAssets/images/dropdown-arrow-contact.svg);
             background-repeat: no-repeat;
           }
 
@@ -21204,7 +21204,7 @@ table {
 
           .split-button-dropup {
             >div:nth-child(3) {
-              background-image: url(../../../../public/componentAssets/images/rd-dropdown-arrow-contact.svg);
+              background-image: url(/componentAssets/images/rd-dropdown-arrow-contact.svg);
               box-shadow: 0px 1px 6px 0px rgba(0, 0, 60, 0.12);
             }
           }
@@ -25019,7 +25019,7 @@ table {
           top: 50%;
           transform: translateY(-50%);
           right: 17px;
-          background: url(../../../../public/componentAssets/images/accordian_arrow.svg) no-repeat;
+          background: url(/componentAssets/images/accordian_arrow.svg) no-repeat;
           background-size: 16px;
           width: 16px;
           height: 10px;
@@ -25034,7 +25034,7 @@ table {
           &:after {
             content: "";
             transform: rotate(180deg) translateY(5px);
-            background: url(../../../../public/componentAssets/images/accordian_arrow.svg) no-repeat;
+            background: url(/componentAssets/images/accordian_arrow.svg) no-repeat;
           }
         }
       }
@@ -25701,7 +25701,7 @@ table {
 /**Sunshine login, register**/
 .sunshine-account{
 min-height: 100vh;
-background: url(../../../../public/componentAssets/images/sunshine-bg.jpg) no-repeat;
+background: url(/componentAssets/images/sunshine-bg.jpg) no-repeat;
 background-size: cover;
 
 .sunshine-account-inset {
@@ -25772,7 +25772,7 @@ background-size: cover;
             color:$dark-blue;
             &>div:nth-child(3) {
               background-size: 12px;
-              background: $white url(../../../../public/componentAssets/images/dropdown_img.svg) no-repeat;
+              background: $white url(/componentAssets/images/dropdown_img.svg) no-repeat;
               background-position: 93%;
               border: 0;
               border-radius: 30px;
@@ -29712,14 +29712,14 @@ background-size: cover;
   }
 
   .landing-banner {
-    background: url(../../../../public/componentAssets/images/landing-mobile-bg.jpg) no-repeat;
+    background: url(/componentAssets/images/landing-mobile-bg.jpg) no-repeat;
     background-position: center;
     background-size: cover;
     min-height: 90vh;
 
 
     &.pharma {
-      background: url(../../../../public/componentAssets/images/landing-pharma-header-bg.jpg) no-repeat;
+      background: url(/componentAssets/images/landing-pharma-header-bg.jpg) no-repeat;
       background-size: cover;
 
       .landing-heading {
@@ -29983,7 +29983,7 @@ background-size: cover;
     }
 
     &.rd {
-      background: url(../../../../public/componentAssets/images/landing-rd-header-bg.jpg) no-repeat;
+      background: url(/componentAssets/images/landing-rd-header-bg.jpg) no-repeat;
       background-size: cover;
 
       .landing-heading {
@@ -29995,7 +29995,7 @@ background-size: cover;
     }
 
     &.publish {
-      background: url(../../../../public/componentAssets/images/landing-publisher-header-bg.jpg) no-repeat;
+      background: url(/componentAssets/images/landing-publisher-header-bg.jpg) no-repeat;
       background-size: cover;
     }
 
@@ -30195,23 +30195,23 @@ background-size: cover;
   }
 
   .contact-us {
-    background: url(../../../../public/componentAssets/images/contact-bg-mobile.jpg) no-repeat;
+    background: url(/componentAssets/images/contact-bg-mobile.jpg) no-repeat;
     padding: 55px 0 57px;
     background-size: cover;
     background-position: center;
 
     &.pharma {
-      background: url(../../../../public/componentAssets/images/pharma-contact-bg1.png) no-repeat;
+      background: url(/componentAssets/images/pharma-contact-bg1.png) no-repeat;
       background-size: cover;
     }
 
     &.publish {
-      background: url(../../../../public/componentAssets/images/publisher-contact-bg.png) no-repeat;
+      background: url(/componentAssets/images/publisher-contact-bg.png) no-repeat;
       background-size: cover;
     }
 
     &.rd {
-      background: url(../../../../public/componentAssets/images/rd-contact-bg-mobile.jpg) no-repeat;
+      background: url(/componentAssets/images/rd-contact-bg-mobile.jpg) no-repeat;
       background-size: cover;
     }
 

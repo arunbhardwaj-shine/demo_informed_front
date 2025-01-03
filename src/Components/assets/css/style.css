@@ -2765,7 +2765,7 @@ form .input-group {
   top: 50%;
   transform: translateY(-50%);
   right: 17px;
-  background: url(../../../../public/componentAssets/images/accordian_arrow.svg) no-repeat;
+  background: url(/componentAssets/images/accordian_arrow.svg) no-repeat;
   background-size: 16px;
   width: 16px;
   height: 10px;
@@ -3541,7 +3541,7 @@ h5 {
 }
 
 .search-hcp .accordion .accordion-item button.accordion-button:after {
-  background: url(../../../../public/componentAssets/images/accordian_arrow.svg) no-repeat;
+  background: url(/componentAssets/images/accordian_arrow.svg) no-repeat;
   background-position: center;
   margin-right: 10px;
   position: absolute;

@@ -6930,7 +6930,7 @@ svg.pencil_icon {
               margin: 0px;
               padding: 0px;
               position: absolute;
-              background: url(../../../../public/componentAssets/images/color-flow-icon1.png) no-repeat top;
+              background: url(/componentAssets/images/color-flow-icon1.png) no-repeat top;
               content: "";
               height: 29px;
               width: 29px;
@@ -6943,7 +6943,7 @@ svg.pencil_icon {
             }
 
             &.c-f2:after {
-              background: url(../../../../public/componentAssets/images/color-flow-icon2.png) no-repeat top;
+              background: url(/componentAssets/images/color-flow-icon2.png) no-repeat top;
               top: 0px;
               left: 10px;
               background-size: cover;
@@ -7094,7 +7094,7 @@ svg.pencil_icon {
         z-index: 99;
         margin: 0px;
         padding: 0px;
-        background: url(../../../../public/componentAssets/images/celander-img.png) no-repeat right top;
+        background: url(/componentAssets/images/celander-img.png) no-repeat right top;
         width: 100%;
 
         .quick-inr {
@@ -7619,7 +7619,7 @@ svg.pencil_icon {
 }
 
 .default-layout {
-  background: #fbfcfd url(../../../../public/componentAssets/images/informed-bigger.svg);
+  background: #fbfcfd url(/componentAssets/images/informed-bigger.svg);
   background-repeat: no-repeat;
   background-position: left bottom;
   background-size: 225px;
@@ -12635,7 +12635,7 @@ img.change-password-image {
             top: 50%;
             transform: translateY(-50%);
             right: 17px;
-            background: url(../../../../public/componentAssets/images/accordian_arrow.svg) no-repeat;
+            background: url(/componentAssets/images/accordian_arrow.svg) no-repeat;
             background-size: 16px;
             width: 16px;
             height: 10px;
@@ -14346,17 +14346,17 @@ img.change-password-image {
   // width: 100%;
 
   &.pharma {
-    background: $primary-color url(../../../../public/componentAssets/images/pharma-marketing-bg.png) no-repeat;
+    background: $primary-color url(/componentAssets/images/pharma-marketing-bg.png) no-repeat;
     background-size: cover;
   }
 
   &.rd {
-    background: #af8acd url(../../../../public/componentAssets/images/pharma-rd-bg.png) no-repeat;
+    background: #af8acd url(/componentAssets/images/pharma-rd-bg.png) no-repeat;
     background-size: cover;
   }
 
   &.publish {
-    background: $secondary-green url(../../../../public/componentAssets/images/publisher-bg.png) no-repeat;
+    background: $secondary-green url(/componentAssets/images/publisher-bg.png) no-repeat;
     background-size: cover;
 
     .circular-ring {
@@ -14370,7 +14370,7 @@ img.change-password-image {
 
       .circle {
         &.circle-inner1 {
-          background: url(../../../../public/componentAssets/images/publisher-circle-bg.svg) no-repeat;
+          background: url(/componentAssets/images/publisher-circle-bg.svg) no-repeat;
           background-position: center center;
         }
 
@@ -14598,7 +14598,7 @@ img.change-password-image {
     border: 0;
     width: calc(100% - 50px);
     height: calc(100% - 50px);
-    background: url(../../../../public/componentAssets/images/main-small-circle-landing.svg) no-repeat;
+    background: url(/componentAssets/images/main-small-circle-landing.svg) no-repeat;
     background-size: 100%;
     background-position: center;
   }
@@ -14835,7 +14835,7 @@ img.change-password-image {
 
       .circle {
         &.circle-inner1 {
-          background: url(../../../../public/componentAssets/images/rd-circle-bg.svg) no-repeat;
+          background: url(/componentAssets/images/rd-circle-bg.svg) no-repeat;
           background-position: center;
         }
 
@@ -15000,7 +15000,7 @@ img.change-password-image {
       &.circle-inner1 {
         width: calc(100% - 100px);
         height: calc(100% - 100px);
-        background: url(../../../../public/componentAssets/images/pharma-circle-bg.svg) no-repeat;
+        background: url(/componentAssets/images/pharma-circle-bg.svg) no-repeat;
         background-position: center;
         // animation: circle-rotate-reverse 26s linear infinite;
         // -webkit-animation: circle-rotate-reverse 26s linear infinite;
@@ -15433,7 +15433,7 @@ img.change-password-image {
   }
 
   &.pharma {
-    background: $primary-color url(../../../../public/componentAssets/images/pharma-contact-bg.png) no-repeat;
+    background: $primary-color url(/componentAssets/images/pharma-contact-bg.png) no-repeat;
     box-shadow: 0px 1px 32px 0px rgba(0, 102, 190, 0.16);
     background-size: cover;
 
@@ -15445,13 +15445,13 @@ img.change-password-image {
   }
 
   &.rd {
-    background: #af8acd url(../../../../public/componentAssets/images/rd-contact-bg.png) no-repeat;
+    background: #af8acd url(/componentAssets/images/rd-contact-bg.png) no-repeat;
     box-shadow: 0px 1px 32px 0px rgba(0, 102, 190, 0.16);
     background-size: cover;
   }
 
   &.publish {
-    background: $secondary-green url(../../../../public/componentAssets/images/publisher-contact.png) no-repeat;
+    background: $secondary-green url(/componentAssets/images/publisher-contact.png) no-repeat;
     background-size: cover;
     box-shadow: 0px 1px 32px 0px rgba(0, 102, 190, 0.16);
 
@@ -15568,7 +15568,7 @@ img.change-password-image {
             font-size: 14px;
             font-weight: 400;
             color: $white;
-            background-image: url(../../../../public/componentAssets/images/dropdown-arrow-contact.svg);
+            background-image: url(/componentAssets/images/dropdown-arrow-contact.svg);
             background-repeat: no-repeat;
           }
 
@@ -18848,7 +18848,7 @@ img.change-password-image {
           top: 50%;
           transform: translateY(-50%);
           right: 17px;
-          background: url(../../../../public/componentAssets/images/accordian_arrow.svg) no-repeat;
+          background: url(/componentAssets/images/accordian_arrow.svg) no-repeat;
           background-size: 16px;
           width: 16px;
           height: 10px;
@@ -18863,7 +18863,7 @@ img.change-password-image {
           &:after {
             content: "";
             transform: rotate(180deg) translateY(5px);
-            background: url(../../../../public/componentAssets/images/accordian_arrow.svg) no-repeat;
+            background: url(/componentAssets/images/accordian_arrow.svg) no-repeat;
           }
         }
       }
@@ -21933,13 +21933,13 @@ img.change-password-image {
   }
 
   .landing-banner {
-    background: url(../../../../public/componentAssets/images/landing-mobile-bg.jpg) no-repeat;
+    background: url(/componentAssets/images/landing-mobile-bg.jpg) no-repeat;
     background-position: center;
     background-size: cover;
     min-height: 90vh;
 
     &.pharma {
-      background: url(../../../../public/componentAssets/images/landing-pharma-header-bg.jpg) no-repeat;
+      background: url(/componentAssets/images/landing-pharma-header-bg.jpg) no-repeat;
       background-size: cover;
 
       .landing-heading {
@@ -22203,7 +22203,7 @@ img.change-password-image {
     }
 
     &.publish {
-      background: url(../../../../public/componentAssets/images/landing-publisher-header-bg.jpg) no-repeat;
+      background: url(/componentAssets/images/landing-publisher-header-bg.jpg) no-repeat;
       background-size: cover;
     }
 
@@ -22384,18 +22384,18 @@ img.change-password-image {
   }
 
   .contact-us {
-    background: url(../../../../public/componentAssets/images/contact-bg-mobile.jpg) no-repeat;
+    background: url(/componentAssets/images/contact-bg-mobile.jpg) no-repeat;
     padding: 55px 0 57px;
     background-size: cover;
     background-position: center;
 
     &.pharma {
-      background: url(../../../../public/componentAssets/images/pharma-contact-bg1.png) no-repeat;
+      background: url(/componentAssets/images/pharma-contact-bg1.png) no-repeat;
       background-size: cover;
     }
 
     &.publish {
-      background: url(../../../../public/componentAssets/images/publisher-contact-bg.png) no-repeat;
+      background: url(/componentAssets/images/publisher-contact-bg.png) no-repeat;
       background-size: cover;
     }
 
