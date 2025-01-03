@@ -1,6 +1,8 @@
 @use "sass:math";
-@import "../src/Components/assets/css/mixins";
-@import "../src/Components/assets/css/variables";
+// @import "../src/Components/assets/css/mixins";
+// @import "../src/Components/assets/css/variables";
+@use "../src/Components/assets/css/variables" as *;
+@use "../src/Components/assets/css/mixins" as *;
 .App {
   text-align: center;
 }

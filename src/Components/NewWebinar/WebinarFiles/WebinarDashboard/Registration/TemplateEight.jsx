@@ -1,0 +1,202 @@
+import React from "react";
+import { Col, Row } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import moment from "moment";
+let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+
+export default function TemplateEight({ children, formData }) {
+  const eventData = formData?.raw_description;
+  let eventDataSample = formData?.content?.eventDetails;
+
+  let formattedDateRange = "";
+  const startDate = moment(
+    new Date(
+      eventDataSample?.eventStartDate?.value
+        ? eventDataSample?.eventStartDate?.value
+        : eventData.dateStart
+    ),
+    "YYYY-MM-DD"
+  );
+  const endDate = moment(
+    new Date(
+      eventDataSample?.eventEndDate?.value
+        ? eventDataSample?.eventEndDate?.value
+        : eventData.dateEnd
+    ),
+    "YYYY-MM-DD"
+  );
+  if (startDate.isSame(endDate, "day")) {
+    formattedDateRange = startDate.format("D. MMMM YYYY");
+  } else if (startDate.isSame(endDate, "month")) {
+    formattedDateRange = `${startDate.format("D")} - ${endDate.format(
+      "D. MMMM YYYY"
+    )}`;
+  } else {
+    formattedDateRange = `${startDate.format("D. MMMM")} - ${endDate.format(
+      "D. MMMM YYYY"
+    )}`;
+  }
+
+  const eventStartTime = eventDataSample?.eventStartTime?.value ?? `${eventData?.dateStartHour  }:${eventData?.dateStartMin}`?? "00:00";
+  const eventEndTime = eventDataSample?.eventEndTime?.value ?? `${eventData?.dateEndHour  }:${eventData?.dateEndMin}` ?? "00:00";
+
+
+  function convertTo12HourFormat(time) {
+    const [hours, minutes] = time.split(":");
+    const formattedTime = new Date(`2000-01-01T${time}:00`);
+    return formattedTime.toLocaleTimeString("en-US", {
+      hour: "numeric",
+      minute: "numeric",
+      hour12: false,
+    });
+  }
+  const convertedStartTime = convertTo12HourFormat(eventStartTime);
+  const convertedEndTime = convertTo12HourFormat(eventEndTime);
+  const timeRange = `${convertedStartTime} - ${convertedEndTime}`;
+
+  return (
+    <>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
+      <div className="wrapper octapharma-one">
+        <div
+          className="octapharma_event"
+          style={{ background: `${formData?.content?.backgroundColor}` }}
+        >
+          <div className="octapharma_event_content">
+           <h4
+              style={{
+                color: formData?.content?.eventDetails?.pageTitle?.color,
+              }}
+              dangerouslySetInnerHTML={{
+                __html: formData?.content?.eventDetails?.pageTitle?.value,
+              }}
+            >
+            </h4> 
+
+            <h4
+              style={{
+                color: formData?.content?.eventDetails?.bodyText?.color,
+              }}
+            >
+              {formData?.content?.eventDetails?.bodyText?.value}
+            </h4>
+
+            <h3
+              style={{
+                color: formData?.content?.eventDetails?.SubTitle?.color,
+              }}
+              dangerouslySetInnerHTML={{
+                __html: formData?.content?.eventDetails?.SubTitle?.value,
+              }}
+            >
+            </h3>
+
+            <div className="speaker">
+              <h4
+                className="mb-4"
+                style={{
+                  color: eventDataSample?.speakerName?.color,
+                }}
+                dangerouslySetInnerHTML={{
+                  __html: eventDataSample?.speakerName?.value
+                    ? `${eventDataSample.speakerName.value}${
+                        formData?.content?.eventDetails?.Specialization?.value
+                          ? ","
+                          : ""
+                      }`
+                    : `${eventData?.speaker_name}${
+                        formData?.content?.eventDetails?.Specialization?.value
+                          ? ","
+                          : ""
+                      }`,
+                }}
+              >
+              </h4>
+
+              <h4
+                style={{
+                  color: formData?.content?.eventDetails?.Specialization?.color,
+                }}
+                className="speaker-specialization"
+                dangerouslySetInnerHTML={{
+                  __html:
+                    formData?.content?.eventDetails?.Specialization?.value,
+                }}
+              >
+              </h4>
+            </div>
+
+            <h4 style={{
+                              color: formData?.content?.eventDetails?.eventDateDetails?.color,
+                            }} dangerouslySetInnerHTML={{
+              __html: `${formData?.content?.eventDetails?.eventDateDetails?.value?formData?.content?.eventDetails?.eventDateDetails?.value:""}`
+            }}>
+            </h4>
+
+            {formData?.content?.eventDetails?.SubHeading?.value ? (
+              <p style={{
+                color: formData?.content?.eventDetails?.SubHeading?.color,
+              }}
+                class="speaker-specialization"
+                dangerouslySetInnerHTML={{
+                  __html: formData?.content?.eventDetails?.SubHeading?.value,
+                }}
+              />
+            ) : (
+              <p class="speaker-specialization">
+                If you already have a One Source account you can register to the
+                clinical practice session using the same login details.
+              </p>
+            )}
+
+            {/*  */}
+            {formData?.content?.eventDetails?.SubText?.value ? (
+              <p style={{
+                color: formData?.content?.eventDetails?.SubText?.color,
+              }}
+                class="speaker-specialization"
+                dangerouslySetInnerHTML={{
+                  __html: formData?.content?.eventDetails?.SubText?.value,
+                }}
+              />
+            ) : (
+              // <p class="speaker-specialization">
+              //   If you do not yet have a One Source account, by registering to a
+              //   Clinical Practice session an automatic account will be generated
+              //   and you will gain access to this content in accordance with the
+              //   data privacy policy of{" "}
+              //   <a href="https://onesource.octapharma.com/octapharma-privacy" target="_blank">
+              //     Octapharma AG
+              //   </a>{" "}
+              //   and{" "}
+              //   <a
+              //     href="https://albert.docintel.app/privacy_policy/"
+              //     target="_blank"
+              //   >
+              //     Docintel.app
+              //   </a>{" "}
+              //   operating this page.
+              // </p>
+              ''
+            )}
+
+            <div className="octapharma_event_form">{children}</div>
+          </div>
+          <div className="footer">
+             <div className="footer-text">
+              <p
+                style={{
+                  color: formData?.content?.eventDetails?.footerText?.color,
+                }}
+                dangerouslySetInnerHTML={{
+                  __html: formData?.content?.eventDetails?.footerText?.value,
+                }}
+              >
+              </p>
+          </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
