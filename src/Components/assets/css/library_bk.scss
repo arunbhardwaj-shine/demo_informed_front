@@ -14338,7 +14338,7 @@ img.change-password-image {
 
 .landing-banner {
   box-shadow: 0px 1px 32px 0px rgba(0, 74, 137, 0.5);
-  background: #68d1e8 url(../../../../public/componentAssets/images/banner-bg-shade.png) no-repeat;
+  background: #68d1e8 url(/componentAssets/images/banner-bg-shade.png) no-repeat;
   // position: sticky;
   // top: 0;
   background-size: cover;
@@ -15320,7 +15320,7 @@ img.change-password-image {
     margin: 20px auto 0;
     padding: 125px 0 0;
     position: relative;
-    background: url(../../../../public/componentAssets/images/ellipse-half.png) no-repeat;
+    background: url(/componentAssets/images/ellipse-half.png) no-repeat;
     background-size: 100%;
 
     &.pharm-page {
@@ -15403,7 +15403,7 @@ img.change-password-image {
 }
 
 .contact-us {
-  background: #68d1e8 url(../../../../public/componentAssets/images/contact-bg.png) no-repeat;
+  background: #68d1e8 url(/componentAssets/images/contact-bg.png) no-repeat;
   background-size: cover;
   box-shadow: 0px 1px 32px 0px rgba(0, 74, 137, 0.5);
   margin: -15px 0 0;
