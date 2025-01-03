@@ -5,8 +5,6 @@ import CommonConfirmModel from "../../../Model/CommonConfirmModel";
 import { ENDPOINT } from "../../../axios/apiConfig";
 import { postData, getData } from "../../../axios/apiHelper";
 import { toast } from "react-toastify";
-// import Viewer from "@phuocng/react-pdf-viewer";
-// import "@phuocng/react-pdf-viewer/cjs/react-pdf-viewer.css";
 import Select from "react-select";
 import axios from "axios";
 import { DocumentLoadEvent, RenderPageProps, SpecialZoomLevel, Viewer } from "@react-pdf-viewer/core";
@@ -108,8 +106,8 @@ const AddLinkToPdf = () => {
     const viewportHeight = document.documentElement.clientHeight;
 
     const sublink_wid = document.querySelector('.sublink_right').clientWidth;
-    const pageWidth = document.querySelector('.viewer-page-layer').clientWidth;
-    const pageHeight = document.querySelector('.viewer-page-layer').clientHeight;
+    const pageWidth = document.querySelector('.rpv-core__page-layer').clientWidth;
+    const pageHeight = document.querySelector('.rpv-core__page-layer').clientHeight;
 
     const scale = viewportWidth / pageWidth;
     console.log("page width-->", pageWidth);
@@ -136,13 +134,6 @@ const AddLinkToPdf = () => {
       setTimeout(() => { setFile((prevst) => file_tem) }, 10)
       //setFile((prevst)=>file_tem)
     }
-    // https://docintel.s3-eu-west-1.amazonaws.com/pdf/arunp/pdflink_1711002590.pdf
-    // Update the state to reflect the new scale
-    // You might also need to adjust the page number if you want to maintain the current page
-    // For simplicity, this example resets to the first page
-
-    // Apply the scale using CSS
-    //  document.querySelector('.react-pdf__Page').style.transform = `scale(${scale})`;
   }
 
 
@@ -150,7 +141,6 @@ const AddLinkToPdf = () => {
   const parentRef = useRef(null);
   const popupRef = useRef(null);
   const renderPage = (props) => {
-    // console.log(props.scale,"pure scale");
     setDynamicScale(props.scale);
     return (
       <>
@@ -171,7 +161,7 @@ const AddLinkToPdf = () => {
 
   const handleCompleteDocumentLoad = (e) => {
     setTimeout(function () {
-      const divElement = document.querySelector(".viewer-layout-container");
+      const divElement = document.querySelector(".rpv-core__inner-container");
       if (divElement) {
         const height = divElement.clientHeight;
 
@@ -196,7 +186,7 @@ const AddLinkToPdf = () => {
       }
 
       const divElement = document.querySelector(".modal-body-content");
-      const viewPageLayers = divElement?.querySelectorAll(".viewer-inner-page");
+      const viewPageLayers = divElement?.querySelectorAll(".rpv-core__inner-page");
 
 
 
@@ -204,7 +194,7 @@ const AddLinkToPdf = () => {
         setTimeout(() => {
           let viewPageLayer = viewPageLayers[e.currentPage];
           const viewAnnotationLayers = viewPageLayer.querySelectorAll(
-            ".viewer-annotation-link"
+            ".rpv-core__annotation--link"
           );
 
           if (viewAnnotationLayers.length > 0) {
@@ -489,7 +479,7 @@ const AddLinkToPdf = () => {
   }, [dragging, startX, startY, endX, endY, file]);
 
   const handleMouseDown = (event) => {
-    if (event.target.className === "viewer-text-layer") {
+    if (event.target.className === "rpv-core__text-layer") {
 
       if (fileVersion == 1) {
         popup_alert({
@@ -503,7 +493,7 @@ const AddLinkToPdf = () => {
       setHighlighted(false);
       setShowAddLink(true);
       const viewerRect = parentRef.current.getBoundingClientRect();
-      const textLayer = parentRef.current.querySelector(".viewer-text-layer");
+      const textLayer = parentRef.current.querySelector(".rpv-core__text-layer");
       const scrollLayer = document.querySelector(".modal-body-content");
       const scrollTop = scrollLayer.scrollTop;
 
@@ -522,7 +512,7 @@ const AddLinkToPdf = () => {
 
 
   const handleMouseMove = (event) => {
-    const targetLink = event.target.closest(".viewer-annotation-link");
+    const targetLink = event.target.closest(".rpv-core__annotation--link");
 
     if (targetLink) {
       const anchorTag = targetLink.querySelector("a");
@@ -536,7 +526,7 @@ const AddLinkToPdf = () => {
         const x2 = left + width;
         const y2 = top + height;
 
-        const textLayer = parentRef.current.querySelector(".viewer-text-layer");
+        const textLayer = parentRef.current.querySelector(".rpv-core__text-layer");
         const scrollTop = document.querySelector(
           ".modal-body-content"
         ).scrollTop;
@@ -565,9 +555,9 @@ const AddLinkToPdf = () => {
         setHoveredLink(linkText);
         setHoveredLinkPosition({ x, y });
         // setIsPopupOpen(true);
-
+        
         const scrollfrominner = document.querySelector(
-          ".viewer-layout-main"
+          ".rpv-core__inner-pages"
         ).scrollTop;
         setViewerscroll(scrollfrominner);
       }
@@ -578,14 +568,14 @@ const AddLinkToPdf = () => {
       }
     }
 
-    if (event.target.closest(".viewer-page-layer")) {
+    if (event.target.closest(".rpv-core__page-layer")) {
       window.getSelection().removeAllRanges();
       if (!dragging) return;
 
       const viewerRect = parentRef.current.getBoundingClientRect();
       const scrollLayer = document.querySelector(".modal-body-content");
       const scrollTop = scrollLayer.scrollTop;
-      const textLayer = parentRef.current.querySelector(".viewer-text-layer");
+      const textLayer = parentRef.current.querySelector(".rpv-core__text-layer");
       const pageHeight = textLayer.getBoundingClientRect().height;
       getMousePosition(parentRef.current, event, scrollTop);
 
@@ -614,10 +604,10 @@ const AddLinkToPdf = () => {
   };
 
   const handleMouseUp = (event) => {
-    if (event.target.closest(".viewer-page-layer")) {
+    if (event.target.closest(".rpv-core__page-layer")) {
       if (event.target.name === "url") return;
       if (event.target.name === "addurl") return;
-      const textLayer = parentRef.current.querySelector(".viewer-text-layer");
+      const textLayer = parentRef.current.querySelector(".rpv-core__text-layer");
       const pageHeight = textLayer.getBoundingClientRect().height;
 
       setMouseLastup(event.clientX);
@@ -648,7 +638,7 @@ const AddLinkToPdf = () => {
       const pageNumber = parseInt(closestElementId.slice(5));
       setLinkonpage(pageNumber);
       const viewerTextLayer = document.querySelector(
-        `#${closestElementId} .viewer-text-layer`
+        `#${closestElementId} .rpv-core__text-layer`
       );
 
       const viewerTextLayer2 = document.querySelector(
@@ -694,14 +684,6 @@ const AddLinkToPdf = () => {
 
     console.log("x_cord--->", x_cord)
     console.log("y_cord--->", y_cord)
-
-    // if(initialscale>600 && initialscale<800){
-    //   console.log("i am inside 800")
-    //   box_width_y =box_width_y/3.38;
-    //    box_width_x = box_width_x/3.48;
-    //    y_cord = y_cord/3.38;
-    //    x_cord = x_cord/3.48;
-    // }
     // Gagan 
     if (initialscale > 400 && initialscale < 600) {
 
@@ -724,28 +706,12 @@ const AddLinkToPdf = () => {
 
       box_width_y = box_width_y / 3.58;
       box_width_x = box_width_x / 3.68;
-      //  y_cord =y_cord<=0?1: y_cord/3.58;
-      //  x_cord = x_cord/3.68;
-
+      
       y_cord = y_cord <= 0 ? 1 : (y_cord < 100 && y_cord >= 1) ? y_cord / 3.35 : (y_cord >= 100 && y_cord < 200) ? y_cord / 3.40 : (y_cord >= 200 && y_cord < 350) ? y_cord / 3.55
         : (y_cord >= 350 && y_cord < 500) ? y_cord / 3.65 : (y_cord >= 500 && y_cord < 800) ? y_cord / 3.7 : y_cord >= 800 ? y_cord / 3.73 : y_cord / 3.75;
 
       x_cord = x_cord < 100 ? x_cord / 3.2 : (x_cord >= 100 && x_cord < 500) ? x_cord / 3.6 : x_cord / 3.7;
     }
-    // else if(initialscale>1000 && initialscale<1200){     
-    //    box_width_y =box_width_y/3.58;
-    //    box_width_x = box_width_x/3.68;    
-    //    y_cord = y_cord/3.58;
-    //    x_cord = x_cord/3.68;
-    // }
-    // else if(initialscale>1200 && initialscale<3000){
-    //   console.log("am inside med");
-    //   box_width_y =box_width_y/2;
-    //   box_width_x = box_width_x/2;
-    //   y_cord = y_cord/2;
-    //   x_cord = x_cord/2;
-    // }
-
     //Arun sir code
     else if (initialscale >= 1000 && initialscale < 1100) {
       console.log("inside 1170")
@@ -754,13 +720,7 @@ const AddLinkToPdf = () => {
       box_width_x = box_width_x / 1.8;
       y_cord = y_cord <= 0 ? 1 : y_cord / 3.58;
       x_cord = x_cord / 3.68;
-
-      // y_cord = y_cord<=0?1:(y_cord<100&&y_cord>=1)?y_cord/2:(y_cord>=100&&y_cord<200)?y_cord/1.4:(y_cord>=200&&y_cord<350)?y_cord/3.55
-      //       :(y_cord>=350&&y_cord<500)?y_cord/3.65:(y_cord>=500&&y_cord<800)?y_cord/3.7 :y_cord>=800?y_cord/3.73:y_cord/3.75;
-
-      // x_cord = x_cord<100?x_cord/2:(x_cord>=100&&x_cord<200)?x_cord/1.5:(x_cord>=200&&x_cord<400)?x_cord/1.35:x_cord/1.6;
     } else if (initialscale >= 1100 && initialscale < 1200) {
-      // console.log("i am inside 1100")
       //Aamir
       if(screenSize>=1600){
 
@@ -789,7 +749,6 @@ const AddLinkToPdf = () => {
       }
     } else if (initialscale >= 1200 && initialscale < 1300) {
       //1281 specical susheel sir case
-      // console.log("1281");
       if(screenSize>=1600){
 
         box_width_y = box_width_y / 3.52;
@@ -851,14 +810,7 @@ const AddLinkToPdf = () => {
         : (x_cord >= 550 && x_cord < 900) ? x_cord /2.1 : (x_cord >= 900 && x_cord < 1200) ? x_cord / 2.15 : x_cord / 2.17;
       }
     }
-    // else if(initialscale>2000 && initialscale<3000){
-    //   console.log("am inside med",initialscale);
-    //   box_width_y =box_width_y/2;
-    //   box_width_x = box_width_x/2;
-    //   y_cord = y_cord/2;
-    //   x_cord = x_cord/2;
-    // }
-
+    
     //Gagan C-600--->2270
     else if (initialscale >= 2200 && initialscale < 2400) {
       if(screenSize>=1600){
