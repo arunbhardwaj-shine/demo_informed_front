@@ -504,7 +504,7 @@ const PharmaMarketing = () => {
       description:
         "Enhance HCP engagement at events. Add polls to presentations for personalised speaker-audience interaction. Immediate Q&A involvement empowers each HCP. Integrating votes and questions into CRM timelines aids post-event personalisation.",
       para: "",
-      features: ["", "", "", "", ""],
+      // features: ["", "", "", "", ""],
       features: [
         {
           keyFeature: "Real-time interaction and queries",

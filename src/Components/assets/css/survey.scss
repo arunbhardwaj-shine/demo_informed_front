@@ -1,5 +1,7 @@
-@import "./variables";
-@import "./mixins";
+// @import "./variables";
+@use "./variables" as vars;
+@use "./mixins" as m;
+// @import "./mixins";
 @import url("https://fonts.googleapis.com/css2?family=Mulish:wght@300;400;500;600;700;800;900&display=swap");
 @import url("https://fonts.googleapis.com/css?family=Muli");
 
@@ -70,18 +72,18 @@ span {
 
       .left-setup-heading {
         h5 {
-          color: $primary-color;
+          color: vars.$primary-color;
           font-size: 20px;
           font-weight: 500;
           margin: 0 0 6px;
         }
 
         p {
-          color: $light-gray;
+          color: vars.$light-gray;
           font-size: 14px;
           margin: 0 0 20px;
         }
-        @media (max-width: $layout-breakpoint-xextraLarge) {
+        @media (max-width: vars.$layout-breakpoint-xextraLarge) {
           p {
             font-size: 12px;
           }
@@ -90,7 +92,7 @@ span {
 
       .left-setup-template {
         border-radius: 20px;
-        background: $white;
+        background: vars.$white;
         box-shadow: 0px 3px 10px -3px rgba(0, 102, 190, 0.2);
         padding: 11px 16px;
         height: calc(100% - 75px);
@@ -100,12 +102,12 @@ span {
           margin: 0 0 32px;
 
           span {
-            color: $primary-color;
+            color: vars.$primary-color;
             font-size: 11px;
             font-weight: 500;
           }
         }
-        @media (max-width: $layout-breakpoint-xextraLarge) {
+        @media (max-width: vars.$layout-breakpoint-xextraLarge) {
           .setup-template-title {
             margin: 0 0 20px;
           }
@@ -131,7 +133,7 @@ span {
             .templete-select {
               width: 100%;
               border-radius: 8px;
-              background: $white;
+              background: vars.$white;
               box-shadow: 0px 1px 8px 0px rgba(0, 102, 190, 0.24);
               padding: 12px 12px 6px;
               cursor: pointer;
@@ -166,7 +168,7 @@ span {
             }
 
             p {
-              color: $primary-color;
+              color: vars.$primary-color;
               font-size: 14px;
               font-weight: 400;
               padding: 10px 0 0;
@@ -174,7 +176,7 @@ span {
             }
           }
         }
-        @media (max-width: $layout-breakpoint-xextraLarge) {
+        @media (max-width: vars.$layout-breakpoint-xextraLarge) {
           .template-selection {
             gap: 25px 48px;
             justify-content: center;
@@ -210,34 +212,34 @@ span {
         max-height: calc(100% - 90px);
 
         .accordion {
-          @include flex-column;
+          @include m.flex-column;
           gap: 16px;
 
           .accordion-item {
             border: 0;
             border-radius: 9px;
-            background: $white;
+            background: vars.$white;
             box-shadow: 0px 1px 6px 0px rgba(0, 102, 190, 0.2);
 
             .accordion-header {
               button {
-                color: $dark-blue;
+                color: vars.$dark-blue;
                 font-size: 16px;
                 font-weight: 500;
                 padding: 16px 16px;
                 line-height: normal;
                 border-radius: 9px;
-                background: $white;
+                background: vars.$white;
                 box-shadow: none;
 
                 &:focus {
                   border: 0;
-                  background: $white;
+                  background: vars.$white;
                   box-shadow: none;
                 }
 
                 &:after {
-                  background: $white url(../images/dropdown-arrow.svg) no-repeat
+                  background: vars.$white url(../images/dropdown-arrow.svg) no-repeat
                     100% center;
                 }
               }
@@ -252,7 +254,7 @@ span {
             }
 
             .accordion-body {
-              border-top: 1px dashed $light-gray;
+              border-top: 1px dashed vars.$light-gray;
               padding-left: 12px;
               padding-right: 12px;
 
@@ -265,12 +267,12 @@ span {
 
                   .sidebar-item {
                     border-radius: 9px;
-                    background: $white;
+                    background: vars.$white;
                     box-shadow: 0px 1px 6px 0px rgba(0, 102, 190, 0.2);
-                    @include flex-align-center;
+                    @include m.flex-align-center;
                     gap: 8px;
                     padding: 13px 16px;
-                    color: $dark-gray;
+                    color: vars.$dark-gray;
                     font-size: 14px;
                     line-height: normal;
                     position: relative;
@@ -308,7 +310,7 @@ span {
         label {
           &.check {
             display: block;
-            color: $dark-gray;
+            color: vars.$dark-gray;
             font-size: 12px;
             font-weight: 400;
             line-height: 132%;
@@ -333,7 +335,7 @@ span {
                 &.checkmark {
                   border-radius: 3px;
                   border: 1px solid rgba(112, 137, 158, 1);
-                  background: $white;
+                  background: vars.$white;
                 }
               }
 
@@ -365,7 +367,7 @@ span {
 
             span {
               &.checkmark {
-                border: 1px solid $dark-gray;
+                border: 1px solid vars.$dark-gray;
                 width: 16px;
                 border-radius: 50%;
                 height: 16px;
@@ -379,15 +381,15 @@ span {
             input {
               &:checked {
                 & ~ .checkmark {
-                  border-color: $secondary-green;
-                  background: $secondary-green;
+                  border-color: vars.$secondary-green;
+                  background: vars.$secondary-green;
 
                   &:after {
                     left: 5px;
                     top: 2px;
                     width: 5px;
                     height: 9px;
-                    border: solid $white;
+                    border: solid vars.$white;
                     border-width: 0 2px 2px 0;
                     -webkit-transform: rotate(45deg);
                     -ms-transform: rotate(45deg);
@@ -450,7 +452,7 @@ span {
             height: calc(100% - 30px);
             // min-height: 70vh;
           }
-          @media (max-width: $layout-breakpoint-xextraLarge) {
+          @media (max-width: vars.$layout-breakpoint-xextraLarge) {
             .tab-content {
               padding: 11px;
             }
@@ -464,7 +466,7 @@ span {
               height: 100%;
               padding-right: 5px;
             }
-            @media (max-width: $layout-breakpoint-xextraLarge) {
+            @media (max-width: vars.$layout-breakpoint-xextraLarge) {
               .survey-setup {
                 padding: 5px;
               }
@@ -493,7 +495,7 @@ span {
             justify-content: center;
             align-items: center;
             cursor: default !important;
-            color: $light-gray;
+            color: vars.$light-gray;
             font-size: 16px;
             font-weight: 400;
             opacity: 1 !important;
@@ -501,7 +503,7 @@ span {
           }
 
           .steps {
-            @include steps;
+            @include m.steps;
             &.question-optional {
               padding-bottom: 15px;
               margin-bottom: 15px;
@@ -523,7 +525,7 @@ span {
             }
             &.scale-options {
               small {
-                color: $light-gray;
+                color: vars.$light-gray;
                 font-size: 11px;
                 font-weight: 400;
                 margin: 8px 0 0;
@@ -550,10 +552,10 @@ span {
                       }
                     }
                     & > div:nth-child(4) {
-                      background-color: $white;
+                      background-color: vars.$white;
                       & > div {
                         div {
-                          color: $primary-color;
+                          color: vars.$primary-color;
                           text-align: left;
                           font-size: 13px;
                           padding: 6px 6px 6px 12px;
@@ -591,13 +593,13 @@ span {
               }
             }
             p {
-              color: $dark-gray;
+              color: vars.$dark-gray;
               font-size: 14px;
               font-weight: 400;
               line-height: normal;
 
               &.option-heading {
-                color: $dark-blue;
+                color: vars.$dark-blue;
                 font-size: 15px;
                 font-weight: 500;
                 line-height: normal;
@@ -634,7 +636,7 @@ span {
               }
 
               span {
-                color: $light-gray;
+                color: vars.$light-gray;
                 font-size: 14px;
                 font-weight: 500;
                 padding-left: 10px;
@@ -739,7 +741,7 @@ span {
 
             .text-editor {
               border-radius: 8px;
-              background: $white;
+              background: vars.$white;
               box-shadow: 0px 1px 6px 0px rgba(0, 102, 190, 0.2);
               width: 100%;
               position: relative;
@@ -752,7 +754,7 @@ span {
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                color: $dark-blue;
+                color: vars.$dark-blue;
                 &:after,
                 :before {
                   display: none;
@@ -795,7 +797,7 @@ span {
                         .tox-tbtn__select-label {
                           width: auto;
                           font-size: 14px;
-                          color: $dark-blue;
+                          color: vars.$dark-blue;
                         }
                       }
                       .tox-tbtn__select-chevron {
@@ -811,7 +813,7 @@ span {
                     span {
                       svg {
                         path {
-                          fill: $dark-gray;
+                          fill: vars.$dark-gray;
                         }
                       }
                     }
@@ -826,7 +828,7 @@ span {
                         span {
                           svg {
                             path {
-                              fill: $dark-blue;
+                              fill: vars.$dark-blue;
                             }
                           }
                         }
@@ -873,7 +875,7 @@ span {
                     font-weight: 400;
                     line-height: 16px;
                     background-color: transparent;
-                    color: $dark-blue;
+                    color: vars.$dark-blue;
                     min-height: 24px;
                   }
 
@@ -884,7 +886,7 @@ span {
                     &.bold {
                       svg {
                         path {
-                          stroke: $dark-blue;
+                          stroke: vars.$dark-blue;
                         }
                       }
                     }
@@ -892,7 +894,7 @@ span {
                     &.italic {
                       svg {
                         path {
-                          stroke: $dark-blue;
+                          stroke: vars.$dark-blue;
                         }
                       }
                     }
@@ -900,7 +902,7 @@ span {
                     &.underline {
                       svg {
                         path {
-                          stroke: $dark-blue;
+                          stroke: vars.$dark-blue;
                         }
                       }
                     }
@@ -908,7 +910,7 @@ span {
                     &.strike-through {
                       svg {
                         path {
-                          stroke: $dark-blue;
+                          stroke: vars.$dark-blue;
                         }
                       }
                     }
@@ -926,7 +928,7 @@ span {
               }
 
               textarea {
-                @include form-control;
+                @include m.form-control;
                 border-radius: 0 0 8px 8px;
                 box-shadow: none;
                 resize: none;
@@ -935,7 +937,7 @@ span {
 
             label {
               &.form-label {
-                color: $dark-blue;
+                color: vars.$dark-blue;
                 font-size: 14px;
                 font-weight: 500;
                 margin: 0 8px 5px 0;
@@ -943,9 +945,9 @@ span {
             }
 
             .form-control {
-              @include form-control;
+              @include m.form-control;
             }
-            @media (max-width: $layout-breakpoint-xextraLarge) {
+            @media (max-width: vars.$layout-breakpoint-xextraLarge) {
               .form-control {
                 padding: 9px 12px;
               }
@@ -970,7 +972,7 @@ span {
               margin: 0 0 4px;
 
               button {
-                color: $primary-color;
+                color: vars.$primary-color;
                 font-size: 14px;
                 font-weight: 400;
                 text-decoration-line: underline;
@@ -1005,7 +1007,7 @@ span {
 
             .choice-option {
               gap: 16px;
-              @include flex-column;
+              @include m.flex-column;
               max-height: 215px;
               overflow-y: auto;
               padding: 7px 8px 4px 0;
@@ -1043,7 +1045,7 @@ span {
                 }
 
                 p {
-                  color: $light-gray;
+                  color: vars.$light-gray;
                 }
                 @media (max-width: 1500px) {
                   p {
@@ -1054,20 +1056,20 @@ span {
             }
 
             .answer-choice {
-              @include flex-align-center;
+              @include m.flex-align-center;
               gap: 8px;
               position: relative;
 
               label {
                 margin: 0;
-                color: $dark-blue;
+                color: vars.$dark-blue;
                 font-size: 14px;
                 font-weight: 500;
                 text-transform: capitalize;
               }
 
               .form-control {
-                @include form-control;
+                @include m.form-control;
                 padding: 12px 12px;
               }
 
@@ -1093,7 +1095,7 @@ span {
                   background: linear-gradient(
                     90deg,
                     rgba(255, 255, 255, 0.97) 0%,
-                    $white 100%
+                    vars.$white 100%
                   );
                   content: "";
                   position: absolute;
@@ -1134,7 +1136,7 @@ span {
                   border: 1px dashed rgba(151, 182, 207, 0.5);
                   background: rgba(0, 102, 190, 0.04);
                   text-align: center;
-                  color: $light-gray;
+                  color: vars.$light-gray;
                   font-size: 14px;
                   font-weight: 400;
                   text-transform: capitalize;
@@ -1157,7 +1159,7 @@ span {
                   margin: 0 0;
                   line-height: 17px;
                   font-size: 14px;
-                  color: $dark-blue;
+                  color: vars.$dark-blue;
                   padding-left: 23px;
                 }
               }
@@ -1199,7 +1201,7 @@ span {
               margin: -17px 0 0;
 
               a {
-                color: $voilet;
+                color: vars.$voilet;
                 font-size: 14px;
                 font-weight: 400;
               }
@@ -1235,7 +1237,7 @@ span {
             padding: 5px 35px 5px 10px;
             font-size: 14px;
             background-position: 86% center;
-            color: $primary-color;
+            color: vars.$primary-color;
             font-weight: 400;
             min-width: 88px;
           }
@@ -1344,7 +1346,7 @@ span {
   }
 
   ::-webkit-scrollbar-thumb {
-    background-color: $light-gray;
+    background-color: vars.$light-gray;
     border: 0;
   }
 
@@ -1413,9 +1415,9 @@ span {
 
           span {
             border-radius: 13px;
-            background: $secondary-green;
+            background: vars.$secondary-green;
             padding: 2px 12px;
-            color: $white;
+            color: vars.$white;
             font-size: 12px;
           }
 
@@ -1444,7 +1446,7 @@ span {
                 button {
                   &.active {
                     &:before {
-                      background: $white;
+                      background: vars.$white;
                       display: block;
                       height: 20px;
                       left: 0;
@@ -1461,7 +1463,7 @@ span {
                 button {
                   &.active {
                     &:after {
-                      background: $white;
+                      background: vars.$white;
                       display: block;
                       height: 20px;
                       top: 25px;
@@ -1486,10 +1488,10 @@ span {
                 text-align: center;
 
                 &.active {
-                  background: $white;
+                  background: vars.$white;
                   border-radius: 20px 20px 0 0;
                   box-shadow: 0 -5px 7px rgba(0, 102, 190, 0.13);
-                  color: $primary-color;
+                  color: vars.$primary-color;
                   position: relative;
                   z-index: 2;
 
@@ -1537,7 +1539,7 @@ span {
         }
 
         .tab-content {
-          background: $white;
+          background: vars.$white;
           border-radius: 20px 20px 20px;
           box-shadow: 0 -4px 8px rgba(0, 102, 190, 0.07);
           display: flex;
@@ -1562,7 +1564,7 @@ span {
             // display: inline-block;
 
             a {
-              color: $voilet;
+              color: vars.$voilet;
               font-size: 14px;
             }
 
@@ -1578,7 +1580,7 @@ span {
 
             .tab-content-qr {
               border-radius: 4px;
-              background: $white;
+              background: vars.$white;
               box-shadow: 0px 1px 6px 0px rgba(0, 102, 190, 0.2);
               padding: 3px 1px;
               // display: flex;
@@ -1611,7 +1613,7 @@ span {
 
             li {
               h6 {
-                color: $dark-blue;
+                color: vars.$dark-blue;
                 font-size: 14px;
                 font-weight: 400;
                 min-width: 72px;
@@ -1774,7 +1776,7 @@ span {
 
 .survey-config {
   border-radius: 6px;
-  background: $white;
+  background: vars.$white;
   box-shadow: 0px -2px 10px 0px rgba(0, 0, 0, 0.16);
   padding: 32px 56px;
   max-width: 655px;
@@ -1794,14 +1796,14 @@ span {
     flex: 1 1;
 
     .survey-config-title {
-      color: $dark-blue;
+      color: vars.$dark-blue;
       font-size: 14px;
       font-weight: 500;
       margin: 0 0 2px;
     }
 
     .survey-config-discription {
-      color: $dark-blue;
+      color: vars.$dark-blue;
       font-size: 13px;
       font-weight: 400;
       margin: 0 0 10px;
@@ -1809,7 +1811,7 @@ span {
 
     a {
       &.survey-config-link {
-        color: $dark-gray;
+        color: vars.$dark-gray;
         font-size: 12px;
       }
     }
@@ -1866,28 +1868,28 @@ span {
   }
 
   .input-file-trigger {
-    color: $white;
+    color: vars.$white;
     font-size: 12px;
     font-weight: 500;
     text-transform: capitalize;
     border-radius: 30px;
-    background: $primary-color;
+    background: vars.$primary-color;
     padding: 5px 12px;
     cursor: pointer;
     &:hover {
       cursor: pointer;
-      background: $dark-blue;
+      background: vars.$dark-blue;
     }
   }
   button {
     &.remove {
-      color: $primary-color;
+      color: vars.$primary-color;
       font-size: 12px;
       font-weight: 500;
       text-transform: capitalize;
       border-radius: 30px;
       border: 0;
-      background: $white;
+      background: vars.$white;
       padding: 2px 2px;
       line-height: 133%;
       margin-left: 8px;
@@ -1900,7 +1902,7 @@ span {
       }
       &:hover {
         border: 0;
-        background: $primary-color;
+        background: vars.$primary-color;
         img {
           filter: brightness(0) invert(1);
         }
@@ -1910,10 +1912,10 @@ span {
 
   .form-control {
     border-radius: 24px;
-    background: $white;
+    background: vars.$white;
     box-shadow: 0px 1px 6px 0px rgba(0, 0, 0, 0.16);
     font-size: 12px;
-    color: $dark-blue;
+    color: vars.$dark-blue;
     border: 0;
     padding: 10px 13px;
     max-width: 251px;
@@ -1925,7 +1927,7 @@ span {
   }
 
   span {
-    color: $light-gray;
+    color: vars.$light-gray;
     font-size: 11px;
     margin: 8px 0 0;
     line-height: normal;
@@ -1989,7 +1991,7 @@ span {
     max-width: 724px;
     margin: 0 auto 15px;
     border-radius: 6px;
-    background: $white;
+    background: vars.$white;
     box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.16);
     width: 100%;
 
@@ -2014,7 +2016,7 @@ span {
 
     .informed-survey-header {
       width: 100%;
-      background: $dark-blue;
+      background: vars.$dark-blue;
       padding: 16px 30px 22px;
       margin: 0 auto;
       box-sizing: border-box;
@@ -2022,7 +2024,7 @@ span {
       text-align: center;
       border-radius: 8px 8px 0 0;
       min-height: 139px;
-      @include vertical-list;
+      @include m.vertical-list;
       justify-content: center;
       gap: 16px;
 
@@ -2031,7 +2033,7 @@ span {
       }
 
       h2 {
-        color: $white;
+        color: vars.$white;
         font-size: 24px;
         font-weight: 700;
         // margin: 16px 0 0;
@@ -2055,13 +2057,13 @@ span {
     .informed-survey-body {
       padding: 24px 56px;
       margin-top: -6px;
-      background: $white;
+      background: vars.$white;
       border-radius: 6px;
     }
 
     .informed-survey-text {
       p {
-        color: $dark-gray;
+        color:vars.$dark-gray;
         font-size: 13px;
         font-weight: 400;
         line-height: 132%;
@@ -2080,7 +2082,7 @@ span {
       margin: 55px 0 0;
 
       label {
-        color: $dark-blue;
+        color: vars.$dark-blue;
         font-size: 12px;
         font-weight: 500;
         line-height: 132%;
@@ -2088,7 +2090,7 @@ span {
 
       .dragable-box {
         position: relative;
-        background: $white;
+        background: vars.$white;
 
         &:first-child {
           padding-top: 0 !important;
@@ -2096,9 +2098,9 @@ span {
 
         &.active {
           border-radius: 0px 2px 2px 0px;
-          border-top: 1px dashed $voilet;
-          border-right: 1px dashed $voilet;
-          border-bottom: 1px dashed $voilet;
+          border-top: 1px dashed vars.$voilet;
+          border-right: 1px dashed vars.$voilet;
+          border-bottom: 1px dashed vars.$voilet;
           padding: 30px 16px 30px 16px;
           margin: 20px 0 0;
           min-height: 90px;
@@ -2107,7 +2109,7 @@ span {
             position: absolute;
             height: calc(100% + 2px);
             width: 16px;
-            background: $voilet;
+            background: vars.$voilet;
             top: -1px;
             justify-content: center;
             align-items: center;
@@ -2138,7 +2140,7 @@ span {
           .preview-menu {
             position: absolute;
             border-radius: 9px;
-            background: $white;
+            background: vars.$white;
             box-shadow: 0px 1px 6px 0px rgba(0, 102, 190, 0.2);
             min-width: 237px;
             padding: 12px;
@@ -2147,7 +2149,7 @@ span {
             right: -300px;
 
             & > span {
-              color: $light-gray;
+              color: vars.$light-gray;
               font-size: 12px;
               font-style: normal;
               font-weight: 500;
@@ -2170,7 +2172,7 @@ span {
                 padding: 8px;
                 display: flex;
                 align-items: center;
-                color: $dark-gray;
+                color: vars.$dark-gray;
                 font-size: 13px;
                 font-style: normal;
                 font-weight: 400;
@@ -2206,16 +2208,16 @@ span {
 
         textarea {
           border-radius: 4px;
-          background: $white;
+          background: vars.$white;
           box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.16);
           width: 100%;
           resize: none;
           padding: 12px;
           min-height: 80px;
           font-size: 12px;
-          color: $dark-gray;
+          color: vars.$dark-gray;
           &::placeholder {
-            color: $light-gray;
+            color: vars.$light-gray;
             font-size: 12px;
             font-weight: 300;
           }
@@ -2223,7 +2225,7 @@ span {
 
         .word-limit {
           font-size: 11px;
-          color: $dark-gray;
+          color: vars.$dark-gray;
           font-weight: 500;
           gap: 2px;
           line-height: normal;
@@ -2239,7 +2241,7 @@ span {
           padding: 0;
           max-height: initial;
         }
-        @media (max-width: $layout-breakpoint-small) {
+        @media (max-width: vars.$layout-breakpoint-small) {
           &:first-child {
             padding-top: 0 !important;
           }
@@ -2258,7 +2260,7 @@ span {
         }
 
         p {
-          color: $dark-blue;
+          color: vars.$dark-blue;
           font-size: 12px;
           font-weight: 400;
           line-height: 132%;
@@ -2312,7 +2314,7 @@ span {
           &.heading {
             word-break: break-word;
             margin: 0 0 15px;
-            color: $dark-blue;
+            color: vars.$dark-blue;
             min-height: 20px;
             display: block;
 
@@ -2328,7 +2330,7 @@ span {
           }
 
           &.helper-text {
-            color: $dark-blue;
+            color: vars.$dark-blue;
             font-size: 11px;
             margin-top: -13px;
             display: block;
@@ -2342,7 +2344,7 @@ span {
 
         select {
           border-radius: 30px;
-          background: $white
+          background: vars.$white
             url(/componentAssets/images/arrow-down-sign.svg)
             no-repeat 94% center;
           box-shadow: 0px 1px 6px 0px rgba(0, 0, 0, 0.16);
@@ -2357,7 +2359,7 @@ span {
         label {
           &.check {
             display: block;
-            color: $dark-gray;
+            color: vars.$dark-gray;
             font-size: 12px;
             font-weight: 400;
             line-height: 152%;
@@ -2383,7 +2385,7 @@ span {
                 &.checkmark {
                   border-radius: 3px;
                   border: 1px solid rgba(112, 137, 158, 1);
-                  background: $white;
+                  background: vars.$white;
                 }
               }
 
@@ -2396,7 +2398,7 @@ span {
                     top: 2px;
                     width: 5px;
                     height: 9px;
-                    border: solid $white;
+                    border: solid vars.$white;
                     border-width: 0 2px 2px 0;
                     -webkit-transform: rotate(45deg);
                     -ms-transform: rotate(45deg);
@@ -2415,7 +2417,7 @@ span {
 
             span {
               &.checkmark {
-                border: 1px solid $dark-gray;
+                border: 1px solid vars.$dark-gray;
                 width: 16px;
                 border-radius: 50%;
                 height: 16px;
@@ -2438,7 +2440,7 @@ span {
             input {
               &:checked {
                 & ~ .checkmark {
-                  border-color: $dark-blue;
+                  border-color: vars.$dark-blue;
                 }
               }
             }
@@ -2470,7 +2472,7 @@ span {
               opacity: 0.08;
               &:hover {
                 background: inherit;
-                color: $white;
+                color: vars.$white;
                 opacity: 1;
               }
             }
@@ -2478,7 +2480,7 @@ span {
             label {
               border-radius: 32px;
               // background: rgba(0, 74, 137, 0.08);
-              color: $dark-blue;
+              color: vars.$dark-blue;
               font-size: 12px;
               font-weight: 400;
               width: 24px;
@@ -2494,14 +2496,14 @@ span {
                 & ~ .rating-number {
                   background: inherit;
                   opacity: 1;
-                  color: $white !important;
+                  color: vars.$white !important;
                 }
                 background: transparent;
-                color: $white !important;
+                color: vars.$white !important;
 
                 & ~ label {
                   // background: $dark-blue;
-                  color: $white !important;
+                  color: vars.$white !important;
                 }
               }
             }
@@ -2509,11 +2511,11 @@ span {
             input {
               &:checked ~ label {
                 // background: $dark-blue;
-                color: $white !important;
+                color: vars.$white !important;
               }
               &:checked ~ .rating-number {
                 background: inherit;
-                color: $white;
+                color: vars.$white;
                 opacity: 1;
               }
             }
@@ -2569,7 +2571,7 @@ span {
 
             & > div {
               span {
-                color: $dark-gray;
+                color: vars.$dark-gray;
                 font-size: 11px;
                 font-weight: 400;
                 line-height: 132%;
@@ -2589,10 +2591,10 @@ span {
 
         button {
           border-radius: 30px;
-          background: $dark-blue;
+          background: vars.$dark-blue;
           box-shadow: 0px 1px 6px 0px rgba(0, 0, 0, 0.16);
           border: 0;
-          color: $white;
+          color: vars.$white;
           font-size: 13px;
           font-weight: 500;
           min-width: 90px;
@@ -2601,7 +2603,7 @@ span {
         }
 
         span {
-          color: $dark-gray;
+          color: vars.$dark-gray;
           text-align: center;
           font-size: 13px;
           font-weight: 400;
@@ -2658,7 +2660,7 @@ span {
 
       thead {
         th {
-          color: $dark-gray;
+          color: vars.$dark-gray;
           font-size: 11px;
           text-align: center;
           font-weight: 400;
@@ -2675,17 +2677,17 @@ span {
             min-width: 66px;
             font-size: 11px;
             padding: 1.5px 4px;
-            color: $dark-blue;
+            color: vars.$dark-blue;
             min-height: 24px;
             position: relative;
             &:first-child {
               text-align: left;
-              color: $dark-blue;
+              color: vars.$dark-blue;
               line-height: 1;
               vertical-align: middle;
             }
-            @include custom-checkbox;
-            @include custom-radio;
+            @include m.custom-checkbox;
+            @include m.custom-radio;
             input[type="radio"],
             input[type="checkbox"] {
               position: relative;
@@ -2720,7 +2722,7 @@ span {
             span {
               &.checkmark {
                 // border: 1px solid $dark-gray;
-                border: 1px solid $dark-blue;
+                border: 1px solid vars.$dark-blue;
                 width: 16px;
                 border-radius: 50%;
                 height: 16px;
@@ -2742,7 +2744,7 @@ span {
       p {
         &.start-title {
           margin: 0 0 30px;
-          color: $dark-blue;
+          color: vars.$dark-blue;
           font-weight: 500;
         }
 
@@ -2781,13 +2783,13 @@ span {
           input {
             &.form-control {
               border-radius: 24px;
-              background: $white;
+              background: vars.$white;
               box-shadow: 0px 1px 6px 0px rgba(0, 0, 0, 0.16);
               font-size: 12px;
               padding: 9px 12px;
               border: 0;
               max-width: 251px;
-              color: $primary-color;
+              color: vars.$primary-color;
             }
           }
         }
@@ -2850,7 +2852,7 @@ span {
       max-width: 251px;
 
       & > div:nth-child(3) {
-        background: $white url(../images/arrow-down-sign.svg) no-repeat 93%
+        background: vars.$white url(../images/arrow-down-sign.svg) no-repeat 93%
           center;
         padding: 3px 50px 3px 12px;
         box-shadow: 0px 1px 6px 0px rgba(0, 0, 0, 0.16);
@@ -2950,20 +2952,20 @@ span {
       }
     }
   }
-  @media (max-width: $layout-breakpoint-xextraLarge) {
+  @media (max-width: vars.$layout-breakpoint-xextraLarge) {
     .informed-survey {
       max-width: 680px;
     }
   }
   .survey-thanks {
     border-radius: 6px;
-    background: $white;
+    background: vars.$white;
     box-shadow: 0px 0px 16px 0px rgba(0, 0, 0, 0.12);
     max-width: 723px;
     margin: 0 auto;
     padding: 48px 56px 26px;
     min-height: 359px;
-    @include flex-middle;
+    @include m.flex-middle;
     flex-direction: column;
 
     .thanks-img {
@@ -2991,7 +2993,7 @@ span {
       }
     }
   }
-  @media (max-width: $layout-breakpoint-xextraLarge) {
+  @media (max-width: vars.$layout-breakpoint-xextraLarge) {
     .survey-thanks {
       max-width: 680px;
     }
@@ -3036,7 +3038,7 @@ span {
           svg {
             path {
               fill-opacity: 0.4;
-              fill: $primary-color;
+              fill: vars.$primary-color;
             }
           }
         }
@@ -3044,7 +3046,7 @@ span {
         &:last-child {
           svg {
             path {
-              fill: $primary-color;
+              fill: vars.$primary-color;
               fill-opacity: 1;
             }
           }
@@ -3058,7 +3060,7 @@ span {
           svg {
             path {
               fill-opacity: 1;
-              fill: $primary-color;
+              fill: vars.$primary-color;
             }
           }
         }
@@ -3092,13 +3094,13 @@ span {
 
   .survey-create {
     border-radius: 15px;
-    border: 1px dashed $primary-color;
+    border: 1px dashed vars.$primary-color;
     padding: 32px 32px 5px;
     margin: 0 0 35px;
 
     p {
       font-size: 13px;
-      color: $voilet;
+      color: vars.$voilet;
       text-align: right;
       display: flex;
       align-items: center;
@@ -3120,7 +3122,7 @@ span {
         &::after {
           content: "";
           top: -6px;
-          border-top: 1px dashed $primary-color;
+          border-top: 1px dashed vars.$primary-color;
           left: -20px;
           width: calc(100% + 40px);
           position: absolute;
@@ -3146,7 +3148,7 @@ span {
       }
 
       .form-control {
-        @include form-control;
+        @include m.form-control;
         padding: 13px 24px;
         font-size: 16px;
         height: 48px;
@@ -3171,12 +3173,12 @@ span {
       }
 
       .form-label {
-        color: $dark-blue;
+        color: vars.$dark-blue;
         font-size: 18px;
         margin: 0 0 14px;
 
         span {
-          color: $pink;
+          color: vars.$pink;
         }
       }
 
@@ -3197,7 +3199,7 @@ span {
       text-align: center;
 
       h4 {
-        color: $dark-blue;
+        color: vars.$dark-blue;
         font-size: 24px;
         font-weight: 500;
         text-transform: none;
@@ -3217,23 +3219,23 @@ span {
         }
 
         .survey-optional-choice {
-          background: $white;
+          background: vars.$white;
           border-radius: 15px;
           box-shadow: 0px 1px 6px 0px rgba(0, 102, 190, 0.2);
           padding: 10px;
           margin: 0 auto 12px;
           width: 164px;
           height: 164px;
-          @include flex-middle;
+          @include m.flex-middle;
           flex-direction: column;
           cursor: pointer;
 
           &:hover {
-            box-shadow: 0px 1px 10.5px 0px $primary-color;
+            box-shadow: 0px 1px 10.5px 0px vars.$primary-color;
           }
 
           &.selected {
-            box-shadow: 0px 1px 10.5px 0px $primary-color;
+            box-shadow: 0px 1px 10.5px 0px vars.$primary-color;
           }
         }
 
@@ -3245,7 +3247,7 @@ span {
         }
 
         h5 {
-          color: $primary-color;
+          color: vars.$primary-color;
           font-size: 18px;
           font-style: normal;
           font-weight: 500;
@@ -3489,14 +3491,14 @@ body {
     z-index: 1;
 
     h3 {
-      color: $white;
+      color: vars.$white;
       font-size: 32px;
       font-weight: 500;
       margin: 0 0 12px;
     }
 
     h4 {
-      color: $white;
+      color: vars.$white;
       font-size: 24px;
       font-weight: 300;
       margin: 0 0 32px;
@@ -3505,9 +3507,9 @@ body {
 
     a {
       &.btn-white {
-        background-color: $white;
+        background-color: vars.$white;
         border: 0;
-        color: $primary-color;
+        color: vars.$primary-color;
         box-shadow: 0px 1px 8px 0px rgba(0, 102, 190, 0.32);
         min-width: 175px;
         border-radius: 30px;
@@ -3518,8 +3520,8 @@ body {
         display: inline-block;
 
         &:hover {
-          background-color: $primary-color;
-          color: $white;
+          background-color: vars.$primary-color;
+          color: vars.$white;
         }
       }
     }
@@ -4195,7 +4197,7 @@ body {
               }
 
               &:nth-last-child(5) {
-                border-left: 1px dashed $primary-color;
+                border-left: 1px dashed vars.$primary-color;
                 padding-left: 16px;
               }
 
@@ -4215,7 +4217,7 @@ body {
                   padding: 2px 12px;
                   border-radius: 13px;
                   font-size: 12px;
-                  color: $white;
+                  color: vars.$white;
                   text-align: center;
                 }
 
@@ -4227,7 +4229,7 @@ body {
 
                 &.live {
                   div {
-                    background: $secondary-green;
+                    background: vars.$secondary-green;
                   }
                 }
                 &.draft {
@@ -4246,7 +4248,7 @@ body {
                   td {
                     box-shadow: none;
                     padding: 0;
-                    color: $primary-color;
+                    color: vars.$primary-color;
 
                     &:first-child {
                       padding-left: 0px;
@@ -4263,7 +4265,7 @@ body {
               }
 
               &.blue {
-                color: $primary-color;
+                color: vars.$primary-color;
                 span {
                   display: block;
                 }
@@ -4351,16 +4353,16 @@ body {
 
   .survey-analytics-box {
     border-radius: 12px;
-    background: $white;
+    background: vars.$white;
     box-shadow: 0px 1px 6px 0px rgba(0, 102, 190, 0.2);
     margin: 6px 0 64px;
 
     .survey-analytics-top {
       padding: 18px;
-      border-bottom: 1px dashed $light-gray;
+      border-bottom: 1px dashed vars.$light-gray;
 
       h6 {
-        color: $dark-blue;
+        color: vars.$dark-blue;
         font-size: 16px;
         font-weight: 500;
       }
@@ -4377,7 +4379,7 @@ body {
         }
       }
       p {
-        color: $dark-gray;
+        color: vars.$dark-gray;
         font-size: 14px;
         font-weight: 500;
         line-height: 20px;
@@ -4392,7 +4394,7 @@ body {
       .survey-completion {
         width: 238px;
         flex: 0 0 238px;
-        border-right: 1px dashed $light-gray;
+        border-right: 1px dashed vars.$light-gray;
         padding: 11px 20px 22px;
 
         .survey-completion-info {
@@ -4403,7 +4405,7 @@ body {
 
           h2 {
             text-align: center;
-            color: $secondary-green;
+            color: vars.$secondary-green;
             font-size: 100px;
             font-weight: 500;
             line-height: normal;
@@ -4456,7 +4458,7 @@ body {
         }
       }
       .survey-takers {
-        border-right: 1px dashed $light-gray;
+        border-right: 1px dashed vars.$light-gray;
         padding: 11px 30px 16px;
         flex: 0 0 36.5%;
 
@@ -4464,27 +4466,27 @@ body {
           .highcharts-root {
             .highcharts-legend-item {
               text {
-                color: $dark-gray !important;
+                color: vars.$dark-gray !important;
                 font-weight: 400 !important;
                 font-size: 13px !important;
-                fill: $dark-gray !important;
+                fill: vars.$dark-gray !important;
               }
             }
           }
           .highcharts-data-labels {
             .highcharts-label {
               text {
-                color: $primary-color !important;
+                color: vars.$primary-color !important;
                 font-weight: 500 !important;
                 font-size: 14px !important;
-                fill: $primary-color !important;
+                fill: vars.$primary-color !important;
               }
             }
           }
           .highcharts-axis-labels {
             text {
-              color: $light-gray !important;
-              fill: $light-gray !important;
+              color: vars.$light-gray !important;
+              fill: vars.$light-gray !important;
             }
           }
         }
@@ -4531,7 +4533,7 @@ body {
         }
       }
       .survey-takers-status {
-        border-right: 1px dashed $light-gray;
+        border-right: 1px dashed vars.$light-gray;
         padding: 11px 36px 1px;
         // flex: 0 0 423px;
         flex: 0 0 27%;
@@ -4545,27 +4547,27 @@ body {
           .highcharts-root {
             .highcharts-legend-item {
               text {
-                color: $dark-gray !important;
+                color: vars.$dark-gray !important;
                 font-weight: 400 !important;
                 font-size: 13px !important;
-                fill: $dark-gray !important;
+                fill: vars.$dark-gray !important;
               }
             }
           }
           .highcharts-data-labels {
             .highcharts-label {
               text {
-                color: $primary-color !important;
+                color: vars.$primary-color !important;
                 font-weight: 500 !important;
                 font-size: 14px !important;
-                fill: $primary-color !important;
+                fill: vars.$primary-color !important;
               }
             }
           }
           .highcharts-axis-labels {
             text {
-              color: $light-gray !important;
-              fill: $light-gray !important;
+              color: vars.$light-gray !important;
+              fill: vars.$light-gray !important;
             }
           }
         }
@@ -4606,7 +4608,7 @@ body {
       @media (max-width: 1199px) {
         .survey-takers-status {
           flex: 0 0 auto;
-          border-top: 1px dashed $light-gray;
+          border-top: 1px dashed vars.$light-gray;
           width: 50%;
         }
       }
@@ -4618,11 +4620,11 @@ body {
 
         .survey-info {
           border-radius: 8px;
-          background: $white;
+          background: vars.$white;
           box-shadow: 0px 1px 6px 0px rgba(0, 102, 190, 0.2);
           // padding: 11px 5px 11px 12px;
           padding: 11px 4px 11px 9px;
-          @include flex-center;
+          @include m.flex-center;
 
           img {
             width: 20px;
@@ -4630,7 +4632,7 @@ body {
           }
 
           div {
-            color: $dark-gray;
+            color: vars.$dark-gray;
             font-size: 14px;
             font-weight: 400;
           }
@@ -4638,8 +4640,8 @@ body {
           .survey-value {
             min-width: 75px;
             text-align: center;
-            border-left: 1px solid $light-gray;
-            color: $primary-color;
+            border-left: 1px solid vars.$light-gray;
+            color: vars.$primary-color;
             font-size: 20px;
             font-weight: 500;
 
@@ -4652,7 +4654,7 @@ body {
 
           &.no-answer {
             .survey-value {
-              color: $light-pink;
+              color: vars.$light-pink;
             }
           }
         }
@@ -4691,7 +4693,7 @@ body {
       @media (max-width: 1199px) {
         .survey-full-info {
           flex: 0 0 50%;
-          border-top: 1px dashed $light-gray;
+          border-top: 1px dashed vars.$light-gray;
           .survey-info {
             div {
               font-size: 12px;
@@ -4709,7 +4711,7 @@ body {
   .survey-question-listing {
     margin-bottom: 64px;
     border-radius: 12px;
-    background: $white;
+    background: vars.$white;
     box-shadow: 0px 1px 6px 0px rgba(0, 102, 190, 0.2);
 
     &:last-child {
@@ -4718,15 +4720,15 @@ body {
 
     .survey-question-top {
       padding: 16px;
-      border-bottom: 1px dashed $light-gray;
+      border-bottom: 1px dashed vars.$light-gray;
       gap: 16px;
-      background: $white;
+      background: vars.$white;
       border-radius: 12px 12px 0 0;
       .survey-result-graph {
         gap: 16px;
       }
       .survey-question-num {
-        @include flex-align-center;
+        @include m.flex-align-center;
         gap: 5px;
 
         .question-type {
@@ -4737,7 +4739,7 @@ body {
 
         .question-number {
           h4 {
-            color: $dark-blue;
+            color: vars.$dark-blue;
             font-weight: 500;
           }
         }
@@ -4750,7 +4752,7 @@ body {
         flex: 1 1;
 
         p {
-          color: $dark-blue;
+          color: vars.$dark-blue;
           font-size: 14px;
           span {
             color: inherit;
@@ -4758,15 +4760,15 @@ body {
         }
         span {
           font-size: 13px;
-          color: $light-gray;
+          color: vars.$light-gray;
           padding-left: 3px;
         }
       }
 
       .question-status {
-        @include flex-align-center;
+        @include m.flex-align-center;
         border-radius: 6px;
-        background: $white;
+        background: vars.$white;
         // box-shadow: 0px 1px 6px 0px rgba(0, 102, 190, 0.20);
         filter: drop-shadow(0px 0px 3px rgba(0, 102, 190, 0.2));
         padding: 2px 8px;
@@ -4778,11 +4780,11 @@ body {
         }
 
         .total-answered {
-          @include flex-align-center;
+          @include m.flex-align-center;
           gap: 7px;
           width: 50%;
-          border-right: 1px dashed $light-gray;
-          background: $white;
+          border-right: 1px dashed vars.$light-gray;
+          background: vars.$white;
 
           svg {
             // border-right: 1px solid $light-gray;
@@ -4794,8 +4796,8 @@ body {
           }
 
           span {
-            color: $dark-blue;
-            border-left: 1px solid $light-gray;
+            color: vars.$dark-blue;
+            border-left: 1px solid vars.$light-gray;
             padding-left: 8px;
             min-width: 30px;
             text-align: center;
@@ -4803,11 +4805,11 @@ body {
         }
 
         .total-ignored {
-          @include flex-align-center;
+          @include m.flex-align-center;
           gap: 7px;
           width: 50%;
           padding-left: 7px;
-          background: $white;
+          background: vars.$white;
           svg {
             // border-right: 1px solid $light-gray;
             // padding-right: 8px;
@@ -4818,8 +4820,8 @@ body {
           }
 
           span {
-            color: $light-pink;
-            border-left: 1px solid $light-gray;
+            color: vars.$light-pink;
+            border-left: 1px solid vars.$light-gray;
             padding-left: 8px;
             min-width: 30px;
             text-align: center;
@@ -4829,10 +4831,10 @@ body {
       .dropdown {
         button {
           padding: 7px;
-          background-color: $white;
+          background-color: vars.$white;
           border: 0;
           border-radius: 30px;
-          color: $light-gray;
+          color: vars.$light-gray;
           -webkit-filter: drop-shadow(0 1px 6px rgba(0, 102, 190, 0.2));
           filter: drop-shadow(0 1px 6px rgba(0, 102, 190, 0.2));
           font-size: 14px;
@@ -4856,11 +4858,11 @@ body {
         }
 
         .dropdown-menu {
-          border-color: $light-gray;
+          border-color: vars.$light-gray;
           padding: 4px 0;
 
           a {
-            color: $dark-gray;
+            color: vars.$dark-gray;
             font-size: 13px;
           }
         }
@@ -4877,10 +4879,10 @@ body {
       display: flex;
       // align-items: center;
       height: 100%;
-      background: $white;
+      background: vars.$white;
 
       &.matrix {
-        border-bottom: 1px dashed $light-gray;
+        border-bottom: 1px dashed vars.$light-gray;
 
         &:last-child {
           border-bottom: 0;
@@ -4895,13 +4897,13 @@ body {
       .question-preview {
         width: 597px;
         padding: 40px 16px;
-        border-right: 1px dashed $light-gray;
+        border-right: 1px dashed vars.$light-gray;
         flex-direction: column;
         display: flex;
         justify-content: center;
 
         & > span {
-          color: $dark-blue;
+          color: vars.$dark-blue;
           font-size: 13px;
           font-weight: 500;
           margin: 0 0 7px;
@@ -4910,7 +4912,7 @@ body {
 
         .question-preview-options {
           div {
-            color: $light-gray;
+            color: vars.$light-gray;
             font-size: 13px;
             font-weight: 500;
             margin: 0 0 8px;
@@ -4924,10 +4926,10 @@ body {
           filter: drop-shadow(0px 0px 6px rgba(0, 102, 190, 0.2));
           padding: 12px;
           gap: 16px;
-          @include vertical-list;
+          @include m.vertical-list;
           align-items: flex-start;
           position: relative;
-          background: $white;
+          background: vars.$white;
           // border: 1px solid rgba(0, 102, 190, 0.2);
           .no-data {
             font-size: 22px;
@@ -4939,11 +4941,11 @@ body {
             width: 100%;
           }
           .answer {
-            @include flex-space-between;
+            @include m.flex-space-between;
             width: 100%;
-            background: $white;
+            background: vars.$white;
             .choices {
-              @include flex-align-center;
+              @include m.flex-align-center;
               flex: 1 1;
               padding-right: 10px;
 
@@ -4958,7 +4960,7 @@ body {
               }
 
               div {
-                color: $dark-gray;
+                color: vars.$dark-gray;
                 font-size: 13px;
                 &.d-flex {
                   gap: 6px;
@@ -4966,8 +4968,8 @@ body {
                     width: 16px;
                     height: 16px;
                     border-radius: 50%;
-                    background: $dark-gray;
-                    color: $white;
+                    background: vars.$dark-gray;
+                    color: vars.$white;
                     font-size: 10px;
                     text-align: center;
                     &:first-child {
@@ -4980,20 +4982,20 @@ body {
 
             .respondents {
               gap: 8px;
-              @include flex-align-center;
+              @include m.flex-align-center;
 
               span {
-                color: $dark-blue;
+                color: vars.$dark-blue;
                 font-size: 13px;
                 font-weight: 500;
                 min-width: 18px;
                 text-align: center;
 
                 &.respondents-percent {
-                  color: $dark-gray;
+                  color: vars.$dark-gray;
                   min-width: 43px;
                   span {
-                    color: $dark-blue;
+                    color: vars.$dark-blue;
                   }
                 }
               }
@@ -5002,20 +5004,20 @@ body {
         }
 
         .avg-view {
-          background: $light-gray;
+          background: vars.$light-gray;
           border-radius: 0 0 8px 8px;
           padding: 10px 68px 5px 12px;
           margin-top: -4px;
 
           .dispaly-avg-view {
             button {
-              color: $white;
+              color: vars.$white;
               font-size: 11px;
               text-transform: capitalize;
               gap: 6px;
               border: 0;
               background: transparent;
-              @include flex-middle;
+              @include m.flex-middle;
 
               &.active {
                 img {
@@ -5029,7 +5031,7 @@ body {
             }
 
             .result-view {
-              color: $white;
+              color: vars.$white;
               font-size: 11px;
             }
           }
@@ -5046,27 +5048,27 @@ body {
           .highcharts-root {
             .highcharts-legend-item {
               text {
-                color: $dark-gray !important;
+                color: vars.$dark-gray !important;
                 font-weight: 400 !important;
                 font-size: 13px !important;
-                fill: $dark-gray !important;
+                fill: vars.$dark-gray !important;
               }
             }
           }
           .highcharts-data-labels {
             .highcharts-label {
               text {
-                color: $primary-color !important;
+                color: vars.$primary-color !important;
                 font-weight: 500 !important;
                 font-size: 14px !important;
-                fill: $primary-color !important;
+                fill: vars.$primary-color !important;
               }
             }
           }
           .highcharts-axis-labels {
             text {
-              color: $light-gray !important;
-              fill: $light-gray !important;
+              color: vars.$light-gray !important;
+              fill: vars.$light-gray !important;
             }
           }
         }
@@ -5138,10 +5140,10 @@ body {
           .highcharts-data-labels {
             .highcharts-label {
               text {
-                color: $dark-blue !important;
+                color: vars.$dark-blue !important;
                 font-weight: 500 !important;
                 font-size: 13px !important;
-                fill: $dark-blue !important;
+                fill: vars.$dark-blue !important;
               }
             }
           }
@@ -5158,10 +5160,10 @@ body {
         .dropdown {
           button {
             padding: 7px;
-            background-color: $white;
+            background-color: vars.$white;
             border: 0;
             border-radius: 30px;
-            color: $light-gray;
+            color: vars.$light-gray;
             -webkit-filter: drop-shadow(0 1px 6px rgba(0, 102, 190, 0.2));
             filter: drop-shadow(0 1px 6px rgba(0, 102, 190, 0.2));
             font-size: 14px;
@@ -5185,11 +5187,11 @@ body {
           }
 
           .dropdown-menu {
-            border-color: $light-gray;
+            border-color: vars.$light-gray;
             padding: 4px 0;
 
             a {
-              color: $dark-gray;
+              color: vars.$dark-gray;
               font-size: 13px;
             }
           }
@@ -5212,11 +5214,11 @@ body {
               .survey-rating-detail {
                 h5 {
                   span {
-                    background: $light-gray;
+                    background: vars.$light-gray;
                     width: 16px;
                     height: 16px;
                     border-radius: 50%;
-                    color: $white;
+                    color: vars.$white;
                     font-size: 10px;
                     display: flex;
                     align-items: center;
@@ -5230,13 +5232,13 @@ body {
                 display: flex;
                 align-items: center;
                 gap: 4px;
-                color: $light-gray;
+                color: vars.$light-gray;
                 font-size: 13px;
                 font-weight: 400;
                 margin-right: 4px;
                 &.survey-rating-number {
                   font-weight: 500;
-                  color: $dark-blue;
+                  color: vars.$dark-blue;
                 }
                 span {
                   line-height: 1;
@@ -5263,7 +5265,7 @@ body {
             }
           }
           .question-preview-chart-result {
-            color: $dark-gray;
+            color: vars.$dark-gray;
             font-size: 16px;
             font-weight: 400;
             font-family: "Roboto";
@@ -5272,7 +5274,7 @@ body {
             gap: 8px;
             span {
               font-size: 24px;
-              color: $dark-blue;
+              color: vars.$dark-blue;
               font-weight: 500;
               &.divide-line {
                 color: transparent;
@@ -5284,7 +5286,7 @@ body {
                   left: 0;
                   height: 32px;
                   width: 1px;
-                  background: $light-gray;
+                  background: vars.$light-gray;
                   position: absolute;
                 }
               }
@@ -5311,7 +5313,7 @@ body {
           }
           @media (max-width: 1400px) {
             .question-preview-chart-result {
-              color: $dark-gray;
+              color: vars.$dark-gray;
               font-size: 13px;
             }
           }
@@ -5324,7 +5326,7 @@ body {
         }
         .free-text-section {
           gap: 24px;
-          @include flex-column;
+          @include m.flex-column;
           margin: 16px 0 0;
           max-height: 400px;
           overflow-y: auto;
@@ -5334,14 +5336,14 @@ body {
           }
           .free-text-block {
             border-radius: 9px;
-            background: $white;
+            background: vars.$white;
             // box-shadow: 0px 1px 6px 0px rgba(0, 102, 190, 0.20);
             filter: drop-shadow(0px 1px 4px rgba(0, 102, 190, 0.2));
             padding: 6px 12px 12px;
 
             p {
               font-size: 14px;
-              color: $dark-blue;
+              color: vars.$dark-blue;
               font-weight: 500;
               margin: 0 0 6px;
             }
@@ -5353,7 +5355,7 @@ body {
 
               p {
                 margin: 0;
-                color: $dark-gray;
+                color: vars.$dark-gray;
                 font-weight: 400;
               }
             }
@@ -5420,12 +5422,12 @@ body {
               }
             }
             td {
-              color: $dark-gray;
+              color: vars.$dark-gray;
               font-weight: 400;
               text-transform: capitalize;
 
               &.completed {
-                color: $secondary-green;
+                color: vars.$secondary-green;
               }
 
               &.drop-off {
@@ -5433,7 +5435,7 @@ body {
               }
 
               &.ignored {
-                color: $light-pink;
+                color: vars.$light-pink;
               }
               .no_found {
                 min-height: 240px;
@@ -5441,7 +5443,7 @@ body {
             }
 
             &.fold {
-              background: $white;
+              background: vars.$white;
 
               td {
                 padding: 0;
@@ -5449,7 +5451,7 @@ body {
 
                 .survey-data {
                   padding: 10px 16px;
-                  border-bottom: 2px solid $white;
+                  border-bottom: 2px solid vars.$white;
                   display: flex;
                   gap: 6px;
 
@@ -5468,7 +5470,7 @@ body {
                     padding: 17px 16px;
 
                     p {
-                      color: $light-gray;
+                      color: vars.$light-gray;
                     }
                   }
                   .survey-matrix {
@@ -5481,7 +5483,7 @@ body {
                         border: 1px solid rgb(112 137 158 / 40%);
                         td {
                           border: 0;
-                          background: $white;
+                          background: vars.$white;
                           padding: 5px;
                           font-size: 15px;
                           border-radius: 0;
@@ -5491,7 +5493,7 @@ body {
                           min-width: 150px;
                           &.heading {
                             p {
-                              color: $dark-blue;
+                              color: vars.$dark-blue;
                               font-weight: 700;
                             }
                           }
@@ -5508,8 +5510,8 @@ body {
                       height: 15px;
                       border-radius: 50%;
                       text-align: center;
-                      background: $dark-gray;
-                      color: $white;
+                      background: vars.$dark-gray;
+                      color: vars.$white;
                       padding: 0px;
                       overflow: 8;
                       font-size: 10px;
@@ -5557,7 +5559,7 @@ body {
 
       .load-choice-txt {
         font-size: 12px;
-        color: $primary-color;
+        color: vars.$primary-color;
         gap: 4px;
         margin: 10px 0 0;
         justify-content: flex-end;
@@ -5579,7 +5581,7 @@ body {
       p {
         font-size: 20px;
         font-weight: 500;
-        color: $dark-blue;
+        color: vars.$dark-blue;
         margin: 0 0 12px;
       }
 
@@ -5598,7 +5600,7 @@ body {
           padding: 0;
           min-height: 160px;
           font-size: 16px;
-          color: $primary-color;
+          color: vars.$primary-color;
         }
       }
     }
@@ -5634,7 +5636,7 @@ header.-top-24 ~ div .survey-builder .survey-engine .left-setup {
 .dragable-box .d-flex input.form-control {
   max-width: 211px;
   border-radius: 4px;
-  background: $white;
+  background: vars.$white;
   box-shadow: 0px 1px 6px 0px rgba(0, 0, 0, 0.16);
   border: 0;
   font-size: 12px;
@@ -5657,10 +5659,10 @@ header.-top-24 ~ div .survey-builder .survey-engine .left-setup {
 }
 
 .tox .tox-collection__item {
-  color: $dark-blue !important;
+  color: vars.$dark-blue !important;
 }
 .tox .tox-tbtn__select-chevron svg {
-  fill: $dark-gray;
+  fill: vars.$dark-gray;
 }
 .text-editor .tox .tox-tbtn--select {
   width: auto !important;
@@ -5682,7 +5684,7 @@ header.-top-24 ~ div .survey-builder .survey-engine .left-setup {
 .text-editor .tox .tox-tbtn--select .tox-tbtn__select-label {
   width: auto !important;
   font-size: 14px;
-  color: $dark-blue;
+  color: vars.$dark-blue;
 }
 
 .tox-tbtn__select-chevron {
@@ -5702,7 +5704,7 @@ body {
 }
 
 .highcharts-label.popup-on-click {
-  background: $primary-color;
+  background: vars.$primary-color;
   border-radius: 50px;
   min-width: 105px;
   min-height: 30px;
@@ -5713,7 +5715,7 @@ body {
 .highcharts-label.popup-on-click > span {
   text-align: center;
   width: 91px;
-  color: $white !important;
+  color: vars.$white !important;
   top: 6px !important;
 }
 .highcharts-label.popup-on-click span > div {
@@ -5742,7 +5744,7 @@ body {
 //   }
 
 .dropArea {
-  color: $white !important;
+  color: vars.$white !important;
   background: white !important;
   border: 1px dashed #8A4E9C;
   width: 100%;

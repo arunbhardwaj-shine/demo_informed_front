@@ -1,3 +1,4 @@
+@use "./variables" as vars;
 @mixin h5 {
   font-weight: 500;
   font-size: 16px;
@@ -273,9 +274,9 @@
 
 @mixin form-control {
   border-radius: 30px;
-  background: $white;
+  background: vars.$white;
   box-shadow: 0px 1px 6px 0px rgba(0, 102, 190, 0.2);
-  color: $primary-color;
+  color: vars.$primary-color;
   font-size: 14px;
   font-weight: 400;
   line-height: 132%;
@@ -296,7 +297,7 @@
       &.checkmark {
         border-radius: 3px;
         border: 1px solid rgba(112, 137, 158, 1);
-        background: $white;
+        background: vars.$white;
         height: 16px;
         width: 16px;
 
@@ -338,7 +339,7 @@
 
     &:checked {
       &~.checkmark {
-        border-color: $dark-blue;
+        border-color: vars.$dark-blue;
 
         &:after {
           top: 2px;
@@ -346,7 +347,7 @@
           width: 10px;
           height: 10px;
           border-radius: 50%;
-          background: $dark-blue;
+          background: vars.$dark-blue;
           content: "";
           position: absolute;
           display: block;
