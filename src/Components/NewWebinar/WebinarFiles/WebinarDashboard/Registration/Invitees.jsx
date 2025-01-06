@@ -37,7 +37,7 @@ const Invitees = () => {
     // "User type ": ["HCP", "Staff user", "Test user"],
     // "User ": ["Registered", "Blocked"]
   });
-  const [eventdata, setEventData] = useState({
+  const [eventData, setEventData] = useState({
   });
   const [otherFilter, setOtherFilter] = useState({
     "UserType": [
@@ -444,33 +444,34 @@ const Invitees = () => {
     getWebinarData(sp, appliedFilter, 1)
   };
 
-  const copyToClipboard = (user_id) => {
-    let content =
-      "https://onesource.octapharma.com/redirect?user-id=5098" +
-      user_id +
-      "61&encf=1";
-    if (window.isSecureContext && navigator.clipboard) {
-      navigator.clipboard.writeText(content);
-      toast.success("content copied to the clipboard!");
-    } else {
-      unsecuredCopyToClipboard(content);
-    }
-  };
-
-
-  const copyZoomToClipboard = async (user_id) => {
-    try {
-      const encryptedUserId = await encryptUserId(user_id);
   
-      let content =
-        "https://webinar.shinedezign.pro/zoom?evnt=" +
-        eventdata?.event_code +
-        "&hefrghh=" +
-        encryptedUserId +
-        "&meetingId=" +
-        eventdata?.meeting_id +
-        "&passCode=" +
-        eventdata?.meeting_pass;
+  const streamBaseUrls = {
+    onesource: "https://onesource.octapharma.com/redirect?user-id=5098",
+    zoom: "https://meeting.docintel.app/zoom?evnt=",
+    webex: "https://meeting.docintel.app/webex/index.html?evnt=",
+  };  
+  const streamTypeMap = {
+    0: "No streaming",
+    1: "onesource",
+    2: "zoom",
+    3: "webex",
+  }
+  
+  const buildUrl = async (user_id, type, eventData) => {
+    let content = "";
+    if (type === "onesource") {
+      content = `${streamBaseUrls.onesource}${user_id}61&encf=1`;
+    } else if ((type === "zoom" || type === "webex") && eventData) {
+      const encryptedUserId = await encryptUserId(user_id);
+      // content = `${streamBaseUrls[type]}${eventData?.event_code}&hefrghh=${encryptedUserId}&meetingId=${eventData?.meeting_id}&passCode=${eventData?.meeting_pass}`;
+      content = `${streamBaseUrls[type]}${eventData?.event_code}&hefrghh=${encryptedUserId}`;
+    }
+    return content;
+  };
+  
+  const copyToClipboard = async (user_id, type, eventData = null) => {
+    try {
+      const content = await buildUrl(user_id, type, eventData);
   
       if (window.isSecureContext && navigator.clipboard) {
         navigator.clipboard.writeText(content);
@@ -479,17 +480,16 @@ const Invitees = () => {
         unsecuredCopyToClipboard(content);
       }
     } catch (error) {
-      console.error("Error encrypting user ID:", error);
-      toast.error("Failed to encrypt user ID. Please try again.");
+      console.error("Error copying to clipboard:", error);
+      toast.error("Failed to copy content. Please try again.");
     }
   };
-
+  
   const encryptUserId = async (user_id) => {
     try {
       let data = qs.stringify({
         user_id: user_id,
       });
-  
       let config = {
         method: 'post',
         maxBodyLength: Infinity,
@@ -882,16 +882,13 @@ const Invitees = () => {
                               </div>
                             </div>
                             <div className="invitess-tbl-right">
-                             { eventdata?.stream_type === 1 || eventdata?.stream_type === 2 ? <div className="clear-search">
+                             { [1,2,3].includes(eventData?.stream_type)? <div className="clear-search">
                                 <button
                                   title="Copy SSI"
                                   // onClick={() => {
                                   //   copyToClipboard(user?.user_id);
                                   // }}
-                                  onClick={() =>
-                                    eventdata?.stream_type === 1
-                                      ? copyToClipboard(user?.user_id)
-                                      :   eventdata?.stream_type === 2 ? copyZoomToClipboard(user?.user_id) : ''}
+                                  onClick={() => copyToClipboard(user?.user_id, streamTypeMap[eventData?.stream_type], eventData)}
                                 >
                                   <svg
                                     xmlns="http://www.w3.org/2000/svg"
