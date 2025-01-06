@@ -472,7 +472,7 @@ const Sidebar = () => {
                 }
               >
                 <Link to={"/SmartList"}>
-                <img src= { sidebar_image_path + "smart-list.svg" } alt=""/>
+                <img src= { sidebar_image_path + "attendees.svg" } alt=""/>
                 {" "}
                   <p>Smart list</p>
                 </Link>
@@ -487,7 +487,7 @@ const Sidebar = () => {
                 }
               >
                 <Link to={"/EmailStatss"}>
-                <img src= { sidebar_image_path + "email-statss.svg" } alt=""/>
+                <img src= { sidebar_image_path + "analytics-email.svg" } alt=""/>
                 {" "}
                   <p>Email Results</p>
                 </Link>
@@ -638,7 +638,7 @@ const Sidebar = () => {
                   }
                 >
                   <Link to={"/spc"}>
-                  <img src= { sidebar_image_path + "spc.svg" } alt=""/>
+                  <img src= { sidebar_image_path + "all-events.svg" } alt=""/>
                    {" "}
                     <p>SPC</p>
                   </Link>
@@ -717,7 +717,7 @@ const Sidebar = () => {
                   }
                 >
                   <Link to={"/library-content"}>
-                  <img src= { sidebar_image_path + "library-content2.svg" } alt=""/>
+                  <img src= { sidebar_image_path + "license-content.svg" } alt=""/>
                   {" "} 
                     <p>Non Mandatory</p>
                   </Link>
@@ -774,7 +774,7 @@ const Sidebar = () => {
                 }
               >
                 <Link to={"/license-topics"}>
-                <img src= { sidebar_image_path + "license-topics.svg" } alt=""/>
+                <img src= { sidebar_image_path + "products.svg" } alt=""/>
                 {" "}
                   <p>Products</p>
                 </Link>
@@ -825,7 +825,7 @@ const Sidebar = () => {
                 }
               >
                 <Link to={"/readers-view"}>
-                <img src= { sidebar_image_path + "readers-view.svg" } alt=""/>
+                <img src= { sidebar_image_path + "attendees.svg" } alt=""/>
                 {" "}
                   <p>
                     {isLikeRdAccount
@@ -919,7 +919,7 @@ const Sidebar = () => {
                     }
                   >
                     <Link to={"/webinar/invitees"}>
-                    <img src= { sidebar_image_path + "registered-users.svg" } alt=""/>
+                    <img src= { sidebar_image_path + "attendees.svg" } alt=""/>
                     {" "}
                       <p>Registered Users</p>
                     </Link>
@@ -978,7 +978,7 @@ const Sidebar = () => {
                           // className="side_li"
                           >
                             <Link to="/webinar/email">
-                            <img src= { sidebar_image_path +"webinar-email2.svg" } alt=""/>
+                            <img src= { sidebar_image_path +"webinar-email.svg" } alt=""/>
                             {" "}
                               <p>Email</p>
                             </Link>
@@ -997,7 +997,7 @@ const Sidebar = () => {
                            
                           >
                             <Link to="/webinar/email/smartlist">
-                            <img src= { sidebar_image_path +"smart-list2.svg" } alt=""/>
+                            <img src= { sidebar_image_path +"attendees.svg" } alt=""/>
                             {" "}
                               <p>Smart List</p>
                             </Link>
@@ -1107,7 +1107,7 @@ const Sidebar = () => {
                           // className="side_li"
                           >
                             <Link to="/webinar/analytics">
-                            <img src= { sidebar_image_path +" dashboard.svg" } alt=""/>
+                            <img src= { sidebar_image_path +"analytics.svg" } alt=""/>
                             {" "}
                               <p>Dashboard</p>
                             </Link>
@@ -1194,7 +1194,7 @@ const Sidebar = () => {
                       }
                     >
                       <Link to={"/webinar/invitees"}>
-                      <img src= { sidebar_image_path +"registered-users-invitees.svg" } alt=""/>
+                      <img src= { sidebar_image_path +"attendees.svg" } alt=""/>
                       {" "}
                         <p>Registered Users</p>
                       </Link>
@@ -1221,7 +1221,7 @@ const Sidebar = () => {
                       }
                     >
                       <Link to={"/webinar/email"}>
-                      <img src= { sidebar_image_path +"webinar-email2.svg" } alt=""/>
+                      <img src= { sidebar_image_path +"webinar-email.svg" } alt=""/>
                        {" "}
                         <p>Email</p>
                       </Link>
@@ -1262,7 +1262,7 @@ const Sidebar = () => {
                         }
                       >
                         <Link to={"/webinar/invitees"}>
-                        <img src= { sidebar_image_path + "registered-users.svg" } alt=""/>
+                        <img src= { sidebar_image_path + "attendees.svg" } alt=""/>
                         {" "}
                           <p>Registered Users</p>
                         </Link>
@@ -2087,7 +2087,7 @@ const Sidebar = () => {
                                 }
                               >
                                 <Link to={"/survey/survey-data"}>
-                                <img src= { sidebar_image_path +"survey-data.svg" } alt=""/>
+                                <img src= { sidebar_image_path +"post-survey.svg" } alt=""/>
                                 {" "}
                                   <p>Survey</p>
                                 </Link>
@@ -3261,7 +3261,7 @@ const Sidebar = () => {
                     }
                   >
                     <a href="javascript:;">
-                    <img src= { sidebar_image_path + "smart-list-filter.svg" } alt=""/>
+                    <img src= { sidebar_image_path + "question-mark.svg" } alt=""/>
                     </a>
                   </div>
                 </div>
@@ -3283,7 +3283,7 @@ const Sidebar = () => {
                   )
                 }
               >
-                <img src= { sidebar_image_path + "smart-list-help-popup.svg" } alt=""/>
+                <img src= { sidebar_image_path + "question-mark.svg" } alt=""/>
               </div>
               <div
                 className={
@@ -3367,7 +3367,7 @@ const Sidebar = () => {
                     }
                   >
                     <a href="javascript:;">
-                    <img src= { sidebar_image_path + "help-popup-close.svg" } alt=""/>
+                    <img src= { sidebar_image_path + "cross.svg" } alt=""/>
                     </a>
                   </div>
                 </div>
@@ -3389,7 +3389,7 @@ const Sidebar = () => {
                     )
                   }
                 >
-                  <img src= { sidebar_image_path + "help-popup-view.svg" } alt=""/>
+                  <img src= { sidebar_image_path + "question-mark.svg" } alt=""/>
                 </div>
                 <div
                   className={
@@ -3462,7 +3462,7 @@ const Sidebar = () => {
                       }
                     >
                       <a href="javascript:;">
-                      <img src= { sidebar_image_path + "create-content.svg" } alt=""/>
+                      <img src= { sidebar_image_path + "cross.svg" } alt=""/>
                       </a>
                     </div>
                   </div>
@@ -3478,7 +3478,7 @@ const Sidebar = () => {
                     )
                   }
                 >
-                  <img src= { sidebar_image_path + "help-popup.svg" } alt=""/>
+                  <img src= { sidebar_image_path + "question-mark.svg" } alt=""/>
                 </div>
                 <div
                   className={
@@ -3542,7 +3542,7 @@ const Sidebar = () => {
                       }
                     >
                       <a href="javascript:;">
-                      <img src= { sidebar_image_path + "help-setup-popup.svg" } alt=""/>
+                      <img src= { sidebar_image_path + "cross.svg" } alt=""/>
                       </a>
                     </div>
                   </div>
@@ -3561,7 +3561,7 @@ const Sidebar = () => {
                     )
                   }
                 >
-                  <img src= { sidebar_image_path + "help-setup-view.svg" } alt=""/>
+                  <img src= { sidebar_image_path + "question-mark.svg" } alt=""/>
                 </div>
                 <div
                   className={
@@ -3638,7 +3638,7 @@ const Sidebar = () => {
                     )
                   }
                 >
-                 <img src= { sidebar_image_path + "edit-consent-view.svg" } alt=""/>
+                 <img src= { sidebar_image_path + "question-mark.svg" } alt=""/>
                 </div>
                 <div
                   className={
@@ -3690,7 +3690,7 @@ const Sidebar = () => {
                       }
                     >
                       <a href="javascript:;">
-                      <img src= { sidebar_image_path + "edit-consent-close.svg" } alt=""/>
+                      <img src= { sidebar_image_path + "cross.svg" } alt=""/>
                       </a>
                     </div>
                   </div>
@@ -5953,7 +5953,7 @@ const Sidebar = () => {
                     )
                   }
                 >
-                 <img src= { sidebar_image_path + "library-sublink-popup.svg" } alt=""/>
+                 <img src= { sidebar_image_path + "question-mark.svg" } alt=""/>
                 </div>
                 <div
                   className={
@@ -6031,7 +6031,7 @@ const Sidebar = () => {
                       }
                     >
                       <a href="javascript:;">
-                      <img src= { sidebar_image_path + "create-content.svg" } alt=""/>
+                      <img src= { sidebar_image_path + "cross.svg" } alt=""/>
                       </a>
                     </div>
                   </div>
@@ -6050,7 +6050,7 @@ const Sidebar = () => {
                     )
                   }
                 >
-                  <img src= { sidebar_image_path + "library-sublink-popup.svg" } alt=""/>
+                  <img src= { sidebar_image_path + "question-mark.svg" } alt=""/>
                 </div>
                 <div
                   className={
@@ -6118,7 +6118,7 @@ const Sidebar = () => {
                         }
                       >
                         <a href="javascript:;">
-                        <img src= { sidebar_image_path + "create-content.svg" } alt=""/>
+                        <img src= { sidebar_image_path + "cross.svg" } alt=""/>
                         </a>
                       </div>
                     </div>
@@ -6142,7 +6142,7 @@ const Sidebar = () => {
                   )
                 }
               >
-             <img src= { sidebar_image_path + "library-sublink-popup.svg" } alt=""/>
+             <img src= { sidebar_image_path + "question-mark.svg" } alt=""/>
               </div>
               <div
                 className={
@@ -6216,7 +6216,7 @@ const Sidebar = () => {
                     }
                   >
                     <a href="javascript:;">
-                    <img src= { sidebar_image_path + "create-content.svg" } alt=""/>
+                    <img src= { sidebar_image_path + "cross.svg" } alt=""/>
                     </a>
                   </div>
                 </div>
@@ -6236,9 +6236,9 @@ const Sidebar = () => {
                   )
                 }
               >
-                <img src= { sidebar_image_path + "library-sublink-popup.svg" } alt=""/>
+                <img src= { sidebar_image_path + "question-mark.svg" } alt=""/>
               </div>
-              <div
+              <div 
                 className={
                   getHideShowSideContent
                     ? "help-popup-content show"
@@ -6368,7 +6368,7 @@ const Sidebar = () => {
                     }
                   >
                     <a href="javascript:;">
-                    <img src= { sidebar_image_path + "create-content.svg" } alt=""/>
+                    <img src= { sidebar_image_path + "cross.svg" } alt=""/>
                     </a>
                   </div>
                 </div>
