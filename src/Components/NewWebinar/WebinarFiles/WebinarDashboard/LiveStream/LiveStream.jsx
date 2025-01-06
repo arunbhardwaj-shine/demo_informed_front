@@ -28,15 +28,25 @@ import { saveAs } from "file-saver";
 
 let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
 
-const LiveStream = () => { 
-  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
-  const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
+const LiveStream = () => {
+  const rdLikeArray = [
+    "56Ek4feL/1A8mZgIKQWEqg==",
+    "sNl1hra39QmFk9HwvXETJA==",
+    "MXl8m36VZFYXpgFVz3Pg0g==",
+  ];
+  const isLikeRdAccount = rdLikeArray.includes(localStorage.getItem("user_id"));
   axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
   const { eventIdContext, handleEventId } = useSidebar();
-  const switch_account_detail = JSON.parse(localStorage.getItem("switch_account_detail"))
-  const [localStorageUserId,setLocalStorageUserId]=useState(switch_account_detail != null && switch_account_detail != "undefined" && switch_account_detail
-  ? switch_account_detail?.user_id
-  : localStorage.getItem("user_id"))
+  const switch_account_detail = JSON.parse(
+    localStorage.getItem("switch_account_detail")
+  );
+  const [localStorageUserId, setLocalStorageUserId] = useState(
+    switch_account_detail != null &&
+      switch_account_detail != "undefined" &&
+      switch_account_detail
+      ? switch_account_detail?.user_id
+      : localStorage.getItem("user_id")
+  );
   const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"));
   const [questions, setQuestions] = useState([]);
   const [attendees, setAttendees] = useState([]);
@@ -50,6 +60,13 @@ const LiveStream = () => {
   });
   const [search, setSearch] = useState("");
   const [activeTab, setActiveTab] = useState("new");
+  const defaultId = "JUFCJTEzJUNEWSVBNCVEOCVEREQ";
+  const zoomUrl = `https://meeting.docintel.app/zoom?evnt=${localStorageEvent?.eventCode}&hefrghh=${defaultId}`;
+  const webexUrl = `https://meeting.docintel.app/webex/index.html?evnt=${localStorageEvent?.eventCode}&hefrghh=${defaultId}`;
+  const streamUrls = {
+    2: zoomUrl,
+    3: webexUrl,
+  };
   const [eventId, setEventId] = useState(
     eventIdContext?.eventId
       ? eventIdContext?.eventId
@@ -70,10 +87,10 @@ const LiveStream = () => {
   const [commonConfirmModelFun, setCommonConfirmModelFun] = useState(() => {});
   const [userIds, setUserIds] = useState([]);
   const [chartHeight, setChartHeight] = useState(270);
-  const [fixSlotsCategory,setFixSlotsCategory] = useState([]);
-  const [fixSlotsValue,setFixSlotsValue] = useState([]);
-  const [tempSlotsCategory,setTempSlotsCategory] = useState([]);
-  const [tempSlotsValue,setTempSlotsValue] = useState([]);
+  const [fixSlotsCategory, setFixSlotsCategory] = useState([]);
+  const [fixSlotsValue, setFixSlotsValue] = useState([]);
+  const [tempSlotsCategory, setTempSlotsCategory] = useState([]);
+  const [tempSlotsValue, setTempSlotsValue] = useState([]);
   const [insertFlag, setInsertFlag] = useState(false);
   const [maxDataPoints, setMaxDataPoints] = useState(10); // Maximum number of data points to display
   const [firstTimeStatus, setFirstTimeStatus] = useState(false);
@@ -90,8 +107,8 @@ const LiveStream = () => {
       categories: [],
       tickInterval: 1,
       labels: {
-        enabled: true
-    }
+        enabled: true,
+      },
     },
     yAxis: {
       title: {
@@ -103,7 +120,7 @@ const LiveStream = () => {
       enabled: false,
     },
     tooltip: {
-        outside: true
+      outside: true,
     },
     exporting: {
       enabled: false,
@@ -208,11 +225,11 @@ const LiveStream = () => {
   }, []);
 
   useEffect(() => {
-      if(firstTimeStatus){
-        getEventRegisterReadersGraph("", userIds);
-      }else{
-        setFirstTimeStatus(true);
-      }
+    if (firstTimeStatus) {
+      getEventRegisterReadersGraph("", userIds);
+    } else {
+      setFirstTimeStatus(true);
+    }
   }, [userIds, insertFlag]);
 
   const getQuestions = async () => {
@@ -235,29 +252,28 @@ const LiveStream = () => {
 
   const getEventRegisterReadersGraph = async (searchVal = "", userids = []) => {
     try {
- 
       let body = {
         eventId: eventId,
         type: "graph",
         search: "",
         user_ids: userids,
-        flag: firstTime ? true : insertFlag
+        flag: firstTime ? true : insertFlag,
       };
       const response = await postData(
         ENDPOINT?.WEBINAR_GET_EVENT_ATTENDEES,
         body
       );
 
-      if(insertFlag){
+      if (insertFlag) {
         setInsertFlag(false);
       }
       // console.log(response);
       let data = response?.data?.data;
       // console.log(data)
-      if(firstTime && data?.count>0){
+      if (firstTime && data?.count > 0) {
         getEventRegisterReaders(search, userids);
         setFirstTime(false);
-        }
+      }
       if (data?.count != undefined) {
         setLineChartOptions((prevOptions) => {
           const newOptions = { ...prevOptions };
@@ -269,22 +285,22 @@ const LiveStream = () => {
             y: newDataLength,
             marker: { enabled: true, radius: 5, fillColor: "#8a4e9c" },
           };
-          prevCategory.push('');
+          prevCategory.push("");
           let lastElement = prevValue.pop();
-          if(lastElement){
+          if (lastElement) {
             prevValue.push(lastElement.y);
           }
           prevValue.push(obj);
-          if(prevCategory.length > 2){
+          if (prevCategory.length > 2) {
             prevCategory.shift();
             prevValue.shift();
           }
           setTempSlotsCategory(prevCategory);
           setTempSlotsValue(prevValue);
-          const newCategory  = [...fixSlotsCategory, ...prevCategory];
-          const newValues    = [...fixSlotsValue, ...prevValue];
+          const newCategory = [...fixSlotsCategory, ...prevCategory];
+          const newValues = [...fixSlotsValue, ...prevValue];
           newOptions.xAxis.categories = newCategory;
-          seriesData=newValues;
+          seriesData = newValues;
           newOptions.series = [{ ...prevOptions.series[0], data: seriesData }];
           newOptions.plotOptions.series.tooltip = {
             headerFormat:
@@ -320,18 +336,22 @@ const LiveStream = () => {
         ENDPOINT?.WEBINAR_GET_EVENT_ATTENDEES,
         body
       );
-      let attendees
+      let attendees;
       if (Array.isArray(response?.data?.data)) {
-        attendees=response?.data?.data?.length>0?response?.data?.data:[]
-      }else if (typeof response?.data?.data === 'object' && response?.data?.data !== null) {
-        if(Object.keys(response?.data?.data)?.length>0){
-          attendees=response?.data?.data
-        }else{
-          attendees=[]
+        attendees =
+          response?.data?.data?.length > 0 ? response?.data?.data : [];
+      } else if (
+        typeof response?.data?.data === "object" &&
+        response?.data?.data !== null
+      ) {
+        if (Object.keys(response?.data?.data)?.length > 0) {
+          attendees = response?.data?.data;
+        } else {
+          attendees = [];
         }
-      }else{
-        attendees=[]
-      }      
+      } else {
+        attendees = [];
+      }
       setAttendees(attendees);
       setAttendeesApiCallStatus(false);
       setRefreshAttendeesFlag("");
@@ -429,18 +449,15 @@ const LiveStream = () => {
     } catch (err) {
       console.log(err);
     }
-  }; 
+  };
   const deleteMessages = async (id) => {
-
     setApiCallStatus(true);
     hideConfirmationModal();
     try {
       let event = eventId;
-      await deleteMethod(
-        `${ENDPOINT.WEBINAR_RESET_QUESTION_ANSWER}/${event}`
-      );
+      await deleteMethod(`${ENDPOINT.WEBINAR_RESET_QUESTION_ANSWER}/${event}`);
       toast.success("Engagements has been deleted successfully.");
-      refreshQuestion(activeTab)
+      refreshQuestion(activeTab);
 
       // setApiCallStatus(false);
     } catch (err) {
@@ -458,7 +475,11 @@ const LiveStream = () => {
   };
   const showConfirmationPopupForResetMessages = (e, id) => {
     try {
-      if(questions?.new?.length == 0 && questions?.ignore?.length == 0 && questions?.sent?.length == 0){
+      if (
+        questions?.new?.length == 0 &&
+        questions?.ignore?.length == 0 &&
+        questions?.sent?.length == 0
+      ) {
         toast.warning("No data found.");
         return;
       }
@@ -647,13 +668,13 @@ const LiveStream = () => {
   };
 
   const submitHandler = (event) => {
-    if(search?.length > 2){
+    if (search?.length > 2) {
       setAttendees([]);
       setDeleteStatus(false);
       setAccordionOpen(0);
       setAttendeesApiCallStatus(true);
       getEventRegisterReaders(search);
-    }else{
+    } else {
       toast.warning("Please enter atleast 3 characters.");
     }
     event.preventDefault();
@@ -789,7 +810,6 @@ const LiveStream = () => {
   };
   const downloadExcelUsers = (data) => {
     try {
-      
       if (data?.length == 0) {
         toast.warning("No data found");
         return;
@@ -800,25 +820,30 @@ const LiveStream = () => {
         // finalData.ID = item?.id;
         finalData.Name = item?.name ? item?.name.trim() : "N/A";
         finalData.Country = item?.country ? item?.country.trim() : "N/A";
-        if(isLikeRdAccount){
+        if (isLikeRdAccount) {
           finalData.SiteNumber = item?.site_number ? item?.site_number : "N/A";
-        }else{
+        } else {
           finalData.Email = item?.email ? item?.email.trim() : "N/A";
         }
         finalData.Status = item?.hcp_status ? item?.hcp_status.trim() : "N/A";
         // finalData.IsOnline = item?.is_online === 1 ? "Yes" : "No";
-        if(attendeesTab=="question_ask" || attendeesTab=="not-logged"){
-          if(attendeesTab=="question_ask"){
+        if (attendeesTab == "question_ask" || attendeesTab == "not-logged") {
+          if (attendeesTab == "question_ask") {
             finalData.Question = item?.question ? item?.question.trim() : "N/A";
           }
-        }else{
+        } else {
           finalData.LoginTime = item?.login_time ? item?.login_time : "N/A";
-        const extraDetails = JSON.parse(item?.extra_details || "{}");
-        finalData.Speed = Object.keys(extraDetails).length === 0 ? "0.78 MB" : extraDetails?.speed ? extraDetails?.speed+" Mb" : "0.78 MB";
+          const extraDetails = JSON.parse(item?.extra_details || "{}");
+          finalData.Speed =
+            Object.keys(extraDetails).length === 0
+              ? "0.78 MB"
+              : extraDetails?.speed
+              ? extraDetails?.speed + " Mb"
+              : "0.78 MB";
         }
-        
+
         // finalData.Username = item?.username ? item?.username.trim() : "N/A";
-  
+
         return finalData;
       });
       const worksheet = XLSX.utils.json_to_sheet(data);
@@ -834,7 +859,8 @@ const LiveStream = () => {
       saveAs(
         blob,
         `${
-          attendeesTab.charAt(0).toUpperCase() + attendeesTab.slice(1).toLowerCase()
+          attendeesTab.charAt(0).toUpperCase() +
+          attendeesTab.slice(1).toLowerCase()
         }_attendees.xlsx`
       );
       setApiCallStatus(false);
@@ -858,58 +884,75 @@ const LiveStream = () => {
     // Clear the interval when the component is unmounted
     return () => clearInterval(intervalId);
   }, []);
- 
-const getOnlineReadersGraph=async()=>{
-  console.log("Function call for interval");
-  try{
-    let body = {
-      eventId: eventId,
-    };
-    const response = await postData(ENDPOINT?.WEBINAR_GET_EVENT_ATTENDEES_GRAPH_DATA,body);
-    let data = response?.data?.data;
-    if (data?.slotCount != undefined) {
-      setLineChartOptions((prevOptions) => {
-        setFixSlotsCategory(data?.timeSlots);
-        setFixSlotsValue(data?.slotCount);
-        setTempSlotsCategory([]);
-        setTempSlotsValue([]);
-        const newOptions = { ...prevOptions };
-        newOptions.xAxis.categories=data?.timeSlots
-        let seriesData=data?.slotCount
-        newOptions.series = [{ ...prevOptions.series[0], data: seriesData }];
-        return newOptions
-      })
-    }
-    setAttendeesApiCallStatus(false);
-    setRefreshAttendeesFlag("");
-  }catch(err){
-    console.log("--err",err)
-    setAttendeesApiCallStatus(false);
-    setRefreshAttendeesFlag("");
-  }
-}
 
-useEffect(() => {
-  const updateFlag = () => {
-    setInsertFlag(true);
+  const getOnlineReadersGraph = async () => {
+    console.log("Function call for interval");
+    try {
+      let body = {
+        eventId: eventId,
+      };
+      const response = await postData(
+        ENDPOINT?.WEBINAR_GET_EVENT_ATTENDEES_GRAPH_DATA,
+        body
+      );
+      let data = response?.data?.data;
+      if (data?.slotCount != undefined) {
+        setLineChartOptions((prevOptions) => {
+          setFixSlotsCategory(data?.timeSlots);
+          setFixSlotsValue(data?.slotCount);
+          setTempSlotsCategory([]);
+          setTempSlotsValue([]);
+          const newOptions = { ...prevOptions };
+          newOptions.xAxis.categories = data?.timeSlots;
+          let seriesData = data?.slotCount;
+          newOptions.series = [{ ...prevOptions.series[0], data: seriesData }];
+          return newOptions;
+        });
+      }
+      setAttendeesApiCallStatus(false);
+      setRefreshAttendeesFlag("");
+    } catch (err) {
+      console.log("--err", err);
+      setAttendeesApiCallStatus(false);
+      setRefreshAttendeesFlag("");
+    }
   };
-  const intervalId = setInterval(updateFlag, 60000);
-  return () => clearInterval(intervalId);
-}, []);
+
+  useEffect(() => {
+    const updateFlag = () => {
+      setInsertFlag(true);
+    };
+    const intervalId = setInterval(updateFlag, 60000);
+    return () => clearInterval(intervalId);
+  }, []);
 
   return (
     <>
       <Col className="right-sidebar custom-change live-stream">
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <div className="custom-container">
+          {[2, 3].includes(localStorageEvent.streamType) && (
+            <div className="preview-livestream">
+              <a
+                className="btn btn-primary"
+                target="_blank"
+                href={streamUrls[localStorageEvent.streamType]}
+              >
+                Preview LiveStream
+              </a>
+            </div>
+          )}
           <div className="row">
             <Col className="col-4">
               <div className="d-flex justify-content-between align-items-center">
-              <h6>Engagements</h6>
-              <Button className="reset btn-voilet" onClick={showConfirmationPopupForResetMessages}>
-              Delete All
-            </Button>
-            </div>
+                <h6>Engagements</h6>
+                <Button
+                  className="reset btn-voilet"
+                  onClick={showConfirmationPopupForResetMessages}
+                >
+                  Delete All
+                </Button>
+              </div>
               <div className="doc-content-main-box col">
                 <div className="live-stream-tabs-data">
                   <Tabs activeKey={activeTab} onSelect={handleTabSelect} fill>
@@ -925,40 +968,40 @@ useEffect(() => {
                             </span>
                           </h4>
                           <div className="clear-search d-flex align-items-center">
-                          <button
-                            className="btn print"
-                            title="Download stats"
-                            onClick={() => {
-                              downloadExcel(questions?.new);
-                            }}
-                          >
-                            <svg
-                              width="20"
-                              height="20"
-                              viewBox="0 0 20 20"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
+                            <button
+                              className="btn print"
+                              title="Download stats"
+                              onClick={() => {
+                                downloadExcel(questions?.new);
+                              }}
                             >
-                              <path
-                                d="M18.3335 13.125C18.1125 13.125 17.9005 13.2128 17.7442 13.3691C17.588 13.5254 17.5002 13.7373 17.5002 13.9583V15.1775C17.4995 15.7933 17.2546 16.3836 16.8192 16.819C16.3838 17.2544 15.7934 17.4993 15.1777 17.5H4.82266C4.2069 17.4993 3.61655 17.2544 3.18114 16.819C2.74573 16.3836 2.50082 15.7933 2.50016 15.1775V13.9583C2.50016 13.7373 2.41237 13.5254 2.25609 13.3691C2.0998 13.2128 1.88784 13.125 1.66683 13.125C1.44582 13.125 1.23385 13.2128 1.07757 13.3691C0.921293 13.5254 0.833496 13.7373 0.833496 13.9583V15.1775C0.834599 16.2351 1.25524 17.2492 2.00311 17.997C2.75099 18.7449 3.76501 19.1656 4.82266 19.1667H15.1777C16.2353 19.1656 17.2493 18.7449 17.9972 17.997C18.7451 17.2492 19.1657 16.2351 19.1668 15.1775V13.9583C19.1668 13.7373 19.079 13.5254 18.9228 13.3691C18.7665 13.2128 18.5545 13.125 18.3335 13.125Z"
-                                fill="#0066BE"
+                              <svg
+                                width="20"
+                                height="20"
+                                viewBox="0 0 20 20"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path
+                                  d="M18.3335 13.125C18.1125 13.125 17.9005 13.2128 17.7442 13.3691C17.588 13.5254 17.5002 13.7373 17.5002 13.9583V15.1775C17.4995 15.7933 17.2546 16.3836 16.8192 16.819C16.3838 17.2544 15.7934 17.4993 15.1777 17.5H4.82266C4.2069 17.4993 3.61655 17.2544 3.18114 16.819C2.74573 16.3836 2.50082 15.7933 2.50016 15.1775V13.9583C2.50016 13.7373 2.41237 13.5254 2.25609 13.3691C2.0998 13.2128 1.88784 13.125 1.66683 13.125C1.44582 13.125 1.23385 13.2128 1.07757 13.3691C0.921293 13.5254 0.833496 13.7373 0.833496 13.9583V15.1775C0.834599 16.2351 1.25524 17.2492 2.00311 17.997C2.75099 18.7449 3.76501 19.1656 4.82266 19.1667H15.1777C16.2353 19.1656 17.2493 18.7449 17.9972 17.997C18.7451 17.2492 19.1657 16.2351 19.1668 15.1775V13.9583C19.1668 13.7373 19.079 13.5254 18.9228 13.3691C18.7665 13.2128 18.5545 13.125 18.3335 13.125Z"
+                                  fill="#0066BE"
+                                />
+                                <path
+                                  d="M14.7456 9.20249C14.5893 9.04626 14.3774 8.9585 14.1564 8.9585C13.9355 8.9585 13.7235 9.04626 13.5673 9.20249L10.8231 11.9467L10.8333 1.77108C10.8333 1.55006 10.7455 1.3381 10.5893 1.18182C10.433 1.02554 10.221 0.937744 10 0.937744C9.77899 0.937744 9.56702 1.02554 9.41074 1.18182C9.25446 1.3381 9.16667 1.55006 9.16667 1.77108L9.15643 11.9467L6.41226 9.20249C6.25509 9.05069 6.04459 8.96669 5.82609 8.96859C5.60759 8.97049 5.39858 9.05813 5.24408 9.21264C5.08957 9.36715 5.00193 9.57615 5.00003 9.79465C4.99813 10.0131 5.08213 10.2236 5.23393 10.3808L9.40059 14.5475C9.478 14.6251 9.56996 14.6867 9.6712 14.7287C9.77245 14.7707 9.88098 14.7923 9.99059 14.7923C10.1002 14.7923 10.2087 14.7707 10.31 14.7287C10.4112 14.6867 10.5032 14.6251 10.5806 14.5475L14.7473 10.3808C14.9033 10.2243 14.9907 10.0123 14.9904 9.79131C14.9901 9.57034 14.902 9.35854 14.7456 9.20249Z"
+                                  fill="#0066BE"
+                                />
+                              </svg>
+                            </button>
+                            <div className="btn-refresh">
+                              <img
+                                className={
+                                  refreshFlag == "new" ? "refresh-rotate" : ""
+                                }
+                                src={path_image + "refresh-btn.svg"}
+                                alt=""
+                                onClick={(e) => refreshQuestion("new", e)}
                               />
-                              <path
-                                d="M14.7456 9.20249C14.5893 9.04626 14.3774 8.9585 14.1564 8.9585C13.9355 8.9585 13.7235 9.04626 13.5673 9.20249L10.8231 11.9467L10.8333 1.77108C10.8333 1.55006 10.7455 1.3381 10.5893 1.18182C10.433 1.02554 10.221 0.937744 10 0.937744C9.77899 0.937744 9.56702 1.02554 9.41074 1.18182C9.25446 1.3381 9.16667 1.55006 9.16667 1.77108L9.15643 11.9467L6.41226 9.20249C6.25509 9.05069 6.04459 8.96669 5.82609 8.96859C5.60759 8.97049 5.39858 9.05813 5.24408 9.21264C5.08957 9.36715 5.00193 9.57615 5.00003 9.79465C4.99813 10.0131 5.08213 10.2236 5.23393 10.3808L9.40059 14.5475C9.478 14.6251 9.56996 14.6867 9.6712 14.7287C9.77245 14.7707 9.88098 14.7923 9.99059 14.7923C10.1002 14.7923 10.2087 14.7707 10.31 14.7287C10.4112 14.6867 10.5032 14.6251 10.5806 14.5475L14.7473 10.3808C14.9033 10.2243 14.9907 10.0123 14.9904 9.79131C14.9901 9.57034 14.902 9.35854 14.7456 9.20249Z"
-                                fill="#0066BE"
-                              />
-                            </svg>
-                          </button>
-                          <div className="btn-refresh">
-                            <img
-                              className={
-                                refreshFlag == "new" ? "refresh-rotate" : ""
-                              }
-                              src={path_image + "refresh-btn.svg"}
-                              alt=""
-                              onClick={(e) => refreshQuestion("new", e)}
-                            />
-                          </div>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -992,23 +1035,26 @@ useEffect(() => {
                                     >
                                       <div className="live-stream-ques-header d-flex justify-content-between">
                                         <div className="live-stream-hcp">
-                                        <h4>
-                                      {item?.send_by === 1 ? (
-                                        (() => {
-                                          const userId = localStorage.getItem('user_id');
-                                          switch (userId) {
-                                            case '56Ek4feL/1A8mZgIKQWEqg==':
-                                              return 'LEX-210';
-                                            case 'sNl1hra39QmFk9HwvXETJA==':
-                                              return 'Norgine';
-                                            case 'MXl8m36VZFYXpgFVz3Pg0g==':
-                                              return 'Gena';
-                                            default:
-                                              return 'Octapharma';
-                                          }
-                                        })()
-                                      ) : item?.name || 'Anonymous'}
-                                    </h4>
+                                          <h4>
+                                            {item?.send_by === 1
+                                              ? (() => {
+                                                  const userId =
+                                                    localStorage.getItem(
+                                                      "user_id"
+                                                    );
+                                                  switch (userId) {
+                                                    case "56Ek4feL/1A8mZgIKQWEqg==":
+                                                      return "LEX-210";
+                                                    case "sNl1hra39QmFk9HwvXETJA==":
+                                                      return "Norgine";
+                                                    case "MXl8m36VZFYXpgFVz3Pg0g==":
+                                                      return "Gena";
+                                                    default:
+                                                      return "Octapharma";
+                                                  }
+                                                })()
+                                              : item?.name || "Anonymous"}
+                                          </h4>
                                         </div>
                                         <div className="speaker-specialty">
                                           {item?.question_date}
@@ -1124,41 +1170,41 @@ useEffect(() => {
                             </span>
                           </h4>
                           <div className="clear-search d-flex align-items-center">
-                          <button
-                            className="btn print"
-                            title="Download stats"
-                            onClick={() => {
-                              downloadExcel(questions?.sent);
-                            }}
-                          >
-                            <svg
-                              width="20"
-                              height="20"
-                              viewBox="0 0 20 20"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
+                            <button
+                              className="btn print"
+                              title="Download stats"
+                              onClick={() => {
+                                downloadExcel(questions?.sent);
+                              }}
                             >
-                              <path
-                                d="M18.3335 13.125C18.1125 13.125 17.9005 13.2128 17.7442 13.3691C17.588 13.5254 17.5002 13.7373 17.5002 13.9583V15.1775C17.4995 15.7933 17.2546 16.3836 16.8192 16.819C16.3838 17.2544 15.7934 17.4993 15.1777 17.5H4.82266C4.2069 17.4993 3.61655 17.2544 3.18114 16.819C2.74573 16.3836 2.50082 15.7933 2.50016 15.1775V13.9583C2.50016 13.7373 2.41237 13.5254 2.25609 13.3691C2.0998 13.2128 1.88784 13.125 1.66683 13.125C1.44582 13.125 1.23385 13.2128 1.07757 13.3691C0.921293 13.5254 0.833496 13.7373 0.833496 13.9583V15.1775C0.834599 16.2351 1.25524 17.2492 2.00311 17.997C2.75099 18.7449 3.76501 19.1656 4.82266 19.1667H15.1777C16.2353 19.1656 17.2493 18.7449 17.9972 17.997C18.7451 17.2492 19.1657 16.2351 19.1668 15.1775V13.9583C19.1668 13.7373 19.079 13.5254 18.9228 13.3691C18.7665 13.2128 18.5545 13.125 18.3335 13.125Z"
-                                fill="#0066BE"
+                              <svg
+                                width="20"
+                                height="20"
+                                viewBox="0 0 20 20"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path
+                                  d="M18.3335 13.125C18.1125 13.125 17.9005 13.2128 17.7442 13.3691C17.588 13.5254 17.5002 13.7373 17.5002 13.9583V15.1775C17.4995 15.7933 17.2546 16.3836 16.8192 16.819C16.3838 17.2544 15.7934 17.4993 15.1777 17.5H4.82266C4.2069 17.4993 3.61655 17.2544 3.18114 16.819C2.74573 16.3836 2.50082 15.7933 2.50016 15.1775V13.9583C2.50016 13.7373 2.41237 13.5254 2.25609 13.3691C2.0998 13.2128 1.88784 13.125 1.66683 13.125C1.44582 13.125 1.23385 13.2128 1.07757 13.3691C0.921293 13.5254 0.833496 13.7373 0.833496 13.9583V15.1775C0.834599 16.2351 1.25524 17.2492 2.00311 17.997C2.75099 18.7449 3.76501 19.1656 4.82266 19.1667H15.1777C16.2353 19.1656 17.2493 18.7449 17.9972 17.997C18.7451 17.2492 19.1657 16.2351 19.1668 15.1775V13.9583C19.1668 13.7373 19.079 13.5254 18.9228 13.3691C18.7665 13.2128 18.5545 13.125 18.3335 13.125Z"
+                                  fill="#0066BE"
+                                />
+                                <path
+                                  d="M14.7456 9.20249C14.5893 9.04626 14.3774 8.9585 14.1564 8.9585C13.9355 8.9585 13.7235 9.04626 13.5673 9.20249L10.8231 11.9467L10.8333 1.77108C10.8333 1.55006 10.7455 1.3381 10.5893 1.18182C10.433 1.02554 10.221 0.937744 10 0.937744C9.77899 0.937744 9.56702 1.02554 9.41074 1.18182C9.25446 1.3381 9.16667 1.55006 9.16667 1.77108L9.15643 11.9467L6.41226 9.20249C6.25509 9.05069 6.04459 8.96669 5.82609 8.96859C5.60759 8.97049 5.39858 9.05813 5.24408 9.21264C5.08957 9.36715 5.00193 9.57615 5.00003 9.79465C4.99813 10.0131 5.08213 10.2236 5.23393 10.3808L9.40059 14.5475C9.478 14.6251 9.56996 14.6867 9.6712 14.7287C9.77245 14.7707 9.88098 14.7923 9.99059 14.7923C10.1002 14.7923 10.2087 14.7707 10.31 14.7287C10.4112 14.6867 10.5032 14.6251 10.5806 14.5475L14.7473 10.3808C14.9033 10.2243 14.9907 10.0123 14.9904 9.79131C14.9901 9.57034 14.902 9.35854 14.7456 9.20249Z"
+                                  fill="#0066BE"
+                                />
+                              </svg>
+                            </button>
+                            <div className="btn-refresh">
+                              <img
+                                className={
+                                  refreshFlag == "sent" ? "refresh-rotate" : ""
+                                }
+                                src={path_image + "refresh-btn.svg"}
+                                alt=""
+                                onClick={(e) => refreshQuestion("sent", e)}
                               />
-                              <path
-                                d="M14.7456 9.20249C14.5893 9.04626 14.3774 8.9585 14.1564 8.9585C13.9355 8.9585 13.7235 9.04626 13.5673 9.20249L10.8231 11.9467L10.8333 1.77108C10.8333 1.55006 10.7455 1.3381 10.5893 1.18182C10.433 1.02554 10.221 0.937744 10 0.937744C9.77899 0.937744 9.56702 1.02554 9.41074 1.18182C9.25446 1.3381 9.16667 1.55006 9.16667 1.77108L9.15643 11.9467L6.41226 9.20249C6.25509 9.05069 6.04459 8.96669 5.82609 8.96859C5.60759 8.97049 5.39858 9.05813 5.24408 9.21264C5.08957 9.36715 5.00193 9.57615 5.00003 9.79465C4.99813 10.0131 5.08213 10.2236 5.23393 10.3808L9.40059 14.5475C9.478 14.6251 9.56996 14.6867 9.6712 14.7287C9.77245 14.7707 9.88098 14.7923 9.99059 14.7923C10.1002 14.7923 10.2087 14.7707 10.31 14.7287C10.4112 14.6867 10.5032 14.6251 10.5806 14.5475L14.7473 10.3808C14.9033 10.2243 14.9907 10.0123 14.9904 9.79131C14.9901 9.57034 14.902 9.35854 14.7456 9.20249Z"
-                                fill="#0066BE"
-                              />
-                            </svg>
-                          </button>
-                          <div className="btn-refresh">
-                            <img
-                              className={
-                                refreshFlag == "sent" ? "refresh-rotate" : ""
-                              }
-                              src={path_image + "refresh-btn.svg"}
-                              alt=""
-                              onClick={(e) => refreshQuestion("sent", e)}
-                            />
+                            </div>
                           </div>
-                        </div>
                         </div>
                       </div>
                       {apiCallStatus ? (
@@ -1193,19 +1239,29 @@ useEffect(() => {
                                         <div className="live-stream-hcp">
                                           {/* <h4>{item?.name ? item?.name : "Anonymous"}</h4> */}
                                           <h4>
-                                            {item?.send_by === 1 ? (
-                                              (() => {
-                                                const userId = localStorage.getItem('user_id');
-                                                const userNames = {
-                                                  '56Ek4feL/1A8mZgIKQWEqg==': 'LEX-210',
-                                                  'sNl1hra39QmFk9HwvXETJA==': 'Norgine',
-                                                  'MXl8m36VZFYXpgFVz3Pg0g==': 'Gena'
-                                                };
-                                                return userNames[userId] || 'Octapharma';
-                                              })()
-                                            ) : item?.name ? item.name : 'Anonymous'}
+                                            {item?.send_by === 1
+                                              ? (() => {
+                                                  const userId =
+                                                    localStorage.getItem(
+                                                      "user_id"
+                                                    );
+                                                  const userNames = {
+                                                    "56Ek4feL/1A8mZgIKQWEqg==":
+                                                      "LEX-210",
+                                                    "sNl1hra39QmFk9HwvXETJA==":
+                                                      "Norgine",
+                                                    "MXl8m36VZFYXpgFVz3Pg0g==":
+                                                      "Gena",
+                                                  };
+                                                  return (
+                                                    userNames[userId] ||
+                                                    "Octapharma"
+                                                  );
+                                                })()
+                                              : item?.name
+                                              ? item.name
+                                              : "Anonymous"}
                                           </h4>
-
                                         </div>
                                         <div className="speaker-specialty">
                                           {item?.question_date}
@@ -1317,40 +1373,42 @@ useEffect(() => {
                             </span>
                           </h4>
                           <div className="clear-search d-flex align-items-center">
-                          <button
-                            className="btn print"
-                            title="Download stats"
-                            onClick={() => {
-                              downloadExcel(questions?.ignore);
-                            }}
-                          >
-                            <svg
-                              width="20"
-                              height="20"
-                              viewBox="0 0 20 20"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
+                            <button
+                              className="btn print"
+                              title="Download stats"
+                              onClick={() => {
+                                downloadExcel(questions?.ignore);
+                              }}
                             >
-                              <path
-                                d="M18.3335 13.125C18.1125 13.125 17.9005 13.2128 17.7442 13.3691C17.588 13.5254 17.5002 13.7373 17.5002 13.9583V15.1775C17.4995 15.7933 17.2546 16.3836 16.8192 16.819C16.3838 17.2544 15.7934 17.4993 15.1777 17.5H4.82266C4.2069 17.4993 3.61655 17.2544 3.18114 16.819C2.74573 16.3836 2.50082 15.7933 2.50016 15.1775V13.9583C2.50016 13.7373 2.41237 13.5254 2.25609 13.3691C2.0998 13.2128 1.88784 13.125 1.66683 13.125C1.44582 13.125 1.23385 13.2128 1.07757 13.3691C0.921293 13.5254 0.833496 13.7373 0.833496 13.9583V15.1775C0.834599 16.2351 1.25524 17.2492 2.00311 17.997C2.75099 18.7449 3.76501 19.1656 4.82266 19.1667H15.1777C16.2353 19.1656 17.2493 18.7449 17.9972 17.997C18.7451 17.2492 19.1657 16.2351 19.1668 15.1775V13.9583C19.1668 13.7373 19.079 13.5254 18.9228 13.3691C18.7665 13.2128 18.5545 13.125 18.3335 13.125Z"
-                                fill="#0066BE"
+                              <svg
+                                width="20"
+                                height="20"
+                                viewBox="0 0 20 20"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path
+                                  d="M18.3335 13.125C18.1125 13.125 17.9005 13.2128 17.7442 13.3691C17.588 13.5254 17.5002 13.7373 17.5002 13.9583V15.1775C17.4995 15.7933 17.2546 16.3836 16.8192 16.819C16.3838 17.2544 15.7934 17.4993 15.1777 17.5H4.82266C4.2069 17.4993 3.61655 17.2544 3.18114 16.819C2.74573 16.3836 2.50082 15.7933 2.50016 15.1775V13.9583C2.50016 13.7373 2.41237 13.5254 2.25609 13.3691C2.0998 13.2128 1.88784 13.125 1.66683 13.125C1.44582 13.125 1.23385 13.2128 1.07757 13.3691C0.921293 13.5254 0.833496 13.7373 0.833496 13.9583V15.1775C0.834599 16.2351 1.25524 17.2492 2.00311 17.997C2.75099 18.7449 3.76501 19.1656 4.82266 19.1667H15.1777C16.2353 19.1656 17.2493 18.7449 17.9972 17.997C18.7451 17.2492 19.1657 16.2351 19.1668 15.1775V13.9583C19.1668 13.7373 19.079 13.5254 18.9228 13.3691C18.7665 13.2128 18.5545 13.125 18.3335 13.125Z"
+                                  fill="#0066BE"
+                                />
+                                <path
+                                  d="M14.7456 9.20249C14.5893 9.04626 14.3774 8.9585 14.1564 8.9585C13.9355 8.9585 13.7235 9.04626 13.5673 9.20249L10.8231 11.9467L10.8333 1.77108C10.8333 1.55006 10.7455 1.3381 10.5893 1.18182C10.433 1.02554 10.221 0.937744 10 0.937744C9.77899 0.937744 9.56702 1.02554 9.41074 1.18182C9.25446 1.3381 9.16667 1.55006 9.16667 1.77108L9.15643 11.9467L6.41226 9.20249C6.25509 9.05069 6.04459 8.96669 5.82609 8.96859C5.60759 8.97049 5.39858 9.05813 5.24408 9.21264C5.08957 9.36715 5.00193 9.57615 5.00003 9.79465C4.99813 10.0131 5.08213 10.2236 5.23393 10.3808L9.40059 14.5475C9.478 14.6251 9.56996 14.6867 9.6712 14.7287C9.77245 14.7707 9.88098 14.7923 9.99059 14.7923C10.1002 14.7923 10.2087 14.7707 10.31 14.7287C10.4112 14.6867 10.5032 14.6251 10.5806 14.5475L14.7473 10.3808C14.9033 10.2243 14.9907 10.0123 14.9904 9.79131C14.9901 9.57034 14.902 9.35854 14.7456 9.20249Z"
+                                  fill="#0066BE"
+                                />
+                              </svg>
+                            </button>
+                            <div className="btn-refresh">
+                              <img
+                                className={
+                                  refreshFlag == "ignored"
+                                    ? "refresh-rotate"
+                                    : ""
+                                }
+                                src={path_image + "refresh-btn.svg"}
+                                alt=""
+                                onClick={(e) => refreshQuestion("ignored", e)}
                               />
-                              <path
-                                d="M14.7456 9.20249C14.5893 9.04626 14.3774 8.9585 14.1564 8.9585C13.9355 8.9585 13.7235 9.04626 13.5673 9.20249L10.8231 11.9467L10.8333 1.77108C10.8333 1.55006 10.7455 1.3381 10.5893 1.18182C10.433 1.02554 10.221 0.937744 10 0.937744C9.77899 0.937744 9.56702 1.02554 9.41074 1.18182C9.25446 1.3381 9.16667 1.55006 9.16667 1.77108L9.15643 11.9467L6.41226 9.20249C6.25509 9.05069 6.04459 8.96669 5.82609 8.96859C5.60759 8.97049 5.39858 9.05813 5.24408 9.21264C5.08957 9.36715 5.00193 9.57615 5.00003 9.79465C4.99813 10.0131 5.08213 10.2236 5.23393 10.3808L9.40059 14.5475C9.478 14.6251 9.56996 14.6867 9.6712 14.7287C9.77245 14.7707 9.88098 14.7923 9.99059 14.7923C10.1002 14.7923 10.2087 14.7707 10.31 14.7287C10.4112 14.6867 10.5032 14.6251 10.5806 14.5475L14.7473 10.3808C14.9033 10.2243 14.9907 10.0123 14.9904 9.79131C14.9901 9.57034 14.902 9.35854 14.7456 9.20249Z"
-                                fill="#0066BE"
-                              />
-                            </svg>
-                          </button>
-                          <div className="btn-refresh">
-                            <img
-                              className={
-                                refreshFlag == "ignored" ? "refresh-rotate" : ""
-                              }
-                              src={path_image + "refresh-btn.svg"}
-                              alt=""
-                              onClick={(e) => refreshQuestion("ignored", e)}
-                            />
-                          </div>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -1386,19 +1444,27 @@ useEffect(() => {
                                         <div className="live-stream-hcp">
                                           {/* <h4>{item?.name ? item?.name : "Anonymous"}</h4> */}
                                           <h4>
-                                            {item?.send_by === 1 ? (
-                                              (() => {
-                                                const userId = localStorage.getItem('user_id');
-                                                const userNames = {
-                                                  '56Ek4feL/1A8mZgIKQWEqg==': 'LEX-210',
-                                                  'sNl1hra39QmFk9HwvXETJA==': 'Norgine',
-                                                  'MXl8m36VZFYXpgFVz3Pg0g==': 'Gena'
-                                                };
-                                                return userNames[userId] || 'Octapharma';
-                                              })()
-                                            ) : item?.name || 'Anonymous'}
+                                            {item?.send_by === 1
+                                              ? (() => {
+                                                  const userId =
+                                                    localStorage.getItem(
+                                                      "user_id"
+                                                    );
+                                                  const userNames = {
+                                                    "56Ek4feL/1A8mZgIKQWEqg==":
+                                                      "LEX-210",
+                                                    "sNl1hra39QmFk9HwvXETJA==":
+                                                      "Norgine",
+                                                    "MXl8m36VZFYXpgFVz3Pg0g==":
+                                                      "Gena",
+                                                  };
+                                                  return (
+                                                    userNames[userId] ||
+                                                    "Octapharma"
+                                                  );
+                                                })()
+                                              : item?.name || "Anonymous"}
                                           </h4>
-
                                         </div>
                                         <div className="speaker-specialty">
                                           {item?.question_date}
@@ -1555,12 +1621,14 @@ useEffect(() => {
                   <Tab eventKey="online" title="Online">
                     <div className="doc-content-header">
                       <div className="doc-content d-flex justify-content-between align-items-center">
-                        <h4>                         
-                          HCPs | <span>{attendees.length>0?attendees.length:0}</span>
+                        <h4>
+                          HCPs |{" "}
+                          <span>
+                            {attendees.length > 0 ? attendees.length : 0}
+                          </span>
                         </h4>
                         <div className="clear-search d-flex align-items-center">
-                          
-                           <button
+                          <button
                             className="btn print"
                             title="Download stats"
                             onClick={() => {
@@ -1584,7 +1652,7 @@ useEffect(() => {
                               />
                             </svg>
                           </button>
-                        
+
                           {/* {attendees.length > 0 ? (
                             
                             <button
@@ -1687,7 +1755,7 @@ useEffect(() => {
                                               ? item?.name
                                               : item?.username}
                                           </h4>
-                                          
+
                                           {deleteStatus ? (
                                             <div className="clear-search">
                                               <button
@@ -1737,19 +1805,19 @@ useEffect(() => {
                                         <div className="d-flex hcp-detail">
                                           <div className="hcp-detail-list">
                                             <ul>
-                                              {
-                                                isLikeRdAccount
-                                                ?
-                                                  <li>
-                                                    <span>Site Number</span>
-                                                    {item?.site_number != 0 ? item?.site_number : 'N/A'}
-                                                  </li>
-                                                : 
-                                                  <li>
-                                                    <span>Email</span>
-                                                    {item?.email}
-                                                  </li>
-                                              }
+                                              {isLikeRdAccount ? (
+                                                <li>
+                                                  <span>Site Number</span>
+                                                  {item?.site_number != 0
+                                                    ? item?.site_number
+                                                    : "N/A"}
+                                                </li>
+                                              ) : (
+                                                <li>
+                                                  <span>Email</span>
+                                                  {item?.email}
+                                                </li>
+                                              )}
                                               <li>
                                                 <span>Specialty</span>
                                                 {item?.hcp_status}
@@ -1758,7 +1826,9 @@ useEffect(() => {
                                                 <span>Country</span>
                                                 {item?.country
                                                   ? item?.country
-                                                  : item?.province ? item?.province : "N/A"}
+                                                  : item?.province
+                                                  ? item?.province
+                                                  : "N/A"}
                                                 {/* {item?.country
                                                   ? item?.country
                                                   : item?.province} */}
@@ -1769,7 +1839,7 @@ useEffect(() => {
                                           <div className="hcp-activity-status">
                                             {/* <div className={item?.is_online ? 'activity-status online' : 'activity-status offline'}> */}
                                             <div className="clear-search">
-                                             <button
+                                              <button
                                                 title="Copy SSI"
                                                 onClick={() => {
                                                   copyToClipboard(item?.userId);
@@ -1802,8 +1872,8 @@ useEffect(() => {
                                                     </clipPath>
                                                   </defs>
                                                 </svg>
-                                              </button> 
-                                          </div>
+                                              </button>
+                                            </div>
                                             <div className="activity-status online">
                                               {/* <span>&nbsp;</span> {item?.is_online ? "Online" : "Offline"} */}
                                               <span>&nbsp;</span> Online
@@ -1915,11 +1985,13 @@ useEffect(() => {
                     <div className="doc-content-header">
                       <div className="doc-content d-flex justify-content-between align-items-center">
                         <h4>
-                          HCPs | <span>{attendees.length>0?attendees.length:0}</span>
+                          HCPs |{" "}
+                          <span>
+                            {attendees.length > 0 ? attendees.length : 0}
+                          </span>
                         </h4>
                         <div className="clear-search d-flex align-items-center">
-                         
-                        <button
+                          <button
                             className="btn print"
                             title="Download stats"
                             onClick={() => {
@@ -1943,7 +2015,7 @@ useEffect(() => {
                               />
                             </svg>
                           </button>
-                         
+
                           {/* {attendees.length > 0 ? (
                             <button
                               className={
@@ -2044,7 +2116,7 @@ useEffect(() => {
                                               ? item?.name
                                               : item?.username}
                                           </h4>
-                                          
+
                                           {deleteStatus ? (
                                             <div className="clear-search">
                                               <button
@@ -2094,19 +2166,19 @@ useEffect(() => {
                                         <div className="d-flex hcp-detail">
                                           <div className="hcp-detail-list">
                                             <ul>
-                                              {
-                                                isLikeRdAccount
-                                                ?
-                                                  <li>
-                                                    <span>Site Number</span>
-                                                    {item?.site_number != 0 ? item?.site_number : 'N/A'}
-                                                  </li>
-                                                : 
-                                                  <li>
-                                                    <span>Email</span>
-                                                    {item?.email}
-                                                  </li>
-                                              }
+                                              {isLikeRdAccount ? (
+                                                <li>
+                                                  <span>Site Number</span>
+                                                  {item?.site_number != 0
+                                                    ? item?.site_number
+                                                    : "N/A"}
+                                                </li>
+                                              ) : (
+                                                <li>
+                                                  <span>Email</span>
+                                                  {item?.email}
+                                                </li>
+                                              )}
                                               <li>
                                                 <span>Specialty</span>
                                                 {item?.hcp_status}
@@ -2115,7 +2187,9 @@ useEffect(() => {
                                                 <span>Country</span>
                                                 {item?.country
                                                   ? item?.country
-                                                  : item?.province ? item?.province : "N/A"}
+                                                  : item?.province
+                                                  ? item?.province
+                                                  : "N/A"}
                                                 {/* {item?.country
                                                   ? item?.country
                                                   : item?.province} */}
@@ -2126,7 +2200,7 @@ useEffect(() => {
                                           <div className="hcp-activity-status">
                                             {/* <div className={item?.is_online ? 'activity-status online' : 'activity-status offline'}> */}
                                             <div className="clear-search">
-                                             <button
+                                              <button
                                                 title="Copy SSI"
                                                 onClick={() => {
                                                   copyToClipboard(item?.userId);
@@ -2160,7 +2234,7 @@ useEffect(() => {
                                                   </defs>
                                                 </svg>
                                               </button>
-                                          </div>
+                                            </div>
                                             <div
                                               className={
                                                 "activity-status offline"
@@ -2275,11 +2349,13 @@ useEffect(() => {
                     <div className="doc-content-header">
                       <div className="doc-content d-flex justify-content-between align-items-center">
                         <h4>
-                          HCPs | <span>{attendees.length>0?attendees.length:0}</span>
+                          HCPs |{" "}
+                          <span>
+                            {attendees.length > 0 ? attendees.length : 0}
+                          </span>
                         </h4>
                         <div className="clear-search d-flex align-items-center">
-                        
-                        <button
+                          <button
                             className="btn print"
                             title="Download stats"
                             onClick={() => {
@@ -2303,7 +2379,7 @@ useEffect(() => {
                               />
                             </svg>
                           </button>
-                         
+
                           {/* {attendees.length > 0 ? (
                             <button
                               className={
@@ -2404,7 +2480,7 @@ useEffect(() => {
                                               ? item?.name
                                               : item?.username}
                                           </h4>
-                                          
+
                                           {deleteStatus ? (
                                             <div className="clear-search">
                                               <button
@@ -2458,19 +2534,20 @@ useEffect(() => {
                                                 <span>Email</span>
                                                 {item?.email}
                                               </li> */}
-                                              {isLikeRdAccount
-                                                ?
-                                                  <li>
-                                                    <span>Site Number</span>
-                                                    {item?.site_number != 0 ? item?.site_number : 'N/A'}
-                                                  </li>
-                                                : 
-                                                  <li>
-                                                    <span>Email</span>
-                                                    {item?.email}
-                                                  </li>
-                                              }
-                                              
+                                              {isLikeRdAccount ? (
+                                                <li>
+                                                  <span>Site Number</span>
+                                                  {item?.site_number != 0
+                                                    ? item?.site_number
+                                                    : "N/A"}
+                                                </li>
+                                              ) : (
+                                                <li>
+                                                  <span>Email</span>
+                                                  {item?.email}
+                                                </li>
+                                              )}
+
                                               <li>
                                                 <span>Specialty</span>
                                                 {item?.hcp_status}
@@ -2479,7 +2556,9 @@ useEffect(() => {
                                                 <span>Country</span>
                                                 {item?.country
                                                   ? item?.country
-                                                  : item?.province ? item?.province : "N/A"}
+                                                  : item?.province
+                                                  ? item?.province
+                                                  : "N/A"}
                                               </li>
                                               {/* <li className='reader-msg'>
                                           <span>Question</span>
@@ -2489,8 +2568,8 @@ useEffect(() => {
                                             </ul>
                                           </div>
                                           <div className="hcp-activity-status">
-                                          <div className="clear-search">
-                                             <button
+                                            <div className="clear-search">
+                                              <button
                                                 title="Copy SSI"
                                                 onClick={() => {
                                                   copyToClipboard(item?.userId);
@@ -2524,7 +2603,7 @@ useEffect(() => {
                                                   </defs>
                                                 </svg>
                                               </button>
-                                          </div>
+                                            </div>
                                           </div>
 
                                           {/* <div className='hcp-activity-status'>
@@ -2814,10 +2893,12 @@ useEffect(() => {
                     <div className="doc-content-header">
                       <div className="doc-content d-flex justify-content-between align-items-center">
                         <h4>
-                          HCPs | <span>{attendees.length>0?attendees.length:0}</span>
+                          HCPs |{" "}
+                          <span>
+                            {attendees.length > 0 ? attendees.length : 0}
+                          </span>
                         </h4>
                         <div className="clear-search d-flex align-items-center">
-                     
                           <div className="search-bar">
                             <form
                               className="d-flex"
@@ -2881,7 +2962,7 @@ useEffect(() => {
                               />
                             </svg>
                           </button>
-                         
+
                           {/* {attendees.length > 0 ? (
                             <button
                               className={

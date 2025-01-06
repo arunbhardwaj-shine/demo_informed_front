@@ -18,7 +18,7 @@ import Select from 'react-select'
 let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
 const NewEventCreate = () => {
   const switch_account_detail = JSON.parse(localStorage.getItem("switch_account_detail"))
-  const { selectedItem, eventIdContext, handleEventId } = useSidebar();
+  const {  handleEventId } = useSidebar();
   let params = useParams();
   let navigate = useNavigate();
   const [isData, setIsData] = useState([]);
@@ -264,37 +264,25 @@ const [apiCallStatus,setApiCallStatus]=useState(false)
     setEditEvent(true);
   };
 
-  const webinarRegistrationForm = (e, item) => {
-    handleEventId({ eventId: item?.id, companyId: item?.user_id, eventCode: item?.event_code, eventTitle: item?.title,eventStatus:item?.eventStatus,isOneSourceEvent:item?.is_onesource_event })
-    navigate("/webinar/registration", {
-      state: { eventId: item?.id, companyId: item?.user_id, eventCode: item?.event_code, eventTitle: item?.title },
-    });
-  };
-  const liveStream = (e, item) => {
-    handleEventId({ eventId: item?.id, companyId: item?.user_id, eventCode: item?.event_code, eventTitle: item?.title,eventStatus:item?.eventStatus,isOneSourceEvent:item?.is_onesource_event })
-    navigate("/webinar/live-stream");
-  };
-  const surveyQuestionFormDetail = (e, item) => {
-    handleEventId({ eventId: item?.id, companyId: item?.user_id, eventCode: item?.event_code, eventTitle: item?.title,eventStatus:item?.eventStatus,isOneSourceEvent:item?.is_onesource_event })
-    navigate("/webinar/analytics/question-data", {
-      state: { event_id: item?.id, companyId: item?.user_id },
-    });
-  }
-  const webinarPollingForm = (e, item) => {
-    handleEventId({ eventId: item?.id, companyId: item?.user_id, eventCode: item?.event_code, eventTitle: item?.title,eventStatus:item?.eventStatus,isOneSourceEvent:item?.is_onesource_event })
-    // if(item?.is_chat_link_created === 0){
-    //   navigate('/webinar/live-stream/chat-link')
-    // }else{
-    navigate("/webinar/live-stream/polls-layout", {
-      state: { event_id: item?.id, companyId: item?.user_id },
-    });
-    // }
+  const handleNavigation = (item, navigateTo, state = {}) => {
+    const eventDetails = {
+      eventId: item?.id,
+      companyId: item?.user_id,
+      eventCode: item?.event_code,
+      eventTitle: item?.title,
+      eventStatus: item?.eventStatus,
+      isOneSourceEvent: item?.is_onesource_event,
+      meetingId: item?.meeting_id,
+      meetingPass: item?.meeting_pass,
+      meetingPass: item?.meeting_pass,
+      streamType: item?.stream_type,
+      meetingType: item?.meeting_type,
+    };
+
+    handleEventId(eventDetails);
+    navigate(navigateTo, { state: { ...state, ...eventDetails } });
   };
 
-  const webinarEmailForm = (e, item) => {
-    handleEventId({ eventId: item?.id, companyId: item?.user_id, eventCode: item?.event_code, eventTitle: item?.title,eventStatus:item?.eventStatus,isOneSourceEvent:item?.is_onesource_event })
-    navigate("/webinar/email");
-  };
 
   const handleAddModalSubmit = (e) => {
     loader("show");
@@ -1180,51 +1168,6 @@ const [apiCallStatus,setApiCallStatus]=useState(false)
             {showFilterSection &&
 
               <div className="apply-filter">
-                {/* <h6>Applied filters</h6> */}
-                {/* <div className="filter-block">
-                  <div className="filter-block-left full">
-                    {Object.keys(otherFilter)?.length > 0 && (
-                      <div className="filter-div">
-                        <div className="filter-div-title">
-                          <span>Event |</span>
-                        </div>
-                        {Object.keys(otherFilter)?.map((item) => (
-                          <div className="filter-div-list">
-                          
-                            {otherFilter[item]?.map((element, index) => (
-                              <div
-                                className="filter-result"
-                                onClick={(event) => removeindividualfilter(item, index)}
-                              >
-
-
-                                {element}
-                                <img
-                                  src={path_image + "filter-close.svg"}
-                                  on
-                                  alt="Close-filter"
-                                />
-                              </div>
-                            ))}
-                          </div>
-                        ))}
-                      </div>
-                    )}
-
-                    
-
-
-                  </div>
-                  <div className="clear-filter">
-                 
-                    <button
-                      className="btn btn-outline-primary btn-bordered"
-                      onClick={clearFilter}
-                    >
-                      Remove All
-                    </button>
-                  </div>
-                </div> */}
 
                 {Object.keys(appliedFilter)?.length > 0 ? (
                   <div className="apply-filter">
@@ -1335,7 +1278,7 @@ const [apiCallStatus,setApiCallStatus]=useState(false)
                                 <button
                                   className="btn-webinar"
                                   onClick={(e) => {
-                                    webinarEmailForm(e, item);
+                                    handleNavigation(item, "/webinar/email");
                                     e.stopPropagation();
                                   }}
                                 >
@@ -1348,7 +1291,7 @@ const [apiCallStatus,setApiCallStatus]=useState(false)
                                 <button
                                   className="btn-webinar"
                                   onClick={(e) => {
-                                    webinarRegistrationForm(e, item);
+                                    handleNavigation(item, "/webinar/registration");
                                     e.stopPropagation();
                                   }}
                                 >
@@ -1361,7 +1304,7 @@ const [apiCallStatus,setApiCallStatus]=useState(false)
                                 <button
                                   className="btn-webinar"
                                   onClick={(e) => {
-                                    webinarPollingForm(e, item);
+                                    handleNavigation(item, "/webinar/live-stream/polls-layout", { event_id: item?.id });
                                     e.stopPropagation();
                                   }}
                                 >
@@ -1374,7 +1317,7 @@ const [apiCallStatus,setApiCallStatus]=useState(false)
                                 <button
                                   className="btn-webinar"
                                   onClick={(e) => {
-                                    surveyQuestionFormDetail(e, item);
+                                    handleNavigation(item, "/webinar/analytics/question-data", { event_id: item?.id });
                                     e.stopPropagation();
                                   }}
                                 >
@@ -1388,7 +1331,7 @@ const [apiCallStatus,setApiCallStatus]=useState(false)
                                 <button
                                   className="btn-webinar"
                                   onClick={(e) => {
-                                    liveStream(e, item);
+                                    handleNavigation(item, "/webinar/live-stream");
                                     e.stopPropagation();
                                   }}
                                 >
@@ -1514,131 +1457,7 @@ const [apiCallStatus,setApiCallStatus]=useState(false)
                   ""
                 )}
               </div>
-              {/* <div className="result-hcp-table">
-              <div className="event-create selected-hcp-list">
-                {isData != "undefined" && isData?.length > 0 ? (
-                  <Table id="table-to-xls">
-                    <thead className="sticky-header">
-                      <tr>
-                        <th>
-                          Event Date
-                          <button
-                            className={`event_sort_btn ${
-                              isActive == "dec"
-                                ? "svg_active"
-                                : isActive == "asc"
-                                ? "svg_asc"
-                                : ""
-                            }`}
-                            onClick={eventDateSort}
-                          >
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="20"
-                              height="20"
-                              viewBox="0 0 20 20"
-                              fill="none"
-                            >
-                              <path
-                                id="asc"
-                                d="M18.9224 12.744C18.7661 12.5878 18.5542 12.5 18.3332 12.5C18.1122 12.5 17.9003 12.5878 17.744 12.744L14.9999 15.4882V2.49984C14.9999 2.27882 14.9121 2.06686 14.7558 1.91058C14.5995 1.7543 14.3875 1.6665 14.1665 1.6665C13.9455 1.6665 13.7335 1.7543 13.5773 1.91058C13.421 2.06686 13.3332 2.27882 13.3332 2.49984V15.4882L10.589 12.744C10.4318 12.5922 10.2213 12.5082 10.0029 12.5101C9.78435 12.512 9.57534 12.5997 9.42084 12.7542C9.26633 12.9087 9.17869 13.1177 9.17679 13.3362C9.17489 13.5547 9.25889 13.7652 9.41068 13.9223L13.5774 18.089C13.6548 18.1666 13.7467 18.2282 13.848 18.2702C13.9492 18.3122 14.0577 18.3338 14.1674 18.3338C14.277 18.3338 14.3855 18.3122 14.4867 18.2702C14.588 18.2282 14.6799 18.1666 14.7574 18.089L18.924 13.9223C19.08 13.7658 19.1675 13.5538 19.1672 13.3328C19.1669 13.1119 19.0788 12.9001 18.9224 12.744Z"
-                                fill="#97B6CF"
-                              />
-                              <path
-                                id="dsc"
-                                d="M10.5892 6.0772L6.42251 1.91054C6.34489 1.83277 6.25253 1.77129 6.15084 1.7297C5.94698 1.64544 5.71803 1.64544 5.51417 1.7297C5.41248 1.77129 5.32011 1.83277 5.2425 1.91054L1.07583 6.0772C0.919572 6.23368 0.831875 6.44582 0.832031 6.66695C0.832188 6.88809 0.920184 7.10011 1.07666 7.25636C1.23314 7.41262 1.44528 7.50032 1.66642 7.50016C1.88756 7.5 2.09957 7.41201 2.25583 7.25553L5 4.51137V17.4997C5 17.7207 5.0878 17.9327 5.24408 18.0889C5.40036 18.2452 5.61232 18.333 5.83334 18.333C6.05435 18.333 6.26631 18.2452 6.4226 18.0889C6.57888 17.9327 6.66667 17.7207 6.66667 17.4997V4.51137L9.41085 7.25553C9.56801 7.40733 9.77852 7.49132 9.99701 7.48943C10.2155 7.48753 10.4245 7.39989 10.579 7.24538C10.7335 7.09087 10.8212 6.88186 10.8231 6.66337C10.825 6.44487 10.741 6.23437 10.5892 6.0772Z"
-                                fill="#97B6CF"
-                              />
-                            </svg>
-                          </button>
-                        </th>
-                        <th>Title</th>
-                        <th>Action</th>
-                      </tr>
-                    </thead>
-
-                    <tbody>
-                      {isData?.map((item, index) => {
-                        return (
-                          <tr>
-                            <td>
-                                  {moment(
-                                    new Date(item?.dateStart),
-                                    "MM/DD/YYYY"
-                                  ).format("MM/DD/YYYY")} | {`${item?.dateStartHour}:${
-                                    item?.dateStartMin
-                                  } ${item?.dateStartHour < 12 ? "AM" : "PM"}`}
-                            </td>
-                            <td>{item?.title}</td>
-                            <td className="action_btn">
-                              <button
-                                className="btn-edit"
-                                onClick={(e) => {
-                                  handleAddEventClick(e, item);
-                                }}
-                              >
-                                <img
-                                  title="Edit"
-                                  src={path_image + "edit-button.svg"}
-                                  alt="Delete Row"
-                                />
-                              </button>
-                              <button
-                                className="btn-webinar"
-                                onClick={(e) => {
-                                  webinarRegistrationForm(e, item);
-                                }}
-                              >
-                                <img
-                                  title="Webinar"
-                                  src={path_image + "webinar-icon.svg"}
-                                  alt="Webinar"
-                                />
-                              </button> 
-                               <button
-                                className="btn-webinar"
-                                onClick={(e) => {
-                                  webinarPollingForm(e, item);
-                                }}
-                              >
-                                <img
-                                  title="Webinar"
-                                  src={path_image + "polling-icon.svg"}
-                                  alt="Webinar"
-                                />
-                              </button>
-                              <button
-                                className="dlt_btn_event"
-                                onClick={(e) => {
-                                  setConfirmationPopup(true);
-
-                                  setEventId(item?.id);
-                                }}
-                              >
-                                <img
-                                  title="Delete"
-                                  src={path_image + "delete-icon.svg"}
-                                  alt="Delete Row"
-                                />
-                              </button>
-                            </td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </Table>
-                ) : (
-                  <>
-                    {apiStatus ? (
-                      <h4 className="not-found" style={{ color: "#004A89" }}>
-                        No Data Found
-                      </h4>
-                    ) : null}
-                  </>
-                )}
-              </div>
-            </div> */}
-              <div className="load_more">
+                    <div className="load_more">
                 {isLoaded == true ? (
                   <Button
                     className="btn btn-primary btn-filled"

@@ -6,7 +6,6 @@ import { getData, postData } from "../../../../../axios/apiHelper";
 import { toast } from "react-toastify";
 import { loader } from "../../../../../loader";
 import Select from "react-select";
-
 const Settings = () => {
   const validExtensions = ["png", "jpeg", "jpg"];
   const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"));
@@ -14,14 +13,12 @@ const Settings = () => {
   const [liveStatus, setLiveStatus] = useState(0);
   const [askQuestion, setAskQuestion] = useState(0);
   const [streamUrl, setStreamUrl] = useState("");
-  const [eventId, setEventId] = useState(
-    eventIdContext?.eventId
-      ? eventIdContext?.eventId
-      : localStorageEvent?.eventId
-  );
+  const [meetingId, setMeetingId] = useState("");
+  const [meetingPass, setMeetingPass] = useState("");
 
-
-  console.log(eventIdContext);
+  const eventId = eventIdContext?.eventId
+    ? eventIdContext?.eventId
+    : localStorageEvent?.eventId;
   const posterOptions = [
     {
       label: "Post event poster",
@@ -31,8 +28,11 @@ const Settings = () => {
     { label: "Custom message", value: "" },
   ];
 
-  if (localStorage.getItem("user_id") === "iSnEsKu5gB/DRlycxB6G4g==" && !([454,455].includes(eventId))) {
-    const additionalOptions =[
+  if (
+    localStorage.getItem("user_id") === "iSnEsKu5gB/DRlycxB6G4g==" &&
+    ![454, 455].includes(eventId)
+  ) {
+    const additionalOptions = [
       {
         label: "Thank you message without speaker image",
         value:
@@ -58,24 +58,20 @@ const Settings = () => {
         value:
           "https://docintel.s3.eu-west-1.amazonaws.com/image/CP_Banner-Technical-difficulties.jpg",
       },
-    
-    ]
+    ];
 
     posterOptions.unshift(...additionalOptions);
-  }else {
-    const additionalOptions =[
+  } else {
+    const additionalOptions = [
       {
         label: "Technical difficulties",
         value:
           "https://docintel.s3.eu-west-1.amazonaws.com/image/technical-issue.jpg",
       },
-    
-    ]
+    ];
 
     posterOptions.unshift(...additionalOptions);
   }
-
-
 
   const [selectedPosterOption, setSelectedPosterOption] = useState(
     posterOptions[0]
@@ -87,32 +83,8 @@ const Settings = () => {
   const [uploadedImageUrl, setUploadedImageUrl] = useState("");
 
   useEffect(() => {
-    // if(!eventIdContext){
-    //   handleEventId(localStorageEvent)
-    // }
     fetchSettings();
   }, []);
-
-  // const fetchSettings = async () => {
-  //   try {
-  //     loader("show");
-  //     const response = await getData(
-  //       `${ENDPOINT.WEBINAR_SETTINGS_GET}/${eventId}`
-  //     );
-  //     const { live_status, ask_question, poster_url, stream_url } =
-  //       response?.data?.data;
-  //     setLiveStatus(live_status);
-  //     setAskQuestion(ask_question);
-  //     setPosterUrl(poster_url);
-  //     console.log(posterOptions,'options')
-  //     setStreamUrl(stream_url);
-  //     // console.log(response?.data?.data, "===>response");
-  //   } catch (error) {
-  //     console.error("Error fetching settings:", error);
-  //   } finally {
-  //     loader("hide");
-  //   }
-  // };
 
   const fetchSettings = async () => {
     try {
@@ -120,30 +92,30 @@ const Settings = () => {
       const response = await getData(
         `${ENDPOINT.WEBINAR_SETTINGS_GET}/${eventId}`
       );
-      const { live_status, ask_question, poster_url, stream_url } =
-        response?.data?.data;
-      setLiveStatus(live_status);
-      setAskQuestion(ask_question);
+      const { live_status, ask_question, poster_url, stream_url,meeting_id,meeting_pass} =
+        response?.data?.data || {};
 
-      if (poster_url != "") {
+      setLiveStatus(live_status);
+      setMeetingId(meeting_id);
+      setMeetingPass(meeting_pass);
+      setAskQuestion(ask_question);
+      setStreamUrl(stream_url);
+
+      if (poster_url || stream_url) {
         const foundOption = posterOptions.find(
           (option) => option.value === poster_url
         );
-        if (
-          typeof foundOption !== "undefined" &&
-          foundOption !== "undefined" &&
-          foundOption !== ""
-        ) {
-          setSelectedPosterOption(foundOption);
-        } else {
-          setSelectedPosterOption(posterOptions[posterOptions?.length - 1]);
+        setSelectedPosterOption(
+          foundOption || posterOptions[posterOptions.length - 1]
+        );
+        if (!foundOption) {
           setUploadedImageUrl(poster_url);
         }
-        setStreamUrl(stream_url);
         setPosterUrl(poster_url);
       } else {
-        setSelectedPosterOption(posterOptions[0]);
-        setPosterUrl(posterOptions[0]?.value);
+        const defaultOption = posterOptions[0];
+        setSelectedPosterOption(defaultOption);
+        setPosterUrl(defaultOption?.value);
       }
     } catch (error) {
       console.error("Error fetching settings:", error);
@@ -156,108 +128,80 @@ const Settings = () => {
     try {
       loader("show");
 
+      const showToast = (message) => {
+        toast.error(message, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      };
+
       if (errorMsg) {
-        toast.error(errorMsg, {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
+        showToast(errorMsg);
         return;
       }
 
-      if (liveStatus === 2 && !streamUrl.trim()) {
-        toast.error("Please filled stream url first", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
-        return;
+      if (liveStatus === 2) {
+        if (!streamUrl.trim()) {
+          showToast("Please fill in the stream URL first");
+          return;
+        }
+        if (!streamUrl.startsWith("https")) {
+          showToast("Stream URL should start with 'https'");
+          return;
+        }
+        if (!meetingId.trim()) {
+          showToast("Meeting ID is required.");
+          return;
+        }
+        if (!meetingPass.trim()) {
+          showToast("Passcode is required.");
+          return;
+        }
       }
 
-      if (
-        liveStatus === 3 &&
-        !posterUrl.trim() &&
-        !selectedPosterOption.label === "Custom message"
-      ) {
-        toast.error("Please filled poster url first", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
-        return;
-      }
-
-      if (liveStatus === 2 && !streamUrl.startsWith("https")) {
-        toast.error("Stream URL should start with 'https'", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
-        return;
-      }
-
-      if (
-        liveStatus === 3 &&
-        !posterUrl.startsWith("https") &&
-        !selectedPosterOption.label === "Custom message"
-      ) {
-        toast.error("Poster URL should start with 'https'", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
-        return;
-      }
-
-      if (
-        liveStatus === 3 &&
-        selectedPosterOption.label === "Custom message" &&
-        !uploadedImageUrl.trim()
-      ) {
-        toast.error("Please upload poster image first", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
-        return;
+      if (liveStatus === 3) {
+        if (
+          !selectedPosterOption.label === "Custom message" &&
+          !posterUrl.trim()
+        ) {
+          showToast("Please fill in the poster URL first");
+          return;
+        }
+        if (
+          !selectedPosterOption.label === "Custom message" &&
+          !posterUrl.startsWith("https")
+        ) {
+          showToast("Poster URL should start with 'https'");
+          return;
+        }
+        if (
+          selectedPosterOption.label === "Custom message" &&
+          !uploadedImageUrl.trim()
+        ) {
+          showToast("Please upload a poster image first");
+          return;
+        }
       }
 
       const payload = {
-        eventId: eventId,
+        eventId,
         live_status: liveStatus,
         ask_question: askQuestion,
         stream_url: liveStatus === 2 ? streamUrl : "",
         poster_url:
-          liveStatus === 3
-            ? selectedPosterOption.label === "Custom message"
-              ? uploadedImageUrl
-              : posterUrl
-            : "",
+          liveStatus === 3 && selectedPosterOption.label === "Custom message"
+            ? uploadedImageUrl
+            : posterUrl,
       };
+      if (liveStatus === 2) {
+        payload.meeting_id = meetingId;
+        payload.meeting_pass = meetingPass;
+      }
 
       const response = await postData(
         ENDPOINT.WEBINAR_SETTINGS_UPDATE,
@@ -300,14 +244,14 @@ const Settings = () => {
           setErrorMsg("");
         }
         if (isSelectedName === "posterImage") {
-          setPoster(URL.createObjectURL(file)); 
+          setPoster(URL.createObjectURL(file));
         }
         try {
           const uploadedImageUrl = await uploadImageToServer(file);
           setUploadedImageUrl(uploadedImageUrl);
         } catch (error) {
           console.error("Error uploading image:", error);
-        } 
+        }
       }
     });
     fileInput.click();
@@ -440,29 +384,6 @@ const Settings = () => {
               </div>
             </div>
           </div>
-
-          {/* <div className="ask-questions">
-            <h5>Ask live questions: </h5>
-            <div className="yes">
-            <Form.Check
-              inline
-              type="radio"
-              checked={askQuestion === 1}
-              onChange={() => setAskQuestion(1)}
-            />
-            Yes
-            </div>
-             <div className="no">
-            <Form.Check
-              inline
-              type="radio"
-              checked={askQuestion === 0}
-              onChange={() => setAskQuestion(0)}
-            />
-            No
-          </div>
-          </div> */}
-
           {liveStatus === 2 && (
             <div className="stream-url">
               <Form.Group>
@@ -471,23 +392,31 @@ const Settings = () => {
                   type="text"
                   value={streamUrl}
                   onChange={(e) => setStreamUrl(e.target.value)}
+                  required
+                />
+              </Form.Group>
+
+              <Form.Group>
+                <Form.Label>Meeting ID:</Form.Label>
+                <Form.Control
+                  type="text"
+                  value={meetingId}
+                  onChange={(e) => setMeetingId(e.target.value)}
+                  required
+                />
+              </Form.Group>
+
+              <Form.Group>
+                <Form.Label>Passcode:</Form.Label>
+                <Form.Control
+                  type="text"
+                  value={meetingPass}
+                  onChange={(e) => setMeetingPass(e.target.value)}
+                  required
                 />
               </Form.Group>
             </div>
           )}
-
-          {/* {liveStatus === 3 && (
-            <div className="poster-url">
-            <Form.Group>
-              <Form.Label>Poster URL:</Form.Label>
-              <Form.Control
-                type="text"
-                value={posterUrl}
-                onChange={(e) => setPosterUrl(e.target.value)}
-              />
-            </Form.Group>
-            </div>
-          )} */}
 
           {liveStatus === 3 && (
             <div className="poster-url">
@@ -525,26 +454,25 @@ const Settings = () => {
 
               {selectedPosterOption?.label === "Custom message" && (
                 <>
-                 
-
                   <div className="form-group d-flex align-items-center custom-poster-added">
-                 
                     <div className="custom-poster">
-                    {!(poster || uploadedImageUrl)  ? (
+                      {!(poster || uploadedImageUrl) ? (
                         <h5>Upload your poster</h5>
-                    ) : null}
+                      ) : null}
 
                       <img
-                      // alt="header"
+                        // alt="header"
                         className="header-img"
                         src={poster || uploadedImageUrl}
                       />
                     </div>
-                     <Button className="upload-img" 
-                  // onClick={handleFileSelect}
-                   onClick={(e) => handleFileSelect(e, "posterImage")}>
-                    Choose Your File
-                  </Button>
+                    <Button
+                      className="upload-img"
+                      // onClick={handleFileSelect}
+                      onClick={(e) => handleFileSelect(e, "posterImage")}
+                    >
+                      Choose Your File
+                    </Button>
                   </div>
                 </>
               )}
