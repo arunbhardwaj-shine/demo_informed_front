@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Modal } from "react-bootstrap";
 import EventModelValidation from "./EventModelValidation";
-import { toast } from "react-toastify";
 import Select from "react-select";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -9,8 +8,7 @@ import moment from "moment";
 import { loader } from "../../../../../loader";
 import { postData, updateConsent } from "../../../../../axios/apiHelper";
 import { ENDPOINT } from "../../../../../axios/apiConfig";
-import { object } from "@amcharts/amcharts4/core";
-import { debounce } from 'lodash'
+import { debounce } from "lodash";
 
 const CommonAddEventModel = ({
   show,
@@ -21,77 +19,47 @@ const CommonAddEventModel = ({
   apiData,
   handleSubmit,
 }) => {
-  const path = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
   const path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
-  const [timeHours, setTimeHours] = useState([
-    { label: "Hour", value: "Hour" },
-    { label: "00 ", value: "00" },
-    { label: "01 ", value: "01" },
-    { label: "02 ", value: "02" },
-    { label: "03 ", value: "03" },
-    { label: "04 ", value: "04" },
-    { label: "05 ", value: "05" },
-    { label: "06 ", value: "06" },
-    { label: "07 ", value: "07" },
-    { label: "08 ", value: "08" },
-    { label: "09 ", value: "09" },
-    { label: "10 ", value: "10" },
-    { label: "11 ", value: "11" },
-    { label: "12 ", value: "12" },
-    { label: "13 ", value: "13" },
-    { label: "14 ", value: "14" },
-    { label: "15 ", value: "15" },
-    { label: "16 ", value: "16" },
-    { label: "17 ", value: "17" },
-    { label: "18 ", value: "18" },
-    { label: "19 ", value: "19" },
-    { label: "20 ", value: "20" },
-    { label: "21 ", value: "21" },
-    { label: "22 ", value: "22" },
-    { label: "23 ", value: "23" },
-  ]);
-  const [timeMinutes, setTimeMinutes] = useState([
-    { label: "Min", value: "Min" },
-    { label: "00 ", value: "00" },
-    { label: "05 ", value: "05" },
-    { label: "10 ", value: "10" },
-    { label: "15 ", value: "15" },
-    { label: "20 ", value: "20" },
-    { label: "25 ", value: "25" },
-    { label: "30 ", value: "30" },
-    { label: "35 ", value: "35" },
-    { label: "40 ", value: "40" },
-    { label: "45 ", value: "45" },
-    { label: "50 ", value: "50" },
-    { label: "55 ", value: "55" },
-  ]);
+
+  const timeHours = Array.from({ length: 24 }, (_, i) => ({
+    label: i < 10 ? `0${i} ` : `${i} `,
+    value: i < 10 ? `0${i}` : `${i}`,
+  }));
+
+  const timeMinutes = Array.from({ length: 12 }, (_, i) => ({
+    label: i === 0 ? "Min" : `${i * 5 < 10 ? "0" + i * 5 : i * 5} `,
+    value: i === 0 ? "Min" : `${i * 5 < 10 ? "0" + i * 5 : i * 5}`,
+  }));
+
   const [error, setError] = useState({});
-  const [currentDate, setCurrentDate] = useState(new Date());
+  const currentDate = new Date();
   const [countryTimezone, setCountryTimezone] = useState([]);
-  const [clientStreamOptions, setClientStreamOptions] = useState([
+  const clientStreamOptions = [
     { label: "Yes", value: "1" },
     { label: "No", value: "0" },
-  ]);
+  ];
   const [timezoneOptions, setTimezoneOptions] = useState([]);
-  const [originalTimeZoneOptions, setOriginalTimeZoneOptions] = useState([])
+  const [originalTimeZoneOptions, setOriginalTimeZoneOptions] = useState([]);
   const [ibuOptions, setIBUOptions] = useState([]);
   const [meetingOptions, setMeetingOptions] = useState([
     { label: "Live", value: "Live" },
     { label: "Virtual", value: "Virtual" },
   ]);
-  const [eventOptions, setEventOptions] = useState([
+  const eventOptions = [
     { label: "Webinar", value: "Webinar" },
-    { label: "Conference", value: "Conference" }
-  ])
-  const [eventStreamingOptions, setEventStreamingOptions] = useState([
+    { label: "Conference", value: "Conference" },
+  ];
+  const eventStreamingOptions = [
     { label: "No streaming", value: "No streaming" },
     { label: "One Source", value: "One Source" },
-    { label: "Zoom", value: "Zoom" }
-  ])
+    { label: "Zoom", value: "Zoom" },
+    { label: "Webex", value: "Webex" },
+  ];
   const streamTypeMap = {
     0: "No streaming",
     1: "One Source",
     2: "Zoom",
+    3: "Webex",
   };
   const [eventInputs, setEventInputs] = useState({
     dateStart: new Date(moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")),
@@ -109,46 +77,61 @@ const CommonAddEventModel = ({
     dateEndMin: "",
     event_code: "",
     event_type: "",
-    stream_type:"",
+    stream_type: "",
     description: "",
     speaker_name: [{ speakerName: "" }],
     speaker_email: "",
     meeting_type: "",
+    meeting_id: "",
+    meeting_pass: "",
   });
-  let isMena = localStorage.getItem("user_id") == "z2TunmZQf3QwCsICFTLGGQ=="
+  let isMena = localStorage.getItem("user_id") == "z2TunmZQf3QwCsICFTLGGQ==";
   useEffect(() => {
     setIBUOptions(webinarDetail?.ibu);
-    let uniqueTimeZone = []
+    let uniqueTimeZone = [];
     let uniqueLabelsSet = [];
     webinarDetail?.timezoneName?.forEach((item) => {
       if (!uniqueLabelsSet?.includes(item?.label)) {
         uniqueLabelsSet?.push(item?.label);
         uniqueTimeZone?.push(item);
       }
-    })
+    });
     setTimezoneOptions(uniqueTimeZone);
-    setOriginalTimeZoneOptions(webinarDetail?.timezoneName)
+    setOriginalTimeZoneOptions(webinarDetail?.timezoneName);
     if (data?.id) {
       let speaker_name = "";
       let speaker_email = "";
       let meeting_type = "";
+      let meeting_pass = "";
+      let meeting_id = "";
       let event_type = "";
       let stream_type = "";
-      let countryTimeZoneOptions = []
+      let countryTimeZoneOptions = [];
       if (data?.raw_description) {
         let parseData = JSON.parse(data?.raw_description);
         try {
-          speaker_name = JSON.parse(parseData?.speaker_name)
-        } catch
-        { speaker_name = parseData?.speaker_name ? [{ speakerName: parseData?.speaker_name }] : [{ speakerName: "" }] }
+          speaker_name = JSON.parse(parseData?.speaker_name);
+        } catch {
+          speaker_name = parseData?.speaker_name
+            ? [{ speakerName: parseData?.speaker_name }]
+            : [{ speakerName: "" }];
+        }
 
         speaker_email = parseData?.speaker_email;
         meeting_type = parseData?.meeting_type;
+        meeting_pass = parseData?.meeting_pass;
+        meeting_id = parseData?.meeting_id;
         event_type = parseData?.event_type;
         stream_type = parseData?.stream_type;
       }
-      countryTimeZoneOptions = webinarDetail?.timezoneName?.map((item) => (item?.label == data?.timezone ? { label: item?.value, value: item?.value } : null)).filter(Boolean);
-      setCountryTimezone(countryTimeZoneOptions)
+      countryTimeZoneOptions = webinarDetail?.timezoneName
+        ?.map((item) =>
+          item?.label == data?.timezone
+            ? { label: item?.value, value: item?.value }
+            : null
+        )
+        .filter(Boolean);
+      setCountryTimezone(countryTimeZoneOptions);
       setEventInputs({
         ...data,
         title: data?.title,
@@ -174,11 +157,15 @@ const CommonAddEventModel = ({
         speaker_name: speaker_name,
         speaker_email: speaker_email,
         meeting_type: meeting_type,
+        meeting_id: meeting_id,
+        meeting_pass: meeting_pass,
       });
     } else {
-      setCountryTimezone([])
+      setCountryTimezone([]);
       setEventInputs({
-        dateStart: new Date(moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")),
+        dateStart: new Date(
+          moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")
+        ),
         dateEnd: new Date(
           moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")
         ),
@@ -200,7 +187,8 @@ const CommonAddEventModel = ({
         speaker_name: [{ speakerName: "" }],
         speaker_email: "",
         meeting_type: "",
-
+        meeting_pass: "",
+        meeting_id: "",
       });
     }
   }, [show]);
@@ -209,14 +197,12 @@ const CommonAddEventModel = ({
     setEventInputs({
       dateStart: new Date(
         moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")
-      ), dateEnd: new Date(
-        moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")
       ),
-      speaker_name: [{ speakerName: "" }]
+      dateEnd: new Date(moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")),
+      speaker_name: [{ speakerName: "" }],
     });
     onClose(false);
   };
-
 
   const handleChange = (e, isSelectedName, index) => {
     const { name, value } = e?.target || {};
@@ -224,97 +210,98 @@ const CommonAddEventModel = ({
       let updateOption = eventInputs?.speaker_name;
       updateOption[index].speakerName = e?.target?.value;
       setEventInputs({ ...eventInputs, speaker_name: updateOption });
-    }
-    else if (name === 'event_code') {
+    } else if (name === "event_code") {
       setEventInputs({
         ...eventInputs,
         [isSelectedName || name]: isSelectedName ? e : value?.trim(),
       });
-      setError({...error,event_code:""})
-      if(value?.length>2){
+      setError({ ...error, event_code: "" });
+      if (value?.length > 2) {
         handleDebouncedChange(value);
       }
-      
     } else if (isSelectedName == "timezone") {
-
-      let countryTimeZoneOptions = originalTimeZoneOptions?.map((item) => (item?.label == e?.label ? { label: item?.value, value: item?.value } : null)).filter(Boolean);
-      setCountryTimezone(countryTimeZoneOptions)
-      setEventInputs({ ...eventInputs, timezone: e?.label })
-    }
-
-    else {
+      let countryTimeZoneOptions = originalTimeZoneOptions
+        ?.map((item) =>
+          item?.label == e?.label
+            ? { label: item?.value, value: item?.value }
+            : null
+        )
+        .filter(Boolean);
+      setCountryTimezone(countryTimeZoneOptions);
+      setEventInputs({ ...eventInputs, timezone: e?.label });
+    } else {
       const updatedInputs = {
         ...eventInputs,
         [isSelectedName || name]: isSelectedName ? e : value,
       };
 
-      if (isSelectedName === 'dateStart') {
+      if (isSelectedName === "dateStart") {
         updatedInputs.dateEnd = isSelectedName ? e : value;
       }
       setEventInputs(updatedInputs);
-
     }
   };
 
   const handleDebouncedChange = debounce(async (value) => {
-   
     try {
-      let err = ""
+      let err = "";
       let eventCode = value;
-      const response = await postData(ENDPOINT.EVENT_ID, { eventCode })
+      const response = await postData(ENDPOINT.EVENT_ID, { eventCode });
       if (response?.data?.data?.id) {
         if (data?.id != response?.data?.data?.id) {
-          err = "Event code already exist"
-          setError({...error,event_code:err})
-          return
+          err = "Event code already exist";
+          setError({ ...error, event_code: err });
+          return;
         }
-
       } else {
-        setError({...error,event_code:err})
+        setError({ ...error, event_code: err });
       }
+    } catch (err) {
+      console.log("--err", err);
     }
-    catch (err) {
-      console.log("--err", err)
-    }
-  }, 500)
+  }, 500);
 
   const addNewSpeakerClicked = (e, isSelectedName) => {
     let speakerObj = {
-      speakerName: ""
-    }
-    let error = {}
+      speakerName: "",
+    };
+    let error = {};
     if (eventInputs?.speaker_name?.length) {
       let index = eventInputs?.speaker_name?.findIndex(
         (data, index) => data?.speakerName == ""
       );
       if (index > -1) {
         // toast.error(`Please fill the speaker name ${index + 1}`);
-        error = { speaker_name: "Please enter speaker name", index: index }
-        setError(error)
+        error = { speaker_name: "Please enter speaker name", index: index };
+        setError(error);
         return;
       } else {
-        setEventInputs({ ...eventInputs, speaker_name: [...eventInputs?.speaker_name, speakerObj] })
+        setEventInputs({
+          ...eventInputs,
+          speaker_name: [...eventInputs?.speaker_name, speakerObj],
+        });
       }
     }
-  }
+  };
   const deleteSpeaker = (e, index) => {
     e.preventDefault();
-    let error = {}
+    let error = {};
     if (Object.keys(eventInputs?.speaker_name)?.length > 1) {
       let updatedEventInputs = eventInputs?.speaker_name;
       updatedEventInputs?.splice(index, 1);
       setEventInputs({ ...eventInputs, speaker_name: updatedEventInputs });
       setError();
     } else {
-      error = { speaker_name: "Atleast one Speaker must be required", index: index }
-      setError(error)
-      return
+      error = {
+        speaker_name: "Atleast one Speaker must be required",
+        index: index,
+      };
+      setError(error);
+      return;
     }
-
   };
 
   const formatDate = (newDate) => {
-
     if (newDate != "") {
       const year = newDate.getFullYear();
       const month = String(newDate.getMonth() + 1).padStart(2, "0");
@@ -322,7 +309,6 @@ const CommonAddEventModel = ({
       const formattedDate = `${year}-${month}-${day}`;
       return formattedDate;
     }
-
   };
 
   function isValidDateFormat(dateString) {
@@ -339,9 +325,8 @@ const CommonAddEventModel = ({
 
   const saveClicked = async (e) => {
     try {
-
       if (error?.event_code) {
-        return
+        return;
       }
       const errorSaveClicked = EventModelValidation(eventInputs);
       if (Object.keys(errorSaveClicked)?.length) {
@@ -354,14 +339,14 @@ const CommonAddEventModel = ({
         if (isValidDateFormat(eventInputs?.dateStart)) {
           dateStart = convertDate(eventInputs?.dateStart);
         } else {
-          const dateTime = new Date(eventInputs?.dateStart)
+          const dateTime = new Date(eventInputs?.dateStart);
           dateStart = formatDate(dateTime);
         }
         let dateEnd = "";
         if (isValidDateFormat(eventInputs?.dateEnd)) {
           dateEnd = convertDate(eventInputs?.dateEnd);
         } else {
-          const dateTime = new Date(eventInputs?.dateEnd)
+          const dateTime = new Date(eventInputs?.dateEnd);
           dateEnd = formatDate(dateTime);
         }
         let dataObj = {
@@ -369,11 +354,20 @@ const CommonAddEventModel = ({
           location: eventInputs?.location,
           type: eventInputs?.type ? eventInputs?.type : "",
           event_type: eventInputs?.event_type ? eventInputs?.event_type : "",
-          stream_type: eventInputs?.stream_type  === "One Source" ? "1" : eventInputs?.stream_type  === "Zoom" ? "2" : "0",
+          stream_type:
+            eventInputs?.stream_type === "One Source"
+              ? "1"
+              : eventInputs?.stream_type === "Zoom"
+              ? "2"
+              : eventInputs?.stream_type === "Webex"
+              ? "3"
+              : "0",
           timezone: eventInputs?.timezone,
           countryTimezone: eventInputs?.country_timezone,
           isClientStream: eventInputs?.is_client_stream == "Yes" ? 1 : 0,
-          clientStreamUrl: eventInputs?.client_stream_url ? eventInputs?.client_stream_url : "",
+          clientStreamUrl: eventInputs?.client_stream_url
+            ? eventInputs?.client_stream_url
+            : "",
           dateStart: dateStart,
           dateEnd: dateEnd,
           dateStartHour: eventInputs?.dateStartHour,
@@ -382,9 +376,19 @@ const CommonAddEventModel = ({
           dateEndMin: eventInputs?.dateEndMin,
           eventCode: eventInputs?.event_code,
           description: eventInputs?.description ? eventInputs?.description : "",
-          speaker_name: eventInputs?.speaker_name ? JSON.stringify(eventInputs?.speaker_name) : "",
-          speaker_email: eventInputs?.speaker_email ? eventInputs?.speaker_email : "",
-          meeting_type: eventInputs?.meeting_type ? eventInputs?.meeting_type : "",
+          speaker_name: eventInputs?.speaker_name
+            ? JSON.stringify(eventInputs?.speaker_name)
+            : "",
+          speaker_email: eventInputs?.speaker_email
+            ? eventInputs?.speaker_email
+            : "",
+          meeting_type: eventInputs?.meeting_type
+            ? eventInputs?.meeting_type
+            : "",
+          meeting_id: eventInputs?.meeting_id ? eventInputs?.meeting_id : "",
+          meeting_pass: eventInputs?.meeting_pass
+            ? eventInputs?.meeting_pass
+            : "",
         };
 
         if (data?.id) {
@@ -395,16 +399,16 @@ const CommonAddEventModel = ({
         } else {
           const res = await postData(ENDPOINT.WEBINAR_ADD_NEW_EVENT, dataObj);
         }
-       
 
         // onClose(false);
         setEventInputs({
           dateStart: new Date(
             moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")
-          ), dateEnd: new Date(
+          ),
+          dateEnd: new Date(
             moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")
           ),
-          speaker_name: [{ speakerName: "" }]
+          speaker_name: [{ speakerName: "" }],
         });
         handleSubmit();
         setError({});
@@ -412,9 +416,9 @@ const CommonAddEventModel = ({
     } catch (err) {
       console.log("--err", err);
       if (err?.response?.data?.message == "Event code already exist") {
-        let error = {}
-        error.event_code = err?.response?.data?.message
-        setError(error)
+        let error = {};
+        error.event_code = err?.response?.data?.message;
+        setError(error);
       }
     } finally {
       loader("hide");
@@ -451,7 +455,8 @@ const CommonAddEventModel = ({
             data-bs-backdrop="static"
             data-bs-keyboard="false"
             tabIndex="-1"
-            aria-hidden="true">
+            aria-hidden="true"
+          >
             <div className="hcp-add-box">
               <div className="hcp-add-form tab-content" id="upload-confirm">
                 <form id="add_hcp_form" className={"tab-pane" + "active"}>
@@ -468,9 +473,16 @@ const CommonAddEventModel = ({
                                 type="text"
                                 name="title"
                                 placeholder="Event title"
-                                className={error?.title ? "form-control error" : "form-control"}
+                                className={
+                                  error?.title
+                                    ? "form-control error"
+                                    : "form-control"
+                                }
                                 onChange={(e) => handleChange(e)}
-                                value={eventInputs?.title ? eventInputs?.title : ""} />
+                                value={
+                                  eventInputs?.title ? eventInputs?.title : ""
+                                }
+                              />
                               {error?.title ? (
                                 <div className="login-validation">
                                   {error?.title}
@@ -527,17 +539,16 @@ const CommonAddEventModel = ({
                                 value={
                                   eventOptions
                                     ? eventOptions.findIndex(
-                                      (item) =>
-                                        item?.value ==
-                                        eventInputs?.event_type
-                                    ) != -1
-                                      ? eventOptions[
-                                      eventOptions.findIndex(
                                         (item) =>
-                                          item?.value ==
-                                          eventInputs?.event_type
-                                      )
-                                      ]
+                                          item?.value == eventInputs?.event_type
+                                      ) != -1
+                                      ? eventOptions[
+                                          eventOptions.findIndex(
+                                            (item) =>
+                                              item?.value ==
+                                              eventInputs?.event_type
+                                          )
+                                        ]
                                       : ""
                                     : ""
                                 }
@@ -552,7 +563,7 @@ const CommonAddEventModel = ({
                           </div>
 
                           <div className="col-12 col-md-12">
-                           <div className="form-group d-flex align-items-center">
+                            <div className="form-group d-flex align-items-center">
                               <label htmlFor="">
                                 Streaming Type <span>*</span>
                               </label>
@@ -570,52 +581,117 @@ const CommonAddEventModel = ({
                                 }
                                 value={
                                   eventStreamingOptions
-                                    ?eventStreamingOptions.find(
-                                      (item) => item?.value === streamTypeMap[eventInputs?.stream_type]
-                                    )  != -1
+                                    ? eventStreamingOptions.find(
+                                        (item) =>
+                                          item?.value ===
+                                          streamTypeMap[
+                                            eventInputs?.stream_type
+                                          ]
+                                      ) != -1
                                       ? eventStreamingOptions.find(
-                                        (item) => item?.value === streamTypeMap[eventInputs?.stream_type]
-                                      ) 
+                                          (item) =>
+                                            item?.value ===
+                                            streamTypeMap[
+                                              eventInputs?.stream_type
+                                            ]
+                                        )
                                       : ""
                                     : ""
                                 }
                                 isClearable
-                               
                               />
                               {error?.stream_type ? (
                                 <div className="login-validation">
                                   {error?.stream_type}
                                 </div>
                               ) : null}
-                             </div>
                             </div>
+                          </div>
+
+                          {(eventInputs?.stream_type === "Zoom" ||
+                            streamTypeMap[eventInputs?.stream_type] ===
+                              "Zoom" ||  
+                              streamTypeMap[eventInputs?.stream_type] ===
+                              "Webex" ||
+                            (eventInputs?.stream_type === "Webex") ===
+                              "Zoom") && (
+                            <>
+                              <div className="form-group d-flex align-items-center">
+                                <label htmlFor="">Meeting ID</label>
+                                <input
+                                  type="text"
+                                  name="meeting_id"
+                                  placeholder="Enter Meeting ID"
+                                  className={
+                                    error?.meeting_id
+                                      ? "form-control error"
+                                      : "form-control"
+                                  }
+                                  onChange={(e) => handleChange(e)}
+                                  value={eventInputs?.meeting_id || ""}
+                                />
+                                {error?.meeting_id ? (
+                                  <div className="login-validation">
+                                    {error?.meeting_id}
+                                  </div>
+                                ) : null}
+                              </div>
+
+                              <div className="form-group d-flex align-items-center">
+                                <label htmlFor="">Passcode</label>
+                                <input
+                                  type="text"
+                                  name="meeting_pass"
+                                  placeholder="Enter Passcode"
+                                  className={
+                                    error?.meeting_pass
+                                      ? "form-control error"
+                                      : "form-control"
+                                  }
+                                  onChange={(e) => handleChange(e)}
+                                  value={eventInputs?.meeting_pass || ""}
+                                />
+                                {error?.meeting_pass ? (
+                                  <div className="login-validation">
+                                    {error?.meeting_pass}
+                                  </div>
+                                ) : null}
+                              </div>
+                            </>
+                          )}
 
                           <div className="col-12 col-md-12 speaker-name">
                             <div className="multi-speaker-add">
-                                {Object.keys(eventInputs?.speaker_name)?.map((item, index) => (
+                              {Object.keys(eventInputs?.speaker_name)?.map(
+                                (item, index) => (
                                   <div className="form-group d-flex align-items-center">
                                     <label htmlFor="">
-                                      {`Speaker's name ${index + 1
-                                        }`} <span> *</span>
+                                      {`Speaker's name ${index + 1}`}{" "}
+                                      <span> *</span>
                                     </label>
                                     <input
                                       type="text"
                                       name="speaker_name"
                                       placeholder="Enter speaker's name"
                                       className={
-                                        (error?.speaker_name && error?.index == index)
+                                        error?.speaker_name &&
+                                        error?.index == index
                                           ? "form-control error"
                                           : "form-control"
                                       }
-                                      onChange={(e) => handleChange(e, 'speaker_name', index)}
-                                      value={
-                                        eventInputs?.speaker_name[item]?.speakerName
-
+                                      onChange={(e) =>
+                                        handleChange(e, "speaker_name", index)
                                       }
-
+                                      value={
+                                        eventInputs?.speaker_name[item]
+                                          ?.speakerName
+                                      }
                                     />
-                                    <button onClick={(e) => { deleteSpeaker(e, index) }}>
-
+                                    <button
+                                      onClick={(e) => {
+                                        deleteSpeaker(e, index);
+                                      }}
+                                    >
                                       <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         width="40"
@@ -643,100 +719,32 @@ const CommonAddEventModel = ({
                                         />
                                       </svg>
                                     </button>
-                                    {(error?.speaker_name && error?.index == index) ? (
+                                    {error?.speaker_name &&
+                                    error?.index == index ? (
                                       <div className="login-validation">
                                         {error?.speaker_name}
                                       </div>
                                     ) : null}
                                   </div>
-                                ))}
+                                )
+                              )}
 
-                                <span
-                                  className="add-choice"
-                                  onClick={(e) => addNewSpeakerClicked(e, "speaker")}
-                                >
-                                  Add speaker
-                                  <img src={path_image + "add-choice.svg"} alt="" />
-                                </span>
-
-                              {/* <div className="col-12 col-md-6">
-                                <div className="form-group">
-                                  <label htmlFor="">
-                                    Speaker's Email <span> *</span>{" "}
-                                  </label>
-                                  <input
-                                    type="email"
-                                    name="speaker_email"
-                                    placeholder="Enter speaker's email"
-                                    className={
-                                      error?.speaker_email
-                                        ? "form-control error"
-                                        : "form-control"
-                                    }
-                                    onChange={(e) => handleChange(e)}
-                                    value={
-                                      eventInputs?.speaker_email
-                                        ? eventInputs?.speaker_email
-                                        : ""
-                                    }
-                                  />
-                                  {error?.speaker_email ? (
-                                    <div className="login-validation">
-                                      {error?.speaker_email}
-                                    </div>
-                                  ) : null}
-                                </div>
-                              </div> */}
-                              {/* <div className="col-12 col-md-12">
-                                  <span class="add-choice">Add Speaker<img src={path_image+"add-choice.svg"} alt=""/></span>
-                                </div> */}
+                              <span
+                                className="add-choice"
+                                onClick={(e) =>
+                                  addNewSpeakerClicked(e, "speaker")
+                                }
+                              >
+                                Add speaker
+                                <img
+                                  src={path_image + "add-choice.svg"}
+                                  alt=""
+                                />
+                              </span>
                             </div>
                           </div>
-
-                          {/* <div className="col-12 col-md-12">
-                            <div className="form-group">
-                              <label htmlFor="">
-                                Meeting Type <span> *</span>
-                              </label>
-
-                              <Select
-                                options={meetingOptions}
-                                className={
-                                  error?.meeting_type
-                                    ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
-                                    : "dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                }
-                                placeholder="Select meeting type"
-                                onChange={(e) =>
-                                  handleChange(e?.value, "meeting_type")
-                                }
-                                value={
-                                  meetingOptions
-                                    ? meetingOptions.findIndex(
-                                      (item) =>
-                                        item?.value ==
-                                        eventInputs?.meeting_type
-                                    ) != -1
-                                      ? meetingOptions[
-                                      meetingOptions.findIndex(
-                                        (item) =>
-                                          item?.value ==
-                                          eventInputs?.meeting_type
-                                      )
-                                      ]
-                                      : ""
-                                    : ""
-                                }
-                                isClearable
-                              />
-                              {error?.meeting_type ? (
-                                <div className="login-validation">
-                                  {error?.meeting_type}
-                                </div>
-                              ) : null}
-                            </div>
-                          </div> */}
-                          {localStorage.getItem("user_id") == "B7SHpAc XDXSH NXkN0rdQ==" ?
+                          {localStorage.getItem("user_id") ==
+                          "B7SHpAc XDXSH NXkN0rdQ==" ? (
                             <div className="col-12 col-md-12">
                               <div className="form-group d-flex align-items-center">
                                 <label htmlFor="">IBU</label>
@@ -748,20 +756,22 @@ const CommonAddEventModel = ({
                                       ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
                                       : "dropdown-basic-button split-button-dropup edit-country-dropdown"
                                   }
-                                  onChange={(e) => handleChange(e?.value, "type")}
+                                  onChange={(e) =>
+                                    handleChange(e?.value, "type")
+                                  }
                                   placeholder="Select IBU"
                                   value={
                                     ibuOptions
                                       ? ibuOptions.findIndex(
-                                        (item) =>
-                                          item?.value == eventInputs?.type
-                                      ) != -1
-                                        ? ibuOptions[
-                                        ibuOptions.findIndex(
                                           (item) =>
                                             item?.value == eventInputs?.type
-                                        )
-                                        ]
+                                        ) != -1
+                                        ? ibuOptions[
+                                            ibuOptions.findIndex(
+                                              (item) =>
+                                                item?.value == eventInputs?.type
+                                            )
+                                          ]
                                         : ""
                                       : ""
                                   }
@@ -774,9 +784,9 @@ const CommonAddEventModel = ({
                                 ) : null}
                               </div>
                             </div>
-                            : ""}
-
-
+                          ) : (
+                            ""
+                          )}
 
                           <div className="col-12 col-md-12">
                             <div className="form-group d-flex align-items-center">
@@ -791,24 +801,21 @@ const CommonAddEventModel = ({
                                     ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
                                     : "dropdown-basic-button split-button-dropup edit-country-dropdown"
                                 }
-                                onChange={(e) =>
-                                  handleChange(e, "timezone")
-                                }
+                                onChange={(e) => handleChange(e, "timezone")}
                                 placeholder="Select timezone"
                                 value={
                                   timezoneOptions
                                     ? timezoneOptions?.findIndex(
-                                      (item) =>
-                                        item?.label ==
-                                        eventInputs?.timezone
-                                    ) != -1
-                                      ? timezoneOptions[
-                                      timezoneOptions?.findIndex(
                                         (item) =>
-                                          item?.label ==
-                                          eventInputs?.timezone
-                                      )
-                                      ]
+                                          item?.label == eventInputs?.timezone
+                                      ) != -1
+                                      ? timezoneOptions[
+                                          timezoneOptions?.findIndex(
+                                            (item) =>
+                                              item?.label ==
+                                              eventInputs?.timezone
+                                          )
+                                        ]
                                       : ""
                                     : ""
                                 }
@@ -841,16 +848,17 @@ const CommonAddEventModel = ({
                                 value={
                                   countryTimezone
                                     ? countryTimezone?.findIndex(
-                                      (item) =>
-                                        item?.value == eventInputs?.country_timezone
-                                    ) != -1
-                                      ? countryTimezone[
-                                      countryTimezone?.findIndex(
                                         (item) =>
                                           item?.value ==
                                           eventInputs?.country_timezone
-                                      )
-                                      ]
+                                      ) != -1
+                                      ? countryTimezone[
+                                          countryTimezone?.findIndex(
+                                            (item) =>
+                                              item?.value ==
+                                              eventInputs?.country_timezone
+                                          )
+                                        ]
                                       : ""
                                     : ""
                                 }
@@ -863,47 +871,6 @@ const CommonAddEventModel = ({
                               ) : null}
                             </div>
                           </div>
-                          {/* <div className="col-12 col-md-12">
-                            <div className="form-group">
-                              <label htmlFor="">
-                                {" "}
-                                Is Client Stream <span> *</span>
-                              </label>
-                              <Select
-                                options={clientStreamOptions}
-                                className={
-                                  error?.is_client_stream
-                                    ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
-                                    : "dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                }
-                                onChange={(e) =>
-                                  handleChange(e?.label, "is_client_stream")
-                                }
-                                placeholder="Select stream"
-                                value={
-                                  clientStreamOptions?.findIndex(
-                                    (item) =>
-                                      item?.label ==
-                                      eventInputs?.is_client_stream
-                                  ) != -1
-                                    ? clientStreamOptions[
-                                    clientStreamOptions?.findIndex(
-                                      (item) =>
-                                        item?.label ==
-                                        eventInputs?.is_client_stream
-                                    )
-                                    ]
-                                    : ""
-                                }
-                                isClearable
-                              />
-                              {error?.is_client_stream ? (
-                                <div className="login-validation">
-                                  {error?.is_client_stream}
-                                </div>
-                              ) : null}
-                            </div>
-                          </div> */}
                           {eventInputs?.is_client_stream == "Yes" ? (
                             <div className="col-12 col-md-12">
                               <div className="form-group d-flex align-items-center">
@@ -954,10 +921,10 @@ const CommonAddEventModel = ({
                                   eventInputs?.dateStart
                                     ? new Date(eventInputs?.dateStart)
                                     : new Date(
-                                      moment(new Date(), "MM/DD/YYYY").format(
-                                        "MM/DD/YYYY"
+                                        moment(new Date(), "MM/DD/YYYY").format(
+                                          "MM/DD/YYYY"
+                                        )
                                       )
-                                    )
                                 }
                                 onChange={(date) =>
                                   handleChange(date, "dateStart")
@@ -994,12 +961,12 @@ const CommonAddEventModel = ({
                                       item?.value == eventInputs?.dateStartHour
                                   ) != -1
                                     ? timeHours[
-                                    timeHours?.findIndex(
-                                      (item) =>
-                                        item?.value ==
-                                        eventInputs?.dateStartHour
-                                    )
-                                    ]
+                                        timeHours?.findIndex(
+                                          (item) =>
+                                            item?.value ==
+                                            eventInputs?.dateStartHour
+                                        )
+                                      ]
                                     : timeHours[0]
                                 }
                                 isClearable
@@ -1022,12 +989,12 @@ const CommonAddEventModel = ({
                                       item?.value == eventInputs?.dateStartMin
                                   ) != -1
                                     ? timeMinutes[
-                                    timeMinutes?.findIndex(
-                                      (item) =>
-                                        item?.value ==
-                                        eventInputs?.dateStartMin
-                                    )
-                                    ]
+                                        timeMinutes?.findIndex(
+                                          (item) =>
+                                            item?.value ==
+                                            eventInputs?.dateStartMin
+                                        )
+                                      ]
                                     : timeMinutes[0]
                                 }
                                 isClearable
@@ -1039,7 +1006,7 @@ const CommonAddEventModel = ({
                               ) : null}
                             </div>
                           </div>
-                          
+
                           <div className="col-12 col-md-12">
                             <div className="form-group d-flex align-items-center">
                               <label htmlFor="">
@@ -1058,10 +1025,10 @@ const CommonAddEventModel = ({
                                   eventInputs?.dateEnd
                                     ? new Date(eventInputs?.dateEnd)
                                     : new Date(
-                                      moment(new Date(), "MM/DD/YYYY").format(
-                                        "MM/DD/YYYY"
+                                        moment(new Date(), "MM/DD/YYYY").format(
+                                          "MM/DD/YYYY"
+                                        )
                                       )
-                                    )
                                 }
                                 onChange={(date) =>
                                   handleChange(date, "dateEnd")
@@ -1076,8 +1043,6 @@ const CommonAddEventModel = ({
                               ) : null}
                             </div>
                           </div>
-
-                          
 
                           <div className="col-12 col-md-12">
                             <div className="form-group double-select d-flex align-items-center">
@@ -1101,12 +1066,12 @@ const CommonAddEventModel = ({
                                       item?.value == eventInputs?.dateEndHour
                                   ) != -1
                                     ? timeHours[
-                                    timeHours?.findIndex(
-                                      (item) =>
-                                        item?.value ==
-                                        eventInputs?.dateEndHour
-                                    )
-                                    ]
+                                        timeHours?.findIndex(
+                                          (item) =>
+                                            item?.value ==
+                                            eventInputs?.dateEndHour
+                                        )
+                                      ]
                                     : timeHours[0]
                                 }
                                 isClearable
@@ -1129,12 +1094,12 @@ const CommonAddEventModel = ({
                                       item?.value == eventInputs?.dateEndMin
                                   ) != -1
                                     ? timeMinutes[
-                                    timeMinutes?.findIndex(
-                                      (item) =>
-                                        item?.value ==
-                                        eventInputs?.dateEndMin
-                                    )
-                                    ]
+                                        timeMinutes?.findIndex(
+                                          (item) =>
+                                            item?.value ==
+                                            eventInputs?.dateEndMin
+                                        )
+                                      ]
                                     : timeMinutes[0]
                                 }
                                 isClearable
@@ -1150,23 +1115,23 @@ const CommonAddEventModel = ({
                           <div className="col-12 col-md-12">
                             <div className="form-group d-flex align-items-center">
                               <label htmlFor="">
-                                {isMena ? "Unique URL Code " :"Event Code"}
-                                 <span>*</span>
+                                {isMena ? "Unique URL Code " : "Event Code"}
+                                <span>*</span>
                               </label>
                               <input
                                 type="text"
                                 name="event_code"
-                                placeholder={isMena ? "Enter Unique URL Code" : "Event Code"}
-                                className={error?.event_code ? "form-control error" : "form-control"}
-                                // className={
-                                //   error?.event_code
-                                //     ? "form-control error"
-                                //     : data?.id? "form-control disabled":"form-control"
-                                // }
-                                // readOnly={data?.id?true:false}
-                                // disabled={data?.id?true:false}
+                                placeholder={
+                                  isMena
+                                    ? "Enter Unique URL Code"
+                                    : "Event Code"
+                                }
+                                className={
+                                  error?.event_code
+                                    ? "form-control error"
+                                    : "form-control"
+                                }
                                 onChange={(e) => handleChange(e)}
-
                                 value={
                                   eventInputs?.event_code
                                     ? eventInputs?.event_code
@@ -1180,45 +1145,8 @@ const CommonAddEventModel = ({
                               ) : null}
                             </div>
                           </div>
-
-                          {/* <div className="col-12 col-md-12">
-                            <div className="form-group">
-                              <label htmlFor="">Event Description</label>
-                              <textarea
-                                type="text"
-                                name="description"
-                                placeholder="Event Description"
-                                className="form-control"
-                                onChange={(e) => handleChange(e)}
-                                value={
-                                  eventInputs?.description
-                                    ? eventInputs?.description
-                                    : ""
-                                }
-                              />
-                            </div>
-                          </div> */}
                         </div>
                       </div>
-
-                      {/* <div className="hcp-modal-action">
-                          <div className="hcp-action-block">
-                            <>
-                              <div className="hcp-remove">
-                                <button
-                                  type="button"
-                                  className="btn btn-filled"
-                                  // onClick={() => deleteRecord(i)}
-                                >
-                                  <img
-                                    src={path_image + "delete.svg"}
-                                    alt="Add More"
-                                  />
-                                </button>
-                              </div>
-                            </>
-                          </div>
-                        </div> */}
                     </div>
                   </>
                 </form>
@@ -1245,7 +1173,6 @@ const CommonAddEventModel = ({
           </button>
         </div>
       </Modal>
-
     </>
   );
 };
