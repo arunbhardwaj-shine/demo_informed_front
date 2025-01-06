@@ -987,7 +987,7 @@ const Sidebar = () => {
                           // className="side_li"
                           >
                             <Link to="/webinar/email/auto-emails">
-                            <img src= { sidebar_image_path +"auto-email2.svg" } alt=""/>
+                            <img src= { sidebar_image_path +"auto-email.svg" } alt=""/>
                             {" "}
                               <p>Auto Emails</p>
                             </Link>
