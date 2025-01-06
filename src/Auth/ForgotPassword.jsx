@@ -4,7 +4,7 @@ import * as Yup from "yup";
 import ExportApi from "../Api/ExportApi";
 import { Button, Col, Form, Modal, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { toast, ToastContainer } from "react-toastify";
+import { toast} from "react-toastify";
 function ForgotPassword(props) {
     const [err, setErr] = useState(false);
     const [modalShow, setmodalShow] = useState(false);

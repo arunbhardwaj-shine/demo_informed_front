@@ -3,7 +3,7 @@ import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 
 let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
-const SurveyAnalyticsQuestionPieChart = memo(({ key, data, show, type,colors,chartRef }) => {   
+const SurveyAnalyticsQuestionPieChart = memo(({  data, show, type,colors,chartRef }) => {   
     const baseOptions = {
         chart: {
             plotBackgroundColor: null,

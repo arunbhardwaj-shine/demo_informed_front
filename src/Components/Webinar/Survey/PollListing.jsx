@@ -932,7 +932,7 @@ export default function PollListing({ eventIdContext }) {
               afterChange={handleAfterChange}
             >
               {questions.map((questionObj, index) => (
-                <>
+                <React.Fragment key={index}>
                   {questionObj?.questionData?.pollSubQuestions &&
                   questionObj?.questionData?.pollSubQuestions?.length > 0 ? (
                     <>
@@ -942,7 +942,7 @@ export default function PollListing({ eventIdContext }) {
                           <div className="polls-preview-lists poll-question-create">
                             {questionObj?.questionData?.pollSubQuestions.map(
                               (question, index) => (
-                                <>
+                                < React.Fragment key={index}>
                                   {index == 0 && (
                                  <>   
                                   <div className="polls-preview-header">
@@ -1021,7 +1021,7 @@ export default function PollListing({ eventIdContext }) {
                                       </div>
                                     </div>
                                   </div>
-                                </>
+                                </React.Fragment>
                               )
                             )}
                           </div>
@@ -1080,7 +1080,7 @@ export default function PollListing({ eventIdContext }) {
                       
                     />
                   )}
-                </>
+                </React.Fragment>
               ))}
             </Slider>
             {apiStatus && (

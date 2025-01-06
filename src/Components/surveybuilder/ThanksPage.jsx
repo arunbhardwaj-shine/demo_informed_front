@@ -94,7 +94,7 @@ const ThanksPage = (props) => {
                       <div className="survey-active-data thank">
                         <div className="steps">
                           <div className="d-flex align-items-center justify-content-between">
-                            <p class="option-heading">Image</p>
+                            <p className="option-heading">Image</p>
                             <Form.Check
                               type="switch"
                               id="custom-switch"
@@ -134,9 +134,9 @@ const ThanksPage = (props) => {
                                   }}
                                 ></input>
                                 <label
-                                  tabindex="0"
-                                  for="my-file"
-                                  class="input-file-trigger"
+                                  tabIndex="0"
+                                  htmlFor="my-file"
+                                  className="input-file-trigger"
                                 >
                                   Change Image
                                 </label>
@@ -145,11 +145,11 @@ const ThanksPage = (props) => {
                           )}
                           {headingToogle && (
                             <div className="words-limit">
-                              <p class="option-heading">image Width (%)</p>
+                              <p className="option-heading">image Width (%)</p>
                               <input
                                 placeholder="45"
                                 type="number"
-                                class="form-control"
+                                className="form-control"
                                 value={thanksPageData.imageWidth}
                                 onChange={(e) => {
                                   const value = Math.max(
@@ -164,7 +164,7 @@ const ThanksPage = (props) => {
                         </div>
                         <div className="steps">
                           <div className="d-flex align-items-center justify-content-between">
-                            <p class="option-heading">Headline</p>
+                            <p className="option-heading">Headline</p>
                           </div>
                           <div className="toolbar-group">
                             <div className="text-editor">

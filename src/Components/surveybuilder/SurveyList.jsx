@@ -1005,7 +1005,7 @@ const SurveyList = (props) => {
                       <Accordion defaultActiveKey="0" flush>
                         {Object.keys(filterdata)?.map(function (key, index) {
                           return (
-                            <>
+                            < React.Fragment key={index}>
                               {filterdata[key]?.length > 0 ? (
                                 <Accordion.Item
                                   key={index}
@@ -1080,7 +1080,7 @@ const SurveyList = (props) => {
                                   </Accordion.Body>
                                 </Accordion.Item>
                               ) : null}
-                            </>
+                            </React.Fragment>
                           );
                         })}
                       </Accordion>
@@ -1158,7 +1158,7 @@ const SurveyList = (props) => {
                   <div className="filter-block-left full">
                     {Object.keys(filterObject)?.map((key, index) => {
                       return (
-                        <>
+                        < React.Fragment key={index}>
                           {filterObject[key]?.length ? (
                             <div key={index} className="filter-div">
                               <div className="filter-div-title">
@@ -1197,7 +1197,7 @@ const SurveyList = (props) => {
                               </div>
                             </div>
                           ) : null}
-                        </>
+                        </React.Fragment>
                       );
                     })}
                   </div>
@@ -1239,7 +1239,7 @@ const SurveyList = (props) => {
                       const sublinkoptions =
                         subLinkData?.[data.survey_id] || [];
                       return (
-                        <>
+                        
                           <div className="email_box_block" key={index}>
                             <div
                               className={
@@ -1838,7 +1838,7 @@ const SurveyList = (props) => {
                               </div>
                             </div>
                           </div>
-                        </>
+                        
                       );
                     })
                   : null}

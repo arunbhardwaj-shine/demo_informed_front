@@ -24,7 +24,7 @@ const Sidebar = () => {
 
   let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
   let sidebar_image_path= import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN_SIDEBAR;
-  console.log(path_image)
+   
   let path = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [getHideShowSideContent, setHideShowSideContent] = useState(false);
   const [getOpenVideoPopup, setOpenVideoPopup] = useState(false);
@@ -2131,7 +2131,8 @@ const Sidebar = () => {
                           )
                         }
                       >
-                        <a href="javascript:;">
+                        <a   href="#"
+    onClick={(e) => e.preventDefault()}>
                           <img src={video_poster} alt="" />
                         </a>
                       </div>
@@ -2200,7 +2201,8 @@ const Sidebar = () => {
                       )
                     }
                   >
-                    <a href="javascript:;">
+                    <a   href="#"
+    onClick={(e) => e.preventDefault()}>
                     <img src= { sidebar_image_path +"cross.svg" } alt=""/>
                     {" "}
                     </a>
@@ -2244,7 +2246,8 @@ const Sidebar = () => {
                           )
                         }
                       >
-                        <a href="javascript:;">
+                        <a   href="#"
+    onClick={(e) => e.preventDefault()}>
                           <img src={video_poster} alt="" />
                         </a>
                       </div>
@@ -2312,7 +2315,8 @@ const Sidebar = () => {
                     <div className="help-popup-content-preview">
                       <div className="btn-form">
                         <a
-                          href="javascript:;"
+                            href="#"
+    onClick={(e) => e.preventDefault()}
                           className="btn btn-primary btn-filled"
                         >
                           Preview
@@ -2337,7 +2341,8 @@ const Sidebar = () => {
                     <div className="help-popup-next">
                       <div className="btn-form">
                         <a
-                          href="javascript:;"
+                            href="#"
+    onClick={(e) => e.preventDefault()}
                           className="btn btn-primary btn-filled"
                         >
                           Cancel
@@ -2357,7 +2362,8 @@ const Sidebar = () => {
                       )
                     }
                   >
-                    <a href="javascript:;">
+                    <a   href="#"
+    onClick={(e) => e.preventDefault()}>
                     <img src= { sidebar_image_path +"cross.svg" } alt=""/>
                     {" "}
                     </a>
@@ -2401,7 +2407,8 @@ const Sidebar = () => {
                           )
                         }
                       >
-                        <a href="javascript:;">
+                        <a   href="#"
+    onClick={(e) => e.preventDefault()}>
                           <img src={video_poster} alt="" />
                         </a>
                       </div>
@@ -2449,7 +2456,8 @@ const Sidebar = () => {
                     <div className="help-popup-content-preview">
                       <div className="btn-form">
                         <a
-                          href="javascript:;"
+                            href="#"
+    onClick={(e) => e.preventDefault()}
                           className="btn btn-primary btn-filled"
                         >
                           + Add Tag
@@ -2473,7 +2481,8 @@ const Sidebar = () => {
                     <div className="help-popup-content-preview">
                       <div className="btn-form">
                         <a
-                          href="javascript:;"
+                            href="#"
+    onClick={(e) => e.preventDefault()}
                           className="btn btn-primary btn-filled"
                         >
                           Save as Template
@@ -2488,7 +2497,8 @@ const Sidebar = () => {
                     <div className="help-popup-content-preview">
                       <div className="btn-form">
                         <a
-                          href="javascript:;"
+                            href="#"
+    onClick={(e) => e.preventDefault()}
                           className="btn btn-primary btn-filled"
                         >
                           Save as new Template
@@ -2504,7 +2514,8 @@ const Sidebar = () => {
                     <div className="help-popup-content-preview">
                       <div className="btn-form">
                         <a
-                          href="javascript:;"
+                            href="#"
+    onClick={(e) => e.preventDefault()}
                           className="btn btn-primary btn-filled"
                         >
                           Send a Sample
@@ -2527,7 +2538,8 @@ const Sidebar = () => {
                     <div className="help-popup-next">
                       <div className="btn-form">
                         <a
-                          href="javascript:;"
+                            href="#"
+    onClick={(e) => e.preventDefault()}
                           className="btn btn-primary btn-filled"
                         >
                           Save As Draft
@@ -2549,7 +2561,8 @@ const Sidebar = () => {
                       )
                     }
                   >
-                    <a href="javascript:;">
+                    <a   href="#"
+    onClick={(e) => e.preventDefault()}>
                     <img src= { sidebar_image_path +"cross.svg" } alt=""/>
                     {" "}
                     </a>
@@ -2593,7 +2606,8 @@ const Sidebar = () => {
                           )
                         }
                       >
-                        <a href="javascript:;">
+                        <a   href="#"
+    onClick={(e) => e.preventDefault()}>
                           <img src={video_poster} alt="" />
                         </a>
                       </div>
@@ -2616,7 +2630,8 @@ const Sidebar = () => {
                     <div className="help-popup-next">
                       <div className="btn-form">
                         <a
-                          href="javascript:;"
+                            href="#"
+    onClick={(e) => e.preventDefault()}
                           className="btn btn-primary btn-filled"
                         >
                           Save As Draft
@@ -2632,7 +2647,8 @@ const Sidebar = () => {
                     <div className="help-popup-next">
                       <div className="btn-form">
                         <a
-                          href="javascript:;"
+                            href="#"
+    onClick={(e) => e.preventDefault()}
                           className="btn btn-primary btn-filled"
                         >
                           Back
@@ -2652,7 +2668,8 @@ const Sidebar = () => {
                       )
                     }
                   >
-                    <a href="javascript:;">
+                    <a   href="#"
+    onClick={(e) => e.preventDefault()}>
                     <img src= { sidebar_image_path +"cross.svg" } alt=""/>
                     {" "}
                     </a>
@@ -2692,7 +2709,8 @@ const Sidebar = () => {
                       <h6>{title}</h6>
                       {/*
                     <div className="help-content-popup" onClick={() => setOpenVideoPopup((getOpenVideoPopup) => !getOpenVideoPopup)}>
-                      <a href="javascript:;">
+                      <a   href="#"
+    onClick={(e) => e.preventDefault()}>
                         <img src= {video_poster} alt="" />
                       </a>
                     </div>
@@ -2718,7 +2736,8 @@ const Sidebar = () => {
                     <div className="help-popup-next">
                       <div className="btn-form">
                         <a
-                          href="javascript:;"
+                            href="#"
+    onClick={(e) => e.preventDefault()}
                           className="btn btn-primary btn-filled"
                         >
                           View
@@ -2766,7 +2785,8 @@ const Sidebar = () => {
                     <div className="help-popup-next">
                       <div className="btn-form">
                         <a
-                          href="javascript:;"
+                            href="#"
+    onClick={(e) => e.preventDefault()}
                           className="btn btn-primary btn-filled"
                         >
                           Create New Smart List
@@ -2782,7 +2802,8 @@ const Sidebar = () => {
                     <div className="help-popup-next">
                       <div className="btn-form">
                         <a
-                          href="javascript:;"
+                            href="#"
+    onClick={(e) => e.preventDefault()}
                           className="btn btn-primary btn-filled"
                         >
                           Save As Draft
@@ -2798,7 +2819,8 @@ const Sidebar = () => {
                     <div className="help-popup-next">
                       <div className="btn-form">
                         <a
-                          href="javascript:;"
+                            href="#"
+    onClick={(e) => e.preventDefault()}
                           className="btn btn-primary btn-filled"
                         >
                           Next
@@ -2813,7 +2835,8 @@ const Sidebar = () => {
                     <div className="help-popup-next">
                       <div className="btn-form">
                         <a
-                          href="javascript:;"
+                            href="#"
+    onClick={(e) => e.preventDefault()}
                           className="btn btn-primary btn-filled"
                         >
                           Cancel
@@ -2833,7 +2856,8 @@ const Sidebar = () => {
                       )
                     }
                   >
-                    <a href="javascript:;">
+                    <a   href="#"
+    onClick={(e) => e.preventDefault()}>
                     <img src= { sidebar_image_path +"cross.svg" } alt=""/>
                     {" "}
                     </a>
@@ -2877,7 +2901,8 @@ const Sidebar = () => {
                           )
                         }
                       >
-                        <a href="javascript:;">
+                        <a   href="#"
+    onClick={(e) => e.preventDefault()}>
                           <img src={video_poster} alt="" />
                         </a>
                       </div>
@@ -2906,7 +2931,8 @@ const Sidebar = () => {
                     <div className="help-popup-next">
                       <div className="btn-form">
                         <a
-                          href="javascript:;"
+                            href="#"
+    onClick={(e) => e.preventDefault()}
                           className="btn btn-primary btn-filled"
                         >
                           Sort by{" "}
@@ -2925,7 +2951,8 @@ const Sidebar = () => {
                     <div className="help-popup-next">
                       <div className="btn-form">
                         <a
-                          href="javascript:;"
+                            href="#"
+    onClick={(e) => e.preventDefault()}
                           className="btn btn-primary btn-filled"
                         >
                           Add
@@ -2976,7 +3003,8 @@ const Sidebar = () => {
                     <div className="help-popup-next">
                       <div className="btn-form">
                         <a
-                          href="javascript:;"
+                            href="#"
+    onClick={(e) => e.preventDefault()}
                           className="btn btn-primary btn-filled"
                         >
                           Next
@@ -2991,7 +3019,8 @@ const Sidebar = () => {
                     <div className="help-popup-next">
                       <div className="btn-form">
                         <a
-                          href="javascript:;"
+                            href="#"
+    onClick={(e) => e.preventDefault()}
                           className="btn btn-primary btn-filled"
                         >
                           Save as Draft
@@ -3011,7 +3040,8 @@ const Sidebar = () => {
                       )
                     }
                   >
-                    <a href="javascript:;">
+                    <a   href="#"
+    onClick={(e) => e.preventDefault()}>
                     <img src= { sidebar_image_path +"cross.svg" } alt=""/>
                     {" "}
                     </a>
@@ -3059,7 +3089,8 @@ const Sidebar = () => {
                             )
                           }
                         >
-                          <a href="javascript:;">
+                          <a   href="#"
+    onClick={(e) => e.preventDefault()}>
                             <img src={video_poster} alt="" />
                           </a>
                         </div>
@@ -3083,7 +3114,8 @@ const Sidebar = () => {
                       <div className="help-popup-next">
                         <div className="btn-form">
                           <a
-                            href="javascript:;"
+                              href="#"
+    onClick={(e) => e.preventDefault()}
                             className="btn btn-primary btn-filled"
                           >
                             Approved?
@@ -3099,7 +3131,8 @@ const Sidebar = () => {
                       <div className="help-popup-next">
                         <div className="btn-form">
                           <a
-                            href="javascript:;"
+                              href="#"
+    onClick={(e) => e.preventDefault()}
                             className="btn btn-primary btn-filled"
                           >
                             Save As Draft
@@ -3114,7 +3147,8 @@ const Sidebar = () => {
                       <div className="help-popup-next">
                         <div className="btn-form">
                           <a
-                            href="javascript:;"
+                              href="#"
+    onClick={(e) => e.preventDefault()}
                             className="btn btn-primary btn-filled"
                           >
                             Send
@@ -3134,7 +3168,8 @@ const Sidebar = () => {
                         )
                       }
                     >
-                      <a href="javascript:;">
+                      <a   href="#"
+    onClick={(e) => e.preventDefault()}>
                       <img src= { sidebar_image_path +"cross.svg" } alt=""/>
                       {" "}
                       </a>
@@ -3180,7 +3215,8 @@ const Sidebar = () => {
                           )
                         }
                       >
-                        <a href="javascript:;">
+                        <a   href="#"
+    onClick={(e) => e.preventDefault()}>
                           <img src={video_poster} alt="" />
                         </a>
                       </div>
@@ -3240,7 +3276,8 @@ const Sidebar = () => {
                     <div className="help-popup-content-preview">
                       <div className="btn-form">
                         <a
-                          href="javascript:;"
+                            href="#"
+    onClick={(e) => e.preventDefault()}
                           className="btn btn-primary btn-filled"
                         >
                           Next
@@ -3260,7 +3297,8 @@ const Sidebar = () => {
                       )
                     }
                   >
-                    <a href="javascript:;">
+                    <a   href="#"
+    onClick={(e) => e.preventDefault()}>
                     <img src= { sidebar_image_path + "question-mark.svg" } alt=""/>
                     </a>
                   </div>
@@ -3304,7 +3342,8 @@ const Sidebar = () => {
                           )
                         }
                       >
-                        <a href="javascript:;">
+                        <a   href="#"
+    onClick={(e) => e.preventDefault()}>
                           <img src={video_poster} alt="" />
                         </a>
                       </div>
@@ -3366,7 +3405,8 @@ const Sidebar = () => {
                       )
                     }
                   >
-                    <a href="javascript:;">
+                    <a   href="#"
+    onClick={(e) => e.preventDefault()}>
                     <img src= { sidebar_image_path + "cross.svg" } alt=""/>
                     </a>
                   </div>
@@ -3410,7 +3450,8 @@ const Sidebar = () => {
                             )
                           }
                         >
-                          <a href="javascript:;">
+                          <a   href="#"
+    onClick={(e) => e.preventDefault()}>
                             <img src={video_poster} alt="" />
                           </a>
                         </div>
@@ -3461,7 +3502,8 @@ const Sidebar = () => {
                         )
                       }
                     >
-                      <a href="javascript:;">
+                      <a   href="#"
+    onClick={(e) => e.preventDefault()}>
                       <img src= { sidebar_image_path + "cross.svg" } alt=""/>
                       </a>
                     </div>
@@ -3499,7 +3541,8 @@ const Sidebar = () => {
                             )
                           }
                         >
-                          <a href="javascript:;">
+                          <a   href="#"
+    onClick={(e) => e.preventDefault()}>
                             <img src={video_poster} alt="" />
                           </a>
                         </div>
@@ -3541,7 +3584,8 @@ const Sidebar = () => {
                         )
                       }
                     >
-                      <a href="javascript:;">
+                      <a   href="#"
+    onClick={(e) => e.preventDefault()}>
                       <img src= { sidebar_image_path + "cross.svg" } alt=""/>
                       </a>
                     </div>
@@ -3621,7 +3665,8 @@ const Sidebar = () => {
                         )
                       }
                     >
-                      <a href="javascript:;">
+                      <a   href="#"
+    onClick={(e) => e.preventDefault()}>
                       <img src= { sidebar_image_path + "edit-consent.svg" } alt=""/>
                       </a>
                     </div>
@@ -3689,7 +3734,8 @@ const Sidebar = () => {
                         )
                       }
                     >
-                      <a href="javascript:;">
+                      <a   href="#"
+    onClick={(e) => e.preventDefault()}>
                       <img src= { sidebar_image_path + "cross.svg" } alt=""/>
                       </a>
                     </div>
@@ -3735,7 +3781,8 @@ const Sidebar = () => {
                             )
                           }
                         >
-                          <a href="javascript:;">
+                          <a   href="#"
+    onClick={(e) => e.preventDefault()}>
                             <img src={video_poster} alt="" />
                           </a>
                         </div>
@@ -3820,7 +3867,8 @@ const Sidebar = () => {
                         )
                       }
                     >
-                      <a href="javascript:;">
+                      <a   href="#"
+    onClick={(e) => e.preventDefault()}>
                       <img src= { sidebar_image_path +"cross.svg" } alt=""/>
                       {" "}
                       </a>
@@ -3930,7 +3978,8 @@ const Sidebar = () => {
                         )
                       }
                     >
-                      <a href="javascript:;">
+                      <a   href="#"
+    onClick={(e) => e.preventDefault()}>
                       <img src= { sidebar_image_path +"cross.svg" } alt=""/>
                       {" "}
                       </a>
@@ -3978,7 +4027,8 @@ const Sidebar = () => {
                             )
                           }
                         >
-                          <a href="javascript:;">
+                          <a   href="#"
+    onClick={(e) => e.preventDefault()}>
                             <img src={video_poster} alt="" />
                           </a>
                         </div>
@@ -4265,7 +4315,8 @@ const Sidebar = () => {
                         )
                       }
                     >
-                      <a href="javascript:;">
+                      <a   href="#"
+    onClick={(e) => e.preventDefault()}>
                       <img src= { sidebar_image_path +"cross.svg" } alt=""/>
                       {" "}
                       </a>
@@ -4591,7 +4642,8 @@ const Sidebar = () => {
                         )
                       }
                     >
-                      <a href="javascript:;">
+                      <a   href="#"
+    onClick={(e) => e.preventDefault()}>
                       <img src= { sidebar_image_path +"cross.svg" } alt=""/>
                       {" "}
                       </a>
@@ -4884,7 +4936,8 @@ const Sidebar = () => {
                       )
                     }
                   >
-                    <a href="javascript:;">
+                    <a   href="#"
+    onClick={(e) => e.preventDefault()}>
                     <img src= { sidebar_image_path +"cross.svg" } alt=""/>
                     {" "}
                     </a>
@@ -4965,7 +5018,8 @@ const Sidebar = () => {
                       )
                     }
                   >
-                    <a href="javascript:;">
+                    <a   href="#"
+    onClick={(e) => e.preventDefault()}>
                     <img src= { sidebar_image_path +"cross.svg" } alt=""/>
                     {" "}
                     </a>
@@ -4979,7 +5033,8 @@ const Sidebar = () => {
                     )
                   }
                 >
-                  <a href="javascript:;">
+                  <a   href="#"
+    onClick={(e) => e.preventDefault()}>
                   <img src= { sidebar_image_path +"cross.svg" } alt=""/>
                   {" "}
                   </a>
@@ -5048,7 +5103,8 @@ const Sidebar = () => {
                       )
                     }
                   >
-                    <a href="javascript:;">
+                    <a   href="#"
+    onClick={(e) => e.preventDefault()}>
                     <img src= { sidebar_image_path +"cross.svg" } alt=""/>
                     {" "}
                     </a>
@@ -5062,7 +5118,8 @@ const Sidebar = () => {
                     )
                   }
                 >
-                  <a href="javascript:;">
+                  <a   href="#"
+    onClick={(e) => e.preventDefault()}>
                     <img src= { sidebar_image_path +"cross.svg" } alt=""/>
                     {" "}
                   </a>
@@ -5167,7 +5224,8 @@ const Sidebar = () => {
                         )
                       }
                     >
-                      <a href="javascript:;">
+                      <a   href="#"
+    onClick={(e) => e.preventDefault()}>
                       <img src= { sidebar_image_path +"cross.svg" } alt=""/>
                       {" "}
                       </a>
@@ -5181,7 +5239,8 @@ const Sidebar = () => {
                       )
                     }
                   >
-                    <a href="javascript:;">
+                    <a   href="#"
+    onClick={(e) => e.preventDefault()}>
                     <img src= { sidebar_image_path +"cross.svg" } alt=""/>
                     {" "}
                     </a>
@@ -5288,7 +5347,8 @@ const Sidebar = () => {
                     )
                   }
                 >
-                  <a href="javascript:;">
+                  <a   href="#"
+    onClick={(e) => e.preventDefault()}>
                   <img src= { sidebar_image_path +"cross.svg" } alt=""/>
                   {" "}
                   </a>
@@ -5332,7 +5392,8 @@ const Sidebar = () => {
                             )
                           }
                         >
-                          <a href="javascript:;">
+                          <a   href="#"
+    onClick={(e) => e.preventDefault()}>
                             <img src={video_poster} alt="" />
                           </a>
                         </div>
@@ -5440,7 +5501,8 @@ const Sidebar = () => {
                           )
                         }
                       >
-                        <a href="javascript:;">
+                        <a   href="#"
+    onClick={(e) => e.preventDefault()}>
                         <img src= { sidebar_image_path +"cross.svg" } alt=""/>
                         {" "}
                         </a>
@@ -5558,7 +5620,8 @@ const Sidebar = () => {
                           )
                         }
                       >
-                        <a href="javascript:;">
+                        <a   href="#"
+    onClick={(e) => e.preventDefault()}>
                         <img src= { sidebar_image_path +"cross.svg" } alt=""/>
                         {" "}
                         </a>
@@ -5694,7 +5757,8 @@ const Sidebar = () => {
                       )
                     }
                   >
-                    <a href="javascript:;">
+                    <a   href="#"
+    onClick={(e) => e.preventDefault()}>
                     <img src= { sidebar_image_path +"cross.svg" } alt=""/>
                     {" "}
                     </a>
@@ -5739,7 +5803,8 @@ const Sidebar = () => {
                             )
                           }
                         >
-                          <a href="javascript:;">
+                          <a   href="#"
+    onClick={(e) => e.preventDefault()}>
                             <img src={video_poster} alt="" />
                           </a>
                         </div>
@@ -5814,7 +5879,8 @@ const Sidebar = () => {
                         )
                       }
                     >
-                      <a href="javascript:;">
+                      <a   href="#"
+    onClick={(e) => e.preventDefault()}>
                       <img src= { sidebar_image_path +"cross.svg" } alt=""/>
                       {" "}
                       </a>
@@ -5925,7 +5991,8 @@ const Sidebar = () => {
                           )
                         }
                       >
-                        <a href="javascript:;">
+                        <a   href="#"
+    onClick={(e) => e.preventDefault()}>
                         <img src= { sidebar_image_path +"cross.svg" } alt=""/>
                       {" "}
                       
@@ -5974,7 +6041,8 @@ const Sidebar = () => {
                             )
                           }
                         >
-                          <a href="javascript:;">
+                          <a   href="#"
+    onClick={(e) => e.preventDefault()}>
                             <img src={video_poster} alt="" />
                           </a>
                         </div>
@@ -6030,7 +6098,8 @@ const Sidebar = () => {
                         )
                       }
                     >
-                      <a href="javascript:;">
+                      <a   href="#"
+    onClick={(e) => e.preventDefault()}>
                       <img src= { sidebar_image_path + "cross.svg" } alt=""/>
                       </a>
                     </div>
@@ -6117,7 +6186,8 @@ const Sidebar = () => {
                           )
                         }
                       >
-                        <a href="javascript:;">
+                        <a   href="#"
+    onClick={(e) => e.preventDefault()}>
                         <img src= { sidebar_image_path + "cross.svg" } alt=""/>
                         </a>
                       </div>
@@ -6215,7 +6285,8 @@ const Sidebar = () => {
                       )
                     }
                   >
-                    <a href="javascript:;">
+                    <a   href="#"
+    onClick={(e) => e.preventDefault()}>
                     <img src= { sidebar_image_path + "cross.svg" } alt=""/>
                     </a>
                   </div>
@@ -6257,7 +6328,8 @@ const Sidebar = () => {
                           )
                         }
                       >
-                        <a href="javascript:;">
+                        <a   href="#"
+    onClick={(e) => e.preventDefault()}>
                           <img src={video_poster} alt="" />
                         </a>
                       </div>
@@ -6367,7 +6439,8 @@ const Sidebar = () => {
                       )
                     }
                   >
-                    <a href="javascript:;">
+                    <a   href="#"
+                       onClick={(e) => e.preventDefault()}>
                     <img src= { sidebar_image_path + "cross.svg" } alt=""/>
                     </a>
                   </div>

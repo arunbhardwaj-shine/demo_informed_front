@@ -1753,10 +1753,10 @@ const getDownloadData = async (viewEmailData) => {
                   )}
 
                 {SendListData.length > 0 ? (
-                  SendListData.map((data) => {
+                  SendListData.map((data,index) => {
                     return (
-                      <>
-                        <div className="email_box_block">
+                     
+                        <div className="email_box_block" key={index}>
                           <div
                             className={
                               "email_box " +
@@ -1863,8 +1863,8 @@ const getDownloadData = async (viewEmailData) => {
                                   <div className="mailbox-tags">
                                     <ul>
                                       {data.tags != "" ? (
-                                        data.tags.map((tag) => {
-                                          return <li className="list1">{tag}</li>;
+                                        data.tags.map((tag,index) => {
+                                          return <li key={index} className="list1">{tag}</li>;
                                         })
                                       ) : (
                                         <li className="list1">N/A</li>
@@ -2137,7 +2137,7 @@ const getDownloadData = async (viewEmailData) => {
                             </div>
                           </div>
                         </div>
-                      </>
+                       
                     );
                   })
                 ) : (

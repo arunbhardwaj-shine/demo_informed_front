@@ -2222,9 +2222,9 @@ const NewReaders = () => {
                     <div className="filter-block-left full">
                       {Object.keys(filterObject)?.map((key, index) => {
                         return (
-                          <>
+                          <React.Fragment key={index}>
                             {filterObject[key]?.length ? (
-                              <div className="filter-div">
+                              <div key={index} className="filter-div">
                                 <div className="filter-div-title">
                                   <span>{key} |</span>
                                 </div>
@@ -2245,6 +2245,7 @@ const NewReaders = () => {
                                       {" "}
                                       {filterObject[key]?.map((item, index) => (
                                         <div
+                                        key={index}
                                           className={
                                             key == "role"
                                               ? "filter-result upper"
@@ -2287,7 +2288,7 @@ const NewReaders = () => {
                                 </div>
                               </div>
                             ) : null}
-                          </>
+                          </React.Fragment>
                         );
                       })}
                     </div>
@@ -2326,7 +2327,7 @@ const NewReaders = () => {
               {readerDataList?.length || updateflag ? (
                 readerDataList.map((data, index) => {
                   return (
-                    <>
+                    
                       <div className="doc-content-main-box col" key={index}>
                         <div className="doc-content-header">
                           <div className="doc-content">
@@ -3421,7 +3422,7 @@ const NewReaders = () => {
                           </Tabs>
                         </div>
                       </div>
-                    </>
+                     
                   );
                 })
               ) : apiCallStatus ? (

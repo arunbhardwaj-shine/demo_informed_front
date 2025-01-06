@@ -2972,11 +2972,11 @@ const LibraryCreateUser = () => {
             <h6>Select Topic :</h6>
             <div className="tag-lists">
               <div className="tag-lists-view">
-                {Object.values(allTags).map((data) => {
+                {Object.values(allTags).map((data,index) => {
                   return (
-                    <>
-                      <div onClick={(event) => tagClicked(data)}>{data} </div>
-                    </>
+                    
+                      <div key={index} onClick={(event) => tagClicked(data)}>{data} </div>
+                     
                   );
                 })}
               </div>

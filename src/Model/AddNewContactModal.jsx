@@ -346,7 +346,7 @@ const AddNewContactModal = ({ show, closeClicked, activeManual, hpc, setHpc,
                 {hpc?.map((val, i) => {
                   const fieldName = `hpc[${i}]`;
                   return (
-                    <>
+                     
                       <div className="add_hcp_boxes" key={i}>
                         <div className="form_action">
                           <div className="row">
@@ -855,7 +855,7 @@ const AddNewContactModal = ({ show, closeClicked, activeManual, hpc, setHpc,
                           </div>
                         </div>
                       </div>
-                    </>
+                     
                   );
                 })}
               </form>

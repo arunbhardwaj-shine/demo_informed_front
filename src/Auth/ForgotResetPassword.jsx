@@ -4,7 +4,7 @@ import * as Yup from "yup";
 import ExportApi from "../Api/ExportApi";
 import { Button, Col, Form, Modal, Row } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 const ForgotResetPassword = () => {
     const [modalShow, setmodalShow] = useState(false);
     const [message, setMessage] = useState(false)
@@ -12,7 +12,7 @@ const ForgotResetPassword = () => {
     const [showPage, setShowPage] = useState(localStorage.getItem("showPage"))
     let parms=useParams()
     let navigate = useNavigate();
-// console.log("path",Token)
+ 
     const formik = useFormik({
       initialValues: {
         new_pass: "",

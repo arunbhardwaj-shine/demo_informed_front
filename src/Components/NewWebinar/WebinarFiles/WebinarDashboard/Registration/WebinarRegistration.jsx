@@ -1529,7 +1529,7 @@ const WebinarRegistration = () => {
                       .map((template, index) => {
                         // console.log(templateList,'templateList')
                         return (
-                          <>
+                          
                             <div
                               key={index}
                               className="item"
@@ -1555,7 +1555,7 @@ const WebinarRegistration = () => {
                               {/* <p>{template?.name}</p> */}
                               <p>{template?.templateName}</p>
                             </div>
-                          </>
+                           
                         );
                       })}
                   </AliceCarousel>

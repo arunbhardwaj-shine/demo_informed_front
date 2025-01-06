@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Col, Row, Button, Modal, Form } from "react-bootstrap";
+import { Col, Form } from "react-bootstrap";
 import { Validation } from "./Validation";
 import { useNavigate } from "react-router-dom";
 import { loader } from "../loader";
@@ -164,7 +164,7 @@ const ChangePassword = () => {
             </div>
           </div>
         </div>
-        {/* </Row> */}
+         
       </div>
     </Col>
   );

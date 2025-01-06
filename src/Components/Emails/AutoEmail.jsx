@@ -1328,13 +1328,14 @@ const AutoEmail = () => {
                       {typeof templates !== "undefined" && templates.length > 0
                         ? templates.map((template, index) => {
                           return (
-                            <>
+                            
                               <div
                                 className={
                                   indexClicked == index
                                     ? "trigger_content_box d-flex active"
                                     : "trigger_content_box d-flex"
                                 }
+                                key={index}
                               >
                                 <div className="trigger_content_image">
                                   <img
@@ -1362,7 +1363,7 @@ const AutoEmail = () => {
                                   ) : null}
                                 </div>
                               </div>
-                            </>
+                             
                           );
                         })
                         : null}
@@ -1992,8 +1993,8 @@ const AutoEmail = () => {
                   {hpc.map((val, i) => {
                     const fieldName = `hpc[${i}]`;
                     return (
-                      <>
-                        <div className="add_hcp_boxes">
+                      
+                        <div className="add_hcp_boxes" key={fieldName}>
                           <div className="form_action">
                             <div className="row">
                               <div className="col-12 col-md-6">
@@ -2506,7 +2507,7 @@ const AutoEmail = () => {
                             </div>
                           </div>
                         </div>
-                      </>
+                      
                     );
                   })}
                 </form>

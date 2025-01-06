@@ -2011,13 +2011,14 @@ const TemplateBuilder = (props) => {
                     responsive={responsive}
                     onSlideChanged={syncActiveIndex}
                   >
-                    {templateList.map((template) => {
+                    {templateList.map((template,index) => {
                       return (
-                        <>
+                         
                           <div
                             className="item"
                             id={"item_" + template.id}
                             onClick={(e) => templateClicked(template, e)}
+                            key={index}
                           >
                             <img
                               id={"template_dyn" + template.id}
@@ -2032,7 +2033,7 @@ const TemplateBuilder = (props) => {
                             />
                             <p>{template.name}</p>
                           </div>
-                        </>
+                        
                       );
                     })}
                   </AliceCarousel>
@@ -2991,8 +2992,8 @@ const TemplateBuilder = (props) => {
                   {hpc.map((val, i) => {
                     const fieldName = `hpc[${i}]`;
                     return (
-                      <>
-                        <div className="add_hcp_boxes">
+                       
+                        <div className="add_hcp_boxes" key={fieldName}>
                           <div className="form_action">
                             <div className="row">
                               <div className="col-12 col-md-6">
@@ -3563,7 +3564,7 @@ const TemplateBuilder = (props) => {
                             </div>
                           </div>
                         </div>
-                      </>
+                       
                     );
                   })}
                 </form>

@@ -43,7 +43,7 @@ const AnalyticsOverview = ({dropdownClicked,setEventData}) => {
     <>
       {!apiStatus ? (
         <div className="rd-analytics-box">
-          <p class="rd-box-small-title">Overview</p>
+          <p className="rd-box-small-title">Overview</p>
           <div className="rd-analytics-box-layout">
             <div className="rd-analytics-top align-items-center d-flex">
               <h6 className="mr-auto">
@@ -67,7 +67,7 @@ const AnalyticsOverview = ({dropdownClicked,setEventData}) => {
         </div>
       ) : (
         <div className="rd-analytics-box">
-          <p class="rd-box-small-title">Overview</p>
+          <p className="rd-box-small-title">Overview</p>
           <div className="rd-analytics-box-layout">
             <div className="rd-analytics-top align-items-center d-flex">
               <h6 className="mr-auto">Overview</h6>

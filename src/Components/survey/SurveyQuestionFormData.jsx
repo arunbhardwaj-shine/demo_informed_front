@@ -677,7 +677,7 @@ const SurveyQuestionFormDataOthers = () => {
               
               {Object.entries(progressBarData).map(
                 ([userValue, item], index) => (
-                  <>
+                  
                   <div key={index} className="question-rating col">
                     <div className="question">
                       <div className="question-list">
@@ -770,7 +770,7 @@ const SurveyQuestionFormDataOthers = () => {
                       </div>
                     </div>
                   </div>
-                  </>
+                   
                 )
               )}
             </div>
@@ -1331,7 +1331,7 @@ const SurveyQuestionFormDataOthers = () => {
                     
                   {data?.map((item, index) => {
                     return (
-                      <>
+                      <React.Fragment key={index}>
                         <tr className={showDetails[index] ? 'view show' : 'view'}  onClick={() => toggleDetails(index)}>
                         <td>{item?.name ? item?.name : "N/A"}</td>
                         <td>{item?.email ? item?.email : "N/A"}</td>
@@ -1545,7 +1545,7 @@ const SurveyQuestionFormDataOthers = () => {
                             </Accordion.Body>
                           </Accordion.Item>
                         </Accordion> */}
-                      </>
+                      </React.Fragment>
                     );
                   })}
                   </tbody>
@@ -1905,7 +1905,7 @@ const SurveyQuestionFormDataOthers = () => {
                         </thead>
                           <tbody>
                             {userData?.map((item, index) => (
-                              <>
+                              <React.Fragment key={index}>
                                 <tr key={index} onClick={quesKey === 'suggestion' ? () => toggleAnswerDetails(index) : undefined} className={quesKey === 'suggestion' ? showAnswerDetails[index] ? 'view show' : 'view' : ''}>
                                   <td>{item?.name ? item?.name : "N/A"}</td>
                                   <td>{item?.email ? item?.email : "N/A"}</td>
@@ -1973,7 +1973,7 @@ const SurveyQuestionFormDataOthers = () => {
                                 <tr key={`blank-${index}`} className="blank">
                                   <td colSpan="6" style={{ height: "8px" }}>&nbsp;</td>
                                 </tr>
-                              </>
+                              </React.Fragment>
                             ))}
                           </tbody>
                       </table>

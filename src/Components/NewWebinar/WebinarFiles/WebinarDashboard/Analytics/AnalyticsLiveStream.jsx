@@ -543,7 +543,7 @@ const AnalyticsLiveStream = ({ handleAttendedUserCountryWise }) => {
   return (
     <>
       <div className="rd-analytics-box">
-        <p class="rd-box-small-title">Live stream</p>
+        <p className="rd-box-small-title">Live stream</p>
         <div className="rd-analytics-box-layout">
           <div className="rd-analytics-top align-items-center d-flex justify-content-between">
             {!apiStatus ? (

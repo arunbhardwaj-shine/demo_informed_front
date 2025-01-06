@@ -264,10 +264,10 @@ function LicenseTopics() {
                     </button>
                   )}
                 </div>
-                {productData?.data?.map((item) => {
+                {productData?.data?.map((item,index) => {
                   return (
-                    <>
-                      <Col xxl={3} xl={4} md={6}>
+                    
+                      <Col key={index} xxl={3} xl={4} md={6}>
                         <div className="products-listing">
                           {item?.product}
                           {isDelete ? (
@@ -304,7 +304,7 @@ function LicenseTopics() {
                           )}
                         </div>
                       </Col>
-                    </>
+                     
                   );
                 })}
               </Col>

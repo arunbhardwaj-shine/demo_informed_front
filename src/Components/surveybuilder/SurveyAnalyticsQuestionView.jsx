@@ -266,7 +266,7 @@ const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
                     //     item.percentage = totalCount > 0 ? JSON.parse(((item.count / totalCount).toFixed(2)) * 100) : 0
                     // })
 
-                    return (<>
+                    return (<React.Fragment key={index}>
                         <div key={index} className="question-preview-block matrix"  >
                             <div className="question-preview">
                                 <span dangerouslySetInnerHTML={{
@@ -283,7 +283,7 @@ const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
                                 <div className="answer-options">
                                     {data?.answers?.map((ans, i) => {
 
-                                        return (<>
+                                        return (<React.Fragment key={i}>
                                             <div key={i} className="answer">
                                                 <div className="choices">
                                                     <span className="bullet-color" style={{ background: colors[i] }}>&nbsp;</span>
@@ -298,7 +298,7 @@ const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
                                                 </div>
                                             </div>
 
-                                        </>)
+                                        </React.Fragment>)
                                     })}
                                 </div>
                                 <div className="avg-view">
@@ -392,7 +392,7 @@ const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
                             </div>
                         </div>
 
-                    </>)
+                    </React.Fragment>)
                 })
 
                 :
@@ -409,7 +409,7 @@ const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
                         </div>
                         <div className="answer-options">
                             {item?.answer?.map((ans, i) => {
-                                return (<>
+                                return ( 
                                     <div key={i} className="answer">
                                         <div className="choices">
                                             <span className="bullet-color" style={{ background: colors[i] }}>&nbsp;</span>
@@ -423,7 +423,7 @@ const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
                                             <span className="respondents-percent">(<span>{(item?.total_count>0&&ans?.count>0) ? (Math.round((ans?.count/item?.total_count)*100)) : "00"}%</span>)</span>
                                         </div>
                                     </div>
-                                </>)
+                                 )
                             })}
 
                         </div>

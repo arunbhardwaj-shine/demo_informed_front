@@ -682,7 +682,7 @@ const EmailStats = (props) => {
                   typeof campaignData !== "undefined" && campaignData.length > 0 ?
                   campaignData.map((campaignItem, index) => {
                     return(
-                      <>
+                      <React.Fragment key={index}>
                           <Accordion.Item eventKey={index}>
                             <Accordion.Header>
                                 <table>
@@ -846,7 +846,7 @@ const EmailStats = (props) => {
                                     {typeof campaignItem?.campaignSend !== "undefined" &&
                                     campaignItem?.campaignSend.length > 0 ? (
                                       campaignItem?.campaignSend.map((item, index) => (
-                                        <>
+                                         
                                           <tr className={item?.campaign_status == 5 ? "queue_row" : "campaign_row"} key={index}>
                                           {isLikeRdAccount ? (
                                             <td>
@@ -904,7 +904,7 @@ const EmailStats = (props) => {
                                               </button>
                                             </td>
                                           </tr>
-                                        </>
+                                         
                                       ))
                                     ) : (
                                       <tr className="data-not-found">
@@ -919,7 +919,7 @@ const EmailStats = (props) => {
                               </>
                             </Accordion.Body>
                           </Accordion.Item>
-                      </>
+                      </ React.Fragment>
                     )
                   })
                   : <div className="no_found"><p>No Data Found</p></div>

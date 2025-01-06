@@ -1084,8 +1084,8 @@ const LicenseEditListing = () => {
                 {libraryData?.length || updateflag ? (
                   libraryData?.map((data, index) => {
                     return (
-                      <>
-                        <div className="doc-content-main-box col" >
+                      
+                        <div className="doc-content-main-box col" key={index}>
                         <div className="doc-content-header">
                             <div className="doc-content-header-logo">
                               <a href="#">
@@ -2191,7 +2191,7 @@ const LicenseEditListing = () => {
                             </Tabs>
                           </div>
                         </div>
-                      </>
+                       
                     );
                   })
                 ) : apiCallStatus ? (
@@ -2268,11 +2268,11 @@ const LicenseEditListing = () => {
             <h6>Select Tag :</h6>
             <div className="tag-lists">
               <div className="tag-lists-view">
-                {Object.values(allTags).map((data) => {
+                {Object.values(allTags).map((data,index) => {
                   return (
-                    <>
-                      <div onClick={(event) => tagClicked(data)}>{data} </div>
-                    </>
+                    
+                      <div key={index} onClick={(event) => tagClicked(data)}>{data} </div>
+                   
                   );
                 })}
               </div>

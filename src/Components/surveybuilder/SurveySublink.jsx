@@ -280,9 +280,9 @@ const SurveySublink = () => {
                             <div className="survey-builder">
                               <div className="survey-listing">
                                 <div className="library-content-box-layuot">
-                                  <div class="email_box_block">
+                                  <div className="email_box_block">
                                     <div
-                                      class={
+                                      className={
                                         data?.is_draft != null &&
                                         data?.is_draft == "0"
                                           ? "email_box email-draft"
@@ -291,14 +291,14 @@ const SurveySublink = () => {
                                     >
                                       {data?.is_draft != null &&
                                         data?.is_draft == "0" && (
-                                          <div class="mail-top-title">
+                                          <div className="mail-top-title">
                                             <span>Draft</span>
                                           </div>
                                         )}
 
-                                      <div class="mail-box-content">
-                                        <div class="mail-box-content-top">
-                                          <div class="mail-box-content-top-view">
+                                      <div className="mail-box-content">
+                                        <div className="mail-box-content-top">
+                                          <div className="mail-box-content-top-view">
                                             {data?.is_draft == "1" && (
                                               <div className="survey_status">
                                                 <span>Live</span>
@@ -319,14 +319,14 @@ const SurveySublink = () => {
                                             <Tab eventKey="link" title="Link">
                                               <div className="survey_tabs_data">
                                                 <div className="tab-panel">
-                                                  <div class="tab-content-links">
+                                                  <div className="tab-content-links">
                                                     <a>
                                                       https://survey.docintel.app/survey?Utmde=
                                                       {data.unique_code}
                                                     </a>
                                                     {data?.is_draft ? (
                                                       <span
-                                                        class="copy-content"
+                                                        className="copy-content"
                                                         // onClick={() =>
                                                         //   copyHandler(data.unique_code)
                                                         // }
@@ -340,7 +340,7 @@ const SurveySublink = () => {
                                                         />
                                                       </span>
                                                     ) : (
-                                                      <span class="copy-content">
+                                                      <span  className="copy-content">
                                                         <img
                                                           src={
                                                             path_image +
@@ -415,7 +415,7 @@ const SurveySublink = () => {
                                                       </h6>
                                                     </li>
                                                   </ul>
-                                                  <div class="mailbox-tags">
+                                                  <div  className="mailbox-tags">
                                                     <ul>
                                                       {JSON?.parse(data?.tags)
                                                         ?.length > 0 ? (
@@ -431,7 +431,7 @@ const SurveySublink = () => {
                                                       )}
                                                     </ul>
                                                   </div>
-                                                  <div class="mail-time">
+                                                  <div  className="mail-time">
                                                     <span>
                                                       {format(
                                                         new Date(data?.date),
@@ -441,11 +441,11 @@ const SurveySublink = () => {
                                                   </div>
                                                   {data?.is_draft != null &&
                                                   data?.is_draft == "0" ? (
-                                                    <div class="mail-stats">
+                                                    <div  className="mail-stats">
                                                       <ul>
                                                         <li>
                                                           <div
-                                                            class="mail-status irts"
+                                                             className="mail-status irts"
                                                             title="Sublinks"
                                                           >
                                                             <svg
@@ -471,7 +471,7 @@ const SurveySublink = () => {
                                                         </li>
                                                         <li>
                                                           <div
-                                                            class="mail-status mail-hit"
+                                                             className="mail-status mail-hit"
                                                             title="Link opening"
                                                           >
                                                             <svg
@@ -495,7 +495,7 @@ const SurveySublink = () => {
                                                         </li>
                                                         <li>
                                                           <div
-                                                            class="mail-status mail_view"
+                                                             className="mail-status mail_view"
                                                             title="Started"
                                                           >
                                                             <svg
@@ -528,7 +528,7 @@ const SurveySublink = () => {
                                                         </li>
                                                         <li>
                                                           <div
-                                                            class="mail-status mail_click"
+                                                             className="mail-status mail_click"
                                                             title="Completed"
                                                           >
                                                             <svg
@@ -562,11 +562,11 @@ const SurveySublink = () => {
                                                       </ul>
                                                     </div>
                                                   ) : (
-                                                    <div class="mail-stats">
+                                                    <div  className="mail-stats">
                                                       <ul>
                                                         <li>
                                                           <div
-                                                            class="mail-status mail_send"
+                                                             className="mail-status mail_send"
                                                             title="Sublinks"
                                                           >
                                                             <svg
@@ -596,7 +596,7 @@ const SurveySublink = () => {
                                                         </li>
                                                         <li>
                                                           <div
-                                                            class="mail-status mail-hit"
+                                                             className="mail-status mail-hit"
                                                             title="Link opening"
                                                           >
                                                             <svg
@@ -622,7 +622,7 @@ const SurveySublink = () => {
                                                         </li>
                                                         <li>
                                                           <div
-                                                            class="mail-status mail_view"
+                                                             className="mail-status mail_view"
                                                             title="Started"
                                                           >
                                                             <svg
@@ -657,7 +657,7 @@ const SurveySublink = () => {
                                                         </li>
                                                         <li>
                                                           <div
-                                                            class="mail-status mail_click"
+                                                             className="mail-status mail_click"
                                                             title="Completed"
                                                           >
                                                             <svg
@@ -691,13 +691,13 @@ const SurveySublink = () => {
                                                     </div>
                                                   )}
                                                 </div>
-                                                <div class="mailbox-buttons">
+                                                <div  className="mailbox-buttons">
                                                   <div className="send_new">
                                                     <Button className="btn-bordered send-new disabled">
                                                       Analytics
                                                     </Button>
                                                   </div>
-                                                  <div class="mailbox-buttons-list">
+                                                  <div  className="mailbox-buttons-list">
                                                     <Button
                                                       className="send btn-bordered"
                                                       // onClick={(e) =>
@@ -764,7 +764,7 @@ const SurveySublink = () => {
                                                   </ul>
                                                 </div>
 
-                                                <div class="mailbox-buttons justify-content-end">
+                                                <div  className="mailbox-buttons justify-content-end">
                                                   <div className="send_new">
                                                     <Button className="btn-bordered send-new">
                                                       New Sublink
@@ -778,11 +778,11 @@ const SurveySublink = () => {
                                               title="Setting"
                                             >
                                               <div className="survey_tabs_data survey-setting">
-                                                <div class="d-flex align-items-center justify-content-start">
+                                                <div  className="d-flex align-items-center justify-content-start">
                                                   {data?.is_draft ? (
                                                     <>
                                                       {" "}
-                                                      <p class="option-heading">
+                                                      <p  className="option-heading">
                                                         Status:{" "}
                                                         <img
                                                           src={
@@ -792,8 +792,8 @@ const SurveySublink = () => {
                                                           alt=""
                                                         />
                                                       </p>
-                                                      <div class="form-switch">
-                                                        {/* <input type="checkbox" id="custom-switch" class="form-check-input"/> */}
+                                                      <div  className="form-switch">
+                                                        {/* <input type="checkbox" id="custom-switch"  className="form-check-input"/> */}
                                                         <span>Completed</span>
                                                         <Form.Check
                                                           inline
@@ -812,7 +812,7 @@ const SurveySublink = () => {
                                                     ""
                                                   )}
                                                 </div>
-                                                <div class="mailbox-buttons justify-content-end">
+                                                <div  className="mailbox-buttons justify-content-end">
                                                   <div className="send_new">
                                                     <Button className="btn-bordered send-new">
                                                       Duplicate Survey

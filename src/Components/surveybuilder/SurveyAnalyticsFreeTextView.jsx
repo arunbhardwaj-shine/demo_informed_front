@@ -173,7 +173,7 @@ const SurveyAnalyticsFreeTextView = ({ index, item }) => {
                     </div>
                     <div className="free-text-section" ref={freeTextRef} >
                         {item?.answer?.length ? item?.answer?.map((data, index) => {
-                            return (<>
+                            return (<React.Fragment key={index}>
                                 <div key={index} className="free-text-block">
                                     
                                     {
@@ -183,7 +183,7 @@ const SurveyAnalyticsFreeTextView = ({ index, item }) => {
                                         <p dangerouslySetInnerHTML={{ __html: data?.value }}></p>
                                     </div>
                                 </div>
-                            </>)
+                            </React.Fragment>)
 
                         }) : <div className='no_found'><p>No Data Found</p></div>}
 

@@ -850,9 +850,9 @@ const dispatch=useDispatch()
                                           }}
                                         ></input>
                                         <label
-                                          tabindex="0"
-                                          for="my-file"
-                                          class="input-file-trigger"
+                                          tabIndex="0"
+                                          htmlFor="my-file"
+                                          className="input-file-trigger"
                                         >
                                           + Add image
                                         </label>
@@ -896,7 +896,7 @@ const dispatch=useDispatch()
                               </div>
                               <div className="steps">
                                 <div className="d-flex align-items-center justify-content-between">
-                                  <p class="option-heading">Header Logo</p>
+                                  <p className="option-heading">Header Logo</p>
                                   <Form.Check
                                     type="switch"
                                     id="custom-switch"
@@ -940,9 +940,9 @@ const dispatch=useDispatch()
                                         }}
                                       ></input>
                                       <label
-                                        tabindex="0"
-                                        for="my-file"
-                                        class="input-file-trigger"
+                                        tabIndex="0"
+                                        htmlFor="my-file"
+                                        className="input-file-trigger"
                                       >
                                         Change Logo
                                       </label>
@@ -955,11 +955,11 @@ const dispatch=useDispatch()
                                 )}
                                 {changeLogoToggle && (
                                   <div className="words-limit">
-                                    <p class="option-heading">Logo Width (%)</p>
+                                    <p className="option-heading">Logo Width (%)</p>
                                     <input
                                       placeholder="20"
                                       type="number"
-                                      class="form-control"
+                                      className="form-control"
                                       value={templateDefaultValues.logoWidth}
                                       onChange={(e) => {
                                         const value = Math.max(
@@ -980,7 +980,7 @@ const dispatch=useDispatch()
                               </div>
                               <div className="steps">
                                 <div className="d-flex align-items-center justify-content-between">
-                                  <p class="option-heading">Header Title</p>
+                                  <p className="option-heading">Header Title</p>
                                   <Form.Check
                                     type="switch"
                                     id="custom-switch"
@@ -1034,7 +1034,7 @@ const dispatch=useDispatch()
                               </div>
                               <div className="steps">
                                 <div className="d-flex align-items-center justify-content-between">
-                                  <p class="option-heading">
+                                  <p className="option-heading">
                                     Body Text{" "}
                                     <LinkWithTooltip
                                       tooltip="In the Body , you add more information about survey"
@@ -1072,7 +1072,7 @@ const dispatch=useDispatch()
                               </div>
                               <div className="steps">
                                 <div className="d-flex align-items-center justify-content-between">
-                                  <p class="option-heading">
+                                  <p className="option-heading">
                                     Footer Text{" "}
                                     <LinkWithTooltip
                                       tooltip="In the footer, you can include links ex. privacy policy links"
@@ -1328,7 +1328,7 @@ const dispatch=useDispatch()
                                     </button>
                                     {temp?.id > 3 && (
                                       <button
-                                        class="btn btn-outline-primary"
+                                        className="btn btn-outline-primary"
                                         onClick={(e) =>
                                           deleteTemplate(e, temp.id)
                                         }

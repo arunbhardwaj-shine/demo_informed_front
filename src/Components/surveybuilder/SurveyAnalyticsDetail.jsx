@@ -956,6 +956,7 @@ const SurveyAnalyticsDetail = () => {
                         <div
                           className="survey-question-listing"
                           id="survey-question-listing"
+                          key={index}
                         >
                           <div className="survey-question-top d-flex align-items-center">
                             <div className="survey-question-num">
@@ -986,8 +987,8 @@ const SurveyAnalyticsDetail = () => {
 
                               <div className="answer-options">
                                 {Array.from({ length: 3 }, (_, index) => (
-                                  <>
-                                    <div className="answer">
+                                  <React.Fragment key={index}>
+                                    <div className="answer"  >
                                       {/* {Array.from({ length: 3 }, (_, index) => (<> */}
                                       <div className="choices">
                                         <div>
@@ -1002,7 +1003,7 @@ const SurveyAnalyticsDetail = () => {
                                       {/* </> */}
                                       {/* ))} */}
                                     </div>
-                                  </>
+                                  </React.Fragment>
                                 ))}
                               </div>
                             </div>
@@ -1034,6 +1035,7 @@ const SurveyAnalyticsDetail = () => {
                         ) {
                           return (
                             <SurveyAnalyticsQuestionView
+                            key={index}
                               index={index}
                               item={item}
                               colors={colors}
@@ -1043,6 +1045,7 @@ const SurveyAnalyticsDetail = () => {
                         } else if (item?.type === "freeText") {
                           return (
                             <SurveyAnalyticsFreeTextView
+                            key={index}
                               index={index}
                               item={item}
                             />
@@ -1088,6 +1091,7 @@ const SurveyAnalyticsDetail = () => {
                               index={index}
                               item={item}
                               colors={colors}
+                              key={index}
                             />
                           );
                         } else {
@@ -1196,7 +1200,7 @@ const SurveyAnalyticsDetail = () => {
                                       index
                                     ) {
                                       return (
-                                        <>
+                                        <React.Fragment key={index}>
                                           {filterdata[key]?.length > 0 ? (
                                             <Accordion.Item
                                               key={index}
@@ -1286,7 +1290,7 @@ const SurveyAnalyticsDetail = () => {
                                               </Accordion.Body>
                                             </Accordion.Item>
                                           ) : null}
-                                        </>
+                                        </React.Fragment>
                                       );
                                     })}
                                   </Accordion>
@@ -1348,7 +1352,7 @@ const SurveyAnalyticsDetail = () => {
                                     {Object.keys(filterObject)?.map(
                                       (key, index) => {
                                         return (
-                                          <>
+                                          <React.Fragment key={index}>
                                             {filterObject[key]?.length ? (
                                               <div
                                                 key={index}
@@ -1399,7 +1403,7 @@ const SurveyAnalyticsDetail = () => {
                                                 </div>
                                               </div>
                                             ) : null}
-                                          </>
+                                          </React.Fragment>
                                         );
                                       }
                                     )}
@@ -1666,7 +1670,7 @@ const SurveyAnalyticsDetail = () => {
                                     sortOrder
                                   )?.map((item, index) => {
                                     return (
-                                      <>
+                                      <React.Fragment key={index}>
                                         <tr
                                           key={index}
                                           className={`view ${
@@ -1755,7 +1759,7 @@ const SurveyAnalyticsDetail = () => {
                                                   surveyTakerShowQuestionsData?.map(
                                                     (data, index) => {
                                                       return (
-                                                        <>
+                                                        
                                                           <div
                                                             key={index}
                                                             className="survey-data"
@@ -1796,6 +1800,7 @@ const SurveyAnalyticsDetail = () => {
                                                               {data?.type ==
                                                               "rating" ? (
                                                                 <CommonSurveyStarRating
+                                                                key={index}
                                                                   data={
                                                                     data?.comment
                                                                   }
@@ -1817,7 +1822,7 @@ const SurveyAnalyticsDetail = () => {
                                                                           i
                                                                         ) => {
                                                                           return (
-                                                                            <>
+                                                                            <React.Fragment key={i}>
                                                                               <tr>
                                                                                 <td className="heading">
                                                                                   <p
@@ -1832,9 +1837,9 @@ const SurveyAnalyticsDetail = () => {
                                                                                 0
                                                                                   ? ans?.option_text?.map(
                                                                                       (
-                                                                                        option
+                                                                                        option,i
                                                                                       ) => (
-                                                                                        <td>
+                                                                                        <td key={i}>
                                                                                           <p>
                                                                                             {
                                                                                               option
@@ -1845,7 +1850,7 @@ const SurveyAnalyticsDetail = () => {
                                                                                     )
                                                                                   : ""}
                                                                               </tr>
-                                                                            </>
+                                                                            </React.Fragment>
                                                                           );
                                                                         }
                                                                       )}
@@ -1858,13 +1863,13 @@ const SurveyAnalyticsDetail = () => {
                                                                       i
                                                                     ) => {
                                                                       return (
-                                                                        <>
+                                                                        <React.Fragment key={i}>
                                                                           <p>
                                                                             {ans?.option_text
                                                                               ? ans?.option_text
                                                                               : "N/A"}
                                                                           </p>
-                                                                        </>
+                                                                        </React.Fragment>
                                                                       );
                                                                     }
                                                                   )
@@ -1889,7 +1894,7 @@ const SurveyAnalyticsDetail = () => {
                                                               )}
                                                             </div>
                                                           </div>
-                                                        </>
+                                                        
                                                       );
                                                     }
                                                   )
@@ -1911,7 +1916,7 @@ const SurveyAnalyticsDetail = () => {
                                             &nbsp;
                                           </td>
                                         </tr>
-                                      </>
+                                      </React.Fragment>
                                     );
                                   })
                                 ) : !apiStatus ? (

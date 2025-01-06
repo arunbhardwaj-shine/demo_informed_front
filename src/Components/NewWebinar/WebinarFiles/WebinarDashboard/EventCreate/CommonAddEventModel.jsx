@@ -593,7 +593,7 @@ const CommonAddEventModel = ({
                           <div className="col-12 col-md-12 speaker-name">
                             <div className="multi-speaker-add">
                                 {Object.keys(eventInputs?.speaker_name)?.map((item, index) => (
-                                  <div className="form-group d-flex align-items-center">
+                                  <div className="form-group d-flex align-items-center" key={index}>
                                     <label htmlFor="">
                                       {`Speaker's name ${index + 1
                                         }`} <span> *</span>

@@ -2322,8 +2322,9 @@ const Analytics = (props) => {
               </div>
               {emailListData?.map((data, index) => {
                 return (
-                  <>
+                  
                   <div
+                  key={index}
                       className="analytics_campaign"
                       id={`analytics_campaign_${index}`}
                     >
@@ -2333,7 +2334,7 @@ const Analytics = (props) => {
                         options={newOptions[index]}
                       />
                     </div>
-                  </>
+                  
                 );
               })}
             </div>

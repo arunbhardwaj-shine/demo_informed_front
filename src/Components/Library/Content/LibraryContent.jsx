@@ -1613,8 +1613,8 @@ const LibraryContent = (props) => {
                 {libraryData?.length || updateflag ? (
                   libraryData?.map((data, index) => {
                     return (
-                      <>
-                        <div className="doc-content-main-box col" >
+                      
+                        <div className="doc-content-main-box col" key={index} >
                           <div className="doc-content-header">
                             <div className="doc-content-header-logo">
                               <a href="#">
@@ -3126,7 +3126,7 @@ const LibraryContent = (props) => {
                             </Tabs>
                           </div>
                         </div>
-                      </>
+                       
                     );
                   })
                 ) : apiCallStatus ? (
@@ -3211,13 +3211,13 @@ const LibraryContent = (props) => {
             <div className="tag-lists">
               <div className="tag-lists-view">
                 {allTags?.length
-                  ? Object?.values(allTags).map((data) => {
+                  ? Object?.values(allTags).map((data,index) => {
                     return (
-                      <>
-                        <div onClick={(event) => tagClicked(data)}>
+                      
+                        <div  key={index}    onClick={(event) => tagClicked(data)}>
                           {data}{" "}
                         </div>
-                      </>
+                      
                     );
                   })
                   : null}

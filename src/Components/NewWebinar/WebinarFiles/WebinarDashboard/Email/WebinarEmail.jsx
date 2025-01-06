@@ -1236,9 +1236,9 @@ const WebinarEmail = (props) => {
                   </div>)
                 )}
                 {emailListData?.length > 0 ? (
-                  emailListData?.map((data) => {
+                  emailListData?.map((data,index) => {
                     return (
-                      <div className="email_box_block">
+                      <div className="email_box_block" key={index} >
                         <div
                           className={
                             "email_box " +

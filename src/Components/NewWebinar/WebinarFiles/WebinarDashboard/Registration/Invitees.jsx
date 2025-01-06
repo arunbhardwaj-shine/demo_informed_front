@@ -752,7 +752,7 @@ const Invitees = () => {
                   <div className="filter-block">
                     <div className="filter-block-left full">
                       {Object.keys(appliedFilter)?.map((key, index) => {
-                        return (<>
+                        return (<React.Fragment key={index}>
                           {appliedFilter[key]?.length ? (
                             <div className="filter-div">
                               <div className="filter-div-title">
@@ -761,6 +761,7 @@ const Invitees = () => {
                               <div className="filter-div-list">
                                 {appliedFilter[key]?.map((item, index) => (
                                   <div className="filter-result"
+                                   key={index}
                                     id={item}
                                     rt={index} >
                                     {item}
@@ -779,7 +780,7 @@ const Invitees = () => {
                               </div>
                             </div>
                           ) : ""}
-                        </>)
+                        </React.Fragment>)
                       })}
                     </div>
                     <div className="clear-filter">
@@ -1008,7 +1009,7 @@ const Invitees = () => {
               </div>
               )
               : apiStatus ? (
-                <div class="email_box_block no_found">
+                <div className="email_box_block no_found">
                   <p>No Data Found</p>
                 </div>
               ) : (

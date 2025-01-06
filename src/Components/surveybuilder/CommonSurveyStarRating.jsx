@@ -5,7 +5,7 @@ const CommonSurveyStarRating = ({ data , type}) => {
   const ratingValue = data || 0; // Default to 0 if no rating is available
 
   return (
-    <div style={{ display: "flex" }}>
+    <div style={{ display: "flex" }} >
       {Array.from({ length: totalStars }, (_, index) => (
         type==="stars" ?
         <svg
@@ -34,7 +34,7 @@ const CommonSurveyStarRating = ({ data , type}) => {
             </clipPath>
           </defs>
         </svg>
-        :<div className={index < ratingValue? "rating-filled":""}> {` ${index+1}`}</div>
+        :<div key={index} className={index < ratingValue? "rating-filled":""}> {` ${index+1}`}</div>
       ))}
     </div>
   );

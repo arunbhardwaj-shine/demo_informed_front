@@ -1266,8 +1266,9 @@ const WebinarAutoEmail = () => {
                         ? templates?.triggeredTemplate?.map(
                           (template, index) => {
                             return (
-                              <>
+                              
                                 <div
+                                key={index}
                                   className={
                                     // indexClicked == index
                                     templateId == template?.id
@@ -1312,7 +1313,7 @@ const WebinarAutoEmail = () => {
                                     ) : null}
                                   </div>
                                 </div>
-                              </>
+                               
                             );
                           }
                         )
@@ -1335,8 +1336,9 @@ const WebinarAutoEmail = () => {
                         ? templates?.reminderTemplate?.map(
                           (template, index) => {
                             return (
-                              <>
+                               
                                 <div
+                                key={index}
                                   className={
                                     // indexClicked == index
                                     templateId == template?.id
@@ -1379,7 +1381,7 @@ const WebinarAutoEmail = () => {
                                     ) : null}
                                   </div>
                                 </div>
-                              </>
+                               
                             );
                           }
                         )

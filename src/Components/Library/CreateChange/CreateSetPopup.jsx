@@ -604,11 +604,12 @@ const CreateSetPopup = (props) => {
                           responsive={responsive}
                           onSlideChanged={syncActiveIndex}
                         >
-                          {templateList.map((template) => {
+                          {templateList.map((template,index) => {
                             return (
-                              <>
+                             
                                 <div
-                                  className="item"
+                                   key={index}
+                                    className="item"
                                   onClick={(e) => templateClicked(template, e)}
                                 >
                                   <img
@@ -628,7 +629,7 @@ const CreateSetPopup = (props) => {
                                   />
                                   <p>{template?.name}</p>
                                 </div>
-                              </>
+                               
                             );
                           })}
                         </AliceCarousel>

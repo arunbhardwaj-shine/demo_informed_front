@@ -317,7 +317,7 @@ const handleDropdownchange=(e,selectType)=>{
                                     ref={fileInputRef} // Attach ref to the input element
                                   ></input>
                                   <label
-                                    tabindex="0"
+                                    tabIndex="0"
                                     for="my-file"
                                     className="input-file-trigger"
                                   >

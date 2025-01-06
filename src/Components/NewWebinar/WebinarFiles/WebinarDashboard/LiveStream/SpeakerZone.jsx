@@ -176,8 +176,8 @@ const SpeakerZone = () => {
             </div>
             <div className="speaker_zone deteail">
               <div className="speaker_zone_left_div">
-                <div class="webinar-top-sec d-flex justify-content-between align-items-center">
-                  <div class="top-heading">
+                <div className="webinar-top-sec d-flex justify-content-between align-items-center">
+                  <div className="top-heading">
                     <h4>Questions | <span>{data?.question?.length}</span></h4>
                   </div>
                 </div>
@@ -207,7 +207,7 @@ const SpeakerZone = () => {
                             return (
                               <div className="reader_list" key={index}>
                                 <div className="detail-box">
-                                  <div class="d-flex justify-content-between align-items-center">
+                                  <div className="d-flex justify-content-between align-items-center">
                                     <p className="user_name">{item?.send_by == 1 ?
                                       localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg=='
                                         ? "LEX-210"
@@ -260,8 +260,8 @@ const SpeakerZone = () => {
               </div>
               <div className="speaker_zone_right_div">
                 <div className="answered">
-                  <div class="webinar-top-sec d-flex justify-content-between align-center">
-                    <div class="top-heading">
+                  <div className="webinar-top-sec d-flex justify-content-between align-center">
+                    <div className="top-heading">
                       <h4>Answered | <span>{data?.answer?.length}</span> </h4>
                     </div>
                     {/* <div class="webinar-top-btn answered">
@@ -294,7 +294,7 @@ const SpeakerZone = () => {
                               return (
                                 <div className="reader_list" key={index}>
                                   <div className="detail-box">
-                                    <div class="d-flex justify-content-between align-items-center">
+                                    <div className="d-flex justify-content-between align-items-center">
                                       <p className="user_name">{item?.send_by == 1 ?
                                         localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg=='
                                           ? "LEX-210"
@@ -344,8 +344,8 @@ const SpeakerZone = () => {
                   </div>
                 </div>
                 <div className="ignored">
-                  <div class="webinar-top-sec d-flex justify-content-between align-center">
-                    <div class="top-heading">
+                  <div className="webinar-top-sec d-flex justify-content-between align-center">
+                    <div className="top-heading">
                       <h4>Ignored | <span>{data?.ignre?.length}</span></h4>
                     </div>
                     {/* <div class="webinar-top-btn ignored">
@@ -378,7 +378,7 @@ const SpeakerZone = () => {
                               return (
                                 <div className="reader_list" key={index}>
                                   <div className="detail-box">
-                                    <div class="d-flex justify-content-between align-items-center">
+                                    <div className="d-flex justify-content-between align-items-center">
                                       <p className="user_name">{item?.send_by == 1 ?
                                         localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg=='
                                           ? "LEX-210"

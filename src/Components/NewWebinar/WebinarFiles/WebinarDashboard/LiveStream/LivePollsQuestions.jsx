@@ -473,7 +473,7 @@ if(currentQuestion.current && (currentIndexRef.current?.showQuestionToUser!=2 ||
               {question?.length ? (
                 question?.map((item, index) => {
                   return (
-                    <>
+                     
                       <div className="slider-space" key={item?.questionId}>
                         <div className="question-boxed">
                           <div className="question-listing">
@@ -537,7 +537,7 @@ if(currentQuestion.current && (currentIndexRef.current?.showQuestionToUser!=2 ||
                                       item?.totalSubquestion?.map(
                                         (answer, i) => {
                                           return (
-                                            <>
+                                             
                                               <div
                                                 className="answer sub-question"
                                                 key={i}
@@ -553,7 +553,7 @@ if(currentQuestion.current && (currentIndexRef.current?.showQuestionToUser!=2 ||
                                                   }}
                                                 ></div>
                                               </div>
-                                            </>
+                                            
                                           );
                                         }
                                       )
@@ -707,9 +707,9 @@ if(currentQuestion.current && (currentIndexRef.current?.showQuestionToUser!=2 ||
                                 </div>
                               </div>
                               {apiCallStatus ? (
-                                <div class="inner-loader" id="custom_loader">
-                                  <div class="loader_show">
-                                    <span class="loader-view"> </span>
+                                <div className="inner-loader" id="custom_loader">
+                                  <div className="loader_show">
+                                    <span className="loader-view"> </span>
                                   </div>
                                 </div>
                               ) : (
@@ -779,7 +779,7 @@ if(currentQuestion.current && (currentIndexRef.current?.showQuestionToUser!=2 ||
                           </div>
                         </div>
                       </div>
-                    </>
+                     
                   );
                 })
               ) : (
@@ -811,6 +811,7 @@ if(currentQuestion.current && (currentIndexRef.current?.showQuestionToUser!=2 ||
                 {question?.length
                   ? question?.map((item, index) => (
                       <div
+                      key={index}
                         className="question-listing-links"
                         onClick={() => {
                           if (index >= 0 && currentIndex != index) {
@@ -922,7 +923,7 @@ if(currentQuestion.current && (currentIndexRef.current?.showQuestionToUser!=2 ||
                   {
                     comments?.[0]?.questions?.split('~').map((substring, index) => {
                       return (
-                        <th dangerouslySetInnerHTML={{
+                        <th key={index} dangerouslySetInnerHTML={{
                           __html: substring?.length > 0 ? substring : "",
                         }}></th>
                         )
@@ -936,7 +937,7 @@ if(currentQuestion.current && (currentIndexRef.current?.showQuestionToUser!=2 ||
                 ? <tr><td colSpan={3}><p>No Data Found</p></td></tr>
                 :comments?.map((item,index)=>{
                     return(
-                      <>
+                      <React.Fragment key={index}>
                       {item?.comments?
                       <tr>
                         <td>{item?.name?item?.name:"N/A"}</td>
@@ -952,7 +953,7 @@ if(currentQuestion.current && (currentIndexRef.current?.showQuestionToUser!=2 ||
                         {/* <td>{item?.comments}</td> */}
                       </tr>
                       :""} 
-                      </>
+                      </ React.Fragment>
                     ) 
                     })                        
                 }	
@@ -976,7 +977,7 @@ if(currentQuestion.current && (currentIndexRef.current?.showQuestionToUser!=2 ||
                 ) : (
                   comments?.map((item, index) => {
                     return (
-                      <>
+                      < React.Fragment key={index}>
                         {item?.comments ? (
                           <tr>
                             <td>{item?.name ? item?.name : "N/A"}</td>
@@ -985,7 +986,7 @@ if(currentQuestion.current && (currentIndexRef.current?.showQuestionToUser!=2 ||
                         ) : (
                           ""
                         )}
-                      </>
+                      </React.Fragment>
                     );
                   })
                 )}
@@ -1030,7 +1031,7 @@ if(currentQuestion.current && (currentIndexRef.current?.showQuestionToUser!=2 ||
                 ) : (
                   optionComments?.map((item, index) => {
                     return (
-                      <>
+                      < React.Fragment key={index}>
                         {item?.comments ? (
                           <tr>
                             <td>{item?.name ? item?.name : "N/A"}</td>
@@ -1039,7 +1040,7 @@ if(currentQuestion.current && (currentIndexRef.current?.showQuestionToUser!=2 ||
                         ) : (
                           ""
                         )}
-                      </>
+                      </React.Fragment>
                     );
                   })
                 )}

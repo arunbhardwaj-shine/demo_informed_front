@@ -523,7 +523,7 @@ const [draggedElementIndex, setDraggedElementIndex] = useState(null);
             {isEdit == true ? (
               ""
             ) : (
-              <div class="d-flex align-items-center justify-content-start">
+              <div className="d-flex align-items-center justify-content-start">
                 <div className="switch6">
                   <label className="switch6-light">
                     <input

@@ -985,7 +985,7 @@ useEffect(() => {
                             {questions?.new?.length > 0 ? (
                               questions?.new?.map((item, index) => {
                                 return (
-                                  <>
+                                  
                                     <div
                                       className="live-stream-ques"
                                       key={item.id}
@@ -1027,7 +1027,7 @@ useEffect(() => {
                                             size="lg"
                                             type="text"
                                             placeholder="Type your comment for the speaker here... "
-                                            value={item?.reply}
+                                            value={item?.reply || ""}
                                             onChange={(e) =>
                                               replyQuestion(
                                                 item.id,
@@ -1096,7 +1096,7 @@ useEffect(() => {
                                         </Button>
                                       </div>
                                     </div>
-                                  </>
+                                   
                                 );
                               })
                             ) : (
@@ -1184,7 +1184,7 @@ useEffect(() => {
                             {questions?.sent?.length > 0 ? (
                               questions?.sent?.map((item, index) => {
                                 return (
-                                  <>
+                                  
                                     <div
                                       className="live-stream-ques"
                                       key={item.id}
@@ -1288,7 +1288,7 @@ useEffect(() => {
                                         </Button>
                                       </div>
                                     </div>
-                                  </>
+                                   
                                 );
                               })
                             ) : (
@@ -1506,7 +1506,7 @@ useEffect(() => {
                     <Form.Control
                       as="textarea"
                       className={errorMessage ? "error" : ""}
-                      value={adminMessage}
+                      value={adminMessage || ""}
                       placeholder="Type your message for the speaker here... "
                       onChange={handleInputChange}
                       rows={3}
@@ -1677,8 +1677,8 @@ useEffect(() => {
                           {attendees.length > 0 ? (
                             attendees?.map((item, index) => {
                               return (
-                                <>
-                                  <div className="live-stream-ques-inner">
+                               
+                                  <div className="live-stream-ques-inner" key={index}>
                                     <div className="live-stream-ques">
                                       <div className="live-stream-ques-header">
                                         <div className="live-stream-hcp d-flex align-items-center justify-content-between">
@@ -1899,7 +1899,7 @@ useEffect(() => {
                                       </div>
                                     </div>
                                   </div>
-                                </>
+                                 
                               );
                             })
                           ) : (
@@ -2034,8 +2034,8 @@ useEffect(() => {
                           {attendees.length > 0 ? (
                             attendees?.map((item, index) => {
                               return (
-                                <>
-                                  <div className="live-stream-ques-inner">
+                                 
+                                  <div className="live-stream-ques-inner" key={index}>
                                     <div className="live-stream-ques">
                                       <div className="live-stream-ques-header">
                                         <div className="live-stream-hcp d-flex align-items-center justify-content-between">
@@ -2259,7 +2259,7 @@ useEffect(() => {
                                       </div>
                                     </div>
                                   </div>
-                                </>
+                                 
                               );
                             })
                           ) : (
@@ -2394,8 +2394,8 @@ useEffect(() => {
                           {attendees.length > 0 ? (
                             attendees?.map((item, index) => {
                               return (
-                                <>
-                                  <div className="live-stream-ques-inner">
+                                 
+                                  <div className="live-stream-ques-inner" key={index}>
                                     <div className="live-stream-ques">
                                       <div className="live-stream-ques-header">
                                         <div className="live-stream-hcp d-flex align-items-center justify-content-between">
@@ -2592,7 +2592,7 @@ useEffect(() => {
                                     </div>
                               </div>    */}
                                   </div>
-                                </>
+                                
                               );
                             })
                           ) : (
@@ -2829,7 +2829,7 @@ useEffect(() => {
                                 placeholder="Search by email or name"
                                 aria-label="Search"
                                 id="email_search_not_logged"
-                                value={search}
+                                value={search || ""}
                                 onChange={(e) => searchChange(e)}
                               />
                               <button
@@ -2972,8 +2972,8 @@ useEffect(() => {
                           {attendees.length > 0 ? (
                             attendees?.map((item, index) => {
                               return (
-                                <>
-                                  <div className="live-stream-ques-inner">
+                                 
+                                  <div className="live-stream-ques-inner" key={index}>
                                     <div className="live-stream-ques">
                                       <div className="live-stream-ques-header">
                                         <div className="live-stream-hcp d-flex align-items-center justify-content-between">
@@ -3116,7 +3116,7 @@ useEffect(() => {
                                       </div>
                                     </div>
                                   </div>
-                                </>
+                                 
                               );
                             })
                           ) : (

@@ -888,7 +888,7 @@ const SmartList = (props) => {
                   smartListData.map((data,index) => {
                     return (
                       // localStorage.getItem('user_id') == 'B7SHpAc XDXSH NXkN0rdQ==' ?
-                      <div className="smartlist_box_block">
+                      <div className="smartlist_box_block" key={index}>
                         <div className="smartlist-view email_box">
                           <div className="mail-box-content">
                           <div className="mail-box-conten-title">
@@ -912,7 +912,7 @@ const SmartList = (props) => {
                             )}
                           </div>
                         </div>
-                      </div>
+                          </div>
                       // :
                       // <div className="smartlist_box_block">
                       //   <div className="smartlist-view email_box">

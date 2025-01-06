@@ -228,7 +228,7 @@ function Question(props) {
                 <div className="answer-option">
 
                   {answerOption.map((choice, index) => (
-                    <>
+                    <React.Fragment key={index}>
                       <div className="options" key={index}>
                         <Form.Group as={Row} className="mb-3">
                           <Form.Label>Free Text</Form.Label>
@@ -253,7 +253,7 @@ function Question(props) {
                             ?.answerError
                         }
                       </div>
-                    </>
+                    </React.Fragment>
                   ))}
                 </div>
               )}
@@ -266,7 +266,7 @@ function Question(props) {
                     <div className="answer-option">
 
                       {answerOption.map((choice, index) => (
-                        <>
+                        <React.Fragment key={index}>
                           <div className="options question-answer-option" key={index}>
                             <Form.Group as={Row} className="mb-3">
                               <Form.Label>Choice {index + 1}</Form.Label>
@@ -413,7 +413,7 @@ function Question(props) {
                                 ?.answerError
                             }
                           </div>
-                        </>
+                        </React.Fragment>
                       ))}
 
                       {/* {answerType != "YesNo" && ( */}

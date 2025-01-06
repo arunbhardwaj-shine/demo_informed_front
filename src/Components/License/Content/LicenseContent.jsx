@@ -47,12 +47,20 @@ import {
 const path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const LicenseContent = (props) => {
+  // const [userInputs, setCreateLibraryInputs] = useState({
+  //   expDatetime: new Date(
+  //     moment(new Date(), "MM/DD/YYYY").add("years", 1).format("MM/DD/YYYY")
+  //   ),
+  //   limit: "",
+  // });
+
   const [userInputs, setCreateLibraryInputs] = useState({
     expDatetime: new Date(
-      moment(new Date(), "MM/DD/YYYY").add("years", 1).format("MM/DD/YYYY")
+      moment(new Date()).add(1, "years").format("MM/DD/YYYY")
     ),
     limit: "",
   });
+  
   const limitFieldRef = useRef(null);
   const [currentDate, setCurrentDate] = useState(new Date());
   const [error, setError] = useState({});
@@ -1403,8 +1411,8 @@ const LicenseContent = (props) => {
                 {libraryData?.length || updateflag ? (
                   libraryData?.map((data, index) => {
                     return (
-                      <>
-                        <div className="doc-content-main-box col" >
+                      
+                        <div className="doc-content-main-box col" key={index} >
                         <div className="doc-content-header">
                             <div className="doc-content-header-logo">
                               <a href="#">
@@ -2802,7 +2810,7 @@ const LicenseContent = (props) => {
                             </Tabs>
                           </div>
                         </div>
-                      </>
+                       
                     );
                   })
                 ) : apiCallStatus ? (
@@ -2878,11 +2886,11 @@ const LicenseContent = (props) => {
             <h6>Select Tag :</h6>
             <div className="tag-lists">
               <div className="tag-lists-view">
-                {Object.values(allTags).map((data) => {
+                {Object.values(allTags).map((data,index) => {
                   return (
-                    <>
-                      <div onClick={(event) => tagClicked(data)}>{data} </div>
-                    </>
+                    
+                      <div key={index} onClick={(event) => tagClicked(data)}>{data} </div>
+                     
                   );
                 })}
               </div>
@@ -2960,11 +2968,11 @@ const LicenseContent = (props) => {
             <h6>Select Tag :</h6>
             <div className="tag-lists">
               <div className="tag-lists-view">
-                {Object.values(allTags).map((data) => {
+                {Object.values(allTags).map((data,index) => {
                   return (
-                    <>
-                      <div onClick={(event) => tagClicked(data)}>{data} </div>
-                    </>
+                    
+                      <div key={index} onClick={(event) => tagClicked(data)}>{data} </div>
+                    
                   );
                 })}
               </div>
