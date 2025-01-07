@@ -1,12 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
-
 import "../../../assets/css/webinar.css";
-
 import Highcharts from "highcharts";
 import { HighchartsReact } from "highcharts-react-official";
 import { loader } from "../../../../../loader";
-// import { postData } from "../../../axios/apiHelper";
-// import { ENDPOINT } from "../../../axios/apiConfig";
 
 let data = {
   chartData: {

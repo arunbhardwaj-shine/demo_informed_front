@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
-import AnalyticsEmail from "./AnalyticsEmail";
-import AnalyticsOverview from "./AnalyticsOverview";
-import AnalyticsRegistration from "./AnalyticsRegistration";
-import { Accordion, Button, Col, Container, Row, Modal } from "react-bootstrap";
-import Select, { createFilter } from "react-select";
+import { Col,Row } from "react-bootstrap";
+import Select from "react-select";
 import { useSidebar } from "../../../../CommonComponent/LoginLayout";
 import { loader } from "../../../../../loader";
 import { postData } from "../../../../../axios/apiHelper";
@@ -34,7 +31,7 @@ export default function EmailOpened() {
       const response = await postData(ENDPOINT.GET_DROPDOWN_DATA, body);
       setDropdownData(response?.data?.data);
     };
-    console.log("hfjfjfjf");
+    // console.log("hfjfjfjf");
     getDropdownData();
   }, []);
 
@@ -58,7 +55,7 @@ export default function EmailOpened() {
         ENDPOINT.WEBINAR_EMAIL_GET_READERS_LIST,
         body
       );
-      console.log(response?.data?.data);
+      // console.log(response?.data?.data);
       //   setviewEmailModal(false);
       //   setFunctionParameter({
       //     type, dynamic_name, popup_name, loadAll

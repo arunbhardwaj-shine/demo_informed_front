@@ -1,10 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
-import { Link, NavigationType } from "react-router-dom";
-import Table from "./Table";
 import { useNavigate } from "react-router-dom";
-
-import { Button, Modal } from "react-bootstrap";
+import {  Modal } from "react-bootstrap";
 import SimpleReactValidator from "simple-react-validator";
 import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -12,9 +9,7 @@ import { loader } from "../../../../../loader";
 import { popup_alert } from "../../../../../popup_alert";
 import * as XLSX from "xlsx";
 import Select from "react-select";
-
 import { CircularProgressbar } from "react-circular-progressbar";
-import { buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 
 const CreateSmartList = () => {
@@ -255,7 +250,7 @@ const CreateSmartList = () => {
                 allids: res.data.response.newData,
               },
             });
-            console.log(uploadOrDownloadCount);
+            // console.log(uploadOrDownloadCount);
             setShowProgressBar(false);
             setapi_flag(api_flag + 1);
           }, 1000);
@@ -427,30 +422,7 @@ const CreateSmartList = () => {
                           null
                         }    
 
-                        {
-                          /*<div className="form-group col-sm-12">
-                            <div className="form-group-content">
-                              <p>
-                                I want this to be a <span>Demo list</span>
-                              </p>
-                              <div className="select-demo-option">
-                                <input type="checkbox" name="cherk" />
-                                <span className="checkmark"></span>
-                              </div>
-                              <a
-                                href="#"
-                                data-bs-toggle="tooltip"
-                                data-bs-placement="top"
-                              >
-                                <img src={path + "question.svg"} alt="" />
-                              </a>
-                              <div className="tooltip">
-                                A list that will appeare when you select smart
-                                list to <span>send a sample.</span>
-                              </div>
-                            </div>
-                          </div>*/
-                        }
+                        
 
 
                       </div>

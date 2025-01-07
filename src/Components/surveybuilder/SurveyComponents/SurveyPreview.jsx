@@ -214,32 +214,7 @@ const [draggedElementIndex, setDraggedElementIndex] = useState(null);
     setDraggedElementIndex(index);
   };
 
-  // const handleQuestionDragOver = (e, index) => {
-  //   e.preventDefault();
-
-  //   if (draggedElementIndex != null && hoveredIndex !== index) {
-  //     console.log("inside hovered =====> ",index,hoveredIndex,draggedElementIndex)
-
-  //     const newItems = [...elements];
-
-  //     const draggedItem = newItems.splice(draggedElementIndex, 1);
-
-  //     newItems.splice(index, 0, draggedItem[0]);
-
-  //     setLocalElements(newItems);
-  //     setHoveredIndex(index); // Set the hovered index
-  //   }
-  //   if (draggedItemIndex === null) {
-  //     console.log("dropped ====?")
-  //     const bounding = e.currentTarget.getBoundingClientRect();
-  //     const offset = e.clientY - bounding.top;
-  //     if (index === elements.length - 1 && offset >= bounding.height / 2) {
-  //       setPlaceholderIndex(elements.length);
-  //     } else {
-  //       handlePlaceholderPosition(e, index);
-  //     }
-  //   }
-  // };
+  
 
   const handleQuestionDragOver = throttle((e, index) => {
     e.preventDefault();

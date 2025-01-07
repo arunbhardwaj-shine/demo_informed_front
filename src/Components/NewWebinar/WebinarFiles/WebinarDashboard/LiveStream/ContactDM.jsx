@@ -2,9 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { Col, Accordion, Button } from 'react-bootstrap'
 import { loader } from '../../../../../loader'
 import { postData } from '../../../../../axios/apiHelper'
-import { ENDPOINT } from '../../../../../axios/apiConfig'
 import { useSidebar } from '../../../../CommonComponent/LoginLayout'
-import Collapse from "react-bootstrap/Collapse";
+
 let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const ContactDM = () => {

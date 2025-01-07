@@ -1,20 +1,15 @@
 import axios from "axios";
 import React, { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
-import { Button, Modal, Dropdown } from "react-bootstrap";
-import { confirmAlert } from "react-confirm-alert";
+import {  Modal, Dropdown } from "react-bootstrap";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import SimpleReactValidator from "simple-react-validator";
 import { loader } from "../../../../../loader";
 import EditCountry from "../../../../CommonComponent/EditCountry";
 import EditContactType from "../../../../CommonComponent/EditContactType";
 import { useSidebar } from "../../../../CommonComponent/LoginLayout";
-
 import { toast } from "react-toastify";
-
-import { connect } from "react-redux";
 import { DownloadTableExcel } from 'react-export-table-to-excel';
-// import ReactHTMLTableToExcel from "react-html-table-to-excel";
 import { popup_alert } from "../../../../../popup_alert";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import Select, { createFilter } from "react-select";
@@ -115,7 +110,7 @@ const ViewTable = (props) => {
     }
   }, []);
   useEffect(() => {
-    console.log("data-->", props.data)
+    // console.log("data-->", props.data)
     setEditList(props.data);
   }, [props.data?.length]);
 
@@ -646,7 +641,7 @@ const ViewTable = (props) => {
 
   const addMoreHcp = (e) => {
     e.preventDefault();
-    console.log(hpc);
+    // console.log(hpc);
     const status = hpc.map((data) => {
       if (
         (data.firstname == "" ||
@@ -2929,235 +2924,13 @@ const ViewTable = (props) => {
                                     </div>
                                   </div>
 
-                                  {/* <div className="col-12 col-md-6">
-                                    <div className="form-group">
-                                      <label for="">Site Street</label>
-                                      <Select
-                                        options={siteStreetAll}
-                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                        onChange={(event) =>
-                                          onSiteStreetChange(
-                                            event,
-
-                                            i
-                                          )
-                                        }
-                                        defaultValue={
-                                          siteStreetAll[hpc[i].siteStreetIndex]
-                                        }
-                                        placeholder={
-                                          typeof siteStreetAll[
-                                            hpc[i].siteStreetIndex
-                                          ] === "undefined"
-                                            ? "Select Site Street"
-                                            : siteStreetAll[
-                                                hpc[i].siteStreetIndex
-                                              ]
-                                        }
-                                      />
-                                    </div>
-                                  </div>
-                                  <div className="col-12 col-md-6">
-                                    <div className="form-group">
-                                      <label for="">Site Post Code</label>
-                                      <Select
-                                        options={sitePostalCodeAll}
-                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                        onChange={(event) =>
-                                          onSitePostCode(
-                                            event,
-
-                                            i
-                                          )
-                                        }
-                                        defaultValue={
-                                          sitePostalCodeAll[
-                                            hpc[i].sitePostCodeIndex
-                                          ]
-                                        }
-                                        placeholder={
-                                          typeof sitePostalCodeAll[
-                                            hpc[i].sitePostCodeIndex
-                                          ] === "undefined"
-                                            ? "Select Post Code"
-                                            : sitePostalCodeAll[
-                                                hpc[i].sitePostCodeIndex
-                                              ]
-                                        }
-                                      />
-                                    </div>
-                                  </div>
-                                  <div className="col-12 col-md-6">
-                                    <div className="form-group">
-                                      <label for="">Site City</label>
-                                      <Select
-                                        options={siteCityAll}
-                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                        onChange={(event) =>
-                                          onSiteCityChange(
-                                            event,
-
-                                            i
-                                          )
-                                        }
-                                        defaultValue={
-                                          siteStreetAll[hpc[i].siteStreetIndex]
-                                        }
-                                        placeholder={
-                                          typeof siteCityAll[
-                                            hpc[i].siteCityIndex
-                                          ] === "undefined"
-                                            ? "Select Site City"
-                                            : siteCityAll[hpc[i].siteCityIndex]
-                                        }
-                                      />
-                                    </div>
-                                  </div>*/}
-
-                                  {/* <button onClick={(e) => addMoreSite(i, e)}>
-                                    +
-                                  </button> */}
+                                  
+                                 
 
                                   {val?.siteDetails?.map((data, index) => {
                                     return (
                                       <>
-                                        {/* {index !== 0 ? (
-                                          <>
-                                            <div className="add-content-form">
-                                              <div className="row">
-                                                <div className="col-12 col-md-6">
-                                                  <div className="form-group">
-                                                    <label for="">
-                                                      Site number
-                                                    </label>
-                                                    <input
-                                                      type="email"
-                                                      className="form-control"
-                                                      id="email-desc"
-                                                      // name={`${fieldName}.email`}
-                                                      onChange={(event) =>
-                                                        onSiteNumberChange(
-                                                          event,
-                                                          index,
-                                                          i
-                                                        )
-                                                      }
-                                                      value={data.siteNumber}
-                                                    />
-                                                  </div>
-                                                </div>
-                                                <div className="col-12 col-md-6">
-                                                  <div className="form-group">
-                                                    <label for="">
-                                                      Site name
-                                                    </label>
-                                                    <input
-                                                      type="email"
-                                                      className="form-control"
-                                                      id="email-desc"
-                                                      // name={`${fieldName}.email`}
-                                                      onChange={(event) =>
-                                                        onSiteNameChange(
-                                                          event,
-                                                          index,
-                                                          i
-                                                        )
-                                                      }
-                                                      value={data.siteName}
-                                                    />
-                                                  </div>
-                                                </div>
-
-                                                <div className="col-12 col-md-6">
-                                                  <div className="form-group">
-                                                    <label for="">
-                                                      Site Street
-                                                    </label>
-                                                    <input
-                                                      type="email"
-                                                      className="form-control"
-                                                      id="email-desc"
-                                                      // name={`${fieldName}.email`}
-                                                      onChange={(event) =>
-                                                        onSiteStreetChange(
-                                                          event,
-                                                          index,
-                                                          i
-                                                        )
-                                                      }
-                                                      value={data.siteStreet}
-                                                    />
-                                                  </div>
-                                                </div>
-                                                <div className="col-12 col-md-6">
-                                                  <div className="form-group">
-                                                    <label for="">
-                                                      Site Post Code
-                                                    </label>
-                                                    <input
-                                                      type="email"
-                                                      className="form-control"
-                                                      id="email-desc"
-                                                      // name={`${fieldName}.email`}
-                                                      onChange={(event) =>
-                                                        onSitePostCode(
-                                                          event,
-                                                          index,
-                                                          i
-                                                        )
-                                                      }
-                                                      value={data.sitePostCode}
-                                                    />
-                                                  </div>
-                                                </div>
-                                                <div className="col-12 col-md-6">
-                                                  <div className="form-group">
-                                                    <label for="">
-                                                      Site City
-                                                    </label>
-                                                    <input
-                                                      type="email"
-                                                      className="form-control"
-                                                      id="email-desc"
-                                                      // name={`${fieldName}.email`}
-                                                      onChange={(event) =>
-                                                        onSiteCityChange(
-                                                          event,
-                                                          index,
-                                                          i
-                                                        )
-                                                      }
-                                                      value={data.siteCity}
-                                                    />
-                                                  </div>
-                                                  <div className="delete_btn">
-                                                    {index !== 0 ? (
-                                                      <button
-                                                        type="button"
-                                                        className="btn btn-filled"
-                                                        onClick={(e) =>
-                                                          removeSite(
-                                                            index,
-                                                            i,
-                                                            e
-                                                          )
-                                                        }
-                                                      >
-                                                        <img
-                                                          src={
-                                                            path_image +
-                                                            "delete.svg"
-                                                          }
-                                                          alt="Add More"
-                                                        />
-                                                      </button>
-                                                    ) : null}
-                                                  </div>
-                                                </div>
-                                              </div>
-                                            </div>
-                                          </>
-                                        ) : ( */}
+                                      
                                         <>
                                           <div className="add-content-form">
                                             <div className="row"></div>
@@ -3169,21 +2942,7 @@ const ViewTable = (props) => {
                                   })}
                                 </>
                               ) : null}
-                              {/*
-                              <div className="col-12 col-md-6 btn_rmv">
-                                <div className="form-group">
-                                  {i !== 0 && (
-                                    <button
-                                      type="button"
-                                      className="btn btn-filled"
-                                      onClick={() => deleteRecord(i)}
-                                    >
-                                      Remove
-                                    </button>
-                                  )}
-                                </div>
-                              </div>
-                              */}
+                             
                             </div>
                           </div>
 
@@ -3221,18 +2980,7 @@ const ViewTable = (props) => {
                                   </a>
                                 </li>
 
-                                {/*
-                                <li className="nav-item add-file">
-                                  <a
-                                    onClick={(e) => addFile(e)}
-                                    className="nav-link btn-filled"
-                                    data-bs-toggle="tab"
-                                    href="javascript:;"
-                                  >
-                                    Add File
-                                  </a>
-                                </li>
-                                */}
+                                
                               </ul>
                             </div>
                           </div>
@@ -3242,39 +2990,7 @@ const ViewTable = (props) => {
                   })}
                 </form>
 
-                {/*
-                  <form id="add_file" className={"tab-pane" + activeExcel}>
-                    <div className="file_upload-box">
-                      <div className="upload-file-box">
-                        <div className="box">
-                          <input
-                            type="file"
-                            name="file-4[]"
-                            id="file-4"
-                            className="inputfile inputfile-3"
-                            accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-                            onChange={onFileChange}
-                            data-multiple-caption="{count} files selected"
-                            multiple
-                            // ref={file_name}
-                          />
-
-                          {file_name.current?.files === undefined ||
-                          file_name.current.files?.length === 0 ? (
-                            <>
-                              <label htmlFor="file-4">
-                                <span>Choose Your File</span>
-                              </label>
-                              <p>Upload your excel file</p>
-                            </>
-                          ) : (
-                            <h5>{file_name.current.files[0].name}</h5>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  </form>
-                  */}
+               
               </div>
             </div>
           </div>

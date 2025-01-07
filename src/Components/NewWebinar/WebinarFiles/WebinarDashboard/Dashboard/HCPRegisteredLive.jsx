@@ -379,7 +379,7 @@ const HCPRegisteredLive = () => {
         series: updatedSeries,
       };
 
-      console.log(updatedOptions);
+      // console.log(updatedOptions);
       setOptions(updatedOptions);
 
 

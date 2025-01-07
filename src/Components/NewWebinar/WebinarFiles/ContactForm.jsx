@@ -12,7 +12,7 @@ const ContactForm = () => {
   );
 
   const eventDropDownClicked = (e) => {
-    console.log(e);
+    // console.log(e);
     setEventSelected(e);
   };
 

@@ -18,7 +18,7 @@ import { surveyEndpoints } from "./SurveyEndpoints/SurveyEndpoints";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import {updateCurrentStep} from "../../actions/surveyStepAction"
-const validExtensions = ["png", "jpeg", "jpg", "gif"];
+
 
 var surveyValues = {};
 

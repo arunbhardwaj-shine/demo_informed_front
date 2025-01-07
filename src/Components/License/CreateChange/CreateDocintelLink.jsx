@@ -1,13 +1,10 @@
 import React from "react";
 import Select from "react-select";
-import DatePicker from "react-datepicker";
 import { Link } from "react-router-dom";
-import { useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
 
 const CreateDocintelLink = () => {
-  const [startDate, setStartDate] = useState(new Date());
-  console.log("in create docintel link");
+  // console.log("in create docintel link");
   return (
     <>
       <div className="col right-sidebar">

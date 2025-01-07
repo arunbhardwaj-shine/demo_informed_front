@@ -3,19 +3,17 @@ import {
   Col,
   Dropdown,
   DropdownButton,
-  Form,
   Modal,
   Row,
 } from "react-bootstrap";
 import axios from "axios";
 
 import { Link, useLocation, useNavigate } from "react-router-dom";
-// import ReactHTMLTableToExcel from "react-html-table-to-excel";
 import { DownloadTableExcel } from 'react-export-table-to-excel';
 import EditContactType from "../../CommonComponent/EditContactType";
 import EditCountry from "../../CommonComponent/EditCountry";
 import Select, { createFilter } from "react-select";
-import { postData, postFormData } from "../../../axios/apiHelper";
+import { postData} from "../../../axios/apiHelper";
 import { ENDPOINT } from "../../../axios/apiConfig";
 import { loader } from "../../../loader";
 import CommonConfirmModel from "../../../Model/CommonConfirmModel";
@@ -1150,7 +1148,7 @@ const ReadersListAdd = () => {
   };
 
   const addMoreHcp = () => {
-    console.log(hpc);
+    // console.log(hpc);
     const status = hpc.map((data) => {
       if (isLikeRdAccount) {
         if(state?.siteRole != '' && state?.siteRole != null){
@@ -2437,63 +2435,10 @@ const ReadersListAdd = () => {
                                     <>
                                     </>
                                   }
-                                  {
-                                    /*<div className="col-12 col-md-6">
-                                      <div className="form-group">
-                                        <label for="">Blind Type</label>
-                                        <Select
-                                          options={blindTypeAll}
-                                          className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                          onChange={(event) =>
-                                            onBlindTypeChange(event, i)
-                                          }
-                                          defaultValue={
-                                            blindTypeAll[hpc[i].blindTypeIndex]
-                                          }
-                                          placeholder={
-                                            typeof blindTypeAll[
-                                              hpc[i].blindTypeIndex
-                                            ] === "undefined"
-                                              ? "Select Blind Type"
-                                              : blindTypeAll[
-                                                  hpc[i].blindTypeIndex
-                                                ]
-                                          }
-                                          // filterOption={createFilter(filterConfig)}
-                                        />
-                                      </div>
-                                    </div>*/
-                                  }
+                                 
 
 
-                                  {/* <div className="col-12 col-md-6">
-                                    <div className="form-group">
-                                      <label htmlFor="">Study role</label>
-                                      <Select
-                                        options={subUserTypeAll}
-                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                        onChange={(event) =>
-                                          onSubUserTypeChange(event, i)
-                                        }
-                                        defaultValue={
-                                          subUserTypeAll[
-                                          hpc[i].subUserTypeIndex
-                                          ]
-                                        }
-                                        placeholder={
-                                          typeof subUserTypeAll[
-                                            hpc[i].subUserTypeIndex
-                                          ] === "undefined"
-                                            ? "Select Study Role"
-                                            : subUserTypeAll[
-                                            hpc[i].subUserTypeIndex
-                                            ]
-                                        }
-                                      // filterOption={createFilter(filterConfig)}
-                                      //  isClearable
-                                      />
-                                    </div>
-                                  </div> */}
+                                  
 
                                   <div className="col-12 col-md-6">
                                     <div className="form-group">

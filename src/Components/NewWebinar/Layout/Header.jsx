@@ -1,8 +1,6 @@
 import React from "react";
-import { Button, Dropdown, Modal } from "react-bootstrap";
-import { Form, Link } from "react-router-dom";
+import { Dropdown } from "react-bootstrap";
 import { ToastContainer } from "react-toastify";
-
 import { useNavigate } from "react-router-dom";
 
 export const WebinarHeader = () => {
@@ -58,11 +56,6 @@ export const WebinarHeader = () => {
               </ul>
             </div>
 
-            {/* <Form.Select
-                 id="event"
-                 value={localStorage.getItem("EventIdHeader")}>
-                
-              </Form.Select> */}
 
             <div className="user-login">
               <Dropdown>

@@ -4,7 +4,6 @@ import { postData, getData,postFormData } from "../../../../../axios/apiHelper";
 import { ENDPOINT } from "../../../../../axios/apiConfig";
 import { loader } from "../../../../../loader";
 import { Button, Col, Row } from "react-bootstrap";
-import dynamicEventData from "./events.json";
 import dynamicEventDataJson from "./events.json";
 import { useSidebar } from "../../../../CommonComponent/LoginLayout";
 import { toast } from "react-toastify";

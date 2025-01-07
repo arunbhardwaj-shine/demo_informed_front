@@ -1,18 +1,13 @@
 import axios from "axios";
 import React, { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
-import { Button, Modal, Dropdown } from "react-bootstrap";
-import { confirmAlert } from "react-confirm-alert";
+import { Modal, Dropdown } from "react-bootstrap";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import SimpleReactValidator from "simple-react-validator";
 import { loader } from "../../../loader";
 import EditCountry from "../../CommonComponent/EditCountry";
 import EditContactType from "../../CommonComponent/EditContactType";
-
 import { toast } from "react-toastify";
-
-import { connect } from "react-redux";
-// import ReactHTMLTableToExcel from "react-html-table-to-excel";
 import { DownloadTableExcel } from 'react-export-table-to-excel';
 import { popup_alert } from "../../../popup_alert";
 import DropdownButton from "react-bootstrap/DropdownButton";

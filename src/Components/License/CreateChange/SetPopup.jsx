@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { Editor } from "@tinymce/tinymce-react";
 import AliceCarousel from "react-alice-carousel";
 import { Link, useLocation } from "react-router-dom";
-import { CKEditor } from "@ckeditor/ckeditor5-react";
 import { loader } from "../../../loader";
 import React, { useEffect, useState, useRef } from "react";
 import { postData } from "../../../axios/apiHelper";
@@ -15,14 +14,8 @@ import Tooltip from "react-bootstrap/Tooltip";
 import {
   Button,
   Col,
-  Dropdown,
-  Modal,
-  DropdownButton,
   Form,
-  Row,
-  ProgressBar,
-  Tab,
-  Tabs,
+  Row
 } from "react-bootstrap";
 import Select from "react-select";
 import { useSidebar } from "../../CommonComponent/LoginLayout";
@@ -114,7 +107,7 @@ const SetPopup = (props) => {
   const linkingPayload = useRef();
 
   useEffect(() => {
-    console.log("state--->", state);
+    // console.log("state--->", state);
     if (state?.pdfId) {
       setSelectedPDF(state?.pdfId);
     } else {
@@ -373,66 +366,6 @@ const SetPopup = (props) => {
       </OverlayTrigger>
     );
   }
-  // const addTracking= function (editor) {
-  //   editor.on("OpenWindow", function (e) {
-  //     let dialog =
-  //       document.getElementsByClassName("tox-dialog")[0];
-
-  //     if (dialog) {
-  //       let header = dialog.querySelector(
-  //         ".tox-dialog__header"
-  //       );
-  //       const closeButton = header.querySelector(
-  //         '[aria-label="Close"]'
-  //       );
-  //       let text =
-  //         header.querySelector(".tox-dialog__title");
-
-  //       if (text.innerText == "Insert/Edit Link") {
-  //         let uploadIcon=  document.querySelector("body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > button > span")
-  //         uploadIcon.style.display = "none";
-  //         let newButton =
-  //           document.createElement("button");
-  //         newButton.innerText = "Add Tracking";
-  //         newButton.classList.add("tox-button")
-  //         newButton.classList.add("tox-button--icon")
-  //         newButton.classList.add("tox-button--naked")
-  //         newButton.classList.add("track")
-  //         newButton.onclick = function () {
-  //           let firstToxControlWrap =
-  //             document.querySelector(
-  //               "body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > div >input"
-  //             );
-
-  //           // let text =dialog.querySelector(".tox-form__group");
-  //           if (!firstToxControlWrap.value) {
-  //             alert("Please enter a link");
-  //             return;
-  //           }
-  //           const baseLink =
-  //             "https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_";
-  //           if (
-  //             firstToxControlWrap.value.startsWith(
-  //               baseLink
-  //             )
-  //           ) {
-  //             alert("Traking already added");
-  //             return;
-  //           }
-
-  //           const currentTimestamp = Date.now();
-  //           // const redirectUrl = encodeURIComponent(firstToxControlWrap.value)
-  //           let link = `https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_${currentTimestamp}&redirect_url=${firstToxControlWrap.value}`;
-  //           firstToxControlWrap.value = link;
-          
-  //           alert("Traking added");
-  //         };
-
-  //         header.insertBefore(newButton, closeButton);
-  //       }
-  //     }
-  //   });
-  // }
 
   const addTracking = function (editor) {
     editor.on("OpenWindow", function (e) {
@@ -614,18 +547,6 @@ const SetPopup = (props) => {
                           >
                             Back
                           </Button>
-                          {/* <Link
-                            className="btn btn-bordered btn btn-primary"
-                            to="/license-create"
-                          >
-                            Back
-                          </Link> */}
-                          {/* <Link
-                            className="btn btn-primary btn-bordered back"
-                            to="/license-create-user"
-                          >
-                            Back
-                          </Link> */}
                         </div>
                       </Col>
                       <Col md="9">
@@ -710,16 +631,6 @@ const SetPopup = (props) => {
                     </Link>
                     <h2>Set Pop-up</h2>
                   </div>
-                  {/*<div className="top-right-action">
-                      <div className="header-btn">
-                        <Button
-                          className="btn-bordered cancel"
-                          onClick={() => navigate("/license-create")}
-                        >
-                          Close
-                        </Button>
-                      </div>
-                    </div>*/}
                 </div>
               )}
               <div className="template_builder-option library-cosent sticky-view">

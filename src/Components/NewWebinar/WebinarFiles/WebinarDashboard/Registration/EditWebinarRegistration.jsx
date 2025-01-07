@@ -38,7 +38,7 @@ const EditWebinarRegistration = () => {
   useEffect(() => {
     // getEventData();
     getWebinarData();
-    console.log("queryParams--->", queryParams.get("event"));
+    // console.log("queryParams--->", queryParams.get("event"));
   }, []);
   const getEventData = async () => {
     try {
@@ -71,7 +71,7 @@ const EditWebinarRegistration = () => {
       });
       const newFormData = JSON.parse(hadData?.content);
       setFormData(newFormData);
-      console.log("newFormData--->", newFormData);
+      // console.log("newFormData--->", newFormData);
       setFile(newFormData?.headerImageUrl ? newFormData?.headerImageUrl : "");
       setFoot(newFormData?.footerImageUrl ? newFormData?.footerImageUrl : "");
     } catch (err) {

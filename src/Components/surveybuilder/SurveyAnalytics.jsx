@@ -1,12 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import {
-  Accordion,
-  Button,
   Col,
   Row,
-  Tab,
-  Tabs,
-  Form,
   Table,
 } from "react-bootstrap";
 import { Link, useLocation } from "react-router-dom";
@@ -571,18 +566,7 @@ const SurveyAnalytics = () => {
                                         <div className="title-subheading">
                                           <p>{item?.Subtitle}</p>
                                         </div>
-                                        {/* <table>
-                            <tr className="title-heading">
-                              <td>
-                                {item?.Title}{" "}
-                              </td>
-                            </tr>
-                            <tr className="title-subheading">
-                              <td>
-                                {item?.Subtitle}
-                              </td>
-                            </tr>
-                          </table> */}
+                                        
                                       </td>
                                       <td>{item?.Consent}</td>
                                       <td>{item?.Creator}</td>

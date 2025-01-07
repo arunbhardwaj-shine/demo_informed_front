@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Button, Col, Row } from "react-bootstrap";
-
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { loader } from "../../../loader";
 import { postData } from "../../../axios/apiHelper";
 import { ENDPOINT } from "../../../axios/apiConfig";
-import Collapse from "react-bootstrap/Collapse";
+
 
 const MarketingReaderReview = () => {
   const { state } = useLocation();
@@ -298,41 +297,7 @@ const MarketingReaderReview = () => {
                         </td>
                       </tr>
 
-                      {/* <tr>
-                        <th>Log activity</th>
-                        <td>
-                          {readerData?.log_activity
-                            ? readerData?.log_activity?.trim().length > 100
-                              ? readerData?.log_activity?.substring(0, 100)
-                              : readerData?.log_activity?.trim()
-                            : "N/A"}
-                          <Collapse in={openProduction}>
-                            <div id="collapse-text-view">
-                              {readerData?.log_activity
-                                ? readerData?.log_activity?.trim()
-                                : ""}
-                            </div>
-                          </Collapse>
-                          {readerData?.log_activity ? (
-                            readerData?.log_activity?.trim().length > 100 ? (
-                              <span
-                                className="show_more"
-                                onClick={() =>
-                                  setOpenProduction(!openProduction)
-                                }
-                                aria-controls="example-collapse-text"
-                                aria-expanded={openProduction}
-                              >
-                                ...
-                              </span>
-                            ) : (
-                              ""
-                            )
-                          ) : (
-                            ""
-                          )}
-                        </td>
-                      </tr> */}
+                     
                     </table>
                   </div>
                   <div className="crm-review-detail">
@@ -428,14 +393,7 @@ const MarketingReaderReview = () => {
                             : "N/A"}
                         </td>
                       </tr>
-                      {/* <tr>
-                        <th className="tab-content-title">Quote Update</th>
-                        <td>
-                          {readerData?.quote_update
-                            ? readerData?.quote_update?.toLocaleDateString()
-                            : "N/A"}
-                        </td>
-                      </tr> */}
+                      
                       {flag == 1 ? (
                         <tr>
                           <th className="tab-content-title">
@@ -459,14 +417,7 @@ const MarketingReaderReview = () => {
                           </td>
                         </tr>
                       )}
-                      {/* <tr>
-                        <th className="tab-content-title">Quote valid until</th>
-                        <td>
-                          {readerData?.quote_valid 
-                            ? readerData?.quote_valid?.toLocaleDateString()
-                            : "N/A"}
-                        </td>
-                      </tr> */}
+                      
                     </table>
                   </div>
                 </div>

@@ -85,7 +85,7 @@ let data1 ={
 
 let data2 =[]
 
-console.log(data1.Brazil,'====>dataaa1')
+// console.log(data1.Brazil,'====>dataaa1')
 
 const HCPRegisteredCountry = () => {
 
@@ -271,7 +271,7 @@ const HCPRegisteredCountry = () => {
             series: updatedSeries,
           };
     
-          console.log(updatedOptions);
+          // console.log(updatedOptions);
           setOptions2(updatedOptions);
           loader("hide");
         } catch (error) {

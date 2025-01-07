@@ -1,7 +1,6 @@
 import axios from "axios";
 import Table from "./Table";
-import { Link, Navigate, useNavigate } from "react-router-dom";
-import VerifySmartList from "./VerifySmartList";
+import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState, useRef } from "react";
 import { NavLink } from "react-router-dom";
 import Accordion from "react-bootstrap/Accordion";
@@ -1633,110 +1632,7 @@ const FilterSegment = (props) => {
                             </>
                           )}
 
-                        {/*"blind_type" in filters &&
-                          Object.keys(filters.blind_type).length > 0 && (
-                            <>
-                              <div className="col block-smart-name">
-                                <h6>Blind Type</h6>
-                                <div className="smart-name-list">
-                                  {/*
-                                    <ul>
-                                      {Object.entries(filters.blind_type).map(
-                                        ([index, item]) => (
-                                          <li>
-                                            <div className="select-multiple-option">
-                                              <input
-                                                type="checkbox"
-                                                id={`custom-checkbox-blind_type-${index}`}
-                                                name="blind_type[]"
-                                                value={item}
-                                                checked={
-                                                  typeof selectedBlindType !==
-                                                    "undefined" &&
-                                                  selectedBlindType.indexOf(
-                                                    item
-                                                  ) !== -1
-                                                }
-                                                onChange={() =>
-                                                  handleOnBlindTypeChange(item)
-                                                }
-                                              />
-                                              <span className="checkmark"></span>
-                                            </div>
-                                            {item}
-                                          </li>
-                                        )
-                                      )}
-                                    </ul>
-                                    */}
-                        {/*
-                                  <ul>
-                                    <li>
-                                      <div className="select-multiple-option">
-                                        <input
-                                          type="radio"
-                                          id="blind_all"
-                                          name="blindTye"
-                                          value="all"
-                                          checked={
-                                            typeof selectedBlindType !==
-                                              "undefined" &&
-                                            selectedBlindType == "all"
-                                          }
-                                          onChange={() =>
-                                            handleOnBlindTypeChange("all")
-                                          }
-                                        />
-                                        <span className="checkmark"></span>
-                                      </div>
-                                      All
-                                    </li>
-                                    <li>
-                                      <div className="select-multiple-option">
-                                        <input
-                                          type="radio"
-                                          id="blind_yes"
-                                          name="blindTye"
-                                          value="blinded"
-                                          checked={
-                                            typeof selectedBlindType !==
-                                              "undefined" &&
-                                            selectedBlindType == "blinded"
-                                          }
-                                          onChange={() =>
-                                            handleOnBlindTypeChange("blinded")
-                                          }
-                                        />
-                                        <span className="checkmark"></span>
-                                      </div>
-                                      Blinded
-                                    </li>
-                                    <li>
-                                      <div className="select-multiple-option">
-                                        <input
-                                          type="radio"
-                                          id="blind_no"
-                                          name="blindTye"
-                                          value="unblinded"
-                                          checked={
-                                            typeof selectedBlindType !==
-                                              "undefined" &&
-                                            selectedBlindType == "unblinded"
-                                          }
-                                          onChange={() =>
-                                            handleOnBlindTypeChange("unblinded")
-                                          }
-                                        />
-                                        <span className="checkmark"></span>
-                                      </div>
-                                      Unblinded
-                                    </li>
-                                  </ul>
-                                </div>
-                              </div>
-                            </>
-                          )*/}
-
+                       
                         {isLikeRdAccount
                           && (
                             <>
@@ -1744,23 +1640,7 @@ const FilterSegment = (props) => {
                                 <h6>IRT mandatory training</h6>
                                 <div className="smart-name-list">
                                   <ul>
-                                    {/* <li>
-                                        <div className="select-multiple-option">
-                                          <input
-                                            type="radio"
-                                            id="irt_training"
-                                            name="irt"
-                                            value="Training"
-                                            checked={
-                                              typeof selectedIrt !== "undefined" &&
-                                              selectedIrt == "Training"
-                                            }
-                                            onChange={() => handleIrt("Training")}
-                                          />
-                                          <span className="checkmark"></span>
-                                        </div>
-                                        Training
-                                      </li> */}
+                                   
                                     <li>
                                       <div className="select-multiple-option">
                                         <input
@@ -2690,43 +2570,7 @@ const FilterSegment = (props) => {
                             </>
                           )}
 
-                        {/*
-                          <div className="col block-smart-name">
-                          {isLikeRdAccount && selectedIrt == "Training" &&(
-                            <>
-                              <h6>Training Completed</h6>
-                              <ul>
-                                <li>
-                                  <div className="select-multiple-option">
-                                    <input
-                                      type="radio"
-                                      value="yes"
-                                      id="content_read"
-                                      name="content_read"
-                                      checked={selectedContentRead == "yes"}
-                                      onChange={() => handleContentRead("yes")}
-                                    />
-                                    <span className="checkmark"></span>
-                                  </div>
-                                  Yes
-                                </li>
-                                <li>
-                                  <div className="select-multiple-option">
-                                    <input
-                                      type="radio"
-                                      value="no"
-                                      checked={selectedContentRead == "no"}
-                                      onChange={() => handleContentRead("no")}
-                                    />
-                                    <span className="checkmark"></span>
-                                  </div>
-                                  No
-                                </li>
-                              </ul>
-                            </>
-                          )}
-                        </div>*/}
-                        {/*Display only in case of create*/}
+                        
 
                         <div className="segmentation-button">
                           {/* {typeof props.action !== "undefined" &&
@@ -3196,30 +3040,7 @@ const FilterSegment = (props) => {
               ) : null}
 
 
-              {/*updateflag > 0 ? (
-                selectedBlindType?.length > 0 ? (
-                  <div className="filter-div">
-                    <div className="filter-div-title">
-                      <span>Blind type |</span>
-                    </div>
-                    <div className="filter-div-list">
-                      <div className="filter-result">
-                        {selectedBlindType}
-                        <img
-                          onClick={() =>
-                            removeindividualfilter(
-                              "blind_type",
-                              selectedBlindType
-                            )
-                          }
-                          src={path_image + "filter-close.svg"}
-                          alt="Close-filter"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                ) : null
-                        ) : null*/}
+             
 
               {updateflag > 0 ? (
                 typeof selectedcampaign === "object" &&

@@ -11,9 +11,7 @@ const Consent = ({ item, handleUpdateConsent, index }) => {
     { value: "General consent", label: "General consent" },
   ];
 
-//   const defaultOption = consentOptions.find(
-//     (option) => option.label === "One Source consent"
-//   );
+
 
   const getConsent = (selectedLanguage) => {
     const consentInputData = consent.consentDetails[selectedLanguage];

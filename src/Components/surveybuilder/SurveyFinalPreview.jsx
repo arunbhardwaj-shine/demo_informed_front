@@ -1,11 +1,10 @@
-import React, { useState, useRef } from "react";
+import React, { useRef } from "react";
 import SurveyPreview from "./SurveyComponents/SurveyPreview";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Col } from "react-bootstrap";
 import { saveAsDraft } from "./CommonFunctions/CommonFunction";
-import { useSelector, useDispatch, connect } from "react-redux";
+import { useSelector,  connect } from "react-redux";
 import { getSurveyData } from "../../actions";
-import { updateLiveFlag } from "./CommonFunctions/CommonFunction";
 import { toast } from "react-toastify";
 
 var surveyValues = {};

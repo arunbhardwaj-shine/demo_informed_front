@@ -4,9 +4,7 @@ import { toast } from "react-toastify";
 import { loader } from "../../loader";
 import { Link, useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import ReactDataGrid from "@inovua/reactdatagrid-community";
 import "@inovua/reactdatagrid-community/index.css";
-import { popup_alert } from "../../popup_alert";
 
 const GetDetails = () => {
   let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -186,7 +184,7 @@ const GetDetails = () => {
   const sortName = () => {
     let normalArr = [];
     normalArr = data;
-    console.log(sortingName);
+    // console.log(sortingName);
     if (sortingName === 0) {
       normalArr.sort((a, b) => {
         if (a.first_name === null) {

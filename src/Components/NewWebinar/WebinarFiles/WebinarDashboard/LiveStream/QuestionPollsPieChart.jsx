@@ -1,7 +1,7 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
-import { Spinner } from 'react-activity';
+
 let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
 const QuestionPollsPieChart = ({ data,show,type }) => {
     const baseOptions = {
@@ -255,26 +255,6 @@ const QuestionPollsPieChart = ({ data,show,type }) => {
             
         }]
         
-        // const seriesData = data?.pollAnswers?.map((item, index) => ({
-        //     name: item?.name,
-        //     y: item?.y,
-        //     color: item?.color,
-        //     drilldown: item?.drilldown,
-        // }))
-
-        // const barSeriesData=data?.pollAnswers?.map((item, index) => ({
-        //     name: item?.name,
-        //     data: [item?.y],
-        //     color: item?.color,
-        //     drilldown: item?.drilldown,
-        // }))
-
-        // const drilldownData = data?.pollAnswers?.filter(question => question?.drillDownData?.length > 0).map(question => ({
-        //     id: question.drilldown,
-        //     name: question.name,
-        //     data: question.drillDownData.map(answer => [answer.name, answer.total]),
-        //     colors: question.drillDownData.map(answer => answer.color)
-        //   }));
         if(data?.graphType=="pie"){
              data?.pollAnswers?.map((item, index) => {
                 seriesData.push({

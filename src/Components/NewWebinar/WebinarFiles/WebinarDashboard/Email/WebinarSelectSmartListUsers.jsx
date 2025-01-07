@@ -1108,48 +1108,7 @@ const WebinarSelectSmartListUsers = (props) => {
                               <img src={path_image + "edit.svg"} alt="Edit" />
                             </button>
                           </div>
-                          {/* <div className="hcp-sort">
-                          {sortingCount == 0 ? (
-                            <>
-                              <button
-                                className="btn btn-outline-primary"
-                                onClick={sortSelectedUsers}
-                              >
-                                Sort By{" "}
-                                <img
-                                  src={path_image + "sort.svg"}
-                                  alt="Shorting"
-                                />
-                              </button>
-                            </>
-                          ) : sorting == 0 ? (
-                            <>
-                              <button
-                                className="btn btn-outline-primary desc"
-                                onClick={sortSelectedUsers}
-                              >
-                                Sort By{" "}
-                                <img
-                                  src={path_image + "sort-decending.svg"}
-                                  alt="Shorting"
-                                />
-                              </button>
-                            </>
-                          ) : (
-                            <>
-                              <button
-                                className="btn btn-outline-primary asc"
-                                onClick={sortSelectedUsers}
-                              >
-                                Sort By{" "}
-                                <img
-                                  src={path_image + "sort-assending.svg"}
-                                  alt="Shorting"
-                                />
-                              </button>
-                            </>
-                          )}
-                        </div> */}
+                         
                         </>
                       ) : null}
                       {saveOpen ? (

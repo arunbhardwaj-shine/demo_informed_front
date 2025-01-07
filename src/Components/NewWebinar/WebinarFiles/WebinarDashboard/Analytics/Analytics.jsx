@@ -25,27 +25,11 @@ import { saveAs } from "file-saver";
 import { toast } from "react-toastify";
 import WebinarAnalyticCommonModal from "../../../../../Model/WebinarAnalyticCommonModal";
 import Highcharts from "highcharts";
-
-import exporting from "highcharts/modules/exporting";
-import exportData from "highcharts/modules/export-data";
-
 import HighchartsReact from "highcharts-react-official";
-import HighchartsMap from "highcharts/modules/map";
-
 import axios from "axios";
-import drilldown from "highcharts/modules/drilldown.js";
 import { useNavigate } from "react-router-dom";
 const path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
 
-// HighchartsMap(Highcharts);
-
-// Load Highcharts modules
-// require("highcharts/modules/map")(Highcharts);
-// require("highcharts/modules/exporting")(Highcharts);
-// exporting(Highcharts);
-// exportData(Highcharts);
-// drilldown(Highcharts);
-// customWrap(Highcharts);
 const customLoader = (functionName, e = null) => {
   if (e != null) {
     e.preventDefault();

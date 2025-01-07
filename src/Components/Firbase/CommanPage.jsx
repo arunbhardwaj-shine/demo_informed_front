@@ -1,8 +1,6 @@
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import { Tab, Tabs, TabList } from 'react-tabs';
 import React,{useEffect, useState} from "react"
 import 'react-tabs/style/react-tabs.css';
-import WebinarQuestion from './WebinarQuestion';
-import PollQuestion from './PollQuestion';
 import { useLocation,useNavigate,useSearchParams  } from 'react-router-dom';
 import { Col, Container } from 'react-bootstrap';
 const CommanPage = () =>{
@@ -19,7 +17,7 @@ const CommanPage = () =>{
 
     useEffect(()=>{
       const data =  constData.indexOf(location.pathname)
-      console.log("-data",searchParams.get('evnt'),searchParams.get('frame'))
+      // console.log("-data",searchParams.get('evnt'),searchParams.get('frame'))
       setQueryData(searchParams.get('evnt'))
       const showhead = searchParams.get('frame');
       let update = showhead?false:true;

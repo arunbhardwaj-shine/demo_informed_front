@@ -4,7 +4,6 @@ import {
   Accordion,
   Button,
   Col,
-  Form,
   OverlayTrigger,
   ProgressBar,
   Row,
@@ -26,8 +25,6 @@ import { toast } from "react-toastify";
 import { Spinner } from "react-activity";
 import { popup_alert } from "../../../popup_alert";
 import CommonConfirmModel from "../../../Model/CommonConfirmModel";
-import { Time } from "highcharts";
-import TimelineDetail from "../Timeline/TimelineDetail";
 import axios from "axios";
 let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
 
@@ -2908,81 +2905,7 @@ const NewReaders = () => {
                                     {isLikeRdAccount
                                       && change ? (
                                       <>
-                                        {/*console.log(
-                                        types.findIndex(
-                                          (el) =>
-                                          el.label.toLowerCase() == data?.user_status.toLowerCase()
-                                        ))*/}
-                                        {/*<li>
-                                          <h6 className="tab-content-title">
-                                            User Status
-                                          </h6>
-                                          <div className="select-dropdown-wrapper">
-                                            <div className="select">
-                                              <Select
-                                                options={types}
-                                                defaultValue={
-                                                  types[
-                                                    types.findIndex(
-                                                      (el) =>
-                                                        el.label.toLowerCase() ==
-                                                        data?.user_status?.toLowerCase()
-                                                    )
-                                                  ]
-                                                }
-                                                onChange={(event) =>
-                                                  onUserChange(event, data.id)
-                                                }
-                                                id={"user_type_" + data?.id}
-                                                className="dropdown-basic-button split-button-dropup"
-                                                isClearable
-                                              />
-                                            </div>
-                                          </div>
-                                        </li>
-
-                                        <li>
-                                          <h6 className="tab-content-title">
-                                            Blinded
-                                          </h6>
-                                          <div className="select-dropdown-wrapper">
-                                            <div className="select">
-                                              <Select
-
-                                              options={change?.blind_type}
-
-                                              value={
-                                                  changeBlindedType?.[
-                                                    changeBlindedType.findIndex(
-                                                      (el) =>
-                                                        el.index == data.id
-                                                    )
-                                                  ]?.value == "blinded"
-                                                    ? change?.blind_type[0]
-                                                    : changeBlindedType?.[
-                                                        changeBlindedType.findIndex(
-                                                          (el) =>
-                                                            el.index == data.id
-                                                        )
-                                                      ]?.value == "unblinded"
-                                                    ? change?.blind_type[1]
-                                                    : data?.binded === "Yes"
-                                                    ? change?.blind_type[0]
-                                                    : change?.blind_type[1]
-                                                }
-                                                onChange={(event) =>
-                                                  onBlindedChange(
-                                                    event,
-                                                    data.id
-                                                  )
-                                                }
-                                                id={"blinded_type" + data?.id}
-                                                className="dropdown-basic-button split-button-dropup"
-                                                isClearable
-                                              />
-                                            </div>
-                                          </div>
-                                        </li>*/}
+                                        
                                         <li>
                                           <h6 className="tab-content-title">
                                             Institution
@@ -3014,47 +2937,7 @@ const NewReaders = () => {
                                             </div>
                                           </div>
                                         </li>
-                                        {/* <li>
-                                          <h6 className="tab-content-title">
-                                            IRT mandatory training
-                                          </h6>
-                                          <div className="select-dropdown-wrapper">
-                                            <div className="select">
-                                              <Select
-                                                options={change?.irt}
-                                                value={
-                                                  changeIRTType?.[
-                                                    changeIRTType.findIndex(
-                                                      (el) =>
-                                                        el.index == data.id
-                                                    )
-                                                  ]?.value == 1
-                                                    ? change?.irt[0]
-                                                    : changeIRTType?.[
-                                                        changeIRTType.findIndex(
-                                                          (el) =>
-                                                            el.index == data.id
-                                                        )
-                                                      ]?.value == 0
-                                                    ? change?.irt[1]
-                                                    : data?.irt === "Yes"
-                                                    ? change?.irt[0]
-                                                    : change?.irt[1]
-                                                }
-                                                onChange={(event) => {
-                                                  onIrtChange(
-                                                    event,
-                                                    data.id,
-                                                    index
-                                                  );
-                                                }}
-                                                id={"irt_type" + data?.id}
-                                                className="dropdown-basic-button split-button-dropup"
-                                                isClearable
-                                              />
-                                            </div>
-                                          </div>
-                                        </li> */}
+                                        
                                         <li>
                                           <h6 className="tab-content-title">
                                             IRT role

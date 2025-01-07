@@ -3,7 +3,7 @@ import html2canvas from "html2canvas";
 import { Dropdown } from "react-bootstrap";
 import { loader } from '../../loader';
 import { ValidateIPaddress } from "./CommonFunctions/CommonFunction";
-// import { jsPDF } from 'jspdf'
+
 
 const SurveyAnalyticsFreeTextView = ({ index, item }) => {
     let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -62,22 +62,7 @@ const SurveyAnalyticsFreeTextView = ({ index, item }) => {
             const element = document.getElementById(`survey-question-listing-${index}`)
             if (!element) return;
 
-            // if (format.toLowerCase() === 'pdf') {
-            //     // For PDF format
-            //     const canvas = await html2canvas(element);
-            //     const imgData = canvas.toDataURL("image/png");
-
-            //     // Create a PDF using jsPDF
-            //     const pdf = new jsPDF();
-            //     // const imgWidth = 210; // A4 size width in mm
-            //     // const imgHeight = (canvas.height * imgWidth) / canvas.width; // Maintain aspect ratio
-
-            //     const imgWidth = canvas.width;
-            //     const imgHeight = canvas.height;
-
-            //     pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
-            //     pdf.save(`${defaultName}.pdf`);
-            // } else
+            
             if (format.toLowerCase() === 'svg') {
                 // For SVG format
                 const canvas = await html2canvas(element);

@@ -2,7 +2,6 @@ import React, { useRef } from 'react'
 import { Dropdown, ProgressBar } from 'react-bootstrap'
 import html2canvas from 'html2canvas';
 import { loader } from '../../loader';
-// import {jsPDF} from 'jspdf'
 
 const SurveyAnalyticsRatingView = ({ index, item, colors }) => {
     let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;

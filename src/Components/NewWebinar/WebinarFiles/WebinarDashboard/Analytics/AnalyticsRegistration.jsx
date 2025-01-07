@@ -6,8 +6,7 @@ import { ENDPOINT } from "../../../../../axios/apiConfig";
 import { useSidebar } from "../../../../CommonComponent/LoginLayout";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
-import { height } from "@amcharts/amcharts4/.internal/core/utils/Utils";
-import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 const AnalyticsRegistration = ({ dropdownClicked, setEventData }) => {
   const { eventIdContext, handleEventId } = useSidebar();

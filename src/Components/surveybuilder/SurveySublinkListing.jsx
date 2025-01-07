@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
-import { useLocation, Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { surveyAxiosInstance } from "./CommonFunctions/CommonFunction";
-import { loader } from "../../loader";
 import { toast } from "react-toastify";
 import {QRCodeSVG} from "qrcode.react";
 import { analyticButtonClicked } from "./CommonFunctions/CommonFunction";

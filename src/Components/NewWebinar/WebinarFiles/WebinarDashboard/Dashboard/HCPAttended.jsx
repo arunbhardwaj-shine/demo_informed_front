@@ -248,7 +248,7 @@ const HCPAttended = () => {
         series: updatedSeries,
       };
 
-      console.log(updatedOptions);
+      // console.log(updatedOptions);
       setOptions1(updatedOptions);
 
       const categories2 = Object.keys(data2).sort();
@@ -274,7 +274,7 @@ const HCPAttended = () => {
         series: updatedSeries,
       };
 
-      console.log(updatedOptions);
+      // console.log(updatedOptions);
       setOptions2(updatedOptions);
       loader("hide");
     } catch (error) {

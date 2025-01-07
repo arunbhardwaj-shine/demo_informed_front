@@ -1,5 +1,5 @@
 import moment from "moment";
-import React, { useEffect, useState } from "react";
+import React from "react";
 const TemplateOne = ({ children, formData }) => {
   const eventData = formData?.raw_description;
   let eventDataSample = formData?.content?.eventDetails;

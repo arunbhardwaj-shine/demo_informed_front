@@ -1,5 +1,5 @@
 export const SurveyFormValidations = (data) => {
-    console.log("data-->", data)
+    // console.log("data-->", data)
     let error = {}
     if (!data?.location) {
         error.city = "This field is required"

@@ -1,10 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Button, Col, Row } from "react-bootstrap";
 import { useSidebar } from "../../../../CommonComponent/LoginLayout";
-import Slider from "react-slick";
 import QuestionPollsPieChart from "../LiveStream/QuestionPollsPieChart";
 import { loader } from "../../../../../loader";
-import { toast } from "react-toastify";
 import { saveAs } from "file-saver";
 import { postData,postFormData } from "../../../../../axios/apiHelper";
 import { ENDPOINT } from "../../../../../axios/apiConfig";

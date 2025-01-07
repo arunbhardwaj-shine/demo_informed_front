@@ -196,27 +196,6 @@ const Invitees = () => {
     navigate("/webinar/email");
   }
 
-  // const userBlockedClicked = async (e, user, index) => {
-  //   setConfirmationPopup(false);
-  //   try {
-  //     loader("show")
-  //     setActionType("block");
-  //     setConfirmationPopup(true)
-  //     let data = {
-  //       "eventId": eventId, "user_id": user?.user_id, "is_blocked": user?.is_blocked == 0 ? 1 : 0
-  //     }
-  //     const response = await postData(ENDPOINT.WEBINAR_BLOCK_UNBLOCK_USER, data)
-  //     let updateUserData = JSON.parse(JSON.stringify([...userData]))
-  //     let updateUser = { ...updateUserData[index] }
-  //     updateUser.is_blocked = user?.is_blocked == 0 ? 1 : 0
-  //     updateUserData[index] = updateUser
-  //     setUserData(updateUserData)
-  //   } catch (err) {
-  //     console.log("--err", err)
-  //   } finally {
-  //     loader("hide")
-  //   }
-  // }
 
   const userBlockedClicked = async (id) => {
     setConfirmationPopup(false);
@@ -341,7 +320,7 @@ const Invitees = () => {
         responseType: "blob",
       });
 
-      console.log("Response:", res);
+      // console.log("Response:", res);
       let eventName = localStorage.getItem('EventIdContext')
       if (eventName) {
         eventName = JSON.parse(eventName)
@@ -1045,19 +1024,6 @@ const Invitees = () => {
         </div>
 
       </Col>
-      {/* <CommonConfirmModel
-        show={confirmationpopup}
-        onClose={setConfirmationPopup}
-        onCloseCross={() => setConfirmationPopup(false)}
-        fun={handleConfirmModel}
-        resetDataId={clickUserId}
-        popupMessage={{
-          message1: "The deleted user will no longer have access <br> to <b>selected event</b>",
-          message3: "Are you sure you want to delete it?",
-          footerButton: " Yes please!",
-        }}
-        path_image={path_image}
-      /> */}
 
 <CommonConfirmModel
   show={confirmationpopup}

@@ -2181,66 +2181,6 @@ const WebinarAutoEmail = () => {
                               deletestatus={0}
                               viewSmartListData={viewSmartListData}
                             />
-
-                            {/* <div className="mailbox-table">
-                              <table>
-                                <tbody>
-                                  <tr>
-                                    <th>Contact type</th>
-                                    <td>{data.contact_type}</td>
-                                  </tr>
-                                  <tr>
-                                    <th>Speciality</th>
-                                    <td>{data.speciality}</td>
-                                  </tr>
-                                  <tr>
-                                    <th>Readers</th>
-                                    <td>{data.reader_selection}</td>
-                                  </tr>
-                                  <tr>
-                                    <th>IBU</th>
-                                    <td>{data.ibu}</td>
-                                  </tr>
-                                  <tr>
-                                    <th>Product</th>
-                                    <td>{data.product}</td>
-                                  </tr>
-                                  <tr>
-                                    <th>Country</th>
-                                    <td>{data.country}</td>
-                                  </tr>
-                                  <tr>
-                                    <th>Registered</th>
-                                    <td>{data.registered}</td>
-                                  </tr>
-                                  <tr>
-                                    <th>Created by</th>
-                                    <td>
-                                      <span>{data.creator}</span>
-                                    </td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                            </div> */}
-
-                            {/* <div className="mail-time">
-                              <span>{data.created_at}</span>
-                            </div>
-                            <div className="smart-list-added-user">
-                              <img
-                                src={path_image + "smartlist-user.svg"}
-                                alt="User icon"
-                              />
-                              {data.readers_count}
-                            </div> */}
-
-                            {/*<div className="smartlist-buttons">
-                                <button className="btn btn-primary btn-bordered view">
-                                  <a onClick={() => openSmartListPopup(data.id)}>
-                                    View
-                                  </a>
-                                </button>
-                              </div>*/}
                           </div>
                         </div>
                       </div>

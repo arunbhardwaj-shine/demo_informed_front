@@ -10,18 +10,8 @@ import DatePicker from "react-datepicker";
 import CommonModel from "../../../Model/CommonModel";
 import { popup_alert } from "../../../popup_alert";
 import "react-datepicker/dist/react-datepicker.css";
-import { type } from "@amcharts/amcharts4/core";
 import modelValidation from "../../../Model/ModelValidation";
-// import {
-//   Accordion,
-//   Col,
-//   Row,
-//   Modal,
-//   Tab,
-//   Tabs,
-//   ProgressBar,
-//   Button,
-// } from "react-bootstrap";
+
 
 const MarketingTimeLineDetail = (props) => {
   const [logs, setLogs] = useState([]);

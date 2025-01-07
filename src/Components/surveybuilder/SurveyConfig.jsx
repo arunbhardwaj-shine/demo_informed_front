@@ -165,35 +165,7 @@ const SurveyConfig = (props) => {
       </OverlayTrigger>
     );
 }
-//   const handleDropdownchange=(e,selectType)=>{
-// console.log(e)
-//     if(selectType === "informed Email"){
-//       if(e.value === 1){
-//         setFormData((prevData) => ({
-//           ...prevData,
-//           informedEmail: e.value,
-//         }));
-//       }else{
-//         setFormData((prevData) => ({
-//           ...prevData,
-//           informedEmail: 0,
-//         }));
-//       }
-//     }else{
-//       if(e.value === 1){
-//         setFormData((prevData) => ({
-//           ...prevData,
-//           informedGo: e.value,
-//         }));
-//       }else{
-//         setFormData((prevData) => ({
-//           ...prevData,
-//           informedGo: 0,
-//         }));
-//       }
-//     }
 
-//   }
 
 const handleDropdownchange=(e,selectType)=>{
  
@@ -629,47 +601,7 @@ const handleDropdownchange=(e,selectType)=>{
                   </Row>
                 </div>
                 <div className="preview-survey">
-                  {/* <div className="informed-survey">
-                                        <div className="informed-survey-header">
-                                            <img src={path_image + "informed_logo.svg"} alt="" />
-                                            <h2>Headline Lorem ipsum dolorsit amet consectetur Orci</h2>
-                                        </div>
-                                        <div className="informed-survey-body">
-                                            <div className="informed-survey-text">
-                                                <p>Welcome to our survey! Your opinions matter. Help us improve by sharing your thoughts on [topic]. Your honest responses are invaluable. Thank you for your time!</p>
-                                            </div>
-                                            <div className="informed-survey-question">
-                                                <form>
-                                                    <p>
-                                                        How is the weather today?
-                                                    </p>
-                                                    <label className="check">Sunny
-                                                        <input type="radio" name="radio" />
-                                                        <span className="checkmark"></span>
-                                                    </label>
-
-                                                    <label className="check">Rainy
-                                                        <input type="radio" name="radio" />
-                                                        <span className="checkmark"></span>
-                                                    </label>
-
-                                                    <label className="check">Snowy
-                                                        <input type="radio" name="radio" />
-                                                        <span className="checkmark"></span>
-                                                    </label>
-
-                                                    <label className="check">Cloudy
-                                                        <input type="radio" name="radio" />
-                                                        <span className="checkmark"></span>
-                                                    </label>
-                                                    <div className="form-footer">
-                                                        <button type="button">Submit</button>
-                                                        <span>Lorem ipsum dolor sit amet consectetur 2024</span>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div> */}
+                  
                   <div className="survey-config d-flex align-items-start">
                     <div className="survey-config-img">
                       {formData?.selectedThumbnailFilePath ? (

@@ -4,11 +4,9 @@ import { toast } from "react-toastify";
 import { loader } from "../../loader";
 import { Link, useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import ReactDataGrid from "@inovua/reactdatagrid-community";
+
 import "@inovua/reactdatagrid-community/index.css";
-import { popup_alert } from "../../popup_alert";
-import { ENDPOINT } from "../../axios/apiConfig";
-import { postData } from "../../axios/apiHelper"
+
 
 const GetMedpakDetails = () => {
     let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;

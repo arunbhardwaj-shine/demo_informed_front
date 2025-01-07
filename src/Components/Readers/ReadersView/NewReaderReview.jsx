@@ -1823,7 +1823,7 @@ const NewReadersReview = (props) => {
             loader("hide");
             toast.error("Something went wrong");
           });
-          console.log(irtRoleObj,'irtRoleObj')
+          // console.log(irtRoleObj,'irtRoleObj')
         navigate("/VerifyHcpMAIL", {
           state: { IrtObj: irtRoleObj, NextFlag: 1 },
         });

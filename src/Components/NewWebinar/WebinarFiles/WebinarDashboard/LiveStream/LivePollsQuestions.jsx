@@ -568,45 +568,7 @@ if(currentQuestion.current && (currentIndexRef.current?.showQuestionToUser!=2 ||
                                   ) : (
                                     <>
                                       {
-                                        // item?.pollAnswers?.length ?
-                                        //     item?.pollAnswers?.map((answer, i) => {
-                                        //         return (<>
-                                        //             <div className='answer' key={i}>
-                                        //                 <span>{String.fromCharCode(65 + i)}.</span>
-                                        //                 <div dangerouslySetInnerHTML={{ __html: answer?.name }}></div>
-
-                                        //             </div>
-                                        //         </>)
-                                        //     })
-                                        // :
-                                        // item?.allUserAnswers?.length
-                                        //   ? item?.allUserAnswers?.map(
-                                        //       (answer, i) => {
-                                        //         return (
-                                        //           <>
-                                        //             <div
-                                        //               className="answer"
-                                        //               key={i}
-                                        //             >
-                                        //               <span>
-                                        //                 {String.fromCharCode(
-                                        //                   65 + i
-                                        //                 )}
-                                        //                 .
-                                        //               </span>
-                                        //               <div
-                                        //                 dangerouslySetInnerHTML={{
-                                        //                   __html: answer,
-                                        //                 }}
-                                        //               ></div>
-                                                      
-                                        //             </div>
-                                        //           </>
-                                        //         );
-                                        //       }
-                                        //     )
-                                        //   : null
-
+                                        
 
 
                                         item?.allUserAnswers?.length
@@ -644,18 +606,7 @@ if(currentQuestion.current && (currentIndexRef.current?.showQuestionToUser!=2 ||
                                 </div>
                               )}        
 
-                              {/* {item?.totalSubquestion &&
-                                item?.totalSubquestion?.length > 0 && (
-                                  <button
-                                    type="button"
-                                    className="btn btn-info answermodel"
-                                    onClick={(e) =>
-                                      displayPopup(item?.questionId, e)
-                                    }
-                                  >
-                                    See Comments
-                                  </button>
-                                )} */}
+                              
                               
                               {
                                 item?.userComments?.every(

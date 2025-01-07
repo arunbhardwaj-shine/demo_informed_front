@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Col } from "react-bootstrap";
 import { postData } from "../../../../../axios/apiHelper";
 import { loader } from "../../../../../loader";
 import { ENDPOINT } from "../../../../../axios/apiConfig";
 import { useSidebar } from "../../../../CommonComponent/LoginLayout";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
-import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 const AnalyticsOverview = ({dropdownClicked,setEventData}) => {
   const path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;

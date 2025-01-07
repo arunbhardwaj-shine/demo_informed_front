@@ -951,7 +951,7 @@ const EventCreate = () => {
         </div>
       </Modal>
 
-      {console.log(isOpen)}
+      {/* {console.log(isOpen)} */}
       <Modal show={isOpen} className="send-confirm" id="resend-confirm">
         <Modal.Header>
           <button

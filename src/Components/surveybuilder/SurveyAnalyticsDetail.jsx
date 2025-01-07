@@ -1,12 +1,10 @@
 import React, { useEffect, useState, useRef } from "react";
-import { Accordion, Button, Col, Dropdown, Row, Table } from "react-bootstrap";
+import { Accordion,  Col, Dropdown, Row, Table } from "react-bootstrap";
 import { useLocation, Link } from "react-router-dom";
 import { surveyAxiosInstance } from "./CommonFunctions/CommonFunction";
 import { loader } from "../../loader";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
-import exporting from "highcharts/modules/exporting";
-import exportData from "highcharts/modules/export-data";
 import moment from "moment";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
@@ -17,15 +15,13 @@ import SurveyAnalyticsFreeTextView from "./SurveyAnalyticsFreeTextView";
 import SurveyAnalyticsRatingView from "./SurveyAnalyticsRatingView";
 import CommonSurveyStarRating from "./CommonSurveyStarRating";
 import html2canvas from "html2canvas";
-import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { ValidateIPaddress } from "./CommonFunctions/CommonFunction";
 import { countryRegionArray } from "./surveyObjects/SurveyRegion";
 import { surveyEndpoints } from "./SurveyEndpoints/SurveyEndpoints";
 import SurveyExport from "./CommonFunctions/downloadExcelSheet/downloadExcelSheet";
 
-// exporting(Highcharts);
-// exportData(Highcharts);
 const SurveyAnalyticsDetail = () => {
   const {
     QNS_ANALYTICS,

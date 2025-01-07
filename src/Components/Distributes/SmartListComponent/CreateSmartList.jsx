@@ -1,10 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
-import { Link, NavigationType } from "react-router-dom";
-import Table from "./Table";
 import { useNavigate } from "react-router-dom";
-
-import { Button, Modal } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 import SimpleReactValidator from "simple-react-validator";
 import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -12,9 +9,7 @@ import { loader } from "../../../loader";
 import { popup_alert } from "../../../popup_alert";
 import * as XLSX from "xlsx";
 import Select from "react-select";
-
 import { CircularProgressbar } from "react-circular-progressbar";
-import { buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 
 const CreateSmartList = () => {
@@ -187,7 +182,7 @@ const CreateSmartList = () => {
         });
       }
     } else {
-      console.log("show error messages");
+      // console.log("show error messages");
       console.log(validator.errorMessages);
       validator.showMessages();
       setRenderValidation(rendervalidation + 1);
@@ -258,7 +253,7 @@ const CreateSmartList = () => {
                 allids: res.data.response.newData,
               },
             });
-            console.log(uploadOrDownloadCount);
+            // console.log(uploadOrDownloadCount);
             setShowProgressBar(false);
             setapi_flag(api_flag + 1);
           }, 1000);

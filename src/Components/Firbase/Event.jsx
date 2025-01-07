@@ -1,9 +1,8 @@
 import { collection, query, where, onSnapshot } from "firebase/firestore";
 import { useEffect, useState } from "react";
-import { useLocation, useParams, useSearchParams } from "react-router-dom";
+import { useLocation, useSearchParams } from "react-router-dom";
 import { postData, getData } from "../../axios/apiHelper";
 import { ENDPOINT } from "../../axios/apiConfig";
-import EventModel from "../../Model/EventModel";
 import SessionModel from "../../Model/SessionModel";
 import Cookies from "js-cookie";
 import DisplayAnswer from "../../Model/DisplayAnswer";
@@ -11,11 +10,8 @@ import "./custom.css";
 import { loader } from "../../loader";
 import "./style.css";
 import { v4 as uuid } from "uuid";
-import dynamicEventData from "../NewWebinar/WebinarFiles/WebinarDashboard/ChatLinkPage/events.json";
-
-import axios from "axios";
 import { db } from "../../config/firebaseConfig";
-import { Button, Modal } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import CommonPageLinkNotFound from "../CommonComponent/CommonPageLinkNotFound";
 let path = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -67,7 +63,7 @@ const Event = () => {
       loader("show");
       const response = await getData(`${ENDPOINT.GETCHATLINKDATA}/${parms}`);
       const { chatLinkData } = response?.data?.data;
-      console.log(response?.data?.data, "data");
+      // console.log(response?.data?.data, "data");
 
       if (chatLinkData && Object.keys(chatLinkData).length !== 0) {
         setDynamicContent(chatLinkData);

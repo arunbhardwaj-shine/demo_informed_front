@@ -5,7 +5,6 @@ import {
   Dropdown,
   Modal,
   DropdownButton,
-  Form,
   Row,
   ProgressBar,
   Tab,
@@ -341,14 +340,6 @@ const LicenseSublink = () => {
                 </Link>
                 <h2>New SubLink</h2>
               </div>
-              {/* <div className="header-btn">
-                <Button
-                  className="btn-bordered cancel"
-                  onClick={() => navigate("/license-create")}
-                >
-                  Close
-                </Button>
-              </div> */}
             </div>
             <div className="create-change-content spc-content">
               <div className="form_action">

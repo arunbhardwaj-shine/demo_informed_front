@@ -185,54 +185,7 @@ if(customAnswer == 1 || graphType === 'bar'){
 }
 
 
-// const [highchartData, setHighChartData] = useState(chartOptions);
-// useEffect(() => {
-//   const seriesData = sampleData.data.map((question) => ({
-//     name: question.name,
-//     y: question.y,
-//     drilldown: question.drilldown,
-//     color: question.y === 2 ? "#00FF00" : "#FF0000", // Define colors based on your logic
-//   }));
-//   const drilldownData = sampleData.data.map((question) => ({
-//     id: question.drilldown,
-//     data: question.drillDownData.map((answer) => [answer.name, answer.total]),
-//   }));
-//   console.log(seriesData);
 
-//   const chartOptions = {
-//     chart: {
-//       type: "pie",
-//     },
-//     title: {
-//       text: "Your Chart Title",
-//     },
-//     plotOptions: {
-//       pie: {
-//         allowPointSelect: true,
-//         cursor: "pointer",
-//         dataLabels: {
-//           enabled: true,
-//           format: "<b>{point.name}</b>: {point.percentage:.1f} %",
-//         },
-//         showInLegend: true,
-//       },
-//     },
-//     series: [
-//       {
-//         name: "Questions",
-//         colorByPoint: true,
-//         data: seriesData,
-//       },
-//     ],
-//     drilldown: {
-//       series: drilldownData,
-//     },
-//   };
-
- 
-//   setHighChartData(chartOptions);
-// }, [sampleData]);
-//  console.log(highchartData);
 
   Highcharts.setOptions({
     colors: ["#FFCACD", "#39CABC"],
