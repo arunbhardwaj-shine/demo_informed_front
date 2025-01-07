@@ -648,12 +648,22 @@ const [apiCallStatus,setApiCallStatus]=useState(false)
   //   // return utcDateTime.replace(/T/, ' ').replace(/\..+/, '');
   // }
 
+  const timezoneMapping = {
+    ACST: 'Australia/Adelaide', // Map ACST to a valid IANA timezone
+    AEST: 'Australia/Sydney',   // Example for AEST
+    // Add more mappings as needed
+  };
+  
   const getEventTime = (timeZone) => {
     const utcDateTime = new Date().toISOString();
+  
     try {
-      if (timeZone !== null) {
+      // Map abbreviations to IANA timezones
+      const ianaTimeZone = timezoneMapping[timeZone] || timeZone;
+  
+      if (ianaTimeZone !== null) {
         const options = {
-          timeZone: timeZone,
+          timeZone: ianaTimeZone,
           year: 'numeric',
           month: '2-digit',
           day: '2-digit',
@@ -662,11 +672,11 @@ const [apiCallStatus,setApiCallStatus]=useState(false)
           second: '2-digit',
           hour12: false,
         };
-
+  
         const localDateTime = new Intl.DateTimeFormat('en-US', options).format(
           new Date(utcDateTime)
         );
-
+  
         const adjustedLocalDateTime = localDateTime.replace(
           /(\d{2}:\d{2}:\d{2})/,
           (_, time) => {
@@ -681,7 +691,7 @@ const [apiCallStatus,setApiCallStatus]=useState(false)
     } catch (error) {
       console.error('Invalid time zone specified:', timeZone);
     }
-
+  
     const londonOptions = {
       timeZone: 'Europe/London',
       year: 'numeric',
@@ -692,11 +702,11 @@ const [apiCallStatus,setApiCallStatus]=useState(false)
       second: '2-digit',
       hour12: false,
     };
-
+  
     const localDateTime = new Intl.DateTimeFormat('en-US', londonOptions).format(
       new Date(utcDateTime)
     );
-
+  
     const adjustedLocalDateTime = localDateTime.replace(
       /(\d{2}:\d{2}:\d{2})/,
       (_, time) => {
@@ -707,9 +717,8 @@ const [apiCallStatus,setApiCallStatus]=useState(false)
       }
     );
     return adjustedLocalDateTime.replace(/, /, ' ');
-
-    // return utcDateTime.replace(/T/, ' ').replace(/\..+/, '');
-  }
+  };
+  
 
   const handleCardClick = (item) => {
     handleEventId({ eventId: item?.id, companyId: item?.user_id, eventCode: item?.event_code, eventTitle: item?.title,eventStatus:item?.eventStatus,isOneSourceEvent:item?.is_onesource_event
