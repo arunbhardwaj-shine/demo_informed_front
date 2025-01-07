@@ -141,11 +141,29 @@ const AllEvents = () => {
   };
 
   const getEventTime = (timeZone) => {
+   
+
     const utcDateTime = new Date().toISOString();
+  const timeZoneMap = {
+    CEST: 'Europe/Paris',
+    EEST: 'Europe/Helsinki',
+    CDT: 'America/Chicago',
+    ET: 'America/New_York',
+    SGT: 'Asia/Singapore',
+    SAST: 'Africa/Johannesburg',
+    ICT: 'Asia/Bangkok',
+    EDT: 'America/New_York',
+  };
+
+  const mappedTimeZone = timeZoneMap[timeZone] || timeZone;
+
+
+
+
     try {
       if (timeZone !== null) {
         const options = {
-          timeZone: timeZone,
+          timeZone: mappedTimeZone,
           year: 'numeric',
           month: '2-digit',
           day: '2-digit',
@@ -366,7 +384,7 @@ const AllEvents = () => {
 
                                 </tr>                              
                                 <tr className="blank">
-                                  <td colspan="8" style={{ height: "10px;" }}>
+                                  <td colSpan="8" style={{ height: "10px" }}>
                                     &nbsp;
                                   </td>
                                 </tr>

@@ -290,7 +290,7 @@ const handleDropdownchange=(e,selectType)=>{
                                   ></input>
                                   <label
                                     tabIndex="0"
-                                    for="my-file"
+                                    htmlFor="my-file"
                                     className="input-file-trigger"
                                   >
                                     {formData?.selectedThumbnailFilePath

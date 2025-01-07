@@ -1133,15 +1133,15 @@ const getExistingVideos=async ()=>{
                 <div className="form-check-group">
                   <div className="form-check-group-inset">
                     {userDetail?.reseller?.length ? (
-                      userDetail?.reseller?.map((item) => {
+                      userDetail?.reseller?.map((item,index) => {
                         return (
-                          <div className="form-check">
+                          <div className="form-check" key={index}>
                             <input
                               className="form-check-input"
                               value=""
                               id="flexCheckDefault"
                               type="checkbox"
-                              defaultChecked={reseller.includes(item?.id)}
+                              defaultChecked={reseller.includes(item?.id) || ""}
                               onClick={(e) => handleReseller(e, item)}
                             />
                             <label
@@ -2895,11 +2895,11 @@ const getExistingVideos=async ()=>{
             <h6>Select Topic :</h6>
             <div className="tag-lists">
               <div className="tag-lists-view">
-                {Object.values(allTags).map((data) => {
+                {Object.values(allTags).map((data,index) => {
                   return (
-                    <>
+                    <React.Fragment key={index}>
                       <div onClick={(event) => tagClicked(data)}>{data} </div>
-                    </>
+                    </React.Fragment>
                   );
                 })}
               </div>
@@ -2913,7 +2913,7 @@ const getExistingVideos=async ()=>{
             <div className="total-selected">
               {tagClickedFirst.map((data, index) => {
                 return (
-                  <>
+                  <React.Fragment key={index}>
                     <div className="tag-cross">
                       {data.innerHTML || data}
                       <img
@@ -2922,7 +2922,7 @@ const getExistingVideos=async ()=>{
                         onClick={() => removeTagFinal(index, "remove")}
                       />
                     </div>
-                  </>
+                  </React.Fragment>
                 );
               })}
             </div>

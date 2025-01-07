@@ -4264,7 +4264,7 @@ const Sidebar = () => {
                         <p>
                           <span>
                             After filtering you can undo a filter by clicking
-                            the purple <d>x</d> for each filter criteria (it
+                            the purple <b>x</b> for each filter criteria (it
                             re-filters then).
                           </span>
                         </p>
@@ -4591,7 +4591,7 @@ const Sidebar = () => {
                         <p>
                           <span>
                             After filtering you can undo a filter by clicking
-                            the purple <d>x</d> for each filter criteria (it
+                            the purple <b>x</b> for each filter criteria (it
                             re-filters then).
                           </span>
                         </p>
@@ -4887,7 +4887,7 @@ const Sidebar = () => {
                       <p>
                         <span>
                           After filtering you can undo a filter by clicking the
-                          purple <d>x</d> for each filter criteria (it
+                          purple <b>x</b> for each filter criteria (it
                           re-filters then).
                         </span>
                       </p>

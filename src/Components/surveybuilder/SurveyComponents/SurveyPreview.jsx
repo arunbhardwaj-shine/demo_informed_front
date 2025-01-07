@@ -10,15 +10,12 @@ import { saveAsDraft } from "../CommonFunctions/CommonFunction";
 import { Modal } from "react-bootstrap";
 import { surveyEndpoints } from "../SurveyEndpoints/SurveyEndpoints";
 import {
-  emptySurveyReduxStates,
-  toggleEditMode,
   updateCurrentElementIndex,
   addElement,
   copyElement,
   setCurrentElementIndex,
   toggleAddClicked,
   deleteElement,
-  swapElements,
   addResQuestions,
 } from "../../../actions/surveyActions";
 import { getSurveyData } from "../../../actions";
@@ -27,8 +24,7 @@ import RenderOptions from "./RenderOptions";
 import { connect } from "react-redux";
 import { loader } from "../../../loader";
 import { useNavigate } from "react-router-dom";
-import { color } from "highcharts";
-import { updateLiveFlag } from "../CommonFunctions/CommonFunction";
+  
 
 var surveyValues = {};
 

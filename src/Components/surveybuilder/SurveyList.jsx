@@ -10,11 +10,8 @@ import {
   Form,
   Modal,
 } from "react-bootstrap";
-
-
 import { analyticButtonClicked } from "./CommonFunctions/CommonFunction";
 import { SublinkHandler } from "./CommonFunctions/CommonFunction";
-
 import { format } from "date-fns";
 import { connect } from "react-redux";
 import { getSurveyData } from "../../actions";
@@ -27,7 +24,7 @@ import { emptySurveyReduxStates } from "../../actions/surveyActions";
 import { useDispatch } from "react-redux";
 import { popup_alert } from "../../popup_alert";
 import { updateLiveFlag } from "./CommonFunctions/CommonFunction";
-import {QRCodeSVG} from "qrcode.react";
+import {QRCodeCanvas} from "qrcode.react";
 import { Spinner } from "react-activity";
 import { surveyEndpoints } from "./SurveyEndpoints/SurveyEndpoints";
 import { updateCurrentStep } from "../../actions/surveyStepAction";
@@ -52,16 +49,10 @@ const SurveyList = (props) => {
   // const filterdata = [];
   const [showfilter, setShowFilter] = useState(false);
   const [deletestatus, setDeleteStatus] = useState(false);
-  const [filtercampaign, setFilterCampaigns] = useState([]);
-  const [filterrole, setFilterRole] = useState([]);
-  const [filtertags, setFilterTags] = useState([]);
-  const [filtercreator, setFilterCreators] = useState([]);
-  const [filterdate, setFilterDate] = useState([]);
   const [updateflag, setUpdateFlag] = useState([]);
   const [filterapplied, setFilterApply] = useState(false);
   const [search, setSearch] = useState("");
   const [submiHandle, setSubmiHandle] = useState("");
-  const [SendListData, setSendListData] = useState([]);
   const [filter, setFilter] = useState({});
   const [confirmationpopup, setConfirmationPopup] = useState(false);
   const [deletecardid, setDeleteCardId] = useState();
@@ -70,7 +61,6 @@ const SurveyList = (props) => {
   const [isChecked, setIsChecked] = useState(true);
   const dispatch = useDispatch();
   const [qrState, setQr] = useState({ value: "" });
-  const [duplicateCounter, setDuplicateCounter] = useState(0);
   const [apiStatus, setApiStatus] = useState(false);
   const [sectionLoaderIndex, setSectionLoaderIndex] = useState();
 
@@ -284,24 +274,42 @@ const SurveyList = (props) => {
   };
 
   const downloadQRCode = () => {
-    // Generate download with use canvas and stream
+    // // Generate download with use canvas and stream
+    // const canvas = document.getElementById("qr-gen");
+    // const pngUrl = canvas
+    //   .toDataURL("image/png")
+    //   .replace("image/png", "image/octet-stream");
+    // let downloadLink = document.createElement("a");
+    // downloadLink.href = pngUrl;
+    // downloadLink.download = `QR-code.png`;
+    // document.body.appendChild(downloadLink);
+    // downloadLink.click();
+    // document.body.removeChild(downloadLink);
+
     const canvas = document.getElementById("qr-gen");
-    const pngUrl = canvas
-      .toDataURL("image/png")
-      .replace("image/png", "image/octet-stream");
-    let downloadLink = document.createElement("a");
-    downloadLink.href = pngUrl;
-    downloadLink.download = `QR-code.png`;
-    document.body.appendChild(downloadLink);
-    downloadLink.click();
-    document.body.removeChild(downloadLink);
+    if (canvas) {
+      const pngUrl = canvas
+        .toDataURL("image/png")
+        .replace("image/png", "image/octet-stream");
+      const downloadLink = document.createElement("a");
+      downloadLink.href = pngUrl;
+      downloadLink.download = `QR-code.png`;
+      document.body.appendChild(downloadLink);
+      downloadLink.click();
+      document.body.removeChild(downloadLink);
+    } else {
+      console.error("Canvas element not found");
+    }
+
+
+
   };
 
-  const [selectedSublinkId, setSelectedSublinkId] = useState();
+  // const [selectedSublinkId, setSelectedSublinkId] = useState();
 
-  const onSublinkChange = (selectedOption) => {
-    setSelectedSublinkId(selectedOption ? selectedOption.value : null);
-  };
+  // const onSublinkChange = (selectedOption) => {
+  //   setSelectedSublinkId(selectedOption ? selectedOption.value : null);
+  // };
 
   const handleLiveToogle = async (e, survey_id) => {
     e.preventDefault();
@@ -594,9 +602,7 @@ const SurveyList = (props) => {
 
     if (e?.target?.checked == true) {
       if (
-        // key == "training_status_code" ||
-        // key == "user_type" ||
-        // key == "site_number"
+      
         key == "Radio"
       ) {
         newObj[key] = [];
@@ -610,11 +616,7 @@ const SurveyList = (props) => {
         } else {
           newObj[key]?.push(item);
           otherObj[key]?.push(item);
-
-          // if (data?.length - 1 == newObj[key]?.length) {
-          //   newObj[key]?.push("All");
-          //   otherObj[key]?.push(item);
-          // }
+ 
         }
       }
     } else {
@@ -1649,7 +1651,7 @@ const SurveyList = (props) => {
         </div>
       </Col>
 
-      <QRCodeSVG
+      <QRCodeCanvas
         style={{ display: "none" }}
         id="qr-gen"
         value={qrState?.value}

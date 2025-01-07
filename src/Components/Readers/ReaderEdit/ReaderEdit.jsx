@@ -1048,7 +1048,7 @@ const ReaderEdit = () => {
                                 : "form-control"
                             }
                             name="firstName"
-                            defaultValue={userInputs?.firstName}
+                            defaultValue={userInputs?.firstName || ""}
                             ref={nameRef}
                             placeholder="First name"
                             onInput={(e) => handleChange(e)}
@@ -1068,7 +1068,7 @@ const ReaderEdit = () => {
                             type="text"
                             className="form-control"
                             name="middleName"
-                            defaultValue={userInputs?.middleName}
+                            defaultValue={userInputs?.middleName || ""}
                             placeholder="Middle name"
                             onChange={(e) => handleChange(e)}
                           />
@@ -1086,7 +1086,7 @@ const ReaderEdit = () => {
                                 : "form-control"
                             }
                             name="lastName"
-                            value={userInputs?.lastName}
+                            value={userInputs?.lastName || ""}
                             placeholder="Last name"
                             onChange={(e) => handleChange(e)}
                           />
@@ -1113,7 +1113,7 @@ const ReaderEdit = () => {
                             placeholder="example@email.com"
                             name="email"
                             ref={emailRef}
-                            defaultValue={userInputs?.email}
+                            defaultValue={userInputs?.email || ""}
                             onInput={(e) => handleChange(e)}
                           />
                           {error?.email ? (
@@ -1140,7 +1140,7 @@ const ReaderEdit = () => {
                             className="form-control"
                             placeholder="example@email.com"
                             name="alternativeEmail"
-                            defaultValue={userInputs?.alternativeEmail}
+                            defaultValue={userInputs?.alternativeEmail || ""}
                             onChange={(e) => handleChange(e)}
                           />
                         </Form.Group>
@@ -1179,7 +1179,7 @@ const ReaderEdit = () => {
                             name="primary_phone"
                             defaultValue={userInputs?.primary_phone?.substring(
                               userInputs?.primary_phone?.indexOf("/") + 1
-                            )}
+                            ) || "" }
                             placeholder="Phone number"
                             onChange={(e) => handleChange(e)}
                           />
@@ -1197,7 +1197,7 @@ const ReaderEdit = () => {
                             type="number"
                             className="form-control"
                             name="alternativePhone"
-                            defaultValue={userInputs?.alternativePhone}
+                            defaultValue={userInputs?.alternativePhone ||""}
                             placeholder="Altername Phone number"
                             onChange={(e) => handleChange(e)}
                           />
@@ -1426,7 +1426,7 @@ const ReaderEdit = () => {
                                 type="text"
                                 className="form-control"
                                 name="title"
-                                defaultValue={userInputs?.title}
+                                defaultValue={userInputs?.title || ""}
                                 placeholder="Title "
                                 onChange={(e) => handleChange(e)}
                               />
@@ -1574,7 +1574,7 @@ const ReaderEdit = () => {
                               <Form.Label htmlFor="">Rep contact</Form.Label>
                               <input
                                 type="text"
-                                defaultValue={userInputs?.repContact}
+                                defaultValue={userInputs?.repContact || ""}
                                 name="repContact"
                                 placeholder="Who is internal contact?"
                                 className="form-control"

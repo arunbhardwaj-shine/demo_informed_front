@@ -2250,7 +2250,7 @@ const NewReaders = () => {
                                           }
                                           id={item}
                                           rt={index}
-                                          b
+                                          //b
                                         >
                                           {key == "draft" && item == "0"
                                             ? "live"

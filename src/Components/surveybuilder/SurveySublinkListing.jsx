@@ -3,7 +3,7 @@ import { Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { surveyAxiosInstance } from "./CommonFunctions/CommonFunction";
 import { toast } from "react-toastify";
-import {QRCodeSVG} from "qrcode.react";
+import {QRCodeCanvas} from "qrcode.react";
 import { analyticButtonClicked } from "./CommonFunctions/CommonFunction";
 import { surveyEndpoints } from "./SurveyEndpoints/SurveyEndpoints";
  
@@ -147,15 +147,10 @@ const navigate=useNavigate();
                         Analytics
                       </Button>
 
-                      {/* <Link
-                        className="btn-bordered"
-                        to="/survey/survey-analytics"
-                      >
-                        Analytics
-                      </Link> */}
+                       
                     </div>
                   </div>
-                  <QRCodeSVG
+                  <QRCodeCanvas
                     style={{ display: "none" }}
                     id="qr-gen"
                     value={qrState?.value}

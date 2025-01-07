@@ -954,7 +954,7 @@ const LibraryEditListing = () => {
                 {libraryData?.length || updateflag ? (
                   libraryData?.map((data, index) => {
                     return (
-                      <>
+                      <React.Fragment key={index}>
                         <div className="doc-content-main-box col" >
                         <div className="doc-content-header">
                             <div className="doc-content-header-logo">
@@ -2137,7 +2137,7 @@ const LibraryEditListing = () => {
                             </Tabs>
                           </div>
                         </div>
-                      </>
+                      </React.Fragment>
                     );
                   })
                 ) : apiCallStatus ? (

@@ -2460,7 +2460,7 @@ const TimelineDetail = (props) => {
                           <div className="timeline-right-list-view">
                             {timeLineData?.timeline.map((details, index) => {
                               return (
-                                <>
+                                <React.Fragment key={index}>
                                   {(details.action == "Article opened" || details.action == "Article browsed") && (
                                     <div className="timeline-box">
                                       <div className="timeline_date">
@@ -3725,7 +3725,7 @@ const TimelineDetail = (props) => {
                                       </div>
                                     </div>
                                   ) : null}
-                                </>
+                                </React.Fragment>
                               );
                             })}
                             {timeLineData?.loadMore?.length ? (

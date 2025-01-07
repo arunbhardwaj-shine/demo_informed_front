@@ -31,18 +31,15 @@ const SurveySublink = () => {
   const [allContents, setallContents] = useState([]);
   const [allCodes, setAllCodes] = useState([]);
   const [selectedSurveyId, setSelectedSurveyId] = useState();
-  const [articleData, setArticleData] = useState();
+ 
   const [libraryData, setLibraryData] = useState([]);
   const [createNewLink, setCreateNewLink] = useState(false);
-  const [reRenderFlag, setreRenderFlag] = useState(0);
+ 
   const [showSubLinkList, setshowSubLinkList] = useState(false);
   const [linkRenderCount, setLinkRenderCount] = useState(0);
-  const [changeConsent, setchangeConsent] = useState([]);
+ 
   const [flag, setFlag] = useState(0);
-  const [opening_details, setOpeningDetails] = useState([]);
-  const [userId, setUserId] = useState();
-  const [update, setUpdate] = useState(0);
-  const [consentValue, setConsentValue] = useState("");
+ 
   const [identifier, setIdentifier] = useState("");
   const [data, setIsData] = useState([]);
 
@@ -53,8 +50,7 @@ const SurveySublink = () => {
   const [types, setTypes] = useState([
     { value: "Online ", label: "Online Offer" },
   ]);
-  const [activeTab, setActiveTab] = useState("docintel-link");
-  const navigate = useNavigate();
+  
 
   useEffect(() => {
     if (localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==") {
@@ -81,9 +77,7 @@ const SurveySublink = () => {
     try {
       loader("show");
 
-      // const res = await surveyAxiosInstance.post(FETCH_ALL_SURVEY_TITLE, {
-      //   admin_id: 18207,
-      // });
+      
       const res = await surveyAxiosInstance.post(FETCH_ALL_SURVEY_TITLE);
 
       let arr = [];

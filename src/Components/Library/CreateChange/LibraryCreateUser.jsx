@@ -43,7 +43,7 @@ const LibraryCreateUser = () => {
  
   const [userInputs, setCreateLibraryInputs] = useState({
     expDatetime: new Date(
-      moment(new Date(), "MM/DD/YYYY").add("years", 1).format("MM/DD/YYYY")
+      moment(new Date(), "MM/DD/YYYY").add(1, "years").format("MM/DD/YYYY")
     ),
     // limit: "",
     uploadFile: "",
@@ -1091,10 +1091,10 @@ const LibraryCreateUser = () => {
                           <div className="form-check" key={index}>
                             <input
                               className="form-check-input"
-                              value=""
+                              // value=""
                               id={"flexCheckDefault_" + index}
                               type="checkbox"
-                              defaultValue={reseller.includes(item?.id)}
+                              defaultValue={reseller.includes(item?.id) || ""}
                               onClick={(e) => handleReseller(e, item)}
                             />
                             <label
