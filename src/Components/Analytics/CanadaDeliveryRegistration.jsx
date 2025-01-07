@@ -5,6 +5,7 @@ import { Col, Row } from "react-bootstrap";
 import { ENDPOINT } from "../../axios/apiConfig";
 import { getData } from "../../axios/apiHelper";
 import { loader } from "../../loader";
+import drilldown from "highcharts/modules/drilldown.js";
  
 const CanadaDeliveryRegistration = () => {
  

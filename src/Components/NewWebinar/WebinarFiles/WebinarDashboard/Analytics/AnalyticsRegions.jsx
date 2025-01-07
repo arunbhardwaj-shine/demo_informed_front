@@ -8,6 +8,7 @@ import { useSidebar } from "../../../../CommonComponent/LoginLayout";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import "react-loading-skeleton/dist/skeleton.css";
+import drilldown from "highcharts/modules/drilldown.js";
 
 
 const AnalyticsRegions = () => {

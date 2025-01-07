@@ -28,6 +28,8 @@ import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import HighchartsMap from "highcharts/modules/map";
+import drilldown from "highcharts/modules/drilldown.js";
 const path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const customLoader = (functionName, e = null) => {

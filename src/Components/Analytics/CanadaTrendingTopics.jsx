@@ -5,6 +5,10 @@ import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import { ENDPOINT } from "../../axios/apiConfig";
 import { postData } from "../../axios/apiHelper";
+import HighchartsExporting from "highcharts/modules/exporting";
+import HighchartsAccessibility from "highcharts/modules/accessibility";
+import HighchartsSankey from  "highcharts/modules/sankey";
+import HighchartsDependencyWheel from "highcharts/modules/dependency-wheel";
  
 
 Highcharts.setOptions({

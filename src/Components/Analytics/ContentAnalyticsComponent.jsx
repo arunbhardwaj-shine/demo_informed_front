@@ -3,6 +3,11 @@ import HighchartsReact from "highcharts-react-official";
 import React, { useEffect, useState } from "react";
 import { Col, Image, ProgressBar, Row } from "react-bootstrap";
 import ContentAnalyticsComponentActivityGauge from "./ContentAnalyticsComponentActivityGauge";
+import highchartsMore from "highcharts/highcharts-more";
+
+import solidGauge from "highcharts/modules/solid-gauge";
+
+
  
 export default function ContentAnalyticsComponent({ data, sublinkData }) {
   const [selectedData, setSelectedData] = useState();

@@ -6,8 +6,10 @@ import proj4 from "proj4";
 import React, { useEffect, useRef, useState } from "react";
 import { Col, Row, Tab, Tabs } from "react-bootstrap";
 import { loader } from "../../loader";
+import HighchartsMap from "highcharts/modules/map";
+import drilldown from "highcharts/modules/drilldown.js";
 
- ;
+ 
 
 //set image path
 let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
