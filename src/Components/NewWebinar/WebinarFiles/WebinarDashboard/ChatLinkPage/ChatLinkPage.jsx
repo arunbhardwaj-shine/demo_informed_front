@@ -678,61 +678,12 @@ const ChatLinkPage = () => {
 
                     </button>
                     </div>
-                  {/* <div className="dropdown qr-download">
-                    <button
-                      className="btn btn-primary dropdown"
-                      type="button"
-                      onClick={() => setDownloadQr((downloadqr) => !downloadqr)}
-                    >
-                      Download QR
-                      
-                    </button>
-                    {downloadqr && (
-                      <div
-                        className="dropdown-menu filter-options"
-                        aria-labelledby="dropdownMenuButton2"
-                      >
-                        <ul>
-                          <li>
-                            <label className="select-multiple-option">
-                            <input
-                              type="radio"
-                              id="qr-code"
-                              name="qr-code"
-                              onChange={()=>setDownloadType('png')}
-                            />Download PNG
-                            <span className="checkmark"></span>
-                            </label>
-                          </li>
-                          <li>
-                            <label className="select-multiple-option">
-                            <input
-                              type="radio"
-                              id="qr-code1"
-                              name="qr-code"
-                              onChange={()=>setDownloadType('eps')}
-                              
-                            />Download EPS
-                            <span className="checkmark"></span>
-                            </label>
-                          </li>
-                        </ul>
-                        <div className="filter-footer justify-content-end">
-                          <button
-                            className="btn btn-primary btn-filled"
-                            onClick={handleDownload}
-                          >
-                            Download
-                          </button>
-                        </div>
-                      </div>
-                    )}
-                  </div>  */}
+                 
                   <a
                     className={`copy_link btn-voilet ${
                       !isDataSaved ? "disabled" : ""
                     }`}
-                    // href={`${window.location.protocol}//${window.location.host}/event?evnt=${eventData?.eventCode}`}
+                    
                     href={
                       eventData?.eventId > 402
                         ? `https://events.docintel.app/events/index.html?evnt=${eventData?.eventCode}`
@@ -780,7 +731,7 @@ const ChatLinkPage = () => {
               >
                 { dynamicEventData.map((template, index) => {
                   return (
-                    <>
+                    <React.Fragment key={index}>
                       <div
                         className="item"
                         onClick={(e) => templateClicked(template, e, index)}
@@ -799,7 +750,7 @@ const ChatLinkPage = () => {
                         />
                         <p>{template?.templateName}</p>
                       </div>
-                    </>
+                    </React.Fragment>
                   );
                 })}
               </AliceCarousel>}
@@ -1093,14 +1044,14 @@ const ChatLinkPage = () => {
                                   onChange={(e) =>
                                     handleDynamicChange(field, e.target.value)
                                   }
-                                  defaultValue={dynamicContent[field]}
+                                  // defaultValue={dynamicContent[field]}
                                   value={dynamicContent[field]}
                                 />
                               </div>
                             </>
                           ) : value.type == "textArea" ? (
                             <>
-                              <textArea
+                              <textarea
                                 type={value.type}
                                 onChange={(e) =>
                                   handleDynamicChange(field, e.target.value)
@@ -1109,7 +1060,7 @@ const ChatLinkPage = () => {
                                 value={dynamicContent[field]}
                               >
                                 {dynamicContent[field]}
-                              </textArea>
+                              </textarea>
                             </>
                           ) : (
                             <input

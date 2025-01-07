@@ -563,7 +563,7 @@ const VerifyHcpMAIL = (props) => {
                     </li>
 
                     <li className="active active-main">
-                      <a href="javascript:void(0)">Verify your Email</a>
+                      <a href="#">Verify your Email</a>
                     </li>
                   </ul>
                 </div>
@@ -1166,7 +1166,7 @@ const VerifyHcpMAIL = (props) => {
                       selectedHcp.length > 0 &&
                       selectedHcp.map((rr, i) => {
                         return (
-                          <>
+                          <React.Fragment key={i}>
                             <tr>
                               <td>{rr.first_name}</td>
                               <td>{rr.email}</td>
@@ -1215,7 +1215,7 @@ const VerifyHcpMAIL = (props) => {
                               ) : null}
                               <td className="add-new-hcp" colspan="12"></td>
                             </tr>
-                          </>
+                          </React.Fragment>
                         );
                       })}
                   </tbody>

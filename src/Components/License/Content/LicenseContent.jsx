@@ -1086,7 +1086,7 @@ const LicenseContent = (props) => {
                         <Accordion defaultActiveKey="0" flush>
                           {Object.keys(filterdata)?.map(function (key, index) {
                             return (
-                              <>
+                              <React.Fragment key={index}>
                                 {filterdata[key]?.length > 0 ? (
                                   <Accordion.Item
                                     className="card"
@@ -1101,7 +1101,7 @@ const LicenseContent = (props) => {
                                         {filterdata[key]?.length > 0
                                           ? filterdata[key]?.map(
                                               (item, index) => (
-                                                <li>
+                                                <li key={index}>
                                                   {item != "" ? (
                                                     <label className="select-multiple-option">
                                                       <input
@@ -1161,7 +1161,7 @@ const LicenseContent = (props) => {
                                     </Accordion.Body>
                                   </Accordion.Item>
                                 ) : null}
-                              </>
+                              </React.Fragment>
                             );
                           })}
                         </Accordion>
@@ -1436,8 +1436,8 @@ const LicenseContent = (props) => {
                               <p>{data?.key_author}</p>
                               <div className="select-tags">
                                 {data?.tags?.length
-                                  ? JSON.parse(data.tags)?.map((data) => {
-                                      return <div>{data}</div>;
+                                  ? JSON.parse(data.tags)?.map((data,index) => {
+                                      return <div key={index}>{data}</div>;
                                     })
                                   : ""}
                               </div>

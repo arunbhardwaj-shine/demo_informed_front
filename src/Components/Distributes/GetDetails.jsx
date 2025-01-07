@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { loader } from "../../loader";
@@ -558,8 +558,8 @@ const GetDetails = () => {
                               </div>
                             </th>
                             <th scope="col">Email read</th>
-                            {heading.map((element)=>{
-                             return  <th scope="col">{element.replace(/_/g, " ")}</th>
+                            {heading.map((element,index)=>{
+                             return  <th  key={index} scope="col">{element.replace(/_/g, " ")}</th>
 
                             })}
                             <th scope="col">Registered</th>
@@ -569,10 +569,10 @@ const GetDetails = () => {
                                 data[0].all_read_info != ""
                                   ? Object.keys(data[0].all_read_info).map(
                                       (key, index) => (
-                                        <>
+                                        <React.Fragment key={index+1}>
                                           <th>Link Open {index + 1}</th>
                                           <th>Registered {index + 1}</th>
-                                        </>
+                                        </React.Fragment>
                                       )
                                     )
                                   : ""}

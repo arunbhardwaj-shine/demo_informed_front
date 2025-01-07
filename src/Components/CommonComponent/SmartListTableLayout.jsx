@@ -364,8 +364,8 @@ const SmartListTableLayout = ({ id, closeSmartListPopup }) => {
                                             getReaderDetails.length > 0 &&
                                             sortData(getReaderDetails, sortBy, sortOrder).map((rr, i) => {
                                                 return (
-                                                    <>
-                                                        <tr key={i}>
+                                                    <React.Fragment key={i}>
+                                                        <tr  >
                                                             <td>{rr?.first_name ? rr?.first_name : "N/A"}</td>
                                                             <td>{rr?.email ? rr?.email : "N/A"}</td>
                                                             <td>{rr?.bounce ? rr.bounce : "N/A"}</td>
@@ -428,7 +428,7 @@ const SmartListTableLayout = ({ id, closeSmartListPopup }) => {
                                                             ) : null}
                                                             <td className="add-new-hcp" colspan="12"></td>
                                                         </tr>
-                                                    </>
+                                                    </React.Fragment>
                                                 );
                                             })}
                                     </tbody>

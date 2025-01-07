@@ -842,9 +842,9 @@ const EmailArticleSelect = (props) => {
               <div className="row">
                 {typeof SendListData !== "undefined" &&
                 SendListData.length > 0 ? (
-                  SendListData.map((data) => {
+                  SendListData.map((data,index) => {
                     return (
-                      <div className="col-12 col-md-4">
+                      <div className="col-12 col-md-4" key={index}>
                         <div className="mail-content-select-box">
                           <div className="mail-content-select-top">
                             <div className="mail-preview-img">
@@ -856,8 +856,8 @@ const EmailArticleSelect = (props) => {
                               <div className="mailbox-tags">
                                 <ul>
                                   {data.tags != "" ? (
-                                    data.tags.map((tag) => {
-                                      return <li className="list1">{tag}</li>;
+                                    data.tags.map((tag,index) => {
+                                      return <li key={index} className="list1">{tag}</li>;
                                     })
                                   ) : (
                                     <li className="list1">N/A</li>

@@ -2326,9 +2326,9 @@ const CreateEmail = (props) => {
                   >
                     {templateList.map((template, index) => {
                       return (
-                        <>
+                        <React.Fragment key={index}>
                           <div
-                            key={index}
+                           
                             className="item"
                             // onClick={(e) => templateClicked(template, e)}
                             onClick={(e) => irtRoleObj?.IRTFlag ? templateIRTClicked(template, e) : templateClicked(template, e)}
@@ -2347,7 +2347,7 @@ const CreateEmail = (props) => {
                             />
                             <p>{template.name}</p>
                           </div>
-                        </>
+                        </React.Fragment>
                       );
                     })}
                   </AliceCarousel>
@@ -2779,11 +2779,11 @@ const CreateEmail = (props) => {
                   {allTags
                     ? Object.values(allTags)?.map((data, index) => {
                       return (
-                        <>
-                          <div key={index} onClick={() => tagClicked(data)}>
+                        <React.Fragment key={index}>
+                          <div  onClick={() => tagClicked(data)}>
                             {data}{" "}
                           </div>
-                        </>
+                        </React.Fragment>
                       );
                     })
                     : ""}
@@ -3115,8 +3115,8 @@ const CreateEmail = (props) => {
                 smartListData.length > 0 ? (
                 smartListData.map((data, index) => {
                   return (
-                    <>
-                      <div className="smartlist_box_block" key={index}>
+                    <React.Fragment key={index}>
+                      <div className="smartlist_box_block"  >
                         <div className="smartlist-view email_box">
                           <div className="mail-box-content">
                             <div className="mail-box-conten-title">
@@ -3143,7 +3143,7 @@ const CreateEmail = (props) => {
                           </div>
                         </div>
                       </div>
-                    </>
+                    </React.Fragment>
                   );
                 })
               ) : (
@@ -3229,7 +3229,7 @@ const CreateEmail = (props) => {
                   {hpc.map((val, i) => {
                     const fieldName = `hpc[${i}]`;
                     return (
-                      <>
+                      <React.Fragment key={fieldName}>
                         <div className="add_hcp_boxes" key={i}>
                           <div className="form_action">
                             <div className="row">
@@ -3767,7 +3767,7 @@ const CreateEmail = (props) => {
                             </div>
                           </div>
                         </div>
-                      </>
+                      </React.Fragment>
                     );
                   })}
                 </form>

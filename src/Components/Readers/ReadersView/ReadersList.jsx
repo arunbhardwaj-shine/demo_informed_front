@@ -1992,9 +1992,10 @@ const NewReaders = () => {
                                 :
                                 filterdata[key];
                             return (
-                              <>
+                              <React.Fragment key={index}>
                                 {filteredRoles?.length > 0 ? (
                                   <Accordion.Item
+                                 
                                     className={
                                       key == "role" ? "card upper" : "card"
                                     }
@@ -2108,7 +2109,7 @@ const NewReaders = () => {
                                     </Accordion.Body>
                                   </Accordion.Item>
                                 ) : null}
-                              </>
+                              </React.Fragment>
                             );
                           })}
                         </Accordion>

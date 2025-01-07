@@ -1713,20 +1713,20 @@ const WebinarCreateNewEmail = (props) => {
                                 <div className="col-12 col-md-9">
                                     <ul className="tabnav-link">
                                         <li className="active active-main">
-                                            <a href="javascript:void(0)">Create Your Email</a>
+                                            <a href="#">Create Your Email</a>
                                         </li>
                                         <li className="">
-                                            <a href="javascript:void(0)">
+                                            <a href="#">
                                                 {(isLikeRdAccount || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")
                                                     ? "Select Users"
                                                     : "Select HCPs"}
                                             </a>
                                         </li>
-                                        <li className="javascript:void(0)">
-                                            <a href="javascript:void(0)">Verify your list</a>
+                                        <li className="#">
+                                            <a href="#">Verify your list</a>
                                         </li>
                                         <li className="">
-                                            <a href="javascript:void(0)">Verify your Email</a>
+                                            <a href="#">Verify your Email</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -1776,9 +1776,9 @@ const WebinarCreateNewEmail = (props) => {
                                     >
                                         {templateList?.map((template, index) => {
                                             return (
-                                                <>
+                                                <React.Fragment key={index}>
                                                     <div
-                                                        key={index}
+                                                         
                                                         className="item"
                                                         onClick={(e) => templateClicked(template, e)}
                                                     >
@@ -1797,7 +1797,7 @@ const WebinarCreateNewEmail = (props) => {
 
                                                         <p>{template?.subject}</p>
                                                     </div>
-                                                </>
+                                                </React.Fragment>
                                             );
                                         })}
                                     </AliceCarousel>
@@ -2532,11 +2532,11 @@ const WebinarCreateNewEmail = (props) => {
                                     {allTags
                                         ? Object.values(allTags)?.map((data, index) => {
                                             return (
-                                                <>
-                                                    <div key={index} onClick={() => tagClicked(data)}>
+                                                <React.Fragment key={index}>
+                                                    <div   onClick={() => tagClicked(data)}>
                                                         {data}{" "}
                                                     </div>
-                                                </>
+                                                </React.Fragment>
                                             );
                                         })
                                         : ""}

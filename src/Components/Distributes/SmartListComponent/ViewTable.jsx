@@ -2153,7 +2153,7 @@ const ViewTable = (props) => {
                     }
                   >
                     <td
-                      contentEditable={editable === 0 ? "false" : "true"}
+                      contenteditable={editable === 0 ? "false" : "true"}
                       id={`field_name` + item.profile_user_id}
                     >
                       {inEditMode.status &&
@@ -2270,7 +2270,7 @@ const ViewTable = (props) => {
 
                 {sortData(editList, sortBy, sortOrder)?.map((item, index) => (
                   <tr
-                    key={item}
+                    key={`row-selected` + index}
                     id={`row-selected` + index}
                     onClick={(e) =>
                       editing(
@@ -2288,7 +2288,7 @@ const ViewTable = (props) => {
                   >
                     <td
                       id={`field_name` + item.profile_user_id}
-                      contentEditable={editable === 0 ? "false" : "true"}
+                      contenteditable={editable === 0 ? "false" : "true"}
                     >
                       <span> {item.first_name + " " + item.last_name} </span>
                     </td>
@@ -2521,7 +2521,7 @@ const ViewTable = (props) => {
                   {hpc.map((val, i) => {
                     const fieldName = `hpc[${i}]`;
                     return (
-                      <React.Fragment key={i}>
+                      <React.Fragment key={fieldName}>
                         <div className="add_hcp_boxes">
                           <div className="form_action">
                             <div className="row">
@@ -3275,6 +3275,8 @@ const ViewTable = (props) => {
                                       </React.Fragment>
                                     );
                                   })}
+
+
                                 </>
                               ) : null}
                              

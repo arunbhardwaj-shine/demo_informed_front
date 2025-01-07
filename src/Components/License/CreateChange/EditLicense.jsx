@@ -726,9 +726,9 @@ const EditLicense = () => {
                 <div className="form-check-group">
                   <div className="form-check-group-inset">
                     {userDetail?.reseller?.length ? (
-                      userDetail?.reseller?.map((item) => {
+                      userDetail?.reseller?.map((item,index) => {
                         return (
-                          <div className="form-check">
+                          <div className="form-check" key={index}>
                             <input
                               className="form-check-input"
                               value=""
@@ -959,7 +959,7 @@ const EditLicense = () => {
                     <ul>
                       {tagClickedFirst?.map((item, index) => {
                         return (
-                          <li className="list1">
+                          <li className="list1" key={index}>
                             {item}
                             <img
                               src="componentAssets/images/filter-close.svg"
@@ -1546,7 +1546,7 @@ const EditLicense = () => {
                       userInputs.docintelFormat == "ebook" ? (
                         chapter.map((val, i) => {
                           return (
-                            <>
+                            <React.Fragment key={i}>
                               <div className="form-group val chapter-title">
                                 <div className="ebook-format">
                                   <label htmlFor="">
@@ -1614,7 +1614,7 @@ const EditLicense = () => {
                                   </div>
                                 ) : null}
                               </div>
-                            </>
+                            </React.Fragment>
                           );
                         })
                       ) : 
@@ -1837,11 +1837,11 @@ const EditLicense = () => {
             <h6>Select Topic :</h6>
             <div className="tag-lists">
               <div className="tag-lists-view">
-                {Object.values(allTags).map((data) => {
+                {Object.values(allTags).map((data,index) => {
                   return (
-                    <>
+                    <React.Fragment key={index}>
                       <div onClick={(event) => tagClicked(data)}>{data} </div>
-                    </>
+                    </React.Fragment>
                   );
                 })}
               </div>
@@ -1855,7 +1855,7 @@ const EditLicense = () => {
             <div className="total-selected">
               {tagClickedFirst.map((data, index) => {
                 return (
-                  <>
+                  <React.Fragment key={index}>
                     <div className="tag-cross">
                       {data.innerHTML || data}
                       <img
@@ -1864,7 +1864,7 @@ const EditLicense = () => {
                         onClick={() => removeTagFinal(index)}
                       />
                     </div>
-                  </>
+                  </React.Fragment>
                 );
               })}
             </div>
