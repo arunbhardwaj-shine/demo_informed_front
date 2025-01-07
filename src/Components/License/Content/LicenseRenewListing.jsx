@@ -33,7 +33,7 @@ import "react-activity/dist/library.css";
 import { loader } from "../../../loader";
 import { toast } from "react-toastify";
 import moment from "moment";
-import {QRCodeSVG} from "qrcode.react";
+import {QRCodeCanvas} from "qrcode.react";
 
 const path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
 
@@ -1027,7 +1027,7 @@ const LicenseEditListing = () => {
                 </div>
               </div>
             </div>
-            <QRCodeSVG
+            <QRCodeCanvas
               style={{ display: "none" }}
               id="qr-gen"
               value={qrState?.value}

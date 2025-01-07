@@ -9,7 +9,7 @@ import { Link, useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import Collapse from "react-bootstrap/Collapse";
 import { Button } from "react-bootstrap";
-import {QRCodeSVG} from "qrcode.react";
+import {QRCodeCanvas} from "qrcode.react";
  
 import CommonConfirmModel from "../../../Model/CommonConfirmModel";
 import {
@@ -830,7 +830,7 @@ const ContentDetail = (props) => {
         handleQR={handleQR}
       />
 
-      <QRCodeSVG
+      <QRCodeCanvas
         style={{ display: "none" }}
         id="qr-gen"
         value={qrState?.value}

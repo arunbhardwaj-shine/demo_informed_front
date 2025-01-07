@@ -1374,7 +1374,7 @@ const AutoEmail = () => {
                           <div className="form-group col-12 col-md-6">
                             <label htmlFor="exampleInputEmail1">
                               Email Subject Line{" "}
-                              <span classname="astrick">*</span>
+                              <span className="astrick">*</span>
                             </label>
                             <input
                               type="text"
@@ -1396,7 +1396,7 @@ const AutoEmail = () => {
                           <div className="form-group right-side col-12 col-md-6">
                             <label htmlFor="exampleInputEmail1">
                               Email description{" "}
-                              <span classname="astrick">*</span>{" "}
+                              <span className="astrick">*</span>{" "}
                             </label>
                             <input
                               type="text"

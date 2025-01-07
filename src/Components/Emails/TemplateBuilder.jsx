@@ -2012,7 +2012,7 @@ const TemplateBuilder = (props) => {
                     })}
                   </AliceCarousel>
 
-                  <input type="hidden" id="mail_template" value={templateId} />
+                  <input type="hidden" id="mail_template" value={templateId || ""} />
                   {validator.message("Templates", templateId, "required")}
                   {newTemplateClicked == true ? (
                     <div className="email-form">
@@ -2023,7 +2023,7 @@ const TemplateBuilder = (props) => {
                               <>
                                 <input
                                   type="text"
-                                  value={newTemplateNamee}
+                                  value={newTemplateNamee || ""}
                                   onChange={(e) => {
                                     setNewTemplateNamee(e.target.value);
                                   }}
@@ -2104,7 +2104,7 @@ const TemplateBuilder = (props) => {
                                 {editableTemplate ? (
                                   <input
                                     type="text"
-                                    value={newTemplateName}
+                                    value={newTemplateName || ""}
                                     onChange={(e) => templateNameChange(e)}
                                   />
                                 ) : (

@@ -2,6 +2,8 @@ import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import React from "react";
 import { Col, Image, Row } from "react-bootstrap";
+import highchartsMore from "highcharts/highcharts-more";
+import solidGauge from "highcharts/modules/solid-gauge";
 
  
 

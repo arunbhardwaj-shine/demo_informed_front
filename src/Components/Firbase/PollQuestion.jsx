@@ -15,6 +15,7 @@ import { Container, Table } from "react-bootstrap";
 import { db } from "../../config/firebaseConfig";
 import { loader } from "../../loader";
 import { useLocation } from "react-router-dom";
+import HighchartsReactBAR from "highcharts-react-official";
 let  colors= ["#ff5366","#0053a0","#ff8649","#89A550","#4098B7","#DB843D","#FFBE3C","#3cff79","#b58cca","#8c95ca"]
 
 const PollQuestion = () => {

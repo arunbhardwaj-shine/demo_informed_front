@@ -3,6 +3,7 @@ import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import proj4 from "proj4";
 import React, { useEffect, useState } from "react";
+import MapModule from "highcharts/modules/map";
 
  
 

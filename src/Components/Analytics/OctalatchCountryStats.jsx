@@ -3,7 +3,7 @@ import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import React from "react";
 import { Col, Row, Tab, Tabs } from "react-bootstrap";
-
+import MapModule from "highcharts/modules/map";
  
 
 const data = [

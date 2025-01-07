@@ -6,7 +6,11 @@ import { Col } from "react-bootstrap";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 import { loader } from "../../loader";
- 
+import highchartsMore from "highcharts/highcharts-more";
+
+import solidGauge from "highcharts/modules/solid-gauge";
+
+
 
 const path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
 export default function ContentAnalyticsComponentActivityGauge({

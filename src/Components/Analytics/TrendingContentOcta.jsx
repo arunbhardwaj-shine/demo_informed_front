@@ -5,6 +5,9 @@ import { Col, Image, Row, } from "react-bootstrap";
 import { ENDPOINT } from "../../axios/apiConfig";
 import { postData } from "../../axios/apiHelper";
 import { loader } from "../../loader";
+import highchartsMore from "highcharts/highcharts-more";
+import solidGauge from "highcharts/modules/solid-gauge";
+
 
 const TrendingContentOcta = () => {
   const [data, setData] = useState({});

@@ -1,4 +1,4 @@
-import { QRCodeSVG } from "qrcode.react";
+import { QRCodeCanvas } from "qrcode.react";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -120,7 +120,7 @@ const SubLinkListing = ({ pdfid, render, count }) => {
                       </Link>
                     </div>
                   </div>
-                  <QRCodeSVG
+                  <QRCodeCanvas
                     style={{ display: "none" }}
                     id="qr-gen"
                     value={qrState?.value}
