@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { ENDPOINT } from "../../../axios/apiConfig";
 import {getData} from "../../../axios/apiHelper";
 import { toast } from "react-toastify";
-import {QRCodeSVG} from "qrcode.react";
+import {QRCodeCanvas} from "qrcode.react";
 let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const SubLinkListing = ({
@@ -114,7 +114,7 @@ const SubLinkListing = ({
                     <Button className="btn-bordered">Analytics</Button>
                   </div>
                 </div>
-                <QRCodeSVG
+                <QRCodeCanvas
                   style={{ display: "none" }}
                   id="qr-gen"
                   value={qrState?.value}

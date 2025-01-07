@@ -33,7 +33,7 @@ import "react-activity/dist/library.css";
 import { loader } from "../../../loader";
 import { toast } from "react-toastify";
 import moment from "moment";
-import {QRCodeSVG} from "qrcode.react";
+import {QRCodeCanvas} from "qrcode.react";
 import { connect } from "react-redux";
 import {
   getEmailData,
@@ -1323,7 +1323,7 @@ const LicenseContent = (props) => {
                 </div>
               ) : null}
             </div>
-            <QRCodeSVG
+            <QRCodeCanvas
               style={{ display: "none" }}
               id="qr-gen"
               value={qrState?.value}
