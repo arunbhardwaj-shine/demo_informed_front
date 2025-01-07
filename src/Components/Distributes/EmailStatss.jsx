@@ -1,10 +1,8 @@
 import React, { useEffect, useState ,useRef} from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { connect } from "react-redux";
-import { useCallback } from "react";
 import { loader } from "../../loader";
 import Accordion from "react-bootstrap/Accordion";
 
@@ -13,7 +11,7 @@ import {
   getEmailData,
   getSelectedSmartListData,
 } from "../../actions";
-import { popup_alert } from "../../popup_alert";
+
 
 const EmailStats = (props) => {
   let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;

@@ -203,9 +203,9 @@ const MarketingEditReader = () => {
       if (data?.log_activity) {
         if (data?.log_activity != "") {
           let jsonString = data?.log_activity;
-          console.log(jsonString);
+          // console.log(jsonString);
           let logs = JSON.parse(jsonString);
-          console.log(logs);
+          // console.log(logs);
          logs=Array.isArray(logs)?logs:logs instanceof Object?[logs]:[]
            logs = logs.map((log) => ({
             ...log,

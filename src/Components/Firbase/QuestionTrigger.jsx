@@ -9,7 +9,7 @@ import {
   import { postData } from "../../axios/apiHelper";
   import { ENDPOINT } from "../../axios/apiConfig";
   import {db} from "../../config/firebaseConfig"
-  import { collection, query, where, onSnapshot,orderBy,limit } from "firebase/firestore";
+  import { collection, query, where, onSnapshot } from "firebase/firestore";
   import moment from "moment"
   import { loader } from "../../loader";
 

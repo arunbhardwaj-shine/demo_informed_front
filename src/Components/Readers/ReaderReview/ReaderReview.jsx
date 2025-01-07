@@ -2,18 +2,13 @@ import React, { useState } from "react";
 import {
   Button,
   Col,
-  Dropdown,
-  DropdownButton,
-  Form,
-  Modal,
   Row,
 } from "react-bootstrap";
 import Collapse from "react-bootstrap/Collapse";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import {  useLocation, useNavigate } from "react-router-dom";
 import { loader } from "../../../loader";
 import { postData } from "../../../axios/apiHelper";
 import { ENDPOINT } from "../../../axios/apiConfig";
-import { slice } from "@amcharts/amcharts4/.internal/core/utils/Array";
 import MarketingReaderReview from "./MarketingReaderReview";
 
 const ReaderLayout = () => {
@@ -244,26 +239,7 @@ const ReaderReview = () => {
                               </td>
                             </tr>
 
-                            {/* <tr>
-                              <th className="tab-content-title">Study role</th>
-                              <td>
-                                {readerData?.sub_role
-                                  ? readerData?.sub_role
-                                  : "N/A"}
-                              </td>
-                            </tr>
-
-                            <tr>
-                              <th className="tab-content-title">Blind type</th>
-                              <td>
-                                {readerData?.blind_type
-                                  ? readerData?.blind_type
-                                    ?.charAt(0)
-                                    ?.toUpperCase() +
-                                  readerData?.blind_type?.slice(1)
-                                  : "N/A"}
-                              </td>
-                            </tr> */}
+                           
                           </>
                         ) :
                         localStorage.getItem("user_id") !==

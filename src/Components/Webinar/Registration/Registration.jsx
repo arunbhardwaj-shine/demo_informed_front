@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { useFormik } from "formik";
 import ExportApi from "../../../Api/ExportApi";
-import { Button, Col, Form, Modal, Row, Table } from "react-bootstrap";
-import * as Yup from "yup";
+import { Button,  Modal, Table } from "react-bootstrap";
 import "../webinar.css";
 import { toast, ToastContainer } from "react-toastify";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { loader } from "../../../loader";
 import { BaseUrlImage } from "../../../Api/BaseApi";
 
@@ -460,7 +458,7 @@ const Registration = () => {
           </Modal.Body>
         </Modal>
       </div>
-      {console.log("mode", mode)}
+      {/* {console.log("mode", mode)} */}
     </>
   );
 };

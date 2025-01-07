@@ -60,7 +60,7 @@ const LicenseContentDetail = (props) => {
 
   useEffect(() => {
     if(state?.draft==="default_1"){
-      console.log("state--->",state)
+      // console.log("state--->",state)
       updateArticleState()
     }
     getLibraryData();

@@ -329,7 +329,7 @@ const getQuestionData=async()=>{
       setComments(allComments);
       setCurrentQuestion(alldata?.[index]?.question);
       setCurrentQuestionID(question_id);
-      console.log(`Element found at index ${index}`);
+      // console.log(`Element found at index ${index}`);
     } else {
       console.log("Element not found");
     }
@@ -423,17 +423,6 @@ const getQuestionData=async()=>{
               __html: currentQuestion?.length > 0 ? currentQuestion : "Answer",
             }}
           >
-            {
-              // currentQuestion?.length > 0 ? currentQuestion : "Answer"
-              // <img
-              //   src="https://webinar.docintel.app/Event/webinar-assets/images/octa-logo.svg"
-              //   alt=""
-              // />
-            }
-            {/* <img
-                  src="https://webinar.docintel.app/Event/webinar-assets/images/octa-logo.svg"
-                  alt=""
-                /> */}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>

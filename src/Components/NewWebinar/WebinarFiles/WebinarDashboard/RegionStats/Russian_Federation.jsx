@@ -160,64 +160,7 @@ const Russian_Federation = () => {
     },
   });
 
-  //   const [options2, setOptions2] = useState({
-  //     chart: {
-  //       renderTo: "country_container",
-  //       type: "bar",
-  //     },
-  //     title: {
-  //       text: "HCP’s Attended",
-  //     },
-  //     credits: { enabled: false },
-  //     legend: {},
-  //     minPointLength: 10,
-  //     plotOptions: {
-  //       series: {
-  //         shadow: false,
-  //         borderWidth: 0,
-  //         dataLabels: {
-  //           enabled: true,
-  //           formatter: function () {
-  //             return this.y;
-  //           },
-  //         },
-  //       },
-  //     },
-  //     xAxis: {
-  //       lineColor: "#999",
-  //       lineWidth: 1,
-  //       tickColor: "#666",
-  //       tickLength: 3,
-  //       labels: {
-  //         padding: 0,
-  //         style: {
-  //           fontSize: "9px",
-  //         },
-  //       },
-  //       categories: [],
-  //     },
-  //     yAxis: {
-  //       lineColor: "#999",
-  //       lineWidth: 1,
-  //       tickColor: "#666",
-  //       tickWidth: 1,
-  //       tickLength: 3,
-  //       gridLineColor: "#ddd",
-  //       title: false,
-  //     },
-  //     series: [
-  //       {
-  //         colorByPoint: true,
-  //         showInLegend: false,
-  //         data: [],
-  //       },
-  //     ],
-  //     tooltip: {
-  //       formatter: function () {
-  //         return this.x + ":" + this.y;
-  //       },
-  //     },
-  //   });
+  
 
   const [options3, setOptions3] = useState({
     chart: {
@@ -278,64 +221,7 @@ const Russian_Federation = () => {
     // },
   });
 
-  //   const [options4, setOptions4] = useState({
-  //     chart: {
-  //       renderTo: "country_container",
-  //       type: "pie",
-  //     },
-  //     title: {
-  //       text: "HCP’s Attended (7)",
-  //     },
-  //     credits: { enabled: false },
-  //     legend: {},
-  //     minPointLength: 10,
-  //     plotOptions: {
-  //       series: {
-  //         shadow: false,
-  //         borderWidth: 0,
-  //         dataLabels: {
-  //           enabled: true,
-  //           formatter: function () {
-  //             return this.y;
-  //           },
-  //         },
-  //       },
-  //     },
-  //     xAxis: {
-  //       lineColor: "#999",
-  //       lineWidth: 1,
-  //       tickColor: "#666",
-  //       tickLength: 3,
-  //       labels: {
-  //         padding: 0,
-  //         style: {
-  //           fontSize: "9px",
-  //         },
-  //       },
-  //       categories: [],
-  //     },
-  //     yAxis: {
-  //       lineColor: "#999",
-  //       lineWidth: 1,
-  //       tickColor: "#666",
-  //       tickWidth: 1,
-  //       tickLength: 3,
-  //       gridLineColor: "#ddd",
-  //       title: false,
-  //     },
-  //     series: [
-  //       {
-  //         colorByPoint: true,
-  //         showInLegend: false,
-  //         data: [],
-  //       },
-  //     ],
-  //     tooltip: {
-  //       formatter: function () {
-  //         return this.x + ":" + this.y;
-  //       },
-  //     },
-  //   });
+  
 
   const getDataFromApi = async () => {
     try {
@@ -364,29 +250,7 @@ const Russian_Federation = () => {
 
       setOptions(updatedOptions);
 
-      //   const categories2 = Object.keys(data2).sort();
-      //   const transformedChartData2 = Object.entries(data2).map(([name, y]) => ({
-      //     name,
-      //     y,
-      //     color: colorArr[name],
-      //   }));
-      //   updatedSeries = [
-      //     {
-      //       ...options.series[0],
-      //       data: transformedChartData2,
-      //     },
-      //   ];
-
-      //   updatedOptions = {
-      //     ...options2,
-      //     xAxis: {
-      //       ...options2.xAxis,
-      //       categories: categories2,
-      //     },
-      //     series: updatedSeries,
-      //   };
-
-      //   setOptions2(updatedOptions);
+      
 
       const categories3 = Object.keys(data).sort();
       const transformedChartData3 = Object.entries(data).map(([name, y]) => ({
@@ -412,29 +276,7 @@ const Russian_Federation = () => {
 
       setOptions3(updatedOptions);
 
-      //   const categories4 = Object.keys(data2).sort();
-      //   const transformedChartData4 = Object.entries(data2).map(([name, y]) => ({
-      //     name,
-      //     y,
-      //     color: colorArr[name],
-      //   }));
-      //   updatedSeries = [
-      //     {
-      //       ...options4.series[0],
-      //       data: transformedChartData4,
-      //     },
-      //   ];
-
-      //   updatedOptions = {
-      //     ...options4,
-      //     xAxis: {
-      //       ...options4.xAxis,
-      //       categories: categories4,
-      //     },
-      //     series: updatedSeries,
-      //   };
-
-      //   setOptions4(updatedOptions);
+      
 
       loader("hide");
     } catch (error) {
@@ -457,9 +299,7 @@ const Russian_Federation = () => {
         <HighchartsReact highcharts={Highcharts} options={options} />
       </div>
 
-      {/* <div>
-        <HighchartsReact highcharts={Highcharts} options={options2} />
-      </div> */}
+      
 
       <div>
         <h5

@@ -6,16 +6,7 @@ import { ENDPOINT } from "../../../axios/apiConfig";
 import moment from "moment";
 import { loader } from "../../../loader";
 import { Spinner } from "react-activity";
-// import {
-//   Accordion,
-//   Col,
-//   Row,
-//   Modal,
-//   Tab,
-//   Tabs,
-//   ProgressBar,
-//   Button,
-// } from "react-bootstrap";
+
 
 const TimelineDetail = (props) => {
   const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
@@ -3581,8 +3572,6 @@ const TimelineDetail = (props) => {
                                   )}
 
                                   {/* {oneSourceActionArray?.includes(details.action) ? ( */}
-                                  {console.log("action-->", oneSourceActionArray[details.action])
-                                  }
                                   {oneSourceActionArray[details.action] ? (
                                     <div className="timeline-box">
                                       <div className="timeline_date">
@@ -3687,33 +3676,7 @@ const TimelineDetail = (props) => {
 
 
                                                   <div className="media-right">
-                                                    {/* <p onClick={(e) => {
-                                                      handleClick(
-                                                        details.id,
-                                                        details.pdf_id,
-                                                        details.Created,
-                                                        details
-                                                      );
-                                                    }}>
-                                                      {isActive &&
-                                                        details.id == activeIndex ? '< Hide' : 'Show Details... >'}
-                                                    </p>
-                                                    {isActive &&
-                                                      details.id == activeIndex && ebookData.map((data) => (
-                                                        <div
-                                                          className="timeline-time-show">
-                                                          
-                                                              <div className="d-flex flex-direction-row">
-                                                                <div className="timeline-activity-detail">
-                                                                  <p><span>Needed |</span> {videoTime?.totalVideoTime}</p>
-                                                                </div>
-                                                                <div className="timeline-activity-detail">
-                                                                  <p><span>Spent |</span> {videoTime?.timeSpent}</p>
-                                                                </div>
-                                                              </div>
-                                                           
-                                                        </div>
-                                                      ))} */}
+                                                  
                                                     <div className="timeline-time-show">
                                                       <div className="d-flex flex-direction-row" style={{ gap: "24px" }}>
                                                         <div className="timeline-activity-detail">
@@ -3745,22 +3708,7 @@ const TimelineDetail = (props) => {
                                                         </div>
                                                       </div>
 
-                                                      {/* <span>
-                                                        Time
-                                                        Needed:{" "}
-                                                        {
-                                                          videoTime?.totalVideoTime
-                                                        }{" "}
-                                                        seconds
-                                                      </span>{" "}
-                                                      <span>
-                                                        Time
-                                                        Spent:{" "}
-                                                        {
-                                                          videoTime?.timeSpent
-                                                        }{" "}
-                                                        seconds
-                                                      </span> */}
+                                                      
                                                     </div>
                                                   </div>
                                                 </>

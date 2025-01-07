@@ -3,17 +3,12 @@ import {
   Col,
   Container,
   Row,
-  Form,
-  Table,
   Button,
   Modal,
 } from "react-bootstrap";
 import { ENDPOINT } from "../../../axios/apiConfig";
 import { getData, postData } from "../../../axios/apiHelper";
-import { Link } from "react-router-dom";
 import "react-confirm-alert/src/react-confirm-alert.css";
-import Dropdown from "react-bootstrap/Dropdown";
-import DropdownButton from "react-bootstrap/DropdownButton";
 import Question from "./Question";
 import { useLocation } from "react-router-dom";
 export default function PollListing() {
@@ -118,7 +113,7 @@ export default function PollListing() {
     resetPoll();
   };
   const { state } = useLocation();
-  console.log(state);
+  // console.log(state);
   const answerOptionError = (
     state?.data?.answerOption || [
       {
@@ -259,7 +254,7 @@ export default function PollListing() {
   const validateQuestions = () => {
     let isValid = true;
     const updatedQuestions = [...questions];
-    console.log(updatedQuestions);
+    // console.log(updatedQuestions);
     updatedQuestions.forEach((questionObj, index) => {
       const question = questionObj.questionData.question;
       const speakerName = questionObj.questionData.speakerName;
@@ -330,10 +325,10 @@ export default function PollListing() {
   };
 
   const handleSubmit = async () => {
-    console.log({
-      eventId: selectedItem,
-      data: questions.map((questionObj) => questionObj.questionData),
-    });
+    // console.log({
+    //   eventId: selectedItem,
+    //   data: questions.map((questionObj) => questionObj.questionData),
+    // });
 
     const isValid = validateQuestions();
 
@@ -390,17 +385,7 @@ export default function PollListing() {
                 <>
                   <Col>
                     <Row>
-                      {/* <Col md={3}>
-    <Form.Group>
-      <Form.Control as="select" value={eventId} onChange={onEventChange}>
-        <option value="">Select Event</option>
-        <option value="255">255</option>
-        <option value="522">522</option>
-        <option value="111">111</option>
-      </Form.Control>
-      <p className="text-danger">{eventError}</p>
-    </Form.Group>
-  </Col> */}
+               
                     </Row>
                     <Row>
                       <div>

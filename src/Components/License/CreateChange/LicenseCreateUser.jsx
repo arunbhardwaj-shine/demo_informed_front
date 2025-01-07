@@ -938,34 +938,13 @@ const LicenseCreateUser = () => {
   const handleModelFun = (e) => {
     setUserDetail({ ...userDetail, newValue: e.target.value });
   };
-  // const handleSubmitModelFun = async (e) => {
-  //   try {
-  //     let newAr = userDetail?.product;
-
-  //     newAr.push({ value: userDetail?.newValu, label: userDetail?.newValue });
-  //     let body = {
-  //       user_id: localStorage.getItem("user_id"),
-  //       product: userDetail?.newValue,
-  //       category: 0,
-  //       type: 1,
-  //     };
-  //     const res = await postData(ENDPOINT.ADD_SPC_PRODUCT, body);
-  //     setCreateLibraryInputs({
-  //       ...userInputs,
-  //       product: { value: userDetail?.newValue, label: userDetail?.newValue },
-  //     });
-  //     setUserDetail({ ...userDetail, product: newAr });
-  //   } catch (err) {
-  //     console.log("err", err);
-  //   }
-  // };
 
   const handleSubmitModelFun = async (e) => {
     try {
       let newAr = [...userDetail?.product];
   
       newAr.push({ value: userDetail?.newValue, label: userDetail?.newValue });
-      console.log(newAr,'body')
+      // console.log(newAr,'body')
   
       newAr.sort((a, b) => a.value.localeCompare(b.value))
       let body = {
@@ -981,7 +960,7 @@ const LicenseCreateUser = () => {
         product: { value: userDetail?.newValue, label: userDetail?.newValue },
       });
       setUserDetail({ ...userDetail, product: newAr });
-      console.log(userDetail,'userdetail')
+      // console.log(userDetail,'userdetail')
     } catch (err) {
       console.log("err", err);
     }
@@ -1068,18 +1047,6 @@ const LicenseCreateUser = () => {
                     id="limitagreed2"
                   />
                   <label htmlFor="limitagreed2">Download</label>
-                  {/*
-                    <input
-                      type="checkbox"
-                      value="value3"
-                      onClick={(e) =>
-                        handleChange(e.target?.checked, "allowShare")
-                      }
-                      name="group2"
-                      id="limitagreed3"
-                    />
-                    <label htmlFor="limitagreed3">Share</label>
-                    */}
                 </fieldset>
               </div>
 
@@ -1178,29 +1145,6 @@ const LicenseCreateUser = () => {
               <div className="row justify-content-end align-items-center">
                 <div className="col-12 col-md-1">
                   <div className="header-btn-left">
-                    {/* <Link
-                      className="btn btn-primary btn-bordered back"
-                      to="/license-create"
-                    >
-                      Back
-                    </Link>
-                    <Link
-                      className="btn btn-primary btn-bordered back-btn"
-                      to="/license-create"
-                    >
-                      <svg
-                        width="14"
-                        height="24"
-                        viewBox="0 0 14 24"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M0.159662 12.0019C0.159662 11.5718 0.323895 11.1417 0.65167 10.8138L10.9712 0.494292C11.6277 -0.16216 12.692 -0.16216 13.3482 0.494292C14.0044 1.15048 14.0044 2.21459 13.3482 2.8711L4.21687 12.0019L13.3479 21.1327C14.0041 21.7892 14.0041 22.8532 13.3479 23.5093C12.6917 24.1661 11.6274 24.1661 10.9709 23.5093L0.65135 13.19C0.323523 12.8619 0.159662 12.4319 0.159662 12.0019Z"
-                          fill="#97B6CF"
-                        />
-                      </svg>
-                    </Link>*/}
                   </div>
                 </div>
                 <div className="col-12 col-md-9">
@@ -1559,60 +1503,9 @@ const LicenseCreateUser = () => {
                           </>
                         );
                       })
-                    ) : // <div className="form-group val">
-                    //   <label htmlFor="">Upload Ebook</label>
-                    //   <div className="upload-file-box">
-                    //     <div className="box">
-                    //       <input
-                    //         type="file"
-                    //         name="file-6[]"
-                    //         id="file-6"
-                    //         className="inputfile inputfile-6"
-                    //         accept="application/pdf"
-                    //         onChange={(e) => handleEbookChange(e)}
-                    //       />
-                    //       <label htmlFor="file-6">
-                    //         <span>Choose Your File</span>
-                    //       </label>
-                    //       <p>
-                    //         {selectedEbookName == ""
-                    //           ? "Upload your Ebook file"
-                    //           : selectedEbookName}{" "}
-                    //       </p>
-                    //     </div>
-                    //   </div>
-                    //   {error?.pdfFile ? (
-                    //     <div className="login-validation-upload">
-                    //       {error?.pdfFile}
-                    //     </div>
-                    //   ) : null}
-                    // </div>
+                    ) : 
                     null}
 
-                    {/* {(userDetail?.user?.[0]?.flag == 0 &&
-                      userDetail?.user?.[0]?.group_id == 3) ||
-                    (userDetail?.user?.[0]?.flag == 1 &&
-                      userDetail?.user?.[0]?.group_id == 3) ? (
-                      <div className="form-group">
-                        <label htmlFor="">Include video</label>
-                        <div className="switch">
-                          <label className="switch-light">
-                            <input
-                              type="checkbox"
-                              // onChange={(e) => includeVideoCheckboxChanged(e)}
-                              onChange={(e) => {
-                                handleChange(e.target?.checked, "allowVideo");
-                              }}
-                            />
-                            <span>
-                              <span className="switch-btn active">No</span>
-                              <span className="switch-btn">Yes</span>
-                            </span>
-                            <a className="btn"></a>
-                          </label>
-                        </div>
-                      </div>
-                    ) : null} */}
                     <div className="form-group val">
                       <label htmlFor="">Content cover</label>
                       <div className="upload-file-box">
@@ -1651,25 +1544,6 @@ const LicenseCreateUser = () => {
                       localStorage.getItem("user_id") ==
                         "rjiGlqA9DXJVH7bDDTX0Lg==") ? (
                       <>
-                        {/* <div className="form-group">
-                          <label htmlFor="">Include video</label>
-                          <div className="switch">
-                            <label className="switch-light">
-                              <input
-                                type="checkbox"
-                                checked={userInputs?.allowVideo ? true : false}
-                                onChange={(e) => {
-                                  handleChange(e.target?.checked, "allowVideo");
-                                }}
-                              />
-                              <span>
-                                <span className="switch-btn active">No</span>
-                                <span className="switch-btn">Yes</span>
-                              </span>
-                              <a className="btn"></a>
-                            </label>
-                          </div>
-                        </div> */}
                       </>
                     ) : null}
                   </div>
@@ -1705,12 +1579,6 @@ const LicenseCreateUser = () => {
               <p>Select the chapter </p>
               <Form.Group className="formgroup">
                 <Form.Label>Chapters</Form.Label>
-                {/* <ReactSelect
-                  placeholder="Select your chapter"
-                  options={types}
-                  className="dropdown-basic-button split-button-dropup"
-                  isClearable
-                /> */}
                 <DropdownButton
                   className="dropdown-basic-button split-button-dropup "
                   title={

@@ -1,10 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { createContent } from "../../CommonComponent/Validations";
-
 import { popup_alert } from "../../../popup_alert";
 import DatePicker from "react-datepicker";
-
 import {
   deleteData,
   postData,
@@ -36,7 +33,6 @@ import "react-activity/dist/library.css";
 import { loader } from "../../../loader";
 import { toast } from "react-toastify";
 import moment from "moment";
-// import QRCode from "react-qr-code";
 import {QRCodeSVG} from "qrcode.react";
 import { connect } from "react-redux";
 import {
@@ -950,7 +946,7 @@ const LicenseContent = (props) => {
         pdfId: pdf_id,
       };
       const res = await resetStats(ENDPOINT.RESET_CLIENT_ACCOUNT, body);
-      console.log(res?.data?.data)
+      // console.log(res?.data?.data)
       if(res?.data?.data == 1){
         loader("hide");
         popup_alert({

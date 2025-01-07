@@ -1,27 +1,20 @@
 import React, { useCallback, useEffect, useState, useRef } from "react";
 import axios from "axios";
-import { Link, useLocation } from "react-router-dom";
-import { connect } from "react-redux";
+import { useLocation } from "react-router-dom";
 import AliceCarousel from "react-alice-carousel";
 import "react-alice-carousel/lib/alice-carousel.css";
-
-import { getCampaignId, getEmailData } from "../../../actions";
 import { useNavigate } from "react-router-dom";
-import { Modal, ModalDialog, Dropdown } from "react-bootstrap";
+import { Modal, Dropdown } from "react-bootstrap";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import SimpleReactValidator from "simple-react-validator";
 import { loader } from "../../../loader";
-import Select from "react-select";
 import { popup_alert } from "../../../popup_alert";
 import { toast } from "react-toastify";
 import { Editor } from "@tinymce/tinymce-react";
-import { getSelectedSmartListData } from "../../../actions";
 import { toPng } from "html-to-image";
 import { CircularProgressbar } from "react-circular-progressbar";
-import { buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
-import { ProgressBar } from "react-bootstrap";
-// import "bootstrap/dist/css/bootstrap.min.css";
+
 let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
 var dxr = 0;
 var state_object = {};
@@ -46,7 +39,7 @@ const AutoMail = (props) => {
   ];
 
   const eventDropDownClicked = (e) => {
-    console.log(e);
+    // console.log(e);
     setEventSelected(e);
   };
 
@@ -337,7 +330,7 @@ const AutoMail = (props) => {
           getSpecificKeyData &&
           getSpecificKeyData.hasOwnProperty("source_code")
         ) {
-          console.log(state_object);
+          // console.log(state_object);
           if (state_object != null && state_object?.template != "") {
             if (state_object.template !== "") {
               setTemplate("state_object.template");
@@ -688,7 +681,7 @@ const AutoMail = (props) => {
       await axios
         .post(`emailapi/search_hcp`, body)
         .then((res) => {
-          console.log(res);
+          // console.log(res);
           // console.log(res.data.response.data);
           if (res.data.response) {
             setSearchedUsers(res.data.response.data);
@@ -765,7 +758,7 @@ const AutoMail = (props) => {
 
     const value = e;
     // const list = [...hpc];
-    console.log(value);
+    // console.log(value);
   };
 
   const onCountryChange = (e, i) => {
@@ -775,7 +768,7 @@ const AutoMail = (props) => {
     const name = hpc[i].country;
     list[i].country = value;
     setHpc(list);
-    console.log(hpc);
+    // console.log(hpc);
   };
 
   const deleteRecord = (i) => {
@@ -879,7 +872,7 @@ const AutoMail = (props) => {
       formData.append("smart_list_id", "");
       formData.append("reader_file", selectedFile);
 
-      console.log(formData);
+      // console.log(formData);
 
       if (selectedFile) {
         axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
@@ -955,7 +948,7 @@ const AutoMail = (props) => {
 
   const languageSelected = (e) => {
     // loader("show");
-    console.log(e);
+    // console.log(e);
     setSelectedLanguage(e.value);
     getTemplateListData(2, e.value, selectedIbu);
   };
@@ -1091,7 +1084,7 @@ const AutoMail = (props) => {
       templateId != "" &&
       templateId != 0
     ) {
-      console.log(templateId);
+      // console.log(templateId);
       setviewEmailModal(true);
     } else {
       toast.warning("Template not selected.");
@@ -1222,89 +1215,7 @@ const AutoMail = (props) => {
       toast.warning("Template not selected.");
     }
   };
-  // const addTracking = function (editor) {
-  //   editor.on("OpenWindow", function (e) {
-  //     let dialog = document.getElementsByClassName("tox-dialog")[0];
 
-  //     if (dialog) {
-  //       let header = dialog.querySelector(".tox-dialog__header");
-  //       const closeButton = header.querySelector('[aria-label="Close"]');
-  //       let text = header.querySelector(".tox-dialog__title");
-
-  //       if (text.innerText == "Insert/Edit Link") {
-  //         let uploadIcon = document.querySelector(
-  //           "body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > button > span"
-  //         );
-  //         uploadIcon.style.display = "none";
-  //         let newButton = document.createElement("button");
-  //         newButton.innerText = "Add Tracking";
-  //         newButton.classList.add("tox-button");
-  //         newButton.classList.add("tox-button--icon");
-  //         newButton.classList.add("tox-button--naked");
-  //         newButton.classList.add("track");
-  //         newButton.onclick = function () {
-  //           if (templateIdRef.current == "") {
-  //             alert("Please select the template first before adding the link");
-  //             return;
-  //           }
-  //           // alert(templateId);
-  //           let firstToxControlWrap = document.querySelector(
-  //             "body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > div >input"
-  //           );
-
-  //           // let text =dialog.querySelector(".tox-form__group");
-  //           if (!firstToxControlWrap.value) {
-  //             alert("Please enter a link");
-  //             return;
-  //           }
-
-  //           const baseLink =
-  //             "https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_";
-  //           if (firstToxControlWrap.value.startsWith(baseLink)) {
-  //             alert("Traking already added");
-  //             return;
-  //           }
-  //           let slugValue = prompt("Enter a slug value");
-
-  //           const currentTimestamp = Date.now();
-  //           // const redirectUrl = encodeURIComponent(firstToxControlWrap.value)
-  //           let payload = {
-  //             slug_value: slugValue,
-  //             template_id: templateIdRef.current,
-  //             url_code: `clicked_track_doc_${currentTimestamp}`,
-  //           };
-  //           linkingPayload.current = payload;
-  //           let link = `https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_${currentTimestamp}&redirect_url=${firstToxControlWrap.value}`;
-  //           firstToxControlWrap.value = link;
-  //           var saveButton = document.querySelector(
-  //             '.tox-button[title="Save"]'
-  //           );
-
-  //           saveButton.addEventListener("click", function () {
-  //             let link = `https://onesource.informed.pro/api/track-links`;
-
-  //             axios
-  //               .post(link, payload)
-  //               .then((res) => {
-  //                 console.log("done");
-  //               })
-  //               .catch((err) => {
-  //                 loader("hide");
-  //                 console.log(err);
-  //               });
-  //           });
-  //           alert("Traking added");
-  //         };
-
-  //         header.insertBefore(newButton, closeButton);
-  //       } else if (text.innerText == "Insert/Edit Media") {
-  //         document.querySelector(
-  //           "body > div.tox.tox-silver-sink.tox-tinymce-aux > div.tox-dialog-wrap > div.tox-dialog > div.tox-dialog__content-js > div > div.tox-dialog__body-content > div > div:nth-child(1) > label"
-  //         ).innerText += " (Max size: 1GB)";
-  //       }
-  //     }
-  //   });
-  // };
 
   
   const addTracking = function (editor) {

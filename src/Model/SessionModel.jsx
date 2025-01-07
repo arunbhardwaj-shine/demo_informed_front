@@ -30,94 +30,11 @@ const [comment,setComment]=useState("")
       console.log("-err", err);
     }
   };
-  // console.log(data,'user')
-
-  // const handleChange = (questionId, data, type = "") => {
-  //   try {
-
-  //     if(typeof data === 'string'){
-  //       if(data?.trim() == ''){
-  //         data = 0;
-  //       }
-  //     }
-  //     if (type) {
-  //       setUserValid({
-  //         ...userValid,
-  //         [questionId]: data ? data : userRequired[questionId],
-  //       });
-
-  //       return;
-  //     }
-  //     setUserValid({ ...userValid, [questionId]: data });
-  //   } catch (err) {
-  //     console.log("-err", err);
-  //   }
-  // };
+  
 
 
 
-  // const handleSubmit = async () => {
-  //   try {
-  //     const errorValue = Object.values(userValid);
-
-  //     if (errorValue?.includes(0)) {
-  //       setError({ msg: "This field is required" });
-  //       return;
-  //     }
-  //     let newAr = [];
-  //     const keys = Object.keys(userValid);
-  //     keys.forEach((item) => {
-  //       let obj = {};
-  //       // user_answer:typeof userValid[item] != "number"?userValid[item]:"",
-  //       if (typeof userValid[item] != "number" && userValid[item]) {
-  //         obj = {
-  //           speakerName: userSpeaker[item],
-  //           poll_question_id: item,
-  //           poll_answer_id:
-  //             typeof userValid[item] == "number" ? userValid[item] : "",
-  //           user_answer: userValid[item],
-  //           guest_id: Cookies.get("events"),
-  //         };
-  //       }
-
-  //       if (typeof userValid[item] == "number" && userValid[item]) {
-  //         obj = {
-  //           speakerName: userSpeaker[item],
-  //           poll_question_id: item,
-  //           poll_answer_id:
-  //             typeof userValid[item] == "number" ? userValid[item] : "",
-  //           guest_id: Cookies.get("events"),
-  //         };
-  //       }
-  //       if (Object.keys(obj)?.length) {
-  //         newAr.push(obj);
-  //       }
-  //     });
-  //     loader("show");
-
-  //     await postData(ENDPOINT.ADD_EVENT_DATA, {
-  //       eventData: newAr,
-  //       eventId: eventData?.event_id,
-  //       poll_question_id: eventData?.question_id,
-  //     });
-  //     const eventQuestion = Cookies.get("eventQuestion");
-  //     if (!eventQuestion?.includes(eventData?.question_id)) {
-  //       let newAr = eventQuestion?.length ? JSON.parse(eventQuestion) : [];
-  //       newAr.push(eventData?.question_id);
-  //       const expirationDate = new Date();
-  //       expirationDate.setFullYear(expirationDate.getFullYear() + 1);
-  //       Cookies.set("eventQuestion", JSON.stringify(newAr), {
-  //         expires: expirationDate,
-  //       });
-  //     }
-  //     setError({});
-  //     onClose(false);
-  //     loader("hide");
-  //   } catch (err) {
-  //     loader("hide");
-  //     console.log("-err", err);
-  //   }
-  // };
+  
 
   const handleChangeCheckbox = (questionId, data, type = "") => {
     try {

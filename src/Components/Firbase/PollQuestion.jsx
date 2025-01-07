@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState } from "react";
 import { postData } from "../../axios/apiHelper";
 import { ENDPOINT } from "../../axios/apiConfig";
 import Highcharts from "highcharts";
@@ -11,8 +11,7 @@ import {
   limit,
 } from "firebase/firestore";
 import HighchartsReact from "highcharts-react-official";
-import HighchartsReactBAR from "highcharts-react-official";
-import { Col, Container, Row, Table } from "react-bootstrap";
+import { Container, Table } from "react-bootstrap";
 import { db } from "../../config/firebaseConfig";
 import { loader } from "../../loader";
 import { useLocation } from "react-router-dom";

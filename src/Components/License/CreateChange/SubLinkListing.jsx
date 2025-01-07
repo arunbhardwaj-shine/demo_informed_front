@@ -1,19 +1,8 @@
 import React, { useEffect, useState } from "react";
-import {
-  Button,
-  Col,
-  Dropdown,
-  Modal,
-  DropdownButton,
-  Form,
-  Row,
-  ProgressBar,
-  Tab,
-  Tabs,
-} from "react-bootstrap";
-import { useLocation, Link, useNavigate } from "react-router-dom";
+import {Button} from "react-bootstrap";
+import { Link } from "react-router-dom";
 import { ENDPOINT } from "../../../axios/apiConfig";
-import {postData, getData} from "../../../axios/apiHelper";
+import {getData} from "../../../axios/apiHelper";
 import { toast } from "react-toastify";
 import {QRCodeSVG} from "qrcode.react";
 let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;

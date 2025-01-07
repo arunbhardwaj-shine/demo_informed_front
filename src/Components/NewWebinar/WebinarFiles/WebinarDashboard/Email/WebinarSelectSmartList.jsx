@@ -1010,98 +1010,12 @@ const WebinarSelectSmartList = (props) => {
                                       }
                                     />
 
-                                    {/* {checkPdfSelected.current==true?(<>                                  
-                                    <input
-                                    onClick={() => handleSelect(template)}
-                                    type="radio"
-                                    name="radio"
-                                    checked={false}
-                                  />
-                                  </>):(<>                                   
-                                    <input
-                                    onClick={() => handleSelect(template)}
-                                    type="radio"
-                                    name="radio"
-                                    defaultChecked={
-                                      template?.id == PdfSelected
-                                        ? true
-                                        : template?.id == getselecedlistid &&
-                                          !PdfSelected
-                                          ? true
-                                          : false
-                                    }
-                                  /></>)
-                                   }  */}
 
                                     <span className="checkmark"></span>
                                   </div>
                                 </div>
                                 <SmartListLayout data={template} iseditshow={0} isviewshow={1} deletestatus={0} viewSmartListData={viewSmartListData} webinarFlag={1} />
 
-                                {/* <div className="mailbox-table">
-                                  <table>
-                                    <tbody>
-                                      <tr>
-                                        <th>Contact type</th>
-                                        <td>{template?.contact_type}</td>
-                                      </tr>
-                                      <tr>
-                                        <th>Speciality</th>
-                                        <td>{template?.speciality}</td>
-                                      </tr>
-                                      <tr>
-                                        <th>Readers</th>
-                                        <td>{template?.reader_selection}</td>
-                                      </tr>
-                                      <tr>
-                                        <th>IBU</th>
-                                        <td>{template?.ibu}</td>
-                                      </tr>
-                                      <tr>
-                                        <th>Product</th>
-                                        <td>{template?.product}</td>
-                                      </tr>
-                                      <tr>
-                                        <th>Country</th>
-                                        <td>{template?.country}</td>
-                                      </tr>
-                                      <tr>
-                                        <th>Registered</th>
-                                        <td>{template?.registered}</td>
-                                      </tr>
-                                      <tr>
-                                        <th>Created by</th>
-                                        <td>
-                                          <span>{template?.creator}</span>
-                                        </td>
-                                      </tr>
-                                    </tbody>
-                                  </table>
-                                </div>
-
-                                <div className="mail-time">
-                                  <span> {template?.created_at}</span>
-                                </div>
-                                <div className="smart-list-added-user">
-                                  <img
-                                    src={path_image + "smartlist-user.svg"}
-                                    alt="User icon"
-                                  />
-                                  {template?.readers_count}
-                                </div>
-
-                                <div className="smartlist-buttons">
-                                  <button className="btn view">
-                                    <a
-                                      className="color_blue"
-                                      onClick={() =>
-                                        openSmartListPopup(template?.id)
-                                      }
-                                    >
-                                      View
-                                    </a>
-                                  </button>
-                                </div> */}
                               </div>
                             </div>
                           </div>

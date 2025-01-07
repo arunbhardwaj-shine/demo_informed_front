@@ -1,12 +1,9 @@
 import React, { useEffect, useState, useRef } from "react";
-import { Modal, Dropdown } from "react-bootstrap";
 import SimpleReactValidator from "simple-react-validator";
 import { useNavigate, useLocation } from "react-router-dom";
 import { loader } from "../../../../../loader";
 import {
-    getWebinarCampaignId,
     getWebinarSelected,
-    getWebinarSelectedSmartListData,
     getWebinarEmailData
 } from "../../../../../actions";
 import axios from "axios";
@@ -14,11 +11,8 @@ import { connect } from "react-redux";
 import { toast } from "react-toastify";
 import { popup_alert } from "../../../../../popup_alert";
 import { Link } from "react-router-dom";
-
-import DropdownButton from "react-bootstrap/DropdownButton";
 import EditCountry from "../../../../CommonComponent/EditCountry";
 import EditContactType from "../../../../CommonComponent/EditContactType";
-import Select, { createFilter } from "react-select";
 import { useSidebar } from "../../../../CommonComponent/LoginLayout";
 import AddNewContactModal from "../../../../../Model/AddNewContactModal";
 
@@ -1858,48 +1852,7 @@ const WebinarVerifyHCP = (props) => {
                                                         <img src={path_image + "edit.svg"} alt="" />
                                                     </button>
                                                 </div>
-                                                {/* <div className="hcp-sort">
-                                                    {sortingCount == 0 ? (
-                                                        <>
-                                                            <button
-                                                                className="btn btn-outline-primary"
-                                                                onClick={sortSelectedUsers}
-                                                            >
-                                                                Sort By{" "}
-                                                                <img
-                                                                    src={path_image + "sort.svg"}
-                                                                    alt="Shorting"
-                                                                />
-                                                            </button>
-                                                        </>
-                                                    ) : sorting == 0 ? (
-                                                        <>
-                                                            <button
-                                                                className="btn btn-outline-primary desc"
-                                                                onClick={sortSelectedUsers}
-                                                            >
-                                                                Sort By{" "}
-                                                                <img
-                                                                    src={path_image + "sort-decending.svg"}
-                                                                    alt="Shorting"
-                                                                />
-                                                            </button>
-                                                        </>
-                                                    ) : (
-                                                        <>
-                                                            <button
-                                                                className="btn btn-outline-primary asc"
-                                                                onClick={sortSelectedUsers}
-                                                            >
-                                                                Sort By{" "}
-                                                                <img
-                                                                    src={path_image + "sort-assending.svg"}
-                                                                    alt="Shorting"
-                                                                />
-                                                            </button>
-                                                        </>
-                                                    )}
-                                                </div> */}
+                                              
                                             </>
                                         ) : null}
                                         {saveOpen ? (
@@ -2334,136 +2287,7 @@ const WebinarVerifyHCP = (props) => {
                                                     <th scope="col"></th>
                                                 </tr>
                                             </thead>
-                                            {/* <tbody>
-                                                {selectedHcp?.map((data, index) => {
-                                                    return (
-                                                        <>
-                                                            <tr
-                                                                id={`row-selected` + index}
-                                                                onClick={(e) =>
-                                                                    editing(
-                                                                      
-                                                                        data?.profile_id,
-                                                                        data?.profile_user_id,
-                                                                        data?.email,
-                                                                        data?.jobTitle,
-                                                                        data?.company,
-                                                                        data?.country,
-                                                                        data?.first_name + " " + data?.last_name,
-                                                                       isLikeRdAccount
-                                                                            ? data?.user_type
-                                                                            : data?.contact_type
-                                                                    )
-                                                                }
-                                                            >
-                                                                <td
-                                                                    id={`field_name` + data?.profile_user_id}
-                                                                    contenteditable={
-                                                                        editable === 0 ? "false" : "true"
-                                                                    }
-                                                                >
-                                                                    <span>{data?.name || data?.first_name}</span>
-                                                                </td>
-                                                                <td id={`field_email` + data?.profile_user_id}>
-                                                                    {data?.email ? data?.email : "N/A"}
-                                                                </td>
-                                                                <input
-                                                                    type="hidden"
-                                                                    id={`field_index` + data?.profile_user_id}
-                                                                    value={index}
-                                                                />
-                                                                <td
-                                                                    id={`field_bounced` + data?.profile_user_id}
-                                                                >
-                                                                    {data?.bounce ? data?.bounce : "N/A"}
-                                                                </td>
-                                                                <td>
-                                                                    {editable ? (
-                                                                        <EditCountry
-                                                                            selected_country={data?.country}
-                                                                            profile_user={data?.profile_user_id}
-                                                                        ></EditCountry>
-                                                                    ) : (
-                                                                        <span>
-                                                                            {data?.country ? data?.country : "N/A"}
-                                                                        </span>
-                                                                    )}
-                                                                </td>
-                                                                <td>
-                                                                   
-                                                                    {isLikeRdAccount
-                                                                        ? data?.irt
-                                                                            ? "Yes"
-                                                                            : "No"
-                                                                        : data?.ibu
-                                                                            ? data?.ibu
-                                                                            : "N/A"}
-                                                                </td>
-                                                                <td>
-                                                                    {isLikeRdAccount? (
-                                                                        data?.user_type != 0 ? (
-                                                                            data?.user_type
-                                                                        ) : (
-                                                                            "N/A"
-                                                                        )
-                                                                    ) : editable ? (
-                                                                        <EditContactType
-                                                                            selected_ibu={data?.contact_type}
-                                                                            profile_user={data?.profile_user_id}
-                                                                        ></EditContactType>
-                                                                    ) : (
-                                                                        <span>
-                                                                            {data?.contact_type
-                                                                                ? data?.contact_type
-                                                                                : "N/A"}
-                                                                        </span>
-                                                                    )}
-                                                                </td>
-                                                                <td>
-                                                                    <span>
-                                                                        {data?.consent ? data?.consent : "N/A"}
-                                                                    </span>
-                                                                </td>
-                                                                <td>
-                                                                    <span>
-                                                                        {data?.email_received
-                                                                            ? data?.email_received
-                                                                            : "N/A"}
-                                                                    </span>
-                                                                </td>
-                                                                <td>
-                                                                    <span>
-                                                                        {data?.email_opening
-                                                                            ? data?.email_opening
-                                                                            : "N/A"}
-                                                                    </span>
-                                                                </td>
-                                                                <td>
-                                                                    <span>
-                                                                        {data?.registration
-                                                                            ? data?.registration
-                                                                            : "N/A"}
-                                                                    </span>
-                                                                </td>
-                                                                <td>
-                                                                    <span>
-                                                                        {data?.last_email
-                                                                            ? data?.last_email
-                                                                            : "N/A"}
-                                                                    </span>
-                                                                </td>
-                                                                <td className="delete_row" colSpan="12">
-                                                                    <img
-                                                                        src={path_image + "delete.svg"}
-                                                                        alt="Delete Row"
-                                                                        onClick={() => deleteSelected(index)}
-                                                                    />
-                                                                </td>
-                                                            </tr>
-                                                        </>
-                                                    );
-                                                })}
-                                            </tbody> */}
+                                           
 
                                             <tbody>
 

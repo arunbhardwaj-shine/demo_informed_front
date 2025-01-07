@@ -5,7 +5,6 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Modal from "react-bootstrap/Modal";
 import { toast } from "react-toastify";
-
 import { LibraryEditValidation } from "../../Validations/LibraryValidation/LibraryEditValidation";
 import { Button, Form, Dropdown, DropdownButton } from "react-bootstrap";
 import {
@@ -970,99 +969,10 @@ const EditLicense = () => {
                           </li>
                         );
                       })}
-                      {/* <li className="list1">
-                        Excessive bleedings{" "}
-                        <img
-                          src="componentAssets/images/filter-close.svg"
-                          alt="Close-filter"
-                        />
-                      </li> */}
-                      {/* <li className="list1">
-                        New tag 3{" "}
-                        <img
-                          src="componentAssets/images/filter-close.svg"
-                          alt="Close-filter"
-                        />
-                      </li>
-                      <li className="list1">
-                        New tag 6{" "}
-                        <img
-                          src="componentAssets/images/filter-close.svg"
-                          alt="Close-filter"
-                        />
-                      </li>
-                      <li className="list1">
-                        global{" "}
-                        <img
-                          src="componentAssets/images/filter-close.svg"
-                          alt="Close-filter"
-                        />
-                      </li> */}
                     </ul>
                   </div>
                 </div>
               </div>
-              {/* <div className="form-group justify-content-end">
-              <label htmlFor="">Reseller</label>
-              <div className="form-check-group">
-                <div className="form-check">
-                  <input
-                    className="form-check-input"
-                    value=""
-                    id="flexCheckDefault"
-                    type="checkbox"
-                  />
-                  <label
-                    className="form-check-label"
-                    htmlFor="flexCheckDefault"
-                  >
-                    N/A
-                  </label>
-                </div>
-                <div className="form-check">
-                  <input
-                    className="form-check-input"
-                    value=""
-                    id="flexCheckReseller"
-                    type="checkbox"
-                  />
-                  <label
-                    className="form-check-label"
-                    htmlFor="flexCheckReseller"
-                  >
-                    Reseller Name
-                  </label>
-                </div>
-                <div className="form-check">
-                  <input
-                    className="form-check-input"
-                    value=""
-                    id="flexCheckReseller1"
-                    type="checkbox"
-                  />
-                  <label
-                    className="form-check-label"
-                    htmlFor="flexCheckReseller1"
-                  >
-                    Reseller Name
-                  </label>
-                </div>
-                <div className="form-check">
-                  <input
-                    className="form-check-input"
-                    value=""
-                    id="flexCheckReseller2"
-                    type="checkbox"
-                  />
-                  <label
-                    className="form-check-label"
-                    htmlFor="flexCheckReseller2"
-                  >
-                    Reseller Name
-                  </label>
-                </div>
-              </div>
-            </div> */}
             </div>
           </div>
         </div>
@@ -1315,23 +1225,6 @@ const EditLicense = () => {
                 <div className="row justify-content-end align-items-center">
                   <div className="col-12 col-md-1">
                     <div className="header-btn-left">
-                      {/*<Link
-                          className="btn btn-primary btn-bordered back-btn"
-                          to="/license-content"
-                        >
-                          <svg
-                            width="14"
-                            height="24"
-                            viewBox="0 0 14 24"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              d="M0.159662 12.0019C0.159662 11.5718 0.323895 11.1417 0.65167 10.8138L10.9712 0.494292C11.6277 -0.16216 12.692 -0.16216 13.3482 0.494292C14.0044 1.15048 14.0044 2.21459 13.3482 2.8711L4.21687 12.0019L13.3479 21.1327C14.0041 21.7892 14.0041 22.8532 13.3479 23.5093C12.6917 24.1661 11.6274 24.1661 10.9709 23.5093L0.65135 13.19C0.323523 12.8619 0.159662 12.4319 0.159662 12.0019Z"
-                              fill="#97B6CF"
-                            />
-                          </svg>
-                        </Link>*/}
                     </div>
                   </div>
                   <div className="col-12 col-md-9">
@@ -1724,101 +1617,16 @@ const EditLicense = () => {
                             </>
                           );
                         })
-                      ) : // <div className="form-group val">
-                      //   <label htmlFor="">Upload Ebook</label>
-                      //   <div className="upload-file-box">
-                      //     <div className="box">
-                      //       <input
-                      //         type="file"
-                      //         name="file-6[]"
-                      //         id="file-6"
-                      //         className="inputfile inputfile-6"
-                      //         accept="application/pdf"
-                      //         onChange={(e) => handleEbookChange(e)}
-                      //       />
-                      //       <label htmlFor="file-6">
-                      //         <span>Choose Your File</span>
-                      //       </label>
-                      //       <p>
-                      //         {selectedEbookName == ""
-                      //           ? "Upload your Ebook file"
-                      //           : selectedEbookName}{" "}
-                      //       </p>
-                      //     </div>
-                      //   </div>
-                      //   {error?.pdfFile ? (
-                      //     <div className="login-validation-upload">
-                      //       {error?.pdfFile}
-                      //     </div>
-                      //   ) : null}
-                      // </div>
+                      ) : 
                       null}
 
-                      {/* <div className="form-group">
-                      <label htmlFor="">Include video</label>
-                      <div className="switch">
-                        <label className="switch-light">
-                          <input
-                            type="checkbox"
-                            onChange={(e) => includeVideoCheckboxChanged(e)}
-                          />
-                          <span>
-                            <span className="switch-btn active">No</span>
-                            <span className="switch-btn">Yes</span>
-                          </span>
-                          <a className="btn"></a>
-                        </label>
-                      </div>
-                      {checked == false ? (
-                        <Button
-                          className="btn-bordered btn-voilet"
-                          onClick={handleShow}
-                        >
-                          click to embed your Videos{" "}
-                        </Button>
-                      ) : (
-                        false
-                      )}
-                    </div> */}
+                     
 
                       {(userDetail?.user?.[0]?.flag == 0 &&
                         userDetail?.user?.[0]?.group_id == 3) ||
                       (userDetail?.user?.[0]?.flag == 1 &&
                         userDetail?.user?.[0]?.group_id == 3) ? (
                         <>
-                          {/* <div className="form-group">
-                          <label htmlFor="">Include video</label>
-                          <div className="switch">
-                            <label className="switch-light">
-                              <input
-                                type="checkbox"
-                                defaultChecked={userInputs?.allow_video}
-                                // onChange={(e) => includeVideoCheckboxChanged(e)}
-                                onChange={(e) => {
-                                  handleChange(
-                                    e.target?.checked,
-                                    "allow_video"
-                                  );
-                                }}
-                              />
-                              <span>
-                                <span className="switch-btn active">No</span>
-                                <span className="switch-btn">Yes</span>
-                              </span>
-                              <a className="btn"></a>
-                            </label>
-                          </div> */}
-                          {/* {checked == false ? ( */}
-                          {/* <Button
-                        className="btn-bordered btn-voilet"
-                        onClick={handleShow}
-                      >
-                        click to embed your Videos{" "}
-                      </Button> */}
-                          {/* ) : (
-                        false
-                      )} */}
-                          {/* </div> */}
                         </>
                       ) : null}
 
@@ -1849,18 +1657,10 @@ const EditLicense = () => {
                                 <span>(Recommended size 88 X 124)</span>
                               </p>
                             )}
-                            {/* <p>
-                            Upload your cover image
-                            <br />
-                            <span>(Recommended size 00 X 00)</span>
-                          </p> */}
+                           
                           </div>
                         </div>
-                        {/* {error?.image ? (
-                        <div className="login-validation-upload">
-                          {error?.image}
-                        </div>
-                      ) : null} */}
+                       
                       </div>
 
                       {(ebookFile?.length &&
@@ -1871,49 +1671,6 @@ const EditLicense = () => {
                         localStorage.getItem("user_id") ==
                           "rjiGlqA9DXJVH7bDDTX0Lg==") ? (
                         <>
-                          {/* <div className="form-group">
-                            <label htmlFor="">Include video</label>
-                            <div className="switch">
-                              <label className="switch-light">
-                                <input
-                                  type="checkbox"
-                                  defaultChecked={
-                                    userInputs?.allow_video ? true : false
-                                  }
-                                  checked={
-                                    userInputs?.allow_video ? true : false
-                                  }
-                                  onChange={(e) => {
-                                    handleChange(
-                                      e.target?.checked,
-                                      "allow_video"
-                                    );
-                                  }}
-                                />
-                                <span>
-                                  <span
-                                    className={`switch-btn ${
-                                      userInputs?.allow_video == 0
-                                        ? " Active"
-                                        : ""
-                                    }`}
-                                  >
-                                    No
-                                  </span>
-                                  <span
-                                    className={`switch-btn ${
-                                      userInputs?.allow_video == 1
-                                        ? " Active"
-                                        : ""
-                                    }`}
-                                  >
-                                    Yes
-                                  </span>
-                                </span>
-                                <a className="btn"></a>
-                              </label>
-                            </div>
-                          </div> */}
                         </>
                       ) : null}
                     </div>
@@ -1951,12 +1708,6 @@ const EditLicense = () => {
               <p>Select the chapter </p>
               <Form.Group className="formgroup">
                 <Form.Label>Chapters</Form.Label>
-                {/* <ReactSelect
-                  placeholder="Select your chapter"
-                  options={types}
-                  className="dropdown-basic-button split-button-dropup"
-                  isClearable
-                /> */}
                 <DropdownButton
                   className="dropdown-basic-button split-button-dropup "
                   title={
@@ -2033,16 +1784,6 @@ const EditLicense = () => {
                 </DropdownButton>
 
                 <div className="upload-file-box">
-                  {/* <input
-                    type="file"
-                    name="file-10[]"
-                    id="file-10"
-                    className="inputfile inputfile-6"
-                    accept=".mp4"
-                  />
-                  <label htmlFor="file-10">
-                    <span>Upload new Video +</span>
-                  </label> */}
                   <Button
                     className="btn-filled"
                     onClick={onUploadNewVideoClicked}

@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { Col, Tabs, Tab, Button } from 'react-bootstrap'
+import { Col, Tabs, Tab } from 'react-bootstrap'
 import LivePolls from './LivePolls'
 import PollListing from '../../../../Webinar/Survey/PollListing'
-import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useSidebar } from "../../../../CommonComponent/LoginLayout";
 
 

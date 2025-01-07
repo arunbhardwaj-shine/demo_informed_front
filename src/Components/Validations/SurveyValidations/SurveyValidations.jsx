@@ -1,5 +1,5 @@
 export const surveyValidation = (data) => {
-    console.log(data);
+    // console.log(data);
     let error = {};
   
     if (!data?.surveyTitle) {

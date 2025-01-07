@@ -1,11 +1,9 @@
 import React from "react";
-import { Col, Row, Button, Container, Form } from "react-bootstrap";
+import { Col, Row, Button, Container } from "react-bootstrap";
 import { useState } from "react";
-import Dropdown from "react-bootstrap/Dropdown";
-import DropdownButton from "react-bootstrap/DropdownButton";
 import Question from "./Question";
 import { ENDPOINT } from "../../../axios/apiConfig";
-import { getData, postData } from "../../../axios/apiHelper";
+import {  postData } from "../../../axios/apiHelper";
 import { useLocation } from "react-router-dom";
 
 const SurveyBuilder = () => {
@@ -133,7 +131,7 @@ const SurveyBuilder = () => {
   const validateQuestions = () => {
     let isValid = true;
     const updatedQuestions = [...questions];
-console.log(updatedQuestions);
+// console.log(updatedQuestions);
     updatedQuestions.forEach((questionObj, index) => {
       const question = questionObj.questionData.question;
       const speakerName = questionObj.questionData.speakerName;
@@ -192,11 +190,11 @@ console.log(updatedQuestions);
   };
 
   const handleSubmit = async () => {
-    console.log({
-      eventId:eventId,
-      data:questions.map((questionObj) => questionObj.questionData)
+    // console.log({
+    //   eventId:eventId,
+    //   data:questions.map((questionObj) => questionObj.questionData)
    
-    });
+    // });
 
     const isValid = validateQuestions();
 
@@ -224,17 +222,7 @@ console.log(updatedQuestions);
         <Row>
           
         <div className="d-flex justify-content-center mb-5">
-  {/* <Col md={3}>
-    <Form.Group>
-      <Form.Control as="select" value={eventId} onChange={onEventChange}>
-        <option value="">Select Event</option>
-        <option value="255">255</option>
-        <option value="522">522</option>
-        <option value="111">111</option>
-      </Form.Control>
-      <p className="text-danger">{eventError}</p>
-    </Form.Group>
-  </Col> */}
+ 
 </div>
       </Row>
           <Row>

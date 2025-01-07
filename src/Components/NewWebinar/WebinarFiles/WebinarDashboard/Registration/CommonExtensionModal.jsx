@@ -182,33 +182,7 @@ const CommonExtensionModal = ({
     }
   };
 
-  // const AddOptions = (e) => {
-  //   e.preventDefault();
-
-  //   let optionObj = {
-  //     optionLabel: "",
-  //   };
-
-  //   if (formData?.option?.length) {
-  //     let index = formData?.option?.findIndex(
-  //       (data, index) => data?.optionLabel == ""
-  //     );
-  //     const lastTwoItems = formData?.option?.slice(-2);
-  //     const [item1, item2] = lastTwoItems;
-  //     const areLabelsEqual = item1?.optionLabel === item2?.optionLabel;
-  //     if (index > -1) {
-  //       toast.error(`Please fill the option ${index + 1}`);
-  //       return;
-  //     } else if (item1?.optionLabel === item2?.optionLabel) {
-  //       toast.error("Option can't be same");
-  //       return;
-  //     } else {
-  //       setFormData({ ...formData, option: [...formData?.option, optionObj] });
-  //     }
-  //   } else {
-  //     setFormData({ ...formData, option: [...formData?.option, optionObj] });
-  //   }
-  // };
+  
 
   const deleteOption = (e, index) => {
     e.preventDefault();
@@ -390,18 +364,7 @@ const CommonExtensionModal = ({
                                       ""
                                     )}
 
-                                    {/* <button
-                                      className="dlt_btn_event btn-voilet"
-                                      onClick={(e) => {
-                                        deleteOption(e, index);
-                                      }}
-                                    >
-                                      <img
-                                        title="Delete"
-                                        src={path_image + "delete-icon.svg"}
-                                        alt="Delete Row"
-                                      />
-                                    </button> */}
+                                   
                                     <button
                                       className="dlt_btn_event btn-filled"
                                       onClick={(e) => {

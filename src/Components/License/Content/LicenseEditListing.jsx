@@ -33,7 +33,6 @@ import "react-activity/dist/library.css";
 import { loader } from "../../../loader";
 import { toast } from "react-toastify";
 import moment from "moment";
-// import QRCode from "react-qr-code";
 import {QRCodeSVG} from "qrcode.react";
 
 const path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;

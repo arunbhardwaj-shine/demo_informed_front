@@ -1,23 +1,18 @@
 import React, { useCallback, useEffect, useState, useRef } from "react";
 import axios from "axios";
 import { Link, useLocation } from "react-router-dom";
-import { connect } from "react-redux";
 import AliceCarousel from "react-alice-carousel";
 import "react-alice-carousel/lib/alice-carousel.css";
-
 import { useNavigate } from "react-router-dom";
-import { Modal, ModalDialog, Dropdown, Button } from "react-bootstrap";
+import { Modal, Dropdown, Button } from "react-bootstrap";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import SimpleReactValidator from "simple-react-validator";
 import { loader } from "../../../loader";
 import Select from "react-select";
-
 import { toast } from "react-toastify";
 import { Editor } from "@tinymce/tinymce-react";
-
 import { toPng } from "html-to-image";
 import { CircularProgressbar } from "react-circular-progressbar";
-import { buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import { popup_alert } from "../../../popup_alert";
 import Tooltip from "react-bootstrap/Tooltip";
@@ -245,7 +240,7 @@ const EditConsentOptions = (props) => {
 
         let index = lng_arr.findIndex((x) => x.value === selectedLanguage);
         setCountryOption(index);
-        console.log(lng_arr);
+        // console.log(lng_arr);
 
         setTemplateLanguage(lng_arr);
 
@@ -314,7 +309,7 @@ const EditConsentOptions = (props) => {
           getSpecificKeyData &&
           getSpecificKeyData.hasOwnProperty("source_code")
         ) {
-          console.log(state_object);
+          // console.log(state_object);
           if (state_object != null && state_object?.template != "") {
             if (state_object.template !== "") {
               setTemplate("state_object.template");
@@ -665,7 +660,7 @@ const EditConsentOptions = (props) => {
       await axios
         .post(`emailapi/search_hcp`, body)
         .then((res) => {
-          console.log(res);
+          // console.log(res);
           // console.log(res.data.response.data);
           if (res.data.response) {
             setSearchedUsers(res.data.response.data);
@@ -732,7 +727,7 @@ const EditConsentOptions = (props) => {
     const name = hpc[i].contact_type;
     list[i].contact_type = value;
     setHpc(list);
-    console.log(hpc);
+    // console.log(hpc);
   };
 
   const getCountrySelected = (e) => {
@@ -742,7 +737,7 @@ const EditConsentOptions = (props) => {
 
     const value = e;
     // const list = [...hpc];
-    console.log(value);
+    // console.log(value);
   };
 
   const onCountryChange = (e, i) => {
@@ -752,7 +747,7 @@ const EditConsentOptions = (props) => {
     const name = hpc[i].country;
     list[i].country = value;
     setHpc(list);
-    console.log(hpc);
+    // console.log(hpc);
   };
 
   const deleteRecord = (i) => {
@@ -856,7 +851,7 @@ const EditConsentOptions = (props) => {
       formData.append("smart_list_id", "");
       formData.append("reader_file", selectedFile);
 
-      console.log(formData);
+      // console.log(formData);
 
       if (selectedFile) {
         axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
@@ -932,7 +927,7 @@ const EditConsentOptions = (props) => {
 
   const languageSelected = (e) => {
     loader("show");
-    console.log(e);
+    // console.log(e);
     setSelectedLanguage(e.value);
     getTemplateListData(2, e.value, selectedIbu);
   };
@@ -1069,7 +1064,7 @@ const EditConsentOptions = (props) => {
       templateId != "" &&
       templateId != 0
     ) {
-      console.log(templateId);
+      // console.log(templateId);
       setviewEmailModal(true);
     } else {
       toast.warning("Template not selected.");
@@ -1362,7 +1357,7 @@ const EditConsentOptions = (props) => {
                         axios
                             .post(apiLink, payload)
                             .then((res) => {
-                                console.log("done");
+                                // console.log("done");
                             })
                             .catch((err) => {
                                 loader("hide");

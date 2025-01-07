@@ -326,62 +326,7 @@ const ReaderEdit = () => {
     }
   };
 
-  // const editProductClicked = (statusMsg, e) => {
-  //   // setSelectedCategory(statusMsg);
-
-  //   // e.preventDefault();
-  //   setCommonShow(true);
-  //   setCommonFooter("Update");
-  //   setNewProduct("");
-  //   if (statusMsg == "speciality") {
-  //     setData(() => [
-  //       {
-  //         name: "speciality",
-  //         label: "Speciality",
-  //         type: "input",
-  //         placeholder: "Type your speciality",
-  //         value: userInputs[statusMsg],
-  //       },
-  //     ]);
-  //     setCommonHeader("Edit Speciality");
-  //   }
-  //   if (statusMsg == "discipline") {
-  //     setData(() => [
-  //       {
-  //         name: "discipline",
-  //         label: "discipline",
-  //         type: "input",
-  //         placeholder: "Type your discipline",
-  //         value: userInputs[statusMsg],
-  //       },
-  //     ]);
-  //     setCommonHeader("Edit Discipline");
-  //   }
-  //   if (statusMsg == "product") {
-  //     setData(() => [
-  //       {
-  //         name: "product",
-  //         label: "product",
-  //         type: "input",
-  //         placeholder: "Type your product",
-  //         value: userInputs[statusMsg],
-  //       },
-  //     ]);
-  //     setCommonHeader("Edit Product");
-  //   }
-  //   if (statusMsg == "province") {
-  //     setData(() => [
-  //       {
-  //         name: "province",
-  //         label: "province",
-  //         type: "input",
-  //         placeholder: "Type your province",
-  //         value: userInputs[statusMsg],
-  //       },
-  //     ]);
-  //     setCommonHeader("Edit Product");
-  //   }
-  // };
+  
 
   const addNewProductClicked = (statusMsg, e) => {
     e.preventDefault();
@@ -925,35 +870,7 @@ const ReaderEdit = () => {
             </Form.Group>
             : null
         }
-        {/*<Form.Group className="form-group">
-            <Form.Label htmlFor="">
-              Blind Type<span>*</span>{" "}
-            </Form.Label>
-
-            <Select
-              options={userDetail?.blind_type}
-              defaultValue={{
-                label:
-                  userInputs?.blinded?.charAt(0)?.toUpperCase() +
-                  userInputs?.blinded?.slice(1),
-                value: userInputs?.blinded,
-              }}
-              placeholder="Select Blind Type"
-              name="blinded"
-              className={
-                error?.blinded
-                  ? "dropdown-basic-button split-button-dropup error"
-                  : "dropdown-basic-button split-button-dropup"
-              }
-              isClearable
-              onChange={(e) => handleChange(e?.value, "blinded")}
-            />
-            {error?.blinded ? (
-              <div className="login-validation">{error?.blinded}</div>
-            ) : (
-              ""
-            )}
-          </Form.Group>*/}
+       
 
         <Form.Group className="form-group">
           <Form.Label htmlFor="">
@@ -1651,26 +1568,7 @@ const ReaderEdit = () => {
                                 }
                               />
                             </Form.Group>
-                            {/* {groupId == 3 && flag == 0 && pharmaData == 0 ? (
-                              <Form.Group className="form-group">
-                                <Form.Label htmlFor="">
-                                  Select User Type
-                                </Form.Label>
-                                <Select
-                                  options={userDetail?.userType}
-                                  defaultValue={userInputs?.userType}
-                                  placeholder="Select province"
-                                  name="userType"
-                                  className="dropdown-basic-button split-button-dropup"
-                                  isClearable
-                                  onChange={(e) =>
-                                    handleChange(e?.value, "UserType")
-                                  }
-                                />
-                              </Form.Group>
-                            ) : (
-                              ""
-                            )} */}
+                           
 
                             <Form.Group className="form-group">
                               <Form.Label htmlFor="">Rep contact</Form.Label>

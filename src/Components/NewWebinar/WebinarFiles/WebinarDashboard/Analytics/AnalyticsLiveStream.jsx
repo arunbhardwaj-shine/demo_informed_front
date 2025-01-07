@@ -6,7 +6,6 @@ import {
   ref,
   query,
   orderByChild,
-  equalTo,
   onValue,
   off,
 } from "firebase/database";
@@ -14,7 +13,7 @@ import { database } from "../../../../../config/firebaseConfigOnesource";
 import { postData } from "../../../../../axios/apiHelper";
 import { ENDPOINT } from "../../../../../axios/apiConfig";
 import { useSidebar } from "../../../../CommonComponent/LoginLayout";
-import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import Skeleton from "react-loading-skeleton";
 
 const AnalyticsLiveStream = ({ handleAttendedUserCountryWise }) => {
   const chartHeight = 270;

@@ -1,20 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Button, Col, Dropdown, Row, Tab, Tabs } from "react-bootstrap";
+import { Col, Dropdown, Row, Tab, Tabs } from "react-bootstrap";
 import { loader } from "../../../../../loader";
 import { postData } from "../../../../../axios/apiHelper";
 import { toast } from "react-toastify";
 import { ENDPOINT } from "../../../../../axios/apiConfig";
 import { useSidebar } from "../../../../CommonComponent/LoginLayout";
 import Highcharts from "highcharts";
-import exporting from "highcharts/modules/exporting";
-import exportData from "highcharts/modules/export-data";
 import HighchartsReact from "highcharts-react-official";
-import drilldown from "highcharts/modules/drilldown.js";
-import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-// exporting(Highcharts);
-// exportData(Highcharts);
-// drilldown(Highcharts);
+
 
 const AnalyticsRegions = () => {
   const path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;

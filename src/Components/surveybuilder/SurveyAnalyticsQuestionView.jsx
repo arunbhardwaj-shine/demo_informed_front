@@ -116,43 +116,7 @@ const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
         );
     };
 
-    // const handleDownload = (
-    //     format,
-    //     ref,
-    //     defaultName = "survey_question"
-    // ) => {
-    //     let chart = ref.current && ref.current.chart;
-    //     if (chart) {
-    //         switch (format) {
-    //             case "PNG":
-    //                 chart.exportChart({
-    //                     type: "image/png",
-    //                     filename: defaultName,
-    //                 });
-    //                 break;
-    //             case "JPEG":
-    //                 chart.exportChart({
-    //                     type: "image/jpeg",
-    //                     filename: defaultName,
-    //                 });
-    //                 break;
-    //             case "PDF":
-    //                 chart.exportChart({
-    //                     type: "application/pdf",
-    //                     filename: defaultName,
-    //                 });
-    //                 break;
-    //             case "SVG":
-    //                 chart.exportChart({
-    //                     type: "image/svg+xml",
-    //                     filename: defaultName,
-    //                 });
-    //                 break;
-    //             default:
-    //                 break;
-    //         }
-    //     }
-    // };
+   
 
     const handleDownload = async (format, ref, defaultName = "survey_question", index) => {
         try {

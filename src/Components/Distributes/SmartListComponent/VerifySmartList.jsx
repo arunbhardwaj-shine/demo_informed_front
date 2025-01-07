@@ -15,7 +15,7 @@ const VerifySmartList = () => {
           <div className="row">
         {typeof getfilterdata === "object" && getfilterdata.length > 0 ? (
           <div className="box mt-2">
-            {console.log(filter_payload)}
+            {/* {console.log(filter_payload)} */}
             <p className="mt-2">Selected HCPs for the smart list</p>
             <Table
               data={getfilterdata}

@@ -107,9 +107,9 @@ function LicenseTopics() {
     setNewValue({ ...newValue, newProductValue: e.target.value });
   };
   const setCommonModel = (stateMsg, e, id, value) => {
-    console.log("msg", stateMsg);
-    console.log("id", id);
-    console.log("value", value);
+    // console.log("msg", stateMsg);
+    // console.log("id", id);
+    // console.log("value", value);
     if (stateMsg == "Add") {
       downloadData = [
         {

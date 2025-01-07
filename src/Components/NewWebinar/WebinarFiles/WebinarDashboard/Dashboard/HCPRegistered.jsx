@@ -196,7 +196,7 @@ const HCPRegistered = () => {
         series: updatedSeries,
       };
 
-      console.log(updatedOptions);
+      // console.log(updatedOptions);
       setOptions(updatedOptions);
 
       loader("show");
@@ -225,7 +225,7 @@ const HCPRegistered = () => {
          series: updatedSeries,
        };
  
-       console.log(updatedOptions);
+      //  console.log(updatedOptions);
        setOptions2(updatedOptions);
 
       loader("hide");

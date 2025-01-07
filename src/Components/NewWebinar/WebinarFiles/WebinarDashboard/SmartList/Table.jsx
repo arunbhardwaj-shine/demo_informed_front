@@ -7,16 +7,13 @@ import React, {
   useImperativeHandle,
 } from "react";
 import { Link } from "react-router-dom";
-import { Button, Modal, Dropdown } from "react-bootstrap";
-import { confirmAlert } from "react-confirm-alert";
+import { Modal, Dropdown } from "react-bootstrap";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import SimpleReactValidator from "simple-react-validator";
 import { loader } from "../../../../../loader";
 import { toast } from "react-toastify";
 import { popup_alert } from "../../../../../popup_alert";
 import queryString from "query-string";
-import { connect } from "react-redux";
-// import ReactHTMLTableToExcel from "react-html-table-to-excel";
 import { DownloadTableExcel } from 'react-export-table-to-excel';
 import DropdownButton from "react-bootstrap/DropdownButton";
 import EditCountry from "../../../../CommonComponent/EditCountry";
@@ -1315,7 +1312,7 @@ const Table = (props, ref) => {
         profile_user_id,
       });
     } else {
-      console.log("validator3");
+      // console.log("validator3");
       console.log(validator3);
       console.log(validator3.errorMessages);
       // validator3.showMessages();

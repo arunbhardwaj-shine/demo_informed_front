@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Col, Row, Tab, Tabs } from "react-bootstrap";
+import { Col, Row, Tab, Tabs } from "react-bootstrap";
 import { loader } from "../../../../../loader";
 import { useSidebar } from "../../../../CommonComponent/LoginLayout";
 import { postData } from "../../../../../axios/apiHelper";
