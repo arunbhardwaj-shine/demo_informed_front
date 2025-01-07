@@ -1,29 +1,24 @@
-import React, { useState, useEffect, useRef, useLayoutEffect } from "react";
-import { Router, Route } from 'react-router';
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import {
   Button,
   Col,
   Container,
   Form,
-  FormGroup,
   FormLabel,
-  Row,
+  Row
 } from "react-bootstrap";
 import Select from "react-select";
-import Header from "../CommonComponent/HeaderComponent/Header";
-import { Link } from "react-router-dom";
-import Modal from "react-bootstrap/Modal";
 import Slider from "react-slick";
-import LandingHeader from "./LandingHeader";
-import LandingContact from "./LandingContact";
-import LandingFooter from "./LandingFooter";
-import { HomeValidation } from "../Validations/HomeValidations/HomeValidation";
-import { loader } from "../../loader";
+import { toast } from "react-toastify";
+import "slick-carousel/slick/slick-theme.css";
+import "slick-carousel/slick/slick.css";
 import { ENDPOINT } from "../../axios/apiConfig";
 import { postData } from "../../axios/apiHelper";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import { toast } from "react-toastify";
+import { loader } from "../../loader";
+import { HomeValidation } from "../Validations/HomeValidations/HomeValidation";
+import LandingContact from "./LandingContact";
+import LandingFooter from "./LandingFooter";
+import LandingHeader from "./LandingHeader";
 
 const PharmaMarketing = () => {
   const [activeModule, setActiveModule] = useState(null);
@@ -49,7 +44,7 @@ const PharmaMarketing = () => {
   const [moduleRequest, setModuleRequest] = useState(false)
   const nameRef = useRef(null);
   const emailRef = useRef(null);
-  const companyRef = useRef(null);
+ 
   const phoneRef = useRef(null);
   const countryRef = useRef(null);
   const ref = useRef(null);
@@ -1089,7 +1084,7 @@ const PharmaMarketing = () => {
         root.classList.remove('scrollerClass');
         const dataPharmaString = JSON.stringify(data);
         const res = await postData(ENDPOINT.REGISTER, data);
-        console.log("res--->", res)
+ 
         if (res?.data?.data?.user_id) {
           localStorage.setItem("userId", res?.data?.data?.user_id)
           userTrackingFun(userTrackDetail)
@@ -1147,50 +1142,7 @@ const PharmaMarketing = () => {
     });
   };
 
-  // const handleBigCircleClick = (moduleName, index) => {
-  //   let newObj = { "user select the module": moduleName }
-  //   userTrackingFun(newObj)
-
-  //   const bigCircleData = bigCircleModules[index];
-  //   setShowBigCircleData(true);
-
-  //   if (showBigCircleData) {
-  //     setAddClass(false);
-  //     setBigModuleData((prevState) => ({
-  //       active: moduleName === activeModule ? !prevState.active : true,
-  //       logoIconPath: bigCircleData?.logo,
-  //       heading: bigCircleData?.title,
-  //       ppt: bigCircleData?.ppt,
-  //       imagePath: bigCircleData?.image,
-  //       detail: bigCircleData?.description,
-  //       paragraph: bigCircleData?.para,
-  //       highlights: bigCircleData?.features,
-  //     }));
-  //     setActiveModule(moduleName === activeModule ? null : moduleName);
-  //   } else {
-  //     setShowBigCircleData(false);
-  //     setActiveModule(moduleName === activeModule ? null : moduleName);
-  //     const visibleModules = document.querySelectorAll(".stat.visible");
-  //     const visibleModuleNames = Array.from(visibleModules).map((module) => {
-  //       const classNames = module.className.split(" ");
-  //       return classNames[classNames.length - 2];
-  //     });
-  //     setSelectedModules((prevState) => {
-  //       const isPreviouslySelected = prevState.includes(moduleName);
-  //       const updatedModules = isPreviouslySelected
-  //         ? prevState.filter((item) => item !== moduleName)
-  //         : [...prevState, moduleName];
-  //       const stats = document.querySelectorAll(".stat");
-  //       stats.forEach((stat) => {
-  //         if (stat.classList.contains(moduleName)) {
-  //           stat.classList.toggle("visible");
-  //           stat.classList.toggle("active");
-  //         }
-  //       });
-  //       return updatedModules;
-  //     });
-  //   }
-  // };
+  
 
 
   const handleBigCircleClick = (moduleName, index) => {
@@ -1229,10 +1181,7 @@ const PharmaMarketing = () => {
       setShowBigCircleData(false);
       setActiveModule(moduleName === activeModule ? null : moduleName);
       const visibleModules = document.querySelectorAll('.stat.visible');
-      const visibleModuleNames = Array.from(visibleModules).map((module) => {
-        const classNames = module.className.split(' ');
-        return classNames[classNames.length - 2];
-      });
+       
       setSelectedModules((prevState) => {
         const isPreviouslySelected = prevState.includes(moduleName);
         const updatedModules = isPreviouslySelected
@@ -1304,9 +1253,7 @@ const PharmaMarketing = () => {
   };
 
   const handleSubmitClick = async () => {
-    // setAddDivClass(true);
-    // setAddHideClass(true);
-    // setAddSmallClass(true);
+    
     const email = moduleFormInputs?.secondaryEmail?.trim();
     const phone = moduleFormInputs?.secondaryPhone?.trim();
     const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
@@ -1409,9 +1356,7 @@ const PharmaMarketing = () => {
     setEmailError('')
     setPhoneError('')
 
-    //   setTimeout(() => {
-    //   setActiveModule(null);
-    // }, 2000);
+    
   };
 
   const handleBigClose = () => {
@@ -1455,7 +1400,7 @@ const PharmaMarketing = () => {
   };
 
   const userTrackingFun = async (newObj) => {
-    console.log("func--->", newObj)
+   
     try {
       const res = await postData(ENDPOINT.USER_TRACKING, { data: newObj, userId: localStorage.getItem("userId"), trackingId: localStorage.getItem("trackingId") })
       if (res?.data?.message == "insert") {
@@ -1482,9 +1427,7 @@ const PharmaMarketing = () => {
         return;
       }
 
-      // const prevModuleIndex = currentModuleIndex === 0 ? 12 : currentModuleIndex - 1;
-      // const currentModule = document.getElementById(`module-${currentModuleIndex}`);
-      // const prevModule = document.getElementById(`module-${prevModuleIndex}`);
+ 
 
 
       if (prevModule) {
@@ -1640,9 +1583,7 @@ const PharmaMarketing = () => {
                     <div className="icon-block icon27">&nbsp;</div>
                   </div>
                   <div className="circle circle-inner1">
-                    {/* <svg width="758" height="750" viewBox="0 0 758 750" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M-2.86102e-06 134.206C-2.86102e-06 138.625 3.58172 142.206 8 142.206C12.4183 142.206 16 138.625 16 134.206C16 129.788 12.4183 126.206 8 126.206C3.58172 126.206 -2.86102e-06 129.788 -2.86102e-06 134.206ZM148.701 37.2025L149.294 38.5806L149.294 38.5806L148.701 37.2025ZM492.269 37.2025L491.677 38.5806L491.677 38.5806L492.269 37.2025ZM632.97 134.206L631.894 135.251L631.894 135.251L632.97 134.206ZM724.547 274.805L723.155 275.366L723.155 275.366L724.547 274.805ZM724.547 600.555L725.938 601.116L725.938 601.116L724.547 600.555ZM624.97 741.154C624.97 745.572 628.552 749.154 632.97 749.154C637.389 749.154 640.97 745.572 640.97 741.154C640.97 736.735 637.389 733.154 632.97 733.154C628.552 733.154 624.97 736.735 624.97 741.154ZM9.07636 135.251C48.6992 94.4283 96.2717 61.3716 149.294 38.5806L148.109 35.8245C94.7183 58.7739 46.818 92.059 6.92364 133.162L9.07636 135.251ZM149.294 38.5806C201.816 16.0042 259.689 3.5 320.485 3.5V0.499999C259.274 0.499999 200.999 13.0901 148.109 35.8245L149.294 38.5806ZM320.485 3.5C381.281 3.5 439.154 16.0042 491.677 38.5806L492.862 35.8245C439.971 13.0901 381.696 0.499999 320.485 0.499999V3.5ZM491.677 38.5806C544.699 61.3716 592.271 94.4283 631.894 135.251L634.047 133.162C594.152 92.059 546.252 58.7739 492.862 35.8245L491.677 38.5806ZM631.894 135.251C670.744 175.278 701.95 222.768 723.155 275.366L725.938 274.244C704.584 221.281 673.163 173.463 634.047 133.162L631.894 135.251ZM723.155 275.366C743.371 325.507 754.5 380.291 754.5 437.68H757.5C757.5 379.901 746.295 324.736 725.938 274.244L723.155 275.366ZM754.5 437.68C754.5 495.069 743.371 549.853 723.155 599.994L725.938 601.116C746.295 550.624 757.5 495.459 757.5 437.68H754.5ZM723.155 599.994C701.95 652.592 670.744 700.082 631.894 740.109L634.047 742.198C673.163 701.898 704.584 654.079 725.938 601.116L723.155 599.994Z" fill="#004A89"/>
-                                    </svg> */}
+                   
                     <div className="icon-block icon72">
                       <img src={path_image + "white-emails.svg"} alt="" />
                     </div>
@@ -2050,14 +1991,7 @@ const PharmaMarketing = () => {
             <div className="works-started">
               <div className="works-started-links pharm-page">
                 <h3>Modules </h3>
-                {/* <h5 className="desk-content">
-                  Click on a module to explore its capabilities and discover how
-                  it can benefit you. Learn about its connections with other
-                  modules and how they collectively help your clients succeed.
-                  These modules have been collaboratively developed with the
-                  pharmaceutical industry and are now integral parts of our
-                  comprehensive offerings aimed at enhancing your workflow.
-                </h5> */}
+               
                 <h5 className=""><strong>Modules built together with and for pharma.</strong></h5>
                 <h5><strong> Click a module</strong> to see others it relates to. Register to find out how they can help you build better relationships with each HCP.</h5>
               </div>
@@ -2358,7 +2292,7 @@ const PharmaMarketing = () => {
                     </div>
 
                     <p>{moduleData?.paragraph}</p>
-                    {/* <Button onClick={(e)=>handleRead(e,moduleData?.heading)}>Read more</Button> */}
+                    
                     <Button onClick={(e) => handleRead(e, activeModule)}>Read more</Button>
                   </div>
                 </div>
@@ -2611,13 +2545,7 @@ const PharmaMarketing = () => {
                                     />
                                   </svg>
                                 </span>
-                                {/* {registerError?.company ? (
-                                  <div className="contact-validation">
-                                    {registerError?.company}
-                                  </div>
-                                ) : (
-                                  ""
-                                )} */}
+                               
                               </div>
                             </Col>
 
@@ -2666,13 +2594,7 @@ const PharmaMarketing = () => {
                                   ""
                                 )}
                               </div>
-                              {/* {registerError?.email ? (
-                                <div className="contact-validation">
-                                  {registerError?.email}
-                                </div>
-                              ) : (
-                                ""
-                              )} */}
+                               
                             </Col>
 
                             <Col md="12">
@@ -2772,11 +2694,7 @@ const PharmaMarketing = () => {
                               <div className="key-features">
                                 <h5> Key Features</h5>
                                 <ul>
-                                  {/* {bigCircleModuleData?.highlights?.map(
-                                  (feature, index) => (
-                                    <li key={index}>{feature}</li>
-                                  )
-                                )} */}
+                                  
 
                                   {bigCircleModuleData?.highlights?.map(
                                     (feature, index) => (
@@ -2843,18 +2761,7 @@ const PharmaMarketing = () => {
                                 <div className="form-feilds d-flex">
                                   <Col md="6">
                                     <div className="form-group">
-                                      {/* <input
-                                        type="email"
-                                        placeholder="Email"
-                                        name="secondaryEmail"
-                                        className="form-control"
-                                        value={
-                                          moduleFormInputs?.secondaryEmail
-                                            ? moduleFormInputs?.secondaryEmail
-                                            : ""
-                                        }
-                                        onChange={handleModuleFormChange}
-                                      /> */}
+                                     
                                       <input
                                         type="email"
                                         placeholder="Email"
@@ -2864,7 +2771,7 @@ const PharmaMarketing = () => {
                                         onChange={handleModuleFormChange}
                                       />
                                       {emailError && (<p style={{ color: 'red' }}>{emailError}</p>)}
-                                      {/* <p style={{ color: 'red' }}>{emailError}</p> */}
+                                    
                                       <span>
                                         <svg
                                           width="20"
@@ -2899,7 +2806,7 @@ const PharmaMarketing = () => {
                                         onChange={handleModuleFormChange}
                                       />
                                       {phoneError && (<p style={{ color: 'red' }}>{phoneError}</p>)}
-                                      {/* <p style={{ color: 'red' }}>{phoneError}</p> */}
+                                      
                                       <span>
                                         <svg
                                           xmlns="http://www.w3.org/2000/svg"
@@ -3531,9 +3438,7 @@ const PharmaMarketing = () => {
                             Request
                           </Button>
 
-                          {/* <Link to="/" className="">
-                            <img src={path_image + "downlaod-ppt.svg"} alt="" />
-                          </Link> */}
+                        
 
                           <a href={bigCircleModuleData?.ppt} download onClick={() => handleDownloadClick(bigCircleModuleData?.ppt)}>
                             <img src={path_image + "downlaod-ppt.svg"} alt="" />
@@ -3568,13 +3473,7 @@ const PharmaMarketing = () => {
                     )}
                   </div>
 
-                  {/* <-------- MOBILE VIEW --------->*/}
-                  {/* <img
-                  className="close"
-                  src={path_image + "module-close-button.svg"}
-                  alt=""
-                  onClick={handleBigCircleClose}
-                  /> */}
+                   
                   <div className="mobile-slider">
                     <img
                       className="close"

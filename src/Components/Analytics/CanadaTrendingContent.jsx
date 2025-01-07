@@ -1,10 +1,8 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Col, Row, Tab, Tabs } from "react-bootstrap";
 import Highcharts from "highcharts";
+import React, { useEffect, useRef, useState } from "react";
+import { Col, Row, Tab, Tabs } from "react-bootstrap";
 import { ENDPOINT } from "../../axios/apiConfig";
 import { postData } from "../../axios/apiHelper";
-import exporting from "highcharts/modules/exporting";
-import exportData from "highcharts/modules/export-data";
 
 import DocintelAccount from "./DocintelAccount";
 const CanadaTrendingContent = () => {
@@ -76,9 +74,7 @@ const CanadaTrendingContent = () => {
         <div className="custom-container">
           <Row>
             <div className="top-header">
-              {/* <div className="page-title d-flex">
-                <h2>Trending content based on Read Through Rate</h2>
-              </div> */}
+            
             </div>
             <div className="distribute-page-reader">
               <svg

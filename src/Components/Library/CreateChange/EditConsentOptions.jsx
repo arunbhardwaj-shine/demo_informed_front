@@ -1,12 +1,12 @@
 import React, { useCallback, useEffect, useState, useRef } from "react";
 import axios from "axios";
-import { Link, useLocation } from "react-router-dom";
-import { connect } from "react-redux";
+import { Link } from "react-router-dom";
+ 
 import AliceCarousel from "react-alice-carousel";
 import "react-alice-carousel/lib/alice-carousel.css";
 
-import { useNavigate } from "react-router-dom";
-import { Modal, ModalDialog, Dropdown, Button } from "react-bootstrap";
+ 
+import { Modal,  Dropdown, Button } from "react-bootstrap";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import SimpleReactValidator from "simple-react-validator";
 import { loader } from "../../../loader";
@@ -17,13 +17,12 @@ import { Editor } from "@tinymce/tinymce-react";
 
 import { toPng } from "html-to-image";
 import { CircularProgressbar } from "react-circular-progressbar";
-import { buildStyles } from "react-circular-progressbar";
+ 
 import "react-circular-progressbar/dist/styles.css";
 import { popup_alert } from "../../../popup_alert";
 import Tooltip from "react-bootstrap/Tooltip";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
-import { ProgressBar } from "react-bootstrap";
-// import "bootstrap/dist/css/bootstrap.min.css";
+ 
 var dxr = 0;
 var state_object = {};
 const EditConsentOptions = (props) => {
@@ -36,13 +35,10 @@ const EditConsentOptions = (props) => {
   const ref = useRef(null);
   const linkingPayload = useRef();
  const templateIdRef= useRef();
-  let file_name = useRef("");
+ 
   let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
-  const navigate = useNavigate();
-  const [SendListData, setSendListData] = useState([]);
-  const [UserData, setUserData] = useState([]);
-  const location = useLocation();
-  const [uniqueId, setUniqueId] = useState("");
+   
+ 
   const [showPreogressBar, setShowProgressBar] = useState(false);
   const [uploadOrDownloadCount, setUploadOrDownloadCount] = React.useState(0);
   const [mailsIncrement, setMailsIncrement] = useState(0);
@@ -50,10 +46,10 @@ const EditConsentOptions = (props) => {
   const [getsearch, setSearch] = useState("");
   const [selectedLanguage, setSelectedLanguage] = useState("All");
   const [selectedIbu, setSelectedIbu] = useState("");
-  const PdfSelected = "";
+  
   const [newTemplateName, setNewTemplateName] = useState("");
   const [manualReRender, setManualReRender] = useState(0);
-  const campaign_id = "";
+  
   const [selectedFile, setSelectedFile] = useState(null);
   const [activeExcel, setActiveExcel] = useState("");
   const [addFileReRender, setAddFileReRender] = useState(0);
@@ -64,7 +60,7 @@ const EditConsentOptions = (props) => {
   const [template, setTemplate] = useState("");
   var [selectedCountry, setSelectedCountry] = useState("");
   const [readers, setReaders] = useState([]);
-  const [campaign_id_st, setCampaign_id] = useState(campaign_id);
+   
   const [templateSaving, setTemplateSaving] = useState("");
 
   const [getTemplateLanguage, setTemplateLanguage] = useState([]);
@@ -80,25 +76,22 @@ const EditConsentOptions = (props) => {
   ]);
   const [getTemplateIbu, setTemplateIbu] = useState([]);
   const [counter, setCounter] = useState(0);
-  const [modalCounter, setModalCounter] = useState(0);
+ 
   const [emailSubject, setEmailSubject] = useState("");
   const [templateId, setTemplateId] = useState('');
   const [templateName, setTemplateName] = useState("");
-  const [renderAfterValidation, setRenderAfterValidation] = useState(0);
-  const [tagClickedFirst, setTagClickedFirst] = useState([]);
+  
   const [isOpen, setIsOpen] = useState(false);
   const [isOpen_send, setIsOpensend] = useState(false);
   const [showConfirmation, setshowConfirmation] = useState(false);
   const [allTags, setAllTags] = useState({});
-  const [newTag, setNewTag] = useState("");
-  const [tagsReRender, setTagsReRender] = useState(0);
-  const [tagsCounter, setTagsCounter] = useState(0);
+ 
   const [countryOption, setCountryOption] = useState(0);
   const [ibuOption, setIbuOption] = useState("");
   const [validator] = React.useState(new SimpleReactValidator());
   const [searchedUsers, setSearchedUsers] = useState([]);
   const [countryall, setCountryall] = useState([]);
-  const [message, setMessage] = useState("");
+ 
   const [reRender, setReRender] = useState(0);
   const [activeIndex, setActiveIndex] = useState(0);
   const [name, setName] = useState("");
@@ -106,14 +99,13 @@ const EditConsentOptions = (props) => {
   const [email, setEmail] = useState("");
   const [editClicked, setEditClicked] = useState(true);
   const [selectedHcp, setSelectedHcp] = useState([]);
-  const slidePrev = () => setActiveIndex(activeIndex - 1);
-  const slideNext = () => setActiveIndex(activeIndex + 1);
+  
   const syncActiveIndex = ({ item }) => setActiveIndex(item);
 
   const [getTemplatePopup, setTemplatePopup] = useState(false);
   const [getNewTemplatePopup, setNewTemplatePopup] = useState(false);
 
-  const [getIsApprovedStatus, setIsApprovedStatus] = useState(0);
+ 
   const [getDefaultTemplate, setDefaultTemplate] = useState(0);
 
   const [hpc, setHpc] = useState([
@@ -523,9 +515,7 @@ const EditConsentOptions = (props) => {
     setEmail(e.target.value);
   };
 
-  const closeModal = () => {
-    setIsOpen(false);
-  };
+ 
 
   const templateNameChange = (e) => {
     setNewTemplateName(e.target.value);
@@ -1172,105 +1162,7 @@ const EditConsentOptions = (props) => {
       </OverlayTrigger>
     );
   }
-  // const addTracking=function (editor) {
-  //   editor.on("OpenWindow", function (e) {
-  //     let dialog =
-  //       document.getElementsByClassName("tox-dialog")[0];
-
-  //     if (dialog) {
-  //       let header = dialog.querySelector(
-  //         ".tox-dialog__header"
-  //       );
-  //       const closeButton = header.querySelector(
-  //         '[aria-label="Close"]'
-  //       );
-  //       let text =
-  //         header.querySelector(".tox-dialog__title");
-
-  //       if (text.innerText == "Insert/Edit Link") {
-  //         let uploadIcon=  document.querySelector("body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > button > span")
-  //         uploadIcon.style.display = "none";
-  //         let newButton =
-  //           document.createElement("button");
-  //         newButton.innerText = "Add Tracking";
-  //         newButton.classList.add("tox-button")
-  //         newButton.classList.add("tox-button--icon")
-  //         newButton.classList.add("tox-button--naked")
-  //         newButton.classList.add("track")
-  //         newButton.onclick = function () {
-  //       if(templateIdRef.current==''){
-  //         alert("Please select the template first before adding the link");
-  //         return;
-  //       }
-  //           // alert(templateId);
-  //           let firstToxControlWrap =
-  //             document.querySelector(
-  //               "body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > div >input"
-  //             );
-          
-  //           // let text =dialog.querySelector(".tox-form__group");
-  //           if (!firstToxControlWrap.value) {
-  //             alert("Please enter a link");
-  //             return;
-  //           }
-            
-          
-  //           const baseLink =
-  //             "https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_";
-  //           if (
-  //             firstToxControlWrap.value.startsWith(
-  //               baseLink
-  //             )
-  //           ) {
-  //             alert("Traking already added");
-  //             return;
-  //           }
-  //           let slugValue = prompt("Enter a slug value");
-
-  //           const currentTimestamp = Date.now();
-  //           // const redirectUrl = encodeURIComponent(firstToxControlWrap.value)
-  //           let payload={
-  //             slug_value:slugValue,
-  //            template_id: templateIdRef.current,
-  //            url_code:`clicked_track_doc_${currentTimestamp}`
-  //           }
-  //           linkingPayload.current=payload
-  //           let link = `https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_${currentTimestamp}&redirect_url=${firstToxControlWrap.value}`;
-  //                 firstToxControlWrap.value = link;
-  //                 var saveButton = document.querySelector('.tox-button[title="Save"]');
-             
-  //                 saveButton.addEventListener('click', function () {
-
-                    
-
-                    
-
-  //                   let link=`https://onesource.informed.pro/api/track-links`;
-                    
-                    
-  //                   axios
-  //     .post(link, payload)
-  //     .then((res) => {
-  //      console.log("done");
-  //     })
-  //     .catch((err) => {
-  //       loader("hide");
-  //       console.log(err);
-  //     });
-  //                 });
-  //           alert("Traking added");
-  //         };
-
-  //         header.insertBefore(newButton, closeButton);
-  //       }
-  //       else if(text.innerText == "Insert/Edit Media"){
-  //         document.querySelector("body > div.tox.tox-silver-sink.tox-tinymce-aux > div.tox-dialog-wrap > div.tox-dialog > div.tox-dialog__content-js > div > div.tox-dialog__body-content > div > div:nth-child(1) > label").innerText+=" (Max size: 1GB)"
-
-  //       }
-  //     }
-  //   });
-
-  // }
+ 
 
   const addTracking = function (editor) {
     editor.on("OpenWindow", function (e) {
@@ -1459,7 +1351,7 @@ const EditConsentOptions = (props) => {
           <div className="row">
             <div className="top-header">
               <div className="page-title">
-                {/* <h2>Set Pop-up</h2> */}
+                
                 <button className="btn btn-primary btn-bordered back">
                   <Link to="/library-create-user">Back</Link>
                 </button>
@@ -1826,21 +1718,7 @@ const EditConsentOptions = (props) => {
                       }}
                     />
                   ) : null}
-                  {/*
-                  <CKEditor
-                    editor={ClassicEditor}
-                    data={template}
-                    readOnly={true}
-                    onReady={(editor) => {
-                    }}
-                    onChange={(event, editor) => {
-                      const data = editor.getData();
-                      setTemplate(data);
-                    }}
-                    onBlur={(event, editor) => {}}
-                    onFocus={(event, editor) => {}}
-                  />
-                  */}
+                    
                 </div>
               </div>
             </section>

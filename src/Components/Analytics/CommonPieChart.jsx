@@ -1,9 +1,6 @@
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
-import exporting from "highcharts/modules/exporting";
-import exportData from "highcharts/modules/export-data";
-// exporting(Highcharts);
-// exportData(Highcharts);
+ 
 
 const CommonPieChart = ({ data, value }) => {
   Highcharts.setOptions({

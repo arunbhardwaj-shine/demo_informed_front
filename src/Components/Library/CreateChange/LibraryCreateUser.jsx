@@ -1,25 +1,24 @@
-import React, { useState, useEffect, useRef } from "react";
-import Select from "react-select";
-import { Link, useNavigate ,useLocation} from "react-router-dom";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import Modal from "react-bootstrap/Modal";
-import { toast } from "react-toastify";
-import { createContent } from "../../CommonComponent/Validations";
+import moment from "moment";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Button,
-  Form,
+  Col,
   Dropdown,
   DropdownButton,
-  Col,
+  Form,
   Row,
 } from "react-bootstrap";
-import { postFormData, postData } from "../../../axios/apiHelper";
-import { loader } from "../../../loader";
+import Modal from "react-bootstrap/Modal";
+import "react-datepicker/dist/react-datepicker.css";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import Select from "react-select";
+import { toast } from "react-toastify";
 import { ENDPOINT } from "../../../axios/apiConfig";
+import { postData, postFormData } from "../../../axios/apiHelper";
+import { loader } from "../../../loader";
 import CommonModel from "../../../Model/CommonModel";
-import moment from "moment";
 import optimizeImage from "../../../Utils/optimizeImage";
+import { createContent } from "../../CommonComponent/Validations";
 
 
 
@@ -230,16 +229,7 @@ const LibraryCreateUser = () => {
       return;
     }
     if (isSelectedName == "docintelFormat") {
-      // if (e == "ebook" || e == "ebookVideo") {
-      //   setEbookFile([]);
-      //   setpdfSpcData([
-      //     {
-      //       chapterTitle: "",
-      //       uploadFile: "",
-      //       fileValue: "",
-      //     },
-      //   ]);
-      // } 
+       
       if (e == "ebook") {
         setEbookFile([]);
         setpdfSpcData([
@@ -388,12 +378,7 @@ const LibraryCreateUser = () => {
 
           formData.append("blindType", userInputs?.blindType);
           formData.append("trial", userInputs?.trial);
-          // formData.append(
-          //   "mandatory",
-          //   userInputs?.mandatory
-          //     ? JSON.stringify(userInputs?.mandatory)
-          //     : JSON.stringify(false)
-          // );
+          
           formData.append("mandatory", JSON.stringify(mandatoryValue));
 
           let Role = [];
@@ -411,56 +396,7 @@ const LibraryCreateUser = () => {
           Role = hcpClickedFirst?.length ? hcpClickedFirst : [];
         }
           formData.append("trail_user_type", JSON.stringify(Role))
-          // let Role = [];
-       
-          // if (location?.state?.title  === "Site User-Blinded") {
-          //   Role = ["Site User-Blinded"];
-          // } else if (location?.state?.title === "Investigator-Blinded") {
-          //   Role = ["Investigator-Blinded"];
-          // } else if (location?.state?.title === "Site Unblinded Pharmacist") {
-          //   Role = ["Site unblinded pharmacist"];
-          // }
-
-          // if (location?.state?.flag === 'mandatory') {
-          //   if (location?.state?.title  === "Site User-Blinded") {
-          //     Role.push("Site User-Blinded");
-          //   } else if (location?.state?.title === "Investigator-Blinded") {
-          //     Role.push("Investigator-Blinded");
-          //   } else if (location?.state?.title === "Site Unblinded Pharmacist") {
-          //     Role.push("Site unblinded pharmacist");
-          //   }
-          //   console.log(Role,'role');
-          // } else {
-            // Role = hcpIrtClickedFirst?.length
-            // ? JSON.stringify(hcpIrtClickedFirst)
-            // : "";
-          //   Role.push(hcpIrtClickedFirst);
-          // }
          
-          // if (location?.state?.flag === 'mandatory') {
-          //   Role =  JSON.stringify(Role)
-          // } else {
-          //   Role = hcpIrtClickedFirst?.length
-          //   ? JSON.stringify(hcpIrtClickedFirst)
-          //   : "";
-          // }
-         
-          // console.log(Role,'role',hcpClickedFirst,'hcpClickedFirst')
-          // console.log(location.state?.title ,'location.state?.title ')
-
-          // userInputs?.mandatory
-          //   ? 
-            // formData.append(
-            //   "trail_user_type",
-            //   hcpIrtClickedFirst?.length
-            //     ? JSON.stringify(hcpIrtClickedFirst)
-            //     : ""
-            // )
-            // formData.append("trail_user_type", JSON.stringify(Role))
-            // : formData.append(
-            //   "trail_user_type",
-            //   hcpClickedFirst?.length ? JSON.stringify(hcpClickedFirst) : ""
-            // );
         }
 
         if (userDetail?.user?.[0]?.group_id == 3 &&
@@ -707,13 +643,7 @@ const LibraryCreateUser = () => {
             }
 
 
-            // navigate("/set-popup", {
-            //   state: {
-            //     pdfId: res?.data?.data?.pdfId,
-            //     fileType: userInputs?.docintelFormat,
-            //     isEdit: 0,
-            //   },
-            // });
+            
           }
         }
       } catch (err) {
@@ -722,20 +652,7 @@ const LibraryCreateUser = () => {
     }
   };
 
-  // const addMoreChClicked = () => {
-
-  //   if (chapter.every((element) => element.uploadFile != "")) {
-  //     setChapter([
-  //       ...chapter,
-  //       {
-  //         chapterTitle: "",
-  //         uploadFile: "",
-  //       },
-  //     ]);
-  //   } else {
-  //     toast.warning("Please input the chapter file atleast!");
-  //   }
-  // };
+ 
 
   const addMoreChClicked = () => {
     let isValid = true;
@@ -1046,24 +963,7 @@ const LibraryCreateUser = () => {
   }
 
   const onSelectVideoType = async (e, i, type) => {
-    // if (type == 'existing' && getVideoArticle.length == 0) {
-    //   const requestBody = {
-    //     selectValue: JSON.stringify(["id", "title", "code"]),
-    //     file_type: "'video'",
-    //   };
-    //   const response = await postData(ENDPOINT.LIBRARY, requestBody);
-    //   const hadData = response?.data?.data?.library || [];
-    //   const pdfObj = hadData
-    //     .map((item) => ({
-    //       label: item.title.trim(),
-    //       value: item.id,
-    //     }))
-    //     .sort((a, b) =>
-    //       a.label.toLowerCase().localeCompare(b.label.toLowerCase())
-    //     );
-    //   setVideoArticle(pdfObj);
-    // }
-    // const list = [...chapter];
+    
     const list = JSON.parse(JSON.stringify(chapter))
     list[i].videoType = type;
     list[i].videoThumb = '';
@@ -1285,19 +1185,7 @@ const LibraryCreateUser = () => {
                 </div>
               ) : (
                 <>
-                  {/*<div className="form-group">
-                    <label htmlFor="">Trial</label>
-                    <Select
-                      options={userDetail?.trial}
-                      placeholder="Select the product this is for"
-                      onChange={(e) => handleChange(e?.value, "trial")}
-                      className="dropdown-basic-button split-button-dropup"
-                      isClearable
-                    />
-                    {error?.trial ? (
-                      <div className="login-validation">{error?.trial}</div>
-                    ) : null}
-                  </div>*/}
+                  
                 </>
               )}
 
@@ -1316,19 +1204,7 @@ const LibraryCreateUser = () => {
               ) : userDetail?.user?.[0]?.flag == 1 &&
                 userDetail?.user?.[0]?.group_id == 3 ? (
                 <>
-                  {/*<div className="form-group">
-                      <label htmlFor="">Blind type</label>
-                      <Select
-                        options={blindType}
-                        placeholder="Select Business Unit"
-                        onChange={(e) => handleChange(e?.value, "blindType")}
-                        className="dropdown-basic-button split-button-dropup"
-                        isClearable
-                      />
-                      {error?.blindType ? (
-                        <div className="login-validation">{error?.blindType}</div>
-                      ) : null}
-                    </div>*/}
+                   
                 </>
               ) : null}
 
@@ -1475,7 +1351,7 @@ const LibraryCreateUser = () => {
       console.log("err", err);
     }
   };
-  // console.log(location,'craete')
+ 
 
   const LimitAgreed = () => {
     return (
@@ -1484,56 +1360,8 @@ const LibraryCreateUser = () => {
           <h4>Limits agreed</h4>
           <div className="row">
             <div className="col-12 col-md-6">
-              {/* {userDetail?.costCenter ? (
-                <div className="form-group">
-                  <label htmlFor="">Cost centre</label>
-                  <Select
-                    options={userDetail?.costCenter}
-                    className="dropdown-basic-button split-button-dropup"
-                    isClearable
-                    placeholder="Select cost center"
-                    onChange={(e) => handleChange(e?.value, "costCenter")}
-                  />
-                </div>
-              ) : null} */}
-              {/* <div className="form-group">
-                <label htmlFor="">Expiration date</label>
-                <DatePicker
-                  selected={
-                    userInputs?.expDatetime
-                      ? new Date(userInputs?.expDatetime)
-                      : new Date(
-                          moment(new Date(), "MM/DD/YYYY")
-                            .add("years", 1)
-                            .format("MM/DD/YYYY")
-                        )
-                  }
-                  name="expDatetime"
-                  onChange={(e) => handleChange(e, "expDatetime")}
-                  dateFormat="dd/MM/yyyy"
-                  className="form-control"
-                  minDate={currentDate}
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="">
-                  Set limit of usage <span>*</span>
-                </label>
-                <input
-                  type="number"
-                  name="limit"
-                  min="0"
-                  className={
-                    error?.limit ? "form-control error" : "form-control"
-                  }
-                  placeholder="“0” value means unlimited limit"
-                  ref={limitFieldRef}
-                  onChange={handleChange}
-                />
-                {error?.limit ? (
-                  <div className="login-validation">{error?.limit}</div>
-                ) : null}
-              </div> */}
+             
+              
               <div className="form-group">
                 <label htmlFor="">Allow</label>
                 <fieldset id="group2">
@@ -1557,18 +1385,7 @@ const LibraryCreateUser = () => {
                     id="limitagreed2"
                   />
                   <label htmlFor="limitagreed2">Download</label>
-                  {/*
-                  <input
-                    type="checkbox"
-                    value="value3"
-                    onClick={(e) =>
-                      handleChange(e.target?.checked, "allowShare")
-                    }
-                    name="group2"
-                    id="limitagreed3"
-                  />
-                  <label htmlFor="limitagreed3">Share</label>
-                */}
+                  
                 </fieldset>
               </div>
 
@@ -1577,7 +1394,7 @@ const LibraryCreateUser = () => {
                   <>
                     <div className="form-group">
                       <label htmlFor="">Status
-                        {/* <span>*</span> */}
+                        
                       </label>
                       <fieldset id="group2">
                         <input
@@ -1668,29 +1485,7 @@ const LibraryCreateUser = () => {
               <Row className="justify-content-end align-items-center">
                 <Col md={1}>
                   <div className="header-btn-left">
-                    {/* <Link
-                      className="btn btn-primary btn-bordered back"
-                      to="/library-create"
-                    >
-                      Back
-                    </Link>
-                    <Link
-                      className="btn btn-primary btn-bordered back-btn"
-                      to="/library-create"
-                    >
-                      <svg
-                        width="14"
-                        height="24"
-                        viewBox="0 0 14 24"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M0.159662 12.0019C0.159662 11.5718 0.323895 11.1417 0.65167 10.8138L10.9712 0.494292C11.6277 -0.16216 12.692 -0.16216 13.3482 0.494292C14.0044 1.15048 14.0044 2.21459 13.3482 2.8711L4.21687 12.0019L13.3479 21.1327C14.0041 21.7892 14.0041 22.8532 13.3479 23.5093C12.6917 24.1661 11.6274 24.1661 10.9709 23.5093L0.65135 13.19C0.323523 12.8619 0.159662 12.4319 0.159662 12.0019Z"
-                          fill="#97B6CF"
-                        />
-                      </svg>
-                    </Link>*/}
+                     
                   </div>
                 </Col>
                 <Col md={9}>
@@ -1806,12 +1601,7 @@ const LibraryCreateUser = () => {
                       userDetail?.user?.[0]?.group_id == 3 ? (
                       <div className="form-group">
                         <label htmlFor="">Comment</label>
-                        {/*<input
-                              type="text"
-                              name="journalTitle"
-                              className="form-control"
-                              onChange={(e) => handleChange(e)}
-                            />*/}
+                        
                         <textarea
                           className={
                             error?.journalTitle
@@ -2648,27 +2438,7 @@ const LibraryCreateUser = () => {
                     {userDetail?.user?.[0]?.flag == 0 &&
                       userDetail?.user?.[0]?.group_id == 3 ? (
                       <>
-                        {/*
-                         <div className="form-group">
-                           <label htmlFor="">Include video</label>
-                           <div className="switch">
-                             <label className="switch-light">
-                               <input
-                                 type="checkbox"
-                                 // onChange={(e) => includeVideoCheckboxChanged(e)}
-                                 onChange={(e) => {
-                                   handleChange(e.target?.checked, "allowVideo");
-                                 }}
-                               />
-                               <span>
-                                 <span className="switch-btn active">No</span>
-                                 <span className="switch-btn">Yes</span>
-                               </span>
-                               <a className="btn"></a>
-                             </label>
-                           </div>
-                         </div>
-                         */}
+                        
                       </>
                     ) : null}
                     <div className="form-group val">

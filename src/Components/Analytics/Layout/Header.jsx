@@ -1,27 +1,17 @@
 import React from "react";
-import { Button, Dropdown, Modal } from "react-bootstrap";
-import { Form, Link } from "react-router-dom";
+import { Dropdown } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 
-import { useNavigate } from "react-router-dom";
 
 export const AnalyticsHeader = () => {
-  const navigate = useNavigate();
+  
 
-  let path = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
-  const removed_pop = () => {
-    var element = document.getElementById("resend-confirm");
-    element.classList.remove("custom_model_show");
-    var redirect_info = document
-      .getElementById("modeltoreplace")
-      .getAttribute("redirecto");
-    if (redirect_info) {
-      navigate(redirect_info);
-    }
-  };
+  
+  
   return (
     <>
-      {/* {console.log("- ium here")} */}
+  
       <header>
         <nav className="navbar navbar-expand-sm navbar-light">
           <div className="container-fluid">

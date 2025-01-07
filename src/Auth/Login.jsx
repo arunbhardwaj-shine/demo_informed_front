@@ -4,7 +4,7 @@ import * as Yup from "yup";
 import ExportApi from "../Api/ExportApi";
 import { Button, Form, Modal } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { toast, ToastContainer } from "react-toastify";
+import { toast} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import ForgotPassword from "./ForgotPassword";
 const Login = (props) => {
@@ -13,11 +13,9 @@ const Login = (props) => {
   const [smShowForgot, setSmShowForgot] = useState(false);
   const [err, setErr] = useState(false);
   let navigate = useNavigate();
-  const hengleLonginPage = (data,message) => {
-    setSmShowLogin(data);
-    setDropdownOpen(data);
 
-  };
+ 
+
   const hengleForgotPage = (data) => {
     setSmShowForgot(data);
   };

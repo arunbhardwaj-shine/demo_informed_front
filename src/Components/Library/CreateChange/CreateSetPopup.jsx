@@ -64,8 +64,7 @@ const CreateSetPopup = (props) => {
     { value: "Sunshine", label: "Sunshine" },
   ]);
 
-  // const templateIdRef=useRef(null)
-  // const linkingPayload=useRef(null)
+ 
 
   const responsive = {
     0: { items: 1 },
@@ -108,8 +107,7 @@ const CreateSetPopup = (props) => {
     } else {
       setSelectOptions({ ...selectOptions, time: e.value });
     }
-    // setSelectedLanguage(e.value);
-    // getTemplateListData(2, e.value, selectedIbu);
+  
   };
 
   const getTemplateListData = async (flag = 1, lng, consent, firstFlag = 0) => {
@@ -197,7 +195,7 @@ const CreateSetPopup = (props) => {
           data = [];
         } else if (consent == "Offline" || first_consent == "Offline") {
           setIsOnline(false);
-          // Start : Changes by jacob for offline article text change 13-08-2024
+          
           let actualContent = res?.data?.data?.popupData[0]?.source_code;
           actualContent = actualContent.replace(
             "continue reading",
@@ -299,16 +297,7 @@ const CreateSetPopup = (props) => {
     e.target.classList.toggle("select_mm");
   };
 
-  // const updateTemplate = async (e) => {
-  //   e.preventDefault();
-  //   let findTemplateIndex = templateList?.findIndex(
-  //     (el) => el.popupNo === popupNo
-  //   );
-  //   templateList[findTemplateIndex].source_code = templateSaving;
-  //   setTemplateList(templateList);
-  //   console.log(templateList,'templateList')
-  //   toast.success("Popup updated successfully.");
-  // };
+  
 
   const updateTemplate = async (e) => {
     e.preventDefault();
@@ -322,13 +311,12 @@ const CreateSetPopup = (props) => {
       const language = selectOptions.language ? selectOptions.language : 0;
   
       const updatedTemplateData = {
-        // language:selectOptions.language, 
+ 
         language, 
         popupData:templateList,
       };
 
-      // console.log(updatedTemplateData,'updatedTemplateData')
-  
+     
       try {
         const res = await postData(ENDPOINT.UPDATEPOPUPTEMPLATE, updatedTemplateData);
         if (res?.data?.status === 200 || res?.data?.status === 201 ) {
@@ -566,10 +554,7 @@ const CreateSetPopup = (props) => {
                               : {
                                   label: "Select Language",
                                   value: "",
-                                  //  typeof getTemplateLanguage[countryOption] ===
-                                  //   "undefined"
-                                  //     ? "Select Language"
-                                  //     : getTemplateLanguage[countryOption]
+                                 
                                 }
                           }
                           placeholder={

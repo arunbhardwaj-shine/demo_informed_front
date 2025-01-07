@@ -1,12 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { Col, Row, Image, ProgressBar } from "react-bootstrap";
-import ContentAnalyticsComponentActivityGauge from "./ContentAnalyticsComponentActivityGauge";
-import Highcharts, { color } from "highcharts";
+import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
-import highchartsMore from "highcharts/highcharts-more";
-import solidGauge from "highcharts/modules/solid-gauge";
-// highchartsMore(Highcharts);
-// solidGauge(Highcharts);
+import React, { useEffect, useState } from "react";
+import { Col, Image, ProgressBar, Row } from "react-bootstrap";
+import ContentAnalyticsComponentActivityGauge from "./ContentAnalyticsComponentActivityGauge";
+ 
 export default function ContentAnalyticsComponent({ data, sublinkData }) {
   const [selectedData, setSelectedData] = useState();
   useEffect(() => {
@@ -77,9 +74,7 @@ export default function ContentAnalyticsComponent({ data, sublinkData }) {
       })
     );
   }
-
-  // Get the categories from the first series data
-  let categories = Object.keys(data[Object.keys(data)[0]]);
+ 
   return (
     <>
       <div className="content_analytics">

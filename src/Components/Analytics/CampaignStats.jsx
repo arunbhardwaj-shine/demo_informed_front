@@ -1,29 +1,22 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Col, Form, Row } from "react-bootstrap";
+import { Col, Row } from "react-bootstrap";
 import Highcharts from "highcharts";
 import { loader } from "../../loader";
 import { ENDPOINT } from "../../axios/apiConfig";
-import { getData, postData } from "../../axios/apiHelper";
+import { getData } from "../../axios/apiHelper";
 import exporting from "highcharts/modules/exporting";
 import exportData from  "highcharts/modules/export-data";
-import Select from "react-select";
 import HighchartsReact from "highcharts-react-official";
-import { Link } from "react-router-dom";
 import drilldown from  "highcharts/modules/drilldown.js";
 import CommonLineGraph from "./CommonLineGraph";
 import { element } from "prop-types";
-// exporting(Highcharts);
-// exportData(Highcharts);
-// drilldown(Highcharts);
+ 
 const  CampaignStats = () => {
   const [data, setData] = useState({});
-  const [newData, setNewData] = useState([]);
-  const [pieData, setPieData] = useState({});
+ 
 
   const [isDataFound, setIsDataFound] = useState(true);
-  const [isLoaded, setIsLoaded] = useState(false);
-  const selectFilter = useRef(null);
-  const [newValue, setNewValue] = useState([]);
+ 
   const [isSunshineAccount,setIsSunshineAccount]=useState(localStorage.getItem("account_type")=="USA_PHARMA"?true:false)
   
   const [campaignStatsPieOptions, setCampaignStatsPieOptions] = useState({
@@ -58,7 +51,7 @@ const  CampaignStats = () => {
           events: {
             drilldown: function (e) {
               const drilldownSeries = e.seriesOptions;
-              console.log('Drilldown data:', drilldownSeries);
+           
             },
           },
         },
@@ -169,7 +162,7 @@ const  CampaignStats = () => {
 };
 
 
-  const [seriesData, setSeriesData] = useState([]);
+ 
   const [campaignStatsLineOption, setCampaignStatsLineOption] = useState({
     chart: {
       type: "line",
@@ -354,7 +347,7 @@ const  CampaignStats = () => {
         return;
       }
 
-      //  setNewData(hadData);
+     
 
       const { cis, ibu } = hadData;
 
@@ -373,7 +366,7 @@ const  CampaignStats = () => {
         });
         const name = item.ibu;
 
-        const totalSum = item.total;
+      
         const totalReaders = item.total.reduce((acc, val) => acc + val, 0);
 
         return {
@@ -512,9 +505,7 @@ const  CampaignStats = () => {
           <div className="custom-container">
             <Row>
               <div className="top-header">
-                {/* <div className="page-title d-flex">
-                  <h2>Delivery leading to registration </h2>
-                </div> */}
+              
               </div>
               <div className="distribute-page-reader">
                 <svg
@@ -549,7 +540,7 @@ const  CampaignStats = () => {
                   <HighchartsReact
                     highcharts={Highcharts}
                     options={campaignStatsPieOptions}
-                  // ref={chart}
+                  
                   />
                 </div>
 
@@ -557,7 +548,7 @@ const  CampaignStats = () => {
                   <HighchartsReact
                     highcharts={Highcharts}
                     options={campaignStatsLineOption}
-                    //   ref={chart}
+                   
                   />
                 </div>
 

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Col, Row, Table, Modal, Button } from "react-bootstrap";
-import { loader } from "../../loader";
-import { getData, postData } from "../../axios/apiHelper";
+import { Button, Col, Modal, Row, Table } from "react-bootstrap";
 import { ENDPOINT } from "../../axios/apiConfig";
+import { getData, postData } from "../../axios/apiHelper";
+import { loader } from "../../loader";
 const AllEvents = () => {
   const [data, setData] = useState([]);
   const [addCommentPopup, setAddCommentPopup] = useState(false)
@@ -81,7 +81,7 @@ const AllEvents = () => {
         }
         setComment("")
         setEventIndex()
-        setEventId()
+        setEventId()                                     
         setAddCommentPopup(false)
       }
 
@@ -127,8 +127,7 @@ const AllEvents = () => {
         const hours = Math.floor(remainingTimeAfterDays / (1000 * 3600));
         const remainingTimeAfterHours = remainingTimeAfterDays % (1000 * 3600);
         const minutes = Math.floor(remainingTimeAfterHours / (1000 * 60));
-        // return `${days} days, ${hours} hours, ${minutes} minutes`
-        // return (days ? days + " days " : "") + (hours ? hours + " hours " : "") + (minutes ? minutes + " minutes" : "");
+    
         return (days ? days + " Days " : hours ? hours + " Hr" : minutes ? minutes + " Min" : "");
       } else {
         return dayDifference;
@@ -304,9 +303,7 @@ const AllEvents = () => {
                             <th className="sort_option">
                               <span> Event</span>
                             </th>
-
-                            {/* <th className="sort_option">
-                              <span>Date</span> */}
+ 
                                <th scope="col" className="sort_option">
                               <span  onClick={(e) => userSort(e, "dateStart")}>Date</span>
                               <button
@@ -416,14 +413,14 @@ const AllEvents = () => {
 
         <Modal.Body>
           <div className="form-group">
-            {/* <label htmlFor="">{item?.label}</label> */}
+          
             <div className="modal-form-group">
               <textarea
 
-                // name={item?.name ? item?.name : item?.label}
+                 
                 placeholder="Enter your comment"
                 className="form-control"
-                // onChange={handleModelChange}
+                
                 value={comment ? comment : ""}
 
                 onChange={handleChange}

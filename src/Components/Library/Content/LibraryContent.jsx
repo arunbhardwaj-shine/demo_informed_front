@@ -101,7 +101,7 @@ const LibraryContent = (props) => {
   const [deletestatus, setDeleteStatus] = useState(false);
   const [editstatus, setEditStatus] = useState(false);
   const [page, setPage] = useState(1);
-  const type="";
+ 
   const [showfilter, setShowFilter] = useState(false);
   const [qrValue, setQrValue] = useState("QR-code");
   const [newTag, setNewTag] = useState("");
@@ -137,7 +137,7 @@ const LibraryContent = (props) => {
   const { title, mandatoryPdfId } = location.state || {};
 
 
-  // console.log(location.state,'flag')
+ 
   const BrokenImage =
     "https://docintel.s3-eu-west-1.amazonaws.com/cover/default/default.png";
 
@@ -258,7 +258,7 @@ const LibraryContent = (props) => {
 
       if (isLikeRdAccount) {
         payload["IRT mandatory training"] = [irt];
-        // payload.Role = [role];
+       
       }
 
       if (isLikeRdAccount) {
@@ -268,9 +268,7 @@ const LibraryContent = (props) => {
       }
 
       const res = await postData(ENDPOINT.FILTERS,
-        // user_id: localStorage.getItem("user_id"),
-        // "IRT mandatory training": [irt],
-        // Role: [role]
+      
         payload
       );
 
@@ -302,25 +300,7 @@ const LibraryContent = (props) => {
     }
   };
 
-  // const loadMoreClicked = async() => {
-  //   let sp = page + 1;
-  //    let data=await getLibraryData(sp, filterObject, "");
-  //    console.log(data);
-
-  //   let totalRecord = loadData.limit * sp;
-  //   let newData = [];
-
-  //   if (data?.length >= totalRecord) {
-  //     newData = data.slice(loadData.nextLimit, totalRecord);
-  //     setLoadData({ ...loadData, nextLimit: totalRecord });
-  //   } else {
-  //     newData = data.slice(loadData.nextLimit);
-  //     setIsLoaded(false);
-  //   }
-
-  //   setLibraryData((oldArray) => [...oldArray, ...newData]);
-  //   setPage(sp);
-  // };
+ 
 
   const submitHandler = (event) => {
     event.preventDefault();
@@ -526,8 +506,7 @@ const LibraryContent = (props) => {
   };
   const getLibraryData = async (page, obj, search, load = 0,type="") => {
     try {
-      // console.log(title,'title')
-      loader("show");
+       
       setIsLoaded(false);
       if (load) {
         setPageAll(true);
@@ -1088,9 +1067,7 @@ const LibraryContent = (props) => {
   };
 
   const handleEdit = () => {
-    // navigate("/library-edit-listing", {
-    //   state: { data: "edit",title :title , flag : location?.pathname === "/library-content" ? 'Non-mandatory' : "mandatory" }
-    // });
+   
     if (editstatus) {
       setEditStatus(false);
     } else {
@@ -1138,7 +1115,7 @@ const LibraryContent = (props) => {
     }
   }
 
-  // console.log('librray content')
+  
 
   return (
     <>
@@ -1156,7 +1133,7 @@ const LibraryContent = (props) => {
                     location?.pathname === "/library-mandatory-content" ? (
                       <>
                         <Link className="btn btn-primary btn-bordered back-btn"
-                          // to="/library-create"
+                           
                           to="/library-mandatory"
                         >
                           <svg
@@ -1556,57 +1533,9 @@ const LibraryContent = (props) => {
               level={qrState?.level}
               includeMargin={true}
             />
-            {/* {Object.keys(filterObject)?.length !== 0 && filterApplyflag > 0 ? (
-              <div className="apply-filter">
-
-                <div className="filter-block">
-                  <div className="filter-block-left full">
-                    {Object.keys(filterObject)?.map((key, index) => {
-                      return (
-                        <>
-                          {filterObject[key]?.length ? (
-                            <div className="filter-div">
-                              <div className="filter-div-title">
-                                <span>{key} |</span>
-                              </div>
-
-                              <div className="filter-div-list">
-                                {filterObject[key]?.map((item, index) => (
-                                  <div className="filter-result">
-                                    {key == "draft" && item == "0"
-                                      ? "live"
-                                      : key == "draft" && item == "1"
-                                      ? "draft"
-                                      : item}
-                                    <img
-                                      src={path_image + "filter-close.svg"}
-                                      onClick={() =>
-                                        removeindividualfilter(key, item)
-                                      }
-                                      alt="Close-filter"
-                                    />
-                                  </div>
-                                ))}
-                              </div>
-                            </div>
-                          ) : null}
-                        </>
-                      );
-                    })}
-                  </div>
-                  <div className="clear-filter">
-                    <button
-                      className="btn btn-outline-primary btn-bordered"
-                      onClick={clearFilter}
-                    >
-                      Remove All
-                    </button>
-                  </div>
-                </div>
-              </div>
-            ) : null} */}
+            
             <div 
-            // className="library-content-box-layuot d-flex"
+            
             className={`library-content-box-layuot d-flex ${isRDAccount?"rd":""}`}
             >
               <>
@@ -1782,14 +1711,7 @@ const LibraryContent = (props) => {
                                         }
                                       </h6>
                                     </li>
-                                    {/* <li>
-                                      <h6 className="tab-content-title">
-                                        SPC included
-                                      </h6>
-                                      <h6>
-                                        {data?.spc_included == 0 ? "No" : "Yes"}
-                                      </h6>
-                                    </li> */}
+                                     
                                     <li>
                                       <h6 className="tab-content-title">
                                         Language
@@ -1884,26 +1806,7 @@ const LibraryContent = (props) => {
                                         : ""
                                         }`}
                                     >
-                                      {/* {data?.spc_included ? (
-                                        <>
-                                          <button
-                                            className="footer-btn"
-                                            onClick={() =>
-                                              handleSpcFun(data?.spcFile)
-                                            }
-                                          >
-                                            Preview article
-                                          </button>
-                                        </>
-                                      ) : (
-                                        <a
-                                          className="footer-btn"
-                                          href={data?.previewArticle}
-                                          target="_blank"
-                                        >
-                                          Preview article
-                                        </a>
-                                      )} */}
+                                       
 
 
                                       {!(isUSAPharmaAccount && data.articleOwner == 1) ? (
@@ -1958,16 +1861,7 @@ const LibraryContent = (props) => {
                                         Download QR
                                       </Button>:''}
 
-                                      {/* <Link
-                                        to="/CreateEmail"
-                                        state={{ PdfSelected: data.id }}
-                                        onClick={() => {
-                                          nextClicked(data.id);
-                                        }}
-                                        className="footer-btn"
-                                      >
-                                        Send in email
-                                      </Link> */}
+                                    
 
                                       <Button
                                         onClick={() => {
@@ -2701,9 +2595,7 @@ const LibraryContent = (props) => {
                                 </div>
                                 <div className="data-main-footer-sec">
                                   <div className="footer-btn-wrapper">
-                                    {/*<Button className="footer-btn">
-                                        Analytics
-                                      </Button>*/}
+                                  
                                     <Link
                                       className="footer-btn"
                                       to="/content-analytics"
@@ -2744,7 +2636,7 @@ const LibraryContent = (props) => {
                               >
                                 <div className="data-main-box change-tab-main-box tab-panel">
                                   <ul className="tab-mail-list data change">
-                                    {/* <div className="form-group d-flex align-items-center"> */}
+                            
                                     <li>
                                       <h6 className="tab-content-title">
                                         Consent type
@@ -2797,7 +2689,7 @@ const LibraryContent = (props) => {
                                     {localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==" ?
                                       (<>
                                         <li>
-                                          {/* <div className="form-group d-flex align-items-center"> */}
+                                         
 
                                           <h6 className="tab-content-title">
                                             Status
@@ -2843,9 +2735,7 @@ const LibraryContent = (props) => {
 
                                 <div className="data-main-footer-sec">
                                   <div className="footer-btn-wrapper">
-                                    {/* <Button className="footer-btn">
-                                        Edit Docintel Link
-                                      </Button> */}
+                                    
                                     {
                                       isUSAPharmaAccount && data.articleOwner == 1
                                       ? 
@@ -2863,9 +2753,9 @@ const LibraryContent = (props) => {
                                       :
                                       <Link
                                         to="/library-edit"
-                                        // state={{ pdfid: data.id }}
+                                      
                                         state={{ pdfid: data.id , 
-                                          // title : location?.state?.title,
+                                         
                                           title: isLikeRdAccount ? location?.state?.title : '',
                                           flag: isLikeRdAccount
                                           ? (location?.state?.flag === "Non-mandatory" ? 'Non-mandatory' : "mandatory")
@@ -2891,13 +2781,7 @@ const LibraryContent = (props) => {
                                         <Link
                                           to="/library-sublink"
                                           state={{ pdfid: data.id }}
-                                          // state={{ pdfid: data.id ,  
-                                          //   // title : location?.state?.title,
-                                          //   title: localStorage.getItem("user_id") === "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id")==="sNl1hra39QmFk9HwvXETJA==" ? location?.state?.title : '',
-                                          //   flag: localStorage.getItem("user_id") ==="56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id")==="sNl1hra39QmFk9HwvXETJA=="
-                                          //   ? (location?.state?.flag === "Non-mandatory" ? 'Non-mandatory' : "mandatory")
-                                          //   : '' 
-                                          // }}
+                                          
                                           className="footer-btn"
                                         >
                                           New sublink
@@ -2961,28 +2845,7 @@ const LibraryContent = (props) => {
                                               : "N/A"}
                                           </h6>
                                         </li>
-                                        {/*
-                                          <li>
-                                            <h6 className="tab-content-title">
-                                              Sales person
-                                            </h6>
-                                            <h6>{data?.saleName}</h6>
-                                          </li>
-
-                                          <li>
-                                            <h6 className="tab-content-title">
-                                              Client name
-                                            </h6>
-                                            <h6>{data?.company}</h6>
-                                          </li>
-                                          <li>
-                                            <h6 className="tab-content-title">
-                                              Client product
-                                            </h6>
-                                            <h6>{data?.product}</h6>
-                                          </li>
-
-                                          */}
+                                         
                                       </>
                                     )}
                                     {localStorage.getItem("group_id") === "3" &&
@@ -3004,12 +2867,7 @@ const LibraryContent = (props) => {
                                     {isLikeRdAccount &&
                                       localStorage.getItem("group_id") === "3" ? (
                                       <>
-                                        {/*<li>
-                                            <h6 className="tab-content-title">
-                                              Blind Type
-                                            </h6>
-                                            <h6>{ data?.blindType ? data.blindType == "blinded" ? "Yes" : "No"  : "No" }</h6>
-                                          </li>*/}
+                                         
 
                                         <li>
                                           <h6 className="tab-content-title">
@@ -3083,16 +2941,7 @@ const LibraryContent = (props) => {
                                         : null
                                     }
 
-                                    {/*
-                                      <li>
-                                        <h6 className="tab-content-title">
-                                          Download
-                                        </h6>
-                                        <h6>
-                                          {data?.allow_download ? "Yes" : "No"}
-                                        </h6>
-                                      </li>
-                                      */}
+                                    
                                     <li>
                                       <h6 className="tab-content-title">
                                         Upload date

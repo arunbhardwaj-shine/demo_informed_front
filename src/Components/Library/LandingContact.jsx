@@ -1,11 +1,10 @@
-import React, { useState,useRef } from "react";
+import axios from "axios";
+import React, { useRef, useState } from "react";
 import { Button, Col, Form, Row } from "react-bootstrap";
 import Select from "react-select";
-import { HomeValidation } from "../Validations/HomeValidations/HomeValidation";
-import { postData } from "../../axios/apiHelper";
-import { loader } from "../../loader";
 import { ENDPOINT } from "../../axios/apiConfig";
-import axios from "axios";
+import { loader } from "../../loader";
+import { HomeValidation } from "../Validations/HomeValidations/HomeValidation";
 
 const LandingContact = ({children,source}) => {
 
@@ -296,14 +295,10 @@ const LandingContact = ({children,source}) => {
   ]);
 const colourStyles = {
   option: (styles, { data, isDisabled, isFocused, isSelected }) => {
-    // const color = chroma(data.color);
-    // console.log({ data, isDisabled, isFocused, isSelected });
+     
     return {
       ...styles,
-      // backgroundColor: isFocused ? "#ffffff" : null,
-      // color: isFocused ? "#0066BE" : "#97B6CF",
-      // backgroundColor: isSelected ? "#ffffff" : null,
-      //  color: isSelected ? "#0066BE!important" : "#97B6CF",
+      
       backgroundColor: isFocused || isSelected ? "#ffffff" : null,
       color: isFocused || isSelected ? "#0066BE" : "#97B6CF",
     };
@@ -515,7 +510,7 @@ const colourStyles = {
                     options={country}
                     styles={colourStyles}
                     placeholder="Select country"
-                    // className="dropdown-basic-button split-button-dropup"
+                    
                     className={`${!conatctError?.country
                       ? "dropdown-basic-button split-button-dropup"
                       : "dropdown-basic-button split-button-dropup error"} ${addClass ? "show" : ""}`
@@ -660,7 +655,7 @@ const colourStyles = {
               </Col>
               <Col md="12">
                 <div className="form-group">
-                  {/* <textarea placeholder="Type Your Message.." /> */}
+                   
                   <textarea
                           placeholder="Type Your Message.."
                           name="message"

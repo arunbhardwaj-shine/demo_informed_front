@@ -1,12 +1,12 @@
 import React from "react";
 import Select from "react-select";
-import DatePicker from "react-datepicker";
+ 
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
 
 const CreateDocintelLink = () => {
-  const [startDate, setStartDate] = useState(new Date());
+  
   return (
     <>
       <div className="col right-sidebar">
@@ -38,14 +38,14 @@ const CreateDocintelLink = () => {
                   <div className="header-btn">
                     <button
                       className="btn btn-primary btn-bordered move-draft"
-                      // onClick={saveAsDraft}
+                      
                     >
                       Cancel
                     </button>
 
                     <button
                       className="btn btn-primary btn-filled next"
-                      //   onClick={nextButtonClicked}
+                      
                     >
                       Next
                     </button>
@@ -61,53 +61,39 @@ const CreateDocintelLink = () => {
                     <div className="form-group">
                       <label htmlFor="">Category</label>
                       <Select
-                        // options={countryAll}
-                        // onChange={(event) => onCountryChange(event)}
+                        
                         className="dropdown-basic-button split-button-dropup"
                         isClearable
                       />
-                      {/* {error?.country ? (
-                        <div className="login-validation">{error?.country}</div>
-                      ) : null} */}
+                     
                     </div>
 
                     <div className="form-group">
                       <label htmlFor="">Format</label>
                       <Select
-                        //options={productionAll}
-                        // onChange={(event) => onProductionChange(event)}
+                       
                         className="dropdown-basic-button split-button-dropup edit-production-dropdown"
                         isClearable
                       />
-                      {/* {error?.production ? (
-                        <div className="login-validation">
-                          {error?.production}
-                        </div>
-                      ) : null} */}
+                     
                     </div>
                     <div className="form-group">
                       <label htmlFor="">Product</label>
                       <Select
-                        // options={salesAll}
-                        // onChange={(event) => onSalesChange(event)}
+                         
                         className="dropdown-basic-button split-button-dropup edit-sales-dropdown"
                         isClearable
                       />
-                      {/* {error?.sales ? (
-                        <div className="login-validation">{error?.sales}</div>
-                      ) : null} */}
+                      
                     </div>
                     <div className="form-group">
                       <label htmlFor="">Business Unit</label>
                       <Select
-                        // options={salesAll}
-                        // onChange={(event) => onSalesChange(event)}
+                      
                         className="dropdown-basic-button split-button-dropup edit-sales-dropdown"
                         isClearable
                       />
-                      {/* {error?.sales ? (
-                        <div className="login-validation">{error?.sales}</div>
-                      ) : null} */}
+                    
                     </div>
                   </div>
                   <div className="col-12 col-md-6 d-flex justify-content-end align-items-end right-change">
@@ -187,7 +173,7 @@ const CreateDocintelLink = () => {
                       <input
                         type="text"
                         className="form-control"
-                        //  onChange={(e) => contentTitleChanged(e)}
+                        
                       />
                     </div>
                     <div className="form-group">
@@ -222,7 +208,7 @@ const CreateDocintelLink = () => {
                             id="file-6"
                             className="inputfile inputfile-6"
                             accept=".doc .csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-                            //   onChange={(e) => handleFileChange(e)}
+                           
                           />
                           <label htmlFor="file-6">
                             <span>Choose Your File</span>
@@ -241,7 +227,7 @@ const CreateDocintelLink = () => {
                             id="file-5"
                             className="inputfile inputfile-5"
                             accept="image/png, image/jpeg"
-                            //   onChange={handleImageChange}
+                             
                           />
                           <label htmlFor="file-5">
                             <span>Choose Your File</span>

@@ -17,10 +17,10 @@ const PdfViewer = () => {
               console.error('Element with class "modal-body-content" not found.');
             }
 
-            console.log(viewerRef,"viewerRef");
+          
             const element = document.querySelector(".viewer-canvas-layer");
             element.addEventListener('click', handleAreaSelection);
-            console.log(element,"element");
+            
           }, 2000);
         // const canvas = viewerRef.current.getPages()[0].canvas;
         
@@ -30,13 +30,13 @@ const PdfViewer = () => {
     };
 
     const handleAreaSelection = (e) => {
-        console.log("sample");
+        
     // Calculate posX, posY, width, height based on user's selection
     const posX = e.clientX; // Replace with your calculation
     const posY = e.clientY; // Replace with your calculation
     const width = 50; // Set your custom width
     const height = 30; // Set your custom height
-    console.log("asdasdsad");
+     
     // Store the selected area in the state
     setSelectedArea({ posX, posY, width, height });
     };
@@ -53,7 +53,7 @@ const PdfViewer = () => {
     })
         .then(response => response.json())
         .then(data => {
-        // Handle the response from the backend
+      
         console.log('Link added successfully:', data);
         })
         .catch(error => {

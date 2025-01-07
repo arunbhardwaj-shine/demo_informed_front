@@ -9,7 +9,7 @@ import { Modal, Dropdown, Table } from "react-bootstrap";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import EditCountry from "../CommonComponent/EditCountry";
 import EditContactType from "../CommonComponent/EditContactType";
-import Select, { createFilter } from "react-select";
+import Select  from "react-select";
 import Accordion from "react-bootstrap/Accordion";
 var old_object = {};
 
@@ -35,7 +35,7 @@ const SelectSmartListCountryUsers = (props) => {
     const [campaign_id_st, setCampaign_id] = useState();
     const [showLessInfo, setShowLessInfo] = useState(true);
     const [removedReaders, setRemovedReaders] = useState([]);
-    const [readersNewlyAdded, setReadersNewlyAdded] = useState([]);
+ 
     const [reRender, setReRender] = useState(0);
     const [userId, setUserId] = useState(localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA=="?"sNl1hra39QmFk9HwvXETJA==":"56Ek4feL/1A8mZgIKQWEqg==");
     const [update, setUpdate] = useState(0);
@@ -57,7 +57,7 @@ const SelectSmartListCountryUsers = (props) => {
         allCountryData: ""
     });
     const [newlyAddedCountryWiseData, setNewlyAddedCountryWiseData] = useState({})
-    const buttonRef = useRef(null);
+ 
     const [counterFlag, setCounterFlag] = useState(0);
     const [hpc, setHpc] = useState([
         {
@@ -72,9 +72,7 @@ const SelectSmartListCountryUsers = (props) => {
     const [isOpenAdd, setIsOpenAdd] = useState(false);
     const [validationError, setValidationError] = useState({});
 
-    // const smartListSelected = location.state
-    //   ? location.state.smartListSelected
-    //   : props.getDraftData.smart_list_data;
+ 
 
     useEffect(() => {
         let campaign_id =
@@ -109,7 +107,7 @@ const SelectSmartListCountryUsers = (props) => {
         getalCountry();
     }, []);
 
-    const inputElement = useRef();
+   
     axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
 
     const getDataByCountryWise = () => {
@@ -292,8 +290,7 @@ const SelectSmartListCountryUsers = (props) => {
                 smart_list_id: props.getSelectedSmartListData?.id
                     ? props.getSelectedSmartListData.id
                     : props.getDraftData.campaign_data.smart_list_id,
-                //smart_list_data: readers,
-                // users_list : smartListSelected,
+                
                 selectedHcp: allCountryData,
                 list_selection: old_object?.selected
                     ? old_object.selected
@@ -361,8 +358,7 @@ const SelectSmartListCountryUsers = (props) => {
         }
 
         navigate("/verifyMAIL", {
-            // data: data,
-            // smartListName: smartListName,
+           
             state: {
                 selectedHcp: allCountryData,
                 removedHcp: [...removedReaders, ...discardCountryData]
@@ -427,39 +423,12 @@ const SelectSmartListCountryUsers = (props) => {
         setReaders([]);
         setTimeout(() => {
             setReaders(vr);
-            console.log("This will run after 1 second!");
+           
             setUpdateCounter(updateCounter + 1);
         }, 50);
     };
 
-    const sortSelectedUsers = (e, country) => {
-        const normalArr = countryWiseData[country];
-
-        if (sortingUsers == 0) {
-            normalArr.sort((a, b) =>
-                a.first_name.toLowerCase() > b.first_name.toLowerCase()
-                    ? 1
-                    : b.first_name.toLowerCase() > a.first_name.toLowerCase()
-                        ? -1
-                        : 0
-            );
-        } else {
-            normalArr.sort((a, b) =>
-                a.first_name.toLowerCase() < b.first_name.toLowerCase()
-                    ? 1
-                    : b.first_name.toLowerCase() < a.first_name.toLowerCase()
-                        ? -1
-                        : 0
-            );
-        }
-        setCountryWiseData(prevData => ({
-            ...prevData,
-            [country]: normalArr,
-        }));
-
-        setSortingUsers(1 - sortingUsers);
-        setSortingCountUsers(sortingCountUsers + 1);
-    };
+   
 
     const addRemovedReader = (user, i) => {
         const readersRemoved = removedReaders;
@@ -500,9 +469,7 @@ const SelectSmartListCountryUsers = (props) => {
         email,
         jobTitle,
         company,
-        country,
-        names,
-        contact_type
+         
     ) => {
         if (editable != 0) {
             const name_edit = document.getElementById(
@@ -745,10 +712,7 @@ const SelectSmartListCountryUsers = (props) => {
                     var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
                     if (regex.test(String(useremail).toLowerCase())) {
                         let prev_obj = isEmailInBothArrays(useremail);
-                        // let prev_obj = readers.find((x) => x.email === useremail);
-                        // let prev_obj_new = readersNewlyAdded.find(
-                        //   (x) => x.email === useremail
-                        // );
+                        
 
                         if (prev_obj) {
                             setValidationError({
@@ -823,24 +787,7 @@ const SelectSmartListCountryUsers = (props) => {
                         ).value
                         : "";
 
-                // let prev_obj = readers.find(
-                //   (x) => x.profile_user_id === data.profile_user_id
-                // );
-                // if (typeof prev_obj != "undefined") {
-                //   if (typeof readers[edit_index] != "undefined") {
-                //     readers[edit_index].country = country_edit;
-                //   }
-                //   if (typeof readers[edit_index] != "undefined") {
-                //     readers[edit_index].contact_type = contact_type_edit;
-                //   }
-                // } else {
-                //   if (typeof readersNewlyAdded[edit_index] != "undefined") {
-                //     readersNewlyAdded[edit_index].country = country_edit;
-                //   }
-                //   if (typeof readersNewlyAdded[edit_index] != "undefined") {
-                //     readersNewlyAdded[edit_index].contact_type = contact_type_edit;
-                //   }
-                // }
+                
                 let name = name_edit.split(' ');
                 data.country = country_edit;
                 data.username = name_edit;
@@ -865,7 +812,7 @@ const SelectSmartListCountryUsers = (props) => {
                 .then((res) => {
                     loader("hide");
                     if (res.data.status_code === 200) {
-                        const updateUserDetails = updateUserByIds(userIdsToUpdate, editableData);
+                         updateUserByIds(userIdsToUpdate, editableData);
                         toast.success("List updated");
                     } else {
                         popup_alert({
@@ -1266,52 +1213,7 @@ const SelectSmartListCountryUsers = (props) => {
                                                         <th scope="col">Last email</th>
                                                     </>
                                                 ) : null}
-                                                {/* <th>
-                                                                        <div className="hcp-sort">
-                                                                            {
-                                                                                sortingCountUsers == 0 ? (
-                                                                                    <>
-                                                                                        <button
-                                                                                            className="btn btn-outline-primary"
-                                                                                            onClick={(e) => sortSelectedUsers(e, country)}
-                                                                                        >
-                                                                                            Sort By{" "}
-                                                                                            <img
-                                                                                                src={path_image + "sort.svg"}
-                                                                                                alt="Shorting"
-                                                                                            />
-                                                                                        </button>
-                                                                                    </>
-                                                                                ) :
-                                                                                    sortingUsers == 0 ? (
-                                                                                        <>
-                                                                                            <button
-                                                                                                className="btn btn-outline-primary desc"
-                                                                                                onClick={(e) => sortSelectedUsers(e, country)}
-                                                                                            >
-                                                                                                Sort By{" "}
-                                                                                                <img
-                                                                                                    src={path_image + "sort-decending.svg"}
-                                                                                                    alt="Shorting"
-                                                                                                />
-                                                                                            </button>
-                                                                                        </>
-                                                                                    ) : (
-                                                                                        <>
-                                                                                            <button
-                                                                                                className="btn btn-outline-primary asc"
-                                                                                                onClick={(e) => sortSelectedUsers(e, country)}
-                                                                                            >
-                                                                                                Sort By{" "}
-                                                                                                <img
-                                                                                                    src={path_image + "sort-assending.svg"}
-                                                                                                    alt="Shorting"
-                                                                                                />
-                                                                                            </button>
-                                                                                        </>
-                                                                                    )}
-                                                                        </div>
-                                                                    </th> */}
+                                               
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -1449,52 +1351,7 @@ const SelectSmartListCountryUsers = (props) => {
                                                                                 <th scope="col">Last email</th>
                                                                             </>
                                                                         ) : null}
-                                                                        {/* <th>
-                                                                        <div className="hcp-sort">
-                                                                            {
-                                                                                sortingCountUsers == 0 ? (
-                                                                                    <>
-                                                                                        <button
-                                                                                            className="btn btn-outline-primary"
-                                                                                            onClick={(e) => sortSelectedUsers(e, country)}
-                                                                                        >
-                                                                                            Sort By{" "}
-                                                                                            <img
-                                                                                                src={path_image + "sort.svg"}
-                                                                                                alt="Shorting"
-                                                                                            />
-                                                                                        </button>
-                                                                                    </>
-                                                                                ) :
-                                                                                    sortingUsers == 0 ? (
-                                                                                        <>
-                                                                                            <button
-                                                                                                className="btn btn-outline-primary desc"
-                                                                                                onClick={(e) => sortSelectedUsers(e, country)}
-                                                                                            >
-                                                                                                Sort By{" "}
-                                                                                                <img
-                                                                                                    src={path_image + "sort-decending.svg"}
-                                                                                                    alt="Shorting"
-                                                                                                />
-                                                                                            </button>
-                                                                                        </>
-                                                                                    ) : (
-                                                                                        <>
-                                                                                            <button
-                                                                                                className="btn btn-outline-primary asc"
-                                                                                                onClick={(e) => sortSelectedUsers(e, country)}
-                                                                                            >
-                                                                                                Sort By{" "}
-                                                                                                <img
-                                                                                                    src={path_image + "sort-assending.svg"}
-                                                                                                    alt="Shorting"
-                                                                                                />
-                                                                                            </button>
-                                                                                        </>
-                                                                                    )}
-                                                                        </div>
-                                                                    </th> */}
+                                                              
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>

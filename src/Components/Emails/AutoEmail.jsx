@@ -13,7 +13,7 @@ import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import SmartListLayout from "../CommonComponent/SmartListLayout";
 import SmartListTableLayout from "../CommonComponent/SmartListTableLayout";
-import { ValidationAddNewContact } from "./ValidationAddNewContact";
+ 
 
 let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
 const AutoEmail = () => {
@@ -66,7 +66,7 @@ const AutoEmail = () => {
   const [validationError, setValidationError] = useState({});
   const [role, setRole] = useState([]);
   const [irtRole, setIrtRole] = useState([]);
-  const [institutionType, setInstitutionType] = useState([]);
+  
   const [nonIrtInstitutionType, setNonIrtInstitutionType] = useState([])
   const [irtInstitutionType, setIrtInstitutionType] = useState([])
   const optIRT = [
@@ -103,10 +103,7 @@ const AutoEmail = () => {
     matchFrom: "start",
   };
 
-  useEffect(() => {
-    // getSmartListData(0);
-    // getalCountry();
-  }, []);
+   
 
   useEffect(() => {
     if (addListOpen == true) {
@@ -165,15 +162,7 @@ const AutoEmail = () => {
             
               setIrtRole(newIrtType);
 
-              // let institution_type =
-              //   res?.data?.response?.data?.institution_type;
-
-              // let newInstitution = [];
-              // Object.keys(institution_type)?.map((item, i) => {
-              //   newInstitution.push({ label: item, value: item });
-              // });
-
-              // setInstitutionType(newInstitution);
+              
 
 
               let non_irt_institution_type =
@@ -568,11 +557,9 @@ const AutoEmail = () => {
       if (mailViewElement) {
         mailViewElement.setAttribute("custom-atr", "scroll");
       }
-      // document.querySelector("#mail-view").setAttribute("custom-atr", "scroll");
+       
     } else {
-      // document
-      //   .querySelector("#mail-view")
-      //   .setAttribute("custom-atr", "non-scroll");
+      
 
       const mailViewElement = document.querySelector("#mail-view");
       if (mailViewElement) {
@@ -762,7 +749,7 @@ const AutoEmail = () => {
         user_id: localStorage.getItem("user_id"),
         smart_list_id: "",
       };
-      // const status = ValidationAddNewContact(body?.data, selectedHcp,"save")
+      
      
       const status = body.data.map((data,index) => {
         if (isLikeRdAccount) {
@@ -948,7 +935,7 @@ const AutoEmail = () => {
 
 
   const addMoreHcp = () => {
-    // const status = ValidationAddNewContact(hpc,selectedHcp,"addMore")
+     
     const status = hpc.map((data) => {
       if (isLikeRdAccount) {
         if(data?.optIrt=="yes"){
@@ -1031,7 +1018,7 @@ const AutoEmail = () => {
         .post(`distributes/get_reders_list`, body)
         .then((res) => {
           if (res.data.status_code == 200) {
-            // setReaders(res.data.response.data);
+            
 
             res.data.response.data.map((data) => {
               let prev_obj = selectedHcp.find((x) => x.email === data.email);
@@ -1129,7 +1116,7 @@ const AutoEmail = () => {
             "body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > button > span"
           );
           uploadIcon.style.display = "none";
-          // let newButton = document.createElement("button");
+         
           if (newLink?.value?.includes(baseLink)) {
             newButton.innerText = "Remove Tracking";
             apiLink = `https://onesource.informed.pro/api/delete-track-links`;
@@ -1369,51 +1356,7 @@ const AutoEmail = () => {
                         : null}
                     </div>
                   </div>
-                  {/* <div className="auto_mail_trigger_box">
-                    <div className="mail_trigger_left d-flex align-items-center">
-                      <div className="mail_trigger_mail-icon">
-                        <img
-                          src={path_image + "triggered_mail.svg"}
-                          alt="Preview"
-                        />
-                      </div>
-                      <h4>Reminder AutoMails</h4>
-                    </div>
-                    <div className="mail_trigger_content">
-                      {templates.map((template, index) => {
-                        return (
-                          <div
-                            className={
-                              indexClickedReminder == index
-                                ? "trigger_content_box d-flex active"
-                                : "trigger_content_box d-flex"
-                            }
-                          >
-                            <div className="trigger_content_image">
-                              <img src={template.template_img} alt="Preview" />
-                            </div>
-                            <div className="trigger_content">
-                              <h6>{template.name}</h6>
-                              <p>
-                                Link to app, goes out after 1 week from last
-                                activation if user have not logged into app.
-                              </p>
-                              {indexClickedReminder !== index ? (
-                                <button
-                                  className="btn btn-primary btn-filled d-flex justify-content-center"
-                                  onClick={() =>
-                                    viewReminderClicked(template, index)
-                                  }
-                                >
-                                  View
-                                </button>
-                              ) : null}{" "}
-                            </div>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div> */}
+                   
                 </div>
                 <div className="auto_mail_trigger_right col-md-8 col-sm-8">
                   {!templateClicked ? (
@@ -2600,64 +2543,7 @@ const AutoEmail = () => {
                               </div>
                             </div>
                             <SmartListLayout data={data} iseditshow={0} isviewshow={1} deletestatus={0} viewSmartListData={viewSmartListData} />
-                            {/* <div className="mailbox-table">
-                              <table>
-                                <tbody>
-                                  <tr>
-                                    <th>Contact type</th>
-                                    <td>{data.contact_type}</td>
-                                  </tr>
-                                  <tr>
-                                    <th>Speciality</th>
-                                    <td>{data.speciality}</td>
-                                  </tr>
-                                  <tr>
-                                    <th>Readers</th>
-                                    <td>{data.reader_selection}</td>
-                                  </tr>
-                                  <tr>
-                                    <th>IBU</th>
-                                    <td>{data.ibu}</td>
-                                  </tr>
-                                  <tr>
-                                    <th>Product</th>
-                                    <td>{data.product}</td>
-                                  </tr>
-                                  <tr>
-                                    <th>Country</th>
-                                    <td>{data.country}</td>
-                                  </tr>
-                                  <tr>
-                                    <th>Registered</th>
-                                    <td>{data.registered}</td>
-                                  </tr>
-                                  <tr>
-                                    <th>Created by</th>
-                                    <td>
-                                      <span>{data.creator}</span>
-                                    </td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                            </div>
-
-                            <div className="mail-time">
-                              <span>{data.created_at}</span>
-                            </div>
-                            <div className="smart-list-added-user">
-                              <img
-                                src={path_image + "smartlist-user.svg"}
-                                alt="User icon"
-                              />
-                              {data.readers_count}
-                            </div> */}
-                            {/*<div className="smartlist-buttons">
-                                <button className="btn btn-primary btn-bordered view">
-                                  <a onClick={() => openSmartListPopup(data.id)}>
-                                    View
-                                  </a>
-                                </button>
-                              </div>*/}
+                            
                           </div>
                         </div>
                       </div>

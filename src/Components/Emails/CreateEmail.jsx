@@ -1,15 +1,12 @@
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import { Link, useLocation } from "react-router-dom";
-import { CKEditor } from "@ckeditor/ckeditor5-react";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { connect } from "react-redux";
 import AliceCarousel from "react-alice-carousel";
 import "react-alice-carousel/lib/alice-carousel.css";
-
 import { getCampaignId, getEmailData, getSearched, getSelected, getSelectedSmartListData } from "../../actions";
 import { useNavigate } from "react-router-dom";
-import { Modal, ModalDialog, Dropdown, OverlayTrigger, Tooltip } from "react-bootstrap";
+import { Modal,   Dropdown, OverlayTrigger, Tooltip } from "react-bootstrap";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import SimpleReactValidator from "simple-react-validator";
 import { loader } from "../../loader";
@@ -18,11 +15,9 @@ import { toast } from "react-toastify";
 import Select, { createFilter } from "react-select";
 import { Editor } from "@tinymce/tinymce-react";
 import SmartListLayout from "../CommonComponent/SmartListLayout";
-
 import { CircularProgressbar } from "react-circular-progressbar";
-import { buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
-import { ProgressBar } from "react-bootstrap";
+ 
 // import "bootstrap/dist/css/bootstrap.min.css";
 import SmartListTableLayout from "../CommonComponent/SmartListTableLayout";
 var dxr = 0;
@@ -52,7 +47,6 @@ const CreateEmail = (props) => {
   const [siteNameAll, setSiteNameAll] = useState([]);
   const [role, setRole] = useState([]);
   const [irtRole, setIrtRole] = useState([]);
-  const [institutionType, setInstitutionType] = useState([]);
   const [irtInstitutionType, setIrtInstitutionType] = useState([]);
   const [nonIrtInstitutionType, setNonIrtInstitutionType] = useState([]);
   const [optIRT, setoptIRT] = useState([
@@ -62,22 +56,15 @@ const CreateEmail = (props) => {
   const filterConfig = {
     matchFrom: "start",
   };
-  let file_name = useRef("");
   let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
   const navigate = useNavigate();
   const [showPreogressBar, setShowProgressBar] = useState(false);
   const [uploadOrDownloadCount, setUploadOrDownloadCount] = React.useState(0);
   const [mailsIncrement, setMailsIncrement] = useState(0);
-  const [SendListData, setSendListData] = useState([]);
-  const [UserData, setUserData] = useState([]);
-  const location = useLocation();
   const { state } = useLocation();
-  const [uniqueId, setUniqueId] = useState("");
   const [getsearch, setSearch] = useState("");
   const PdfSelected = props.getEmailData ? dxr : props.getDraftData.pdf_id;
-
   const [hcpsSelected, setHcpsSelected] = useState([]);
-
   const [manualReRender, setManualReRender] = useState(0);
   const campaign_id = props.getDraftData ? props.getDraftData.campaign_id : "";
   const [selectedFile, setSelectedFile] = useState(null);
@@ -180,14 +167,13 @@ const CreateEmail = (props) => {
   const [searchedUsers, setSearchedUsers] = useState([]);
   const [countryall, setCountryall] = useState([]);
   const [irtCountry, setIRTCountry] = useState([]);
-  const [message, setMessage] = useState("");
+ 
   const [reRender, setReRender] = useState(0);
   const [activeIndex, setActiveIndex] = useState(0);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [selectedHcp, setSelectedHcp] = useState([]);
-  const slidePrev = () => setActiveIndex(activeIndex - 1);
-  const slideNext = () => setActiveIndex(activeIndex + 1);
+ 
   const syncActiveIndex = ({ item }) => setActiveIndex(item);
 
   const [getTemplatePopup, setTemplatePopup] = useState(false);
@@ -236,7 +222,7 @@ const CreateEmail = (props) => {
   const [showLessInfo, setShowLessInfo] = useState(true);
   const [getSmartListId, setSmartListId] = useState(0);
 
-  const newArr = [];
+ 
 
   useEffect(() => {
     if (addListOpen == true) {
@@ -341,12 +327,7 @@ const CreateEmail = (props) => {
                 newIrtType.push({ label: item, value: item });
               });
 
-              // let instution_type = res?.data?.response?.data?.institution_type;
-              // let newInstitutionType = [];
-              // Object.keys(instution_type)?.map((item, i) => {
-              //   newInstitutionType.push({ label: item, value: item });
-              // });
-              // setInstitutionType(newInstitutionType);
+              
 
 
               let non_irt_institution_type =
@@ -467,9 +448,7 @@ const CreateEmail = (props) => {
     loader("hide");
   };
 
-  useEffect(() => {
-    //console.log("sdsdsd");
-  }, [selectedHcp]);
+ 
 
   useEffect(() => {
     const body = {
@@ -482,10 +461,7 @@ const CreateEmail = (props) => {
         .post(`emailapi/get_tags`, body)
         .then((res) => {
           setAllTags(res?.data?.response?.data);
-          // console.log(campaign_id_st);
-          // if (typeof campaign_id_st === "undefined" || campaign_id_st == 0) {
-          // loader("hide");
-          // }
+           
         })
         .catch((err) => {
           loader("hide");
@@ -493,7 +469,7 @@ const CreateEmail = (props) => {
         });
     };
     getAllTags();
-    // getCampaignData();
+   
   }, []);
 
   useEffect(() => {
@@ -659,7 +635,7 @@ const CreateEmail = (props) => {
                 setSelectedHcp((oldArray) => [...oldArray, data]);
               }
             });
-            // setSelectedHcp(res.data.response.data);
+           
             loader("hide");
           } else {
             toast.warning(res.data.message);
@@ -675,10 +651,7 @@ const CreateEmail = (props) => {
     } else {
       toast.warning("Please select smart list");
     }
-    // e.preventDefault();
-    // setSelectedHcp((oldArray) => [...readers, ...oldArray]);
-    // setIsOpensend(true);
-    // setAddListOpen(false);
+  
   };
 
   const sendsampeap = (event) => {
@@ -738,13 +711,13 @@ const CreateEmail = (props) => {
         source_code: template,
       };
 
-      //console.log(body);
+ 
       axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
 
       axios
         .post(`emailapi/send_sample_email`, body)
         .then((res) => {
-          //console.log(res);
+          
           loader("hide");
           if (res.data.status_code === 200) {
             setUploadOrDownloadCount(100);
@@ -883,7 +856,7 @@ const CreateEmail = (props) => {
       : props.getDraftData.campaign;
 
     if (typeof campaign !== "undefined" && campaign !== "") {
-      // console.log(props.getDraftData);
+      
 
       let up_temp = template;
       if (editorRef.current) {
@@ -933,10 +906,10 @@ const CreateEmail = (props) => {
               visible: "show",
               message: "Your changes has been saved <br />successfully !",
               type: "success",
-              // redirect: "/EmailList",
+             
               redirect: redirectPath
             });
-            // toast.success("Draft saved");
+            
           } else {
             toast.warning(res.data.message);
           }
@@ -1080,7 +1053,7 @@ const CreateEmail = (props) => {
 
   const approvedClicked = async (e) => {
     let ab = getIsApprovedStatus;
-    // console.log(ab);
+     
     if (getIsApprovedStatus === 3) {
       await setIsApprovedStatus(2);
       ab = 2;
@@ -1088,7 +1061,7 @@ const CreateEmail = (props) => {
       await setIsApprovedStatus(3);
       ab = 3;
     }
-    //setIsApprovedStatus(3);
+    
     e.preventDefault();
     let tagss = [];
     finalTags.map((tags) => {
@@ -1172,33 +1145,7 @@ const CreateEmail = (props) => {
       setHpc(list);
     }
 
-    // e.preventDefault();
-
-    // if (index != 0) {
-
-    //   const { value } = e.target;
-
-    //   const old_hpc = hpc;
-
-    //   old_hpc[i].siteDetails[index].siteNumber = value;
-
-    //   setHpc(old_hpc);
-
-    //   setUpdate(update + 1);
-
-    // } else if (index == 0) {
-
-    //   const { value } = e;
-
-    //   const old_hpc = hpc;
-
-    //   old_hpc[i].siteDetails[index].siteNumber = value;
-
-    //   setHpc(old_hpc);
-
-    //   setUpdate(update + 1);
-
-    // }
+    
   };
 
   const onSiteNameChange = (e, i) => {
@@ -1267,11 +1214,7 @@ const CreateEmail = (props) => {
       const name = hpc[i].institutionType;
       list[i].institutionType = value;
       setHpc(list);
-    //   if (e?.value == "Study site") {
-    //     onIRTChange("yes", i);
-    //   } else {
-    //     onIRTChange("no", i);
-    //   }
+   
     }
   };
   const onIRTChange = (e, i) => {
@@ -1306,12 +1249,10 @@ const CreateEmail = (props) => {
     e.target.value = "";
     const new_atg = document.getElementById("new-tag");
     new_atg.value = "";
-    //console.log(new_atg);
+  
   };
 
-  // const emailDescriptionChange = (e) => {
-  //   setEmailDescription(e.target.value);
-  // };
+ 
 
   const emailCreatorChange = (e) => {
     setEmailCreator(e.target.value);
@@ -1337,7 +1278,7 @@ const CreateEmail = (props) => {
         alltemp_tags = alltemp_tags?.map((data) => {
           return data.toLowerCase();
         });
-        // console.log(alltemp_tags);
+         
       }
 
       if (
@@ -1351,7 +1292,7 @@ const CreateEmail = (props) => {
           tags: newTag,
         };
 
-        //console.log(body);
+    
         axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
         loader("show");
         await axios
@@ -1380,7 +1321,7 @@ const CreateEmail = (props) => {
   };
 
   const sendSample = (event) => {
-    //  console.log(selectedHcp);
+    
 
     event.preventDefault();
     let error = {};
@@ -1431,12 +1372,12 @@ const CreateEmail = (props) => {
     const tags = tagClickedFirst;
 
     tags.splice(index, 1);
-    //console.log(tags);
+  
     setTagClickedFirst(tags);
     setFinalTags(tags);
     setTagsReRender(tagsReRender + 1);
 
-    // tagClickedFirst.splice(index, 1);
+    
   };
 
   const removeTagFinal = (index) => {
@@ -1466,39 +1407,19 @@ const CreateEmail = (props) => {
         name: name,
         email: email,
       };
-      // let error = {};
-      // if (name == "") {
-      //   error.name = "Please enter name";
-      // }
-      // if (email == "") {
-      //   error.email = "Please enter email";
-      // }
-      // if (Object.keys(error)?.length) {
-      //   toast.error(error[Object.keys(error)[0]]);
-      //   setValidationError(error);
-      //   return;
-      // } else {
-      //   const body = {
-      //     user_id: localStorage.getItem("user_id"),
-      //     name: name,
-      //     email: email,
-      //   };
-      //console.log(body);
+     
       axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
       loader("show");
       await axios
         .post(`emailapi/search_hcp`, body)
         .then((res) => {
-          // console.log(res);
-          // console.log(res.data.response.data);
+         
           if (res.data.response) {
             setSearchedUsers(res.data.response.data);
           } else {
             toast.warning(res.data.message);
           }
-          // if (res.data.message) {
-          //   setMessage(res.data.message);
-          // }
+           
           loader("hide");
         })
         .catch((err) => {
@@ -1528,7 +1449,7 @@ const CreateEmail = (props) => {
     const name = hpc[i].firstname;
     list[i].firstname = value;
     setHpc(list);
-    // console.log(hpc);
+     
   };
 
   const onLastNameChange = (e, i) => {
@@ -1537,7 +1458,7 @@ const CreateEmail = (props) => {
     const name = hpc[i].lastname;
     list[i].lastname = value;
     setHpc(list);
-    //console.log(hpc);
+    
   };
 
   const onEmailChange = (e, i) => {
@@ -1546,8 +1467,7 @@ const CreateEmail = (props) => {
     const name = hpc[i].email;
     list[i].email = value;
     setHpc(list);
-    // setEmailData(e.target.value);
-    //console.log(hpc);
+     
   };
 
   const onContactTypeChange = (e, i) => {
@@ -1640,7 +1560,7 @@ const CreateEmail = (props) => {
               last_name: data?.lastname,
               email: data?.email,
               country: data?.country,
-              // contact_type: data?.contact_type,
+               
               siteNumber: data?.siteNumber ? data.siteNumber : "",
               siteName: data?.siteName ? data.siteName : "",
               investigator_type: data?.role,
@@ -1815,7 +1735,7 @@ const CreateEmail = (props) => {
               loader("hide");
             }
             loader("hide");
-            //setSelectedHcp(res.data.response.data);
+            
           })
           .catch((err) => {
             toast.error("Something went wrong");
@@ -1829,7 +1749,7 @@ const CreateEmail = (props) => {
       formData.append("smart_list_id", "");
       formData.append("reader_file", selectedFile);
  
-      // console.log(formData);
+ 
  
       if (selectedFile) {
         axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
@@ -1961,34 +1881,7 @@ const CreateEmail = (props) => {
     e.preventDefault();
     setShowLessInfo(!showLessInfo);
   };
-  // const openSmartListPopup = async (smart_list_id) => {
-  //   setShowLessInfo(true);
-  //   axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
-  //   const body = {
-  //     user_id: localStorage.getItem("user_id"),
-  //     list_id: smart_list_id,
-  //     show_specific: 1,
-  //   };
-  //   loader("show");
-  //   await axios
-  //     .post(`distributes/get_reders_list`, body)
-  //     .then((res) => {
-  //       if (res.data.status_code == 200) {
-  //         setAddListOpen(false);
-  //         setReaderDetails(res.data.response.data);
-  //         setSmartListName(res.data.response.smart_list_name);
-  //         setSmartListPopupStatus(true);
-  //       } else {
-  //         toast.warning(res.data.message);
-  //       }
-  //       loader("hide");
-  //     })
-  //     .catch((err) => {
-  //       toast.warning("Something went wrong");
-  //       loader("hide");
-  //     });
-  // };
-
+   
   const handleScroll = (ev) => {
     if (ev.target.scrollTop > 20) {
       document
@@ -2029,90 +1922,7 @@ const CreateEmail = (props) => {
       toast.warning("Template not selected.");
     }
   };
-  // const addTracking = function (editor) {
-  //   editor.on("OpenWindow", function (e) {
-  //     let dialog = document.getElementsByClassName("tox-dialog")[0];
-
-  //     if (dialog) {
-  //       let header = dialog.querySelector(".tox-dialog__header");
-  //       const closeButton = header.querySelector('[aria-label="Close"]');
-  //       let text = header.querySelector(".tox-dialog__title");
-
-  //       if (text.innerText == "Insert/Edit Link") {
-  //         let uploadIcon = document.querySelector(
-  //           "body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > button > span"
-  //         );
-  //         uploadIcon.style.display = "none";
-  //         let newButton = document.createElement("button");
-  //         newButton.innerText = "Add Tracking";
-  //         newButton.classList.add("tox-button");
-  //         newButton.classList.add("tox-button--icon");
-  //         newButton.classList.add("tox-button--naked");
-  //         newButton.classList.add("track");
-  //         newButton.onclick = function () {
-  //           if (templateIdRef.current == "") {
-  //             alert("Please select the template first before adding the link");
-  //             return;
-  //           }
-  //           // alert(templateId);
-  //           let firstToxControlWrap = document.querySelector(
-  //             "body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > div >input"
-  //           );
-
-  //           // let text =dialog.querySelector(".tox-form__group");
-  //           if (!firstToxControlWrap.value) {
-  //             alert("Please enter a link");
-  //             return;
-  //           }
-
-  //           const baseLink =
-  //             "https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_";
-  //           if (firstToxControlWrap.value.startsWith(baseLink)) {
-  //             alert("Traking already added");
-  //             return;
-  //           }
-  //           let slugValue = prompt("Enter a slug value");
-
-  //           const currentTimestamp = Date.now();
-  //           // const redirectUrl = encodeURIComponent(firstToxControlWrap.value)
-  //           let payload = {
-  //             slug_value: slugValue,
-  //             template_id: templateIdRef.current,
-  //             url_code: `clicked_track_doc_${currentTimestamp}`,
-  //           };
-  //           linkingPayload.current = payload;
-  //           let link = `https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_${currentTimestamp}&redirect_url=${firstToxControlWrap.value}`;
-  //           firstToxControlWrap.value = link;
-  //           var saveButton = document.querySelector(
-  //             '.tox-button[title="Save"]'
-  //           );
-
-  //           saveButton.addEventListener("click", function () {
-  //             let link = `https://onesource.informed.pro/api/track-links`;
-
-  //             axios
-  //               .post(link, payload)
-  //               .then((res) => {
-  //                 console.log("done");
-  //               })
-  //               .catch((err) => {
-  //                 loader("hide");
-  //                 console.log(err);
-  //               });
-  //           });
-  //           alert("Traking added");
-  //         };
-
-  //         header.insertBefore(newButton, closeButton);
-  //       } else if (text.innerText == "Insert/Edit Media") {
-  //         document.querySelector(
-  //           "body > div.tox.tox-silver-sink.tox-tinymce-aux > div.tox-dialog-wrap > div.tox-dialog > div.tox-dialog__content-js > div > div.tox-dialog__body-content > div > div:nth-child(1) > label"
-  //         ).innerText += " (Max size: 1GB)";
-  //       }
-  //     }
-  //   });
-  // };
-
+  
   const addTracking = function (editor) {
     editor.on("OpenWindow", function (e) {
       let dialog = document.getElementsByClassName("tox-dialog")[0];
@@ -2395,14 +2205,14 @@ const CreateEmail = (props) => {
                 <div className="col-12 col-md-1">
                   <div className="header-btn-left">
                     <button className="btn btn-primary btn-bordered back" onClick={handleBackClick}>
-                      {/* <Link to="/EmailArticleSelect">Back</Link> */} Back
+                       Back
                     </button>
                   </div>
                 </div>
                 <div className="col-12 col-md-8">
                   <ul className="tabnav-link">
                     <li className="active" onClick={handleSelectUsers}>
-                      {/* <Link to="/EmailArticleSelect">Select Content</Link> */}
+                       
                       Select Content
                     </li>
                     <li className="active active-main">
@@ -2433,7 +2243,7 @@ const CreateEmail = (props) => {
                     {
                       IRTTraining ? 
                         <Link to = {"/new-readers-reviews"}
-                          // state= {{siteRole: irtRoleObj?.siteRole }}
+                           
                           state= {irtRoleObj}
                           className="btn btn-primary btn-bordered move-draft">
                           Cancel
@@ -2569,7 +2379,7 @@ const CreateEmail = (props) => {
                             </label>
 
                             <input
-                              // onChange={(e) => emailDescriptionChange(e)}
+                         
                               onChange={(e) => {
                                 setEmailDescription(e?.target?.value);
                                 setManualEmailDescription(e?.target?.value)
@@ -2599,7 +2409,7 @@ const CreateEmail = (props) => {
                             </label>
 
                             <input
-                              // onChange={(e) => emailCreatorChange(e)}
+                            
                               onChange={(e) => {
                                 setEmailCreator(e?.target?.value);
                                 setManualEmailCreator(e?.target?.value)
@@ -2655,7 +2465,7 @@ const CreateEmail = (props) => {
                               }
                               id="email-campaign"
                               value={emailCampaign}
-                              // onChange={changeEmailCampaign}
+                              
                               onChange={(e) => {
                                 setemailCampaign(e?.target?.value);
                                 setManualEmailCampaign(e?.target?.value)
@@ -2669,7 +2479,7 @@ const CreateEmail = (props) => {
                           </div>
                         </div>
                       </>
-                      {/* ) : null} */}
+                      
                       <div className="input-group d-flex w-100">
                         <div className="input-group-prepend">
                           <button
@@ -2721,7 +2531,7 @@ const CreateEmail = (props) => {
                                 : "form-control"
                             }
                             id="email-subject"
-                            // onChange={(e) => emailSubjectChanged(e)}
+                          
                             onChange={(e) => {
                               setEmailSubject(e?.target?.value);
                               setManualEmailSubject(e?.target?.value)
@@ -2743,11 +2553,7 @@ const CreateEmail = (props) => {
                               "required"
                             )
                           ) : null}
-                          {/* {validator.message(
-                            "emailSubject",
-                            emailSubject,
-                            "required"
-                          )} */}
+                         
                         </div>
                         <div className="form-buttons right-side col-12 col-md-7">
                           <button
@@ -2893,7 +2699,7 @@ const CreateEmail = (props) => {
                           input.setAttribute("type", "file");
                           input.setAttribute("accept", "image/*");
 
-                          // Create a loading indicator element (e.g., a spinner)
+                          
                           const loadingIndicator =
                             document.createElement("div");
                           loadingIndicator.className = "loading-indicator";
@@ -2943,23 +2749,7 @@ const CreateEmail = (props) => {
                       setTemplateSaving(content);
                     }}
                   />
-                  {/*
-
-              <CKEditor
-              editor={ClassicEditor}
-              data={template}
-              readOnly={true}
-              onReady={(editor) => {
-              // You can store the "editor" and use when it is needed.
-            }}
-            onChange={(event, editor) => {
-            const data = editor.getData();
-            setTemplate(data);
-          }}
-          onBlur={(event, editor) => {}}
-          onFocus={(event, editor) => {}}
-          />
-              */}
+                  
                 </div>
               </div>
             </section>
@@ -3245,38 +3035,7 @@ const CreateEmail = (props) => {
                       })}
                     </>
 
-                    // <table className="table">
-                    //   <thead>
-                    //     <tr>
-                    //       <th scope="col">Name</th>
-                    //       <th scope="col">Email</th>
-                    //       <th scope="col">Country</th>
-                    //       <th scope="col"></th>
-                    //     </tr>
-                    //   </thead>
-                    //   <tbody>
-                    //     {selectedHcp.map((data, index2) => {
-                    //       return (
-                    //         <>
-                    //           <tr key={index2}>
-                    //             <td>{data.name || data.first_name}</td>
-                    //             <td>{data.email}</td>
-                    //
-                    //             <td>{data.country}</td>
-                    //
-                    //             <td className="delete_row" colSpan="12">
-                    //               <img
-                    //                 src={path_image + "delete.svg"}
-                    //                 alt="Delete Row"
-                    //                 onClick={() => deleteSelected(index2)}
-                    //               />
-                    //             </td>
-                    //           </tr>
-                    //         </>
-                    //       );
-                    //     })}
-                    //   </tbody>
-                    // </table>
+                  
                   )}
                 </div>
               </div>
@@ -3316,8 +3075,7 @@ const CreateEmail = (props) => {
               onClick={() => {
                 setAddListOpen(false);
                 setIsOpensend(true);
-                // setSelectedHcp([]);
-                // setSearchedUsers([]);
+                
               }}
             ></button>
           </Modal.Header>
@@ -3350,33 +3108,7 @@ const CreateEmail = (props) => {
                   </button>
                 </form>
               </div>
-              {/*
-                <div className="filter-by">
-                  <button className="btn btn-outline-primary" type="submit">
-                    Filter By{" "}
-                    <svg
-                      width="16"
-                      height="14"
-                      viewBox="0 0 16 14"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M0.615385 2.46154H3.07692C3.07692 3.14031 3.62892 3.69231 4.30769 3.69231H5.53846C6.21723 3.69231 6.76923 3.14031 6.76923 2.46154H15.3846C15.7243 2.46154 16 2.18646 16 1.84615C16 1.50585 15.7243 1.23077 15.3846 1.23077H6.76923C6.76923 0.552 6.21723 0 5.53846 0H4.30769C3.62892 0 3.07692 0.552 3.07692 1.23077H0.615385C0.275692 1.23077 0 1.50585 0 1.84615C0 2.18646 0.275692 2.46154 0.615385 2.46154Z"
-                        fill="#97B6CF"
-                      ></path>
-                      <path
-                        d="M15.3846 6.15362H11.6923C11.6923 5.47485 11.1403 4.92285 10.4615 4.92285H9.23077C8.552 4.92285 8 5.47485 8 6.15362H0.615385C0.275692 6.15362 0 6.4287 0 6.76901C0 7.10931 0.275692 7.38439 0.615385 7.38439H8C8 8.06316 8.552 8.61516 9.23077 8.61516H10.4615C11.1403 8.61516 11.6923 8.06316 11.6923 7.38439H15.3846C15.7243 7.38439 16 7.10931 16 6.76901C16 6.4287 15.7243 6.15362 15.3846 6.15362Z"
-                        fill="#97B6CF"
-                      ></path>
-                      <path
-                        d="M15.3846 11.077H6.76923C6.76923 10.3982 6.21723 9.84619 5.53846 9.84619H4.30769C3.62892 9.84619 3.07692 10.3982 3.07692 11.077H0.615385C0.275692 11.077 0 11.352 0 11.6923C0 12.0327 0.275692 12.3077 0.615385 12.3077H3.07692C3.07692 12.9865 3.62892 13.5385 4.30769 13.5385H5.53846C6.21723 13.5385 6.76923 12.9865 6.76923 12.3077H15.3846C15.7243 12.3077 16 12.0327 16 11.6923C16 11.352 15.7243 11.077 15.3846 11.077Z"
-                        fill="#97B6CF"
-                      ></path>
-                    </svg>
-                  </button>
-                </div>
-              */}
+              
             </div>
             <div className="col smartlist-result-block new-smartlist">
               {typeof smartListData !== "undefined" &&
@@ -3406,108 +3138,8 @@ const CreateEmail = (props) => {
                               </div>
                             </div>
                             <SmartListLayout data={data} iseditshow={0} isviewshow={1} deletestatus={0} viewSmartListData={viewSmartListData} />
-                            {/* <div className="mailbox-table">
-                              <table>
-                                <tbody>
-                                  <tr>
-                                    <th>Contact type</th>
-                                    <td>{data.contact_type}</td>
-                                  </tr>
-                                  <tr>
-                                    <th>Speciality</th>
-                                    <td>{data.speciality}</td>
-                                  </tr>
-                                  <tr>
-                                    <th>Readers</th>
-                                    <td>{data.reader_selection}</td>
-                                  </tr>
-                                  <tr>
-                                    <th>IBU</th>
-                                    <td>{data.ibu}</td>
-                                  </tr>
-                                  <tr>
-                                    <th>Product</th>
-                                    <td>{data.product}</td>
-                                  </tr>
-                                  <tr>
-                                    <th>Country</th>
-                                    <td>{data.country}</td>
-                                  </tr>
-                                  <tr>
-                                    <th>Registered</th>
-                                    <td>{data.registered}</td>
-                                  </tr>
-                                  <tr>
-                                    <th>Created by</th>
-                                    <td>
-                                      <span>{data.creator}</span>
-                                    </td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                            </div>
-
-                            <div className="mail-time">
-                              <span>{data.created_at}</span>
-                            </div>
-                            <div className="smart-list-added-user">
-                              <img
-                                src={path_image + "smartlist-user.svg"}
-                                alt="User icon"
-                              />
-                              {data.readers_count}
-                            </div> */}
-                            {/*
-                                  <div className="mail-stats">
-                                  <ul>
-                                  <li>
-                                  <div className="mail-status smartlist_view">
-                                  <svg
-                                  width="16"
-                                  height="14"
-                                  viewBox="0 0 16 14"
-                                  fill="none"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                  <path
-                                  d="M9.65531 2.57856C10.3951 3.04241 10.9139 3.82733 11.0083 4.73845C11.31 4.87942 11.6449 4.96049 11.9999 4.96049C13.296 4.96049 14.3465 3.91 14.3465 2.6141C14.3465 1.31801 13.296 0.267517 11.9999 0.267517C10.7162 0.267916 9.67488 1.29964 9.65531 2.57856ZM8.11801 7.38316C9.4141 7.38316 10.4646 6.33246 10.4646 5.03657C10.4646 3.74067 9.4139 2.69018 8.11801 2.69018C6.82211 2.69018 5.77102 3.74087 5.77102 5.03677C5.77102 6.33266 6.82211 7.38316 8.11801 7.38316ZM9.11339 7.5431H7.12223C5.46552 7.5431 4.11771 8.89111 4.11771 10.5478V12.9829L4.1239 13.021L4.29163 13.0735C5.87266 13.5675 7.24622 13.7322 8.37679 13.7322C10.585 13.7322 11.8649 13.1027 11.9438 13.0625L12.1005 12.9833H12.1173V10.5478C12.1179 8.89111 10.7701 7.5431 9.11339 7.5431ZM12.9957 5.12063H11.0199C10.9985 5.91115 10.6611 6.62299 10.1273 7.13496C11.6 7.57285 12.6774 8.93843 12.6774 10.5514V11.3018C14.6282 11.2303 15.7524 10.6774 15.8265 10.6403L15.9832 10.5608H16V8.12495C16 6.46844 14.6522 5.12063 12.9957 5.12063ZM4.0005 4.96089C4.45955 4.96089 4.88666 4.82691 5.24847 4.59868C5.36348 3.8485 5.76563 3.19296 6.3401 2.74649C6.34249 2.70256 6.34669 2.65903 6.34669 2.6147C6.34669 1.31861 5.29599 0.268116 4.0005 0.268116C2.70421 0.268116 1.65391 1.31861 1.65391 2.6147C1.65391 3.9102 2.70421 4.96089 4.0005 4.96089ZM6.10787 7.13496C5.57674 6.62559 5.24048 5.91754 5.21592 5.13181C5.14264 5.12642 5.07016 5.12063 4.99548 5.12063H3.00452C1.34781 5.12063 0 6.46844 0 8.12495V10.5604L0.00618994 10.5979L0.173917 10.6508C1.44226 11.0468 2.57422 11.2293 3.55742 11.2868V10.5514C3.55782 8.93843 4.63487 7.57325 6.10787 7.13496Z"
-                                  fill="#FAC755"
-                                  ></path>
-                                  </svg>
-                                  </div>
-                                  <span>10%</span>
-                                  </li>
-                                  <li>
-                                  <div className="mail-status mail_click">
-                                  <svg
-                                  width="14"
-                                  height="16"
-                                  viewBox="0 0 14 16"
-                                  fill="none"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                  <path
-                                  d="M2.96391 5.30631C2.85416 4.93468 2.74879 4.56243 2.6696 4.20577C2.14894 3.89774 1.79477 3.33718 1.79477 2.68932C1.79477 1.71473 2.58729 0.922837 3.56126 0.922837C4.53522 0.922837 5.32774 1.71535 5.32774 2.68932C5.32774 2.82338 5.30966 2.95246 5.2816 3.07779C5.45058 3.45004 5.58713 3.86906 5.70685 4.29493C6.04356 3.84599 6.25058 3.29415 6.25058 2.68932C6.25058 1.20343 5.04715 0 3.56126 0C2.07536 0 0.872559 1.20343 0.872559 2.68932C0.872559 3.96882 1.76734 5.03445 2.96391 5.30631Z"
-                                  fill="#C8D1D9"
-                                  ></path>
-                                  <path
-                                  d="M1.10616 11.673C1.76898 10.9566 2.51286 11.2372 3.50865 11.3887C4.36415 11.5203 5.20655 11.2802 5.15043 10.8182C5.06189 10.0705 4.93718 9.73632 4.65347 8.76797C4.42713 7.9979 3.99751 6.6099 3.60655 5.28301C3.08278 3.50779 2.93126 2.68348 3.62837 2.47771C4.37974 2.25885 4.8106 3.32635 5.20094 4.80663C5.64552 6.49143 5.87935 7.23531 6.01029 7.19603C6.241 7.12993 5.92549 6.40912 6.52907 6.23141C7.28356 6.01193 7.42946 6.60179 7.64084 6.54256C7.85222 6.47896 7.78052 5.88161 8.38223 5.70577C8.98706 5.53118 9.29073 6.27568 9.54014 6.20148C9.78706 6.12853 9.78145 5.85978 10.1543 5.75316C10.5278 5.64217 11.9333 6.27132 12.7376 9.01925C13.7472 12.4743 12.6098 13.1165 12.9546 14.2863L8.44833 15.9998C8.08356 15.1224 6.9537 15.0576 5.95417 14.4983C4.94716 13.9315 4.26314 12.8272 1.63866 12.8808C0.6516 12.9008 0.698366 12.1139 1.10616 11.673Z"
-                                  fill="#C8D1D9"
-                                  ></path>
-                                  </svg>
-                                  </div>
-                                  <span>60%</span>
-                                  </li>
-                                  </ul>
-                                  </div>
-                                */}
-                            {/* <div className="smartlist-buttons">
-                              <button className="btn btn-primary btn-bordered view">
-                                <a onClick={() => openSmartListPopup(data.id)}>
-                                  View
-                                </a>
-                              </button>
-                            </div> */}
+                           
+                            
                           </div>
                         </div>
                       </div>
@@ -3542,16 +3174,14 @@ const CreateEmail = (props) => {
         centered
       >
         <div
-          //className="modal fade"
-          //id="add_hcp"
+          
           data-bs-backdrop="static"
           data-bs-keyboard="false"
           tabindex="-1"
-          //aria-labelledby="add_hcp"
+        
           aria-hidden="true"
         >
-          {/* <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-            <div className="modal-content"> */}
+         
           <div className="modal-header">
             <h5 className="modal-title" id="staticBackdropLabel">
               Add New Contact
@@ -3753,14 +3383,7 @@ const CreateEmail = (props) => {
                                         onChange={(event) =>
                                           onInstitutionChange(event, i)
                                         }
-                                        // defaultValue={
-                                        //   val?.institutionType
-                                        //     ? {
-                                        //       label: val?.institutionType,
-                                        //       value: val?.institutionType,
-                                        //     }
-                                        //     : ""
-                                        // }
+                                        
                                         value={
                                           irtInstitutionType.findIndex(
                                             (el) => el.value == val?.institutionType
@@ -3788,14 +3411,8 @@ const CreateEmail = (props) => {
                                         onChange={(event) =>
                                           onInstitutionChange(event, i)
                                         }
-                                        // defaultValue={
-                                        //   val?.institutionType
-                                        //     ? {
-                                        //       label: val?.institutionType,
-                                        //       value: val?.institutionType,
-                                        //     }
-                                        //     : ""
-                                        // }
+                                        
+                                        
                                         value={
                                           nonIrtInstitutionType.findIndex(
                                             (el) => el.value == val?.institutionType
@@ -4029,67 +3646,10 @@ const CreateEmail = (props) => {
                                     </>
                                   )}
 
-                                  {/*<DropdownButton className="dropdown-basic-button split-button-dropup country"
-                                   title= {hpc[i].country != "" &&  hpc[i].country != "undefined" ? hpc[i].country == "B&H" ? "Bosnia and Herzegovina" : hpc[i].country : "Select Country" }
-                                   onSelect={(event) => onCountryChange(event, i)}
-                                   >
-                                    <div className="scroll_div">
-                                    {countryall.length === 0
-                                     ? ""
-                                     : Object.entries(countryall).map(
-                                         ([index, item]) => {
-                                           return (
-                                             <>
-                                              <Dropdown.Item eventKey={index} className = {hpc[i].country == index ? "active" : "" }>{item == "B&H" ? "Bosnia and Herzegovina" : item}</Dropdown.Item>
-                                             </>
-                                           );
-                                         }
-                                       )}
-                                    </div>
-
-                                  </DropdownButton>
-
-                                    <select
-                                      className="country-form"
-                                      aria-label="select"
-                                      onChange={(event) =>
-                                        onCountryChange(event, i)
-                                      }
-                                    >
-                                      <option value="" selected>
-                                        Select Country
-                                      </option>
-
-                                      {countryall.length === 0
-                                        ? ""
-                                        : Object.entries(countryall).map(
-                                            ([index, item]) => {
-                                              return (
-                                                <>
-                                                  <option value={index} key={index}>
-                                                    {item}
-                                                  </option>
-                                                </>
-                                              );
-                                            }
-                                          )}
-                                    </select>
-                                    */}
+                               
                                 </div>
                               </div>
-                              {/*<div className="col-12 col-md-6 btn_rmv">
-                                <div className="form-group">
-                                  {i !== 0 && (
-                                    <button
-                                      type="button"
-                                      className="btn btn-filled"
-                                      onClick={() => deleteRecord(i)}
-                                    >
-                                      Remove
-                                    </button>
-                                  )}
-                                </div>
-                              </div>*/}
+                              
                               {(isLikeRdAccount)
                                 ? (
                                 <>
@@ -4136,7 +3696,7 @@ const CreateEmail = (props) => {
 
                                       <Select
                                         options={siteNameAll}
-                                        // className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        
                                         className={
                                           validationError?.index == i &&
                                             validationError?.newSiteName
@@ -4202,17 +3762,7 @@ const CreateEmail = (props) => {
                                       : "Add HCP +"}
                                   </a>
                                 </li>
-                                {/*<li className="nav-item add-file">
-                                    <a
-                                      id="add_file_btn"
-                                      onClick={(e) => addFile(e)}
-                                      className="nav-link btn-filled"
-                                      data-bs-toggle="tab"
-                                      href="javascipt:;"
-                                    >
-                                      Add File
-                                    </a>
-                                  </li>*/}
+                                
                               </ul>
                             </div>
                           </div>
@@ -4221,30 +3771,7 @@ const CreateEmail = (props) => {
                     );
                   })}
                 </form>
-                {/*<form id="add_file" className={"tab-pane" + activeExcel}>
-                  <div className="upload-file-box">
-                    <div className="form-group files">
-                      <div className="box">
-                        <input
-                          type="file"
-                          id="file-4"
-                          className="form-control inputfile"
-                          multiple=""
-                          accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-                          onChange={onFileChange}
-                          ref={file_name}
-                        />
-                        {(file_name.current?.files===undefined || file_name.current.files?.length===0 )? <><label htmlFor="file-4"><span>Choose Your File</span></label>
-                        <p>Upload your excel file</p></> : <h5>{file_name.current.files[0].name}</h5> }
-
-
-
-                      </div>
-                    </div>
-                    </div>
-
-                    <div className="download-sample sample-file"><p>Download sample Excel file to upload new HCPs</p><div className="upload-btn" onClick={downloadFile}>Download File</div></div>
-                  </form>*/}
+               
               </div>
             </div>
           </div>
@@ -4258,11 +3785,10 @@ const CreateEmail = (props) => {
             </button>
           </div>
         </div>
-        {/* </div>
-        </div> */}
+       
       </Modal>
 
-      {/*Modal for Template action start*/}
+      
       <div className="template_action">
         <Modal
           className="modal send-confirm"

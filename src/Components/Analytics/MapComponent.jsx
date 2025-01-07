@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from "react";
+import worldMap from "@highcharts/map-collection/custom/world.geo.json";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
-import MapModule from "highcharts/modules/map";
-import worldMap from "@highcharts/map-collection/custom/world.geo.json";
 import proj4 from "proj4";
+import React, { useEffect, useState } from "react";
 
-// MapModule(Highcharts);
+ 
 
 let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
 const MapComponent = ({ data, status }) => {

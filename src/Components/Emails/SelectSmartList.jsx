@@ -8,14 +8,14 @@ import {
   getEmailData,
   getDraftData,
 } from "../../actions";
-import { Navigate } from "react-router-dom";
+ 
 import { Modal } from "react-bootstrap";
 import { toast } from "react-toastify";
 import { popup_alert } from "../../popup_alert";
 import * as XLSX from "xlsx";
 
 import { CircularProgressbar } from "react-circular-progressbar";
-import { buildStyles } from "react-circular-progressbar";
+ 
 import "react-circular-progressbar/dist/styles.css";
 import Accordion from "react-bootstrap/Accordion";
 import Select from "react-select";
@@ -155,18 +155,18 @@ const SelectSmartList = (props) => {
     if (PdfSelected != "") {
       if (PdfSelected == e.id) {
         setSmartListSelected({});
-        // props.getSelectedSmartListData(null);
+        
         setPdfSelected(0);
         setselecedlistid(0);
       } else {
         setSmartListSelected(e);
-        // props.getSelectedSmartListData(e);
+        
         setPdfSelected(e.id);
         setselecedlistid(e.id);
       }
     } else {
       setSmartListSelected(e);
-      // props.getSelectedSmartListData(e);
+       
       setPdfSelected(e.id);
       setselecedlistid(e.id);
     }
@@ -207,7 +207,7 @@ const SelectSmartList = (props) => {
             ? props.getDraftData.campaign_data.list_selection
             : 0,
 
-        // selectedHcp: selectedHcp,
+        
       },
       source_code: old_object?.template
         ? old_object.template
@@ -261,7 +261,7 @@ const SelectSmartList = (props) => {
   const redirectToList = () => {
     setpopupopeningstatus(false);
     window.open("/CreateSmartList", "_blank");
-    // navigate("/CreateSmartList");
+    
   };
 
   const openSmartListPopup = async (smart_list_id) => {
@@ -299,10 +299,7 @@ const SelectSmartList = (props) => {
   const refreshSmartList = () => {
     getSmartListData(1);
   };
-
-  // const openFileUploadPopup = () => {
-  //   alert("HERE");
-  // }
+ 
 
   const onFileChange = (event) => {
     var files = event.target.files,
@@ -315,7 +312,7 @@ const SelectSmartList = (props) => {
       const ws = readedData.Sheets[wsname];
 
       const dataParse = XLSX.utils.sheet_to_json(ws, { header: 1 });
-      // console.log(dataParse);
+     
 
       setFileLength(dataParse.length);
     };
@@ -324,7 +321,7 @@ const SelectSmartList = (props) => {
   };
 
   const uploadFile = async () => {
-    // setShow(false);
+    
     let i = 0;
     const intervals_spend = (23 / 100) * fileLength;
     var intervals_increment = 100 / intervals_spend;
@@ -341,17 +338,16 @@ const SelectSmartList = (props) => {
 
     if (getCreatedListName.trim() === "") {
       error.getCreatedListName = "Please enter the smart list name";
-      // toast.warning("Please enter the smart list name first.");
-      // return false;
+       
     }
     if (creatorName.trim() === "") {
       error.creatorName = "Please enter the creator name";
-      // return false;
+      
     }
 
     if (localStorage.getItem('user_id') == 'B7SHpAc XDXSH NXkN0rdQ==' && customIbu.trim() === "") {
       error.ibu = "Please enter the ibu";
-      // return false;
+      
     }
 
     if (selectedFile === null) {
@@ -359,7 +355,7 @@ const SelectSmartList = (props) => {
     }
     if (Object.keys(error)?.length) {
       setValidationError(error);
-      // toast.error(error[Object.keys(error)[0]]);
+      
       return;
     }
 
@@ -373,7 +369,7 @@ const SelectSmartList = (props) => {
 
     axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
     setShowProgressBar(true);
-    // loader("show");
+    
     await axios
       .post(`distributes/create_upload_list`, formData)
       .then((res) => {
@@ -407,7 +403,7 @@ const SelectSmartList = (props) => {
         setCreatedListName("");
         setCreatorName("");
         setCustomIbu("");
-        //   loader("hide");
+        
       })
       .catch((err) => {
         clearInterval(timer);
@@ -635,11 +631,7 @@ const SelectSmartList = (props) => {
                           : "Select HCPs"}{" "}
                       </Link>
                     </li>
-                    {/*
-                  <li className="active active-main">
-                    <Link to="/SelectSmartList">Select Smart List</Link>
-                  </li>
-                  */}
+                    
                     <li className="">
                       <a href="javascript:void(0)">Verify Your List</a>
                     </li>
@@ -677,16 +669,12 @@ const SelectSmartList = (props) => {
                         <button
                           ref={inputElement}
                           className="btn btn-primary btn-filled next disabled"
-                          // onClick={(event) => nextClicked()}
+                          
                           onClick={nextClicked}
                         >
                           Next
                         </button>
-                      // <Link
-                      //   to="/SelectSmartListUsers"
-                      //   state={{ smartListSelected: smartListSelected, flag: 1 }}
-                      // >
-                      // </Link>
+                      
                     )}
                   </div>
                 </div>
@@ -999,70 +987,7 @@ const SelectSmartList = (props) => {
                                 </div>
                                 <SmartListLayout data={template} iseditshow={0} isviewshow={1} deletestatus={0} viewSmartListData={viewSmartListData} />
 
-                                {/* <div className="mailbox-table">
-                                  <table>
-                                    <tbody>
-                                      <tr>
-                                        <th>Contact type</th>
-                                        <td>{template.contact_type}</td>
-                                      </tr>
-                                      <tr>
-                                        <th>Speciality</th>
-                                        <td>{template.speciality}</td>
-                                      </tr>
-                                      <tr>
-                                        <th>Readers</th>
-                                        <td>{template.reader_selection}</td>
-                                      </tr>
-                                      <tr>
-                                        <th>IBU</th>
-                                        <td>{template.ibu}</td>
-                                      </tr>
-                                      <tr>
-                                        <th>Product</th>
-                                        <td>{template.product}</td>
-                                      </tr>
-                                      <tr>
-                                        <th>Country</th>
-                                        <td>{template.country}</td>
-                                      </tr>
-                                      <tr>
-                                        <th>Registered</th>
-                                        <td>{template.registered}</td>
-                                      </tr>
-                                      <tr>
-                                        <th>Created by</th>
-                                        <td>
-                                          <span>{template.creator}</span>
-                                        </td>
-                                      </tr>
-                                    </tbody>
-                                  </table>
-                                </div>
-
-                                <div className="mail-time">
-                                  <span> {template.created_at}</span>
-                                </div>
-                                <div className="smart-list-added-user">
-                                  <img
-                                    src={path_image + "smartlist-user.svg"}
-                                    alt="User icon"
-                                  />
-                                  {template.readers_count}
-                                </div>
-
-                                <div className="smartlist-buttons">
-                                  <button className="btn view">
-                                    <a
-                                      className="color_blue"
-                                      onClick={() =>
-                                        openSmartListPopup(template.id)
-                                      }
-                                    >
-                                      View
-                                    </a>
-                                  </button>
-                                </div> */}
+                               
 
                               </div>
                             </div>
@@ -1124,20 +1049,7 @@ const SelectSmartList = (props) => {
             >
               Continue
             </button>
-            {/*
-              <button
-                type="button"
-                className="btn btn-primary btn-bordered light"
-                data-bs-dismiss="modal"
-                onClick={() =>
-                  setpopupopeningstatus(
-                    (getpopupopeningstatus) => !getpopupopeningstatus
-                  )
-                }
-              >
-                Close
-              </button>
-              */}
+            
           </div>
         </Modal.Body>
       </Modal>
@@ -1637,32 +1549,7 @@ const SelectSmartList = (props) => {
                           null
                       }
 
-                      {
-                        /*<div className="form-group col-sm-12">
-                          <div className="form-group-content">
-                            <p>
-                              {" "}
-                              I want this to be a <span>Demo list</span>
-                            </p>
-                            <div className="select-demo-option">
-                              <input type="checkbox" name="checkbox" />
-                              <span className="checkmark"></span>
-                            </div>
-                            <a
-                              href="#"
-                              data-bs-toggle="tooltip"
-                              data-bs-placement="top"
-                              title="Step to create smart list"
-                            >
-                              <img src={path_image + "question.svg"} alt="" />
-                            </a>
-                            <div className="tooltip">
-                              A list that will appeare when you select smart list
-                              to <span>send a sample.</span>
-                            </div>
-                          </div>
-                        </div>*/
-                      }
+                       
 
                     </div>
                   </form>

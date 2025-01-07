@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { Button, Dropdown, Modal, Navbar } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
-import { Link } from "react-router-dom";
 import queryString from "query-string";
-import { useLocation } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Dropdown, Navbar } from "react-bootstrap";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 function useScrollDirection() {
   const [scrollDirection, setScrollDirection] = React.useState(null);
 
@@ -37,12 +35,7 @@ const Header = () => {
   const queryParams = queryString.parse(window.location.search);
   const scrollDirection = useScrollDirection();
   const [getUserName, setUserName] = useState("");
-  // const [congressOptions, setCongressOptions] = useState([
-  //   { value: "I3yCIhnPAd0Ma6sNY4augA==", label: "THSNA" },
-  //   { value: "5EdDBhVCQm08iLJwBENCWw==", label: "WFH" },
-  //   { value: "Y/I8/x8K0syk/ulWyKwKhg==", label: "ISTH" },
-  //   { value: "MpEPwXLqTPveAfumxT/KXw==", label: "EAHAD" },
-  // ]);
+ 
   const navigate = useNavigate();
 
   const handleMenuItemClick = () => {
@@ -99,46 +92,8 @@ const Header = () => {
     if (name && name != "") {
       setUserName(name);
     }
-    // if (queryParams?.id && queryParams?.id != "") {
-    //   let user_id = localStorage.getItem("user_id");
-    //   if (user_id) {
-    //     if (user_id != queryParams.id) {
-    //       localStorage.setItem("user_id", queryParams.id);
-    //       localStorage.setItem("group_id", queryParams?.group_id ? queryParams.group_id : 2);
-    //       localStorage.setItem("webinar_flag", queryParams?.webinar_flag ? queryParams.webinar_flag : 0);
-    //     }
-    //   } else {
-    //     localStorage.setItem("user_id", queryParams.id);
-    //     localStorage.setItem("group_id", queryParams?.group_id ? queryParams.group_id : 2);
-    //     localStorage.setItem("webinar_flag", queryParams?.webinar_flag ? queryParams.webinar_flag : 0);
-    //   }
-    // } else {
-    //   let user_id = localStorage.getItem("user_id");
-    //   if (user_id) {
-    //   } else {
-    //     localStorage.setItem("user_id", "");
-    //     localStorage.setItem("group_id", "");
-    //   }
-    // }
-    // if (queryParams?.decrypted_token && queryParams?.decrypted_token != "") {
-    //   let decrypted_token = localStorage.getItem("decrypted_token");
-    //   if (decrypted_token) {
-    //     if (decrypted_token != queryParams.id) {
-    //       localStorage.setItem("decrypted_token", queryParams.decrypted_token);
-    //     }
-    //   } else {
-    //     localStorage.setItem("decrypted_token", queryParams.decrypted_token);
-    //   }
-    // } else {
-    //   let decrypted_token = localStorage.getItem("decrypted_token");
-    //   if (decrypted_token) {
-    //   } else {
-    //     localStorage.setItem("decrypted_token", "");
-    //   }
-    // }
-    //
-    // if (queryParams?.name && queryParams?.name != "") {
-    //   setUserName(queryParams.name);
+    
+   
     const handleOutsideClick = (event) => {
       let sideBar = document.getElementById("left-sidebar");
       let button = document.querySelector("#root > header > nav > div > div.mob-sidenav > button")
@@ -218,8 +173,7 @@ const Header = () => {
             </div>
             <Link
               className="navbar-brand"
-              // to={"/library-content"}
-              // to={"/home"}
+            
               onClick={(e) => homeClicked(e)}
             >
               {
@@ -227,21 +181,14 @@ const Header = () => {
                   <img src={path + "inforMed_Logo_Blue_1.svg"} alt="" />
               }
             </Link>
-            {/* <button
-              className="navbar-toggler"
-              type="button"
-              data-bs-toggle="collapse"
-              data-bs-target="#collapsibleNavbar"
-            >
-              <span className="navbar-toggler-icon"></span>
-            </button> */}
+           
             <>
-              {/* <Navbar.Toggle onClick={handleMenuItemClick}/> */}
+           
               <Navbar.Toggle id="collapsibleIcon" />
             </>
             <Navbar.Collapse id="collapsibleNavbar">
               <div></div>
-              {/* <div className="collapse navbar-collapse" id="collapsibleNavbar"> */}
+             
               <ul className="navbar-nav">
                 <li
                   className={
@@ -308,7 +255,7 @@ const Header = () => {
                   <Link className="nav-link"
                     to={isLikeRdAccount
                       ? "/IRT-Mandatory" : "/readers-view"}
-                  // to={"/readers-view"} 
+       
                   >
                     CRM
                   </Link>
@@ -498,16 +445,7 @@ const Header = () => {
                       <Link className="nav-link" to={"/webinar/event-listing"} onClick={handleMenuItemClick}>
                         WEBINAR
                       </Link>
-                      {/* <a
-                      className="nav-link"
-                      target="_blank"
-                      href={
-                        "https://webinar.informed.pro/Webinar/readers_webinar?rdylr=" +
-                        // localStorage.getItem("user_id")
-                      }
-                    >
-                      WEBINAR
-                    </a> */}
+                       
                     </li>
 
                   ) : (
@@ -522,40 +460,9 @@ const Header = () => {
                   </Link>
                 </li>)}
 
-                {/* {localStorage.getItem("user_id") ==
-                  "iSnEsKu5gB/DRlycxB6G4g==" ? (
-                  <li className="nav-item user-login">
-                    <Dropdown>
-                      <Dropdown.Toggle id="dropdown-basic">
-                        <span>CONGRESS</span>
-                      </Dropdown.Toggle>
-
-                      <Dropdown.Menu>
-                        {congressOptions.map((item) => {
-                          return (
-                            <Dropdown.Item
-                            key={item?.value}
-                              onClick={(e) =>                              
-                              {
-                                setNewAccountDetails({ userId: item?.value, accountName: item?.label });
-                                setConfirmationPopup(true);
-                              }
-                              }
-                              // className="dropdown-item"
-                              className={item?.value === newAccountDetails?.userId ? "dropdown-item selected" : "dropdown-item"}      
-                            >
-                              {item?.label}
-                            </Dropdown.Item>
-                          );
-                        })}
-                      </Dropdown.Menu>
-                    </Dropdown>
-                  </li>
-                ) : (
-                  ""
-                )} */}
+              
               </ul>
-              {/* </div> */}
+            
 
               <div className="user-login">
                 <Dropdown>
@@ -566,23 +473,13 @@ const Header = () => {
 
                   <Dropdown.Menu>
                     <Dropdown.Item
-                      // href="https://webinar.informed.pro/Pages/change_password/"
+                     
                       onClick={() => navigate("/change-password")}
                       className="dropdown-item"
                     >
                       Change Password
                     </Dropdown.Item>
-                    {/* <Dropdown.Item
-                    className="dropdown-item"
-                    onClick={() =>
-                      window.open(
-                        "https://support.informed.pro/authenticate?token=" +
-                          localStorage.getItem("decrypted_token"),
-                        "_blank")
-                    }
-                  >
-                    Raise a ticket
-                  </Dropdown.Item> */}
+                    
                     <Dropdown.Item
                       className="dropdown-item"
                       onClick={() => logout()}
@@ -591,12 +488,7 @@ const Header = () => {
                     </Dropdown.Item>
                   </Dropdown.Menu>
                 </Dropdown>
-                {/*
-								<ul className="dropdown-menu">
-									<li><a className="dropdown-item" href="#">Change Password</a></li>
-									<li><a className="dropdown-item" href="#">Logout</a></li>
-							  </ul>
-								*/}
+                 
               </div>
             </Navbar.Collapse>
           </div>
@@ -623,7 +515,7 @@ const Header = () => {
         <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
           <div className="modal-content">
             <div className="modal-header">
-              {/* <button type="button" className="btn-close" data-bs-dismiss="modal"></button> */}
+           
             </div>
 
             <div className="modal-body">

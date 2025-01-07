@@ -1,31 +1,29 @@
-import React, { useState, useEffect, useRef } from "react";
-import Select from "react-select";
-import { Link, useNavigate, useLocation } from "react-router-dom";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+import React, { useEffect, useRef, useState } from "react";
 import Modal from "react-bootstrap/Modal";
+import "react-datepicker/dist/react-datepicker.css";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import Select from "react-select";
 import { toast } from "react-toastify";
 
-import { LibraryEditValidation } from "../../Validations/LibraryValidation/LibraryEditValidation";
 import {
   Button,
-  Form,
+  Col,
   Dropdown,
   DropdownButton,
-  Col,
+  Form,
   Row,
 } from "react-bootstrap";
+import { ENDPOINT } from "../../../axios/apiConfig";
 import {
-  postFormData,
-  postData,
-  getData,
   deleteFormData,
+  getData,
+  postData,
+  postFormData,
 } from "../../../axios/apiHelper";
 import { loader } from "../../../loader";
-import { ENDPOINT } from "../../../axios/apiConfig";
 import CommonModel from "../../../Model/CommonModel";
-import moment from "moment";
 import optimizeImage from "../../../Utils/optimizeImage";
+import { LibraryEditValidation } from "../../Validations/LibraryValidation/LibraryEditValidation";
 let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const EditLibrary = () => {
@@ -39,7 +37,7 @@ const EditLibrary = () => {
   const [allTags, setAllTags] = useState({});
   const [newTag, setNewTag] = useState("");
   const [commanShow, setCommanShow] = useState(false);
-  const [currentDate, setCurrentDate] = useState(new Date());
+   
   const [tagClickedFirst, setTagClickedFirst] = useState([]);
   const [spcType, setSpcType] = useState(0);
   const handleClose = () => setShow(false);
@@ -55,14 +53,9 @@ const EditLibrary = () => {
     "Site unblinded pharmacist",
   ]);
   const location = useLocation();
-  // console.log(location,'locationhtyh')
+  
   const [updateflag, setupdateFlag] = useState(0);
-  const [ebookVideoType, setEbookVideoType] = useState([
-    {
-      index: "",
-      type: "",
-    },
-  ]);
+  
   const [userInputs, setCreateLibraryInputs] = useState({
     expDatetime: "",
     keyAuthor: "",
@@ -103,13 +96,10 @@ const EditLibrary = () => {
     { value: "Russian", label: "Russian" },
   ]);
 
-  const [blindType, setBlindType] = useState([
-    { value: "blinded", label: "blind" },
-    { value: "unblinded", label: "unblind" },
-  ]);
+ 
   const [ebookFile, setEbookFile] = useState([]);
   const [videoThumb, setVideoThumb] = useState([]);
-  const [libraryData, setLibraryData] = useState([]);
+   
 
   const [chapter, setChapter] = useState([
     {
@@ -119,13 +109,7 @@ const EditLibrary = () => {
       selectedVideo: "",
     },
   ]);
-  const [pdfSpcChapter, setPdfSpcChapter] = useState([
-    {
-      chapterTitle: "",
-      uploadFile: "",
-      fileValue: "",
-    },
-  ]);
+   
   const [reseller, setReseller] = useState([]);
   const [userDetail, setUserDetail] = useState({
     user: {},
@@ -155,7 +139,7 @@ const EditLibrary = () => {
     },
   ];
 
-  // const [ePrintType, setePrintType] = useState([]);
+   
 
   const [ePrintType, setePrintType] = useState([
     { value: "pdf", label: "PDF" },
@@ -792,13 +776,7 @@ const getExistingVideos=async ()=>{
                 });
               }
             }
-            // navigate("/set-popup", {
-            //   state: {
-            //     pdfId: state?.pdfid,
-            //     fileType: userInputs?.docintelFormat,
-            //     isEdit: 1,
-            //   },
-            // });
+           
           }
         }
       } catch (err) {
@@ -808,19 +786,7 @@ const getExistingVideos=async ()=>{
     }
   };
 
-  // const addMoreChClicked = () => {
-  //   if (chapter.every((element) => element.uploadFile != "")) {
-  //     setChapter([
-  //       ...chapter,
-  //       {
-  //         chapterTitle: "",
-  //         uploadFile: "",
-  //       },
-  //     ]);
-  //   } else {
-  //     toast.warning("Please input the chapter file atleast!");
-  //   }
-  // };
+ 
 
   const onChapterFormatChange = (e, i, isSelectedName) => {
     const list = [...chapter];  
@@ -847,37 +813,7 @@ const getExistingVideos=async ()=>{
     setChapter(list);   
   };
 
-  // const addMoreChClicked = () => {
-  //   let isValid = true;
-  //   let toastMessage = '';
-  
-  //   chapter.forEach((element) => {
-  //     const isVideoExisting = element.type === 'video' && element.videoType === 'existing';
-  //     const selectedVideoEmpty = !element.selectedVideo || element.selectedVideo === "";
-  //     const uploadFileEmpty = !element.uploadFile || element.uploadFile === "";
-      
-  //     if (isVideoExisting && selectedVideoEmpty && userInputs.docintelFormat == "ebookVideo") {
-  //       isValid = false;
-  //       toastMessage = "Please select a video!";
-  //     } else if (!isVideoExisting && uploadFileEmpty) {
-  //       isValid = false;
-  //       toastMessage = "Please input the chapter file atleast!";
-  //     }
-  //   });
-  
-  //   if (isValid) {
-  //     setChapter([
-  //       ...chapter,
-  //       {
-  //         chapterTitle: "",
-  //         uploadFile: "",
-  //         selectedVideo: ""
-  //       },
-  //     ]);
-  //   } else {
-  //     toast.warning(toastMessage);
-  //   }
-  // };
+   
 
   const addMoreChClicked = () => {
     let isValid = true;
@@ -900,7 +836,7 @@ const getExistingVideos=async ()=>{
       setChapter([
         ...chapter, userInputs.docintelFormat == "ebookVideo" ?
           {
-            // chapterFormat: "pdf",
+            
             type:"pdf",
             chapterTitle: "",
             uploadFile: "",
@@ -1026,15 +962,8 @@ const getExistingVideos=async ()=>{
     setChapter(list);
   }
 
-  // const onSelectVideoType = async(e,i,type) => {
-  //   // if(type == 'existing' && getVideoArticle.length == 0){
-    
-  //   // }
-  //   const list = [...chapter];
-  //   list[i].videoType = type;
-  //   setChapter(list);
-  // }
-
+   
+ 
   const onSelectVideoType = async (e, i, type) => {
     if (type == 'existing' && getVideoArticle.length == 0) {
       const requestBody = {
@@ -1321,33 +1250,7 @@ const getExistingVideos=async ()=>{
                 </div>
               ) : (
                 <>
-                  {/*<div className="form-group">
-                      <label htmlFor="">Trial*</label>
-
-                      <Select
-                        options={userDetail?.trial || []}
-                        placeholder="Select the trial "
-                        defaultValue={{
-                          label: userInputs?.trial
-                            ? userDetail?.trial?.[0].value == userInputs?.trial
-                              ? userDetail?.trial?.[0].label
-                              : ""
-                            : "",
-                          value: userInputs?.trial
-                            ? userDetail?.trial?.[0].value == userInputs?.trial
-                              ? userDetail?.trial?.[0].value
-                              : ""
-                            : "",
-                        }}
-                        onChange={(e) => handleChange(e?.value, "trial")}
-                        className="dropdown-basic-button split-button-dropup"
-                        isClearable
-                      />
-
-                      {error?.trial ? (
-                        <div className="login-validation">{error?.trial}</div>
-                      ) : null}
-                    </div>*/}
+ 
                 </>
               )}
               {userDetail?.user?.[0]?.pharmaData == 1 &&
@@ -1369,23 +1272,7 @@ const getExistingVideos=async ()=>{
               ) : userDetail?.user?.[0]?.flag == 1 &&
                 userDetail?.user?.[0]?.group_id == 3 ? (
                 <>
-                  {/*<div className="form-group">
-                      <label htmlFor="">Blind type*</label>
-                      <Select
-                        options={blindType || []}
-                        placeholder="Select Blind Type"
-                        defaultValue={{
-                          label: userInputs?.blindType,
-                          value: userInputs?.blindType,
-                        }}
-                        onChange={(e) => handleChange(e?.value, "blindType")}
-                        className="dropdown-basic-button split-button-dropup"
-                        isClearable
-                      />
-                      {error?.blindType ? (
-                        <div className="login-validation">{error?.blindType}</div>
-                      ) : null}
-                    </div>*/}
+                  
                 </>
               ) : null}
 
@@ -1538,64 +1425,7 @@ const getExistingVideos=async ()=>{
           <h4>Limits agreed</h4>
           <div className="row">
             <div className="col-12 col-md-6">
-              {/* {userDetail?.costCenter ? (
-                <div className="form-group">
-                  <label htmlFor="">Cost centre</label>
-                  <Select
-                    options={userDetail?.costCenter}
-                    defaultValue={{
-                      label: userInputs?.cost_center,
-                      value: userInputs?.cost_center,
-                    }}
-                    className="dropdown-basic-button split-button-dropup"
-                    isClearable
-                    placeholder="Select cost center"
-                    onChange={(e) => handleChange(e?.value, "cost_center")}
-                  />
-                </div>
-              ) : (
-                ""
-              )} */}
-
-              {/* <div className="form-group">
-                <label htmlFor="">Expiration date</label>
-                <DatePicker
-                  selected={
-                    userInputs?.expDatetime
-                      ? new Date(userInputs?.expDatetime)
-                      : new Date(
-                          moment(new Date(), "MM/DD/YYYY")
-                            .add("years", 1)
-                            .format("MM/DD/YYYY")
-                        )
-                  }
-                  name="expDatetime"
-                  onChange={(e) => handleChange(e, "expDatetime")}
-                  dateFormat="dd/MM/yyyy"
-                  className="form-control"
-                  minDate={currentDate}
-                />
-              </div> */}
-
-              {/* <div className="form-group">
-                <label htmlFor="">Set limit of usage</label>
-                <input
-                  type="number"
-                  name="limit"
-                  min="0"
-                  defaultValue={Number(userInputs?.limit)}
-                  className={
-                    error?.limit ? "form-control error" : "form-control"
-                  }
-                  ref={limitFieldRef}
-                  // className="form-control"
-                  placeholder="“0” value means unlimited limit"
-                  onChange={handleChange}
-                />
-                {error?.limit ? (
-                  <div className="login-validation">{error?.limit}</div>
-                ) : null}
-              </div> */}
+               
               <div className="form-group">
                 <label htmlFor="">Allow</label>
                 <fieldset id="group2">
@@ -1621,19 +1451,7 @@ const getExistingVideos=async ()=>{
                     id="limitagreed2"
                   />
                   <label htmlFor="limitagreed2">Download</label>
-                  {/*
-                    <input
-                      type="checkbox"
-                      value="value3"
-                      defaultChecked={libraryData?.allow_share}
-                      onClick={(e) =>
-                        handleChange(e.target?.checked, "allow_share")
-                      }
-                      name="group2"
-                      id="limitagreed3"
-                    />
-                    <label htmlFor="limitagreed3">Share</label>
-                    */}
+                  
                 </fieldset>
               </div>
 
@@ -1642,7 +1460,7 @@ const getExistingVideos=async ()=>{
                   <>
                     <div className="form-group">
                       <label htmlFor="">Status 
-                      {/* <span>*</span> */}
+                      
                       </label>
                       <fieldset id="group2">
                         <input
@@ -1754,23 +1572,7 @@ const getExistingVideos=async ()=>{
                 <div className="row justify-content-end align-items-center">
                   <div className="col-12 col-md-1">
                     <div className="header-btn-left">
-                      {/*<Link
-                          className="btn btn-primary btn-bordered back-btn"
-                          to="/library-content"
-                        >
-                          <svg
-                            width="14"
-                            height="24"
-                            viewBox="0 0 14 24"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              d="M0.159662 12.0019C0.159662 11.5718 0.323895 11.1417 0.65167 10.8138L10.9712 0.494292C11.6277 -0.16216 12.692 -0.16216 13.3482 0.494292C14.0044 1.15048 14.0044 2.21459 13.3482 2.8711L4.21687 12.0019L13.3479 21.1327C14.0041 21.7892 14.0041 22.8532 13.3479 23.5093C12.6917 24.1661 11.6274 24.1661 10.9709 23.5093L0.65135 13.19C0.323523 12.8619 0.159662 12.4319 0.159662 12.0019Z"
-                              fill="#97B6CF"
-                            />
-                          </svg>
-                        </Link>*/}
+                      
                     </div>
                   </div>
                   <div className="col-12 col-md-9">
@@ -1885,13 +1687,7 @@ const getExistingVideos=async ()=>{
                       userDetail?.user?.[0]?.group_id == 3 ? (
                         <div className="form-group">
                           <label htmlFor="">Comment</label>
-                          {/*<input
-                                type="text"
-                                name="journalTitle"
-                                defaultValue={userInputs?.journalTitle}
-                                className="form-control"
-                                onChange={(e) => handleChange(e)}
-                              />*/}
+                          
                           <textarea
                             className={
                               error?.journalTitle
@@ -2580,39 +2376,12 @@ const getExistingVideos=async ()=>{
                                    <>
                                     <div className="upload-file-box">
                                       <div className="box">
-                                        {/* <div className="d-flex">
-                                          {
-                                            // typeof val?.type == 'undefined' ? 
-                                              // <>
-                                              //   <img src={path_image + "video-img.png"} alt="" onClick={(e) => onSelectType(e, i,'video')}/>
-                                              //   <img src={path_image + "spc-img.png"} alt="" onClick={(e) => onSelectType(e, i,'pdf')}/>
-                                              // </>
-                                            //  :
-                                            //  null
-                                             
-                                          }
-                                        </div> */}
-                                        {
-                                          /*
-                                          val?.type == 'video' ?
-                                          <img src={path_image + "video-img.png"} alt="" onClick={(e) => onSelectType(e, i,'video')}/>
-                                          :val?.type == 'pdf' ? 
-                                          <img src={path_image + "spc-img.png"} alt="" onClick={(e) => onSelectType(e, i,'pdf')}/>
-                                          : null
-                                          */
-                                        }
+                                        
                                         
                                         {
                                           val?.type == 'video' ? 
                                           <>
-                                            {/* {
-                                              typeof val?.videoType == 'undefined'&& !val.uploadFile ? 
-                                              <div className="d-flex">
-                                                <p className="upload_new" onClick={(e) => onSelectVideoType(e, i,'new')}>Upload New Video</p>
-                                                <p className="select_existing" onClick={(e) => onSelectVideoType(e, i,'existing')}>Select existing Video</p>
-                                              </div>
-                                              : null
-                                            } */}
+                                            
                                             
                                             {
                                               val?.videoType == 'new' || (val?.videoType == 'new' && val.uploadFile)?
@@ -2643,7 +2412,7 @@ const getExistingVideos=async ()=>{
                                                             </>
                                                           ) : (
                                                             <span className="uploaded-file">
-                                                              {/* {val.uploadFile} */}
+                                                              
                                                               {val.uploadNewFile? val.uploadNewFile : '' }
                                                             </span>
                                                           )}
@@ -2727,7 +2496,7 @@ const getExistingVideos=async ()=>{
                                                   "Upload chapter thumbnail"
                                                 ) : (
                                                   <span className="uploaded-file">
-                                                    {/* {val.videoThumb} */}
+                                                     
                                                     {val.videoNewThumb? val.videoNewThumb : '' }
                                                   </span>
                                                 )}
@@ -2859,102 +2628,14 @@ const getExistingVideos=async ()=>{
                             </>
                           );
                         })
-                      ) : // <div className="form-group val">
-                      //   <label htmlFor="">Upload Ebook</label>
-                      //   <div className="upload-file-box">
-                      //     <div className="box">
-                      //       <input
-                      //         type="file"
-                      //         name="file-6[]"
-                      //         id="file-6"
-                      //         className="inputfile inputfile-6"
-                      //         accept="application/pdf"
-                      //         onChange={(e) => handleEbookChange(e)}
-                      //       />
-                      //       <label htmlFor="file-6">
-                      //         <span>Choose Your File</span>
-                      //       </label>
-                      //       <p>
-                      //         {selectedEbookName == ""
-                      //           ? "Upload your Ebook file"
-                      //           : selectedEbookName}{" "}
-                      //       </p>
-                      //     </div>
-                      //   </div>
-                      //   {error?.pdfFile ? (
-                      //     <div className="login-validation-upload">
-                      //       {error?.pdfFile}
-                      //     </div>
-                      //   ) : null}
-                      // </div>
+                      ) :  
                       null}
 
-                      {/* <div className="form-group">
-                      <label htmlFor="">Include video</label>
-                      <div className="switch">
-                        <label className="switch-light">
-                          <input
-                            type="checkbox"
-                            onChange={(e) => includeVideoCheckboxChanged(e)}
-                          />
-                          <span>
-                            <span className="switch-btn active">No</span>
-                            <span className="switch-btn">Yes</span>
-                          </span>
-                          <a className="btn"></a>
-                        </label>
-                      </div>
-                      {checked == false ? (
-                        <Button
-                          className="btn-bordered btn-voilet"
-                          onClick={handleShow}
-                        >
-                          click to embed your Videos{" "}
-                        </Button>
-                      ) : (
-                        false
-                      )}
-                    </div> */}
+                      
 
                       {userDetail?.user?.[0]?.flag == 0 &&
                       userDetail?.user?.[0]?.group_id == 3 ? (
-                        <>
-                          {/*
-                            <div className="form-group">
-                              <label htmlFor="">Include video</label>
-                              <div className="switch">
-                                <label className="switch-light">
-                                  <input
-                                    type="checkbox"
-                                    defaultChecked={userInputs?.allow_video}
-                                    // onChange={(e) => includeVideoCheckboxChanged(e)}
-                                    onChange={(e) => {
-                                      handleChange(
-                                        e.target?.checked,
-                                        "allow_video"
-                                      );
-                                    }}
-                                  />
-                                  <span>
-                                    <span className="switch-btn active">No</span>
-                                    <span className="switch-btn">Yes</span>
-                                  </span>
-                                  <a className="btn"></a>
-                                </label>
-                              </div>
-                            */}
-
-                          {/* {checked == false ? ( */}
-                          {/* <Button
-                        className="btn-bordered btn-voilet"
-                        onClick={handleShow}
-                      >
-                        click to embed your Videos{" "}
-                      </Button> */}
-                          {/* ) : (
-                        false
-                      )}
-                        </div>*/}
+                        <> 
                         </>
                       ) : null}
                       <div className="form-group val">
@@ -2986,18 +2667,10 @@ const getExistingVideos=async ()=>{
                                 <span>(Recommended size 88 X 124)</span>
                               </p>
                             )}
-                            {/* <p>
-                            Upload your cover image
-                            <br />
-                            <span>(Recommended size 00 X 00)</span>
-                          </p> */}
+                           
                           </div>
                         </div>
-                        {/* {error?.image ? (
-                        <div className="login-validation-upload">
-                          {error?.image}
-                        </div>
-                      ) : null} */}
+                         
                       </div>
                     </Col>
 
@@ -3095,12 +2768,7 @@ const getExistingVideos=async ()=>{
               <p>Select the chapter </p>
               <Form.Group className="formgroup">
                 <Form.Label>Chapters</Form.Label>
-                {/* <ReactSelect
-                  placeholder="Select your chapter"
-                  options={types}
-                  className="dropdown-basic-button split-button-dropup"
-                  isClearable
-                /> */}
+                
                 <DropdownButton
                   className="dropdown-basic-button split-button-dropup "
                   title={
@@ -3143,11 +2811,7 @@ const getExistingVideos=async ()=>{
                 <Form.Label>
                   Videos <span>*</span>
                 </Form.Label>
-                {/* <ReactSelect
-                  placeholder="Select your chapter"
-                  className="dropdown-basic-button split-button-dropup"
-                  isClearable
-                /> */}
+                
 
                 <DropdownButton
                   className="dropdown-basic-button split-button-dropup "
@@ -3177,16 +2841,7 @@ const getExistingVideos=async ()=>{
                 </DropdownButton>
 
                 <div className="upload-file-box">
-                  {/* <input
-                    type="file"
-                    name="file-10[]"
-                    id="file-10"
-                    className="inputfile inputfile-6"
-                    accept=".mp4"
-                  />
-                  <label htmlFor="file-10">
-                    <span>Upload new Video +</span>
-                  </label> */}
+                  
                   <Button
                     className="btn-filled"
                     onClick={onUploadNewVideoClicked}
@@ -3214,7 +2869,7 @@ const getExistingVideos=async ()=>{
           <Button
             className="btn-filled"
             variant="primary"
-            // onClick={handleClose}
+            
             onClick={() => navigate("/edit-Consent-Options")}
           >
             Save

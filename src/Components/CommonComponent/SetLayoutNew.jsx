@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Col, Row } from "react-bootstrap";
+import { Row } from "react-bootstrap";
+import { Navigate, useNavigate } from "react-router-dom";
 import Header from "./HeaderComponent/Header";
-import { Route, Navigate, useNavigate } from "react-router-dom";
 
 
 let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -75,7 +75,7 @@ const SetLayoutNew = () => {
         ? navigate("/new-readers-reviews")
         :
         navigate("/readers-view");
-      // navigate("/readers-view");
+      
     } else if (title == "Analytics") {
       localStorage.getItem("group_id") == 2
         ? navigate("/content-analytics")
@@ -105,15 +105,11 @@ const SetLayoutNew = () => {
         localStorage.getItem("user_id") === "IJype v19WASFcSlrfRENQ=="
       ) {
         navigate("/webinar/event-listing")
-        // window.open(
-        //   "https://webinar.informed.pro/Webinar/readers_webinar?rdylr=" +
-        //     localStorage.getItem("user_id"),
-        //   "_blank"
-        // );
+        
       }
     } else if (title == "Licensed") {
-      // navigate("/license-content");
-      // navigate("/license-content");
+     
+      
       navigate("/license-content");
     } else if (title == "Q&A/SURVEY") {
       if (isLikeRdAccount) {

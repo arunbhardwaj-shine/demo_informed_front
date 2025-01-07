@@ -1,20 +1,16 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { Col, Form, Row } from "react-bootstrap";
 import { postData } from "../../axios/apiHelper";
-import { Col, Row, Form } from "react-bootstrap";
-import { Link } from "react-router-dom";
-import { ENDPOINT } from "../../axios/apiConfig";
+ 
+import worldMap from "@highcharts/map-collection/custom/world.geo.json";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
-import highchartsMap from "highcharts/modules/map";
-import MapModule from "highcharts/modules/map";
-import worldMap from "@highcharts/map-collection/custom/world.geo.json";
-import Select from "react-select";
-import { useMemo } from "react";
-import { loader } from "../../loader";
 import proj4 from "proj4";
-
-// highchartsMap(Highcharts);
-// MapModule(Highcharts);
+import { useMemo } from "react";
+import Select from "react-select";
+import { ENDPOINT } from "../../axios/apiConfig";
+import { loader } from "../../loader";
+ 
 let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
 const CountryRegistration = () => {
   const [isDataFound, setIsDataFound] = useState(false);

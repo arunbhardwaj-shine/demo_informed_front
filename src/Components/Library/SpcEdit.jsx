@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Button, Col, Form, Row } from "react-bootstrap";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Select from "react-select";
-import { Modal } from "react-bootstrap";
-import { postFormData, postData, getData } from "../../axios/apiHelper";
-import { popup_alert } from "../../popup_alert";
-import { SPCValidation } from "../Validations/LibraryValidation/SPCValidation";
+import { toast } from "react-toastify";
 import CommonModel from "../../Model/CommonModel";
 import { ENDPOINT } from "../../axios/apiConfig";
+import { getData, postData, postFormData } from "../../axios/apiHelper";
 import { loader } from "../../loader";
-import { toast } from "react-toastify";
+import { popup_alert } from "../../popup_alert";
+import { SPCValidation } from "../Validations/LibraryValidation/SPCValidation";
 
 const SpcEdit = () => {
   const { state } = useLocation();
@@ -40,7 +39,7 @@ const SpcEdit = () => {
         user_id: localStorage.getItem("user_id"),
       };
       const res_data = await postData(ENDPOINT.SPC_HELPER_LISTING, body);
-      let allListingData = res_data?.data?.data;
+   
       let spcprodusts = [];
       Object.entries(res_data?.data?.data?.spcProduct).map(([index, item]) => {
         spcprodusts.push({
@@ -260,14 +259,7 @@ const SpcEdit = () => {
                             value={userInputs?.title}
                             name="title"
                           />
-                          {/*
-                  <input
-  								  type="text"
-  								  className="form-control"
-  								  name="createdBy"
-  								  value=localStorage.getItem("user_id")
-  								/>
-                  */}
+                         
 
                           {error?.title ? (
                             <div className="login-validation">

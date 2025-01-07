@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import ExportApi from "../Api/ExportApi";
-import { Button, Col, Form, Modal, Row } from "react-bootstrap";
+import { Button, Form, Modal, Row } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 const ForgotResetPassword = () => {

@@ -1,12 +1,12 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Col, Row, Tab, Tabs, Form } from "react-bootstrap";
-import { postData } from "../../axios/apiHelper";
-import { ENDPOINT } from "../../axios/apiConfig";
-import Select from "react-select";
-import { Link } from "react-router-dom";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
+import React, { useEffect, useRef, useState } from "react";
+import { Col, Form, Row } from "react-bootstrap";
+import Select from "react-select";
+import { ENDPOINT } from "../../axios/apiConfig";
+import { postData } from "../../axios/apiHelper";
 import { loader } from "../../loader";
+ ;
 
 const OctaCountry = () => {
   // Line Chart
@@ -91,7 +91,7 @@ const OctaCountry = () => {
 
   const selectRegionValue = useRef("CEE/CIS");
   const selectCountryValue = useRef("Belarus");
-  const getCountry = useRef(null);
+  
 
   const getDataFromApi = async () => {
     try {
@@ -194,9 +194,8 @@ const OctaCountry = () => {
     selectRegionValue.current = selectedRegion;
     setSelectRegionVal(selectedRegion);
 
-    // const filteredCountries = selectedCountry.filter(
-    //   (country) => country[1] === selectedRegion
-    // );
+   
+   
     const filteredCountries = allCountries.filter(
       (country) => country[1] === selectedRegion
     );
@@ -231,19 +230,13 @@ const OctaCountry = () => {
                 <div className="form-group ">
                   <label htmlFor=""></label>
                   <Select
-                    // options={selectedRegion.map((region) => ({
-                    //   value: region,
-                    //   label: region,
-                    // }))}
+                   
                     options={selectedRegion}
                     onChange={(selectedOption) =>
                       filterByRegion(selectedOption.value)
                     }
                     className="dropdown-basic-button split-button-dropup"
-                    // value={{
-                    //   value: selectRegionValue.current,
-                    //   label: selectRegionValue.current,
-                    // }}
+                    
                     value={
                       selectedRegion?.findIndex(
                         (item, index) => item.value == selectRegionValue.current
@@ -258,18 +251,11 @@ const OctaCountry = () => {
                     }
                   />
                   <Select
-                    // options={selectedCountry
-                    //   .filter(
-                    //     (country) => country[1] === selectRegionValue.current
-                    //   )
-                    //   .map(([country]) => ({ value: country, label: country }))}
+               
                     options={selectedCountry}
                     onChange={(option) => filterByCountry(option)}
                     className="dropdown-basic-button split-button-dropup"
-                    // value={{
-                    //   value: selectCountryValue.current,
-                    //   label: selectCountryValue.current,
-                    // }}
+                   
                     value={
                       selectedCountry?.findIndex(
                         (country, index) =>

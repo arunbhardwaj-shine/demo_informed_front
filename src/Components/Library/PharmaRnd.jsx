@@ -1,17 +1,16 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Button, Col, Container, Form, FormGroup, Row } from 'react-bootstrap';
-import Select from "react-select";
-import LandingHeader from "./LandingHeader";
+import React, { useState } from "react";
+import { Col, Container, Form, FormGroup, Row } from 'react-bootstrap';
+import Modal from "react-bootstrap/Modal";
+import { Link } from 'react-router-dom';
 import LandingContact from "./LandingContact";
 import LandingFooter from "./LandingFooter";
-import { Link } from 'react-router-dom';
-import Modal from "react-bootstrap/Modal";
+import LandingHeader from "./LandingHeader";
 
 const PharmaRnd = () => {
     const path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+ 
 
     return (
         <>

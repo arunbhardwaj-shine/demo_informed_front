@@ -1,5 +1,4 @@
-import { useNavigate } from "react-router-dom";
-import App from "../App";
+ 
 const WithAuth = (WrappedComponent) => {
 
   
@@ -12,14 +11,10 @@ const WithAuth = (WrappedComponent) => {
       if (!accessToken) {
         
         return 
-        //return <WrappedComponent {...props} />;
+         
       }
 
-      // if (accessToken) {
-      // Router.replace("/wiser-board");
-      // return null;
-      // }
-
+   
       // If this is an accessToken we just render the component that was passed with all its props
 
       return <WrappedComponent {...props} />;

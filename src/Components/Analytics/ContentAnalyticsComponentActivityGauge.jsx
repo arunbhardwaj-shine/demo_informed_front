@@ -1,15 +1,12 @@
+import axios from "axios";
+import Highcharts from "highcharts";
+import HighchartsReact from "highcharts-react-official";
 import React from "react";
 import { Col } from "react-bootstrap";
-import Highcharts from "highcharts";
-import axios from "axios";
-import HighchartsReact from "highcharts-react-official";
-import highchartsMore from "highcharts/highcharts-more";
-import solidGauge from "highcharts/modules/solid-gauge";
-import { loader } from "../../loader";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
-// highchartsMore(Highcharts);
-// solidGauge(Highcharts);
+import { loader } from "../../loader";
+ 
 
 const path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
 export default function ContentAnalyticsComponentActivityGauge({
@@ -112,10 +109,7 @@ export default function ContentAnalyticsComponentActivityGauge({
 
         // Clean up the temporary URL
         window.URL.revokeObjectURL(url);
-      // })
-      // .catch((error) => {
-      //   console.error('Error downloading the Excel file:', error);
-      // });
+      
       loader("hide");
     } catch (err) {
       console.log(err);

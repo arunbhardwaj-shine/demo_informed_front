@@ -3,10 +3,10 @@ import axios from "axios";
 import { loader } from "../../loader";
 import { toast } from "react-toastify";
 import Accordion from "react-bootstrap/Accordion";
-import { Link, Navigate, useNavigate, useLocation } from "react-router-dom";
+import {  useNavigate, useLocation } from "react-router-dom";
 import { connect } from "react-redux";
 import { getEmailData, getDraftData, getSelected, getSearched } from "../../actions";
-import { propTypes } from "react-bootstrap/esm/Image";
+ 
 var dxr = 0;
 var pdf_id = 0;
 var state_object = {};
@@ -54,7 +54,7 @@ const EmailArticleSelect = (props) => {
   }, [props]);
 
   useEffect(() => {
-    const userId = localStorage.getItem("user_id");
+    
     if (isLikeRdAccount) {
       setUpdateFlag(1);
     }
@@ -212,7 +212,7 @@ const EmailArticleSelect = (props) => {
       let pdfobj = { PdfSelected: PdfSelected };
       const mergedObject = { ...state_object, ...pdfobj };
       props.getEmailData(mergedObject);
-      // props.getEmailData({ PdfSelected: PdfSelected });
+      
       navigate("/CreateEmail", {
         state: { PdfSelected: PdfSelected,IrtObj:irtRoleObj }
       })
@@ -266,7 +266,7 @@ const EmailArticleSelect = (props) => {
   };
 
   const removeindividualfilter = (src, item) => {
-    // setRemoveFlag(true);
+ 
     loader("show");
     if (src == "tag") {
       handleOnFilterTags(item);
@@ -350,11 +350,7 @@ const EmailArticleSelect = (props) => {
                         Next
                       </button>
                     ) : (
-                      // <Link
-                      //   to="/CreateEmail"
-                      //   state={{ PdfSelected: PdfSelected,IrtObj:irtRoleObj }}
-                      //   onClick={nextClicked}
-                      // >
+                      
                         <button
                           ref={inputElement}
                           onClick={nextClicked}
@@ -362,7 +358,7 @@ const EmailArticleSelect = (props) => {
                         >
                           Next
                         </button>
-                      // </Link>
+                      
                     )}
                   </div>
                 </div>
@@ -839,40 +835,7 @@ const EmailArticleSelect = (props) => {
                     </div>
                   </div>
 
-                  {/* {isLikeRdAccount && (
-                  <div className="col-12 col-md-4">
-                    <div className="mail-content-select-box">
-                      <div className="mail-content-select-top">
-                        <div className="mail-preview-img">
-                          <img src={path_image + "dummy-img.png"} alt="Preview" />
-                        </div>
-                        <div className="mail-box-content">
-                          <h5>Site user</h5>
-                          <p>Empty Content</p>
-                          <div className="mailbox-text">
-                            <p>Select this when you want to send content to Site user</p>
-                          </div>
-                        </div>
-                        <div
-                          className="select-mail-option"
-                          onClick={handleSelect}
-                        >
-                          <input
-                            type="radio"
-                            name="radio"
-                            value={14}
-                            checked={
-                              typeof PdfSelected !== "undefined" &&
-                              PdfSelected == 14
-                            }
-                          />
-                          <span className="checkmark"></span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                )
-              } */}
+                   
                 </div> : null
               }
               {/*Default section end*/}

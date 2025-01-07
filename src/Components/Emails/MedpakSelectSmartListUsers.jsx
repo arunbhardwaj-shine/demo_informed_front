@@ -2,9 +2,6 @@ import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { loader } from "../../loader";
-
-import TableOnly from "./TableOnly";
-import { Navigate } from "react-router-dom";
 import { connect } from "react-redux";
 import { toast } from "react-toastify";
 import { popup_alert } from "../../popup_alert";
@@ -39,7 +36,7 @@ const MedpakSelectSmartListUsers = (props) => {
     const location = useLocation();
     const [readers, setReaders] = useState([]);
     const [campaign_id_st, setCampaign_id] = useState();
-    const [SendListData, setSendListData] = useState([]);
+   
     const [PdfSelected, setPdfSelected] = useState(0);
     const [showLessInfo, setShowLessInfo] = useState(true);
     const [selectedFile, setSelectedFile] = useState(null);
@@ -96,9 +93,7 @@ const MedpakSelectSmartListUsers = (props) => {
     const [isOpen, setIsOpen] = useState(false);
     const [validationError, setValidationError] = useState({});
 
-    // const smartListSelected = location.state
-    //   ? location.state.smartListSelected
-    //   : props.getDraftData.smart_list_data;
+    
 
     useEffect(() => {
         let campaign_id =
@@ -128,7 +123,7 @@ const MedpakSelectSmartListUsers = (props) => {
         }
     }, []);
 
-    const inputElement = useRef();
+    
     axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
     useEffect(() => {
         getDataByCountryWise();
@@ -157,10 +152,10 @@ const MedpakSelectSmartListUsers = (props) => {
                                     return objFromA.profile_id === objFromB.profile_id;
                                 });
                             });
-                            console.log("i am here in 1")
+                            
                             setReaders(pendingUsers);
                         } else {
-                            console.log("i am here in 2")
+                          
                             setReaders(res.data.response.data);
 
                         }
@@ -180,14 +175,14 @@ const MedpakSelectSmartListUsers = (props) => {
                                     return objFromA.profile_id === objFromB.profile_id;
                                 });
                             });
-                            console.log("i am here in 3")
+                          
                             setReaders(pendingUsers);
                         } else {
-                            console.log("i am here in 4")
+                           
                             setReaders(res.data.response.data);
                         }
                     } else {
-                        console.log("i am here in 5")
+                
                         setReaders(res.data.response.data);
                         let otherCountry = []
                         const processedData = res?.data?.response?.data?.reduce((acc, person) => {
@@ -206,7 +201,7 @@ const MedpakSelectSmartListUsers = (props) => {
 
                             return acc;
                         }, {});
-                        console.log("other country--->", otherCountry)
+                     
                         setOtherFilter(otherCountry)
                         setExcludeCountry(otherCountry)
 
@@ -281,9 +276,7 @@ const MedpakSelectSmartListUsers = (props) => {
 
                         setTotalData(res.data.response.data);
                     }
-                    // setCountryall(res.data.response.data.country);
-
-                    // setCounter(counter + 1);
+                    
                 })
                 .catch((err) => {
                     console.log(err);
@@ -323,8 +316,7 @@ const MedpakSelectSmartListUsers = (props) => {
                 smart_list_id: props.getSelectedSmartListData?.id
                     ? props.getSelectedSmartListData.id
                     : props.getDraftData.campaign_data.smart_list_id,
-                //smart_list_data: readers,
-                // users_list : smartListSelected,
+            
                 selectedHcp: [...readers, ...readersNewlyAdded],
                 list_selection: old_object?.selected
                     ? old_object.selected
@@ -358,7 +350,7 @@ const MedpakSelectSmartListUsers = (props) => {
                     toast.warning(res.data.message);
                     loader("hide");
                 }
-                // setCampaign_id(res.data.response.data.id);
+                 
             })
             .catch((err) => {
                 loader("hide");
@@ -368,8 +360,7 @@ const MedpakSelectSmartListUsers = (props) => {
 
     const nextClicked = () => {
         navigate("/verifyMAIL", {
-            // data: data,
-            // smartListName: smartListName,
+            
             state: {
                 selectedHcp: [...readers, ...readersNewlyAdded],
                 removedHcp: removedReaders,
@@ -399,15 +390,7 @@ const MedpakSelectSmartListUsers = (props) => {
         }
     };
 
-    const onFileChange = (event) => {
-        setSelectedFile(event.target.files[0]);
-    };
-
-    const showMoreInfo = (e) => {
-        e.preventDefault();
-
-        setShowLessInfo(!showLessInfo);
-    };
+     
 
     const onFirstNameChange = (e, i) => {
         const { value } = e.target;
@@ -645,26 +628,7 @@ const MedpakSelectSmartListUsers = (props) => {
         setUpdate(update + 1);
     };
 
-
-
-    const handleInputChange = (event, selected) => {
-        const div = document.querySelector("div.active");
-
-        if (div) {
-            div.classNameNameList.remove("active");
-        }
-        event.target.classNameNameList.toggle("active");
-        setTemplateId(selected);
-    };
-
-    // const readersAdded = (reader, i) => {
-    //     const readersRemoved = removedReaders;
-    //     readersRemoved.splice(i, 1);
-    //     setRemovedReaders(readersRemoved);
-    //     setReadersNewlyAdded((oldArray) => [reader, ...oldArray]);
-    //     setReRender(reRender + 1);
-    //     console.log(readersRemoved, '==>readersRemoved')
-    // };
+ 
     const readersAdded = (reader, i) => {
         const readersRemoved = removedReaders;
         readersRemoved.splice(i, 1);
@@ -730,23 +694,10 @@ const MedpakSelectSmartListUsers = (props) => {
         }
     };
 
-    const addHcp = (e) => {
-        const addhcp_btn = document.getElementById("add_hcp_btn");
-        if (document.querySelector("#add_hcp_btn .active") !== null) {
-            addhcp_btn.classList.remove("active");
-        } else {
-            addhcp_btn.classList.add("active");
-        }
-        document.querySelector("#add_file_btn").classList.remove("active");
-
-        e.preventDefault();
-        setActiveExcel("");
-        setActiveManual("active");
-        setManualReRender(manualReRender + 1);
-    };
+  
 
     const sortSelectedUsers = (e, country) => {
-        console.log("users--->", countryWiseData)
+        
         const normalArr = countryWiseData[country];
 
         if (sortingUsers == 0) {
@@ -814,10 +765,7 @@ const MedpakSelectSmartListUsers = (props) => {
         profile_user_id,
         email,
         jobTitle,
-        company,
-        country,
-        names,
-        contact_type
+        company
     ) => {
         if (editable != 0) {
             const name_edit = document.getElementById(
@@ -851,34 +799,19 @@ const MedpakSelectSmartListUsers = (props) => {
                 (x) => x.profile_user_id === profile_user_id
             );
             if (typeof prev_obj != "undefined") {
-                //update existing
+                
                 editableData.map(
                     (obj) => arr.find((o) => o.profile_user_id === profile_user_id) || obj
                 );
             } else {
-                //create new
+               
                 setEditableData((oldArray) => [...oldArray, ...arr]);
             }
 
         }
     };
 
-    // const deleteReader = (i) => {
-    //     const previous_removed_users = removedReaders;
-    //     const readersList = readers;
-    //     const removedReader = readersList.splice(i, 1);
-    //     setReaders(readersList);
-    //     setRemovedReaders((oldArray) => [...oldArray, removedReader[0]]);
-    //     let merged_array = [...previous_removed_users, ...removedReader];
-    //     old_object.removedHcp = merged_array;
-
-    //     if (props.getDraftData?.campaign_data) {
-    //         if (props.getDraftData.campaign_data?.removedHcp) {
-    //             props.getDraftData.campaign_data.removedHcp = merged_array;
-    //         }
-    //     }
-    // };
-
+   
   
 
     const deleteReader = (country, index, i) => {
@@ -980,13 +913,13 @@ const MedpakSelectSmartListUsers = (props) => {
         setReaders([]);
         setTimeout(() => {
             setReaders(vr);
-            console.log("This will run after 1 second!");
+             
             setUpdateCounter(updateCounter + 1);
         }, 50);
     };
 
     const saveClicked = async () => {
-        //   setIsOpenAdd(false);
+        
 
         if (activeManual == "active") {
             const body_data = hpc.map((data) => {
@@ -1058,27 +991,7 @@ const MedpakSelectSmartListUsers = (props) => {
 
                         return;
                     }
-                    //  else if (data.email != "") {
-                    //   let email = data.email;
-                    //   let useremail = email.trim();
-                    //   var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-                    //   if (regex.test(String(useremail).toLowerCase())) {
-                    //     let prev_obj = readers.find((x) => x.email === useremail);
-                    //     if (typeof prev_obj != "undefined") {
-                    //       setValidationError({
-                    //         newHcpEmail: "User with same email already added in list.",
-                    //         index: index,
-                    //       });
-                    //       return;
-                    //     }
-                    //   } else {
-                    //     setValidationError({
-                    //       newHcpEmail: "Email format is not valid",
-                    //       index: index,
-                    //     });
-                    //     return;
-                    //   }
-                    // }
+                    
                     if (
                         data.institution_type == "" &&
                         (isLikeRdAccount)
@@ -1159,9 +1072,9 @@ const MedpakSelectSmartListUsers = (props) => {
 
                                 return acc;
                             }, {});
-                            console.log("--->", processedData)
+                          
 
-                            // setNewlyAddedCountryWiseData({ processedData, ...newlyAddedCountryWiseData });
+                            
                             setNewlyAddedCountryWiseData((oldData) => ({ ...processedData, ...oldData }))
                             setIsOpen(false);
                             setIsOpenAdd(false);
@@ -1171,7 +1084,7 @@ const MedpakSelectSmartListUsers = (props) => {
                         }
                         loader("hide");
 
-                        //setSelectedHcp(res.data.response.data);
+                         
                     })
                     .catch((err) => {
                         loader("hide");
@@ -1180,10 +1093,10 @@ const MedpakSelectSmartListUsers = (props) => {
             } else {
                 const filteredArray = status.filter((value) => value !== "true");
                 toast.warning(filteredArray?.[0]);
-                // toast.warning(status[0]);
+                 
             }
 
-            //  setIsOpen(false);
+             
         } else {
             let formData = new FormData();
             let user_id = localStorage.getItem("user_id");
@@ -1327,19 +1240,7 @@ const MedpakSelectSmartListUsers = (props) => {
                                     <div className="selected-hcp-table-action">
                                         {editable == false ? (
                                             <>
-                                                {/* {
-                                                    localStorage.getItem('user_id') != 'iSnEsKu5gB/DRlycxB6G4g==' ?
-                                                        <a
-                                                            className="show-less-info"
-                                                            onClick={(e) => showMoreInfo(e)}
-                                                        >
-                                                            {showLessInfo == true ? (
-                                                                <p className="show_more">Show More information</p>
-                                                            ) : (
-                                                                <p className="show_less">Show less information</p>
-                                                            )}{" "}
-                                                        </a> : null
-                                                } */}
+                                                 
                                                 <div className="hcp-new-user">
                                                     <button
                                                         className="btn btn-outline-primary"
@@ -2156,7 +2057,7 @@ const MedpakSelectSmartListUsers = (props) => {
                                                                                                     src={path_image + "delete.svg"}
                                                                                                     alt="Add Row"
                                                                                                     onClick={() => deleteReader(country, index, i)}
-                                                                                                // onClick={() => deleteReader(readers.profile_user_id, country)}
+                                                                                                
                                                                                                 />
                                                                                             </td>
                                                                                         </tr>)
@@ -2599,43 +2500,10 @@ const MedpakSelectSmartListUsers = (props) => {
                                                                                 )}
                                                                         </>
                                                                     )}
-                                                                    {/*
-                                    <DropdownButton className="dropdown-basic-button split-button-dropup country"
-                                            title= {hpc[i].country != "" &&  hpc[i].country != "undefined" ? hpc[i].country == "B&H" ? "Bosnia and Herzegovina" : hpc[i].country : "Select Country" }
-                                            onSelect={(event) => onCountryChange(event, i)}
-                                            >
-                                            <div className="scroll_div">
-                                            {countryall.length === 0
-                                            ? ""
-                                            : Object.entries(countryall).map(
-                                            ([index, item]) => {
-                                            return (
-                                            <>
-                                            <Dropdown.Item eventKey={index} className = {hpc[i].country == index ? "active" : "" }>{item == "B&H" ? "Bosnia and Herzegovina" : item}</Dropdown.Item>
-                                            </>
-                                          );
-                                        }
-                                      )}
-                                      </div>
-                                      </DropdownButton>
-                                    */}
+                                                                     
                                                                 </div>
                                                             </div>
-                                                            {/*
-                              <div className="col-12 col-md-6 btn_rmv">
-                                <div className="form-group">
-                                  {i !== 0 && (
-                                    <button
-                                      type="button"
-                                      className="btn btn-filled"
-                                      onClick={() => deleteRecord(i)}
-                                    >
-                                      Remove
-                                    </button>
-                                  )}
-                                </div>
-                              </div>
-                              */}
+                                                            
                                                             {isLikeRdAccount
                                                                     ? (
                                                                     <>
@@ -2722,19 +2590,7 @@ const MedpakSelectSmartListUsers = (props) => {
                                                                             : "Add HCP +"}
                                                                     </a>
                                                                 </li>
-                                                                {/*
-                                 <li className="nav-item add-file">
-                                   <a
-                                     id="add_file_btn"
-                                     onClick={(e) => addFile(e)}
-                                     className="nav-link btn-filled"
-                                     data-bs-toggle="tab"
-                                     href="#add_file"
-                                   >
-                                     Add File
-                                   </a>
-                                 </li>
-                              */}
+                                                                
                                                             </ul>
                                                         </div>
                                                     </div>
@@ -2743,18 +2599,7 @@ const MedpakSelectSmartListUsers = (props) => {
                                         );
                                     })}
                                 </form>
-                                {/*
-                  <form id="add_file" className={"tab-pane" + activeExcel}>
-                    <div className="form-group files">
-                      <input
-                        type="file"
-                        className="form-control"
-                        multiple=""
-                        onChange={onFileChange}
-                      />
-                    </div>
-                  </form>
-                */}
+                        
                             </div>
                         </div>
                     </div>

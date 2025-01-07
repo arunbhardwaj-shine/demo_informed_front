@@ -1,27 +1,27 @@
-import React, { useEffect, useState, useRef } from "react";
-import Select from "react-select";
-import { loader } from "../../loader";
-import ReactPlayer from "react-player";
-import { ENDPOINT } from "../../axios/apiConfig";
-import { postData } from "../../axios/apiHelper";
-import { Link, useNavigate } from "react-router-dom";
-import AOS from "aos";
-import "aos/dist/aos.css";
-import {
-  Form,
-  Modal,
-  Button,
-  NavItem,
-  Navbar,
-  Nav,
-  NavDropdown,
-} from "react-bootstrap";
+import am4geodata_worldLow from "@amcharts/amcharts4-geodata/worldLow";
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4maps from "@amcharts/amcharts4/maps";
-import am4geodata_worldLow from "@amcharts/amcharts4-geodata/worldLow";
-import { HomeValidation } from "../Validations/HomeValidations/HomeValidation";
+import AOS from "aos";
+import "aos/dist/aos.css";
+import React, { useEffect, useRef, useState } from "react";
+import {
+  Button,
+  Form,
+  Modal,
+  Nav,
+  NavDropdown,
+  NavItem,
+  Navbar,
+} from "react-bootstrap";
+import ReactPlayer from "react-player";
+import { useNavigate } from "react-router-dom";
+import Select from "react-select";
+import { ENDPOINT } from "../../axios/apiConfig";
+import { postData } from "../../axios/apiHelper";
+import { loader } from "../../loader";
 import { getCurrentYear } from '../CommonComponent/CurrentYear';
-let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+import { HomeValidation } from "../Validations/HomeValidations/HomeValidation";
+ 
 
 const Webinar = () => {
   useEffect(() => {
@@ -32,7 +32,7 @@ const Webinar = () => {
   const [userInputs, setUserInputs] = useState({});
   const [userSignInInputs, setUserSignInInputs] = useState({});
   const [activeSection, setActiveSection] = useState("banner-section");
-  const [signInModal, setSignInModal] = useState(false);
+ 
   const [mapbutton, setMapbutton] = useState(false);
   const [carousalStatus, setCarousalStatus] = useState({
     slide1: true,
@@ -48,12 +48,7 @@ const Webinar = () => {
   const [errorMsg, setErrorMsg] = useState("");
   const [videoUrl, setVideoUrl] = useState("");
   const [videoImage, setVideoImage] = useState("");
-  const [selctOptions, setSelectOptions] = useState([
-    { value: "1", label: "1" },
-    { value: "2", label: "2" },
-    { value: "3", label: "3" },
-    { value: "4", label: "4" },
-  ]);
+  
   const [country, setCountry] = useState([
     { value: "Afghanistan", label: "Afghanistan" },
     { value: "Albania", label: "Albania" },
@@ -606,7 +601,7 @@ const Webinar = () => {
       } else {
         chart.maxZoomLevel = 1;
       }
-      // chart.projection = new am4maps.projections.Miller();
+     
       chart.chartContainer.wheelable = false;
       const polygonSeries = chart.series.push(new am4maps.MapPolygonSeries());
       polygonSeries.useGeodata = true;
@@ -762,11 +757,11 @@ const Webinar = () => {
 
         popup.left = ev.svgPoint.x + 0;
         popup.top = ev.svgPoint.y + 1;
-        //popup.showCurtain = true;
+        
       });
     }
     const handlePrevClick = () => {
-      // event.preventDefault();
+      
       const ampopupInside = document.querySelector(".ampopup-inside");
       const scrollLeftValue = ampopupInside.scrollLeft;
 
@@ -791,7 +786,7 @@ const Webinar = () => {
       });
     };
     const handleNextClick = () => {
-      // event.preventDefault();
+    
       const ampopupInside = document.querySelector(".ampopup-inside");
       const scrollLeftValue = ampopupInside.scrollLeft;
       const scrollTarget = scrollLeftValue + 350;
@@ -824,7 +819,7 @@ const Webinar = () => {
       .addEventListener("click", handleNextClick);
 
     return () => {
-      // Clean up chart when component unmounts
+      
       if (chart) {
         chart.dispose();
         chart = null;
@@ -861,10 +856,7 @@ const Webinar = () => {
     });
   };
 
-  // const clickSignInButton = (e) => {
-  //   e.preventDefault();
-  //   setSignInModal(true);
-  // };
+  
 
   const handleSignInChange = async (e, isSelectedName) => {
     if (e?.target?.files?.length < 1) {
@@ -919,9 +911,7 @@ const Webinar = () => {
     }
   };
 
-  // const handleClose = () => {
-  //   setSignInModal(false);
-  // };
+  
 
   const handleClose = (type) => {
     if (type == "forgot") {
@@ -941,7 +931,7 @@ const Webinar = () => {
       var slide = parentLi.getAttribute("data-slide-to");
     }
 
-    //var activeSlide = event.target.getAttribute('data-slide-active');
+  
     var checkbox = document.getElementById("s" + slide);
     checkbox.checked = true; // Checks the box
 
@@ -1030,7 +1020,7 @@ const Webinar = () => {
         setEmail("");
         setErrorMsg(null);
         setSuccessMsg(res?.data?.message);
-        // setShow(false)
+        
       } catch (err) {
         setSuccessMsg(null);
         setErrorMsg(err?.response?.data?.message);
@@ -1280,9 +1270,7 @@ const Webinar = () => {
             </a>
           </div>
         </div>
-        {/* <section id="section07" className="demo">
-  <a href="#section08"><span></span><span></span><span></span>Scroll</a>
-</section>  */}
+         
         {/* <!------------------scroll-sec ends here------------------> */}
 
         {/* <!---------------building-real section start here--------------> */}
@@ -1325,7 +1313,7 @@ const Webinar = () => {
                   </span>
                   <span className="degntn">CEO</span>
                 </div>
-                {/* <!-- <div className="want-more"><a href="#">Want to know how?</a></div> --> */}
+            
               </div>
               <div
                 className="col-md-7 right-sec"
@@ -1406,9 +1394,7 @@ const Webinar = () => {
         >
           <div className="container">
             <div className="row">
-              {/* <!-- <div className="why-heading m-100 pl-3">
-
-  </div> --> */}
+              
 
               <div className="col-md-12 d-flex justify-content-between">
                 <h2 data-aos="fade-up" data-aos-duration="1000">
@@ -1465,7 +1451,7 @@ const Webinar = () => {
                           checked
                           onClick={(e) => changeSlider(e)}
                         />
-                        {/* <input type="radio" className="slide-radio" name="slide-radio" id="s4" checked value="4"> */}
+                      
                         <label htmlFor="s1" id="slide1">
                           <img
                             src={path_image + "post-webinar.png"}
@@ -1540,7 +1526,7 @@ const Webinar = () => {
                                 />
                               </button>
                               <div className="watch-demo-video">
-                                {/*<a className="watch-demo" data-toggle="modal" data-target="#video1">Watch Video</a>*/}
+                                
                                 <button
                                   className="watch-demo"
                                   onClick={(e) => watchVideo("slide1")}
@@ -1777,23 +1763,7 @@ const Webinar = () => {
                           />
                           Relationship Building <span>Post-Webinar</span>
                         </li>
-                        {/*<li
-                          data-target="#blogCarousel"
-                          data-slide-to="3"
-                          className=""
-                        >
-                          <img
-                            className="without-active"
-                            src={path_image + "feature4.png"}
-                            alt=""
-                          />
-                          <img
-                            className="with-active"
-                            src={path_image + "feature-active4.png"}
-                            alt=""
-                          />
-                          Relationship Building <span>Post-Webinar</span>
-                        </li>*/}
+                        
                       </ol>
                     </div>
                   </div>
@@ -2098,9 +2068,7 @@ const Webinar = () => {
                           onChange={handleContactFormChange}
                         ></textarea>
                       </div>
-                      {/* {contactFormError && (
-                        <p style={{ color: "red" }}>{contactFormError}</p>
-                      )} */}
+                      
                     </div>
 
                     <img
@@ -2263,38 +2231,7 @@ const Webinar = () => {
               </a>
             </li>
           </ul>
-          {/* <ul>
-          <li data-scroll="banner-section">
-            <a href="#banner-section" className="page-scroll act11 active">
-              <span style={{}}></span>
-            </a>
-          </li>
-          <li data-scroll="building-section">
-            <a href="#building-section" className="page-scroll act22">
-              <span style={{}}></span>
-            </a>
-          </li>
-          <li data-scroll="feature">
-            <a href="#feature" className="page-scroll act33">
-              <span style={{}}></span>
-            </a>
-          </li>
-          <li data-scroll="testimonial">
-            <a href="#testimonial" className="page-scroll act44">
-              <span style={{}}></span>
-            </a>
-          </li>
-          <li data-scroll="cases">
-            <a href="#cases" className="page-scroll act55">
-              <span style={{}}></span>
-            </a>
-          </li>
-          <li data-scroll="request_demo">
-            <a href="#request_demo" className="page-scroll act66">
-              <span style={{}}></span>
-            </a>
-          </li>
-        </ul> */}
+          
         </div>
       </div>
 
@@ -2327,9 +2264,7 @@ const Webinar = () => {
             />
           ) : null}
 
-          {/*<Player playsInline poster={video_poster} src={video_url}>
-              <BigPlayButton position="center" />
-            </Player>*/}
+       
         </Modal.Body>
       </Modal>
       {/*End Video Modal Functionality*/}

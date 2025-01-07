@@ -1,30 +1,22 @@
-import axios from "axios";
-import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
 import { Editor } from "@tinymce/tinymce-react";
+import axios from "axios";
+import React, { useEffect, useRef, useState } from "react";
 import AliceCarousel from "react-alice-carousel";
-import { Link, useLocation } from "react-router-dom";
-import { CKEditor } from "@ckeditor/ckeditor5-react";
-import { loader } from "../../../loader";
-import React, { useEffect, useState, useRef } from "react";
-import { postData } from "../../../axios/apiHelper";
-import { ENDPOINT } from "../../../axios/apiConfig";
-import SimpleReactValidator from "simple-react-validator";
-import OverlayTrigger from "react-bootstrap/OverlayTrigger";
-import Tooltip from "react-bootstrap/Tooltip";
 import {
   Button,
   Col,
-  Dropdown,
-  Modal,
-  DropdownButton,
   Form,
-  Row,
-  ProgressBar,
-  Tab,
-  Tabs,
+  Row
 } from "react-bootstrap";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import Tooltip from "react-bootstrap/Tooltip";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Select from "react-select";
+import { toast } from "react-toastify";
+import SimpleReactValidator from "simple-react-validator";
+import { ENDPOINT } from "../../../axios/apiConfig";
+import { postData } from "../../../axios/apiHelper";
+import { loader } from "../../../loader";
 import { useSidebar } from "../../CommonComponent/LoginLayout";
 
 let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -37,7 +29,7 @@ const SetPopup = (props) => {
   const [actualTemplateData, setActualTemplateData] = useState([]);
   const [isTemplateData, setIsTemplateData] = useState(true);
   const [isOnline, setIsOnline] = useState(false);
-  const [selectedLanguage, setSelectedLanguage] = useState("All");
+  
   const [countryOption, setCountryOption] = useState(0);
   const [templateSaving, setTemplateSaving] = useState("");
   const [templateClickedd, setTemplateClicked] = useState(false);
@@ -47,16 +39,14 @@ const SetPopup = (props) => {
   const [templateName, setTemplateName] = useState("");
   const [templateId, setTemplateId] = useState();
   const [popupNo, setPopupNo] = useState();
-  const [validator] = React.useState(new SimpleReactValidator());
+ 
   const [activeIndex, setActiveIndex] = useState(0);
-  const slidePrev = () => setActiveIndex(activeIndex - 1);
-  const slideNext = () => setActiveIndex(activeIndex + 1);
+ 
   const [selectedIbu, setSelectedIbu] = useState("");
   const syncActiveIndex = ({ item }) => setActiveIndex(item);
   const [template, setTemplate] = useState("");
   const [newTemplateName, setNewTemplateName] = useState("");
-  const [getTemplatePopup, setTemplatePopup] = useState(false);
-  const [getNewTemplatePopup, setNewTemplatePopup] = useState(false);
+ 
   const [templateToolTip, setTemplateToolTip] = useState();
   const [articleId, setArticleId] = useState(
     typeof state?.pdfId !== "undefined" ? state?.pdfId : ""
@@ -96,8 +86,8 @@ const SetPopup = (props) => {
     { value: "25000", label: "25 Second" },
     { value: "25000000", label: "No Pop-up" },
   ]);
-  // const templateIdRef=useRef(null)
-  // const linkingPayload=useRef(null)
+  
+ 
 
   const responsive = {
     0: { items: 1 },
@@ -138,8 +128,7 @@ const SetPopup = (props) => {
     } else {
       setSelectOptions({ ...selectOptions, time: e.value });
     }
-    // setSelectedLanguage(e.value);
-    // getTemplateListData(2, e.value, selectedIbu);
+ 
   };
 
   const getTemplateListData = async (flag = 1, lng, consent, firstFlag = 0) => {
@@ -394,66 +383,7 @@ templateIdRef.current=res?.data?.data?.popupTempId
       </OverlayTrigger>
     );
   }
-  // const addTracking= function (editor) {
-  //   editor.on("OpenWindow", function (e) {
-  //     let dialog =
-  //       document.getElementsByClassName("tox-dialog")[0];
-
-  //     if (dialog) {
-  //       let header = dialog.querySelector(
-  //         ".tox-dialog__header"
-  //       );
-  //       const closeButton = header.querySelector(
-  //         '[aria-label="Close"]'
-  //       );
-  //       let text =
-  //         header.querySelector(".tox-dialog__title");
-
-  //       if (text.innerText == "Insert/Edit Link") {
-  //         let uploadIcon=  document.querySelector("body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > button > span")
-  //         uploadIcon.style.display = "none";
-  //         let newButton =
-  //           document.createElement("button");
-  //         newButton.innerText = "Add Tracking";
-  //         newButton.classList.add("tox-button")
-  //         newButton.classList.add("tox-button--icon")
-  //         newButton.classList.add("tox-button--naked")
-  //         newButton.classList.add("track")
-  //         newButton.onclick = function () {
-  //           let firstToxControlWrap =
-  //             document.querySelector(
-  //               "body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > div >input"
-  //             );
-
-  //           // let text =dialog.querySelector(".tox-form__group");
-  //           if (!firstToxControlWrap.value) {
-  //             alert("Please enter a link");
-  //             return;
-  //           }
-  //           const baseLink =
-  //             "https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_";
-  //           if (
-  //             firstToxControlWrap.value.startsWith(
-  //               baseLink
-  //             )
-  //           ) {
-  //             alert("Traking already added");
-  //             return;
-  //           }
-
-  //           const currentTimestamp = Date.now();
-  //           // const redirectUrl = encodeURIComponent(firstToxControlWrap.value)
-  //           let link = `https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_${currentTimestamp}&redirect_url=${firstToxControlWrap.value}`;
-  //           firstToxControlWrap.value = link;
-          
-  //           alert("Traking added");
-  //         };
-
-  //         header.insertBefore(newButton, closeButton);
-  //       }
-  //     }
-  //   });
-  // }
+  
 
   const addTracking = function (editor) {
     editor.on("OpenWindow", function (e) {
@@ -642,23 +572,7 @@ templateIdRef.current=res?.data?.data?.popupTempId
                           >
                             Back
                           </Button>
-                          {/* <Link
-                            className="btn btn-bordered btn btn-primary"
-                            to="/library-create"
-                          > */}
-                          {/* Back */}
-                          {/*
-                              <svg width="14" height="24" viewBox="0 0 14 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                              <path d="M0.159662 12.0019C0.159662 11.5718 0.323895 11.1417 0.65167 10.8138L10.9712 0.494292C11.6277 -0.16216 12.692 -0.16216 13.3482 0.494292C14.0044 1.15048 14.0044 2.21459 13.3482 2.8711L4.21687 12.0019L13.3479 21.1327C14.0041 21.7892 14.0041 22.8532 13.3479 23.5093C12.6917 24.1661 11.6274 24.1661 10.9709 23.5093L0.65135 13.19C0.323523 12.8619 0.159662 12.4319 0.159662 12.0019Z" fill="#97B6CF"/>
-                              </svg>
-                              */}
-                          {/* </Link> */}
-                          {/* <Link
-                            className="btn btn-primary btn-bordered back"
-                            to="/library-create-user"
-                          >
-                            Back
-                          </Link> */}
+                          
                         </div>
                       </Col>
                       <Col md="9">
@@ -704,14 +618,7 @@ templateIdRef.current=res?.data?.data?.popupTempId
                       </Col>
                       <Col md="2">
                         <div className="header-btn">
-                          {/*
-                            <Link
-                              className="btn btn-primary btn-bordered move-draft"
-                              to="/library-content"
-                            >
-                              Cancel
-                            </Link>
-                            */}
+                          
 
                           <Button
                             className="btn btn-primary btn-filled next"
@@ -746,16 +653,7 @@ templateIdRef.current=res?.data?.data?.popupTempId
                     </Link>
                     <h2>Set Pop-up</h2>
                   </div>
-                  {/*<div className="top-right-action">
-                      <div className="header-btn">
-                        <Button
-                          className="btn-bordered cancel"
-                          onClick={() => navigate("/library-create")}
-                        >
-                          Close
-                        </Button>
-                      </div>
-                    </div>*/}
+                  
                 </div>
               )}
               <div className="template_builder-option library-cosent sticky-view">

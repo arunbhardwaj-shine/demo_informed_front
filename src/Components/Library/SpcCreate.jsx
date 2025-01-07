@@ -1,15 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Col, Form, Row } from "react-bootstrap";
-import Select from "react-select";
 import { useNavigate } from "react-router-dom";
-import { Modal } from "react-bootstrap";
-import { postFormData, postData } from "../../axios/apiHelper";
-import { popup_alert } from "../../popup_alert";
-import { SPCValidation } from "../Validations/LibraryValidation/SPCValidation";
+import Select from "react-select";
+import { toast } from "react-toastify";
 import CommonModel from "../../Model/CommonModel";
 import { ENDPOINT } from "../../axios/apiConfig";
+import { postData, postFormData } from "../../axios/apiHelper";
 import { loader } from "../../loader";
-import { toast } from "react-toastify";
+import { popup_alert } from "../../popup_alert";
+import { SPCValidation } from "../Validations/LibraryValidation/SPCValidation";
 
 const SpcCreate = () => {
   const [ibu, setIbu] = useState([
@@ -215,14 +214,7 @@ const SpcCreate = () => {
                           name="title"
                         />
 
-                        {/*
-                          <input
-                            type="text"
-                            className="form-control"
-                            name="createdBy"
-                            value=localStorage.getItem("user_id")
-                          />
-                          */}
+                       
 
                         {error?.title ? (
                           <div className="login-validation">{error?.title}</div>

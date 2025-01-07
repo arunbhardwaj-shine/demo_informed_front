@@ -1,23 +1,17 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { Col, Row } from "react-bootstrap";
-import { Link } from "react-router-dom";
+ 
+import axios from "axios";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import { ENDPOINT } from "../../axios/apiConfig";
-import { getData } from "../../axios/apiHelper";
-import exporting from"highcharts/modules/exporting";
-import exportData from "highcharts/modules/export-data";
-import axios from "axios";
 import { loader } from "../../loader";
 
-// exporting(Highcharts);
-// exportData(Highcharts);
-
-// base bar highchart
+ 
 const OctalatchTotalHCP = () => {
   const [isDataNotFound, setIsDataNotFound] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
-  const [getMonth, setMonth] = useState([]);
+  
   const [totalReaders, setTotalReaders] = useState(0);
 
   const [hcpOptions, setHcpOptions] = useState({
@@ -46,7 +40,7 @@ const OctalatchTotalHCP = () => {
       layout: "horizontal",
       x: 0,
       y: 0,
-     // reversed: true,
+      
     },
     plotOptions: {
       series: {
@@ -54,9 +48,7 @@ const OctalatchTotalHCP = () => {
         pointWidth: 30,
       },
     },
-    // exporting: {
-    //   showTable: true,
-    // },
+    
     series: [],
   });
 
@@ -94,9 +86,7 @@ const OctalatchTotalHCP = () => {
         },
       },
     },
-    // exporting: {
-    //   showTable: true,
-    // },
+    
     series: [],
   });
 
@@ -129,9 +119,7 @@ const OctalatchTotalHCP = () => {
         stacking: "normal",
       },
     },
-    // exporting: {
-    //   showTable: true,
-    // },
+    
     series: [],
     months: [],
   });
@@ -157,7 +145,7 @@ const OctalatchTotalHCP = () => {
 
   const getDataFromApi = async () => {
     try {
-      // const response = await getData(ENDPOINT.OCTALATCH_TOTAL_HCP);
+     
       loader("show");
       await axios.get(ENDPOINT.OCTALATCH_TOTAL_HCP).then((response) => {
         const data = response?.data?.response?.data;
@@ -209,7 +197,7 @@ const OctalatchTotalHCP = () => {
 
         // Set options for HCP chart
 
-        // const categories = JSON.parse(data[0]?.Months);
+         
         const seriesCategories = desiredMonths.reverse();;
 
         const newHcpOptions = {
@@ -295,9 +283,7 @@ const OctalatchTotalHCP = () => {
           <div className="custom-container">
             <Row>
               <div className="top-header">
-                {/* <div className="page-title d-flex">
-                  <h2>Total HCP</h2>
-                </div> */}
+                 
               </div>
               <div className="distribute-page-reader">
                 <svg

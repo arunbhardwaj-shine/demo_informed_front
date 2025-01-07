@@ -78,42 +78,17 @@ const LibraryEditListing = () => {
   ]);
   const [isOpen, setIsOpen] = useState(false);
   const [allTags, setAllTags] = useState({});
-  const [resetDataId, setResetDataId] = useState();
-  const [popupMessage, setPopupMessage] = useState({
-    message1: "",
-    message2: "",
-    footerButton: "",
-  });
-  const [commonConfirmModelFun, setCommonConfirmModelFun] = useState(() => {});
+ 
   const [totalLibraryRecord, setTotalLibraryRecord] = useState([]);
   const [loadData, setLoadData] = useState({ limit: 24, nextLimit: 0 });
   const { title } = location.state || {};
-  // console.log(location,'edit')
+   
   const BrokenImage =
     "https://docintel.s3-eu-west-1.amazonaws.com/cover/default/default.png";
 
   const path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
 
-  const downloadQRData = [
-    {
-      label: "Select Size",
-      type: "dropdown",
-      dropdown: [
-        {
-          key: "Tiny",
-          value: "M",
-        },
-        {
-          key: "Article",
-          value: "H",
-        },
-        {
-          key: "Large Print",
-          value: "L",
-        },
-      ],
-    },
-  ];
+ 
 
   const buttonRef = useRef(null);
   const filterRef = useRef(null);
@@ -179,7 +154,7 @@ const LibraryEditListing = () => {
       
       if (rdLikeArray.includes(payload.user_id)) {
         payload["IRT mandatory training"] = [irt];
-        // payload.Role = [role];
+       
       }
 
       if (isLikeRdAccount) {
@@ -188,7 +163,7 @@ const LibraryEditListing = () => {
         }
       }
       const res = await postData(ENDPOINT.FILTERS, 
-        // user_id: localStorage.getItem("user_id"),
+        
         payload
       );
       if (res?.data?.data) {
@@ -283,9 +258,7 @@ const LibraryEditListing = () => {
     }
   };
 
-  const hideConfirmationModal = () => {
-    setConfirmationPopup(false);
-  };
+  
 
   const clearFilter = () => {
     document.querySelectorAll("input")?.forEach((checkbox) => {
@@ -368,7 +341,7 @@ const LibraryEditListing = () => {
       if (isLikeRdAccount) {
         staticFilters = {
           "IRT mandatory training": [irt],
-          // Role: [role]
+  
         };
       }
   
@@ -385,7 +358,7 @@ const LibraryEditListing = () => {
     let body = { 
       ...data, filter: { ...obj, ...staticFilters } 
     };
-      // let body = { ...data, filter: { ...obj, ...staticFilters } };
+      
 
       const res = await postData(ENDPOINT.LIBRARY_CONTENT, body);
       let allData =[]
@@ -461,19 +434,7 @@ const LibraryEditListing = () => {
     getLibraryData(page, old_object);
   };
 
-  const downloadQRCode = () => {
-    const canvas = document.getElementById("qr-gen");
-    const pngUrl = canvas
-      .toDataURL("image/png")
-      .replace("image/png", "image/octet-stream");
-    let downloadLink = document.createElement("a");
-    downloadLink.href = pngUrl;
-    downloadLink.download = `${qrValue}.png`;
-    document.body.appendChild(downloadLink);
-    downloadLink.click();
-    document.body.removeChild(downloadLink);
-    setShow(false);
-  };
+  
 
   const onConsentChange = (e, i) => {
     let consetValue = e.value;
@@ -531,71 +492,9 @@ const LibraryEditListing = () => {
     setIsOpen(false);
   };
 
-  const tagClicked = (dd) => {
-    if (!tagClickedFirst.includes(dd)) {
-      setTagClickedFirst((oldArray) => [...oldArray, dd]);
-    } else {
-      {isLikeRdAccount ?
-        toast.error("Topic already in list."): toast.error("Tag already in list.");
-       } 
-    }
-  };
+ 
 
-  const removeTagFinal = (index) => {
-    const tags = finalTags;
-    const tagsClickedFirst = tagClickedFirst;
-    tags.splice(index, 1);
-    tagsClickedFirst.splice(index, 1);
-    setFinalTags(tags);
-    setTagClickedFirst(tagsClickedFirst);
-
-    setTagsReRender(tagsReRender + 1);
-  };
-
-  const newTagChanged = (e) => {
-    setNewTag(e.target.value);
-    e.target.value = "";
-    const new_atg = document.getElementById("new-tag");
-    new_atg.value = "";
-  };
-
-  const addTag = async () => {
-    if (typeof newTag == "undefined" || newTag.trim().length == 0) {
-      {isLikeRdAccount ?
-        toast.error("Please input a topic"): toast.error("Please input a tag");
-       } 
-    } else {
-      let temp_tags = tagClickedFirst.map((data) => {
-        return data.toLowerCase();
-      });
-
-      let alltemp_tags = [];
-      Object.entries(allTags).map((data) => {
-        return alltemp_tags.push(...data);
-      });
-      alltemp_tags = alltemp_tags.map((data) => {
-        return data.toLowerCase();
-      });
-
-      if (
-        !temp_tags.includes(newTag.toLowerCase()) &&
-        !alltemp_tags.includes(newTag.toLowerCase())
-      ) {
-        setTagClickedFirst((oldArray) => [...oldArray, newTag]);
-
-        const body = {
-          user_id: localStorage.getItem("user_id"),
-          tags: newTag,
-        };
-      } else {
-        {isLikeRdAccount ?
-          toast.error("Topic already in list."): toast.error("Tag already in list.");
-         } 
-      }
-      setNewTag("");
-      setTagsCounter(tagsCounter + 1);
-    }
-  };
+ 
 
   const imageOnError = (event) => {
     event.currentTarget.src = BrokenImage;
@@ -630,7 +529,7 @@ const LibraryEditListing = () => {
       }
     }
     try {
-      const res = await updateTags(ENDPOINT.LIBRARYREUPDATETAGS, payload);
+        await updateTags(ENDPOINT.LIBRARYREUPDATETAGS, payload);
     } catch (err) {
       loader("hide");
     }
@@ -1221,14 +1120,7 @@ const LibraryEditListing = () => {
                                         }
                                       </h6>
                                     </li>
-                                    {/* <li>
-                                      <h6 className="tab-content-title">
-                                        SPC included
-                                      </h6>
-                                      <h6>
-                                        {data?.spc_included == 0 ? "No" : "Yes"}
-                                      </h6>
-                                    </li> */}
+                                   
                                     <li>
                                       <h6 className="tab-content-title">
                                         Language
@@ -2133,40 +2025,14 @@ const LibraryEditListing = () => {
                                               : "N/A"}
                                           </h6>
                                         </li>
-                                        {/*
-                                        <li>
-                                          <h6 className="tab-content-title">
-                                            Sales person
-                                          </h6>
-                                          <h6>{data?.saleName}</h6>
-                                        </li>
-
-                                        <li>
-                                          <h6 className="tab-content-title">
-                                            Client name
-                                          </h6>
-                                          <h6>{data?.company}</h6>
-                                        </li>
-                                        <li>
-                                          <h6 className="tab-content-title">
-                                            Client product
-                                          </h6>
-                                          <h6>{data?.product}</h6>
-                                        </li>
-
-                                        */}
+                                       
                                       </>
                                     )}
 
                                     {isLikeRdAccount&&
                                     localStorage.getItem("group_id") == "3" ? (
                                       <>
-                                        {/*<li>
-                                          <h6 className="tab-content-title">
-                                            Blind Type
-                                          </h6>
-                                          <h6>{ data?.blindType ? data.blindType == "blinded" ? "Yes" : "No"  : "No" }</h6>
-                                        </li>*/}
+                                    
 
                                         <li>
                                           <h6 className="tab-content-title">
@@ -2240,16 +2106,7 @@ const LibraryEditListing = () => {
                                       : null
                                     }
 
-                                    {/*
-                                    <li>
-                                      <h6 className="tab-content-title">
-                                        Download
-                                      </h6>
-                                      <h6>
-                                        {data?.allow_download ? "Yes" : "No"}
-                                      </h6>
-                                    </li>
-                                    */}
+                                    
                                     <li>
                                       <h6 className="tab-content-title">
                                         Upload date

@@ -1,20 +1,18 @@
-import React, { useState, useRef, useEffect } from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   Col,
   Container,
   Form,
-  ModalTitle,
-  Row,
   Modal,
+  Row
 } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { rdregistration } from "../Validations/RegisterValidation/Rdregistration";
-import { ENDPOINT } from "../../axios/apiConfig";
-import { postData } from "../../axios/apiHelper";
-import { loader } from "../../loader";
 import Select from "react-select";
-import axios from "axios";
+import { ENDPOINT } from "../../axios/apiConfig";
+import { loader } from "../../loader";
+import { rdregistration } from "../Validations/RegisterValidation/Rdregistration";
 
 const RDRegister = () => {
   const path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -202,48 +200,20 @@ const RDRegister = () => {
       });
       setSiteNumber(newSite);
 
-      // let siteName = [];
-      // Object.entries(apiData?.site_data).forEach(([key, value]) => {
-      //   if (sitenumb.includes(key)) {
-
-      //     siteName.push({ label: value, value: value });
-      //   }
-      // });
+       
       setSiteName(newAr);
 
-      //
-      // let siteCity = [];
-      // Object.entries(apiData?.site_city_data).forEach(([key, value]) => {
-      //     if(sitenumb.includes(key)){
-      //       if(siteCity.length > 0){
-      //         if(siteCity.findIndex((el) => el.value == value) == -1){
-      //           siteCity.push({label:value,value:value})
-      //         }
-      //       }else{
-      //         siteCity.push({label:value,value:value})
-      //       }
-      //     }
-      // });
-      // setSiteCity(siteCity);
+      
     }
 
     if (isSelectedName == "sitenumber" || isSelectedName == "sitename") {
-      // let siteName = [];
-      // Object.entries(apiData?.site_data).forEach(([key, value]) => {
-      //     if(e == key){
-      //       siteName.push({label:value,value:value})
-      //     }
-      // });
-      // setSiteName(siteName);
+       
       let siteValue = e.split("=+")?.[1];
       let site_value = "";
       if (isSelectedName == "sitename") {
-        // Object.entries(apiData?.site_data).forEach(([key, value]) => {
+        
         site_value = siteValue;
-        //   if (siteValue == value) {
-        //     site_value = key;
-        //   }
-        // });
+         
       } else {
         site_value = e;
       }
@@ -472,39 +442,7 @@ const RDRegister = () => {
 
                   {institutionFlag && userInputs?.country ? (
                     <>
-                      {/* <Col md={6}>
-                        <div className="form-group">
-                          <label>
-                            Site number <span>*</span>
-                          </label>
-                          <Select
-                            options={siteNumber}
-                            placeholder="Select site number"
-                            name="sitenumber"
-                            value={
-                              siteNumber.findIndex(
-                                (el) => el.value == userInputs?.sitenumber
-                              ) == -1
-                                ? ""
-                                : siteNumber[
-                                    siteNumber.findIndex(
-                                      (el) => el.value == userInputs?.sitenumber
-                                    )
-                                  ]
-                            }
-                            onChange={(e) =>
-                              handleChange(e?.value, "sitenumber")
-                            }
-                            className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                            isClearable={true}
-                          />
-                          {error?.sitenumber ? (
-                            <div className="login-validation">
-                              {error?.sitenumber}
-                            </div>
-                          ) : null}
-                        </div>
-                      </Col> */}
+                     
 
                       <Col md={6}>
                         <div className="form-group">
@@ -588,13 +526,7 @@ const RDRegister = () => {
                       />
                       <span class="checkmark"></span>
                     </div>
-                    {/* <input
-                      type="checkbox"
-                      id="rdChecheckbox"
-                      name="rdChecheckbox"
-                      value="rdChecheckbox"
-                      onChange={(e) => handleChange(e, "rdChecheckbox")}
-                    /> */}
+                    
                     <label for="rdChecheckbox">
                       I also consent to receive invitations to participate in surveys and other potential engagement through Docintel, which are study related.
                     </label>

@@ -1,15 +1,12 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Col, Form, Row } from "react-bootstrap";
 import Highcharts from "highcharts";
-import { loader } from "../../loader";
+import HighchartsReact from "highcharts-react-official";
+import React, { useEffect, useRef, useState } from "react";
+import { Col, Form, Row } from "react-bootstrap";
+import Select from "react-select";
 import { ENDPOINT } from "../../axios/apiConfig";
 import { postData } from "../../axios/apiHelper";
-import exporting from "highcharts/modules/exporting";
-import exportData from "highcharts/modules/export-data";
-import Select from "react-select";
-import HighchartsReact from "highcharts-react-official";
-// exporting(Highcharts);
-// exportData(Highcharts);
+import { loader } from "../../loader";
+ 
 const OpeningByCountry = () => {
   const [data, setData] = useState({});
   const [isDataFound, setIsDataFound] = useState(false);
@@ -198,11 +195,7 @@ const OpeningByCountry = () => {
       <Col className="right-sidebar">
         <div className="custom-container">
           <Row>
-            {/* <div className="top-header">
-              <div className="page-title d-flex">
-                <h2>Opening by Country</h2>
-              </div>
-            </div> */}
+             
             <div className="create-change-content spc-content analytic-charts">
               <div className="form_action">
                 <Form className="product-unit d-flex justify-content-between align-items-center">

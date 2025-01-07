@@ -1,11 +1,8 @@
-import React, { useState } from "react";
-import { Col, Row, Tab, Tabs } from "react-bootstrap";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
-import highchartsMore from "highcharts/highcharts-more";
-import solidGauge from "highcharts/modules/solid-gauge";
-// highchartsMore(Highcharts);
-// solidGauge(Highcharts);
+import React, { useState } from "react";
+import { Col } from "react-bootstrap";
+ 
 
 export default function ActivityGauge({ series, label, list }) {
   const [bgColors, setBgColors] = useState(

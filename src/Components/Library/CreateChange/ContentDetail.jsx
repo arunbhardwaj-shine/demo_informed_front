@@ -10,12 +10,12 @@ import { useNavigate } from "react-router-dom";
 import Collapse from "react-bootstrap/Collapse";
 import { Button } from "react-bootstrap";
 import {QRCodeSVG} from "qrcode.react";
-import { Modal } from "react-bootstrap";
+ 
 import CommonConfirmModel from "../../../Model/CommonConfirmModel";
 import {
   getEmailData,
   getDraftData,
-  getSelectedSmartListData,
+  
 } from "../../../actions";
 import { connect } from "react-redux";
 
@@ -45,11 +45,9 @@ const ContentDetail = (props) => {
   const [articleId, setArticleId] = useState(
     typeof state?.pdfId !== "undefined" ? state?.pdfId : ""
   );
-  const [isEdit, setIsEdit] = useState(
-    typeof state?.isEdit !== "undefined" ? state?.isEdit : 0
-  );
+  
   const location = useLocation();
-  // console.log(location,'content details')
+ 
 
   const [confirmationpopup, setConfirmationPopup] = useState(false);
   const [popupMessage, setPopupMessage] = useState({
@@ -99,14 +97,14 @@ const ContentDetail = (props) => {
       };
 
       const res = await postData(ENDPOINT.LIBRARY, body);
-      // if(typeof (state?.isEdit) !== "undefined" && state?.isEdit !== 1){
+      
         if(localStorage.getItem('user_id') == 'm5JI5zEDY3xHFTZBnSGQZg=='){
           messagePopup();
         }
-      // }
+      
 
       setLibraryData(res?.data?.data?.library);
-      // console.log(res?.data?.data?.library,'res?.data?.data?.library')
+     
       let data = "";
       if (res?.data?.data?.library?.[0]?.allow_print) {
         data += "Print,";
@@ -160,11 +158,7 @@ const ContentDetail = (props) => {
     document.body.removeChild(textArea);
   };
 
-  const removeTopic = (id) => {
-    const allTopics = libraryData?.topic;
-    allTopics.splice(id, 1);
-    setReRender(reRender + 1);
-  };
+ 
 
   const commonModelFun = () => {
     setShow(true);
@@ -216,7 +210,7 @@ const ContentDetail = (props) => {
   };
 
   const messagePopup = async() => {
-    console.log("POPUP IS OPEN")
+ 
     setTimeout(function () {
       setCommonConfirmModelFun(() => userAction);
       setPopupMessage({
@@ -265,7 +259,7 @@ const ContentDetail = (props) => {
       
     });
   };
-  // console.log('content deyails')
+ 
 
   return (
     <>
@@ -456,17 +450,7 @@ const ContentDetail = (props) => {
                                                             : "N/A"}
                                                         </td>
                                                       </tr>
-                                                      {/*<tr>
-                                                          <th>Blind Type</th>
-                                                          <td>
-                                                            {data?.blindType
-                                                              ? data.blindType ==
-                                                                "blinded"
-                                                                ? "Yes"
-                                                                : "No"
-                                                              : "No"}
-                                                          </td>
-                                                        </tr>*/}
+                                                      
 
                                                       <tr>
                                                         <th>
@@ -726,14 +710,7 @@ const ContentDetail = (props) => {
                                                   </tr>
                                                 ) : null}
 
-                                                {/* {data?.file_type == "video" ? (
-                                                  <tr>
-                                                    <th>Included videos</th>
-                                                    <td>
-                                                      Yes
-                                                    </td>
-                                                  </tr>
-                                                ) : null} */}
+                                              
 
                                                 {localStorage.getItem(
                                                   "group_id"

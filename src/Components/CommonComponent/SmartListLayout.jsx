@@ -1,9 +1,8 @@
 import axios from "axios";
 import React, { useState } from "react";
-import { Tooltip } from "react-bootstrap";
-import { Tabs, Tab,ProgressBar } from "react-bootstrap";
+import { ProgressBar, Tab, Tabs, Tooltip } from "react-bootstrap";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
-import { Link ,useNavigate} from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useSidebar } from "./LoginLayout";
 
 
@@ -12,7 +11,7 @@ const SmartListLayout = ({data,deletestatus,callLinkClickFun,iseditshow,isviewsh
     let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
     const [opening_details, setOpeningDetails] = useState([]);
     const [flag, setFlag] = useState(0);
-    const navigate = useNavigate();
+    
 
     const { eventIdContext, handleEventId } = useSidebar()
     const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"))
@@ -23,29 +22,7 @@ const SmartListLayout = ({data,deletestatus,callLinkClickFun,iseditshow,isviewsh
     );
     
 
-    // const tabClicked = async (type, id) => {
-    //     if (type == "more-details") {
-    //         let index = opening_details.findIndex((el) => el?.listid == id);
-    //         if (index === -1) {
-    //         let normal_data = opening_details;
-    //         try {
-    //             let body = {
-    //             user_id: localStorage.getItem('user_id'),
-    //             list_id: id,
-    //             };
-    //             const res =  await axios.post(`distributes/get_list_more_details`,body);
-    //             if (res?.data?.response) {
-    //             let new_data = res?.data?.response;
-    //             normal_data.push(new_data);
-    //             setOpeningDetails(normal_data);
-    //             setFlag(flag + 1);
-    //             }
-    //         } catch (err) {
-    //             console.log(err);
-    //         }
-    //         }
-    //     }
-    // }
+    
 
     const tabClicked = async (type, id) => {
         if (type === "more-details") {

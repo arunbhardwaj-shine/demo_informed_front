@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from "react";
-import Select from "react-select";
 import CryptoJS from 'crypto-js';
-import { loader } from "../../loader";
-import { ENDPOINT } from "../../axios/apiConfig";
-import { postData, getData } from "../../axios/apiHelper";
-import { useNavigate, useParams, Link } from "react-router-dom";
-import { Form, FormGroup, Container, Row, Col } from "react-bootstrap";
-import { countryList } from "../../data/countryData";
+import React, { useEffect, useState } from "react";
+import { Col, Container, Form, FormGroup, Row } from "react-bootstrap";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import Select from "react-select";
 import { ToastContainer } from "react-toastify";
+import { ENDPOINT } from "../../axios/apiConfig";
+import { getData, postData } from "../../axios/apiHelper";
+import { countryList } from "../../data/countryData";
+import { loader } from "../../loader";
 import { getCurrentYear } from '../CommonComponent/CurrentYear';
 
 let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -542,12 +542,7 @@ const ClinetAccount = () => {
                             <Form.Group className="mb-4 form-check">
                               <input id="formgridgheckbox" type="checkbox" class="form-check-input" checked={rememberMe} onChange={(e) => {rememberMeClicked(e)}}/>
                               <label for="formgridgheckbox" title="" class="form-check-label">Remember me</label>
-                              {/* <Form.Check htmlFor = "formGridCheckbox"
-                                type="checkbox" 
-                                label="Remember me" 
-                                checked={rememberMe}
-                                onChange={(e) => {rememberMeClicked(e)}} 
-                              /> */}
+                              
                             </Form.Group>
 
                             <button type="submit" className="btn btn-primary save btn-filled">

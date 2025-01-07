@@ -1,18 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { Col, Row } from "react-bootstrap";
-import { Link } from "react-router-dom";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
+import React, { useEffect, useState } from "react";
+import { Col, Row } from "react-bootstrap";
 import { ENDPOINT } from "../../../axios/apiConfig";
 import { getData } from "../../../axios/apiHelper";
-// import exporting from "highcharts/modules/exporting";
-// import exportData from "highcharts/modules/export-data";
 import { loader } from "../../../loader";
 
-// exporting(Highcharts);
-// exportData(Highcharts);
-
-// base bar highchart
+ 
 const Totalhcp = () => {
   const colorObj = {
     Critical_care: "#00D4C0",
@@ -145,7 +139,7 @@ const Totalhcp = () => {
                                     
       const response = await getData(analyticsRoute);
       const data = response.data.data;
-      //  const seriesMonth = data[0].Months;
+    
       const seriesMonth = data[0].Months;
 
       const desiredMonths = seriesMonth.slice(1);
@@ -163,7 +157,7 @@ const Totalhcp = () => {
         };
       });
 
-      //  const seriesCategories = [...data[0].Months].reverse();
+ 
       const seriesCategories = desiredMonths.reverse();
       const newHcpOptions = {
         ...hcpOptions,
@@ -174,7 +168,7 @@ const Totalhcp = () => {
       };
       setHcpOptions(newHcpOptions);
 
-      // Set options for Base line chart
+ 
 
       const lineSeries = data.map((item) => {
         let newData = 0,
@@ -207,7 +201,6 @@ const Totalhcp = () => {
       const tableDatas = data.map((ibuitems, index) => ({
         name:
         `${ibuitems.ibu=="Critical_care"?"Critical Care":ibuitems.ibu} ` +
-          // ibuitems.ibu +
           " ( " +
           ibuitems.total_readers.reduce((acc, val) => acc + val, 0) +
           ")",

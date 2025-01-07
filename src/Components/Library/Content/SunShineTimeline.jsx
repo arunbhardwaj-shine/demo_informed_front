@@ -7,7 +7,7 @@ import {
   Tab,
   Tabs,
 } from "react-bootstrap";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import Select from "react-select";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
@@ -19,7 +19,7 @@ import { ENDPOINT } from "../../../axios/apiConfig";
 import { postData, getData } from "../../../axios/apiHelper";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import { Spinner } from "react-activity";
-// import SubLinkListing from "./SubLinkListing";
+ 
 let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
 const SunShineTimeline = () => {
   const rdLikeArray = [
@@ -41,12 +41,12 @@ const SunShineTimeline = () => {
   const [userId, setUserId] = useState();
   const [update, setUpdate] = useState(0);
   const [consentValue, setConsentValue] = useState("");
-  const location = useLocation();
+ 
   const [types, setTypes] = useState([
     { value: "Online ", label: "Online Offer" },
   ]);
   const [activeTab, setActiveTab] = useState("docintel-link");
-  const navigate = useNavigate();
+  
   const [passwordVisibility, setPasswordVisibility] = useState({});
   const [accountTimelineData, setAccountTimelineData] = useState({});
   const [page, setPage] = useState(1);
@@ -94,28 +94,16 @@ const SunShineTimeline = () => {
       let arr = [];
       let codearr = [];
 
-      // Object.entries(res?.data?.data?.library).map(([index, item]) => {
-      //   arr.push({
-      //     value: item.id,
-      //     label: item.title.replace(/(<([^>]+)>)/gi, ""),
-      //   });
-      //   codearr.push({
-      //     value: item.id,
-      //     label: item.code,
-      //   });
-      //   setallContents(arr);
-      //   console.log(item,'arr')
-      // });
-
+     
       Object.entries(res?.data?.data?.library).map(([index, item]) => {
-        // Check if the item has linkType "Sunshine USA"
+        
         if (item?.linkType === "Sunshine USA") {
           arr.push({
             value: item.id,
             label: item.title.replace(/(<([^>]+)>)/gi, ""),
           });
           
-          // Push to codearr only if linkType matches
+      
           codearr.push({
             value: item.id,
             label: item.code,
@@ -417,14 +405,7 @@ const SunShineTimeline = () => {
               <div className="page-title d-flex">
                 <h2>Sunshine Details</h2>
               </div>
-              {/* <div className="header-btn">
-                <Button
-                  className="btn-bordered cancel"
-                  onClick={() => navigate("/library-create")}
-                >
-                  Close
-                </Button>
-              </div> */}
+             
             </div>
             <div className="create-change-content spc-content sunshine">
               <div className="form_action">
@@ -610,14 +591,7 @@ const SunShineTimeline = () => {
                                               }
                                             </h6>
                                           </li>
-                                          {/* <li>
-                                              <h6 className="tab-content-title">
-                                                SPC included
-                                              </h6>
-                                              <h6>
-                                                {articleData?.spc_included == 0 ? "No" : "Yes"}
-                                              </h6>
-                                            </li> */}
+                                         
                                           <li>
                                             <h6 className="tab-content-title">
                                               Language
@@ -754,101 +728,7 @@ const SunShineTimeline = () => {
                                               )
                                             )}
                                           </li>
-                                          {/* <li className="d-flex align-center">
-                                            <h6 className="tab-content-title">
-                                              Unique reader (total)
-                                              <LinkWithTooltip tooltip="Number of unique HCPs who have opened the content (based on IP address, device &amp; browser).">
-                                                <img
-                                                  src={
-                                                    path_image +
-                                                    "info_circle_icon.svg"
-                                                  }
-                                                  alt="refresh-btn"
-                                                />
-                                              </LinkWithTooltip>
-                                            </h6>
-
-                                            {flag == 0 &&
-                                            userId == articleData?.id ? (
-                                              <div className="data-progress limited">
-                                                <ProgressBar
-                                                  variant="default"
-                                                  now={100}
-                                                  label={"Loading"}
-                                                />
-                                              </div>
-                                            ) : (
-                                              opening_details?.map(
-                                                (details) => {
-                                                  if (
-                                                    details?.pdf_id ==
-                                                    articleData?.id
-                                                  ) {
-                                                    return (
-                                                      <>
-                                                        <div className="data-progress limited">
-                                                          <ProgressBar
-                                                            variant={
-                                                              details.uniqueReader ==
-                                                              0
-                                                                ? "default"
-                                                                : "warning"
-                                                            }
-                                                            now={
-                                                              details?.limit ==
-                                                              0
-                                                                ? (details?.uniqueReader /
-                                                                    1000) *
-                                                                  100
-                                                                : (details?.uniqueReader /
-                                                                    details?.limit) *
-                                                                  100
-                                                            }
-                                                            label={
-                                                              details?.uniqueReader
-                                                            }
-                                                          />
-                                                          <span>
-                                                            Agreed Limit :&nbsp;
-                                                            <strong>
-                                                              {details?.limit ==
-                                                              0
-                                                                ? "unlimited"
-                                                                : details?.limit ==
-                                                                  1000
-                                                                ? "unlimited"
-                                                                : details?.limit}
-                                                            </strong>
-                                                          </span>
-                                                        </div>
-                                                        <span className="total-left">
-                                                          {details?.limit ==
-                                                            0 ||
-                                                          details?.limit ==
-                                                            1000 ? (
-                                                            ""
-                                                          ) : (
-                                                            <>
-                                                              {details?.limit ==
-                                                              0
-                                                                ? 1000 -
-                                                                  details?.uniqueReader
-                                                                : details?.limit -
-                                                                  details?.uniqueReader}
-                                                              <small>
-                                                                Left
-                                                              </small>
-                                                            </>
-                                                          )}
-                                                        </span>
-                                                      </>
-                                                    );
-                                                  }
-                                                }
-                                              )
-                                            )}
-                                          </li> */}
-
+                                         
 {
                                             articleData?.lastRomanNumber == 2 || articleData?.lastRomanNumber == 3 || articleData?.linkType == 'Sunshine' || articleData?.linkType == 'Sunshine USA'
                                               ? (
@@ -1147,7 +1027,7 @@ const SunShineTimeline = () => {
                                                       return (
                                                         <>
                                                           <div className="data-progress">
-                                                            {/* <span>{details.registeredReader}</span> */}
+                                                          
                                                             <ProgressBar
                                                               variant={
                                                                 details.registeredReader ==

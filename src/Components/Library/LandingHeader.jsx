@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react";
+import CryptoJS from 'crypto-js';
+import React, { useEffect, useState } from "react";
 import { Button, Container, Form, FormGroup, Row } from "react-bootstrap";
-import { Link, useNavigate } from "react-router-dom";
 import Modal from "react-bootstrap/Modal";
-import { loader } from "../../loader";
+import { Link, useNavigate } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 import { ENDPOINT } from "../../axios/apiConfig";
 import { postData } from "../../axios/apiHelper";
-import CryptoJS from 'crypto-js';
-import { ToastContainer } from "react-toastify";
+import { loader } from "../../loader";
 
 
 const LandingHeader = () => {
@@ -18,7 +18,7 @@ const LandingHeader = () => {
   const [errorMsg, setErrorMsg] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
   const [loginerrors, setLoginerrors] = useState("");
-  const [privacyshow, setPrivacyshow] = useState(false);
+ 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showError, setShowError] = useState(false);
@@ -170,9 +170,9 @@ const LandingHeader = () => {
         setEmail("");
         setErrorMsg(null);
         setSuccessMsg(res?.data?.message);
-        // setShow(false)
+         
       } catch (err) {
-        // console.log(err);
+       
         setSuccessMsg('');
         setErrorMsg(err?.response?.data?.message);
         loader("hide");

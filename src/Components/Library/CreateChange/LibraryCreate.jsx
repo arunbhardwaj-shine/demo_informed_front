@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Col, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -92,7 +92,7 @@ const LibraryCreate = () => {
           <Row>
             <div className="top-header">
               <div className="page-title">
-                {/* <h2>Create &amp; Change</h2> */}
+               
               </div>
             </div>
             <div className="library_create_position">

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Col, Row,Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { getData } from "../../axios/apiHelper";
 import { HighchartsReact } from "highcharts-react-official";
 import Highcharts from "highcharts";
 import { loader } from "../../loader";

@@ -1,13 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
+import { Accordion, Col, Row, Table } from "react-bootstrap";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Modal, Row, Table, Form, Accordion, Col } from "react-bootstrap";
-import { popup_alert } from "../../popup_alert";
 import { ENDPOINT } from "../../axios/apiConfig";
-import { postData, deleteData, getData } from "../../axios/apiHelper";
-import CommonConfirmModel from "../../Model/CommonConfirmModel";
+import { deleteData, getData, postData } from "../../axios/apiHelper";
 import { loader } from "../../loader";
-import { Button } from "react-bootstrap";
-import Select from "react-select";
+import CommonConfirmModel from "../../Model/CommonConfirmModel";
+import { popup_alert } from "../../popup_alert";
 
 const SpcView = () => {
   const navigate = useNavigate();
@@ -254,47 +252,7 @@ const SpcView = () => {
                 </h2>
               </div>
               <div className="form_action">
-                {/* <Form className="product-unit d-flex justify-content-between align-items-center">
-                  <div className="form-group d-flex align-items-center">
-                    <label htmlFor="">Filter By</label>
-                    <Select
-                      options={countries}
-                      placeholder="Country"
-                      onChange={filterDataCountry}
-                      defaultValue={countries[0]}
-                      name="country"
-                      className="dropdown-basic-button split-button-dropup mr-2"
-                      isClearable
-                    />
-                    <Select
-                      options={language}
-                      name="language"
-                      placeholder="Language"
-                      onChange={filterDataLanguage}
-                      defaultValue={language[0]}
-                      className="dropdown-basic-button split-button-dropup"
-                      isClearable
-                    />
-                    <Select
-                      options={ibu}
-                      name="ibu"
-                      placeholder="IBU"
-                      onChange={filterDataIBU}
-                      defaultValue={ibu[0]}
-                      className="dropdown-basic-button split-button-dropup"
-                      isClearable
-                    />
-                    <Select
-                      options={products}
-                      name="product"
-                      placeholder="Product"
-                      // onChange={filterDataByYears}
-                      // defaultValue={years?.current ? years?.current : null}
-                      className="dropdown-basic-button split-button-dropup"
-                      isClearable
-                    />
-                  </div>
-                </Form> */}
+                
               </div>
               <div className="top-right-action">
                 <div className="search-bar">
@@ -489,17 +447,12 @@ const SpcView = () => {
                     </div>
                   )}
                 </div>
-                {/* <button
-                    className="btn-bordered cancel btn btn-primary"
-                    type="button"
-                    onClick={() => navigate("/spc")}>
-                    Close
-                  </button> */}
+               
               </div>
             </div>
             {Object.keys(filterObject)?.length !== 0 && filterApplyflag > 0 ? (
               <div className="apply-filter">
-                {/* <h6>Applied filters</h6> */}
+              
                 <div className="filter-block">
                   <div className="filter-block-left full">
                     {Object.keys(filterObject)?.map((key, index) => {

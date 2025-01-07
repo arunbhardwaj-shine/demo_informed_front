@@ -1,22 +1,21 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
+  Button,
+  Col,
   Container,
+  Form,
+  Modal,
   Nav,
   Navbar,
-  Row,
-  Form,
   NavDropdown,
-  Button,
-  Modal,
-  Col,
+  Row,
 } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { ENDPOINT } from "../../axios/apiConfig";
 import { postData } from "../../axios/apiHelper";
 import { loader } from "../../loader";
-import { HomeValidation } from "../Validations/HomeValidations/HomeValidation";
-import reCAPTCHA from "react-google-recaptcha";
 import { getCurrentYear } from '../CommonComponent/CurrentYear';
+import { HomeValidation } from "../Validations/HomeValidations/HomeValidation";
 
 const Informed = () => {
   const navigate = useNavigate();
@@ -29,7 +28,7 @@ const Informed = () => {
   const [conatctError, setContactError] = useState(false);
   const [show, setShow] = useState(false);
   const [privacyshow, setPrivacyshow] = useState(false);
-  const [showDownloadSection, setShowDownloadSection] = useState(false);
+ 
   const [contactFormInputs, setContactFormInputs] = useState({});
   const [forceRender, setForceRender] = useState(false);
   const handleClose = (type) => {
@@ -570,8 +569,7 @@ const Informed = () => {
             </div>
           </Container>
         </section>
-        {/* {showDownloadSection ? (
-          <> */}
+       
         <section className="download-sec">
           <Container className="padding_righttt">
             <div className="d-content">
@@ -944,9 +942,7 @@ const Informed = () => {
                         />
                       </Col>
                     </Row>
-                    {/* {conatctError && (
-                      <p style={{ color: "red" }}>{conatctError}</p>
-                    )} */}
+                    
                     <Button variant="primary" type="submit">
                       Send
                     </Button>
@@ -999,8 +995,7 @@ const Informed = () => {
             .
           </p>
         </footer>
-        {/* </>
-        ) : null} */}
+        
       </div>
 
       <Modal

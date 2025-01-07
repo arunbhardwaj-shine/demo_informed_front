@@ -1,13 +1,9 @@
-import React, { useState } from "react";
-import { Col, Image, Row, Button } from "react-bootstrap";
-
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
-import highchartsMore from "highcharts/highcharts-more";
-import solidGauge from "highcharts/modules/solid-gauge";
+import React from "react";
+import { Col, Image, Row } from "react-bootstrap";
 
-// highchartsMore(Highcharts);
-// solidGauge(Highcharts);
+ 
 
 const DocintelAccount = ({ data, tabType }) => {
   Highcharts.setOptions({

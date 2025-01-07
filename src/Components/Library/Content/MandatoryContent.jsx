@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Col, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-// import Header from "./HeaderComponent/Header";
+ 
 
 function MandatoryContent() {
   const path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -61,7 +61,7 @@ function MandatoryContent() {
                   </div>
                   <div
                     className="create-library-content"
-                    // onClick={() => navigateToLibraryList(item?.title)}
+                    
                   >
                     <h3>{item.title}</h3>
                   </div>

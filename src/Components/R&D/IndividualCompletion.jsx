@@ -1,14 +1,14 @@
-import React, { useEffect, useRef, useState } from "react";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
-import { getData, postData,getDataRd } from "../../axios/apiInstanceHelper";
-import { ENDPOINT } from "../../axios/apiConfig";
+import React, { useEffect, useState } from "react";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { loader } from "../../loader";
-import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import { ENDPOINT } from "../../axios/apiConfig";
+import { getDataRd } from "../../axios/apiInstanceHelper";
+import { loader } from "../../loader";
 
-const IndividualCompletion = ({ individualCompletionfn,createdBy }) => {
+const IndividualCompletion = ({ individualCompletionfn }) => {
   const [pieData, setPieData] = useState({});
 
   const path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -197,7 +197,7 @@ const entering = (e) => {
                 <div className="count-number">
                   <Skeleton width={50} height={20} />
                 </div>
-                {/* <img src={path_image + "doctor-svg.svg"} alt="" className="doctor" /> */}
+               
               </div>
             </div>
 

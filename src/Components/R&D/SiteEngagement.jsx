@@ -1,12 +1,12 @@
-import React, { useEffect, useRef, useState } from "react";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
-import { getData, postData } from "../../axios/apiInstanceHelper";
-import { ENDPOINT } from "../../axios/apiConfig";
+import React, { useEffect, useState } from "react";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { loader } from "../../loader";
-import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import { ENDPOINT } from "../../axios/apiConfig";
+import { getData } from "../../axios/apiInstanceHelper";
+import { loader } from "../../loader";
 
 const SiteEngagement = ({ siteEngagementfun, setRdSiteData }) => {
   const [totalRdSiteNumber, setTotalRdSiteNumber] = useState();
@@ -49,14 +49,14 @@ const SiteEngagement = ({ siteEngagementfun, setRdSiteData }) => {
       verticalAlign: "middle",
       layout: "verticle",
       reversed: true,
-      symbolWidth: 20, // Width of the legend symbol (rectangle)
-      symbolHeight: 10, // Height of the legend symbol (rectangle)
-      symbolRadius: 0, // Disable rounded corners of the legend symbol
+      symbolWidth: 20,  
+      symbolHeight: 10,  
+      symbolRadius: 0,  
     },
     plotOptions: {
       plotOptions: {},
       series: {
-        // stacking: "normal",
+        
         pointWidth: 10,
         groupPadding: 0.45,
       },
@@ -145,7 +145,7 @@ const SiteEngagement = ({ siteEngagementfun, setRdSiteData }) => {
                 <div className="count-number">
                   <Skeleton width={50} height={20} />
                 </div>
-                {/* <img src={path_image + "site-engaged.svg"} alt="" /> */}
+              
               </div>
             </div>
 

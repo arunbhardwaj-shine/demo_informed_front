@@ -5,9 +5,7 @@ import { Navigate } from "react-router-dom";
 // For GET requests
 const requestHelper = axios.create({
   baseURL: import.meta.env.VITE_APP_API_KEY_NEW_DESIGN,
-  // headers: {
-  //   "Content-Type": "application/json",
-  // },
+  
 });
 
 const clearLocalStorageExcept = () => {
@@ -31,8 +29,7 @@ requestHelper.interceptors.request.use(
     const jt=switch_account_detail &&switch_account_detail !=null && switch_account_detail!="undefined"
               ?switch_account_detail?.decrypted_token 
               :localStorage.getItem("decrypted_token");
-    // const token = localStorage.getItem("user_id");
-    // const jt    = localStorage.getItem("decrypted_token");
+ 
     req.headers["token"] = token;
     req.headers["auth"]  = jt;
     return req;
@@ -54,7 +51,7 @@ requestHelper.interceptors.response.use(
         }
         break;
       case 401:
-        // localStorage.clear();
+     
         clearLocalStorageExcept();
         window.location.href = "/";
         break;

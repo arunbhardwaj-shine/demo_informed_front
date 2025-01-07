@@ -1,12 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { Col, Row, Tab, Tabs } from "react-bootstrap";
+import worldMap from "@highcharts/map-collection/custom/world.geo.json";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
-import MapModule from "highcharts/modules/map";
-import worldMap from "@highcharts/map-collection/custom/world.geo.json";
+import React from "react";
+import { Col, Row, Tab, Tabs } from "react-bootstrap";
 
-
-// MapModule(Highcharts);
+ 
 
 const data = [
     {
@@ -283,95 +281,7 @@ const countryStatsOptions = {
       },
     ],
 
-    // drilldown: {
-    //   series: [
-    //     {
-    //       name: "Email campaign",
-
-    //       id: "email",
-
-    //       data: [
-    //         ["Subcampaign A", 5],
-
-    //         ["Subcampaign B", 2.2],
-
-    //         ["Subcampaign C", 0.5],
-    //       ],
-    //     },
-
-    //     {
-    //       name: "Email campaign",
-
-    //       id: "informedgo",
-
-    //       data: [
-    //         ["Subcampaign A", 5],
-
-    //         ["Subcampaign B", 2.2],
-
-    //         ["Subcampaign C", 10.5],
-    //       ],
-    //     },
-
-    //     {
-    //       name: "Email campaign",
-
-    //       id: "docintelcode",
-
-    //       data: [
-    //         ["Subcampaign A", 5],
-
-    //         ["Subcampaign B", 2.2],
-
-    //         ["Subcampaign C", 10.5],
-    //       ],
-    //     },
-
-    //     {
-    //       name: "Email campaign",
-
-    //       id: "direct",
-
-    //       data: [
-    //         ["Subcampaign A", 5],
-
-    //         ["Subcampaign B", 2.2],
-
-    //         ["Subcampaign C", 10.5],
-    //       ],
-    //     },
-
-    //     {
-    //       name: "Email campaign",
-
-    //       id: "peer",
-
-    //       data: [
-    //         ["Subcampaign A", 5],
-
-    //         ["Subcampaign B", 2.2],
-
-    //         ["Subcampaign C", 10.5],
-    //       ],
-    //     },
-
-    //     {
-    //       name: "Email campaign",
-
-    //       id: "webiner",
-
-    //       data: [
-    //         ["Subcampaign A", 5],
-
-    //         ["Subcampaign B", 2.2],
-
-    //         ["Subcampaign C", 10.5],
-    //       ],
-    //     },
-    //   ],
-    // },
-
-    //country List 
+ 
     
   };
 

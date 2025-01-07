@@ -1,13 +1,13 @@
+import moment from 'moment';
 import React, { useEffect, useRef, useState } from "react";
-import { Col, Form, Row } from "react-bootstrap";
-import Header from "./HeaderComponent/Header";
-import { Route, Navigate, useNavigate } from "react-router-dom";
-import { postData } from "../../axios/apiHelper";
-import { ENDPOINT } from "../../axios/apiConfig";
-import moment from 'moment'
 import { Spinner } from "react-activity";
+import { Form, Row } from "react-bootstrap";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { Navigate, useNavigate } from "react-router-dom";
+import { ENDPOINT } from "../../axios/apiConfig";
+import { postData } from "../../axios/apiHelper";
+import Header from "./HeaderComponent/Header";
 
 let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
 let loadData = 0;
@@ -26,11 +26,7 @@ const SetLayoutNewTimeline = () => {
       title: "CRM",
       subtitle: "See who read what, their RTR-activity and their habits",
     },
-    // {
-    //   image: `${path_image}srm-icon.svg`,
-    //   title: "SRM",
-    //   subtitle: "...............................",
-    // },
+ 
     {
       image: `${path_image}analytics-icon.svg`,
       title: "Analytics",
@@ -166,15 +162,10 @@ const SetLayoutNewTimeline = () => {
     
       ) {
         navigate("/webinar/event-listing")
-        // window.open(
-        //   "https://webinar.informed.pro/Webinar/readers_webinar?rdylr=" +
-        //     localStorage.getItem("user_id"),
-        //   "_blank"
-        // );
+        
       }
     } else if (title == "Licensed") {
-      // navigate("/license-content");
-      // navigate("/license-content");
+      
       navigate("/license-content");
     } else if (title == "Survey") {
       navigate("/survey/survey-list");
@@ -331,7 +322,7 @@ const SetLayoutNewTimeline = () => {
     if ((scrollHeight - scrollTop <= clientHeight + 1) && loadData == 0 && loadMore?.isLoadMore && loadMore?.nextDate != null) {
       loadData = 1;
       handleLoadMore();
-      console.log("Reached bottom of the scrollable container");
+     
     }
   };
 
@@ -379,11 +370,10 @@ const SetLayoutNewTimeline = () => {
                     </div>
                     <div className="timeline-date">
                       <h3>LEX-210 Trial</h3>
-                      {/* <p>{moment(loadMore?.lastUpdate).utc().format('MMMM. DD. YYYY | h:mm A')}  <sub>last update</sub></p> */}
+                     
                       {apiStatus?<p>
                         {loadMore?.lastUpdate ? moment(loadMore?.lastUpdate).utc().format('MMMM. DD. YYYY') : "N/A"}
-                        {/* <span> | </span>
-                        {loadMore?.lastUpdate ? moment(loadMore?.lastUpdate).utc().format('h:mm A') : "N/A"} */}
+                        
                         <sub> last update</sub>
                       </p>:""}
                     </div>
@@ -1333,17 +1323,7 @@ const SetLayoutNewTimeline = () => {
                             })
                             }
                           </div>
-                          {/* {
-                            !loadMore?.showLoader ?
-                              loadMore?.isLoadMore ?
-                                <div className="text-center load_more">
-                                  <button className="btn btn-primary" onClick={() => handleLoadMore()}>
-                                    Load More
-                                  </button>
-                                </div>
-                                : ""
-                              : ""
-                          } */}
+                        
 
                           {loadMore?.showLoader == true ? (
                             <div

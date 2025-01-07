@@ -1,10 +1,8 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import {
-  Accordion,
   Button,
   Col,
-  OverlayTrigger,
-  Row,Table,Tooltip,
+  Row, Table, Tooltip
 } from "react-bootstrap";
 
 const RDListing = () => {
@@ -13,7 +11,7 @@ const tooltip = (
       The number of individual users who viewed the content
     </Tooltip>
 );
-const [show, setShow] = useState();
+ 
 const [rdSiteData, setRdSiteData] = useState();
  const [isActive, setIsActive] = useState("");
    const path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -51,8 +49,7 @@ const [rdSiteData, setRdSiteData] = useState();
                   </div>
                   <div
                     className="rd-training-block"
-                    //ref={site_Engagement}
-                    //tabIndex={-1}
+                    
                   >
                     <div className="d-flex align-items-center justify-content-between">
                       <div className="rd-training-block-left">
@@ -63,13 +60,12 @@ const [rdSiteData, setRdSiteData] = useState();
                       </div>
                       <div
                         className="rd-training-block-right d-flex"
-                        //ref={site_Engagement}
-                       // tabIndex={-1}
+                       
                       >
                         <button
                           id="test-table-xls-button"
                           className="download-table-xls-button"
-                          //onClick={() => handleExport("site_engagement")} // Call your export function here
+                           
                         />
 
                         <Button
@@ -80,7 +76,7 @@ const [rdSiteData, setRdSiteData] = useState();
                               ? "svg_asc"
                               : ""
                           }`}
-                          //onClick={siteEngagementSort}
+                          
                         >
                           Sort By
                           <svg

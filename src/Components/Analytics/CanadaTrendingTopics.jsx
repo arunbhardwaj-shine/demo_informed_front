@@ -1,19 +1,11 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Col, Form, Row, Tab, Tabs } from "react-bootstrap";
-import Select from "react-select";
-import { Link } from "react-router-dom";
+import React, { useEffect, useRef, useState } from "react";
+import { Col, Row, Tab, Tabs } from "react-bootstrap";
+ 
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
-import HighchartsExporting from "highcharts/modules/exporting";
-import HighchartsAccessibility from "highcharts/modules/accessibility";
-import HighchartsSankey from  "highcharts/modules/sankey";
-import HighchartsDependencyWheel from "highcharts/modules/dependency-wheel";
-import { postData } from "../../axios/apiHelper";
 import { ENDPOINT } from "../../axios/apiConfig";
-// HighchartsExporting(Highcharts);
-// HighchartsAccessibility(Highcharts);
-// HighchartsSankey(Highcharts);
-// HighchartsDependencyWheel(Highcharts);
+import { postData } from "../../axios/apiHelper";
+ 
 
 Highcharts.setOptions({
   colors: [
@@ -137,9 +129,7 @@ const CanadaTrendingTopics = () => {
         <div className="custom-container">
           <Row>
             <div className="top-header">
-              {/* <div className="page-title d-flex">
-                <h2>Trending Topics</h2>
-              </div> */}
+               
             </div>
             <div className="distribute-page-reader">
               <svg

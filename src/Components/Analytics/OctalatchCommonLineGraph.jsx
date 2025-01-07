@@ -1,10 +1,7 @@
-import React, { useState, useMemo, useEffect } from "react";
 import Highcharts from "highcharts";
-import exporting from "highcharts/modules/exporting";
-import exportData from "highcharts/modules/export-data";
 import HighchartsReact from "highcharts-react-official";
-// exporting(Highcharts);
-// exportData(Highcharts);
+import React, { useEffect, useState } from "react";
+ 
 
 const OctalatchCommonLineGraph = ({ data, name }) => {
   Highcharts.setOptions({

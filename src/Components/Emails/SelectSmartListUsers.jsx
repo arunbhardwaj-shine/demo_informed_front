@@ -2,11 +2,8 @@ import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { loader } from "../../loader";
-
-import TableOnly from "./TableOnly";
-import { Navigate } from "react-router-dom";
-import { connect } from "react-redux";
 import { toast } from "react-toastify";
+import { connect } from "react-redux";
 import { popup_alert } from "../../popup_alert";
 import { Modal, Dropdown, Accordion } from "react-bootstrap";
 import DropdownButton from "react-bootstrap/DropdownButton";
@@ -25,7 +22,7 @@ const SelectSmartListUsers = (props) => {
   const [siteNameAll, setSiteNameAll] = useState([]);
   const [role, setRole] = useState([]);
   const [irtRole, setIrtRole] = useState([]);
-  const [institutionType, setInstitutionType] = useState([]);
+ 
   const [irtInstitutionType, setIrtInstitutionType] = useState([]);
   const [nonIrtInstitutionType, setNonIrtInstitutionType] = useState([]);
   const [optIRT, setoptIRT] = useState([
@@ -40,7 +37,7 @@ const SelectSmartListUsers = (props) => {
   const location = useLocation();
   const [readers, setReaders] = useState([]);
   const [campaign_id_st, setCampaign_id] = useState();
-  const [SendListData, setSendListData] = useState([]);
+ 
   const [PdfSelected, setPdfSelected] = useState(0);
   const [showLessInfo, setShowLessInfo] = useState(true);
   const [apiStatus, setApiStatus] = useState(false);
@@ -106,38 +103,7 @@ const SelectSmartListUsers = (props) => {
   const [isOpen, setIsOpen] = useState(false);
   const [validationError, setValidationError] = useState({});
 
-  // const smartListSelected = location.state
-  //   ? location.state.smartListSelected
-  //   : props.getDraftData.smart_list_data;
-
-  // useEffect(() => {
-  //   let campaign_id =
-  //     typeof old_object === "object" &&
-  //       old_object !== null &&
-  //       old_object?.campaign_id
-  //       ? old_object.campaign_id
-  //       : props.getDraftData?.campaign_id
-  //         ? props.getDraftData.campaign_id
-  //         : "";
-  //   setCampaign_id(campaign_id);
-
-  //   // removedHcp
-  //   if (old_object?.removedHcp) {
-  //     if (old_object.removedHcp.length > 0) {
-  //       setRemovedReaders(old_object.removedHcp);
-  //     }
-  //   } else {
-  //     if (props?.getDraftData && props.getDraftData.campaign_data?.removedHcp) {
-  //       if (
-  //         typeof props.getDraftData.campaign_data.removedHcp != "undefined" &&
-  //         props.getDraftData.campaign_data.removedHcp != "" && location?.state?.flag != 1
-  //       ) {
-  //         setRemovedReaders(props.getDraftData.campaign_data.removedHcp);
-  //       }
-  //     }
-  //   }
-  // }, []);
-
+  
   useEffect(() => {
       const typeOfHcp =
       location?.state?.typeOfHcp || props.getDraftData?.campaign_data?.typeOfHcp;
@@ -148,7 +114,7 @@ const SelectSmartListUsers = (props) => {
     setCampaign_id(campaign_id);
   }, []);
 
-  const inputElement = useRef();
+ 
   axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
   useEffect(() => {
     let oldRemovedHcp = old_object?.removedHcp || [];
@@ -214,7 +180,7 @@ const SelectSmartListUsers = (props) => {
 
           setReaders(pendingUsers);
           setRemovedReaders([...oldRemovedHcp]);
-          // console.log(subscribersZero);
+         
           setUnSubscribedUsers(subscribersZero);
           setReadersNewlyAdded(oldAddedHcp);
 
@@ -238,7 +204,7 @@ const SelectSmartListUsers = (props) => {
   }, [readersNewlyAdded]);
 
   useEffect(() => {
-    // console.log(props,'props')
+    
     if (props.getDraftData?.campaign_data) {
       props.getDraftData.campaign_data.removedHcp = removedReaders;
     }
@@ -296,12 +262,7 @@ const SelectSmartListUsers = (props) => {
               Object.keys(irt_inverstigator_type)?.map((item, i) => {
                 newIrtType.push({ label: item, value: item });
               });
-              // let instution_type = res?.data?.response?.data?.institution_type;
-              // let newInstitutionType = [];
-              // Object.keys(instution_type)?.map((item, i) => {
-              //   newInstitutionType.push({ label: item, value: item });
-              // });
-              // setInstitutionType(newInstitutionType);
+         
 
               let non_irt_institution_type =
               res?.data?.response?.data?.non_mandatory_institution_type;
@@ -329,9 +290,7 @@ const SelectSmartListUsers = (props) => {
 
             setTotalData(res.data.response.data);
           }
-          // setCountryall(res.data.response.data.country);
-
-          // setCounter(counter + 1);
+        
         })
         .catch((err) => {
           console.log(err);
@@ -371,8 +330,7 @@ const SelectSmartListUsers = (props) => {
         smart_list_id: props.getSelectedSmartListData?.id
           ? props.getSelectedSmartListData.id
           : props.getDraftData.campaign_data.smart_list_id,
-        //smart_list_data: readers,
-        // users_list : smartListSelected,
+        
         selectedHcp: [...readers, ...readersNewlyAdded],
         list_selection: old_object?.selected
           ? old_object.selected
@@ -407,7 +365,7 @@ const SelectSmartListUsers = (props) => {
           toast.warning(res.data.message);
           loader("hide");
         }
-        // setCampaign_id(res.data.response.data.id);
+       
       })
       .catch((err) => {
         loader("hide");
@@ -417,8 +375,7 @@ const SelectSmartListUsers = (props) => {
 
   const nextClicked = () => {
     navigate("/verifyMAIL", {
-      // data: data,
-      // smartListName: smartListName,
+     
       state: {
         selectedHcp: [...readers, ...readersNewlyAdded],
         removedHcp: removedReaders,
@@ -480,7 +437,7 @@ const SelectSmartListUsers = (props) => {
     const name = hpc[i].email;
     list[i].email = value;
     setHpc(list);
-    // setEmailData(e.target.value);
+    
   };
   const onRoleChange = (e, i) => {
     if (e == "") {
@@ -510,11 +467,7 @@ const SelectSmartListUsers = (props) => {
       const name = hpc[i].institutionType;
       list[i].institutionType = value;
       setHpc(list);
-      // if (e?.value == "Study site") {
-      //   onIRTChange("yes", i);
-      // } else {
-      //   onIRTChange("no", i);
-      // }
+      
     }
   };
 
@@ -706,11 +659,11 @@ const SelectSmartListUsers = (props) => {
   };
 
   const readersAdded = (reader, i) => {
-    // const newlyAddedReaders = readersNewlyAdded;
+     
     const readersRemoved = removedReaders;
     readersRemoved.splice(i, 1);
     setRemovedReaders(readersRemoved);
-    // setReadersNewlyAdded((oldArray) => [reader, ...oldArray]);
+   
 
     setReaders((oldArray) => [reader, ...oldArray]);
     setReRender(reRender + 1);
@@ -730,7 +683,7 @@ const SelectSmartListUsers = (props) => {
           return "false";
         } else {
           return "true";
-        }
+        }                        
       } else {
         if (data.email == "") {
           return "false";
@@ -770,61 +723,7 @@ const SelectSmartListUsers = (props) => {
     }
   };
 
-  const addHcp = (e) => {
-    const addhcp_btn = document.getElementById("add_hcp_btn");
-    if (document.querySelector("#add_hcp_btn .active") !== null) {
-      addhcp_btn.classList.remove("active");
-    } else {
-      addhcp_btn.classList.add("active");
-    }
-    document.querySelector("#add_file_btn").classList.remove("active");
-
-    e.preventDefault();
-    setActiveExcel("");
-    setActiveManual("active");
-    setManualReRender(manualReRender + 1);
-  };
-
-  const sortSelectedUsers = () => {
-    let normalArr = [];
-    normalArr = readers;
-    if (sorting === 0) {
-      normalArr.sort((a, b) =>
-        a.first_name.toLowerCase() > b.first_name.toLowerCase()
-          ? 1
-          : b.first_name.toLowerCase() > a.first_name.toLowerCase()
-          ? -1
-          : 0
-      );
-    } else {
-      normalArr.sort((a, b) =>
-        a.first_name.toLowerCase() < b.first_name.toLowerCase()
-          ? 1
-          : b.first_name.toLowerCase() < a.first_name.toLowerCase()
-          ? -1
-          : 0
-      );
-    }
-
-    setReaders(normalArr);
-    setSorting(1 - sorting);
-    setSortingCount(sortingCount + 1);
-  };
-
-  const addFile = (e) => {
-    const addfile_btn = document.getElementById("add_file_btn");
-    if (document.querySelector("#add_file_btn .active") !== null) {
-      addfile_btn.classList.remove("active");
-    } else {
-      addfile_btn.classList.add("active");
-    }
-    document.querySelector("#add_hcp_btn").classList.remove("active");
-
-    e.preventDefault();
-    setActiveExcel("active");
-    setActiveManual("");
-    setAddFileReRender(addFileReRender + 1);
-  };
+  
 
   const editing = (
     profile_id,
@@ -976,7 +875,7 @@ const SelectSmartListUsers = (props) => {
     setReaders([]);
     setTimeout(() => {
       setReaders(vr);
-      console.log("This will run after 1 second!");
+     
       setUpdateCounter(updateCounter + 1);
     }, 50);
   };
@@ -1161,7 +1060,7 @@ const SelectSmartListUsers = (props) => {
             }
             loader("hide");
 
-            //setSelectedHcp(res.data.response.data);
+             
           })
           .catch((err) => {
             loader("hide");
@@ -1170,10 +1069,10 @@ const SelectSmartListUsers = (props) => {
       } else {
         const filteredArray = status.filter((value) => value !== "true");
         toast.warning(filteredArray?.[0]);
-        // toast.warning(status[0]);
+        
       }
 
-      //  setIsOpen(false);
+      
     } else {
       let formData = new FormData();
       let user_id = localStorage.getItem("user_id");
@@ -1230,7 +1129,7 @@ const SelectSmartListUsers = (props) => {
       const valueA = a[key];
       const valueB = b[key];
 
-      // Handle different data types (numbers, strings)
+   
       if (typeof valueA === "number" && typeof valueB === "number") {
         return order === "asc" ? valueA - valueB : valueB - valueA;
       } else {
@@ -1273,11 +1172,7 @@ const SelectSmartListUsers = (props) => {
                           : "Select HCPs"}
                       </Link>
                     </li>
-                    {/*
-                  <li className="active">
-                    <Link to="/SelectSmartList">Select Smart List</Link>
-                  </li>
-                  */}
+                    
 
                     <li className="active active-main">
                       <Link to="/SelectSmartListUsers">Verify Your List</Link>
@@ -1371,46 +1266,7 @@ const SelectSmartListUsers = (props) => {
                             </button>
                           </div>
                           <div className="hcp-sort">
-                            {/* {sortingCount == 0 ? (
-                              <>
-                                <button
-                                  className="btn btn-outline-primary"
-                                  onClick={sortSelectedUsers}
-                                >
-                                  Sort By{" "}
-                                  <img
-                                    src={path_image + "sort.svg"}
-                                    alt="Shorting"
-                                  />
-                                </button>
-                              </>
-                            ) : sorting == 0 ? (
-                              <>
-                                <button
-                                  className="btn btn-outline-primary desc"
-                                  onClick={sortSelectedUsers}
-                                >
-                                  Sort By{" "}
-                                  <img
-                                    src={path_image + "sort-decending.svg"}
-                                    alt="Shorting"
-                                  />
-                                </button>
-                              </>
-                            ) : (
-                              <>
-                                <button
-                                  className="btn btn-outline-primary asc"
-                                  onClick={sortSelectedUsers}
-                                >
-                                  Sort By{" "}
-                                  <img
-                                    src={path_image + "sort-assending.svg"}
-                                    alt="Shorting"
-                                  />
-                                </button>
-                              </>
-                            )} */}
+                           
                           </div>
                         </>
                       ) : null}
@@ -3791,43 +3647,10 @@ const SelectSmartListUsers = (props) => {
                                         )}
                                     </>
                                   )}
-                                  {/*
-                                    <DropdownButton className="dropdown-basic-button split-button-dropup country"
-                                            title= {hpc[i].country != "" &&  hpc[i].country != "undefined" ? hpc[i].country == "B&H" ? "Bosnia and Herzegovina" : hpc[i].country : "Select Country" }
-                                            onSelect={(event) => onCountryChange(event, i)}
-                                            >
-                                            <div className="scroll_div">
-                                            {countryall.length === 0
-                                            ? ""
-                                            : Object.entries(countryall).map(
-                                            ([index, item]) => {
-                                            return (
-                                            <>
-                                            <Dropdown.Item eventKey={index} className = {hpc[i].country == index ? "active" : "" }>{item == "B&H" ? "Bosnia and Herzegovina" : item}</Dropdown.Item>
-                                            </>
-                                          );
-                                        }
-                                      )}
-                                      </div>
-                                      </DropdownButton>
-                                    */}
+                                  
                                 </div>
                               </div>
-                              {/*
-                              <div className="col-12 col-md-6 btn_rmv">
-                                <div className="form-group">
-                                  {i !== 0 && (
-                                    <button
-                                      type="button"
-                                      className="btn btn-filled"
-                                      onClick={() => deleteRecord(i)}
-                                    >
-                                      Remove
-                                    </button>
-                                  )}
-                                </div>
-                              </div>
-                              */}
+                              
                               {isLikeRdAccount
                               ? (
                                 <>
@@ -3838,7 +3661,7 @@ const SelectSmartListUsers = (props) => {
 
                                       <Select
                                         options={siteNumberAll}
-                                        // className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                         
                                         className={
                                           validationError?.index == i &&
                                             validationError?.newSiteNumber
@@ -3871,7 +3694,7 @@ const SelectSmartListUsers = (props) => {
 
                                       <Select
                                         options={siteNameAll}
-                                        // className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                        
                                         className={
                                           validationError?.index == i &&
                                             validationError?.newSiteName
@@ -3937,19 +3760,7 @@ const SelectSmartListUsers = (props) => {
                                       : "Add HCP +"}
                                   </a>
                                 </li>
-                                {/*
-                                 <li className="nav-item add-file">
-                                   <a
-                                     id="add_file_btn"
-                                     onClick={(e) => addFile(e)}
-                                     className="nav-link btn-filled"
-                                     data-bs-toggle="tab"
-                                     href="#add_file"
-                                   >
-                                     Add File
-                                   </a>
-                                 </li>
-                              */}
+                                
                               </ul>
                             </div>
                           </div>
@@ -3958,18 +3769,7 @@ const SelectSmartListUsers = (props) => {
                     );
                   })}
                 </form>
-                {/*
-                  <form id="add_file" className={"tab-pane" + activeExcel}>
-                    <div className="form-group files">
-                      <input
-                        type="file"
-                        className="form-control"
-                        multiple=""
-                        onChange={onFileChange}
-                      />
-                    </div>
-                  </form>
-                */}
+                 
               </div>
             </div>
           </div>

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Col, Row, Tab, Tabs } from "react-bootstrap";
+import { Row } from "react-bootstrap";
 
 import ActivityGauge from "./ActivityGauge";
 

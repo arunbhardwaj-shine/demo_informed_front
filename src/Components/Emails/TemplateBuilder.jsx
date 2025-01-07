@@ -12,7 +12,7 @@ import { Editor } from "@tinymce/tinymce-react";
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import Select, { createFilter } from "react-select";
-// import "bootstrap/dist/css/bootstrap.min.css";
+ 
 import { saveNewTemplate } from "../CommonComponent/Validations";
 import html2canvas from 'html2canvas';
 import SmartListLayout from "../CommonComponent/SmartListLayout";
@@ -53,7 +53,7 @@ const TemplateBuilder = (props) => {
   const [templateList, setTemplateList] = useState([]);
   const [editableTemplate, setEdiatbleTemplate] = useState(false);
   const [template, setTemplate] = useState("");
-  // const [readers, setReaders] = useState([]);
+ ;
   const [templateSaving, setTemplateSaving] = useState("");
   const [getTemplateLanguage, setTemplateLanguage] = useState([]);
   const [getTemplateIbu, setTemplateIbu] = useState([]);
@@ -75,7 +75,7 @@ const TemplateBuilder = (props) => {
   const [irtCountry, setIRTCountry] = useState([]);
   const [role, setRole] = useState([]);
   const [irtRole, setIrtRole] = useState([]);
-  const [institutionType, setInstitutionType] = useState([]);
+  
   const [nonIrtInstitutionType, setNonIrtInstitutionType] = useState([])
   const [irtInstitutionType, setIrtInstitutionType] = useState([])
   const optIRT=[
@@ -223,12 +223,7 @@ const TemplateBuilder = (props) => {
               Object.keys(irt_inverstigator_type)?.map((item, i) => {
                 newIrtType.push({ label: item, value: item });
               });
-              // let instution_type = res?.data?.response?.data?.institution_type;
-              // let newInstitutionType = [];
-              // Object.keys(instution_type)?.map((item, i) => {
-              //   newInstitutionType.push({ label: item, value: item });
-              // });
-              // setInstitutionType(newInstitutionType);
+              
               setRole(newType);
               setIrtRole(newIrtType);
 
@@ -258,7 +253,7 @@ const TemplateBuilder = (props) => {
 
           }
   
-          // setCounter(counter + 1);
+         
         })
         .catch((err) => {
           console.log(err);
@@ -277,7 +272,7 @@ const TemplateBuilder = (props) => {
     }
    
 
-    // getalCountry();
+    
   }, []);
   const axiosFun = async () => {
     try {
@@ -343,7 +338,7 @@ const TemplateBuilder = (props) => {
         let ibu = res.data.response.ibu;
         let ibu_arr = [];
         if (ibu.length > 0) {
-          //in case if ibu display then ibu should by submitted
+         
 
           setSaveTemplateInputs({
             ...userInputs,
@@ -388,17 +383,17 @@ const TemplateBuilder = (props) => {
             (obj) => obj.id === templateId
           );
           if (result) {
-            // console.log('Found:', result?.id);
+            
             const myButton = document.getElementById("item_" + result?.id);
-            // Programmatically trigger a click event on the element
+           
             if (myButton) {
               myButton.click();
             }
           } else {
-            // console.log('Object not found',res.data.response.data?.[0]?.id);
+           
             let id = res.data.response.data?.[0]?.id;
             const myButton = document.getElementById("item_" + id);
-            // Programmatically trigger a click event on the element
+           
             if (myButton) {
               myButton.click();
             }
@@ -629,15 +624,14 @@ const TemplateBuilder = (props) => {
         .post(`distributes/get_reders_list`, body)
         .then((res) => {
           if (res.data.status_code == 200) {
-            // setReaders(res.data.response.data);
-
+          
             res.data.response.data.map((data) => {
               let prev_obj = selectedHcp.find((x) => x.email === data.email);
               if (typeof prev_obj === "undefined") {
                 setSelectedHcp((oldArray) => [...oldArray, data]);
               }
             });
-            // setSelectedHcp(res.data.response.data);
+           
             loader("hide");
           } else {
             toast.warning(res.data.message);
@@ -688,7 +682,7 @@ const TemplateBuilder = (props) => {
         (number) => number["user_id"] || number["profile_user_id"]
       );
 
-      //  loader("show");
+     
       setShowProgressBar(true);
       const body = {
         user_id: localStorage.getItem("user_id"),
@@ -700,7 +694,7 @@ const TemplateBuilder = (props) => {
         source_code: template,
       };
 
-      //console.log(body);
+     
       axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
 
       axios
@@ -735,7 +729,7 @@ const TemplateBuilder = (props) => {
             setShowProgressBar(false);
           }
 
-          //toast.success("Test Mail sent successfully");
+          
         })
         .catch((err) => {
           clearInterval(timer);
@@ -985,11 +979,7 @@ const TemplateBuilder = (props) => {
       const name = hpc[i].institutionType;
       list[i].institutionType = value;
       setHpc(list);
-      // if (e?.value == "Study site") {
-      //   onIRTChange("yes", i);
-      // } else {
-      //   onIRTChange("no", i);
-      // }
+      
     }
   };
   const onIRTChange = (e, i) => {
@@ -1005,7 +995,7 @@ const TemplateBuilder = (props) => {
       const list = [...hpc];
       const name = hpc[i].optIrt;
       list[i].optIrt = value;
-      // list[i].role = "";
+      
       list[i].role = e == "yes" ? irtRole[0]?.value : "Other";
       list[i].country = "";
       list[i].siteNumberIndex = "";
@@ -1337,8 +1327,7 @@ const TemplateBuilder = (props) => {
       setError(err);
       return;
     } else {
-      // let template_name = document.getElementById("template_name").value;
-      // if (template_name !== "" && template_name.trim().length > 0) {
+ 
       setError({});
       loader("show");
       let lang = 0;
@@ -1389,15 +1378,13 @@ const TemplateBuilder = (props) => {
           toast.error("Something went wrong");
         });
       setNewTemplatePopup(false);
-      // } else {
-      //   toast.warning("Please enter template name.");
-      // }
+       
     }
   };
 
   const savenewtemplatee = async (e) => {
     e.preventDefault();
-    // let template_name = document.getElementById("template_name").value;
+  
     if (newTemplateNamee !== "" && newTemplateNamee.trim().length > 0) {
       let lang = 0;
       if (selectedLanguage == "All" || selectedLanguage == "english") {
@@ -1459,15 +1446,7 @@ const TemplateBuilder = (props) => {
 
 
   const handleScroll = (ev) => {
-    // if (ev.target.scrollTop > 20) {
-    // document.querySelector("#send-sample").setAttribute("custom-atr", "scroll");
-    //   document.querySelector("#mail-view").setAttribute("custom-atr", "scroll");
-    // } else {
-    // document.querySelector("#send-sample").setAttribute("custom-atr", "non-scroll");
-    //   document
-    //     .querySelector("#mail-view")
-    //     .setAttribute("custom-atr", "non-scroll");
-    // }
+   
   };
 
   const closeCreateNewTemplateClicked = (event) => {
@@ -1502,12 +1481,7 @@ const TemplateBuilder = (props) => {
       return;
     }
     loader("show");
-    console.log(ref.current,"ref.currentref.current");
-    // toPng(ref.current, { pixelRatio: 1 })
-    // const dataUrl2 = await domtoimage.toPng(ref.current, { cacheBust: true });
-    // console.log(dataUrl2);
-    // domtoimage.toPng(ref.current, { cacheBust: true })
-    // domtoimage.toPng(ref.current, { cacheBust: true })
+    
     html2canvas(ref.current,{ useCORS: true, proxy: 'https://docintel.s3-eu-west-1.amazonaws.com' })
       .then((canvasurl) => {
         const dataUrl = canvasurl.toDataURL('image/png');
@@ -1911,7 +1885,7 @@ const TemplateBuilder = (props) => {
                     <button
                       disabled
                       className="btn btn-primary btn-bordered send-sample"
-                    //onClick={sendSample}
+                     
                     >
                       Send A Sample
                     </button>
@@ -2073,22 +2047,7 @@ const TemplateBuilder = (props) => {
                                 Cancel
                               </button>
                             </div>
-                            {/* <div className="form-buttons form-buttons-template right-side">
-                              <>
-                                <button
-                                  className="btn btn-primary btn-filled"
-                                  onClick={(e) => plainTemplateClicked(e)}
-                                >
-                                  Plain Template
-                                </button>
-                                <button
-                                  className="btn btn-primary btn-filled"
-                                  onClick={(e) => linkTemplateClicked(e)}
-                                >
-                                  Link Template
-                                </button>
-                              </>
-                            </div> */}
+                            
 
                             <div
                               className="col-12 col-md-6"
@@ -2341,7 +2300,7 @@ const TemplateBuilder = (props) => {
                   {templateClickedd ?
                     (
                       <>
-                        {console.log("First")}
+                       
                         <Editor
                           apiKey="gpl"
                           tinymceScriptSrc={window.location.origin+ '/tinymce/tinymce.min.js'}
@@ -2468,7 +2427,7 @@ const TemplateBuilder = (props) => {
                   {templateType == 0 && !templateClickedd ?
                     (
                       <>
-                        {console.log("Second")}
+                       
                         <Editor
                           apiKey="gpl"
                           tinymceScriptSrc={window.location.origin+ '/tinymce/tinymce.min.js'}
@@ -2595,7 +2554,7 @@ const TemplateBuilder = (props) => {
                   {templateType == 1 && !templateClickedd ?
                     (
                       <>
-                        {console.log("Third")}
+                        
                         <Editor
                           apiKey="gpl"
                           tinymceScriptSrc={window.location.origin+ '/tinymce/tinymce.min.js'}
@@ -2719,21 +2678,7 @@ const TemplateBuilder = (props) => {
                       </>
                     ) : null}
 
-                  {/*
-                  <CKEditor
-                    editor={ClassicEditor}
-                    data={template}
-                    readOnly={true}
-                    onReady={(editor) => {
-                    }}
-                    onChange={(event, editor) => {
-                      const data = editor.getData();
-                      setTemplate(data);
-                    }}
-                    onBlur={(event, editor) => {}}
-                    onFocus={(event, editor) => {}}
-                  />
-                  */}
+                  
                 </div>
               </div>
             </section>
@@ -3160,18 +3105,11 @@ const TemplateBuilder = (props) => {
                                           <Select
                                             options={nonIrtInstitutionType}
                                             className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                            //  id="institution-desc"
+                                          
                                             onChange={(event) =>
                                               onInstitionTypeChange(event, i)
                                             }
-                                            // defaultValue={
-                                            //   val?.institutionType
-                                            //     ? {
-                                            //       label: val?.institutionType,
-                                            //       value: val?.institutionType,
-                                            //     }
-                                            //     : ""
-                                            // }
+                                            
                                             value={
                                               nonIrtInstitutionType?.findIndex(
                                                 (el) => el.value == val?.institutionType
@@ -3403,50 +3341,7 @@ const TemplateBuilder = (props) => {
                                   ) : null}
                                 </div>
                               </div>
-                              {/* <div className="col-12 col-md-6">
-                                <div className="form-group">
-                                  <label htmlFor="">Country</label>
-                                  <DropdownButton
-                                    className="dropdown-basic-button split-button-dropup country"
-                                    title={
-                                      hpc[i].country != "" &&
-                                      hpc[i].country != "undefined"
-                                        ? hpc[i].country == "B&H"
-                                          ? "Bosnia and Herzegovina"
-                                          : hpc[i].country
-                                        : "Select Country"
-                                    }
-                                    onSelect={(event) =>
-                                      onCountryChange(event, i)
-                                    }
-                                  >
-                                    <div className="scroll_div">
-                                      {countryall.length === 0
-                                        ? ""
-                                        : Object.entries(countryall).map(
-                                            ([index, item]) => {
-                                              return (
-                                                <>
-                                                  <Dropdown.Item
-                                                    eventKey={index}
-                                                    className={
-                                                      hpc[i].country == index
-                                                        ? "active"
-                                                        : ""
-                                                    }
-                                                  >
-                                                    {item == "B&H"
-                                                      ? "Bosnia and Herzegovina"
-                                                      : item}
-                                                  </Dropdown.Item>
-                                                </>
-                                              );
-                                            }
-                                          )}
-                                    </div>
-                                  </DropdownButton>
-                                </div>
-                              </div> */}
+                             
                               {isLikeRdAccount ? (
                                 <>
                                   <div className="col-12 col-md-6">
@@ -3657,64 +3552,7 @@ const TemplateBuilder = (props) => {
                             </div>
                             </div>
                             <SmartListLayout data= {data} iseditshow={0} isviewshow={1} deletestatus = {0} viewSmartListData = {viewSmartListData} />
-                            {/* <div className="mailbox-table">
-                              <table>
-                                <tbody>
-                                  <tr>
-                                    <th>Contact type</th>
-                                    <td>{data.contact_type}</td>
-                                  </tr>
-                                  <tr>
-                                    <th>Speciality</th>
-                                    <td>{data.speciality}</td>
-                                  </tr>
-                                  <tr>
-                                    <th>Readers</th>
-                                    <td>{data.reader_selection}</td>
-                                  </tr>
-                                  <tr>
-                                    <th>IBU</th>
-                                    <td>{data.ibu}</td>
-                                  </tr>
-                                  <tr>
-                                    <th>Product</th>
-                                    <td>{data.product}</td>
-                                  </tr>
-                                  <tr>
-                                    <th>Country</th>
-                                    <td>{data.country}</td>
-                                  </tr>
-                                  <tr>
-                                    <th>Registered</th>
-                                    <td>{data.registered}</td>
-                                  </tr>
-                                  <tr>
-                                    <th>Created by</th>
-                                    <td>
-                                      <span>{data.creator}</span>
-                                    </td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                            </div>
-
-                            <div className="mail-time">
-                              <span>{data.created_at}</span>
-                            </div>
-                            <div className="smart-list-added-user">
-                              <img
-                                src={path_image + "smartlist-user.svg"}
-                                alt="User icon"
-                              />
-                              {data.readers_count}
-                            </div> */}
-                            {/*<div className="smartlist-buttons">
-                                <button className="btn btn-primary btn-bordered view">
-                                  <a onClick={() => openSmartListPopup(data.id)}>
-                                    View
-                                  </a>
-                                </button>
-                              </div>*/}
+                           
                           </div>
                         </div>
                       </div>

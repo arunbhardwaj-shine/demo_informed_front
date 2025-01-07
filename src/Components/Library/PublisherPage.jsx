@@ -1,23 +1,22 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
+  Button,
+  Col,
   Container,
+  Form,
+  Modal,
   Nav,
   Navbar,
-  Row,
-  Form,
   NavDropdown,
-  Button,
-  Modal,
-  Col,
+  Row,
 } from "react-bootstrap";
-import { Link, useNavigate } from "react-router-dom";
 import ReactPlayer from "react-player";
-import { loader } from "../../loader";
+import { Link, useNavigate } from "react-router-dom";
 import { ENDPOINT } from "../../axios/apiConfig";
 import { postData } from "../../axios/apiHelper";
-import { HomeValidation } from "../Validations/HomeValidations/HomeValidation";
-import Slider from "react-slick";
+import { loader } from "../../loader";
 import { getCurrentYear } from '../CommonComponent/CurrentYear';
+import { HomeValidation } from "../Validations/HomeValidations/HomeValidation";
 
 const PublisherPage = () => {
   const sliderRef = useRef();
@@ -66,7 +65,7 @@ const PublisherPage = () => {
           password: userInputs?.password,
         });
 
-        // localStorage.clear();
+         
         clearLocalStorageExcept();
         localStorage.setItem("user_id", res?.data?.data?.userToken);
         localStorage.setItem("group_id", res?.data?.data?.groupId);
@@ -112,15 +111,7 @@ const PublisherPage = () => {
             let a= sliderRef.current.slickNext();
         }
     };
-      const settings = ({
-        infinite: false,
-        slidesToShow: 1,
-        slidesToScroll: 1,
-        dots: false,
-        arrows: false,
-        centerMode: true,
-        centerPadding: '10%',
-    });
+       
   const handleShow = (type) => {
     if (type == "forgot") {
       setShow(true);
@@ -364,11 +355,7 @@ const PublisherPage = () => {
                   <div className="path-fet-img">
                     <img src={path_image + "Group_1.png"} alt="" />
                     <div className="video_popup_icon">
-                      {/* <a
-
-                        href="https://docintel.app/Webinar/Docintel/login.php#Group_1"
-                        target="_blank"
-                        >  */}
+                    
                       <img
                         src={path_image + "video-icon.png"}
                         alt=""
@@ -378,7 +365,7 @@ const PublisherPage = () => {
                       <div className="hover-image">
                         <img src={path_image + "ePrint-24-March.gif"} alt="" />
                       </div>
-                      {/* </a> */}
+                      
                     </div>
                   </div>
                   <div className="path-fet-cont">
@@ -397,10 +384,7 @@ const PublisherPage = () => {
                   <div className="path-fet-img">
                     <img src={path_image + "Group_2.png"} alt="" />
                     <div className="video_popup_icon">
-                      {/* <a
-                        href="https://docintel.app/Webinar/Docintel/login.php#Group_2"
-                        target="_blank"
-                      > */}
+                      
                       <img
                         src={path_image + "video-icon.png"}
                         id="Group_2"
@@ -410,7 +394,7 @@ const PublisherPage = () => {
                       <div className="hover-image">
                         <img src={path_image + "Delivery-6-May.gif"} alt="" />
                       </div>
-                      {/* </a> */}
+                 
                     </div>
                   </div>
                   <div className="path-fet-cont">
@@ -432,10 +416,7 @@ const PublisherPage = () => {
                   <div className="path-fet-img">
                     <img src={path_image + "Group_3.png"} alt="" />
                     <div className="video_popup_icon">
-                      {/* <a
-                        href="https://docintel.app/Webinar/Docintel/login.php#Group_3"
-                        target="_blank"
-                      > */}
+                      
                       <img
                         src={path_image + "video-icon.png"}
                         id="Group_3"
@@ -445,7 +426,7 @@ const PublisherPage = () => {
                       <div className="hover-image">
                         <img src={path_image + "Docintel-GIF.gif"} alt="" />
                       </div>
-                      {/* </a> */}
+                     
                     </div>
                   </div>
                   <div className="path-fet-cont">
@@ -877,9 +858,7 @@ const PublisherPage = () => {
                         />
                       </Col>
                     </Row>
-                    {/* {contactError && (
-                      <p style={{ color: "red" }}>{contactError}</p>
-                    )} */}
+                    
                     <Button variant="primary" type="submit">
                       Send
                     </Button>
@@ -962,8 +941,7 @@ const PublisherPage = () => {
         >
           <Modal.Header closeButton></Modal.Header>
           <Modal.Body>
-            {/* <source id="mp4" className="videeo" src="https://docintel.s3-eu-west-1.amazonaws.com/video/1Bettereprints_25_March_latest.mp4" poster={path_image + "popup_poster.jpg"} data-show-captions="false" scrolling="no" frameborder="0" style={{position: "relative", width: "100%", objectFit:"cover"}} allowtransparency="true" webkitallowfullscreen="" allowfullscreen="" controls="" onpause="pauseVideo()" onplay="playVideo()"></source>
-                <img src={path_image + "video-icon.png"} className="popup_play" alt="" style={{width:"65px"}}/> */}
+            
             <ReactPlayer
               ref={playerRef}
               url={

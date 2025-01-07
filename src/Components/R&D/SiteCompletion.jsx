@@ -161,7 +161,7 @@ const SiteCompletion = ({ siteCompletionfn,createdBy }) => {
                 <div className="count-number">
                   <Skeleton width={50} height={20} />
                 </div>
-                {/* <img src={path_image + "hospital.svg"} alt="" /> */}
+             
               </div>
             </div>
 
@@ -187,7 +187,7 @@ const SiteCompletion = ({ siteCompletionfn,createdBy }) => {
                           fill="none"
                           xmlns="http://www.w3.org/2000/svg"
                         >
-                          {/* Switch On Icon */}
+                        
                         </svg>
                       </span>
                       <span>
@@ -198,7 +198,7 @@ const SiteCompletion = ({ siteCompletionfn,createdBy }) => {
                           fill="none"
                           xmlns="http://www.w3.org/2000/svg"
                         >
-                          {/* Switch Off Icon */}
+                     
                         </svg>
                       </span>
                     </span>

@@ -1,27 +1,26 @@
+import moment from "moment";
 import React, { useEffect, useState } from "react";
 import {
   Button,
   Col,
   Dropdown,
-  Modal,
   DropdownButton,
-  Form,
-  Row,
+  Modal,
   ProgressBar,
+  Row,
   Tab,
-  Tabs,
+  Tabs
 } from "react-bootstrap";
-import { useLocation, Link, useNavigate} from "react-router-dom";
-import Select from "react-select";
-import "react-toastify/dist/ReactToastify.css";
-import { toast } from "react-toastify";
-import Tooltip from "react-bootstrap/Tooltip";
-import { popup_alert } from "../../../popup_alert";
-import moment from "moment";
-import { loader } from "../../../loader";
-import { ENDPOINT } from "../../../axios/apiConfig";
-import { postData, getData } from "../../../axios/apiHelper";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import Tooltip from "react-bootstrap/Tooltip";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import Select from "react-select";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { ENDPOINT } from "../../../axios/apiConfig";
+import { postData } from "../../../axios/apiHelper";
+import { loader } from "../../../loader";
+import { popup_alert } from "../../../popup_alert";
 import SubLinkListing from "./SubLinkListing";
 let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
 const LibrarySublink = () => {
@@ -391,14 +390,7 @@ const LibrarySublink = () => {
                 </Link>
                 <h2>New SubLink</h2>
               </div>
-              {/* <div className="header-btn">
-                <Button
-                  className="btn-bordered cancel"
-                  onClick={() => navigate("/library-create")}
-                >
-                  Close
-                </Button>
-              </div> */}
+              
             </div>
             <div className="create-change-content spc-content">
               <div className="form_action">
@@ -584,14 +576,7 @@ const LibrarySublink = () => {
                                               }
                                             </h6>
                                           </li>
-                                          {/* <li>
-                                              <h6 className="tab-content-title">
-                                                SPC included
-                                              </h6>
-                                              <h6>
-                                                {articleData?.spc_included == 0 ? "No" : "Yes"}
-                                              </h6>
-                                            </li> */}
+                                          
                                           <li>
                                             <h6 className="tab-content-title">
                                               Language
@@ -1026,7 +1011,7 @@ const LibrarySublink = () => {
                                                       return (
                                                         <>
                                                           <div className="data-progress">
-                                                            {/* <span>{details.registeredReader}</span> */}
+                                                             
                                                             <ProgressBar
                                                               variant={
                                                                 details.registeredReader ==

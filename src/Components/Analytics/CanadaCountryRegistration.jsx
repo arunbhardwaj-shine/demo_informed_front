@@ -1,17 +1,14 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
-import { postData } from "../../axios/apiHelper";
-import { Col, Row, Form } from "react-bootstrap";
-import { Link } from "react-router-dom";
-import { ENDPOINT } from "../../axios/apiConfig";
+import worldMap from "@highcharts/map-collection/custom/world.geo.json";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
-import highchartsMap from "highcharts/modules/map";
-import MapModule from "highcharts/modules/map";
-import worldMap from "@highcharts/map-collection/custom/world.geo.json";
-import Select from "react-select";
-import { useMemo } from "react";
-import { loader } from "../../loader";
+import { default as highchartsMap, default as MapModule } from "highcharts/modules/map";
 import proj4 from "proj4";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { Col, Form, Row } from "react-bootstrap";
+import Select from "react-select";
+import { ENDPOINT } from "../../axios/apiConfig";
+import { postData } from "../../axios/apiHelper";
+import { loader } from "../../loader";
 
 highchartsMap(Highcharts);
 MapModule(Highcharts);
@@ -167,14 +164,7 @@ const CanadaCountryRegistration = () => {
       x: 0,
       y: 0,
     },
-    // plotOptions: {
-    //   bar: {
-    //    // pointWidth: 18,
-    //     dataLabels: {
-    //       enabled: true,
-    //     },
-    //   },
-    // },
+    
     plotOptions: {
       series: {
         stacking: "normal",
@@ -265,7 +255,7 @@ const CanadaCountryRegistration = () => {
           };
         })
         .filter(Boolean);
-      console.log(countryData);
+      
       setNewData(countryData);
 
       const newSeries = [
@@ -290,9 +280,9 @@ const CanadaCountryRegistration = () => {
 
       //create table
       const tableCountry = apiData?.data.country;
-      const criticalCare = apiData?.data.critical_care || [];
+    
       const haematology = apiData?.data.haematology || [];
-      const immunotherapy = apiData?.data.immunotherapy || [];
+ 
       const tableDatas = [
         {
           name: `Haematology (${haematology.reduce(

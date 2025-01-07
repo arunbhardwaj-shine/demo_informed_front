@@ -1,5 +1,5 @@
-import React, { useState, useEffect} from "react";
-import { Link } from "react-router-dom";
+import React from "react";
+ 
 
 
 const CommonPageLinkNotFound = () => {
@@ -17,7 +17,7 @@ const CommonPageLinkNotFound = () => {
       </div>
         <h4>Page not found</h4>
         <p>The link you clicked may be broken or the page may have been removed or renamed.</p>
-        {/* <Link to="/">Go back</Link> */}
+        
     </div>
     </div>
     </>

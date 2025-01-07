@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Col, Row } from "react-bootstrap";
+import { Row } from "react-bootstrap";
+import { Navigate, useNavigate } from "react-router-dom";
 import Header from "./HeaderComponent/Header";
-import { Route, Navigate, useNavigate } from "react-router-dom";
 
 let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
 
@@ -41,13 +41,7 @@ const SetLayout = () => {
         subtitle: "All your licensed content in one place",
       });
     }
-    // if (isLikeRdAccount) {
-    //   newdata.push({
-    //     image: `${path_image}q-polling.svg`,
-    //     title: "Q & Poll  ",
-    //     subtitle: "Engage your audience and make them part of the presentation",
-    //   });
-    // }
+    
     if (
       typeof localStorage.getItem("webinar_flag") !== "undefined" &&
       localStorage.getItem("webinar_flag") == 1 || localStorage.getItem("user_id") === "IJype v19WASFcSlrfRENQ=="
@@ -115,15 +109,10 @@ const SetLayout = () => {
 
       ) {
         navigate("/webinar/event-listing")
-        // window.open(
-        //   "https://webinar.informed.pro/Webinar/readers_webinar?rdylr=" +
-        //     localStorage.getItem("user_id"),
-        //   "_blank"
-        // );
+        
       }
     } else if (title == "Licensed") {
-      // navigate("/license-content");
-      // navigate("/license-content");
+      
       navigate("/license-content");
     }else if (title == "Survey") {
       navigate("/survey/survey-list");

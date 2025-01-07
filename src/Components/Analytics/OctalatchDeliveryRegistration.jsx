@@ -1,20 +1,11 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Col, Form, Row } from "react-bootstrap";
-import Highcharts from "highcharts";
-import { loader } from "../../loader";
-import { ENDPOINT } from "../../axios/apiConfig";
-import { getData } from "../../axios/apiHelper";
-import exporting from "highcharts/modules/exporting";
-import exportData from "highcharts/modules/export-data";
-import Select from "react-select";
-import HighchartsReact from "highcharts-react-official";
-import { Link } from "react-router-dom";
-import CommonLineGraph from "./CommonLineGraph";
-import CommonPieChart from "./CommonPieChart";
 import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { Col, Row } from "react-bootstrap";
+import { ENDPOINT } from "../../axios/apiConfig";
+import { loader } from "../../loader";
+import CommonPieChart from "./CommonPieChart";
 import OctalatchCommonLineGraph from "./OctalatchCommonLineGraph";
-// exporting(Highcharts);
-// exportData(Highcharts);
+ 
 const OctalatchDeliveryRegistration = () => {
   const [isDataFound, setIsDataFound] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -95,11 +86,7 @@ const OctalatchDeliveryRegistration = () => {
                   />
                 </div>
 
-                {/* {Object.keys(data)?.map((item, index) => (
-                  <div className="high_charts" keys={index}>
-                    <CommonLineGraph data={data[item]} name={item} />
-                  </div>
-                ))} */}
+                
 
                 {Object.keys(data)?.map((item, index) => (
                   <div className="high_charts" keys={index}>

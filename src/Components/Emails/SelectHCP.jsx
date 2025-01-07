@@ -4,20 +4,15 @@ import { Link } from "react-router-dom";
 import { loader } from "../../loader";
 import { connect } from "react-redux";
 import {
-  getCampaignId,
   getEmailData,
   getSearched,getSelected,
   getSelectedSmartListData,
 } from "../../actions";
-import { getDraftData } from "../../actions";
 import { toast } from "react-toastify";
 import { popup_alert } from "../../popup_alert";
 import { useNavigate } from "react-router-dom";
 import { ENDPOINT } from "../../axios/apiConfig";
 import { postData } from "../../axios/apiHelper";
-
-import { propTypes } from "react-bootstrap/esm/Image";
-
 var old_object = {};
 var trainingUser = {};
 var searchedUser = {};
@@ -27,7 +22,7 @@ var draft_object;
 const SelectHCP = (props) => {
   const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
   const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
-  //console.log(props);
+ 
   const navigate = useNavigate();
   let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
   
@@ -49,13 +44,12 @@ const SelectHCP = (props) => {
     : props.getDraftData
     ? props.getDraftData.campaign_id
     : 0;
-  //console.log(campaign_id);
+ 
   const [campaign_id_st, setCampaign_id] = useState(campaign_id);
 
   const handleInputChange = (event, selectede) => {
 
-    // if (draft_object?.campaign_data?.typeOfHcp != selectede) {
-
+     
     if (old_object?.selected != selectede) {
       if (old_object?.removedHcp) {
         old_object.removedHcp = [];
@@ -95,19 +89,17 @@ const SelectHCP = (props) => {
       props.getSelectedSmartListData(null);
     }
 
-    // if(selectede === 3) {
-    //   fetchDataAndNavigate();
-    // }
+     
 
     setSelection(event.target.children[0].value);
-    //  console.log(event.target.children[0].value);
+  
     const div = document.querySelector("div.active");
 
     if (div) {
       div.classList.remove("active");
     }
     event.target.classList.toggle("active");
-    //alert(selectede);
+ 
     setTemplateId(selectede);
     nextClicked(selectede);
   };
@@ -126,8 +118,7 @@ const SelectHCP = (props) => {
     });
   };
 
-  // console.log(props,'props');
-  // console.log(props.getDraftData);
+ 
   const saveAsDraft = async () => {
     const body = {
       user_id: localStorage.getItem("user_id"),
@@ -184,7 +175,7 @@ const SelectHCP = (props) => {
         }
       })
       .catch((err) => {
-        //console.log(err);
+        
         toast.error("Something went wrong");
       });
   };
@@ -204,9 +195,7 @@ const SelectHCP = (props) => {
     } 
     else if(selected === 3){
        fetchDataAndNavigate();
-      // navigate("/SelectSmartListUsers", {
-      //   state: { smartListSelected: data[0], flag: 1, typeOfHcp: 3 },
-      // });
+       
     }
   };
 
@@ -328,19 +317,14 @@ const SelectHCP = (props) => {
                         Next{" "}
                       </button>
                     ) : (
-                      // <Link
-                      //   to={
-                      //     templateId === 2 ? "/VerifyHCP" : "/SelectSmartList"
-                      //   }
-                      //   state={{ UserSelected: templateId }}
-                      // >
+                      
                         <button
                           className="btn btn-primary btn-filled next"
                           onClick={(event) => nextClicked(templateId)}
                         >
                           Next
                         </button>
-                      // </Link>
+                       
                     )}
                   </div>
                 </div>
@@ -366,7 +350,7 @@ const SelectHCP = (props) => {
                             name="select-option-hcp"
                             value="group of HCPs"
 
-                            // onChange={(event) => handleInputChange(event)}
+                           
                           />
 
                           <img
@@ -395,7 +379,7 @@ const SelectHCP = (props) => {
                             name="select-option-hcp"
                             value="Single HCP"
 
-                            // onChange={(event) => handleInputChange(event)}
+                            
                           />
                           <img
                             src={path_image + "single-hcp.svg"}

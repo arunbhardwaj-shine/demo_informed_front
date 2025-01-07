@@ -1,16 +1,12 @@
-import React, { useState, useRef } from "react";
-import { Button, Col, Image, Row } from "react-bootstrap";
-import Highcharts, { color } from "highcharts";
-import exporting from "highcharts/modules/exporting";
-import exportData from "highcharts/modules/export-data";
-import { loader } from "../../loader";
 import domtoimage from "dom-to-image";
+import Highcharts from "highcharts";
+import React, { useRef, useState } from "react";
+import { Button, Col, Image, Row } from "react-bootstrap";
+import { loader } from "../../loader";
 
 import HighchartsReact from "highcharts-react-official";
 import { Spinner } from "react-activity";
-
-// exporting(Highcharts);
-// exportData(Highcharts);
+ 
 
 export default function RegistrationTypeLayout({ data }) {
   Highcharts.setOptions({
@@ -30,12 +26,12 @@ export default function RegistrationTypeLayout({ data }) {
   const [allItemsToShow, setAllItemsToShow] = useState([]);
   const [pageAll, setPageAll] = useState(false);
 
-  //   const [resgistrationTypeOptions, setResgistrationTypeOptions] = useSta
+ 
   const handleLoadMore = () => {
-    // loader("show")
+   
     setPageAll(true);
     setTimeout(function () {
-      // setAllItemsToShow(data?.slice(numItemsToShow, data.length));
+     
       setNumItemsToShow(numItemsToShow + data.length);
       setPageAll(false);
     }, 300);
@@ -148,7 +144,7 @@ const RenderLayout = ({ data }) => {
                           <strong>Company:</strong> {element.company}
                         </h5>
                         <h5 className="status">
-                          {/* <strong>Status:</strong> <span>{status}</span> */}
+                          
                           <strong>Status:</strong>{" "}
                           <span
                             style={

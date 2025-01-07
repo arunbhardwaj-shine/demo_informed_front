@@ -4,9 +4,9 @@ import SimpleReactValidator from "simple-react-validator";
 import { useNavigate } from "react-router-dom";
 import { loader } from "../../loader";
 import {
-  getCampaignId,
+ 
   getSelected,
-  getSelectedSmartListData,
+  
   getSearched
 } from "../../actions";
 import axios from "axios";
@@ -19,8 +19,7 @@ import DropdownButton from "react-bootstrap/DropdownButton";
 import EditCountry from "../CommonComponent/EditCountry";
 import EditContactType from "../CommonComponent/EditContactType";
 import Select, { createFilter } from "react-select";
-import { postData } from "../../axios/apiHelper";
-import { ENDPOINT } from "../../axios/apiConfig";
+ 
 
 var old_object = {};
 var selected_Data = [];
@@ -36,7 +35,7 @@ const VerifyHCP = (props) => {
   const [siteNameAll, setSiteNameAll] = useState([]);
   const [role, setRole] = useState([]);
   const [irtRole, setIrtRole] = useState([]);
-  const [institutionType, setInstitutionType] = useState([]);
+  
   const [irtInstitutionType, setIrtInstitutionType] = useState([]);
   const [nonIrtInstitutionType, setNonIrtInstitutionType] = useState([]);
   const [optIRT, setoptIRT] = useState([
@@ -48,8 +47,7 @@ const VerifyHCP = (props) => {
   const filterConfig = {
     matchFrom: "start",
   };
-  const [SendListData, setSendListData] = useState([]);
-  const [UserData, setUserData] = useState([]);
+ 
   var campaign_id = "0";
 
   if (old_object?.campaign_id || old_object?.campaign_id === "") {
@@ -80,7 +78,7 @@ const VerifyHCP = (props) => {
   const [selectedHcp, setSelectedHcp] = useState(
     selected_Data ? selected_Data : []
   );
-  const [modalCounter, setModalCounter] = useState(0);
+ 
   const [isOpen, setIsOpen] = useState(false);
   const [activeManual, setActiveManual] = useState("active");
   const [activeExcel, setActiveExcel] = useState("");
@@ -140,16 +138,14 @@ const VerifyHCP = (props) => {
     }
   };
 
-  const [validationReRender, setValidationReRender] = useState(0);
+ 
 
-  let [validator] = React.useState(new SimpleReactValidator());
+ 
 
   const [manualReRender, setManualReRender] = useState(0);
-  let file_name = useRef("");
+ 
 
-  let reducHcp = selectedHcp.map((item) => {
-    return item.profile_user_id;
-  });
+   ;
 
 
   const updateReader = (readers_d = "", type = 1) => {
@@ -171,7 +167,7 @@ const VerifyHCP = (props) => {
       .then((res) => {
         setSelectedHcp(res.data.response.data);
         loader("hide");
-        // setCounter(counter + 1);
+       
       })
       .catch((err) => {
         loader("hide");
@@ -180,8 +176,7 @@ const VerifyHCP = (props) => {
   };
 
   useEffect(() => {
-    // console.log("props-->",props)
-    // console.log("state-->",state)
+    
    
     if (
       typeof props !== "undefined" &&
@@ -206,22 +201,12 @@ const VerifyHCP = (props) => {
 
   axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
 
-  const handleInputChange = (event, selected) => {
-    const div = document.querySelector("div.active");
-
-    if (div) {
-      div.classNameList.remove("active");
-    }
-    event.target.classNameList.toggle("active");
-    setTemplateId(selected);
-  };
+  
 
   useEffect(() => {
     if (isLikeRdAccount) {
       axiosFun();
-    //  if(state?.NextFlag==1){
-    //    getRDMandatoryReaders()
-    //  }
+    
 
      if(irtRoleObj?.IRTFlag){
       getRDMandatoryReaders()
@@ -265,13 +250,7 @@ const VerifyHCP = (props) => {
               Object.keys(irt_inverstigator_type)?.map((item, i) => {
                 newIrtType.push({ label: item, value: item });
               });
-
-              // let instution_type = res?.data?.response?.data?.institution_type;
-              // let newInstitutionType = [];
-              // Object.keys(instution_type)?.map((item, i) => {
-              //   newInstitutionType.push({ label: item, value: item });
-              // });
-              // setInstitutionType(newInstitutionType);
+ 
 
               let non_irt_institution_type =
               res?.data?.response?.data?.non_mandatory_institution_type;
@@ -313,24 +292,23 @@ const VerifyHCP = (props) => {
         user_id:userId,
         pdf_id:irtRoleObj?.pdfId      
       }
-      // console.log("body-->",irtRoleObj)
-      // const response=await postData(ENDPOINT.GET_RD_MANDATORY_READERS,body)
+      
 
       await axios
       .post(`distributes/get_rd_mandatory_readers`,body)
       .then((res)=>{
-        // console.log("res-->",res)
+     
         if(res?.data?.status_code==200){
           let searchedUserList=res?.data?.response?.data?res?.data?.response?.data:[]
-          // console.log(searchedUserList,'searchedUserList');
+          
 
           let selectedProfileIds = new Set();
           if (selectedHcp.length > 0) {
               selectedHcp.forEach(hcp => selectedProfileIds.add(Number(hcp?.profile_user_id)));
           }
-          // Filter searchedUserList to remove objects with profile_ids present in selectedProfileIds
+          
           searchedUserList = searchedUserList.filter(user => !selectedProfileIds.has(Number(user?.profile_user_id)));
-          // console.log(searchedUserList,'searchedUserList');
+         
           if (selectedProfileIds?.size > 0) {
             let valuesArray = Array.from(selectedProfileIds);
             updateReader(valuesArray,2);
@@ -399,8 +377,7 @@ const VerifyHCP = (props) => {
       setDefaultRole = irtRole?.[userRoleIndex]?.value;
     }
     setValidationError({});
-    // $('#myModal').modal('show'
-    // document.getElementById("tagsModal").modal('show');
+ 
     setIsOpen(true);
     setHpc([
       {
@@ -497,7 +474,7 @@ const VerifyHCP = (props) => {
       const valueA = a[key];
       const valueB = b[key];
 
-      // Handle different data types (numbers, strings)
+       
       if (typeof valueA === 'number' && typeof valueB === 'number') {
         return order === 'asc' ? valueA - valueB : valueB - valueA;
       } else {
@@ -591,11 +568,7 @@ const VerifyHCP = (props) => {
       const name = hpc[i].institutionType;
       list[i].institutionType = value;
       setHpc(list);
-      // if (e?.value == "Study site") {
-      //   onIRTChange("yes", i);
-      // } else {
-      //   onIRTChange("no", i);
-      // }
+       
     }
   };
 
@@ -858,11 +831,9 @@ const VerifyHCP = (props) => {
         }
 
           if (isRdAndNorgianAcount) {
-            // if (data.institution_type == "") {
-            //   return "Please enter the institution ";
-            // }
+           
             if (data.country == "") {
-              // return "Please select the country";
+               
               setValidationError({
                 newHcpCountry: "Please select the country",
                 index: index,
@@ -871,7 +842,7 @@ const VerifyHCP = (props) => {
             }
 			if(data?.siteIrt == 1 || irtRoleObj?.IRTFlag == 1){
 				if (data.siteNumber == "") {
-				  // return "Please select the site number";
+				   
           setValidationError({
             newSiteNumber: "Please select the site number",
             index: index,
@@ -879,7 +850,7 @@ const VerifyHCP = (props) => {
           return;
 				}
 				if (data.siteName == "") {
-				  // return "Please select the site name";
+				  
           setValidationError({
             newSiteName: "Please select the site name",
             index: index,
@@ -888,16 +859,7 @@ const VerifyHCP = (props) => {
 				}
 			}
 
-      // if(data?.siteIrt == 1 ){
-      //   if ( data.siteNumber === "" &&
-      //     (isRdAndNorgianAcount)) {
-      //       return "Please select the siteNumber";
-      //   }
-      //   if (data.siteName === "" &&
-      //     (isRdAndNorgianAcount)) {
-      //     return "Please select the siteName";
-      //   }
-      //  }
+     
           }
           return "true";
         } else if (data.email != "") {
@@ -947,7 +909,7 @@ const VerifyHCP = (props) => {
               toast.warning(res.data.message);
             }
             loader("hide");
-            //setSelectedHcp(res.data.response.data);
+             
           })
           .catch((err) => {
             loader("hide");
@@ -956,9 +918,9 @@ const VerifyHCP = (props) => {
       } else {
         const filteredArray = status.filter((value) => value !== "true");
         toast.warning(filteredArray?.[0]);
-        // toast.warning(status[0]);
+        
       }
-      // setIsOpen(false);
+ 
     } else {
       let formData = new FormData();
       let user_id = localStorage.getItem("user_id");
@@ -1118,12 +1080,12 @@ const VerifyHCP = (props) => {
         (x) => x.profile_user_id === profile_user_id
       );
       if (typeof prev_obj != "undefined") {
-        //update existing
+ 
         editableData.map(
           (obj) => arr.find((o) => o.profile_user_id === profile_user_id) || obj
         );
       } else {
-        //create new
+       
         setEditableData((oldArray) => [...oldArray, ...arr]);
       }
     }
@@ -1245,33 +1207,13 @@ const VerifyHCP = (props) => {
     setTimeout(() => {
       setSelectedHcp(vr);
       updateReader();
-      console.log("This will run after 1 second!");
+     
       setUpdateCounter(updateCounter + 1);
     }, 50);
   };
 
   const saveAsDraft = async () => {
-    // console.log("hi");
-    // console.log(props);
-    // console.log(selectedHcp);
-    // const body = {
-    //   user_id: localStorage.getItem("user_id"),
-    //   pdf_id: props.getDraftData.pdf_id,
-    //   description: props.getDraftData.description,
-    //   creator: props.getDraftData.creator,
-    //   campaign_name: props.getDraftData.campaign,
-    //   subject: props.getDraftData.subject,
-    //   route_location: "VerifyHCP",
-    //   tags: props.getDraftData.tags,
-    //   campaign_data: {
-    //     template_id: props.getDraftData.template_id,
-    //     // selectedHcp: selectedHcp.map((hcp) => {
-    //     //   return hcp.user_id;
-    //     // }),
-    //   },
-    //   campaign_id: props.getDraftData.campaign_id || "",
-    // };
-
+     
     const body = {
       user_id: localStorage.getItem("user_id"),
       pdf_id: old_object?.PdfSelected
@@ -1314,7 +1256,7 @@ const VerifyHCP = (props) => {
         : props.getDraftData.source_code,
       status: 2,
     };
-    // console.log(body,'body')
+ 
     axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
     loader("show");
     await axios
@@ -1381,18 +1323,14 @@ const VerifyHCP = (props) => {
                 <div className="col-12 col-md-8">
                   <ul className="tabnav-link">
                   <li className="active" onClick={handleSelectUsers}>
-                      {/* <Link to="/EmailArticleSelect">Select Content</Link> */}
+                   
                       Select Content
                     </li>
                     <li className="active" onClick={handleCreateMail}>
-                      {/* <Link to="/CreateEmail">Create Your Email</Link> */}
+                       
                       Create Your Email
                     </li>
-                    {/*
-                  <li className="active">
-                    <Link to="/SelectHCP">Select HCPs</Link>
-                  </li>
-                  */}
+                    
                     <li className="active active-main">
                       <a href="javascript:void(0)">
                         {
@@ -1413,7 +1351,7 @@ const VerifyHCP = (props) => {
                     {
                       IRTTraining ? 
                         <Link to = {"/new-readers-reviews"}
-                          // state= {{siteRole: irtRoleObj?.siteRole }}
+                         
                           state= {irtRoleObj}
                           className="btn btn-primary btn-bordered move-draft">
                           Cancel
@@ -2183,23 +2121,7 @@ const VerifyHCP = (props) => {
                               );
                             })}
 
-                            {/* <tr>
-                      <td>Jacob Flindt</td>
-                      <td>User@docintel.app</td>
-                      <td>No</td>
-                      <td>United Kingdom</td>
-                      <td>CIS</td>
-                      <td>Haematology</td>
-                      <td>Tech</td>
-                      <td>Yes</td>
-                      <td>43</td>
-                      <td>30</td>
-                      <td>28</td>
-                      <td>Nov 18 </td>
-                      <td className="add-new-hcp">
-                        <img src={path_image + "add-row.png"} alt="Add More" />
-                      </td>
-                    </tr> */}
+                           
                           </tbody>
                         </table>
                       )}
@@ -2929,16 +2851,14 @@ const VerifyHCP = (props) => {
         centered
       >
         <div
-          //className="modal fade"
-          //id="add_hcp"
+       
           data-bs-backdrop="static"
           data-bs-keyboard="false"
           tabindex="-1"
           //aria-labelledby="add_hcp"
           aria-hidden="true"
         >
-          {/* <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-            <div className="modal-content"> */}
+         
 
           <Modal.Header>
             <h5 className="modal-title" id="staticBackdropLabel">
@@ -3115,14 +3035,7 @@ const VerifyHCP = (props) => {
                                         onChange={(event) =>
                                           onInstitutionChange(event, i)
                                         }
-                                        // defaultValue={
-                                        //   val?.institutionType
-                                        //     ? {
-                                        //         label: val?.institutionType,
-                                        //         value: val?.institutionType,
-                                        //       }
-                                        //     : ""
-                                        // }
+                                        
                                         value={
                                           irtInstitutionType.findIndex(
                                             (el) => el.value == val?.institutionType
@@ -3150,14 +3063,7 @@ const VerifyHCP = (props) => {
                                         onChange={(event) =>
                                           onInstitutionChange(event, i)
                                         }
-                                        // defaultValue={
-                                        //   val?.institutionType
-                                        //     ? {
-                                        //         label: val?.institutionType,
-                                        //         value: val?.institutionType,
-                                        //       }
-                                        //     : ""
-                                        // }
+                                       
                                         value={
                                           nonIrtInstitutionType.findIndex(
                                             (el) => el.value == val?.institutionType
@@ -3305,22 +3211,7 @@ const VerifyHCP = (props) => {
                                           Test Users
                                         </Dropdown.Item>
                                       </DropdownButton>
-                                      {/*
-                                      <select
-                                      className="form-contact"
-                                      aria-label="select"
-                                      onChange={(event) =>
-                                      onContactTypeChange(event, i)
-                                    }
-                                    >
-                                    <option selected>Select Type</option>
-                                    <option value="HCP">HCP</option>
-                                    <option value="Staff">Staff</option>
-                                    <option value="Test Users">
-                                    Test Users
-                                    </option>
-                                    </select>
-                                      */}
+                                      
                                     </div>
                                   </div>
                                 </>
@@ -3408,69 +3299,11 @@ const VerifyHCP = (props) => {
                                     </>
                                   )}
 
-                                  {/*<DropdownButton className="dropdown-basic-button split-button-dropup country"
-                                   title= {hpc[i].country != "" &&  hpc[i].country != "undefined" ? hpc[i].country == "B&H" ? "Bosnia and Herzegovina" : hpc[i].country : "Select Country" }
-                                   onSelect={(event) => onCountryChange(event, i)}
-                                   >
-                                   <div className="scroll_div">
-                                   {countryall.length === 0
-                                     ? ""
-                                     : Object.entries(countryall).map(
-                                         ([index, item]) => {
-                                           return (
-                                             <>
-                                              <Dropdown.Item eventKey={index} className = {hpc[i].country == index ? "active" : "" }>{item == "B&H" ? "Bosnia and Herzegovina" : item}</Dropdown.Item>
-                                             </>
-                                           );
-                                         }
-                                       )}
-                                    </div>
-                                  </DropdownButton>
-
-                                          <select
-                                          className="country-form"
-                                          aria-label="select"
-                                          onChange={(event) =>
-                                          onCountryChange(event, i)
-                                        }
-                                        >
-                                        <option selected value="">
-                                        Select Country
-                                        </option>
-                                        {countryall.length === 0
-                                        ? ""
-                                        : Object.entries(countryall).map(
-                                        ([index, item]) => {
-                                        return (
-                                        <>
-                                        <option value={index}>
-                                        {item}
-                                        </option>
-                                        </>
-                                      );
-                                    }
-                                  )}
-                                  </select>
-                                    */}
+                                 
                                 </div>
                               </div>
 
-                              {/*
-                                <div className="col-12 col-md-6 btn-last">
-                                  <div className="form-group">
-                                    {i !== 0 && (
-                                      <button
-                                        type="button"
-                                        className="btn btn-filled"
-                                        onClick={() => deleteRecord(i)}
-                                      >
-                                        Remove
-                                      </button>
-                                    )}
-                                  </div>
-                                </div>
-                                */}
-
+                             
                               {isLikeRdAccount
                               ? (
                                 <>
@@ -3597,19 +3430,7 @@ const VerifyHCP = (props) => {
                                   </a>
                                 </li>
 
-                                {/*
-                                  <li className="nav-item add-file">
-                                    <a
-                                      id="add_file_btn"
-                                      onClick={addFile}
-                                      className="nav-link btn-filled"
-                                      data-bs-toggle="tab"
-                                      href="javascript:;"
-                                    >
-                                      Add File
-                                    </a>
-                                  </li>
-                                  */}
+                               
                               </ul>
                             </div>
                           </div>
@@ -3619,29 +3440,7 @@ const VerifyHCP = (props) => {
                   })}
                 </form>
 
-                {/*
-                  <form id="add_file" className={"tab-pane" + activeExcel}>
-                  <div className="file_upload-box">
-                    <div className="upload-file-box">
-                      <div className="form-group files">
-                        <div className="box">
-                        <input
-                          type="file"
-                          className="form-control inputfile"
-                        id="file-4"
-                        onChange={onFileChange}
-                          accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-                          ref={file_name}
-                          />
-                          {(file_name.current?.files===undefined || file_name.current.files?.length===0 )? <><label htmlFor="file-4"><span>Choose Your File</span></label>
-                          <p>Upload your excel file</p></> : <h5>{file_name.current.files[0].name}</h5> }
-
-                      </div>
-                      </div>
-                      </div>
-                    </div>
-                  </form>
-                  */}
+                 
               </div>
             </div>
           </Modal.Body>
@@ -3656,221 +3455,10 @@ const VerifyHCP = (props) => {
             </button>
           </Modal.Footer>
 
-          {/* <div className="modal-header">
-            <h5 className="modal-title" id="staticBackdropLabel">
-              Add New HCP
-            </h5>
-            <button
-              onClick={closeModal}
-              type="button"
-              className="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div> */}
-          {/* <div className="modal-body">
-            <div className="hcp-add-box">
-              <div className="hcp-add-form tab-content">
-                <form id="add_hcp_form" className={"tab-pane" + activeManual}>
-                  {hpc.map((val, i) => {
-                    const fieldName = `hpc[${i}]`;
-                    return (
-                      <>
-                        <div className="row">
-                          <div className="col-12 col-md-6">
-                            <div className="form-group">
-                              <label htmlFor="">First Name</label>
-                              <input
-                                type="text"
-                                className="form-control"
-                                onChange={(event) =>
-                                  onFirstNameChange(event, i)
-                                }
-                                value={val.firstname}
-                              />
-                            </div>
-                          </div>
-                          <div className="col-12 col-md-6">
-                            <div className="form-group">
-                              <label htmlFor="">Last Name</label>
-                              <input
-                                type="text"
-                                className="form-control"
-                                onChange={(event) => onLastNameChange(event, i)}
-                                value={val.lastname}
-                              />
-                            </div>
-                          </div>
-                          <div className="col-12 col-md-6">
-                            <div className="form-group">
-                              <label htmlFor="">Email</label>
-                              <input
-                                type="email"
-                                className="form-control"
-                                id="email-desc"
-                                name={`${fieldName}.email`}
-                                onChange={(event) => onEmailChange(event, i)}
-                                value={val.email}
-                              />
-                            </div>
-                          </div>
-                          <div className="col-12 col-md-6">
-                            <div className="form-group">
-                              <label htmlFor="">Contact Type</label>
-                              <select
-                                className="form-contact"
-                                aria-label="select"
-                                onChange={(event) =>
-                                  onContactTypeChange(event, i)
-                                }
-                              >
-                                <option selected>Select Type</option>
-                                <option value="HCP">HCP</option>
-                                <option value="Staff">Staff</option>
-                                <option value="Test Users">Test Users</option>
-                              </select>
-                            </div>
-                          </div>
-                          <div className="col-12 col-md-6">
-                            <div className="form-group">
-                              <label htmlFor="">Country</label>
-                              <select
-                                className="country-form"
-                                aria-label="select"
-                                onChange={(event) => onCountryChange(event, i)}
-                              >
-                                <option selected>Select Country</option>
-                                <option value="India">India</option>
-                                <option value="USA">USA</option>
-                                <option value="Russia">Russia</option>
-                              </select>
-                              {i !== 0 && (
-                                <button
-                                  type="button"
-                                  className="btn btn-filled"
-                                  onClick={() => deleteRecord(i)}
-                                >
-                                  Remove
-                                </button>
-                              )}
-                            </div>
-                          </div>
-                        </div>
-                      </>
-                    );
-                  })} */}
-          {/* <div className="row">
-                    <div className="col-12 col-md-6">
-                      <div className="form-group">
-                        <label htmlFor="">First Name</label>
-                        <input type="text" className="form-control" />
-                      </div>
-                    </div>
-                    <div className="col-12 col-md-6">
-                      <div className="form-group">
-                        <label htmlFor="">Last Name</label>
-                        <input type="text" className="form-control" />
-                      </div>
-                    </div>
-                    <div className="col-12 col-md-6">
-                      <div className="form-group">
-                        <label htmlFor="">Email</label>
-                        <input
-                          type="email"
-                          className="form-control"
-                          id="email-desc"
-                        />
-                      </div>
-                    </div>
-                    <div className="col-12 col-md-6">
-                      <div className="form-group">
-                        <label htmlFor="">Contact Type</label>
-                        <select className="form-contact" aria-label="select">
-                          <option selected>Select Type</option>
-                          <option value="1">HCP</option>
-                          <option value="2">HCP</option>
-                          <option value="3">HCP</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div className="col-12 col-md-6">
-                      <div className="form-group">
-                        <label htmlFor="">Country</label>
-                        <select className="country-form" aria-label="select">
-                          <option selected>Select Country</option>
-                          <option value="1">India</option>
-                          <option value="2">USA</option>
-                          <option value="3">Russia</option>
-                        </select>
-                      </div>
-                    </div>
-                  </div> */}
-          {/* </form>
-                <form id="add_file" className={"tab-pane" + activeExcel}>
-                  <div className="form-group files">
-                    <input
-                      type="file"
-                      className="form-control"
-                      multiple=""
-                      onChange={onFileChange}
-                    />
-                  </div>
-                </form>
-              </div>
-              <div className="hcp-modal-action">
-                <div className="hcp-action-block">
-                  <div className="hcp-remove">
-                    <button
-                      type="button"
-                      className="btn btn-filled"
-                      onClick={addMoreHcp}
-                    >
-                      Add
-                    </button>
-                  </div> */}
-          {/* <div className="hcp-remove">
-                    <button type="button" className="btn btn-filled">
-                      <img src={path_image + "delete.svg"} alt="Delete HCP" />
-                    </button>
-                  </div> */}
-          {/* <ul className="nav nav-tabs" role="tablist">
-                    <li className="nav-item add_hcp">
-                      <a
-                        onClick={addHcp}
-                        className="nav-link active btn-bordered"
-                        data-bs-toggle="tab"
-                        href="#add_hcp_form"
-                      >
-                        Add HCP +
-                      </a>
-                    </li>
-                    <li className="nav-item add-file">
-                      <a
-                        onClick={addFile}
-                        className="nav-link btn-filled"
-                        data-bs-toggle="tab"
-                        href="#add_file"
-                      >
-                        Add File
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div> */}
-          {/* <div className="modal-footer">
-            <button
-              type="button"
-              className="btn btn-primary save btn-filled"
-              onClick={saveClicked}
-            >
-              Save
-            </button>
-          </div> */}
+         
+         
         </div>
-        {/* </div>
-        </div> */}
+       
       </Modal>
     </>
   );

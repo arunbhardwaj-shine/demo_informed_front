@@ -1,17 +1,13 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Col, Form, Row } from "react-bootstrap";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
-import { loader } from "../../loader";
-import { postData } from "../../axios/apiHelper";
-import { ENDPOINT } from "../../axios/apiConfig";
-import exporting from "highcharts/modules/exporting";
-import exportData from "highcharts/modules/export-data";
+import React, { useEffect, useRef, useState } from "react";
+import { Col, Form, Row } from "react-bootstrap";
 import Select from "react-select";
-import { Link } from "react-router-dom";
-
-// exporting(Highcharts);
-// exportData(Highcharts);
+import { ENDPOINT } from "../../axios/apiConfig";
+import { postData } from "../../axios/apiHelper";
+import { loader } from "../../loader";
+ 
+ 
 
 const TopReseller = () => {
   const [isDataFound, setIsDataFound] = useState(false);
@@ -22,14 +18,7 @@ const TopReseller = () => {
     { value: "live", label: "Live" },
     { value: "expired", label: "Expired" },
   ]);
-  // const [Year, setYear] = useState([
-  //   { value: "", label: "All" },
-  //   { value: "2023", label: "2023" },
-  //   { value: "2022", label: "2022" },
-  //   { value: "2021", label: "2021" },
-  //   { value: "2020", label: "2020" },
-  //   { value: "2019", label: "2019" },
-  // ]);
+ 
 
   const [years, setYears] = useState([{ value: "", label: "All" }]);
 
@@ -47,7 +36,7 @@ const TopReseller = () => {
 
   const dataType = useRef(All[0]);
   const year = useRef(years[0]);
-  // const [userType, setUserType] = useState("topSeller");
+  
   const userType = useRef("topSeller");
   Highcharts.setOptions({
     colors: [
@@ -207,11 +196,7 @@ const TopReseller = () => {
       <Col className="right-sidebar">
         <div className="custom-container">
           <Row>
-            {/* <div className="top-header">
-              <div className="page-title d-flex">
-                <h2>Top Reseller</h2>
-              </div>
-            </div> */}
+            
             <div className="create-change-content spc-content analytic-charts">
               <div className="form_action">
                 <Form className="product-unit d-flex justify-content-between align-items-center">

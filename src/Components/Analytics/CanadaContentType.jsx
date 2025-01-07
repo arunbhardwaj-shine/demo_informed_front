@@ -1,11 +1,9 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Col, Row, Tab, Tabs } from "react-bootstrap";
 import Highcharts from "highcharts";
+import HighchartsReact from "highcharts-react-official";
+import React, { useEffect, useRef, useState } from "react";
+import { Col, Row, Tab, Tabs } from "react-bootstrap";
 import { ENDPOINT } from "../../axios/apiConfig";
 import { postData } from "../../axios/apiHelper";
-import exporting from "highcharts/modules/exporting";
-import exportData from "highcharts/modules/export-data";
-import HighchartsReact from "highcharts-react-official";
 import DocintelAccount from "./DocintelAccount";
 const CanadaContentType = () => {
   const [data, setData] = useState({});
@@ -16,9 +14,6 @@ const CanadaContentType = () => {
 
   Highcharts.setOptions({
     colors: [
-      //   "#FFBE2C",
-      //   "#F58289",
-      //   "#00D4C0",
       "#D61975",
       "#0066BE",
       "#FFBE2C",
@@ -27,79 +22,14 @@ const CanadaContentType = () => {
     ],
   });
 
-  const [isLoaded, setIsLoaded] = useState(false);
+  
   const activeTab = useRef(1);
 
-  const [contentTypeOptions, setContentTypeOptions] = useState({
-    chart: {
-      marginTop: 100,
-      type: "bar",
-      events: {
-        load: function () {
-          let categoryHeight = 35;
-          this.update({
-            chart: {
-              height:
-                categoryHeight * this.pointCount +
-                (this.chartHeight - this.plotHeight),
-            },
-          });
-        },
-      },
-    },
-    title: {
-      text: " ",
-    },
-    xAxis: {
-      categories: [],
-    },
-    credits: {
-      enabled: false,
-    },
-    exporting: {
-      showHighchart: true,
-      showTable: false,
-      tableCaption: "",
-    },
-
-    legend: {
-      reversed: true,
-      align: "center",
-      verticalAlign: "top",
-      floating: true,
-      x: 0,
-      y: 50,
-    },
-    yAxis: {
-      min: 0,
-      title: {
-        text: "",
-      },
-      stackLabels: {
-        enabled: true,
-        style: {
-          fontWeight: "bold",
-          color:
-            (Highcharts.defaultOptions.title.style &&
-              Highcharts.defaultOptions.title.style.color) ||
-            "gray",
-        },
-      },
-    },
-    plotOptions: {
-      bar: {
-        dataLabels: {
-          enabled: true,
-        },
-      },
-    },
-
-    series: [],
-  });
+   
 
   useEffect(() => {
     getDataFromApi();
-  //  getDataContentGraph();
+   
   }, []);
 
   const getDataFromApi = async (type = "all") => {
@@ -128,12 +58,12 @@ const CanadaContentType = () => {
       if (hadData.length <= 0) {
         setIsDataFound(false);
       }
-      // setIsDataFound(true);
+       
       setData(hadData);
-      // setSectionLoader(false);
+       
     } catch (err) {
       setIsDataFound(false);
-      // setSectionLoader(false);
+        
     }
   };
 
@@ -263,9 +193,7 @@ const CanadaContentType = () => {
         <div className="custom-container">
           <Row>
             <div className="top-header">
-              {/* <div className="page-title d-flex">
-                <h2>Content in activated HCP Docintel accounts</h2>
-              </div> */}
+              
             </div>
             <div className="distribute-page-reader">
               <svg
@@ -332,9 +260,7 @@ const CanadaContentType = () => {
                           options={lineOption}
                         />
                       </div>
-                      {/*<div className="con_title">
-                                Content in activated HCP Docintel accounts
-                              </div>*/}
+                   
 
                       <DocintelAccount data={activeTab.current ? data : null} />
                     </>

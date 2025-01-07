@@ -1,10 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Col, Form, Row, Tab, Tabs } from "react-bootstrap";
-import { ENDPOINT } from "../../axios/apiConfig";
-import axios from "axios";
-import { loader } from "../../loader";
 import moment from "moment";
+import React, { useEffect, useRef, useState } from "react";
+import { Tab, Tabs } from "react-bootstrap";
+import { ENDPOINT } from "../../axios/apiConfig";
 import { getData, postData, postFormData } from "../../axios/apiHelper";
+import { loader } from "../../loader";
 
 const Feedback = () => {
   const activeTab = useRef(1);
@@ -35,22 +34,19 @@ const Feedback = () => {
 
   const getFeedbackData = async () => {
     try {
-      // loader(true);
+      
       setSectionLoader(true);
-      // await axios.get(ENDPOINT.FEEDBACKLISTINGMESSAGE).then((response) => {
-      //   setData(response?.data?.data);
-      //   setFeedback(response?.data?.data);
-      // });
+     
       const response = await getData(ENDPOINT.FEEDBACKLISTINGMESSAGE);
       setData(response?.data?.data);
       setFeedback(response?.data?.data);
       setApiStatus(true);
-      // loader(false);
+       
       setSectionLoader(false);
     } catch (err) {
       console.log(err);
       setApiStatus(true);
-      // loader(false);
+     
       setSectionLoader(false);
     }
   };

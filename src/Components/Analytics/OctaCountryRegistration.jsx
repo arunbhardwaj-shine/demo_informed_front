@@ -1,32 +1,13 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Col, Row, Tabs, Tab } from "react-bootstrap";
+import worldMap from "@highcharts/map-collection/custom/world.geo.json";
+import axios from "axios";
 import Highcharts from "highcharts";
+import HighchartsReact from "highcharts-react-official";
+import proj4 from "proj4";
+import React, { useEffect, useRef, useState } from "react";
+import { Col, Row, Tab, Tabs } from "react-bootstrap";
 import { loader } from "../../loader";
 
-import exporting from "highcharts/modules/exporting";
-import exportData from "highcharts/modules/export-data";
-
-import HighchartsReact from "highcharts-react-official";
-import HighchartsMap from "highcharts/modules/map";
-import proj4 from "proj4";
-import worldMap from "@highcharts/map-collection/custom/world.geo.json";
-
-import axios from "axios";
-import drilldown from "highcharts/modules/drilldown.js";
-
-import { Link } from "react-router-dom";
-import customWrap from "./customWrap";
-
-// HighchartsMap(Highcharts);
-
-// Load Highcharts modules
-// require("highcharts/modules/map")(Highcharts);
-// require("highcharts/modules/exporting")(Highcharts);
-
-// exporting(Highcharts);
-// exportData(Highcharts);
-// drilldown(Highcharts);
-// customWrap(Highcharts);
+ ;
 
 //set image path
 let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -67,9 +48,7 @@ const OctaCountryRegestration = () => {
         <div className="custom-container">
           <Row>
             <div className="top-header">
-              {/* <div className="page-title d-flex">
-                <h2>Octa Country Registration</h2>
-              </div> */}
+               
             </div>
             <div className="create-change-content spc-content analytic-charts space-added">
               {isDataFound ? (
@@ -170,7 +149,7 @@ const MapComponent = ({ data }) => {
               lon: longitude,
             };
           } else {
-            console.log(`Invalid coordinates: ${coordObject.coordinates}`);
+            
             return null;
           }
         })
@@ -362,14 +341,7 @@ const Barcomponent = ({ countries, countriesData, title }) => {
               showTable: true,
               tableCaption: "",
             },
-            // legend: {
-            //   reversed: true,
-            //   align: "center",
-            //   verticalAlign: "top",
-            //   floating: true,
-            //   x: 0,
-            //   y: 50,
-            // },
+             
             yAxis: {
               min: 0,
               title: {

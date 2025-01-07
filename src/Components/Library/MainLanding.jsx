@@ -1,10 +1,8 @@
-import React,{useState} from 'react'
-import { Router, Route } from 'react-router';
+import React from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
-import LandingHeader from './LandingHeader';
 import LandingContact from './LandingContact';
 import LandingFooter from './LandingFooter';
+import LandingHeader from './LandingHeader';
 
 const MainLanding = () => {
 const path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -22,12 +20,7 @@ const path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
                             <div className="icon-block big">
                                 <img src={path_image + "docintel-icon.svg"} alt="" />
                             </div>
-                            {/* <div className="icon-block medium">
-                                &nbsp;
-                            </div> */}
-                            {/* <div className="icon-block small">
-                                &nbsp;
-                            </div> */}
+                            
                              <div className="icon-block">
                                     <img src={path_image + "library-icon-circle.svg"} alt="" />
                                 </div>
@@ -106,7 +99,7 @@ const path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
                         <span className='shade-left'>&nbsp;</span>
                         <span className='shade-right'>&nbsp;</span>
                     </div>
-                    {/* <h5>With no disruptions, it is easily integrated whether you use our entire universe of tools or decide to onboard just one our planet, just know it won’t disturb your solar system. Think of us as a help in hand in the system you’ve already created.</h5> */}
+                  
                 </div>
             </Row>
             <Row className='margin-gap'>
@@ -128,9 +121,7 @@ const path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
                     <div className='works-started-links'>
                         <h3>Tell us where you work?</h3>
                         <div className='started-links d-flex justify-content-evenly'>
-                            {/* <Link to="/pharma-rd" className='pharma-rd'>Pharma R&D</Link> 
-                            <Link to="/pharma-marketing" className='pharma-marketing'>Pharma Marketing</Link>
-                           <Link to="/landing-publisher" className='publisher-gradient'>Publishers</Link> */}
+                         
                             <a href='/landing-publisher' className='publisher-gradient'>Publishers</a>
                             <a href='/pharma-marketing' className='pharma-marketing'>Pharma Marketing</a>
                             <a href='/pharma-trial' className='pharma-rd'>Pharma Trials</a>

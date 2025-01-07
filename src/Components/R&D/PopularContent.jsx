@@ -1,20 +1,20 @@
-import React, { useEffect, useRef, useState } from "react";
-import { getData, postData } from "../../axios/apiInstanceHelper";
-import { ENDPOINT } from "../../axios/apiConfig";
-import { loader } from "../../loader";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
-import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import React, { useEffect, useState } from "react";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import { ENDPOINT } from "../../axios/apiConfig";
+import { postData } from "../../axios/apiInstanceHelper";
+import { loader } from "../../loader";
 
-const PopularContent = ({ mostPopularContentFn, topContentTableFn, createdBy }) => {
-  const [pieData, setPieData] = useState({});
+const PopularContent = ({ mostPopularContentFn, createdBy }) => {
+  
   const [mostPopularContentDataChild, setMostPopularContentDataChild] =
     useState([]);
   const path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
-  // const colors = ["#39CABC", "#FFCACD", "#DECBE3", "#986CA5", "#004A89"];
-  const color = ["#fee9b9", "#fec037", "#e4a923", "#c28b0c"];
+  
+  
   const [isHighlightNotLoaded, setIsHighlightNotLoaded] = useState(true);
   const [graphData, setGraphData] = useState([]);
   const [popularPieOptions, setPopularPieOptions] = useState({
@@ -66,7 +66,7 @@ const PopularContent = ({ mostPopularContentFn, topContentTableFn, createdBy }) 
         },
 
         enableMouseTracking: true,
-        // showInLegend: true,
+         
       },
     },
     series: [],
@@ -101,7 +101,7 @@ const PopularContent = ({ mostPopularContentFn, topContentTableFn, createdBy }) 
       const result = await postData(ENDPOINT.MOST_POPULAR_CONTENT,{created_by:createdBy});
       const data = result?.data?.data;
 
-      // setMostPopularContentData(data.pdf_data);
+    
       setMostPopularContentDataChild(data.pdf_data);
 setGraphData(data?.site_graph_data ||[])
       setPopularPieOptions({
@@ -138,7 +138,7 @@ setGraphData(data?.site_graph_data ||[])
                 <div className="count-number">
                   <Skeleton width={50} height={18} />
                 </div>
-                {/* <img src={path_image + "content-view.svg"} alt="" /> */}
+               
               </div>
             </div>
 
@@ -152,9 +152,7 @@ setGraphData(data?.site_graph_data ||[])
                     <Skeleton width={250} height={8} />
                   </span>
                 </div>
-                {/* <div className="popular-tooltip">
-                <img src={path_image + "tooltip-img.svg"} alt="" />
-              </div> */}
+               
               </>
 
               <div style={{ width: "100%", height: 200 }}>
@@ -165,7 +163,7 @@ setGraphData(data?.site_graph_data ||[])
                 {[1, 2, 3].map((item, index) => (
                   <div key={index} className="d-flex lex-article-box">
                     <div className="lex-image">
-                      {/* <div className="article-number">{index + 1}</div> */}
+                   
                       <Skeleton width={50} height={50} circle={true} />
                     </div>
                     <div className="lex-detail">
@@ -177,7 +175,7 @@ setGraphData(data?.site_graph_data ||[])
                       </span>
                       <div className="d-flex justify-content-between">
                         <div className="pages-number">
-                          {/* Pages: */}
+                         
                           <span>
                             <Skeleton width={50} height={5} />
                           </span>
@@ -257,15 +255,7 @@ setGraphData(data?.site_graph_data ||[])
                   />:<div className="no_found">
                   <p>No Data Found</p>
                 </div>}
-                  {/* <div className="rd-midbox-export">
-                    <img
-                      src={path_image + "arrow-export.svg"}
-                      alt=""
-                      onClick={() => {
-                        topContentTableFn();
-                      }}
-                    />
-                    </div> */}
+                  
                   <div className="">
                     <p>The Top 3 content</p>
                   </div>

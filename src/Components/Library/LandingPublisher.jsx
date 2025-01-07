@@ -1,27 +1,22 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Router, Route } from 'react-router';
+import React, { useEffect, useRef, useState } from "react";
 import {
   Button,
   Col,
   Container,
   Form,
-  FormGroup,
   FormLabel,
-  Row,
+  Row
 } from "react-bootstrap";
 import Select from "react-select";
-import Header from "../CommonComponent/HeaderComponent/Header";
-import { Link } from "react-router-dom";
-import Modal from "react-bootstrap/Modal";
 import Slider from "react-slick";
-import LandingHeader from "./LandingHeader";
-import LandingContact from "./LandingContact";
-import LandingFooter from "./LandingFooter";
-import { HomeValidation } from "../Validations/HomeValidations/HomeValidation";
-import { loader } from "../../loader";
+import { toast } from "react-toastify";
 import { ENDPOINT } from "../../axios/apiConfig";
 import { postData } from "../../axios/apiHelper";
-import { toast } from "react-toastify";
+import { loader } from "../../loader";
+import { HomeValidation } from "../Validations/HomeValidations/HomeValidation";
+import LandingContact from "./LandingContact";
+import LandingFooter from "./LandingFooter";
+import LandingHeader from "./LandingHeader";
 
 const PharmaRd = () => {
   const [activeModule, setActiveModule] = useState(null);
@@ -46,8 +41,7 @@ const PharmaRd = () => {
   const [moduleRequest, setModuleRequest] = useState(false)
   const nameRef = useRef(null);
   const emailRef = useRef(null);
-  const companyRef = useRef(null);
-  const phoneRef = useRef(null);
+ 
   const countryRef = useRef(null);
   const [addSelectClass, setAddSelectClass] = useState(false)
   const [currentModuleIndex, setCurrentModuleIndex] = useState(0);
@@ -763,10 +757,7 @@ const PharmaRd = () => {
       console.log({ data, isDisabled, isFocused, isSelected });
       return {
         ...styles,
-        // backgroundColor: isFocused ? "#0066BE" : null,
-        // color: isFocused ? "#ffffff" : "#97B6CF",
-        // backgroundColor: isSelected ? "#0066BE" : null,
-        // color: isSelected ? "#ffffff!important" : "#97B6CF",
+       
         backgroundColor: isFocused || isSelected ? "#0066BE" : null,
         color: isFocused || isSelected ? "#ffffff" : "#97B6CF",
       };
@@ -865,12 +856,7 @@ const PharmaRd = () => {
       } else if (Object?.keys(err)[0] == "email") {
         emailRef?.current?.focus();
       }
-      // else if (Object.keys(err)[0] == "comapny") {
-      //   companyRef.current.focus();
-      // }
-      //  else if (Object.keys(err)[0] == "phone") {
-      //   phoneRef.current.focus();
-      // }
+     
       else if (Object.keys(err)[0] == "country") {
         countryRef.current.focus();
       }
@@ -973,51 +959,7 @@ const PharmaRd = () => {
     });
   };
 
-  // const handleBigCircleClick = (moduleName, index) => {
-  //   // let newObj = { "user select the module": moduleName }
-  //   // userTrackingFun(newObj)
-  //   const bigCircleData = bigCircleModules[index];
-  //   setShowBigCircleData(true);
-
-  //   if (showBigCircleData) {
-  //     setAddClass(false);
-  //     setBigModuleData((prevState) => ({
-  //       active: moduleName === activeModule ? !prevState.active : true,
-  //       logoIconPath: bigCircleData?.logo,
-  //       heading: bigCircleData?.title,
-  //       ppt: bigCircleData?.ppt,
-  //       imagePath: bigCircleData?.image,
-  //       detail: bigCircleData?.description,
-  //       paragraph: bigCircleData?.para,
-  //       highlights: bigCircleData?.features,
-  //     }));
-  //     setActiveModule(moduleName === activeModule ? null : moduleName);
-  //   } else {
-  //     setShowBigCircleData(false);
-  //     console.log('module select')
-  //     setActiveModule(moduleName === activeModule ? null : moduleName);
-  //     const visibleModules = document.querySelectorAll(".stat.visible");
-  //     const visibleModuleNames = Array.from(visibleModules).map((module) => {
-  //       const classNames = module.className.split(" ");
-  //       return classNames[classNames.length - 2];
-  //     });
-  //     setSelectedModules((prevState) => {
-  //       // console.log('module deselect')
-  //       const isPreviouslySelected = prevState.includes(moduleName);
-  //       const updatedModules = isPreviouslySelected
-  //         ? prevState.filter((item) => item !== moduleName)
-  //         : [...prevState, moduleName];
-  //       const stats = document.querySelectorAll(".stat");
-  //       stats.forEach((stat) => {
-  //         if (stat.classList.contains(moduleName)) {
-  //           stat.classList.toggle("visible");
-  //           stat.classList.toggle("active");
-  //         }
-  //       });
-  //       return updatedModules;
-  //     });
-  //   }
-  // };
+ 
 
 
   const handleBigCircleClick = (moduleName, index) => {
@@ -1130,9 +1072,7 @@ const PharmaRd = () => {
   };
 
   const handleSubmitClick = async () => {
-    // setAddDivClass(true);
-    // setAddHideClass(true);
-    // setAddSmallClass(true);
+  
     const email = moduleFormInputs?.secondaryEmail?.trim();
     const phone = moduleFormInputs?.secondaryPhone?.trim();
     const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
@@ -1164,7 +1104,7 @@ const PharmaRd = () => {
           secondaryPhone: moduleFormInputs?.secondaryPhone?.trim(),
         }
         let newObj = { "user submit the data": submitData }
-        console.log(newObj)
+       
         userTrackingFun(newObj)
         let obj = {};
         loader("hide");
@@ -1233,9 +1173,7 @@ const PharmaRd = () => {
     setEmailError('')
     setPhoneError('')
 
-    // setTimeout(() => {
-    //   setActiveModule(null);
-    // }, 2000);
+    
   };
 
   const handleBigClose = () => {
@@ -1277,7 +1215,7 @@ const PharmaRd = () => {
     }
   };
   const userTrackingFun = async (newObj) => {
-    console.log("func--->", newObj)
+  
     try {
       const res = await postData(ENDPOINT.USER_TRACKING, { data: newObj, userId: localStorage.getItem("userId"), trackingId: localStorage.getItem("trackingId") })
       if (res?.data?.message == "insert") {
@@ -1323,8 +1261,7 @@ const PharmaRd = () => {
 
   const [show, setShow] = useState(false);
   const [readStatus, setReadStatus] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+ 
 
   const sliderRef = useRef();
   const parentRef = useRef("");
@@ -1395,18 +1332,7 @@ const PharmaRd = () => {
     setAddSelectClass(true);
   }
 
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     const prevModuleIndex = currentModuleIndex === 0 ? 12 : currentModuleIndex - 1;
-  //     document.getElementById(`module-${prevModuleIndex}`)?.classList?.remove("random-class");
-
-  //     document.getElementById(`module-${currentModuleIndex}`)?.classList?.add("random-class");
-
-  //     setCurrentModuleIndex(prevIndex => (prevIndex + 1) % 13);
-  //   }, 4500); 
-
-  //   return () => clearInterval(interval);
-  // }, [currentModuleIndex]);
+   
 
   return (
     <>
@@ -2290,13 +2216,7 @@ const PharmaRd = () => {
                                     />
                                   </svg>
                                 </span>
-                                {/* {registerError?.phone ? (
-                                  <div className="contact-validation">
-                                    {registerError?.phone}
-                                  </div>
-                                ) : (
-                                  ""
-                                )} */}
+                               
                               </div>
                             </Col>
 
@@ -2347,13 +2267,7 @@ const PharmaRd = () => {
                                     />
                                   </svg>
                                 </span>
-                                {/* {registerError?.company ? (
-                                  <div className="contact-validation">
-                                    {registerError?.company}
-                                  </div>
-                                ) : (
-                                  ""
-                                )} */}
+                               
                               </div>
                             </Col>
 
@@ -2500,11 +2414,7 @@ const PharmaRd = () => {
                               <div className="key-features">
                                 <h5> Key Features</h5>
                                 <ul>
-                                  {/* {bigCircleModuleData?.highlights?.map(
-                              (feature, index) => (
-                                <li key={index}>{feature}</li>
-                              )
-                            )} */}
+                             
 
                                   {bigCircleModuleData?.highlights?.map(
                                     (feature, index) => (
@@ -3125,9 +3035,7 @@ const PharmaRd = () => {
                             Request
                           </Button>
 
-                          {/* <Link to="/" className="">
-                          <img src={path_image + "downlaod-ppt.svg"} alt="" />
-                        </Link> */}
+                        
 
                           <a href={bigCircleModuleData?.ppt} download onClick={() => handleDownloadClick(bigCircleModuleData?.ppt)}>
                             <img src={path_image + "downlaod-ppt.svg"} alt="" />
@@ -3162,13 +3070,7 @@ const PharmaRd = () => {
                     )}
                   </div>
 
-                  {/* <-------- MOBILE VIEW --------->*/}
-                  {/* <img
-                      className="close"
-                      src={path_image + "module-close-button.svg"}
-                      alt=""
-                      onClick={handleBigCircleClose}
-                    /> */}
+                  
                   <div className="mobile-slider">
                     <img
                       className="close"

@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Col, Form, Row } from "react-bootstrap";
-import Select from "react-select";
-import { postData, deleteMethod } from "../../../axios/apiHelper";
-import { ENDPOINT } from "../../../axios/apiConfig";
-import { loader } from "../../../loader";
-import CommanModel from "../../../Model/CommonModel";
-import CommonConfirmModel from "../../../Model/CommonConfirmModel";
 import { Link } from "react-router-dom";
+import Select from "react-select";
+import { ENDPOINT } from "../../../axios/apiConfig";
+import { deleteMethod, postData } from "../../../axios/apiHelper";
+import { loader } from "../../../loader";
+import CommonConfirmModel from "../../../Model/CommonConfirmModel";
+import CommanModel from "../../../Model/CommonModel";
 import { popup_alert } from "../../../popup_alert";
 let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
 

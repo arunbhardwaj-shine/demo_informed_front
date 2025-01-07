@@ -1,13 +1,13 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Col, Row, Tab, Tabs } from "react-bootstrap";
 import Highcharts from "highcharts";
+import React, { useEffect, useRef, useState } from "react";
+import { Col, Row, Tab, Tabs } from "react-bootstrap";
 import { ENDPOINT } from "../../axios/apiConfig";
 import { postData } from "../../axios/apiHelper";
 import GaugeComponent from "./GaugeComponent";
 
 const CanadaDeliveryTrends = () => {
   const [isDataFound, setIsDataFound] = useState(false);
-  const [isLoaded, setIsLoaded] = useState(false);
+ 
   const [sectionLoader, setSectionLoader] = useState(false);
   const [apiCallStatus, setApiCallStatus] = useState(false);
   const [isSunshineAccount,setIsSunshineAccount]=useState(false)
@@ -69,8 +69,7 @@ const CanadaDeliveryTrends = () => {
       const g3_2 = Math.round((g3.total_ctr * 100) / g3.total_opened_2nd);
       const g3_3 = Math.round((g3.total_rtr * 100) / g3.total_opened_2nd);
 
-      //   console.log("-------->>>df3",g2.total_opened_2nd)
-      // console.log("-------->>>df3",g2)
+     
 
       const g4_1 = g4.total_shared_2nd < 100 ? 100 : g4.total_shared_2nd;
       const g4_2 = Math.round(
@@ -332,41 +331,10 @@ const CanadaDeliveryTrends = () => {
         },
       };
 
-      // const updatedListData = {
-      //   tab: {
-      //     g0: [
-      //       { "Email Sent": `${g0_1}% (${g0.outer_radius})` },
-      //       { "Email Opened": `${g0_2}% (${g0.total_opened_2nd})` },
-      //       { "Content opened": `${g0_3}% (${g0.total_ctr})` },
-      //       { RTR: `${g0_4}% (${g0.total_rtr})` },
-      //     ],
-      //     g1: [
-      //       { "": `${g1_1}% (${g1.outer_radius})` },
-      //       { "": `${g1_2}% (${g1.total_opened_2nd})` },
-      //       { "": `${g1_3}% (${g1.total_ctr})` },
-      //       { "": `${g1_4}% (${g1.total_rtr})` },
-      //     ],
+      
 
-      //     g2: [
-      //       { Activated: `${g2.total_opened_2nd} ` },
-      //       { Opened: `${g2_2}% (${g2.total_ctr})` },
-      //       { RTR: `${g2_3}% (${g2.total_rtr})` },
-      //     ],
 
-      //     g3: [
-      //       { Scanned: `${g3.total_opened_2nd} ` },
-      //       { Registered: `${g3_2}% (${g3.total_ctr})` },
-      //       { RTR: `${g3_3}% (${g3.total_rtr})` },
-      //     ],
-
-      //     g4: [
-      //       { Shared: `${g4.total_shared_2nd} ` },
-      //       { "Content Clicked": `${g4_2}% (${g4.total_opened_2nd})` },
-      //       { Registered: `${g4_3}% (${g4.total_ctr})` },
-      //       { RTR: `${g4_4}% (${g4.total_rtr})` },
-      //     ],
-      //   },
-      // };
+    
       const updatedListData = {
         tab: {
           g0: [
@@ -432,8 +400,7 @@ const CanadaDeliveryTrends = () => {
       setIsDataFound(true);
       setData(updatedData);
       setListData(updatedListData);
-      // setIsTabClicked(true);
-      // setData(hadData);
+    
       setSectionLoader(false);
     } catch (err) {
       setIsDataFound(false);
@@ -457,9 +424,7 @@ const CanadaDeliveryTrends = () => {
         <div className="custom-container">
           <Row>
             <div className="top-header">
-              {/* <div className="page-title d-flex">
-                <h2>Delivery Trends</h2>
-              </div> */}
+              
             </div>
             <div className="create-change-content spc-content analytic-charts small-space">
               <div className="delivery-trends">

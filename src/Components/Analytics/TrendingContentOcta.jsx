@@ -1,17 +1,10 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Col, Row, Tab, Tabs, Image, Button } from "react-bootstrap";
-
 import Highcharts from "highcharts";
-import { loader } from "../../loader";
-
+import HighchartsReact from "highcharts-react-official";
+import React, { useEffect, useState } from "react";
+import { Col, Image, Row, } from "react-bootstrap";
 import { ENDPOINT } from "../../axios/apiConfig";
 import { postData } from "../../axios/apiHelper";
-import exporting from "highcharts/modules/exporting";
-import exportData from "highcharts/modules/export-data";
-
-import HighchartsReact from "highcharts-react-official";
-import highchartsMore from "highcharts/highcharts-more";
-import solidGauge from "highcharts/modules/solid-gauge";
+import { loader } from "../../loader";
 
 const TrendingContentOcta = () => {
   const [data, setData] = useState({});
@@ -32,7 +25,7 @@ const TrendingContentOcta = () => {
   });
 
   const [isLoaded, setIsLoaded] = useState(false);
-  const activeTab = useRef(1);
+   
 
   useEffect(() => {
     getDataFromApi();
@@ -64,10 +57,10 @@ const TrendingContentOcta = () => {
       loader("hide");
     } catch (err) {
       setIsDataFound(false);
-      // console.log(err);
+     
       loader("hide");
     }
-    // console.log(chart.current)
+    
   };
 
   return (
@@ -77,9 +70,7 @@ const TrendingContentOcta = () => {
           <div className="custom-container">
             <Row>
               <div className="top-header">
-                {/* <div className="page-title d-flex">
-                  <h2>Trending content based on Read Through Rate</h2>
-                </div> */}
+               
               </div>
               <div className="create-change-content spc-content analytic-charts">
                 <div className="delivery-trends space-added">
@@ -121,16 +112,10 @@ const DocintelAccount = ({ data }) => {
                 ? [{}]
                 : JSON.parse(element.country);
 
-            // alert(element.pdf_data.Pdf.code)
-            // alert(index)
-
+            
             return (
               <Row key={index}>
-                {/* {index == 0 ? (
-                  <Row>
-                    <h3>Trending content based on Read Through Rates</h3>{" "}
-                  </Row>
-                ) : null} */}
+                
 
                 <Col sm={2} md={2} className="img-box justify-content-center">
                   <span>{index + 1}</span>

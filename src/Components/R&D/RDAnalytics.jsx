@@ -1,4 +1,8 @@
-import React, { useEffect, useRef, useState } from "react";
+import axios from 'axios';
+import { saveAs } from "file-saver";
+import Highcharts from "highcharts";
+import HighchartsReact from "highcharts-react-official";
+import React, { useRef, useState } from "react";
 import {
   Accordion,
   Button,
@@ -9,18 +13,14 @@ import {
   Tooltip,
 } from "react-bootstrap";
 import { useLocation } from "react-router-dom";
-import { getData, postData, getDataRd } from "../../axios/apiInstanceHelper";
+import * as XLSX from "xlsx";
 import { ENDPOINT } from "../../axios/apiConfig";
+import { getDataRd, postData } from "../../axios/apiInstanceHelper";
 import { loader } from "../../loader";
-import Highcharts from "highcharts";
-import HighchartsReact from "highcharts-react-official";
 import IndividualCompletion from "./IndividualCompletion";
+import PopularContent from "./PopularContent";
 import SiteCompletion from "./SiteCompletion";
 import SiteEngagement from "./SiteEngagement";
-import PopularContent from "./PopularContent";
-import axios from 'axios';
-import * as XLSX from "xlsx";
-import { saveAs } from "file-saver";
 const defaultPdfRole = {
   3968:"Site User-Blinded",
   3970:"Site unblinded pharmacist",
@@ -36,10 +36,10 @@ const RDAnalytics = () => {
 
   const [show, setShow] = useState();
   const location = useLocation()
-  const [totalSiteNumber, setTotalSiteNumber] = useState();
+ 
   const [chartOptions, setChartOptions] = useState();
   const [rdSiteData, setRdSiteData] = useState();
-  // const [pieData, setPieData] = useState({});
+ 
   const [flag, setFlag] = useState({
     individual_Completion: false,
     site_Completion: false,
@@ -47,7 +47,7 @@ const RDAnalytics = () => {
     content: false,
     top_content: false,
   });
-  const [sortSite, setSortSite] = useState(false);
+ 
   const [activeAccordionKey, setActiveAccordionKey] = useState(null);
   const [indidualCompletionTableData, setIndividualCompletionTableData] =
     useState();
@@ -82,8 +82,7 @@ const RDAnalytics = () => {
   const [isActive, setIsActive] = useState("");
   const [lastSortedPDFId, setLastSortedPDFId] = useState(null);
 
-  const [trainingStatus, setTrainingStatus] = useState([]);
-  const [siteRole, setSiteRole] = useState([]);
+ 
   const [filterdata, setFilterData] = useState({
     'training_status_code': [
       { "id": 1, 'title': 'New' },
@@ -100,12 +99,12 @@ const RDAnalytics = () => {
   });
   const [filter, setFilter] = useState("");
   const [showfilter, setShowFilter] = useState(false);
-  const [updateflag, setUpdateFlag] = useState(0);
+ 
 
   const [appliedFilter, setAppliedFilter] = useState({})
-  const [apifilterObject, setApifilterObject] = useState({});
+ 
   const [filterObject, setFilterObject] = useState({});
-  const [apiFilterData, setApiFilterData] = useState({});
+ 
   const [otherFilter, setOtherFilter] = useState({});
   const [forceRender, setForceRender] = useState(false);
   const [filterApplyflag, setFilterApplyflag] = useState(0);
@@ -300,11 +299,10 @@ const RDAnalytics = () => {
         top_content: false,
         individual_Completion: true,
       });
-      // setTrainingCompletionDropdownData("");
-      // setTrainingCertificate("");
+    
       if (Object.keys(filterdata?.site_number)?.length == 0) {
         let body = {
-          // user_id:localStorage.getItem('user_id')
+          
           user_id: createdBy
         }
         const response = await postData("https://webinar.docintel.app/lmn/api/distributes/filters_list", body)
@@ -500,31 +498,7 @@ const RDAnalytics = () => {
     }
   };
 
-  const siteEngagementSort = () => {
-    const sortedRdSiteData = [...rdSiteData].sort((a, b) => {
-      const siteNumberA = a.site_number.toLowerCase();
-      const siteNumberB = b.site_number.toLowerCase();
-
-      if (sortDirection === 0) {
-        if (siteNumberA < siteNumberB) return -1;
-        if (siteNumberA > siteNumberB) return 1;
-        return 0;
-      } else {
-        if (siteNumberA > siteNumberB) return -1;
-        if (siteNumberA < siteNumberB) return 1;
-        return 0;
-      }
-    });
-
-    setRdSiteData(sortedRdSiteData);
-    setSortDirection(sortDirection === 0 ? 1 : 0); // Toggle the sort direction
-    // setIsActive(!isActive);
-    if (isActive == "asc") {
-      setIsActive("dec");
-    } else {
-      setIsActive("asc");
-    }
-  };
+ 
 
   const sortSiteCompletion = () => {
     const sortedSiteCompletionTableData = [...siteCompletionTableData].sort(
@@ -554,31 +528,7 @@ const RDAnalytics = () => {
     }
   };
 
-  const sortIndividualCompletion = () => {
-    const sortedIndividualCompletion = [...indidualCompletionTableData].sort(
-      (a, b) => {
-        const siteNumberA = a.training_status.toLowerCase();
-        const siteNumberB = b.training_status.toLowerCase();
-        if (sortDirection === 0) {
-          if (siteNumberA > siteNumberB) return -1;
-          if (siteNumberA < siteNumberB) return 1;
-          return 0;
-        } else {
-          if (siteNumberA < siteNumberB) return -1;
-          if (siteNumberA > siteNumberB) return 1;
-          return 0;
-        }
-      }
-    );
-    setIndividualCompletionTableData(sortedIndividualCompletion);
-    setSortDirection(sortDirection === 0 ? 1 : 0); // Toggle the sort direction
-    // setIsActive(!isActive);
-    if (isActive == "asc") {
-      setIsActive("dec");
-    } else {
-      setIsActive("asc");
-    }
-  };
+  
 
   const sortContentView = (pdfId) => {
     const sortedContentViewObject = { ...mostPopularContentSiteData };
@@ -674,13 +624,7 @@ const RDAnalytics = () => {
 
       if (siteData.Users && siteData.Users.length > 0) {
         const userTableHeadings = document.createElement("tr");
-        // userTableHeadings.innerHTML = `
-        // <th></th>
-        //   <th>Name</th>
-        //   <th>Role</th>
-        //   <th>Blind type</th>
-        //   <th>Training</th>
-        // `;
+        
         userTableHeadings.innerHTML = `
         <th></th>
           <th>Name</th>
@@ -704,9 +648,7 @@ const RDAnalytics = () => {
           userTypeCell.textContent = user.user_type;
           userRow.appendChild(userTypeCell);
 
-          // const bindedCell = document.createElement("td");
-          // bindedCell.textContent = user.binded;
-          // userRow.appendChild(bindedCell);
+      
 
           const trainingCell = document.createElement("td");
           trainingCell.textContent = user.training;
@@ -829,7 +771,7 @@ const RDAnalytics = () => {
       exportTable.appendChild(clonedRow);
     });
 
-    // console.log(exportTable);
+   
     // Remove the empty rows with class "blank"
     const blankRows = exportTable.getElementsByClassName("blank");
     Array.from(blankRows).forEach((blankRow) => {
@@ -970,11 +912,7 @@ const RDAnalytics = () => {
     let otherFilterObj = otherFilter;
     const index = old_object[key]?.indexOf(item);
     if (index > -1) {
-      // if (old_object[key].includes("All")) {
-      //   const allIndex = old_object[key]?.indexOf("All");
-      //   old_object[key]?.splice(allIndex, 1);
-      //   delete otherFilterObj[key];
-      // }
+     
       old_object[key]?.splice(index, 1);
       otherFilterObj[key]?.splice(index, 1);
 
@@ -1069,9 +1007,7 @@ const RDAnalytics = () => {
 
     if (e?.target?.checked == true) {
       if (
-        // key == "training_status_code" ||
-        // key == "user_type" ||
-        // key == "site_number"
+         
         key=="Radio"
 
       ) {
@@ -1088,10 +1024,7 @@ const RDAnalytics = () => {
           newObj[key]?.push(item);
           otherObj[key]?.push(item);
 
-          // if (data?.length - 1 == newObj[key]?.length) {
-          //   newObj[key]?.push("All");
-          //   otherObj[key]?.push(item);
-          // }
+          
         }
       }
     } else {
@@ -1292,7 +1225,7 @@ const RDAnalytics = () => {
                         <div className="filter_btn_div d-flex align-items-center">
 
 
-                          {/** By Gagan */}
+                           
 
                           <div className={`${showfilter ? "filter-by nav-item dropdown highlight" : "filter-by nav-item dropdown"}`} style={{ margin: '0' }}>
                             <button
@@ -1432,13 +1365,7 @@ const RDAnalytics = () => {
                                                               {typeof item == "object"
                                                                 ? item?.title
                                                                 : item}
-                                                              {/* {key == "draft" &&
-      typeof item  == "string" && item == "0"
-      ? "live"
-      : key == "draft" &&  typeof item  == "string" &&
-        item == "1"
-      ? "draft" &&  typeof item  == "string"
-      : item} */}
+                                                               
                                                               <span className="checkmark"></span>
                                                             </label>
                                                           ) : null}
@@ -1474,7 +1401,7 @@ const RDAnalytics = () => {
                           </div>
 
 
-                          {/* end*/}
+                         
                         </div>
                         <div className="search-bar">
                           <form className="d-flex" onSubmit={(e) => submitHandler(e)}>
@@ -1540,40 +1467,10 @@ const RDAnalytics = () => {
                           </>
                           : ""}
 
-                        {/* <Button
-                          // className={`sort_btn ${isActive ? "active" : ""}`}
-                          className={`sort_btn ${
-                            isActive == "dec"
-                              ? "svg_active"
-                              : isActive == "asc"
-                              ? "svg_asc"
-                              : ""
-                          }`}
-                          onClick={sortIndividualCompletion}
-                        >
-                          Sort By{" "}
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="20"
-                            height="20"
-                            viewBox="0 0 20 20"
-                            fill="none"
-                          >
-                            <path
-                              id="asc"
-                              d="M18.9224 12.744C18.7661 12.5878 18.5542 12.5 18.3332 12.5C18.1122 12.5 17.9003 12.5878 17.744 12.744L14.9999 15.4882V2.49984C14.9999 2.27882 14.9121 2.06686 14.7558 1.91058C14.5995 1.7543 14.3875 1.6665 14.1665 1.6665C13.9455 1.6665 13.7335 1.7543 13.5773 1.91058C13.421 2.06686 13.3332 2.27882 13.3332 2.49984V15.4882L10.589 12.744C10.4318 12.5922 10.2213 12.5082 10.0029 12.5101C9.78435 12.512 9.57534 12.5997 9.42084 12.7542C9.26633 12.9087 9.17869 13.1177 9.17679 13.3362C9.17489 13.5547 9.25889 13.7652 9.41068 13.9223L13.5774 18.089C13.6548 18.1666 13.7467 18.2282 13.848 18.2702C13.9492 18.3122 14.0577 18.3338 14.1674 18.3338C14.277 18.3338 14.3855 18.3122 14.4867 18.2702C14.588 18.2282 14.6799 18.1666 14.7574 18.089L18.924 13.9223C19.08 13.7658 19.1675 13.5538 19.1672 13.3328C19.1669 13.1119 19.0788 12.9001 18.9224 12.744Z"
-                              fill="#97B6CF"
-                            />
-                            <path
-                              id="dsc"
-                              d="M10.5892 6.0772L6.42251 1.91054C6.34489 1.83277 6.25253 1.77129 6.15084 1.7297C5.94698 1.64544 5.71803 1.64544 5.51417 1.7297C5.41248 1.77129 5.32011 1.83277 5.2425 1.91054L1.07583 6.0772C0.919572 6.23368 0.831875 6.44582 0.832031 6.66695C0.832188 6.88809 0.920184 7.10011 1.07666 7.25636C1.23314 7.41262 1.44528 7.50032 1.66642 7.50016C1.88756 7.5 2.09957 7.41201 2.25583 7.25553L5 4.51137V17.4997C5 17.7207 5.0878 17.9327 5.24408 18.0889C5.40036 18.2452 5.61232 18.333 5.83334 18.333C6.05435 18.333 6.26631 18.2452 6.4226 18.0889C6.57888 17.9327 6.66667 17.7207 6.66667 17.4997V4.51137L9.41085 7.25553C9.56801 7.40733 9.77852 7.49132 9.99701 7.48943C10.2155 7.48753 10.4245 7.39989 10.579 7.24538C10.7335 7.09087 10.8212 6.88186 10.8231 6.66337C10.825 6.44487 10.741 6.23437 10.5892 6.0772Z"
-                              fill="#97B6CF"
-                            />
-                          </svg>
-                        </Button> */}
+                       
                       </div>
                     </div>
-                    {/** By gagan */}
+                    
                     {Object.keys(filterObject)?.length !== 0 &&
                       filterApplyflag > 0 ? (
                       <div className="apply-filter">
@@ -1628,11 +1525,7 @@ const RDAnalytics = () => {
                       </div>
                     ) : null}
 
-                    {/** end */}
-
-                    {/* Code for filter start */}
-
-                    {/* Code for filter end */}
+                  
 
 
 
@@ -1824,7 +1717,7 @@ const RDAnalytics = () => {
                       </thead>
                       <tbody>
 
-                        {/* {indidualCompletionTableData?.map((item, index) => { */}
+                       
                         { }
                         {typeof indidualCompletionTableData !== "undefined" &&
                           indidualCompletionTableData?.length > 0 ? (<> {sortData(indidualCompletionTableData, sortBy, sortOrder)?.map((item, index) => {
@@ -1959,9 +1852,7 @@ const RDAnalytics = () => {
                                               </span>
                                             </p>
                                         }
-                                        {/* <span>
-                                        Click on the content for more details
-                                      </span> */}
+                                       
                                         <Accordion>
                                           {trainingDropdownData?.map(
                                             (data, i) => {
@@ -2195,7 +2086,7 @@ const RDAnalytics = () => {
                                                           </div>
                                                         </div>
                                                       </Accordion.Header>
-                                                      {/* <Accordion.Body></Accordion.Body> */}
+                                                
                                                     </Accordion.Item>
                                                   </>
                                                 );
@@ -2224,7 +2115,7 @@ const RDAnalytics = () => {
                   </div>
                 </div>
               ) : null}
-              {/*Site Completion */}
+               
               {flag?.site_Completion ? (
                 <div className="rd-full-explain">
                   <div className="rd-section-title">
@@ -2267,36 +2158,7 @@ const RDAnalytics = () => {
                             ></path>
                           </svg>
                         </Button>
-                        {/* <Button
-                          className={`sort_btn ${
-                            isActive == "dec"
-                              ? "svg_active"
-                              : isActive == "asc"
-                              ? "svg_asc"
-                              : ""
-                          }`}
-                          onClick={sortSiteCompletion}
-                        >
-                          Sort By{" "}
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="20"
-                            height="20"
-                            viewBox="0 0 20 20"
-                            fill="none"
-                          >
-                            <path
-                              id="asc"
-                              d="M18.9224 12.744C18.7661 12.5878 18.5542 12.5 18.3332 12.5C18.1122 12.5 17.9003 12.5878 17.744 12.744L14.9999 15.4882V2.49984C14.9999 2.27882 14.9121 2.06686 14.7558 1.91058C14.5995 1.7543 14.3875 1.6665 14.1665 1.6665C13.9455 1.6665 13.7335 1.7543 13.5773 1.91058C13.421 2.06686 13.3332 2.27882 13.3332 2.49984V15.4882L10.589 12.744C10.4318 12.5922 10.2213 12.5082 10.0029 12.5101C9.78435 12.512 9.57534 12.5997 9.42084 12.7542C9.26633 12.9087 9.17869 13.1177 9.17679 13.3362C9.17489 13.5547 9.25889 13.7652 9.41068 13.9223L13.5774 18.089C13.6548 18.1666 13.7467 18.2282 13.848 18.2702C13.9492 18.3122 14.0577 18.3338 14.1674 18.3338C14.277 18.3338 14.3855 18.3122 14.4867 18.2702C14.588 18.2282 14.6799 18.1666 14.7574 18.089L18.924 13.9223C19.08 13.7658 19.1675 13.5538 19.1672 13.3328C19.1669 13.1119 19.0788 12.9001 18.9224 12.744Z"
-                              fill="#97B6CF"
-                            />
-                            <path
-                              id="dsc"
-                              d="M10.5892 6.0772L6.42251 1.91054C6.34489 1.83277 6.25253 1.77129 6.15084 1.7297C5.94698 1.64544 5.71803 1.64544 5.51417 1.7297C5.41248 1.77129 5.32011 1.83277 5.2425 1.91054L1.07583 6.0772C0.919572 6.23368 0.831875 6.44582 0.832031 6.66695C0.832188 6.88809 0.920184 7.10011 1.07666 7.25636C1.23314 7.41262 1.44528 7.50032 1.66642 7.50016C1.88756 7.5 2.09957 7.41201 2.25583 7.25553L5 4.51137V17.4997C5 17.7207 5.0878 17.9327 5.24408 18.0889C5.40036 18.2452 5.61232 18.333 5.83334 18.333C6.05435 18.333 6.26631 18.2452 6.4226 18.0889C6.57888 17.9327 6.66667 17.7207 6.66667 17.4997V4.51137L9.41085 7.25553C9.56801 7.40733 9.77852 7.49132 9.99701 7.48943C10.2155 7.48753 10.4245 7.39989 10.579 7.24538C10.7335 7.09087 10.8212 6.88186 10.8231 6.66337C10.825 6.44487 10.741 6.23437 10.5892 6.0772Z"
-                              fill="#97B6CF"
-                            />
-                          </svg>
-                        </Button> */}
+                        
                       </div>
                     </div>
                     <Table className="fold-table" id="site_completion">
@@ -2431,7 +2293,7 @@ const RDAnalytics = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        {/* {siteCompletionTableData?.map((item, index) => { */}
+                 
                         {typeof siteCompletionTableData !== "undefined" &&
                           siteCompletionTableData.length > 0 &&
                           sortData(siteCompletionTableData, sortBy, sortOrder).map((item, index) => {
@@ -2470,7 +2332,7 @@ const RDAnalytics = () => {
                                               <tr>
                                                 <th>Name</th>
                                                 <th>Role</th>
-                                                {/* <th>Blind type</th> */}
+                                           
                                                 <th>Training</th>
                                               </tr>
                                             </thead>
@@ -2487,7 +2349,7 @@ const RDAnalytics = () => {
                                                       ? data?.user_type
                                                       : "NA"}
                                                   </td>
-                                                  {/* <td>{data?.binded}</td> */}
+                                              
                                                   <td
                                                     className={
                                                       data?.training_status_code ==
@@ -2531,8 +2393,7 @@ const RDAnalytics = () => {
                   </div>
                 </div>
               ) : null}
-              {/*Site Completion End*/}
-              {/*Site Engagement */}
+            
               {flag?.site_Engagement ? (
                 <div className="rd-full-explain">
                   <div className="rd-section-title">
@@ -2561,36 +2422,7 @@ const RDAnalytics = () => {
                           onClick={() => handleExport("site_engagement")} // Call your export function here
                         />
 
-                        {/* <Button
-                          className={`sort_btn ${
-                            isActive == "dec"
-                              ? "svg_active"
-                              : isActive == "asc"
-                              ? "svg_asc"
-                              : ""
-                          }`}
-                          onClick={siteEngagementSort}
-                        >
-                          Sort By
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="20"
-                            height="20"
-                            viewBox="0 0 20 20"
-                            fill="none"
-                          >
-                            <path
-                              id="asc"
-                              d="M18.9224 12.744C18.7661 12.5878 18.5542 12.5 18.3332 12.5C18.1122 12.5 17.9003 12.5878 17.744 12.744L14.9999 15.4882V2.49984C14.9999 2.27882 14.9121 2.06686 14.7558 1.91058C14.5995 1.7543 14.3875 1.6665 14.1665 1.6665C13.9455 1.6665 13.7335 1.7543 13.5773 1.91058C13.421 2.06686 13.3332 2.27882 13.3332 2.49984V15.4882L10.589 12.744C10.4318 12.5922 10.2213 12.5082 10.0029 12.5101C9.78435 12.512 9.57534 12.5997 9.42084 12.7542C9.26633 12.9087 9.17869 13.1177 9.17679 13.3362C9.17489 13.5547 9.25889 13.7652 9.41068 13.9223L13.5774 18.089C13.6548 18.1666 13.7467 18.2282 13.848 18.2702C13.9492 18.3122 14.0577 18.3338 14.1674 18.3338C14.277 18.3338 14.3855 18.3122 14.4867 18.2702C14.588 18.2282 14.6799 18.1666 14.7574 18.089L18.924 13.9223C19.08 13.7658 19.1675 13.5538 19.1672 13.3328C19.1669 13.1119 19.0788 12.9001 18.9224 12.744Z"
-                              fill="#97B6CF"
-                            />
-                            <path
-                              id="dsc"
-                              d="M10.5892 6.0772L6.42251 1.91054C6.34489 1.83277 6.25253 1.77129 6.15084 1.7297C5.94698 1.64544 5.71803 1.64544 5.51417 1.7297C5.41248 1.77129 5.32011 1.83277 5.2425 1.91054L1.07583 6.0772C0.919572 6.23368 0.831875 6.44582 0.832031 6.66695C0.832188 6.88809 0.920184 7.10011 1.07666 7.25636C1.23314 7.41262 1.44528 7.50032 1.66642 7.50016C1.88756 7.5 2.09957 7.41201 2.25583 7.25553L5 4.51137V17.4997C5 17.7207 5.0878 17.9327 5.24408 18.0889C5.40036 18.2452 5.61232 18.333 5.83334 18.333C6.05435 18.333 6.26631 18.2452 6.4226 18.0889C6.57888 17.9327 6.66667 17.7207 6.66667 17.4997V4.51137L9.41085 7.25553C9.56801 7.40733 9.77852 7.49132 9.99701 7.48943C10.2155 7.48753 10.4245 7.39989 10.579 7.24538C10.7335 7.09087 10.8212 6.88186 10.8231 6.66337C10.825 6.44487 10.741 6.23437 10.5892 6.0772Z"
-                              fill="#97B6CF"
-                            />
-                          </svg>
-                        </Button> */}
+                        
                       </div>
                     </div>
                     <div className="table-responsive">
@@ -2725,7 +2557,7 @@ const RDAnalytics = () => {
                           </tr>
                         </thead>
                         <tbody>
-                          {/* {rdSiteData?.map((item, index) => { */}
+                        
                           {typeof rdSiteData !== "undefined" &&
                             rdSiteData.length > 0 &&
                             sortData(rdSiteData, sortBy, sortOrder).map((item, index) => {
@@ -2840,8 +2672,7 @@ const RDAnalytics = () => {
                   </div>
                 </div>
               ) : null}
-              {/*Site Engagement End*/}
-              {/*Content*/}
+              
               {flag?.content ? (
                 <div className="rd-full-explain">
                   <div className="rd-section-title">
@@ -2945,28 +2776,7 @@ const RDAnalytics = () => {
                                 {mostPopularContentPageData[item.pdf?.id]
                                   ?.length ? (
                                   <>
-                                    {/* <div
-                                      className="article-page-show"
-                                      key={index}
-                                    >
-                                      <div className="article-cover-img">
-                                        <div className="page-number">
-                                          Page 1
-                                        </div>
-                                      </div>
-                                      <div className="article-detail-view">
-                                        <div className="article-spanrd-time">
-                                          Read | Watched{" "}
-                                          <span>
-                                            {item.watched_count}{" "}
-                                            <img
-                                              src={path_image + "eye-watch.svg"}
-                                              alt=""
-                                            />
-                                          </span>
-                                        </div>
-                                      </div>
-                                    </div> */}
+                                    
                                     {mostPopularContentPageData[
                                       item.pdf?.id
                                     ].map((pdf, index) =>
@@ -2998,13 +2808,7 @@ const RDAnalytics = () => {
                                       ) : null
                                     )}
                                   </>
-                                ) : // isApiStatus ? (
-                                  //   <>
-                                  //     <p className="no-data-found">
-                                  //       No Data Found
-                                  //     </p>
-                                  //   </>
-                                  // ) :
+                                ) :  
                                   null}
                               </div>
                             </Accordion.Body>
@@ -3153,7 +2957,7 @@ const RDAnalytics = () => {
                   </div>
                 </div>
               ) : null}
-              {/*Content End*/}
+             
               {flag?.top_content ? (
                 <div className="rd-full-explain">
                   <div className="rd-section-title">
@@ -3168,7 +2972,7 @@ const RDAnalytics = () => {
                       >
                         <h4>
                           Top Content |{" "}
-                          {/* <span>{topContentTableData?.length}</span> */}
+                     
                         </h4>
                         <p></p>
                       </div>
@@ -3214,33 +3018,26 @@ const RDAnalytics = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        {/* {siteCompletionTableData?.map((item, index) => {
-                          return (
-                            <> */}
+                         
                         <tr
-                          // className={`view ${
-                          //   siteCompletionShow == index ? "show" : ""
-                          // }`}
-                          // onClick={(e) => {
-                          //   siteCompletionShowData(e, index);
-                          // }}
+                           
                           className={"view"}
                         >
                           <td className="site_name">
-                            {/* {item?.site_name} */}
+                           
                             Here site name
                           </td>
                           <td>
-                            {/* {item?.site_number} */}
+                          
                             Here site number
                           </td>
                           <td>
-                            {/* {item?.site_country} */}
+                            
                             Here country name
                           </td>
                           <td className="active-irt">
                             <span>
-                              {/* {item?.total_user} */}
+                              
                               Here total user
                             </span>{" "}
                             <img
@@ -3250,16 +3047,15 @@ const RDAnalytics = () => {
                             />
                           </td>
                           <td className="complete">
-                            {/* {item?.completed_training} */}
+                           
                             Here training complete
                           </td>
                         </tr>
 
-                        {/* {siteCompletionShow === index ? (
-                                <> */}
+                         
                         <tr className="fold show">
                           <td colspan="5" className="site_complete">
-                            {/* {item?.Users?.length ? ( */}
+                           
                             <Table>
                               <thead>
                                 <tr>
@@ -3270,65 +3066,43 @@ const RDAnalytics = () => {
                                 </tr>
                               </thead>
                               <tbody>
-                                {/* {item?.Users.map((data, i) => ( */}
+                               
                                 <tr
-                                // key={i}
+                               
                                 >
                                   <td>
-                                    {/* {data?.first_name
-                                                    ? data?.first_name
-                                                    : "NA"} */}
+                                    
                                     First name
                                   </td>
                                   <td>
-                                    {/* {data?.user_type
-                                                    ? data?.user_type
-                                                    : "NA"} */}
+                                   
                                     User type
                                   </td>
                                   <td>
-                                    {/* {data?.binded} */}
+                                   
                                     Blind type
                                   </td>
                                   <td
-                                  // className={
-                                  //   data?.training_status_code ==
-                                  //   "0"
-                                  //     ? "complete"
-                                  //     : "not_yet"
-                                  // }
+                                   
                                   >
-                                    {/* {data?.training_status_code ==
-                                                  "0"
-                                                    ? "Completed"
-                                                    : data?.training_status_code ==
-                                                      "1"
-                                                    ? "Ignored"
-                                                    : null} */}
+                                    
                                     Training status
                                   </td>
                                 </tr>
-                                {/* ))} */}
+                               
                               </tbody>
                             </Table>
-                            {/* ) : (
-                                        <div className="no_data">
-                                          No Data Found
-                                        </div>
-                                      )} */}
+                            
                           </td>
                         </tr>
-                        {/* </>
-                              ) : null} */}
+                        
 
                         <tr className="blank">
                           <td colspan="5" style={{ height: "10px;" }}>
                             &nbsp;
                           </td>
                         </tr>
-                        {/* </>
-                          );
-                        })} */}
+                         
                       </tbody>
                     </Table>
                   </div>
