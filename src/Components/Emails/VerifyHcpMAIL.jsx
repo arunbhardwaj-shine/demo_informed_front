@@ -654,7 +654,7 @@ const VerifyHcpMAIL = (props) => {
                             {props?.getEmailData?.tags
                               ? props?.getEmailData?.tags.map((tags, i) => {
                                   return (
-                                    <>
+                                    <React.Fragment key={i+1}>
                                       <li className="list1">
                                         {tags.innerHTML || tags}{" "}
                                         <img
@@ -663,12 +663,12 @@ const VerifyHcpMAIL = (props) => {
                                           onClick={() => removeTag(i)}
                                         />
                                       </li>
-                                    </>
+                                    </React.Fragment>
                                   );
                                 })
                               : props?.getDraftData?.tags.map((tags, i) => {
                                   return (
-                                    <>
+                                    <React.Fragment key={i}>
                                       <li className="list1">
                                         {tags?.innerHTML || tags}{" "}
                                         <img
@@ -677,7 +677,7 @@ const VerifyHcpMAIL = (props) => {
                                           onClick={() => removeTag(i)}
                                         />
                                       </li>
-                                    </>
+                                    </React.Fragment>
                                   );
                                 })}
                           </ul>
@@ -754,8 +754,8 @@ const VerifyHcpMAIL = (props) => {
                                   <p>{getpdfdata?.key_author}</p>
                                     <div className="select-tags">
                                       {getpdfdata?.tags?.length
-                                        ? JSON.parse(getpdfdata.tags)?.map((data) => {
-                                          return <div>{data}</div>;
+                                        ? JSON.parse(getpdfdata.tags)?.map((data,i) => {
+                                          return <div key={i}>{data}</div>;
                                         })
                                         : ""}
                                     </div>
@@ -931,7 +931,7 @@ const VerifyHcpMAIL = (props) => {
                               (
                                 selectedHcp.map((data, index) => {
                                   return (
-                                    <>
+                                    <React.Fragment key={index}>
                                       <div className="library-content-box-layuot readerlist d-flex">
                                         <div className="doc-content-main-box col" key={index}>
                                           <div className="doc-content-header">
@@ -1008,7 +1008,7 @@ const VerifyHcpMAIL = (props) => {
                                           </div>
                                         </div>
                                       </div>
-                                    </>
+                                    </React.Fragment>
                                   )
                                 })
                               )

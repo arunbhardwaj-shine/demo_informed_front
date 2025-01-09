@@ -1828,7 +1828,7 @@ const AutoEmail = () => {
                   <>
                     {selectedHcp.map((data, index2) => {
                       return (
-                        <>
+                        <React.Fragment key={index2}>
                           <div className="search-hcp-box" key={data}>
                             <p className="send-hcp-box-title">
                               Name | <span>{data.name || data.first_name}</span>
@@ -1847,7 +1847,7 @@ const AutoEmail = () => {
                               />
                             </div>
                           </div>
-                        </>
+                        </React.Fragment>
                       );
                     })}
                   </>
@@ -2518,9 +2518,9 @@ const AutoEmail = () => {
             <div className="col smartlist-result-block new-smartlist">
               {typeof smartListData !== "undefined" &&
                 smartListData.length > 0 ? (
-                smartListData.map((data) => {
+                smartListData.map((data,index) => {
                   return (
-                    <>
+                    <React.Fragment key={index}>
                       <div className="smartlist_box_block">
                         <div className="smartlist-view email_box">
                           <div className="mail-box-content">
@@ -2547,7 +2547,7 @@ const AutoEmail = () => {
                           </div>
                         </div>
                       </div>
-                    </>
+                    </React.Fragment>
                   );
                 })
               ) : (

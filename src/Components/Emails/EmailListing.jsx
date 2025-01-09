@@ -1119,7 +1119,7 @@ const getDownloadData = async (viewEmailData) => {
                                 <ul>
                                   {Object.entries(filterdata.tags).map(
                                     ([index, item]) => (
-                                      <li>
+                                      <li key={index}>
                                         {item != "" ? (
                                           <label className="select-multiple-option">
                                             <input
@@ -1159,7 +1159,7 @@ const getDownloadData = async (viewEmailData) => {
                                 <ul>
                                   {Object.entries(filterdata.creators).map(
                                     ([index, item]) => (
-                                      <li>
+                                      <li key={index}>
                                         <label className="select-multiple-option">
                                           <input
                                             type="checkbox"
@@ -1196,7 +1196,7 @@ const getDownloadData = async (viewEmailData) => {
                                 <ul>
                                   {Object.entries(filterdata.created).map(
                                     ([index, item]) => (
-                                      <li>
+                                      <li key={index}>
                                         <label className="select-multiple-option">
                                           <input
                                             type="checkbox"
@@ -1301,7 +1301,7 @@ const getDownloadData = async (viewEmailData) => {
                                     <ul>
                                       {Object.entries(filterdata.sites).map(
                                         ([index, item]) => (
-                                          <li>
+                                          <li key={index}>
                                             <label className="select-multiple-option">
                                               <input
                                                 type="checkbox"
@@ -1425,6 +1425,7 @@ const getDownloadData = async (viewEmailData) => {
                           <div className="filter-div-list">
                             {Object.entries(filtertags).map(([index, item]) => (
                               <div
+                              key={index}
                                 className="filter-result"
                                 onClick={(event) =>
                                   removeindividualfilter("tag", item)
@@ -1450,6 +1451,7 @@ const getDownloadData = async (viewEmailData) => {
                             {Object.entries(filtercreator).map(
                               ([index, item]) => (
                                 <div
+                                key={index}
                                   className="filter-result"
                                   onClick={(event) =>
                                     removeindividualfilter("creator", item)
@@ -1475,6 +1477,7 @@ const getDownloadData = async (viewEmailData) => {
                           <div className="filter-div-list">
                             {Object.entries(filterdate).map(([index, item]) => (
                               <div
+                              key={index}
                                 className="filter-result"
                                 onClick={(event) =>
                                   removeindividualfilter("date", item)
@@ -1499,6 +1502,7 @@ const getDownloadData = async (viewEmailData) => {
                           <div className="filter-div-list">
                             {Object.entries(filtersites).map(([index, item]) => (
                               <div
+                              key={index}
                                 className="filter-result"
                                 onClick={(event) =>
                                   removeindividualfilter("site", item)
@@ -1524,6 +1528,7 @@ const getDownloadData = async (viewEmailData) => {
                           <div className="filter-div-list">
                             {Object.entries(filterrole).map(([index, item]) => (
                               <div
+                              key={index}
                                 className="filter-result"
                                 onClick={(event) =>
                                   removeindividualfilter("role", item)
@@ -1549,6 +1554,7 @@ const getDownloadData = async (viewEmailData) => {
                             {Object.entries(filtercampaign).map(
                               ([index, item]) => (
                                 <div
+                                  key={index}
                                   className="filter-result"
                                   onClick={(event) =>
                                     removeindividualfilter("campaign", item)
@@ -2170,8 +2176,8 @@ const getDownloadData = async (viewEmailData) => {
                     <h6>Tags</h6>
                     <ul>
                       {viewEmailData[0].tags != "" ? (
-                        viewEmailData[0].tags.map((tag) => {
-                          return <li className="list1">{tag}</li>;
+                        viewEmailData[0].tags.map((tag,index) => {
+                          return <li className="list1" key={index}>{tag}</li>;
                         })
                       ) : (
                         <li className="list1">N/A</li>
@@ -2369,6 +2375,7 @@ const getDownloadData = async (viewEmailData) => {
                           viewEmailData[0]?.multi_ctr.map((ctr, index) => {
                             return (
                               <li
+                                 key={index}
                                 onClick={() => {
                                   getReaderData("ctr", ctr?.click_name, colorArray?.[index], ctr?.click_key);
                                 }}
@@ -2873,7 +2880,7 @@ const getDownloadData = async (viewEmailData) => {
                                     {
                                       item?.recent_send?.map((subItem, subIndex) => (
                                         subIndex !== 0 ?
-                                          <>
+                                          <React.Fragment key={subIndex}>
                                             <tr>
                                               <td>
                                                 {item?.first_name + " " + item?.last_name}
@@ -2908,7 +2915,7 @@ const getDownloadData = async (viewEmailData) => {
                                                 }
                                               </td>
                                             </tr>
-                                          </>
+                                          </React.Fragment>
                                           : null
                                       ))
                                     }

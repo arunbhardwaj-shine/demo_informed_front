@@ -906,7 +906,7 @@ const SmartList = (props) => {
                 smartListData.length > 0 ? (
                   smartListData.map((data,index) => {
                     return (
-                      <div className="smartlist_box_block new-smartlist">
+                      <div className="smartlist_box_block new-smartlist" key={index}>
                         <div className="smartlist-view email_box">
                           <div className="mail-box-content">
                             <div className="mail-box-conten-title">

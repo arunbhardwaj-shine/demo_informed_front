@@ -1035,7 +1035,7 @@ const WebinarSelectSmartListUsers = (props) => {
                     </li>
 
                     <li className="">
-                      <a href="javascript:void(0)">Verify Your Email</a>
+                      <a href="#">Verify Your Email</a>
                     </li>
                   </ul>
                 </div>

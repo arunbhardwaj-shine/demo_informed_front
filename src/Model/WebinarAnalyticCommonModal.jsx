@@ -176,7 +176,8 @@ const WebinarAnalyticCommonModal=({data,id,options})=>{
                       </li>
 
                       {Object.keys(data?.labels_value)?.length > 0 ? 
-                        Object.keys(data?.labels_value)?.map((item, index) => (<>
+                        Object.keys(data?.labels_value)?.map((item, index) => (
+                        <React.Fragment key={index}>
                         <li
                           // onClick={() => {
                           //   getReaderData("ctr", item, data?.labels[item]);
@@ -202,7 +203,7 @@ const WebinarAnalyticCommonModal=({data,id,options})=>{
                             </div>
                           </div>
                         </li>
-                      </>))
+                      </React.Fragment>))
                         : 
                           <li
                           //  onClick={() => {

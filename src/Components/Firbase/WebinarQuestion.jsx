@@ -349,7 +349,7 @@ const getQuestionData=async()=>{
            
             {data?.map((item, index) => {
               return (
-                <>
+                <React.Fragment key={index}>
                   {/* <p>{index+1}. {item?.question} </p> */}
                   <p
                     dangerouslySetInnerHTML={{
@@ -400,7 +400,7 @@ const getQuestionData=async()=>{
                       {/* <button type="button" className="btn btn-info answermodel" onClick={(e) => displayPopup(item?.questionId, e)}>Answers</button> */}
                     </>
                   ) : null}
-                </>
+                </React.Fragment>
               );
             })}
            
@@ -438,6 +438,7 @@ const getQuestionData=async()=>{
                         .map((substring, index) => {
                           return (
                             <th
+                            key={index}
                               dangerouslySetInnerHTML={{
                                 __html: substring?.length > 0 ? substring : "",
                               }}
@@ -457,15 +458,16 @@ const getQuestionData=async()=>{
                   ) : (
                     comments?.map((item, index) => {
                       return (
-                        <>
+                        <React.Fragment key={index}>
                           {item?.comments ? (
                             <tr>
                               <td>{item?.name ? item?.name : "N/A"}</td>
                               {item?.comments
                                 ?.split("~")
-                                .map((substring, index) => {
+                                .map((substring, i) => {
                                   return (
                                     <td
+                                     key={i+1}
                                       dangerouslySetInnerHTML={{
                                         __html:
                                           substring?.length > 0
@@ -479,7 +481,7 @@ const getQuestionData=async()=>{
                           ) : (
                             ""
                           )}
-                        </>
+                        </React.Fragment>
                       );
                     })
                   )}
@@ -503,7 +505,7 @@ const getQuestionData=async()=>{
                   ) : (
                     comments?.map((item, index) => {
                       return (
-                        <>
+                        <React.Fragment key={index}>
                           {item?.comments ? (
                             <tr>
                               <td>{item?.name ? item?.name : "N/A"}</td>
@@ -512,7 +514,7 @@ const getQuestionData=async()=>{
                           ) : (
                             ""
                           )}
-                        </>
+                        </React.Fragment>
                       );
                     })
                   )}

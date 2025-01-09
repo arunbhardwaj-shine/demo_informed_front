@@ -307,8 +307,8 @@ const ContentDetail = (props) => {
               {libraryData?.length
                 ? libraryData.map((data, index) => {
                     return (
-                      <>
-                        <div className="row" key={index}>
+                      <React.Fragment key={index}>
+                        <div className="row"  >
                           <div className="col-12">
                             <div className="verify-mail-box">
                               <div className="verify-email-detail">
@@ -354,12 +354,12 @@ const ContentDetail = (props) => {
                                               ? JSON?.parse(data?.tags)?.map(
                                                   (topic, id) => {
                                                     return (
-                                                      <>
+                                                      <React.Fragment key={id}>
                                                         <li className="list1">
                                                           {topic.innerHTML ||
                                                             topic}{" "}
                                                         </li>
-                                                      </>
+                                                      </React.Fragment>
                                                     );
                                                   }
                                                 )
@@ -811,7 +811,7 @@ const ContentDetail = (props) => {
                             </div>
                           </div>
                         </div>
-                      </>
+                      </React.Fragment>
                     );
                   })
                 : null}

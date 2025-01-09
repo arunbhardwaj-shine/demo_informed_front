@@ -893,9 +893,9 @@ if(currentQuestion.current && (currentIndexRef.current?.showQuestionToUser!=2 ||
                       <tr>
                         <td>{item?.name?item?.name:"N/A"}</td>
                         {
-                          item?.comments?.split('~').map((substring, index) => {
+                          item?.comments?.split('~').map((substring, i) => {
                             return (
-                              <td dangerouslySetInnerHTML={{
+                              <td key={i} dangerouslySetInnerHTML={{
                                 __html: substring?.length > 0 ? substring : "",
                               }}></td>
                               )

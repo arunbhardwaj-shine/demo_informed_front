@@ -884,7 +884,7 @@ const LiveStream = () => {
   }, []);
 
   const getOnlineReadersGraph = async () => {
-    console.log("Function call for interval");
+    
     try {
       let body = {
         eventId: eventId,

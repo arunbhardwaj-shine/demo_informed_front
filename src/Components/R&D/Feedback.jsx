@@ -243,7 +243,7 @@ const Feedback = () => {
                     feedbackData?.length > 0) ||
                   updateflag ? (
                     feedbackData?.map((item, index) => (
-                      <>
+                      <React.Fragment key={index}>
                         <div className="wrap_div">
                           {activeTab?.current == 1 ? (
                             <div
@@ -338,7 +338,7 @@ const Feedback = () => {
                             </div>
                           </div>
                         </div>
-                      </>
+                      </React.Fragment>
                     ))
                   ) : (
                     <>

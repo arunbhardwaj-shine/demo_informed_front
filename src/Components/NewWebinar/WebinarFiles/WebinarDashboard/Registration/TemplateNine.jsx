@@ -139,13 +139,13 @@ export default function TemplateNine({ children, formData }) {
               <p style={{
                 color: formData?.content?.eventDetails?.SubHeading?.color,
               }}
-                class="speaker-specialization"
+                className="speaker-specialization"
                 dangerouslySetInnerHTML={{
                   __html: formData?.content?.eventDetails?.SubHeading?.value,
                 }}
               />
             ) : (
-              <p class="speaker-specialization">
+              <p className="speaker-specialization">
                 If you already have a One Source account you can register to the
                 clinical practice session using the same login details.
               </p>
@@ -156,13 +156,13 @@ export default function TemplateNine({ children, formData }) {
               <p style={{
                 color: formData?.content?.eventDetails?.SubText?.color,
               }}
-                class="speaker-specialization"
+                className="speaker-specialization"
                 dangerouslySetInnerHTML={{
                   __html: formData?.content?.eventDetails?.SubText?.value,
                 }}
               />
             ) : (
-              // <p class="speaker-specialization">
+              // <p className="speaker-specialization">
               //   If you do not yet have a One Source account, by registering to a
               //   Clinical Practice session an automatic account will be generated
               //   and you will gain access to this content in accordance with the

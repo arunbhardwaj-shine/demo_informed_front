@@ -900,7 +900,7 @@ const MarketingAddReader = () => {
                     {typeOfContact?.length
                       ? typeOfContact?.map((item, index) => {
                           return (
-                            <>
+                            <React.Fragment key={index}>
                               <input
                                 type="checkbox"
                                 value="value1"
@@ -917,7 +917,7 @@ const MarketingAddReader = () => {
                               <Form.Label htmlFor={`limitagreed${index}`}>
                                 {item?.label}
                               </Form.Label>
-                            </>
+                            </React.Fragment>
                           );
                         })
                       : ""}

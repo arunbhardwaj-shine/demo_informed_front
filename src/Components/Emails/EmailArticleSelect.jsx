@@ -478,7 +478,7 @@ const EmailArticleSelect = (props) => {
                                   <ul>
                                     {Object.entries(filterdata.tags).map(
                                       ([index, item]) => (
-                                        <li>
+                                        <li key={index}>
                                           <label className="select-multiple-option">
                                             <input
                                               type="checkbox"
@@ -516,7 +516,7 @@ const EmailArticleSelect = (props) => {
                                   <ul>
                                     {Object.entries(filterdata.language).map(
                                       ([index, item]) => (
-                                        <li>
+                                        <li key={index}>
                                           <label className="select-multiple-option">
                                             <input
                                               type="checkbox"
@@ -554,7 +554,7 @@ const EmailArticleSelect = (props) => {
                                   <ul>
                                     {Object.entries(filterdata.created).map(
                                       ([index, item]) => (
-                                        <li>
+                                        <li key={index}>
                                           <label className="select-multiple-option">
                                             <input
                                               type="checkbox"
@@ -594,7 +594,7 @@ const EmailArticleSelect = (props) => {
                                     {Object.entries(
                                       filterdata.mandatory_training
                                     ).map(([index, item]) => (
-                                      <li>
+                                      <li key={index}>
                                         <label className="select-multiple-option">
                                           <input
                                             type="radio"
@@ -662,6 +662,7 @@ const EmailArticleSelect = (props) => {
                           <div className="filter-div-list">
                             {Object.entries(filtertags).map(([index, item]) => (
                               <div
+                              key={index}
                                 className="filter-result"
                                 onClick={(event) =>
                                   removeindividualfilter("tag", item)
@@ -686,6 +687,7 @@ const EmailArticleSelect = (props) => {
                           <div className="filter-div-list">
                             {Object.entries(filterlng).map(([index, item]) => (
                               <div
+                              key={index}
                                 className="filter-result"
                                 onClick={(event) =>
                                   removeindividualfilter("lng", item)
@@ -710,6 +712,7 @@ const EmailArticleSelect = (props) => {
                           <div className="filter-div-list">
                             {Object.entries(filterdate).map(([index, item]) => (
                               <div
+                              key={index}
                                 className="filter-result"
                                 onClick={(event) =>
                                   removeindividualfilter("date", item)
@@ -788,6 +791,7 @@ const EmailArticleSelect = (props) => {
                         <div className="select-mail-option">
                           <input
                             onClick={handleSelect}
+                            onChange={handleSelect}
                             type="radio"
                             name="radio"
                             value={13}
@@ -820,6 +824,7 @@ const EmailArticleSelect = (props) => {
                         </div>
                         <div className="select-mail-option">
                           <input
+                           onChange={handleSelect}
                             onClick={handleSelect}
                             type="radio"
                             name="radio"
@@ -867,6 +872,7 @@ const EmailArticleSelect = (props) => {
                             </div>
                             <div className="select-mail-option">
                               <input
+                               onChange={handleSelect}
                                 onClick={handleSelect}
                                 type="radio"
                                 name="radio"

@@ -20,7 +20,7 @@ const setCurrentStep = (state, action) => {
 };
 
 const setDefaultCurrentStep=(state,paylaod)=>{
-    console.log("from teh default")
+   
     return {
         ...state,
         currentStep: 1

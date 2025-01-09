@@ -1237,11 +1237,11 @@ const WebinarVerifyHCP = (props) => {
                   </li>
                   */}
                                         <li className="active active-main">
-                                            <a href="javascript:void(0)">Select Verify your HCPs</a>
+                                            <a href="#">Select Verify your HCPs</a>
                                         </li>
 
                                         <li className="">
-                                            <a href="javascript:void(0)">Verify your Email</a>
+                                            <a href="#">Verify your Email</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -1753,7 +1753,7 @@ const WebinarVerifyHCP = (props) => {
                                                 {/* {searchedUsers?.map((users, index) => { */}
                                                 {sortData(searchedUsers, sortBy, sortOrder)?.map((users, index) => {
                                                     return (
-                                                        <>
+                                                        <React.Fragment key={index}>
                                                             <tr>
                                                                 <td>{users?.name}</td>
                                                                 <td>{users?.email ? users?.email : "N/A"}</td>
@@ -1824,7 +1824,7 @@ const WebinarVerifyHCP = (props) => {
                                                                     />
                                                                 </td>
                                                             </tr>
-                                                        </>
+                                                        </React.Fragment>
                                                     );
                                                 })}
                                             </tbody>

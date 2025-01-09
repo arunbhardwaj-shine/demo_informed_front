@@ -188,7 +188,7 @@ const SetLayoutNew = () => {
                   </div>
                   {timelineData?.length ?
                     timelineData?.map((data, index) => {
-                      return (<>
+                      return (<React.Fragment key={index}>
                         <div className="timeline-box">
                           <div className="timeline-sticky">
                             <div className="timeline-indicator">
@@ -555,7 +555,7 @@ const SetLayoutNew = () => {
                             </>)
                           })}
                         </div>
-                      </>)
+                      </React.Fragment>)
                     })
                     :
                     <div className="no_found">

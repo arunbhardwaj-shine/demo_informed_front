@@ -295,8 +295,8 @@ Let me know if you’d like any further adjustments!`;
               {libraryData?.length
                 ? libraryData.map((data, index) => {
                     return (
-                      <>
-                        <div className="row" key={index}>
+                      <React.Fragment key={index}>
+                        <div className="row" >
                           <div className="col-12">
                             <div className="verify-mail-box">
                               <div className="verify-email-detail">
@@ -333,12 +333,12 @@ Let me know if you’d like any further adjustments!`;
                                               ? JSON?.parse(data?.tags)?.map(
                                                   (topic, id) => {
                                                     return (
-                                                      <>
+                                                      <React.Fragment key={id}>
                                                         <li className="list1">
                                                           {topic.innerHTML ||
                                                             topic}{" "}
                                                         </li>
-                                                      </>
+                                                      </React.Fragment>
                                                     );
                                                   }
                                                 )
@@ -725,7 +725,7 @@ Let me know if you’d like any further adjustments!`;
                             </div>
                           </div>
                         </div>
-                      </>
+                      </React.Fragment>
                     );
                   })
                 : null}

@@ -160,9 +160,9 @@ const SurveyAnalyticsRatingView = ({ index, item, colors }) => {
                                             ? <img src={`${path_image}star-rating-${JSON.parse(data?.value)}.svg`} alt="" />
                                             : [...Array(parseInt(data?.value))].map((_, i) => {
                                                 // return ` ${i + 1}`
-                                                return (<>
-                                                <div className='number_rating'>{i+1}</div>
-                                                </>) 
+                                                return (<React.Fragment key={i}>
+                                                <div  className='number_rating'>{i+1}</div>
+                                                </React.Fragment>) 
                                             })
                                         }
                                     </div>

@@ -718,7 +718,8 @@ const AnalyticsRegions = () => {
                                               series:
                                                 regionData[
                                                   activeRegion
-                                                ]?.seriesData?.map((data) => ({
+                                                ]?.seriesData?.map((data,i) => ({
+                                                  index:i,
                                                   name: data.name,
                                                   data: [data.y],
                                                   color: data.color,

@@ -292,7 +292,7 @@ const ContactDM = () => {
                                                 <Accordion defaultActiveKey="0" flush>
                                                     {Object.keys(filterData)?.map(function (key, index) {
                                                         return (
-                                                            <>
+                                                            <React.Fragment key={index}>
                                                                 {filterData[key]?.length ? (
                                                                     <Accordion.Item
                                                                         className={
@@ -309,7 +309,7 @@ const ContactDM = () => {
                                                                                 {filterData[key]?.length
                                                                                     ? filterData[key]?.map(
                                                                                         (item, index) => (
-                                                                                            <li>
+                                                                                            <li key={index}>
                                                                                                 {item != "" ? (
                                                                                                     <label className="select-multiple-option">
                                                                                                         <input
@@ -342,7 +342,7 @@ const ContactDM = () => {
                                                                         </Accordion.Body>
                                                                     </Accordion.Item>
                                                                 ) : null}
-                                                            </>
+                                                            </React.Fragment>
                                                         );
                                                     })}
                                                 </Accordion>
@@ -416,7 +416,7 @@ const ContactDM = () => {
                                     <div className="filter-block">
                                         <div className="filter-block-left full">
                                             {Object.keys(appliedFilter)?.map((key, index) => {
-                                                return (<>
+                                                return (<React.Fragment key={index}>
                                                     {appliedFilter[key]?.length ? (
                                                         <div className="filter-div">
                                                             <div className="filter-div-title">
@@ -426,7 +426,7 @@ const ContactDM = () => {
                                                                 {appliedFilter[key]?.map((item, index) => (
                                                                     <div className="filter-result"
                                                                         id={item}
-                                                                        rt={index} >
+                                                                        rt={index}  key={index}>
                                                                         {item}
                                                                         <img
                                                                             src={
@@ -443,7 +443,7 @@ const ContactDM = () => {
                                                             </div>
                                                         </div>
                                                     ) : ""}
-                                                </>)
+                                                </React.Fragment>)
                                             })}
                                         </div>
                                         <div className="clear-filter">

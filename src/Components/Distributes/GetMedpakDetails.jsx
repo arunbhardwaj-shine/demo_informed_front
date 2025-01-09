@@ -686,7 +686,7 @@ const GetMedpakDetails = () => {
                                             <tbody>
                                                 {typeof data != "undefined" && data.length > 0 ? (
                                                     data.map((item, index) => (
-                                                        <>
+                                                        <React.Fragment key={index}>
                                                             {item.email != "" ? (
                                                                 <tr
                                                                     key={index}
@@ -702,15 +702,15 @@ const GetMedpakDetails = () => {
                                                                     <td>{item.last_name}</td>
                                                                     <td>{item.email}</td>
                                                                     <td>{item.email_read}</td>
-                                                                    {item.article_open != undefined ? <td>{item.article_open}</td> : heading.map((element) => {
-                                                                        return <td>{item[element] != undefined ? item[element] : ""}</td>
+                                                                    {item.article_open != undefined ? <td>{item.article_open}</td> : heading.map((element,index) => {
+                                                                        return <td key={index}>{item[element] != undefined ? item[element] : ""}</td>
                                                                     })}
                                                                     <td>{item.article_register}</td>
                                                                     {item?.all_read_info &&
                                                                         item.all_read_info != ""
                                                                         ? Object.keys(item.all_read_info).map(
-                                                                            (key) => (
-                                                                                <>
+                                                                            (key,index) => (
+                                                                                <React.Fragment key={index}>
                                                                                     <td>
                                                                                         {
                                                                                             item.all_read_info[key]
@@ -723,7 +723,7 @@ const GetMedpakDetails = () => {
                                                                                                 .article_registered
                                                                                         }
                                                                                     </td>
-                                                                                </>
+                                                                                </React.Fragment>
                                                                             )
                                                                         )
                                                                         : ""}
@@ -761,7 +761,7 @@ const GetMedpakDetails = () => {
                                                                     <td></td>
                                                                 </tr>
                                                             )}
-                                                        </>
+                                                        </React.Fragment>
                                                     ))
                                                 ) : (
                                                     <tr className="data-not-found">

@@ -6,6 +6,7 @@ import { ENDPOINT } from "../../../axios/apiConfig";
 import moment from "moment";
 import { loader } from "../../../loader";
 import { Spinner } from "react-activity";
+import { Inertia } from "@amcharts/amcharts4/core";
 
 
 const TimelineDetail = (props) => {
@@ -661,8 +662,8 @@ const TimelineDetail = (props) => {
                                 </div>
                                 <div className="timeline-box">
                                   {Object.keys(timeLineData?.timeline).map(
-                                    (date) => (
-                                      <>
+                                    (date,index) => (
+                                      <React.Fragment key={index}>
                                         <div
                                           className="timeline-sticky"
                                           key={date}
@@ -686,7 +687,7 @@ const TimelineDetail = (props) => {
 
                                         {timeLineData?.timeline?.[date].map(
                                           (details, index) => (
-                                            <>
+                                            <React.Fragment key={index}>
                                               {details?.auto_mail === 0 &&
                                                 details.action.includes(
                                                   "New mail received"
@@ -1605,12 +1606,12 @@ const TimelineDetail = (props) => {
                                                                   {typeof ebookData !== "undefined" && ebookData.length > 0 ? (
                                                                     <>
                                                                       {isActive &&
-                                                                        details.id == activeIndex && ebookData.map((data) => (
+                                                                        details.id == activeIndex && ebookData.map((data,i) => (
                                                                           <div
-                                                                            className="timeline-time-show">
+                                                                            className="timeline-time-show" key={i}>
                                                                             {data?.data?.length > 0 &&
-                                                                              data.data.map((item) => (
-                                                                                <div className="d-flex flex-direction-row">
+                                                                              data.data.map((item,index) => (
+                                                                                <div className="d-flex flex-direction-row" key={index}  >
                                                                                   <div className="timeline-activity-detail">
                                                                                     <p><span>Needed |</span> {formatTime(item?.minimum)}</p>
                                                                                   </div>
@@ -1807,7 +1808,7 @@ const TimelineDetail = (props) => {
                                                                         {ebookData.map(
                                                                           (data, index) => {
                                                                             return (
-                                                                              <div className="timeline-article-details-boxes d-flex">
+                                                                              <div key={index} className="timeline-article-details-boxes d-flex">
                                                                                 {data?.chapter ? (
                                                                                   <h3>
                                                                                     <span>Chapter</span>{" "}
@@ -1830,9 +1831,9 @@ const TimelineDetail = (props) => {
                                                                                     <tbody>
                                                                                       {data?.data?.length
                                                                                         ? data?.data.map(
-                                                                                          (item) => {
+                                                                                          (item,index) => {
                                                                                             return (
-                                                                                              <tr>
+                                                                                              <tr key={index}>
                                                                                                 <td>{item?.page}</td>
                                                                                                 <td><span>
                                                                                                   {item?.minimum ? `${formatTime(item.minimum)}` : 'N/A'}
@@ -2433,10 +2434,10 @@ const TimelineDetail = (props) => {
                                                       </div>
                                                     </div>
                                                   ))}
-                                            </>
+                                            </React.Fragment>
                                           )
                                         )}
-                                      </>
+                                      </React.Fragment>
                                     )
                                   )}
                                 </div>
@@ -2616,7 +2617,7 @@ const TimelineDetail = (props) => {
                                                     {ebookData.map(
                                                       (data, index) => {
                                                         return (
-                                                          <div className="timeline-article-details-boxes d-flex">
+                                                          <div key={index} className="timeline-article-details-boxes d-flex">
                                                             {data?.chapter ? (
                                                               <h3>
                                                                 Chapter name:{" "}
@@ -2627,9 +2628,10 @@ const TimelineDetail = (props) => {
                                                             )}
                                                             {data?.data?.length
                                                               ? data?.data.map(
-                                                                (item) => {
+                                                                (item,index) => {
                                                                   return (
                                                                     <div
+                                                                    key={index}
                                                                       className={`media media-${item?.flag}`}
                                                                     >
                                                                       <div className="media-left">

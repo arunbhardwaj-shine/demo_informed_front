@@ -891,7 +891,7 @@ const [apiCallStatus,setApiCallStatus]=useState(false)
                       <Accordion defaultActiveKey="0" flush>
                         {Object.keys(filterdata)?.map(function (key, index) {
                           return (
-                            <>
+                            <React.Fragment key={index}>
                               {filterdata[key]?.length ? (
                                 <Accordion.Item
                                   className={
@@ -907,7 +907,7 @@ const [apiCallStatus,setApiCallStatus]=useState(false)
                                       {filterdata[key]?.length
                                         ? filterdata[key]?.map(
                                           (item, index) => (
-                                            <li>
+                                            <li key={index}>
                                               {item != "" ? (
                                                 <label className="select-multiple-option">
                                                   <input
@@ -943,7 +943,7 @@ const [apiCallStatus,setApiCallStatus]=useState(false)
                                                   <span className="checkmark"></span>
                                                 </label>
                                               ) : null}
-                                            </li>
+                                            </li >
                                           )
                                         )
                                         : null}
@@ -951,7 +951,7 @@ const [apiCallStatus,setApiCallStatus]=useState(false)
                                   </Accordion.Body>
                                 </Accordion.Item>
                               ) : null}
-                            </>
+                            </React.Fragment>
                           );
                         })}
                       </Accordion>
@@ -1077,7 +1077,7 @@ const [apiCallStatus,setApiCallStatus]=useState(false)
                     <div className="filter-block">
                       <div className="filter-block-left full">
                         {Object.keys(appliedFilter)?.map((key, index) => {
-                          return (<>
+                          return (<React.Fragment key={index}>
                             {appliedFilter[key]?.length ? (
                               <div className="filter-div">
                                 <div className="filter-div-title">
@@ -1087,7 +1087,7 @@ const [apiCallStatus,setApiCallStatus]=useState(false)
                                   {appliedFilter[key]?.map((item, index) => (
                                     <div className="filter-result"
                                       id={item}
-                                      rt={index} >
+                                      rt={index} key={index} >
                                       {item}
                                       <img
                                         src={
@@ -1104,7 +1104,7 @@ const [apiCallStatus,setApiCallStatus]=useState(false)
                                 </div>
                               </div>
                             ) : ""}
-                          </>)
+                          </React.Fragment>)
                         })}
                       </div>
                       <div className="clear-filter">

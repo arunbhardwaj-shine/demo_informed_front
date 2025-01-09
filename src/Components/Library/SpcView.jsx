@@ -357,7 +357,7 @@ const SpcView = () => {
                       <Accordion defaultActiveKey="0" flush>
                         {Object.keys(filterdata)?.map(function (key, index) {
                           return (
-                            <>
+                            <React.Fragment key={index}>
                               {filterdata[key]?.length > 0 ? (
                                 <Accordion.Item
                                   className="card"
@@ -372,7 +372,7 @@ const SpcView = () => {
                                       {filterdata[key]?.length
                                         ? filterdata[key]?.map(
                                             (item, index) => (
-                                              <li>
+                                              <li key={index}>
                                                 {item != "" ? (
                                                   <label className="select-multiple-option">
                                                     <input
@@ -425,7 +425,7 @@ const SpcView = () => {
                                   </Accordion.Body>
                                 </Accordion.Item>
                               ) : null}
-                            </>
+                            </React.Fragment>
                           );
                         })}
                       </Accordion>
@@ -457,7 +457,7 @@ const SpcView = () => {
                   <div className="filter-block-left full">
                     {Object.keys(filterObject)?.map((key, index) => {
                       return (
-                        <>
+                        <React.Fragment key={index}>
                           {filterObject[key]?.length > 0 ? (
                             <div className="filter-div">
                               <div className="filter-div-title">
@@ -466,6 +466,7 @@ const SpcView = () => {
                               <div className="filter-div-list">
                                 {filterObject[key]?.map((item, index) => (
                                   <div
+                                  key={index+key}
                                     className="filter-result"
                                     onClick={() =>
                                       removeindividualfilter(key, item)
@@ -485,7 +486,7 @@ const SpcView = () => {
                               </div>
                             </div>
                           ) : null}
-                        </>
+                        </React.Fragment>
                       );
                     })}
                   </div>
@@ -503,9 +504,9 @@ const SpcView = () => {
             <div className="smart-list-result spc-delete">
               <div className="col smartlist-result-block spc-edit">
                 {typeof spcData !== "undefined" && spcData.length > 0 ? (
-                  spcData.map((data) => {
+                  spcData.map((data,index) => {
                     return (
-                      <>
+                      <React.Fragment key={index}>
                         <div className="smartlist_box_block">
                           <div className="smartlist-view email_box">
                             <div className="mail-box-content">
@@ -533,7 +534,7 @@ const SpcView = () => {
                                           JSON.parse(data.product)?.map(
                                             (item, index) => {
                                               return (
-                                                <span className="product_list">
+                                                <span key={index} className="product_list">
                                                   {item}
                                                   {JSON.parse(data?.product)
                                                     ?.length -
@@ -610,7 +611,7 @@ const SpcView = () => {
                             </div>
                           </div>
                         </div>
-                      </>
+                      </React.Fragment>
                     );
                   })
                 ) : apiCallStatus ? (

@@ -262,9 +262,9 @@ function Products() {
                 </div>
               
                 {productData?.data?.length > 0 ? (
-                  productData?.data?.map((item) => {
+                  productData?.data?.map((item,i) => {
                     return (
-                      <>
+                      <React.Fragment key={i}>
                         <Col xxl={3} xl={4} md={6}>
                           <div className="products-listing">
                             {item?.product}
@@ -304,7 +304,7 @@ function Products() {
                             )}
                           </div>
                         </Col>
-                      </>
+                      </React.Fragment>
                     );
                   })
                 ) : (

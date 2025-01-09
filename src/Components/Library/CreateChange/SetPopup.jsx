@@ -806,9 +806,9 @@ templateIdRef.current=res?.data?.data?.popupTempId
                           responsive={responsive}
                           onSlideChanged={syncActiveIndex}
                         >
-                          {templateList.map((template) => {
+                          {templateList.map((template,index) => {
                             return (
-                              <>
+                              <React.Fragment key={index}>
                                 <div
                                   className="item"
                                   onClick={(e) => templateClicked(template, e)}
@@ -830,7 +830,7 @@ templateIdRef.current=res?.data?.data?.popupTempId
                                   />
                                   <p>{template?.name}</p>
                                 </div>
-                              </>
+                              </React.Fragment>
                             );
                           })}
                         </AliceCarousel>

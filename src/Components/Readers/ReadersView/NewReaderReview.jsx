@@ -2052,7 +2052,7 @@ const NewReadersReview = (props) => {
                                 : filterdata[key];
                             return (
 
-                              <>
+                              <React.Fragment key={index}>
 
                                 {filteredRoles?.length > 0 ? (
                                   <Accordion.Item
@@ -2153,7 +2153,7 @@ const NewReadersReview = (props) => {
                                     </Accordion.Body>
                                   </Accordion.Item>
                                 ) : null}
-                              </>
+                              </React.Fragment>
                             );
                           })}
                         </Accordion>
@@ -2241,7 +2241,7 @@ const NewReadersReview = (props) => {
                     <div className="filter-block-left full">
                       {Object.keys(filterObject)?.map((key, index) => {
                         return (
-                          <>
+                          <React.Fragment key={index}>
                             {filterObject[key]?.length ? (
                               <div className="filter-div">
                                 <div className="filter-div-title">
@@ -2265,6 +2265,7 @@ const NewReadersReview = (props) => {
                                       {" "}
                                       {filterObject[key]?.map((item, index) => (
                                         <div
+                                        key={index}
                                           className={
                                             key == "role"
                                               ? "filter-result upper"
@@ -2307,7 +2308,7 @@ const NewReadersReview = (props) => {
                                 </div>
                               </div>
                             ) : null}
-                          </>
+                          </React.Fragment>
                         );
                       })}
                     </div>
@@ -2413,8 +2414,8 @@ const NewReadersReview = (props) => {
                 readerDataList.map((data, index) => {
 
                   return (
-                    <>
-                      <div className="doc-content-main-box col" key={index}>
+                    <React.Fragment key={index}>
+                      <div className="doc-content-main-box col" >
                         <div className="doc-content-header">
                           <div className="doc-content d-flex justify-content-between w-100">
                             <h4>
@@ -3452,7 +3453,7 @@ const NewReadersReview = (props) => {
                           </Tabs>
                         </div>
                       </div>
-                    </>
+                    </React.Fragment>
                   );
                 })
               ) : apiCallStatus ? (

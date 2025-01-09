@@ -285,13 +285,13 @@ const SelectHCP = (props) => {
                       <Link to="/CreateEmail">Create Your Email</Link>
                     </li>
                     <li className="active active-main">
-                      <a href="javascript:void(0)">Select HCPs</a>
+                      <a href="#">Select HCPs</a>
                     </li>
                     <li className="">
-                      <a href="javascript:void(0)">Verify your list</a>
+                      <a href="#">Verify your list</a>
                     </li>
                     <li className="">
-                      <a href="javascript:void(0)">Verify your Email</a>
+                      <a href="#">Verify your Email</a>
                     </li>
                   </ul>
                 </div>

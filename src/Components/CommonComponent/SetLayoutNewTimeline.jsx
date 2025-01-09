@@ -589,7 +589,7 @@ const SetLayoutNewTimeline = () => {
                         (<>
                           <div className="timeline-listed">
                             {timelineData?.map((data, index) => {
-                              return (<>
+                              return (<react.Fragment key={index}>
                                 <div className="timeline-sticky">
 
                                   <div className="timeline-indicator">
@@ -600,7 +600,7 @@ const SetLayoutNewTimeline = () => {
                                   </div>
                                 </div>
                                 {data?.IrtData?.map((item, i) => {
-                                  return (<>
+                                  return (<react.Fragment key={i}>
                                     {(item?.auto_mail == 1 || item?.auto_mail == 2)
                                       ?
                                       <div className="timeline-box-inset" key={i}>
@@ -1317,9 +1317,9 @@ const SetLayoutNewTimeline = () => {
                                                               </div>
                                                               : ""
                                     }
-                                  </>)
+                                  </react.Fragment>)
                                 })}
-                              </>)
+                              </react.Fragment>)
                             })
                             }
                           </div>

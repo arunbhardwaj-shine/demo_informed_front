@@ -619,7 +619,7 @@ const Invitees = () => {
                         <Accordion defaultActiveKey="0" flush>
                           {Object.keys(filterdata)?.map(function (key, index) {
                             return (
-                              <>
+                              <React.Fragment key={index}>
                                 {filterdata[key]?.length ? (
                                   <Accordion.Item
                                     className={
@@ -635,7 +635,7 @@ const Invitees = () => {
                                         {filterdata[key]?.length
                                           ? filterdata[key]?.map(
                                             (item, index) => (
-                                              <li>
+                                              <li key={index}>
                                                 {item != "" ? (
                                                   <label className="select-multiple-option">
                                                     <input
@@ -668,7 +668,7 @@ const Invitees = () => {
                                     </Accordion.Body>
                                   </Accordion.Item>
                                 ) : null}
-                              </>
+                              </React.Fragment>
                             );
                           })}
                         </Accordion>

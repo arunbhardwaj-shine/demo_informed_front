@@ -1,5 +1,5 @@
 export const surveyValidation = (data) => {
-    // console.log(data);
+ 
     let error = {};
   
     if (!data?.surveyTitle) {
@@ -12,10 +12,7 @@ export const surveyValidation = (data) => {
       error.surveySubtitle = "Please enter the subtitle";
     }
   
-    // console.log(data)
-    // if (!data?.label) {
-    //   error.addCreator = "Please enter creator name";
-    // }
+  
    
     return error;
   };

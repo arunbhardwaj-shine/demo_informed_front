@@ -1019,7 +1019,7 @@ const WebinarEmail = (props) => {
                       <Accordion defaultActiveKey="0" flush>
                         {Object.keys(filterdata)?.map(function (key, index) {
                           return (
-                            <>
+                            <React.Fragment key={index}>
                               {filterdata[key]?.length > 0 ? (
                                 <Accordion.Item
                                   className={
@@ -1091,7 +1091,7 @@ const WebinarEmail = (props) => {
                                   </Accordion.Body>
                                 </Accordion.Item>
                               ) : null}
-                            </>
+                            </React.Fragment>
                           );
                         })}
                       </Accordion>
@@ -1170,7 +1170,7 @@ const WebinarEmail = (props) => {
                   <div className="filter-block-left full">
                     {Object.keys(filterObject)?.map((key, index) => {
                       return (
-                        <>
+                        <React.Fragment key={index}>
                           {filterObject[key]?.length ? (
                             <div className="filter-div">
                               <div className="filter-div-title">
@@ -1180,6 +1180,7 @@ const WebinarEmail = (props) => {
 
                                 {filterObject[key]?.map((item, index) => (
                                   <div
+                                  key={index}
                                     className={
                                       key == "role"
                                         ? "filter-result upper"
@@ -1205,7 +1206,7 @@ const WebinarEmail = (props) => {
                               </div>
                             </div>
                           ) : null}
-                        </>
+                        </React.Fragment>
                       );
                     })}
                   </div>
@@ -1307,8 +1308,8 @@ const WebinarEmail = (props) => {
                                 <div className="mailbox-tags">
                                   <ul>
                                     {data?.tags != "" ? (
-                                      data?.tags?.map((tag) => {
-                                        return <li className="list1">{tag}</li>;
+                                      data?.tags?.map((tag,i) => {
+                                        return <li className="list1" key={i}>{tag}</li>;
                                       })
                                     ) : (
                                       <li className="list1">N/A</li>
@@ -1711,8 +1712,8 @@ const WebinarEmail = (props) => {
                     <h6>Tags</h6>
                     <ul>
                       {viewEmailData?.tags != "" ? (
-                        viewEmailData?.tags?.map((tag) => {
-                          return <li className="list1">{tag}</li>;
+                        viewEmailData?.tags?.map((tag,i) => {
+                          return <li className="list1" key={i}>{tag}</li>;
                         })
                       ) : (
                         <li className="list1">N/A</li>
@@ -1824,6 +1825,7 @@ const WebinarEmail = (props) => {
                       {Object.keys(ctrName)?.length > 0 ? 
                         Object.keys(ctrName)?.map((item, index) => (<>
                         <li
+                        key={index}
                           onClick={() => {
                             getReaderData("ctr", item, viewEmailData?.labels[item]);
                           }}

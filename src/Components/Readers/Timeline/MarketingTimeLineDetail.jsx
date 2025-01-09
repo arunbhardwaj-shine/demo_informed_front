@@ -985,7 +985,7 @@ const MarketingTimeLineDetail = (props) => {
                               <div className="tabs-data">
                                 {logs.map((details, index) => {
                                   return (
-                                    <>
+                                    <React.Fragment key={index}>
                                       <div className="timeline-box">
                                         <div className="timeline_date">
                                           {details?.date ==
@@ -1043,7 +1043,7 @@ const MarketingTimeLineDetail = (props) => {
 
                                         </div>
                                       </div>
-                                    </>
+                                    </React.Fragment>
                                   );
                                 })}
                               </div>
@@ -1069,7 +1069,7 @@ const MarketingTimeLineDetail = (props) => {
                                     timeLineData?.timeline?.length ? <div className="timeline_tabs">
                                       {timeLineData?.timeline.map((details, index) => {
                                         return (
-                                          <>
+                                          <React.Fragment key={index}>
 
                                             {(details.action == "Article opened") && (
                                               <div className="timeline-box">
@@ -1189,11 +1189,11 @@ const MarketingTimeLineDetail = (props) => {
                                                                 {ebookData.map(
                                                                   (data, index) => {
                                                                     return (
-                                                                      <div className="timeline-article-details-boxes d-flex">
+                                                                      <div key={index} className="timeline-article-details-boxes d-flex">
                                                                         {data?.chapter ? <h3 >Chapter name: {data?.chapter}</h3> : ""}
-                                                                        {data?.data?.length ? data?.data.map(item => {
+                                                                        {data?.data?.length ? data?.data.map((item,index) => {
                                                                           return (
-                                                                            <div className={`media media-${item?.flag}`}>
+                                                                            <div className={`media media-${item?.flag}`} key={index}>
                                                                               <div className="media-left">
                                                                                 {
                                                                                   item?.image ? <img src={item?.image} /> : <p>
@@ -1793,7 +1793,7 @@ const MarketingTimeLineDetail = (props) => {
                                               </div>
                                             )}
 
-                                          </>
+                                          </React.Fragment>
                                         );
                                       })}
                                       {timeLineData?.loadMore?.length ? <div className="load_more">

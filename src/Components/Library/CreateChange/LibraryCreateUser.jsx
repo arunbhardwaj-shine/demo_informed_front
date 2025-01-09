@@ -1261,7 +1261,7 @@ const LibraryCreateUser = () => {
                         <ul>
                           {finalTags?.map((item, index) => {
                             return (
-                              <li className="list1">
+                              <li className="list1" key={index}>
                                 {item}
                                 <img
                                   src="componentAssets/images/filter-close.svg"
@@ -1304,7 +1304,7 @@ const LibraryCreateUser = () => {
                         <ul>
                           {finalTags?.map((item, index) => {
                             return (
-                              <li className="list1">
+                              <li className="list1" key={index}>
                                 {item}
                                 <img
                                   src="componentAssets/images/filter-close.svg"
@@ -1927,6 +1927,7 @@ const LibraryCreateUser = () => {
                                   {userDetail?.hcp?.map((item, index) => {
                                     return (
                                       <li
+                                      key={index}
                                         className="list1"
                                         onClick={() => {
                                           hcpClicked(item);
@@ -1942,7 +1943,7 @@ const LibraryCreateUser = () => {
                                 <ul className="after-tag-selected">
                                   {hcpClickedFirst.map((item, index) => {
                                     return (
-                                      <li className="list1">
+                                      <li className="list1" key={index}>
                                         {item}
                                         <img
                                           src="componentAssets/images/filter-close.svg"
@@ -1973,6 +1974,7 @@ const LibraryCreateUser = () => {
                                   {mandatoryRole.map((item, index) => {
                                     return (
                                       <li
+                                      key={index}
                                         className="list1"
                                         onClick={() => {
                                           hcpIrtClicked(item);
@@ -1988,7 +1990,7 @@ const LibraryCreateUser = () => {
                                 <ul className="after-tag-selected">
                                   {hcpIrtClickedFirst.map((item, index) => {
                                     return (
-                                      <>
+                                      <React.Fragment key={index}>
                                         {mandatoryRole?.includes(item) ? (
                                           <li className="list1">
                                             {item}
@@ -2001,7 +2003,7 @@ const LibraryCreateUser = () => {
                                             />
                                           </li>
                                         ) : null}
-                                      </>
+                                      </React.Fragment>
                                     );
                                   })}
                                 </ul>
@@ -2105,7 +2107,7 @@ const LibraryCreateUser = () => {
                     ) : userInputs.docintelFormat == "ebook" || userInputs.docintelFormat == "ebookVideo" ? (
                       chapter.map((val, i) => {
                         return (
-                          <>
+                          <React.Fragment key={i}>
                             <div className="form-group val chapter-title">
                               <div className="ebook-format">
                                 {userInputs.docintelFormat == "ebookVideo" ? (<>
@@ -2371,13 +2373,13 @@ const LibraryCreateUser = () => {
                                 </div>
                               ) : null}
                             </div>
-                          </>
+                          </React.Fragment>
                         );
                       })
                     ) : userInputs.docintelFormat == "pdfSpc" ? (
                       pdfSpcData.map((val, i) => {
                         return (
-                          <>
+                          <React.Fragment key={i}>
                             <div className="form-group val chapter-title pdf-spc">
                               <div className="ebook-format">
                                 <label htmlFor="">
@@ -2430,7 +2432,7 @@ const LibraryCreateUser = () => {
                                 </div>
                               ) : null}
                             </div>
-                          </>
+                          </React.Fragment>
                         );
                       })
                     ) : null}

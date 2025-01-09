@@ -12,7 +12,6 @@ import { Editor } from "@tinymce/tinymce-react";
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import Select, { createFilter } from "react-select";
- 
 import { saveNewTemplate } from "../CommonComponent/Validations";
 import html2canvas from 'html2canvas';
 import SmartListLayout from "../CommonComponent/SmartListLayout";
@@ -2791,7 +2790,7 @@ const TemplateBuilder = (props) => {
                 ) : (
                   searchedUsers.map((data, index) => {
                     return (
-                      <div className="search-hcp-box">
+                      <div key={index} className="search-hcp-box">
                         <p className="send-hcp-box-title">
                           Name | <span>{data.name}</span>
                         </p>
@@ -2831,7 +2830,7 @@ const TemplateBuilder = (props) => {
                   <>
                     {selectedHcp.map((data, index2) => {
                       return (
-                        <>
+                        <React.Fragment key={index2}>
                           <div className="search-hcp-box">
                             <p className="send-hcp-box-title">
                               Name | <span>{data.name || data.first_name}</span>
@@ -2850,7 +2849,7 @@ const TemplateBuilder = (props) => {
                               />
                             </div>
                           </div>
-                        </>
+                        </React.Fragment>
                       );
                     })}
                   </>
@@ -3527,9 +3526,9 @@ const TemplateBuilder = (props) => {
             <div className="col smartlist-result-block new-smartlist">
               {typeof smartListData !== "undefined" &&
                 smartListData.length > 0 ? (
-                smartListData.map((data) => {
+                smartListData.map((data,index) => {
                   return (
-                    <>
+                    <React.Fragment key={index}>
                       <div className="smartlist_box_block">
                         <div className="smartlist-view email_box">
                           <div className="mail-box-content">
@@ -3556,7 +3555,7 @@ const TemplateBuilder = (props) => {
                           </div>
                         </div>
                       </div>
-                    </>
+                    </React.Fragment>
                   );
                 })
               ) : (

@@ -360,8 +360,8 @@ const LicenseRenew = () => {
                       <p>{data?.key_author}</p>
                       <div className="select-tags">
                         {data?.tags?.length
-                          ? JSON.parse(data.tags)?.map((data) => {
-                              return <div>{data}</div>;
+                          ? JSON.parse(data.tags)?.map((data,index) => {
+                              return <div key={index}>{data}</div>;
                             })
                           : ""}
                       </div>

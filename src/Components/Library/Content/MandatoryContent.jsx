@@ -49,6 +49,7 @@ function MandatoryContent() {
             <div className="library_create d-flex library-mandatory">
               {data.map((item, index) => (
                 <div
+                   key={index}
                   className={
                     active == index
                       ? "col library_create-box active"

@@ -184,7 +184,7 @@ const IRTMandatory = ()  => {
 
                  const role = roleData[roleKey];
                  return(
-                 <div className="irt_mandatory-block w-100">
+                 <div className="irt_mandatory-block w-100" key={index}>
                 <div className="irt_mandatory-listing">
                  <div className="irt_mandatory-section"  >
                  <h3 onClick={()=>navigateToEmailList(roleKey,role?.pdf_id)}>{roleKey}</h3>

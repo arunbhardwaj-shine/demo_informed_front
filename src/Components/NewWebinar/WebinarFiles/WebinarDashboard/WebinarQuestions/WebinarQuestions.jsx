@@ -200,8 +200,8 @@ const WebinarQuestions = () => {
           </tr>
         </thead>
         <tbody>
-          {data?.map((category) => (
-            <tr>
+          {data?.map((category,index) => (
+            <tr key={index}>
               <td>{category.name}</td>
               <td>{category.email} </td>
               <td>{category.question} </td>

@@ -1199,7 +1199,7 @@ const MarketingReadersList = () => {
                         <Accordion defaultActiveKey="0" flush>
                           {Object.keys(filterdata)?.map(function (key, index) {
                             return (
-                              <>
+                              <React.Fragment key={index}>
                                 {filterdata[key]?.length > 0 ? (
                                   <Accordion.Item
                                     className={
@@ -1276,7 +1276,7 @@ const MarketingReadersList = () => {
                                     </Accordion.Body>
                                   </Accordion.Item>
                                 ) : null}
-                              </>
+                              </React.Fragment>
                             );
                           })}
                         </Accordion>
@@ -1385,7 +1385,7 @@ const MarketingReadersList = () => {
                     <div className="filter-block-left full">
                       {Object.keys(filterObject)?.map((key, index) => {
                         return (
-                          <>
+                          <React.Fragment key={index}>
                             {filterObject[key]?.length ? (
                               <div className="filter-div">
                                 <div className="filter-div-title">
@@ -1408,6 +1408,7 @@ const MarketingReadersList = () => {
                                       {" "}
                                       {filterObject[key]?.map((item, index) => (
                                         <div
+                                        key={index}
                                           className={
                                             key == "role"
                                               ? "filter-result upper"
@@ -1444,7 +1445,7 @@ const MarketingReadersList = () => {
                                 </div>
                               </div>
                             ) : null}
-                          </>
+                          </React.Fragment>
                         );
                       })}
                     </div>
@@ -1466,8 +1467,8 @@ const MarketingReadersList = () => {
                 readerDataList.map((data, index) => {
               
                   return (
-                    <>
-                      <div className="doc-content-main-box col" key={index}>
+                    <React.Fragment key={index}>
+                      <div className="doc-content-main-box col"  >
                         <div className="doc-content-header">
                           <div className="doc-content">
                             <h4>
@@ -1994,7 +1995,7 @@ const MarketingReadersList = () => {
                           </Tabs>
                         </div>
                       </div>
-                    </>
+                    </React.Fragment>
                   );
                 })
               ) : apiCallStatus ? (

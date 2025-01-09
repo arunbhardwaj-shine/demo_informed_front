@@ -485,7 +485,7 @@ const EmailStats = (props) => {
                                       {Object.entries(filterdata.sites).map(
                                         ([index, item]) => (
                                           
-                                          <li>
+                                          <li key={index}>
                                             <label className="select-multiple-option">
                                               <input
                                                 type="checkbox"
@@ -585,6 +585,7 @@ const EmailStats = (props) => {
                           <div className="filter-div-list">
                             {Object.entries(filtersites).map(([index, item]) => (
                               <div
+                              key={index}
                                 className="filter-result"
                                 onClick={(event) =>
                                   removeindividualfilter("site", item)
@@ -609,6 +610,7 @@ const EmailStats = (props) => {
                           <div className="filter-div-list">
                             {Object.entries(filterroles).map(([index, item]) => (
                               <div
+                                key={index}
                                 className="filter-result"
                                 onClick={(event) =>
                                   removeindividualfilter("role", item)
@@ -906,7 +908,7 @@ const EmailStats = (props) => {
                                       ))
                                     ) : (
                                       <tr className="data-not-found">
-                                        <td colspan="12">
+                                        <td colSpan="12">
                                           <h4>No Data Found</h4>
                                         </td>
                                       </tr>

@@ -942,7 +942,7 @@ const LicenseEditListing = () => {
                       <Accordion defaultActiveKey="0" flush>
                         {Object.keys(filterdata)?.map(function (key, index) {
                           return (
-                            <>
+                            <React.Fragment key={index}>
                               {filterdata[key]?.length > 0 ? (
                                 <Accordion.Item
                                   className="card"
@@ -957,7 +957,7 @@ const LicenseEditListing = () => {
                                       {filterdata[key]?.length > 0
                                         ? filterdata[key]?.map(
                                             (item, index) => (
-                                              <li>
+                                              <li key={index}>
                                                 {item != "" ? (
                                                   <label className="select-multiple-option">
                                                     <input
@@ -1003,7 +1003,7 @@ const LicenseEditListing = () => {
                                   </Accordion.Body>
                                 </Accordion.Item>
                               ) : null}
-                            </>
+                            </React.Fragment>
                           );
                         })}
                       </Accordion>
@@ -1042,7 +1042,7 @@ const LicenseEditListing = () => {
                   <div className="filter-block-left full">
                     {Object.keys(filterObject)?.map((key, index) => {
                       return (
-                        <>
+                        <React.Fragment key={index}>
                           {filterObject[key]?.length > 0 ? (
                             <div className="filter-div">
                               <div className="filter-div-title">
@@ -1051,6 +1051,7 @@ const LicenseEditListing = () => {
                               <div className="filter-div-list">
                                 {filterObject[key]?.map((item, index) => (
                                   <div
+                                  key={index}
                                     className="filter-result"
                                     onClick={(event) =>
                                       removeindividualfilter(key, item)
@@ -1070,7 +1071,7 @@ const LicenseEditListing = () => {
                               </div>
                             </div>
                           ) : null}
-                        </>
+                        </React.Fragment>
                       );
                     })}
                   </div>
@@ -1114,8 +1115,8 @@ const LicenseEditListing = () => {
                               <p>{data?.key_author}</p>
                               <div className="select-tags">
                                 {data?.tags?.length
-                                  ? JSON.parse(data.tags)?.map((data) => {
-                                      return <div>{data}</div>;
+                                  ? JSON.parse(data.tags)?.map((data,index) => {
+                                      return <div key={index}>{data}</div>;
                                     })
                                   : ""}
                               </div>
@@ -2253,7 +2254,7 @@ const LicenseEditListing = () => {
             <div className="total-selected">
               {tagClickedFirst.map((data, index) => {
                 return (
-                  <>
+                  <React.Fragment key={index}>
                     <div className="tag-cross">
                       {data.innerHTML || data}
                       <img
@@ -2262,7 +2263,7 @@ const LicenseEditListing = () => {
                         onClick={() => removeTagFinal(index)}
                       />
                     </div>
-                  </>
+                  </React.Fragment>
                 );
               })}
             </div>

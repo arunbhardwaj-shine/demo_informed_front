@@ -314,10 +314,10 @@ const CreateSmartList = () => {
                 <div className="col-12 col-md-11">
                   <ul className="tabnav-link">
                     <li className="active active-main">
-                      <a href="javascript:void(0)">Create smart list</a>
+                      <a href="#">Create smart list</a>
                     </li>
                     <li className="">
-                      <a href="javascript:void(0)">
+                      <a href="#">
                       {isLikeRdAccount
                       ?" Select & Verify Your Users":" Select & Verify Your HCPs"}
                        </a>

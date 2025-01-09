@@ -159,7 +159,7 @@ const AnalyticsEvent = () => {
                         <div className="analytics-events">
                            
                             <div className="analytics-events-box">
-                    {     eventListData?.map(event=>   <div className="analytics-events-inset d-flex flex-column w-100">
+                    {     eventListData?.map((event,idx)=>   <div key={idx} className="analytics-events-inset d-flex flex-column w-100">
                                     <div className="d-flex justify-content-between align-items-center">
                                         <h5>{event?.title}</h5>
                                         <div className="d-flex align-items-center event-date">

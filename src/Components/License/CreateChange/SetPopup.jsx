@@ -766,9 +766,9 @@ const SetPopup = (props) => {
                           responsive={responsive}
                           onSlideChanged={syncActiveIndex}
                         >
-                          {templateList.map((template) => {
+                          {templateList.map((template,index) => {
                             return (
-                              <>
+                              <React.Fragment key={index}>
                                 <div
                                   className="item"
                                   onClick={(e) => templateClicked(template, e)}
@@ -790,7 +790,7 @@ const SetPopup = (props) => {
                                   />
                                   <p>{template.name}</p>
                                 </div>
-                              </>
+                              </React.Fragment>
                             );
                           })}
                         </AliceCarousel>

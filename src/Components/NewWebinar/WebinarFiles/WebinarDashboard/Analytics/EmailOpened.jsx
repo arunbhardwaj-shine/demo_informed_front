@@ -273,7 +273,7 @@ export default function EmailOpened() {
 
                               {Object.keys(ctrName)?.length > 0 ? (
                                 Object.keys(ctrName)?.map((item, index) => (
-                                  <>
+                                  <React.Fragment key={index}>
                                     <li
                                       onClick={() => {
                                         getReaderData(
@@ -323,7 +323,7 @@ export default function EmailOpened() {
                                         </div>
                                       </div>
                                     </li>
-                                  </>
+                                  </React.Fragment>
                                 ))
                               ) : (
                                 <li

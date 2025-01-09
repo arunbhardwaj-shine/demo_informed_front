@@ -138,7 +138,7 @@ const EmailStatsss = () => {
               </thead>
               <tbody className="form-group">
                 <tr className="seprator-add">
-                  <td colspan="6"></td>
+                  <td colSpan="6"></td>
                 </tr>
                 <tr id={`row-selected`}>
                   <td id={`field_name`}>

@@ -540,7 +540,7 @@ const SiteListing = () => {
                                 <Accordion defaultActiveKey="0" flush>
                                 {Object.keys(filterdata)?.map(function (key, index) {
                                     return (
-                                    <>
+                                    <React.Fragment key={index}>
                                         {filterdata[key]?.length ? (
                                         <Accordion.Item
                                             className="card"
@@ -554,7 +554,7 @@ const SiteListing = () => {
                                                 {filterdata[key]?.length
                                                 ? filterdata[key]?.map(
                                                     (item, index) => (
-                                                    <li>
+                                                    <li key={index}>
                                                         {item != "" ? (
                                                         <label className="select-multiple-option">
                                                             <input
@@ -591,7 +591,7 @@ const SiteListing = () => {
                                             </Accordion.Body>
                                         </Accordion.Item>
                                         ) : null}
-                                    </>
+                                    </React.Fragment>
                                     );
                                 })}
                                 </Accordion>
@@ -685,7 +685,7 @@ const SiteListing = () => {
                               <div className="filter-block-left full">
                                 {Object.keys(filterObject)?.map((key, index) => {
                                   return (
-                                    <>
+                                    <React.Fragment key={index}>
                                       {filterObject[key]?.length ? (
                                         <div className="filter-div">
                                           <div className="filter-div-title">
@@ -695,6 +695,7 @@ const SiteListing = () => {
                                           <div className="filter-div-list">
                                             {filterObject[key]?.map((item, index) => (
                                               <div
+                                              key={index}
                                                 className={
                                                   key == "Role"
                                                     ? "filter-result upper"
@@ -714,7 +715,7 @@ const SiteListing = () => {
                                           </div>
                                         </div>
                                       ) : null}
-                                    </>
+                                    </React.Fragment>
                                   );
                                 })}
                               </div>
@@ -885,7 +886,7 @@ const SiteListing = () => {
                                     {
                                         listingDataSite.length > 0 ? (
                                                 sortData(listingDataSite, sortBy, sortOrder)?.map((item, index) => (
-                                                <>
+                                                <React.Fragment key={index}>
                                                     <tr key={item.id}>
                                                         {
                                                           /*<td> {index + 1}</td>*/
@@ -915,7 +916,7 @@ const SiteListing = () => {
                                                             </td> 
                                                     
                                                     </tr>
-                                                </>
+                                                </React.Fragment>
                                             ))
                                         ) :  (
 

@@ -1209,9 +1209,9 @@ const LinksLayout = ({ data, activeKey, handleAccordionToggle }) => {
                       </thead>
                       <tbody>
                         {
-                          item?.data?.map((substring, index) => {
+                          item?.data?.map((substring, idx) => {
                             return (
-                              <tr>
+                              <tr key={idx}>
                                 <td>{substring?.ip_address}</td>
                                 <td>{substring?.browser}</td>
                                 <td>{substring?.date}</td>

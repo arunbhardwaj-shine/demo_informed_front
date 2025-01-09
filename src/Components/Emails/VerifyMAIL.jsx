@@ -618,7 +618,7 @@ const VerifyMAIL = (props) => {
                     )}
 
                     <li className="active active-main">
-                      <a href="javascript:void(0)">Verify your Email</a>
+                      <a href="#">Verify your Email</a>
                     </li>
                   </ul>
                 </div>
@@ -680,8 +680,8 @@ const VerifyMAIL = (props) => {
                             {props?.getEmailData?.tags
                               ? props?.getEmailData?.tags.map((tags, i) => {
                                 return (
-                                  <>
-                                    <li className="list1" key={"tags_" + i}>
+                                  <React.Fragment key={"tags_" + i}>
+                                    <li className="list1"  >
                                       {tags.innerHTML || tags}{" "}
                                       <img
                                         key={"tags_img_" + i}
@@ -690,12 +690,12 @@ const VerifyMAIL = (props) => {
                                         onClick={() => removeTag(i)}
                                       />
                                     </li>
-                                  </>
+                                  </React.Fragment>
                                 );
                               })
                               : props?.getDraftData?.tags.map((tags, i) => {
                                 return (
-                                  <>
+                                  < React.Fragment key={i}>
                                     <li className="list1">
                                       {tags.innerHTML || tags}{" "}
                                       <img
@@ -704,7 +704,7 @@ const VerifyMAIL = (props) => {
                                         onClick={() => removeTag(i)}
                                       />
                                     </li>
-                                  </>
+                                  </React.Fragment>
                                 );
                               })}
                           </ul>
@@ -779,8 +779,8 @@ const VerifyMAIL = (props) => {
                                   <p>{getpdfdata?.key_author}</p>
                                     <div className="select-tags">
                                       {getpdfdata?.tags?.length
-                                        ? JSON.parse(getpdfdata.tags)?.map((data) => {
-                                          return <div>{data}</div>;
+                                        ? JSON.parse(getpdfdata.tags)?.map((data,index) => {
+                                          return <div key={index} >{data}</div>;
                                         })
                                         : ""}
                                     </div>
@@ -1203,7 +1203,7 @@ const VerifyMAIL = (props) => {
                       selectedHcp.length > 0 &&
                       sortData(selectedHcp, sortBy, sortOrder)?.map((rr, i) => {
                         return (
-                          <>
+                          <React.Fragment key={i}>
                             <tr>
                               <td>{rr.first_name}</td>
                               <td>{rr.email}</td>
@@ -1252,7 +1252,7 @@ const VerifyMAIL = (props) => {
                               ) : null}
                               <td className="add-new-hcp" colspan="12"></td>
                             </tr>
-                          </>
+                          </React.Fragment>
                         );
                       })}
                   </tbody>

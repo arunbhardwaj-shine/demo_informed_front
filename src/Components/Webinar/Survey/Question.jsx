@@ -398,6 +398,7 @@ function Question(props) {
                           onClick={
                             onHandleAddCommentChange
                           }
+                          onChange={onHandleAddCommentChange}
                           id="limitagreed2"
                         />
                         <label htmlFor="limitagreed2">No</label>

@@ -404,7 +404,7 @@ const LicensePreviewContent = () => {
                     >
                       {pdfData?.ebookData.map((template, index) => {
                         return (
-                          <>
+                          <React.Fragment key={index}>
                             <div
                               className={
                                 index === 0 || template.processed == 1
@@ -430,7 +430,7 @@ const LicensePreviewContent = () => {
                               />
                               <p>{template?.title}</p>
                             </div>
-                          </>
+                          </React.Fragment>
                         );
                       })}
                     </AliceCarousel>

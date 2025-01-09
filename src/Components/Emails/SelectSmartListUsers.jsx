@@ -1179,7 +1179,7 @@ const SelectSmartListUsers = (props) => {
                     </li>
 
                     <li className="">
-                      <a href="javascript:void(0)">Verify Your Email</a>
+                      <a href="#">Verify Your Email</a>
                     </li>
                   </ul>
                 </div>
@@ -3229,7 +3229,7 @@ const SelectSmartListUsers = (props) => {
                   {hpc.map((val, i) => {
                     const fieldName = `hpc[${i}]`;
                     return (
-                      <>
+                      <React.Fragment key={fieldName}>
                         <div className="add_hcp_boxes">
                           <div className="form_action">
                             <div className="row">
@@ -3765,7 +3765,7 @@ const SelectSmartListUsers = (props) => {
                             </div>
                           </div>
                         </div>
-                      </>
+                      </React.Fragment>
                     );
                   })}
                 </form>

@@ -705,7 +705,7 @@ const WebinarVerifyMAIL = (props) => {
                     )}
 
                     <li className="active active-main">
-                      <a href="javascript:void(0)">Verify your Email</a>
+                      <a href="#">Verify your Email</a>
                     </li>
                   </ul>
                 </div>
@@ -761,7 +761,7 @@ const WebinarVerifyMAIL = (props) => {
                             {props.getWebinarEmailData?.tags
                               ? props.getWebinarEmailData?.tags?.map((tags, i) => {
                                 return (
-                                  <>
+                                  <React.Fragment key={i}>
                                     <li className="list1">
                                       {tags?.innerHTML || tags}{" "}
                                       <img
@@ -770,12 +770,12 @@ const WebinarVerifyMAIL = (props) => {
                                         onClick={() => removeTag(i)}
                                       />
                                     </li>
-                                  </>
+                                  </React.Fragment>
                                 );
                               })
                               : props.getWebinarDraftData?.tags?.map((tags, i) => {
                                 return (
-                                  <>
+                                  <React.Fragment key={i}>
                                     <li className="list1">
                                       {tags?.innerHTML || tags}{" "}
                                       <img
@@ -784,7 +784,7 @@ const WebinarVerifyMAIL = (props) => {
                                         onClick={() => removeTag(i)}
                                       />
                                     </li>
-                                  </>
+                                  </React.Fragment>
                                 );
                               })}
                           </ul>
@@ -990,7 +990,7 @@ const WebinarVerifyMAIL = (props) => {
                       selectedHcp?.length > 0 &&
                       selectedHcp?.map((rr, i) => {
                         return (
-                          <>
+                          <React.Fragment key={i}>
                             <tr>
                               <td>{rr?.first_name}</td>
                               <td>{rr?.email}</td>
@@ -1039,7 +1039,7 @@ const WebinarVerifyMAIL = (props) => {
                               ) : null}
                               <td className="add-new-hcp" colspan="12"></td>
                             </tr>
-                          </>
+                          </React.Fragment>
                         );
                       })}
                   </tbody>

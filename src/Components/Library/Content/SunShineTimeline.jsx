@@ -484,8 +484,8 @@ const SunShineTimeline = () => {
                                     <div className="select-tags">
                                       {articleData?.tags?.length
                                         ? JSON.parse(articleData.tags)?.map(
-                                            (data) => {
-                                              return <div>{data}</div>;
+                                            (data,i) => {
+                                              return <div key={i}>{data}</div>;
                                             }
                                           )
                                         : ""}
@@ -695,13 +695,13 @@ const SunShineTimeline = () => {
                                               </div>
                                             ) : (
                                               opening_details?.map(
-                                                (details) => {
+                                                (details,index) => {
                                                   if (
                                                     details?.pdf_id ==
                                                     articleData?.id
                                                   ) {
                                                     return (
-                                                      <>
+                                                      <React.Fragment key={index}>
                                                         <div className="data-progress success-progress">
                                                           <ProgressBar
                                                             variant={
@@ -721,7 +721,7 @@ const SunShineTimeline = () => {
                                                             }
                                                           />
                                                         </div>
-                                                      </>
+                                                      </React.Fragment>
                                                     );
                                                   }
                                                 }
@@ -758,13 +758,13 @@ const SunShineTimeline = () => {
                                                       </div>
                                                     ) : (
                                                       opening_details?.map(
-                                                        (details) => {
+                                                        (details,i) => {
                                                           if (
                                                             details?.pdf_id ==
                                                             articleData?.id
                                                           ) {
                                                             return (
-                                                              <>
+                                                              <React.Fragment key={i}>
                                                                 <div className="data-progress limited">
                                                                   <ProgressBar
                                                                     variant={
@@ -788,7 +788,7 @@ const SunShineTimeline = () => {
                                                                     }
                                                                   />
                                                                 </div>
-                                                              </>
+                                                              </React.Fragment>
                                                             );
                                                           }
                                                         }
@@ -823,13 +823,13 @@ const SunShineTimeline = () => {
                                                           </div>
                                                         ) : (
                                                           opening_details?.map(
-                                                            (details) => {
+                                                            (details,idx) => {
                                                               if (
                                                                 details?.pdf_id ==
                                                                 articleData?.id
                                                               ) {
                                                                 return (
-                                                                  <>
+                                                                  <React.Fragment key={idx}>
                                                                     <div className="data-progress limited">
                                                                       <ProgressBar
                                                                         variant={
@@ -885,7 +885,7 @@ const SunShineTimeline = () => {
                                                                         </>
                                                                       )}
                                                                     </span>
-                                                                  </>
+                                                                  </React.Fragment>
                                                                 );
                                                               }
                                                             }
@@ -921,13 +921,13 @@ const SunShineTimeline = () => {
                                                   </div>
                                                 ) : (
                                                   opening_details?.map(
-                                                    (details) => {
+                                                    (details,index) => {
                                                       if (
                                                         details?.pdf_id ==
                                                         articleData?.id
                                                       ) {
                                                         return (
-                                                          <>
+                                                          <React.Fragment key={index}>
                                                             <div className="data-progress limited">
                                                               <ProgressBar
                                                                 variant={
@@ -983,7 +983,7 @@ const SunShineTimeline = () => {
                                                                 </>
                                                               )}
                                                             </span>
-                                                          </>
+                                                          </React.Fragment>
                                                         );
                                                       }
                                                     }
@@ -1019,13 +1019,13 @@ const SunShineTimeline = () => {
                                                 </div>
                                               ) : (
                                                 opening_details.map(
-                                                  (details) => {
+                                                  (details,idx) => {
                                                     if (
                                                       details.pdf_id ==
                                                       articleData.id
                                                     ) {
                                                       return (
-                                                        <>
+                                                        <React.Fragment key={idx}>
                                                           <div className="data-progress">
                                                           
                                                             <ProgressBar
@@ -1092,7 +1092,7 @@ const SunShineTimeline = () => {
                                                               </span>
                                                               : null
                                                           }
-                                                        </>
+                                                        </React.Fragment>
                                                       );
                                                     }
                                                   }
@@ -1126,13 +1126,13 @@ const SunShineTimeline = () => {
                                                 </div>
                                               ) : (
                                                 opening_details?.map(
-                                                  (details) => {
+                                                  (details,i) => {
                                                     if (
                                                       details?.pdf_id ==
                                                       articleData?.id
                                                     ) {
                                                       return (
-                                                        <>
+                                                        <React.Fragment key={i}>
                                                           <div className="data-progress">
                                                             <ProgressBar
                                                               variant={
@@ -1158,7 +1158,7 @@ const SunShineTimeline = () => {
                                                               }
                                                             />
                                                           </div>
-                                                        </>
+                                                        </React.Fragment>
                                                       );
                                                     }
                                                   }
@@ -1192,13 +1192,13 @@ const SunShineTimeline = () => {
                                                 </div>
                                               ) : (
                                                 opening_details?.map(
-                                                  (details) => {
+                                                  (details,index) => {
                                                     if (
                                                       details?.pdf_id ==
                                                       articleData?.id
                                                     ) {
                                                       return (
-                                                        <>
+                                                        <React.Fragment key={index}>
                                                           <div className="data-progress">
                                                             <ProgressBar
                                                               variant={
@@ -1222,7 +1222,7 @@ const SunShineTimeline = () => {
                                                               }
                                                             />
                                                           </div>
-                                                        </>
+                                                        </React.Fragment>
                                                       );
                                                     }
                                                   }
@@ -1256,13 +1256,13 @@ const SunShineTimeline = () => {
                                                 </div>
                                               ) : (
                                                 opening_details?.map(
-                                                  (details) => {
+                                                  (details,idx) => {
                                                     if (
                                                       details?.pdf_id ==
                                                       articleData?.id
                                                     ) {
                                                       return (
-                                                        <>
+                                                        <React.Fragment key={idx}>
                                                           <div className="data-progress">
                                                             <ProgressBar
                                                               variant={
@@ -1286,7 +1286,7 @@ const SunShineTimeline = () => {
                                                               }
                                                             />
                                                           </div>
-                                                        </>
+                                                        </React.Fragment>
                                                       );
                                                     }
                                                   }

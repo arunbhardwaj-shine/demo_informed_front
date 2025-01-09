@@ -431,7 +431,7 @@ const AnalyticsAttendees = () => {
                       <Accordion defaultActiveKey="0" flush>
                         {Object.keys(filterData)?.map(function (key, index) {
                           return (
-                            <>
+                            <React.Fragment key={index}>
                               {filterData[key]?.length > 0 ? (
                                 <Accordion.Item
                                   className={
@@ -503,7 +503,7 @@ const AnalyticsAttendees = () => {
                                   </Accordion.Body>
                                 </Accordion.Item>
                               ) : null}
-                            </>
+                            </React.Fragment>
                           );
                         })}
                       </Accordion>
@@ -561,7 +561,7 @@ const AnalyticsAttendees = () => {
                     <div className="filter-block">
                       <div className="filter-block-left full">
                         {Object.keys(appliedFilter)?.map((key, index) => {
-                          return (<>
+                          return (<React.Fragment key={index}>
                             {appliedFilter[key]?.length ? (
                               <div className="filter-div">
                                 <div className="filter-div-title">
@@ -571,7 +571,7 @@ const AnalyticsAttendees = () => {
                                   {appliedFilter[key]?.map((item, index) => (
                                     <div className="filter-result"
                                       id={item}
-                                      rt={index} >
+                                      rt={index} key={index} >
                                       {item}
                                       <img
                                         src={
@@ -582,13 +582,14 @@ const AnalyticsAttendees = () => {
                                         }}
                                         alt="Close-filter"
                                       />
+                                      
                                     </div>
 
                                   ))}
                                 </div>
                               </div>
                             ) : ""}
-                          </>)
+                          </React.Fragment>)
                         })}
                       </div>
                       <div className="clear-filter">

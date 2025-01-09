@@ -94,7 +94,7 @@ const navigate=useNavigate();
           <>
             {subLinkData?.map((data, index) => {
               return (
-                <>
+                <React.Fragment key={index}>
                   <div className="sublink-list">
                     <div className="sublink-listed-view d-flex align-items-center">
                       <div className="sublink-listed-view-block">
@@ -158,7 +158,7 @@ const navigate=useNavigate();
                     level={"H"}
                     includeMargin={true}
                   />
-                </>
+                </React.Fragment>
               );
             })}
           </>

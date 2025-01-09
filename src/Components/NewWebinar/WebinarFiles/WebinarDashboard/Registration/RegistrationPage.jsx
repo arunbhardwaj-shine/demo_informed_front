@@ -1407,9 +1407,10 @@ const FormField1 = ({
     form.inputType === "selection-country" ||
     form.inputType === "selection-state"
   ) {
-    const options = form.option?.map((op) => ({
+    const options = form.option?.map((op,i) => ({
       label: op.optionLabel,
       value: op.optionLabel,
+      key:i
     }));
 
     fieldInput = (
@@ -1446,8 +1447,8 @@ const FormField1 = ({
     fieldInput = (
       <ul>
         {form.option?.map((item, index) => (
-          <>
-            <li key={index}>
+        <React.Fragment key={index}>
+            <li  >
               <input
                 type={form.inputType}
                 id={label + index}
@@ -1484,7 +1485,7 @@ const FormField1 = ({
                   level={form.label}
                 />
               ))}
-          </>
+          </React.Fragment>
         ))}
       </ul>
     );
@@ -1492,8 +1493,8 @@ const FormField1 = ({
     fieldInput = (
       <ul>
         {form.option?.map((item, index) => (
-          <>
-            <li key={index}>
+          <React.Fragment key={index}>
+            <li >
               <input
                 type={form.inputType}
                 id={label + index}
@@ -1536,7 +1537,7 @@ const FormField1 = ({
                   level={form.label}
                 />
               ))}
-          </>
+          </React.Fragment>
         ))}
       </ul>
     );
@@ -1711,7 +1712,7 @@ const FormField2 = ({
       <ul>
         {form.option?.map((item, index) => (
           <React.Fragment key={index}>
-            <li key={index}>
+            <li  >
               <input
                 type={form.inputType}
                 id={label + index}
@@ -1757,7 +1758,7 @@ const FormField2 = ({
       <ul>
         {form.option?.map((item, index) => (
           <React.Fragment key={index}>
-            <li key={index}>
+            <li  >
               <input
                 type={form.inputType}
                 id={label + index}
@@ -1964,9 +1965,10 @@ const FormField3 = ({
     form.inputType === "selection-country" ||
     form.inputType === "selection-state"
   ) {
-    const options = form.option?.map((op) => ({
+    const options = form.option?.map((op,i) => ({
       label: op.optionLabel,
       value: op.optionLabel,
+      key:i
     }));
 
     fieldInput = (
@@ -2004,7 +2006,7 @@ const FormField3 = ({
       <ul>
         {form.option?.map((item, index) => (
           <React.Fragment key={index}>
-            <li key={index}>
+            <li  >
               <input
                 type={form.inputType}
                 id={label + index}
@@ -2049,8 +2051,8 @@ const FormField3 = ({
     fieldInput = (
       <ul>
         {form.option?.map((item, index) => (
-          <>
-            <li key={index}>
+         <React.Fragment key={index}>
+            <li  >
               <input
                 checked={formFieldData[label]?.includes(item.optionLabel)}
                 type={form.inputType}
@@ -2094,7 +2096,7 @@ const FormField3 = ({
                   level={form.label}
                 />
               ))}
-          </>
+          </React.Fragment>
         ))}
       </ul>
     );
@@ -2343,9 +2345,10 @@ const FormField4 = ({
     form.inputType === "selection-country" ||
     form.inputType === "selection-state"
   ) {
-    const options = form.option?.map((op) => ({
+    const options = form.option?.map((op,i) => ({
       label: op.optionLabel,
       value: op.optionLabel,
+      key:i
     }));
 
     fieldInput = (
@@ -2386,8 +2389,8 @@ const FormField4 = ({
     fieldInput = (
       <ul>
         {form.option?.map((item, index) => (
-          <>
-            <li key={index}>
+        <React.Fragment key={index}>
+            <li  >
               <input
                 type={form.inputType}
                 id={label + index}
@@ -2424,7 +2427,7 @@ const FormField4 = ({
                   level={form.label}
                 />
               ))}
-          </>
+          </React.Fragment>
         ))}
       </ul>
     );
@@ -2432,8 +2435,8 @@ const FormField4 = ({
     fieldInput = (
       <ul>
         {form.option?.map((item, index) => (
-          <>
-            <li key={index}>
+        <React.Fragment key={index}>
+            <li  >
               <input
                 type={form.inputType}
                 id={label + index}
@@ -2476,7 +2479,7 @@ const FormField4 = ({
                   level={form.label}
                 />
               ))}
-          </>
+          </React.Fragment>
         ))}
       </ul>
     );
@@ -2591,9 +2594,10 @@ const FormField5 = ({
     form.inputType === "selection-country" ||
     form.inputType === "selection-state"
   ) {
-    const options = form.option?.map((op) => ({
+    const options = form.option?.map((op,i) => ({
       label: op.optionLabel,
       value: op.optionLabel,
+      key:i
     }));
 
     fieldInput = (
@@ -2630,7 +2634,7 @@ const FormField5 = ({
     fieldInput = (
       <ul>
         {form.option?.map((item, index) => (
-          <>
+          <React.Fragment key={index}>
             <li key={index}>
               <input
                 type={form.inputType}
@@ -2668,7 +2672,7 @@ const FormField5 = ({
                   level={form.label}
                 />
               ))}
-          </>
+          </React.Fragment>
         ))}
       </ul>
     );

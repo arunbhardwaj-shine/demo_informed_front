@@ -578,7 +578,7 @@ const AnalyticsEmailView = () => {
                               <div className="email-box d-flex">
                                 {Object.keys(ctrName)?.length > 0 ? (
                                   Object.keys(ctrName)?.map((item, index) => (
-                                    <Col className="video-click">
+                                    <Col className="video-click" key={index}>
                                       <p
                                         style={{
                                           color:
@@ -849,7 +849,8 @@ const AnalyticsEmailView = () => {
                                           colorByPoint: true,
                                           data:
                                             dropdownData?.regionBarData?.map(
-                                              (data) => ({
+                                              (data,index) => ({
+                                                key:index,
                                                 y: data.y,
                                                 color: data.color,
                                                 drilldown: data?.name,
@@ -869,10 +870,12 @@ const AnalyticsEmailView = () => {
                                         },
                                         series:
                                           dropdownData?.drilldownData?.map(
-                                            (drilldownItem) => ({
+                                            (drilldownItem,index) => ({
+                                              key:index,
                                               id: drilldownItem.id,
                                               data: drilldownItem.data.map(
-                                                (item) => ({
+                                                (item,i) => ({
+                                                  key:i,
                                                   name: item[0], // Country name
                                                   y: item[1], // Count
                                                   // pointWidth: 30,

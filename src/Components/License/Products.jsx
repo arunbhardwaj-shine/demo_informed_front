@@ -146,9 +146,9 @@ function Products() {
                 </div>
                 <Row>
                   <div className="col-12 selected-products-list d-flex">
-                    {productData?.length? productData?.data?.map((item) => {
+                    {productData?.length? productData?.data?.map((item,i) => {
                       return (
-                        <>
+                        <React.Fragment key={i}>
                           <Col xxl={3} xl={4} md={6}>
                             <div className="products-listing">
                               {item?.product}
@@ -167,7 +167,7 @@ function Products() {
                               </button>
                             </div>
                           </Col>
-                        </>
+                        </React.Fragment>
                       );
                     }):<div className="no_found"><p>No Data Found</p></div>  }
                   </div>

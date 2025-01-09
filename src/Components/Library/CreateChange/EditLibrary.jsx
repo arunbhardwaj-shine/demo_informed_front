@@ -1334,7 +1334,7 @@ const getExistingVideos=async ()=>{
                         <ul>
                           {finalTags?.map((item, index) => {
                             return (
-                              <li className="list1">
+                              <li className="list1" key={index}>
                                 {item}
                                 <img
                                   src="componentAssets/images/filter-close.svg"
@@ -1375,7 +1375,7 @@ const getExistingVideos=async ()=>{
                       <ul>
                         {finalTags?.map((item, index) => {
                           return (
-                            <li className="list1">
+                            <li className="list1" key={index}>
                               {item}
                               <img
                                 src="componentAssets/images/filter-close.svg"
@@ -2107,6 +2107,7 @@ const getExistingVideos=async ()=>{
                                     {userDetail?.hcp?.map((item, index) => {
                                       return (
                                         <li
+                                        key={index}
                                           className="list1"
                                           onClick={() => {
                                             hcpClicked(item);
@@ -2122,7 +2123,7 @@ const getExistingVideos=async ()=>{
                                   <ul className="after-tag-selected">
                                     {hcpClickedFirst.map((item, index) => {
                                       return (
-                                        <>
+                                        <React.Fragment key={index}>
                                           {userDetail?.hcp?.includes(item) ? (
                                             <li className="list1">
                                               {item}
@@ -2133,7 +2134,7 @@ const getExistingVideos=async ()=>{
                                               />
                                             </li>
                                           ) : null}
-                                        </>
+                                        </React.Fragment>
                                       );
                                     })}
                                   </ul>
@@ -2157,6 +2158,7 @@ const getExistingVideos=async ()=>{
                                     {mandatoryRole.map((item, index) => {
                                       return (
                                         <li
+                                        key={index}
                                           className="list1"
                                           onClick={() => {
                                             hcpIrtClicked(item);
@@ -2172,7 +2174,7 @@ const getExistingVideos=async ()=>{
                                   <ul className="after-tag-selected">
                                     {hcpIrtClickedFirst.map((item, index) => {
                                       return (
-                                        <>
+                                        <React.Fragment key={index}>
                                           {mandatoryRole.includes(item) ? (
                                             <li className="list1">
                                               {item}
@@ -2185,7 +2187,7 @@ const getExistingVideos=async ()=>{
                                               />
                                             </li>
                                           ) : null}
-                                        </>
+                                        </React.Fragment>
                                       );
                                     })}
                                   </ul>
@@ -2299,7 +2301,7 @@ const getExistingVideos=async ()=>{
                       userInputs.docintelFormat == "ebook" || userInputs.docintelFormat == "ebookVideo" ? (
                         chapter.map((val, i) => {
                           return (
-                            <>
+                            <React.Fragment key={i}>
                               <div className="form-group val chapter-title">
                                 <div className="ebook-format">
 
@@ -2566,13 +2568,13 @@ const getExistingVideos=async ()=>{
                                   </div>
                                 ) : null}
                               </div>
-                            </>
+                            </React.Fragment>
                           );
                         })
                       ) : userInputs.docintelFormat == "pdfSpc" ? (
                         pdfSpcData.map((val, i) => {
                           return (
-                            <>
+                            <React.Fragment key={i}>
                               <div className="form-group val chapter-title pdf-spc">
                                 <div className="ebook-format">
                                   <label htmlFor="">
@@ -2625,7 +2627,7 @@ const getExistingVideos=async ()=>{
                                   </div>
                                 ) : null}
                               </div>
-                            </>
+                            </React.Fragment>
                           );
                         })
                       ) :  
@@ -2714,9 +2716,9 @@ const getExistingVideos=async ()=>{
                             <label className="switch-light">
                               <input
                                 type="checkbox"
-                                defaultChecked={
-                                  userInputs?.allowVideo ? true : false
-                                }
+                                // defaultChecked={
+                                //   userInputs?.allowVideo ? true : false
+                                // }
                                 checked={userInputs?.allow_video ? true : false}
                                 onChange={(e) => {
                                   handleChange(

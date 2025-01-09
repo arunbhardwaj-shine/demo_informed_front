@@ -2430,7 +2430,7 @@ const ViewTable = (props) => {
                   {hpc.map((val, i) => {
                     const fieldName = `hpc[${i}]`;
                     return (
-                      <>
+                      <React.Fragment key={fieldName}>
                         <div className="add_hcp_boxes">
                           <div className="form_action">
                             <div className="row">
@@ -2929,7 +2929,7 @@ const ViewTable = (props) => {
 
                                   {val?.siteDetails?.map((data, index) => {
                                     return (
-                                      <>
+                                         <React.Fragment key={index}>
                                       
                                         <>
                                           <div className="add-content-form">
@@ -2937,7 +2937,7 @@ const ViewTable = (props) => {
                                           </div>
                                         </>
                                         {/* )} */}
-                                      </>
+                                      </React.Fragment>
                                     );
                                   })}
                                 </>
@@ -2985,7 +2985,7 @@ const ViewTable = (props) => {
                             </div>
                           </div>
                         </div>
-                      </>
+                      </React.Fragment>
                     );
                   })}
                 </form>

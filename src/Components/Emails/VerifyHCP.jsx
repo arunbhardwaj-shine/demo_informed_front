@@ -1332,7 +1332,7 @@ const VerifyHCP = (props) => {
                     </li>
                     
                     <li className="active active-main">
-                      <a href="javascript:void(0)">
+                      <a href="#">
                         {
                           IRTTraining ? "Verify Your IRT" : 
                           irtRoleObj?.IRTFlag ? "Select & Verify Your IRTs" :
@@ -1342,7 +1342,7 @@ const VerifyHCP = (props) => {
                     </li>
 
                     <li className="">
-                      <a href="javascript:void(0)">Verify your Email</a>
+                      <a href="#">Verify your Email</a>
                     </li>
                   </ul>
                 </div>
@@ -2048,7 +2048,7 @@ const VerifyHCP = (props) => {
                             {/* {searchedUsers?.map((users, index) => { */}
                             {sortData(searchedUsers, sortBy, sortOrder).map((users, index) => {
                               return (
-                                <>
+                                <React.Fragment key={index}>
                                   <tr>
                                     <td>{users?.name?users?.name:users?.first_name}</td>
                                     <td>{users?.email ? users?.email : "N/A"}</td>
@@ -2117,7 +2117,7 @@ const VerifyHCP = (props) => {
                                       />
                                     </td>
                                   </tr>
-                                </>
+                                </React.Fragment>
                               );
                             })}
 
@@ -2701,7 +2701,7 @@ const VerifyHCP = (props) => {
                         {/* {selectedHcp?.map((data, index) => { */}
                         {sortData(selectedHcp, sortBy, sortOrder).map((data, index) => {
                           return (
-                            <>
+                            <React.Fragment key={index}>
                               <tr
                                 id={`row-selected` + index}
                                 onClick={(e) =>
@@ -2831,7 +2831,7 @@ const VerifyHCP = (props) => {
                                   : null
                                 }
                               </tr>
-                            </>
+                            </React.Fragment>
                           );
                         })}
                       </tbody>
@@ -2881,7 +2881,7 @@ const VerifyHCP = (props) => {
                   {hpc.map((val, i) => {
                     const fieldName = `hpc[${i}]`;
                     return (
-                      <>
+                      <React.Fragment key={fieldName}>
                         <div className="add_hcp_boxes">
                           <div className="form_action">
                             <div className="row">
@@ -3435,7 +3435,7 @@ const VerifyHCP = (props) => {
                             </div>
                           </div>
                         </div>
-                      </>
+                      </React.Fragment>
                     );
                   })}
                 </form>

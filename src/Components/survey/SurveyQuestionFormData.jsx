@@ -1385,7 +1385,7 @@ const SurveyQuestionFormDataOthers = () => {
                       </tr>
                       {showDetails[index] && (
                           <tr className="fold">
-                            <td colspan="8">
+                            <td colSpan="8">
                            <div className="survey-data">
                               <h6>
                                 {" "}
@@ -1403,7 +1403,7 @@ const SurveyQuestionFormDataOthers = () => {
                           </tr>
                         )}
                         <tr className="blank">
-                                <td colspan="8" style={{ height: "10px;" }}>
+                                <td colSpan="8" style={{ height: "10px" }}>
                                   &nbsp;
                                 </td>
                               </tr>

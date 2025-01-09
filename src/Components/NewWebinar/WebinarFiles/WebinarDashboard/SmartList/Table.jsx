@@ -1920,10 +1920,10 @@ const Table = (props, ref) => {
               <div className="col-12 col-md-8">
                 <ul className="tabnav-link">
                   <li className="active">
-                    <a href="javascript:void(0)">Create smart List</a>
+                    <a href="#">Create smart List</a>
                   </li>
                   <li className="active active-main">
-                    <a href="javascript:void(0)">Verify Your List</a>
+                    <a href="#">Verify Your List</a>
                   </li>
                 </ul>
               </div>
@@ -2618,7 +2618,7 @@ const Table = (props, ref) => {
           {hpc.map((val, i) => {
             const fieldName = `hpc[${i}]`;
             return (
-              <>
+              <React.Fragment key={fieldName}>
                 <div className="container">
                   <div className="row align-items-center vh-100">
                     <div className="col-6 mx-auto">
@@ -2717,7 +2717,7 @@ const Table = (props, ref) => {
                     </div>
                   </div>
                 </div>
-              </>
+              </React.Fragment>
             );
           })}
           <button
@@ -2800,7 +2800,7 @@ const Table = (props, ref) => {
                     {hpc.map((val, i) => {
                       const fieldName = `hpc[${i}]`;
                       return (
-                        <>
+                        <React.Fragment key={fieldName}>
                           <div className="add_hcp_boxes">
                             <div className="form_action">
                               <div className="row">
@@ -3307,15 +3307,15 @@ const Table = (props, ref) => {
 
                                     {val?.siteDetails?.map((data, index) => {
                                       return (
-                                        <>
                                          
-                                          <>
+                                         
+                                        <React.Fragment key={index}>
                                             <div className="add-content-form">
                                               <div className="row"></div>
                                             </div>
-                                          </>
+                                          </React.Fragment>
                                          
-                                        </>
+                                       
                                       );
                                     })}
                                   </>
@@ -3363,7 +3363,7 @@ const Table = (props, ref) => {
                               </div>
                             </div>
                           </div>
-                        </>
+                        </React.Fragment>
                       );
                     })}
                   </form>
@@ -3435,8 +3435,8 @@ const Table = (props, ref) => {
                     {hpc.map((val, i) => {
                       const fieldName = `hpc[${i}]`;
                       return (
-                        <>
-                          <div className="add_hcp_boxes">
+                        <React.Fragment key={fieldName}>
+                          <div className="add_hcp_boxes">React.Fragment key={index}
                             <div className="form_action">
                               <div className="row">
                                 <div className="col-12 col-md-6">
@@ -3623,7 +3623,7 @@ const Table = (props, ref) => {
                               </div>
                             </div>
                           </div>
-                        </>
+                        </React.Fragment>
                       );
                     })}
                   </form>

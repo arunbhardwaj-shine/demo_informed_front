@@ -609,8 +609,8 @@ const GetDetails = () => {
                                   {item?.all_read_info &&
                                   item.all_read_info != ""
                                     ? Object.keys(item.all_read_info).map(
-                                        (key) => (
-                                          <>
+                                        (key,index) => (
+                                          <React.Fragment key={index}>
                                             <td>
                                               {
                                                 item.all_read_info[key]
@@ -623,7 +623,7 @@ const GetDetails = () => {
                                                   .article_registered
                                               }
                                             </td>
-                                          </>
+                                          </React.Fragment>
                                         )
                                       )
                                     : ""}
@@ -644,7 +644,7 @@ const GetDetails = () => {
                           ))
                         ) : (
                           <tr className="data-not-found">
-                            <td colspan="6">
+                            <td colSpan="6">
                               <h4>No Data Found</h4>
                             </td>
                           </tr>

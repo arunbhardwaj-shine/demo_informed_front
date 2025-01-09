@@ -1500,9 +1500,9 @@ const EditConsentOptions = (props) => {
                     responsive={responsive}
                     onSlideChanged={syncActiveIndex}
                   >
-                    {templateList.map((template) => {
+                    {templateList.map((template,index) => {
                       return (
-                        <>
+                        <React.Fragment key={index}>
                           <div
                             className="item"
                             onClick={(e) => templateClicked(template, e)}
@@ -1520,7 +1520,7 @@ const EditConsentOptions = (props) => {
                             />
                             <p>{template.name}</p>
                           </div>
-                        </>
+                        </React.Fragment>
                       );
                     })}
                   </AliceCarousel>
@@ -1826,7 +1826,7 @@ const EditConsentOptions = (props) => {
                 ) : (
                   searchedUsers.map((data, index) => {
                     return (
-                      <div className="search-hcp-box">
+                      <div className="search-hcp-box" key={index}>
                         <p className="send-hcp-box-title">
                           Name | <span>{data.name}</span>
                         </p>
@@ -1866,7 +1866,7 @@ const EditConsentOptions = (props) => {
                   <>
                     {selectedHcp.map((data, index2) => {
                       return (
-                        <>
+                        <React.Fragment key={index2}>
                           <div className="search-hcp-box">
                             <p className="send-hcp-box-title">
                               Name | <span>{data.name || data.first_name}</span>
@@ -1885,7 +1885,7 @@ const EditConsentOptions = (props) => {
                               />
                             </div>
                           </div>
-                        </>
+                        </React.Fragment>
                       );
                     })}
                   </>
@@ -1963,7 +1963,7 @@ const EditConsentOptions = (props) => {
                   {hpc.map((val, i) => {
                     const fieldName = `hpc[${i}]`;
                     return (
-                      <>
+                      <React.Fragment key={fieldName}>
                         <div className="add_hcp_boxes">
                           <div className="form_action">
                             <div className="row">
@@ -2081,7 +2081,7 @@ const EditConsentOptions = (props) => {
                                         : Object.entries(countryall).map(
                                             ([index, item]) => {
                                               return (
-                                                <>
+                                                <React.Fragment key={index}>
                                                   <Dropdown.Item
                                                     eventKey={index}
                                                     className={
@@ -2094,7 +2094,7 @@ const EditConsentOptions = (props) => {
                                                       ? "Bosnia and Herzegovina"
                                                       : item}
                                                   </Dropdown.Item>
-                                                </>
+                                                </React.Fragment>
                                               );
                                             }
                                           )}
@@ -2143,7 +2143,7 @@ const EditConsentOptions = (props) => {
                             </div>
                           </div>
                         </div>
-                      </>
+                      </React.Fragment>
                     );
                   })}
                 </form>
@@ -2211,9 +2211,9 @@ const EditConsentOptions = (props) => {
             <div className="col smartlist-result-block">
               {typeof smartListData !== "undefined" &&
               smartListData.length > 0 ? (
-                smartListData.map((data) => {
+                smartListData.map((data,index) => {
                   return (
-                    <>
+                    <React.Fragment key={index}>
                       <div className="smartlist_box_block">
                         <div className="smartlist-view email_box">
                           <div className="mail-box-content">
@@ -2294,7 +2294,7 @@ const EditConsentOptions = (props) => {
                           </div>
                         </div>
                       </div>
-                    </>
+                    </React.Fragment>
                   );
                 })
               ) : (

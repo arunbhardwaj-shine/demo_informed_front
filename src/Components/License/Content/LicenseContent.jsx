@@ -350,10 +350,11 @@ const LicenseContent = (props) => {
   };
 
   const clearFilter = () => {
+
     document.querySelectorAll("input")?.forEach((checkbox) => {
       checkbox.checked = false;
     });
-
+    setAppliedFilter({});
     obj = {};
     setFilterObject({});
     setLibraryData([]);
@@ -1256,7 +1257,7 @@ const LicenseContent = (props) => {
                     <div className="filter-block-left full">
                       {Object.keys(filterObject)?.map((key, index) => {
                         return (
-                          <>
+                          <React.Fragment key={index}>
                             {filterObject[key]?.length > 0 ? (
                               <div className="filter-div">
                                 <div className="filter-div-title">
@@ -1284,6 +1285,7 @@ const LicenseContent = (props) => {
                                       {" "}
                                       {filterObject[key]?.map((item, index) => (
                                         <div
+                                        key={index}
                                           className="filter-result"
                                           onClick={(event) =>
                                             removeindividualfilter(key, item)
@@ -1307,7 +1309,7 @@ const LicenseContent = (props) => {
                                 </div>
                               </div>
                             ) : null}
-                          </>
+                          </React.Fragment>
                         );
                       })}
                     </div>
@@ -2900,7 +2902,7 @@ const LicenseContent = (props) => {
             <div className="total-selected">
               {tagClickedFirst.map((data, index) => {
                 return (
-                  <>
+                  <React.Fragment key={index}>
                     <div className="tag-cross">
                       {data.innerHTML || data}
                       <img
@@ -2909,7 +2911,7 @@ const LicenseContent = (props) => {
                         onClick={() => removeTagFinal(index)}
                       />
                     </div>
-                  </>
+                  </React.Fragment>
                 );
               })}
             </div>
@@ -2982,7 +2984,7 @@ const LicenseContent = (props) => {
             <div className="total-selected">
               {tagClickedFirst.map((data, index) => {
                 return (
-                  <>
+                  <React.Fragment key={index}>
                     <div className="tag-cross">
                       {data.innerHTML || data}
                       <img
@@ -2991,7 +2993,7 @@ const LicenseContent = (props) => {
                         onClick={() => removeTagFinal(index)}
                       />
                     </div>
-                  </>
+                  </React.Fragment>
                 );
               })}
             </div>

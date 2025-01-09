@@ -390,7 +390,7 @@ const WebinarRegistration = () => {
         // );
       }
       setFormData(newFormData);
-      console.log(newFormData, "ergtrggg");
+   
       if (Object.keys(newFormData.eventDetails)?.length > 0) {
         textAreaRefs.current = Array(
           Object.keys(newFormData.eventDetails)?.length
@@ -1709,8 +1709,9 @@ const WebinarRegistration = () => {
                                           resizeTextArea(index);
                                         }}
                                         name={`eventDetails-${key}`}
+                                        value={field.value}
                                       >
-                                        {field.value}
+                                        
                                       </textarea>
                                     ) : (
                                       <input
@@ -1897,7 +1898,7 @@ const WebinarRegistration = () => {
                                                                   value={
                                                                     item?.optionValue
                                                                   }
-                                                                  checked={
+                                                                  defaultChecked={
                                                                     item?.checked
                                                                   }
                                                                 />
@@ -2020,7 +2021,7 @@ const WebinarRegistration = () => {
                                                                                       value={
                                                                                         optItem?.optionValue
                                                                                       }
-                                                                                      checked={
+                                                                                      defaultChecked={
                                                                                         optItem?.checked
                                                                                       }
                                                                                     />
@@ -2098,7 +2099,7 @@ const WebinarRegistration = () => {
                                                                                       value={
                                                                                         optItem?.optionValue
                                                                                       }
-                                                                                      checked={
+                                                                                      defaultChecked={
                                                                                         optItem?.checked
                                                                                       }
                                                                                     />
@@ -2177,6 +2178,7 @@ const WebinarRegistration = () => {
                                                                                 htmlFor={
                                                                                   extItem?.label
                                                                                 }
+                                                                             
                                                                               >
                                                                                 {
                                                                                   extItem?.label
@@ -2304,7 +2306,7 @@ const WebinarRegistration = () => {
                                                                     : "dynamic_" +
                                                                     dynamicFieldNo
                                                                     }`}
-                                                                  checked={
+                                                                    defaultChecked={
                                                                     item?.checked
                                                                   }
                                                                 />
@@ -2354,7 +2356,7 @@ const WebinarRegistration = () => {
                                                                         extItem,
                                                                         extIndex
                                                                       ) => (
-                                                                        <div className="extItem">
+                                                                        <div className="extItem" key={extIndex}>
                                                                           {extItem?.inputType ==
                                                                             "text" ? (
                                                                             <div className="extOption">
@@ -2418,7 +2420,7 @@ const WebinarRegistration = () => {
                                                                                       value={
                                                                                         optItem?.optionValue
                                                                                       }
-                                                                                      checked={
+                                                                                      defaultChecked={
                                                                                         optItem?.checked
                                                                                       }
                                                                                     />
@@ -2497,9 +2499,7 @@ const WebinarRegistration = () => {
                                                                                       value={
                                                                                         optItem?.optionValue
                                                                                       }
-                                                                                      checked={
-                                                                                        optItem?.checked
-                                                                                      }
+                                                                                      defaultChecked={optItem?.checked}
                                                                                     />
                                                                                     <label
                                                                                       htmlFor={

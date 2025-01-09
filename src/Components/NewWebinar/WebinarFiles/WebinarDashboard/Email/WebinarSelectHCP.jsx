@@ -311,13 +311,13 @@ const WebinarSelectHCP = (props) => {
                     <Link to="/webinar/email/create-new-email">Create Your Email</Link>
                   </li>
                   <li className="active active-main">
-                    <a href="javascript:void(0)">Select HCPs</a>
+                    <a href="#">Select HCPs</a>
                   </li>
                   <li className="">
-                    <a href="javascript:void(0)">Verify your list</a>
+                    <a href="#">Verify your list</a>
                   </li>
                   <li className="">
-                    <a href="javascript:void(0)">Verify your Email</a>
+                    <a href="#">Verify your Email</a>
                   </li>
                 </ul>
               </div>
@@ -395,10 +395,11 @@ const WebinarSelectHCP = (props) => {
                   <ul>
 
                     {sendOptions?.filter((item) => item.id == 1 || item.id == 2)?.map(option => {
+                      
                       if (option?.id == 4 && !userIdArray?.includes(currentUserId)) {
                         return null
                       } else {
-                        return (<>
+                        return ( 
                           <li key={option?.id} >
                             <div
                               className={templateId === option.id ? "send-option-img active" : "send-option-img"}
@@ -409,7 +410,7 @@ const WebinarSelectHCP = (props) => {
                             </div>
                             <p>{option?.label} <img src={path_image + "info_circle_icon.svg"} alt={option?.tooltipMessage} title={option?.tooltipMessage} /></p>
                           </li>
-                        </>)
+                        )
                       }
 
                     }

@@ -1492,8 +1492,8 @@ const Analytics = (props) => {
                               // usersData.map((user, index) => (
                               sortData(usersData, sortBy, sortOrder).map(
                                 (user, index) => (
-                                  <>
-                                    <tr key={index}>
+                                  <React.Fragment key={index}>
+                                    <tr  >
                                       <td>{user.name}</td>
                                       <td>{user.email}</td>
                                       <td>{user.province}</td>
@@ -1507,7 +1507,7 @@ const Analytics = (props) => {
                                     <tr className="blank">
                                       <td colSpan="7">&nbsp;</td>
                                     </tr>
-                                  </>
+                                  </React.Fragment>
                                 )
                               )
                             ) : (
@@ -2071,7 +2071,8 @@ const Analytics = (props) => {
                                     colorByPoint: true,
                                     data:
                                       sortedCountries?.totalRegistrationsByEmailAndOtherChannels?.pieChartData?.map(
-                                        (data) => ({
+                                        (data,i) => ({
+                                          key:i,
                                           y: data.y,
                                           color: data.color,
                                           drilldown: data?.drilldown,
@@ -2091,13 +2092,15 @@ const Analytics = (props) => {
                                   },
                                   series:
                                     sortedCountries?.totalRegistrationsByEmailAndOtherChannels?.drillDownData?.map(
-                                      (drilldownItem) => ({
+                                      (drilldownItem,i) => ({
+                                        key:i,
                                         id: drilldownItem.id,
                                         name: drilldownItem.id,
                                         data: drilldownItem.data.map(
-                                          (item) => ({
-                                            name: item[0], // Country name
-                                            y: item[1], // Count
+                                          (item,index) => ({
+                                            key:index,
+                                            name: item[0],  
+                                            y: item[1],  
                                           })
                                         ),
                                       })
@@ -2205,8 +2208,8 @@ const Analytics = (props) => {
                               // overViewData.map((user, index) => (
                               sortData(overViewData, sortBy, sortOrder).map(
                                 (user, index) => (
-                                  <>
-                                    <tr key={index}>
+                                  <React.Fragment key={index}>
+                                    <tr  >
                                       <td>{user.name}</td>
                                       <td>{user.email}</td>
                                       <td>{user.region}</td>
@@ -2220,7 +2223,7 @@ const Analytics = (props) => {
                                     <tr className="blank">
                                       <td colSpan="7">&nbsp;</td>
                                     </tr>
-                                  </>
+                                  </React.Fragment>
                                 )
                               )
                             ) : (

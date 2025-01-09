@@ -70,7 +70,7 @@ const SubLinkListing = ({
         {
             subLinkData?.map((data, index) => {
               return (
-                <>
+                <React.Fragment key={index}>
                 <div className="sublink-list">
                   <div className="sublink-listed-view d-flex align-items-center">
                     <div className="sublink-listed-view-block">
@@ -122,7 +122,7 @@ const SubLinkListing = ({
                   level={'H'}
                   includeMargin={true}
                 />
-                </>
+                </React.Fragment>
               )
             })
         }

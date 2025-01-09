@@ -297,7 +297,7 @@ const AnalyticsPoll = () => {
                       
                      {   question?.map((item, index) => {
                           return (
-                            <>
+                            <React.Fragment key={index}>
                               <div className="d-flex w-100">
                                 <div className="slider-space" key={item?.questionId}>
                                   <div className="question-boxed">
@@ -353,10 +353,10 @@ const AnalyticsPoll = () => {
                                                 item?.totalSubquestion?.map(
                                                   (answer, i) => {
                                                     return (
-                                                      <>
+                                                      <React.Fragment key={i}>
                                                         <div
                                                           className="answer sub-question"
-                                                          key={i}
+                                                           
                                                         >
                                                           <span>
                                                             {String.fromCharCode(
@@ -373,7 +373,7 @@ const AnalyticsPoll = () => {
                                                             }}
                                                           ></div>
                                                         </div>
-                                                      </>
+                                                      </React.Fragment>
                                                     );
                                                   }
                                                 )
@@ -405,10 +405,10 @@ const AnalyticsPoll = () => {
                                                     ? item?.allUserAnswers?.map(
                                                         (answer, i) => {
                                                           return (
-                                                            <>
+                                                            <React.Fragment key={i}>
                                                               <div
                                                                 className="answer"
-                                                                key={i}
+                                                             
                                                               >
                                                                 <span
                                                                   className="bullet-color"
@@ -434,7 +434,7 @@ const AnalyticsPoll = () => {
                                                                   }}
                                                                 />
                                                               </div>
-                                                            </>
+                                                            </React.Fragment>
                                                           );
                                                         }
                                                       )
@@ -491,7 +491,7 @@ const AnalyticsPoll = () => {
                                   />
                                 </div>
                               </div>
-                            </>
+                            </React.Fragment>
                           );
                         })}
                        { 

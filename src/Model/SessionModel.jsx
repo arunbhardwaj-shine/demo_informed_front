@@ -241,13 +241,8 @@ const [comment,setComment]=useState("")
       <Modal.Body>
         <div className="popup-content">
           {user?.map((item, index) => (
-            <>
-              {/* {
-                item?.groupId == 0 && item?.canCustomAnswer == 1 ?
-                <p className="event_sub_heading">Please consider the overall meeting when answering the following questions</p>
-                :
-                <p className="event_sub_heading">Thank you for attending the Factor VIII Relevance Academy. We would be very grateful if you would complete and return this evaluation form. Your feedback will help us in our efforts to provide high-quality scientific meetings in the future.</p>
-              } */}
+            <React.Fragment key={index}>
+              
               {
                item?.parentId != 1660 ?
                 <h4
@@ -286,7 +281,7 @@ const [comment,setComment]=useState("")
 
               {item?.childData?.map((value, index) => {
                 return (
-                  <>
+                  <React.Fragment key={index}>
                     {value?.answerData?.length > 0 &&
                       (index == 0 ||
                         item?.childData?.[index]?.answerData?.[0].answer !=
@@ -297,14 +292,14 @@ const [comment,setComment]=useState("")
                         <div className="check-group">
                           {value?.answerData?.map((newitem, index) => {
                             return (
-                              <>
+                              <React.Fragment key={index}>
                                 <span
                                   style={{ color: item?.questionColor }}
                                   dangerouslySetInnerHTML={{
                                     __html: newitem?.answer
                                   }}
                                 ></span>
-                              </>
+                              </React.Fragment>
                             );
                           })}
                         </div>
@@ -325,7 +320,7 @@ const [comment,setComment]=useState("")
                         {value?.answerData?.length ? (
                           value?.answerData?.map((childValue, index) => {
                             return (
-                              <>
+                              <React.Fragment key={index}>
                                 {value?.groupId == 0 &&
                                   value?.canCustomAnswer == 1 ? (
                                   <textarea
@@ -393,7 +388,7 @@ const [comment,setComment]=useState("")
                                   </div>
 
                                 )}
-                              </>
+                              </React.Fragment>
                             );
                           })
                         ) : value?.groupId == 0 &&
@@ -421,7 +416,7 @@ const [comment,setComment]=useState("")
                           : null
                       }
                     </div>
-                  </>
+                  </React.Fragment>
                 );
               })}
                {item?.addComment == 1 ? (
@@ -438,7 +433,7 @@ const [comment,setComment]=useState("")
                   cols="50"
                 />
               ) : ""}
-            </>
+            </React.Fragment>
           ))}
         </div>
       </Modal.Body>

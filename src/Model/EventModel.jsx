@@ -6,6 +6,7 @@ import axios from "axios";
 import { postData } from "../axios/apiHelper";
 import { ENDPOINT } from "../axios/apiConfig";
 import { loader } from "../loader";
+import { indexOf } from "@amcharts/amcharts4/.internal/core/utils/Array";
 
 
 const EventModel = ({ show, onClose, data ,eventId}) => {
@@ -120,9 +121,9 @@ const EventModel = ({ show, onClose, data ,eventId}) => {
       <Modal.Body>
         <p>{data?.length ? data[0]?.question : ""}</p>
         {data?.length && ["MULTIPLE", "CHECKBOX"].includes(data[0]?.type)
-          ? data[0]?.pollAnswers?.map((item) => {
+          ? data[0]?.pollAnswers?.map((item,index) => {
               return (
-                <>
+                <React.Fragment key={index}>
                   <div className="form-check form-check-inline">
                     <input
                       type={data[0]?.type == "MULTIPLE" ? "radio" : "checkbox"}
@@ -134,7 +135,7 @@ const EventModel = ({ show, onClose, data ,eventId}) => {
                     <label for={item?.answer}>{item?.answer}</label>
                     <br />
                   </div>
-                </>
+                </React.Fragment>
               );
             })
           : ""}

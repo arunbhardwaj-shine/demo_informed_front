@@ -266,9 +266,9 @@ function LibraryTopics() {
                     </button>
                   )}
                 </div>
-                {productData?.data?.map((item) => {
+                {productData?.data?.map((item,index) => {
                   return (
-                    <>
+                    <React.Fragment key={index}>
                       <Col xxl={3} xl={4} md={6}>
                         <div className="products-listing">
                           {item?.product}
@@ -308,7 +308,7 @@ function LibraryTopics() {
                           )}
                         </div>
                       </Col>
-                    </>
+                    </React.Fragment>
                   );
                 })}
               </Col>

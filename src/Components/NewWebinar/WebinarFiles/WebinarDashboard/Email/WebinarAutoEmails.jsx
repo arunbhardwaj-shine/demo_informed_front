@@ -2051,7 +2051,7 @@ const WebinarAutoEmail = () => {
                   <>
                     {selectedHcp?.map((data, index2) => {
                       return (
-                        <>
+                        <React.Fragment key={index2}>
                           <div className="search-hcp-box" key={data}>
                             <p className="send-hcp-box-title">
                               Name | <span>{data.name || data.first_name}</span>
@@ -2070,7 +2070,7 @@ const WebinarAutoEmail = () => {
                               />
                             </div>
                           </div>
-                        </>
+                        </React.Fragment>
                       );
                     })}
                   </>
@@ -2150,9 +2150,9 @@ const WebinarAutoEmail = () => {
             <div className="col smartlist-result-block">
               {typeof smartListData !== "undefined" &&
                 smartListData.length > 0 ? (
-                smartListData.map((data) => {
+                smartListData.map((data,i) => {
                   return (
-                    <>
+                    <React.Fragment key={i}>
                       <div className="smartlist_box_block new-smartlist">
                         <div className="smartlist-view email_box">
                           <div className="mail-box-content">
@@ -2184,7 +2184,7 @@ const WebinarAutoEmail = () => {
                           </div>
                         </div>
                       </div>
-                    </>
+                    </React.Fragment>
                   );
                 })
               ) : (

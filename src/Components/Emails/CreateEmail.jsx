@@ -2497,8 +2497,8 @@ const CreateEmail = (props) => {
                           <ul>
                             {finalTags.map((tags, index) => {
                               return (
-                                <>
-                                  <li className="list1" key={index}>
+                                <React.Fragment key={index}>
+                                  <li className="list1" >
                                     {tags.innerHTML || tags}{" "}
                                     <img
                                       src={path_image + "filter-close.svg"}
@@ -2506,7 +2506,7 @@ const CreateEmail = (props) => {
                                       onClick={() => removeTag(index)}
                                     />
                                   </li>
-                                </>
+                                </React.Fragment>
                               );
                             })}
                           </ul>
@@ -2798,8 +2798,8 @@ const CreateEmail = (props) => {
               <div className="total-selected">
                 {tagClickedFirst.map((data, index) => {
                   return (
-                    <>
-                      <div className="tag-cross" key={index}>
+                    <React.Fragment key={index}>
+                      <div className="tag-cross" >
                         {data.innerHTML || data}
                         <img
                           src={path_image + "filter-close.svg"}
@@ -2807,7 +2807,7 @@ const CreateEmail = (props) => {
                           onClick={() => removeTagFinal(index)}
                         />
                       </div>
-                    </>
+                    </React.Fragment>
                   );
                 })}
               </div>
@@ -2989,7 +2989,7 @@ const CreateEmail = (props) => {
                     <>
                       {selectedHcp.map((data, index2) => {
                         return (
-                          <>
+                          <React.Fragment key={index2}>
                             <div className="search-hcp-box" key={index2}>
                               <p className="send-hcp-box-title">
                                 Name |{" "}
@@ -3030,7 +3030,7 @@ const CreateEmail = (props) => {
                                 />
                               </div>
                             </div>
-                          </>
+                          </React.Fragment>
                         );
                       })}
                     </>
@@ -4048,8 +4048,8 @@ const CreateEmail = (props) => {
                       getReaderDetails.length > 0 &&
                       sortData(getReaderDetails, sortBy, sortOrder).map((rr, i) => {
                         return (
-                          <>
-                            <tr key={i}>
+                          <React.Fragment key={i}>
+                            <tr>
                               <td>{rr?.first_name ? rr?.first_name : "N/A"}</td>
                               <td>{rr?.email ? rr?.email : "N/A"}</td>
                               <td>{rr?.bounce ? rr.bounce : "N/A"}</td>
@@ -4117,7 +4117,7 @@ const CreateEmail = (props) => {
                               ) : null}
                               <td className="add-new-hcp" colspan="12"></td>
                             </tr>
-                          </>
+                          </React.Fragment>
                         );
                       })}
                   </tbody>

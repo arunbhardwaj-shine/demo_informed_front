@@ -11,7 +11,7 @@ const popup_alert = (data) => {
       document.getElementById("img-replaced").src =
         "componentAssets/images/alert.png";
     }
-    console.log(data.redirect);
+   
     if (
       data.redirect != "" &&
       data.redirect != "undefined" &&

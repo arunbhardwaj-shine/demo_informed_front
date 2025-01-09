@@ -713,11 +713,11 @@ const WebinarSelectSmartList = (props) => {
                   </li>
                   */}
                     <li className="">
-                      <a href="javascript:void(0)">Verify Your List</a>
+                      <a href="#">Verify Your List</a>
                     </li>
 
                     <li className="">
-                      <a href="javascript:void(0)">Verify your Email</a>
+                      <a href="#">Verify your Email</a>
                     </li>
                   </ul>
                 </div>
@@ -988,9 +988,9 @@ const WebinarSelectSmartList = (props) => {
                   {
                     apiCallStatus && SendListData?.length > 0
                       ?
-                      SendListData?.map((template) => {
+                      SendListData?.map((template,index) => {
                         return (
-                          <div className="smartlist_box_block new-smartlist">
+                          <div className="smartlist_box_block new-smartlist" key={index}>
                             <div className="smartlist-view email_box">
                               <div className="mail-box-content">
                                 <div className="mail-box-conten-title">
@@ -1181,7 +1181,7 @@ const WebinarSelectSmartList = (props) => {
                       getReaderDetails?.length > 0 &&
                       getReaderDetails?.map((rr, i) => {
                         return (
-                          <>
+                          <React.Fragment key={i}>
                             <tr>
                               <td>{rr?.first_name}</td>
                               <td>{rr?.email}</td>
@@ -1245,7 +1245,7 @@ const WebinarSelectSmartList = (props) => {
                               ) : null}
                               <td></td>
                             </tr>
-                          </>
+                          </React.Fragment>
                         );
                       })}
                   </tbody>

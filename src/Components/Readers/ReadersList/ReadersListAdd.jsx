@@ -2112,7 +2112,7 @@ const ReadersListAdd = () => {
                   {hpc.map((val, i) => {
                     const fieldName = `hpc[${i}]`;
                     return (
-                      <>
+                      <React.Fragment key={fieldName}>
                         <div className="add_hcp_boxes">
                           <div className="form_action">
                             <div className="row">
@@ -2614,11 +2614,11 @@ const ReadersListAdd = () => {
 
                                   {val?.siteDetails?.map((data, index) => {
                                     return (
-                                      <>
+                                      <React.Fragment key={index}>
                                         <div className="add-content-form">
                                           <div className="row"></div>
                                         </div>
-                                      </>
+                                      </React.Fragment>
                                     );
                                   })}
                                 </>
@@ -2677,7 +2677,7 @@ const ReadersListAdd = () => {
                             </div>
                           </div>
                         </div>
-                      </>
+                      </React.Fragment>
                     );
                   })}
                 </form>
@@ -2745,7 +2745,7 @@ const ReadersListAdd = () => {
                   {hpc.map((val, i) => {
                     const fieldName = `hpc[${i}]`;
                     return (
-                      <>
+                      <React.Fragment key={fieldName}>
                         <div className="add_hcp_boxes">
                           <div className="form_action">
                             <div className="row">
@@ -2904,7 +2904,7 @@ const ReadersListAdd = () => {
                             </div>
                           </div>
                         </div>
-                      </>
+                      </React.Fragment>
                     );
                   })}
                 </form>

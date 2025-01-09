@@ -135,13 +135,13 @@ export default function TemplateEight({ children, formData }) {
               <p style={{
                 color: formData?.content?.eventDetails?.SubHeading?.color,
               }}
-                class="speaker-specialization"
+              className="speaker-specialization"
                 dangerouslySetInnerHTML={{
                   __html: formData?.content?.eventDetails?.SubHeading?.value,
                 }}
               />
             ) : (
-              <p class="speaker-specialization">
+              <p className="speaker-specialization">
                 If you already have a One Source account you can register to the
                 clinical practice session using the same login details.
               </p>
@@ -152,7 +152,7 @@ export default function TemplateEight({ children, formData }) {
               <p style={{
                 color: formData?.content?.eventDetails?.SubText?.color,
               }}
-                class="speaker-specialization"
+              className="speaker-specialization"
                 dangerouslySetInnerHTML={{
                   __html: formData?.content?.eventDetails?.SubText?.value,
                 }}

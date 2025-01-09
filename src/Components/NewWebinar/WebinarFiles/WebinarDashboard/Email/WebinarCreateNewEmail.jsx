@@ -1913,7 +1913,7 @@ const WebinarCreateNewEmail = (props) => {
                                                     <ul>
                                                         {finalTags?.map((tags, index) => {
                                                             return (
-                                                                <>
+                                                               
                                                                     <li className="list1" key={index}>
                                                                         {tags?.innerHTML || tags}{" "}
                                                                         <img
@@ -1922,7 +1922,7 @@ const WebinarCreateNewEmail = (props) => {
                                                                             onClick={() => removeTag(index)}
                                                                         />
                                                                     </li>
-                                                                </>
+                                                                 
                                                             );
                                                         })}
                                                     </ul>
@@ -2316,7 +2316,7 @@ const WebinarCreateNewEmail = (props) => {
                                         <>
                                             {selectedHcp?.map((data, index2) => {
                                                 return (
-                                                    <>
+                                                    
                                                         <div className="search-hcp-box" key={index2}>
                                                             <p className="send-hcp-box-title">
                                                                 Name |{" "}
@@ -2356,7 +2356,7 @@ const WebinarCreateNewEmail = (props) => {
                                                                 />
                                                             </div>
                                                         </div>
-                                                    </>
+                                               
                                                 );
                                             })}
                                         </>
@@ -2551,7 +2551,7 @@ const WebinarCreateNewEmail = (props) => {
                             <div className="total-selected">
                                 {tagClickedFirst?.map((data, index) => {
                                     return (
-                                        <>
+                                        
                                             <div className="tag-cross" key={index}>
                                                 {data?.innerHTML || data}
                                                 <img
@@ -2560,7 +2560,7 @@ const WebinarCreateNewEmail = (props) => {
                                                     onClick={() => removeTagFinal(index)}
                                                 />
                                             </div>
-                                        </>
+                                        
                                     );
                                 })}
                             </div>
@@ -2646,8 +2646,8 @@ const WebinarCreateNewEmail = (props) => {
                                 smartListData.length > 0 ? (
                                 smartListData?.map((data, index) => {
                                     return (
-                                        <>
-                                            <div className="smartlist_box_block new-smartlist" key={index}>
+                                        <React.Fragment key={index}>
+                                            <div className="smartlist_box_block new-smartlist" >
                                                 <div className="smartlist-view email_box">
                                                     <div className="mail-box-content">
                                                         <div className="mail-box-conten-title">
@@ -2673,7 +2673,7 @@ const WebinarCreateNewEmail = (props) => {
                                                     </div>
                                                 </div>
                                             </div>
-                                        </>
+                                        </React.Fragment>
                                     );
                                 })
                             ) : (
@@ -2783,8 +2783,8 @@ const WebinarCreateNewEmail = (props) => {
                                                 getReaderDetails.length > 0 &&
                                                 getReaderDetails.map((rr, i) => {
                                                     return (
-                                                        <>
-                                                            <tr key={i}>
+                                                        <React.Fragment key={i}>
+                                                            <tr  >
                                                                 <td>{rr?.first_name ? rr?.first_name : "N/A"}</td>
                                                                 <td>{rr?.email ? rr?.email : "N/A"}</td>
                                                                 <td>{rr?.bounce ? rr.bounce : "N/A"}</td>
@@ -2854,7 +2854,7 @@ const WebinarCreateNewEmail = (props) => {
                                                                 ) : null}
                                                                 <td className="add-new-hcp" colspan="12"></td>
                                                             </tr>
-                                                        </>
+                                                        </React.Fragment>
                                                     );
                                                 })}
                                         </tbody>

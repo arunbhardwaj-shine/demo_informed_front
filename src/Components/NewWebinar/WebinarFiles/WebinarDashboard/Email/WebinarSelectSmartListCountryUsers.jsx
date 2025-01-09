@@ -1100,7 +1100,7 @@ const WebinarSelectSmartListCountryUsers = (props) => {
                                         </li>
 
                                         <li className="">
-                                            <a href="javascript:void(0)">Verify Your Email</a>
+                                            <a href="#">Verify Your Email</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -1219,7 +1219,7 @@ const WebinarSelectSmartListCountryUsers = (props) => {
                                         <Accordion className="deleted">
                                             {Object.keys(countryWiseData?.discardCountryData)?.length ? Object.keys(countryWiseData?.discardCountryData)?.map((country, index) => {
                                                 return (
-                                                    <>
+                                                    <React.Fragment key={index}>
                                                         <Accordion.Item eventKey={index}>
                                                             <Accordion.Header>
                                                                 {`${country} (${countryWiseData?.discardCountryData?.[country]?.length + (newlyAddedCountryWiseData?.[country]?.length ? newlyAddedCountryWiseData?.[country]?.length : 0)})`}
@@ -1260,7 +1260,7 @@ const WebinarSelectSmartListCountryUsers = (props) => {
                                                                             {
                                                                                 countryWiseData?.discardCountryData?.[country]?.map((readers, i) => {
                                                                                     return (
-                                                                                        <tr id={`row-selected` + i}>
+                                                                                        <tr id={`row-selected` + i} key={`row-selected` + i}>
                                                                                             <td id={`field_name` + readers?.profile_user_id}>
                                                                                                 <span>
                                                                                                     {readers?.first_name
@@ -1312,7 +1312,7 @@ const WebinarSelectSmartListCountryUsers = (props) => {
                                                                 </div>
                                                             </Accordion.Body>
                                                         </Accordion.Item>
-                                                    </>
+                                                    </React.Fragment>
                                                 )
                                             }) : ""}
                                         </Accordion>
@@ -1343,7 +1343,7 @@ const WebinarSelectSmartListCountryUsers = (props) => {
                                         <tbody>
                                             {removedReaders?.map((rr, i) => {
                                                 return (
-                                                    <>
+                                                    <React.Fragment key={i}>
 
                                                         {/* {rr["country"]?.toUpperCase() == country ? */}
                                                         <tr className="hcps-deleted">
@@ -1426,7 +1426,7 @@ const WebinarSelectSmartListCountryUsers = (props) => {
                                                             </td>
                                                         </tr>
                                                         {/* : ""} */}
-                                                    </>
+                                                    </React.Fragment>
                                                 );
                                             })}
                                             <tr className="seprator-add">
@@ -1439,8 +1439,8 @@ const WebinarSelectSmartListCountryUsers = (props) => {
                                 <Accordion>
                                     {Object.keys(countryWiseData?.allCountryData)?.length ? Object.keys(countryWiseData?.allCountryData)?.filter(country => countryWiseData?.allCountryData[country].length > 0)?.map((country, index) => {
                                         return (
-                                            <>
-                                                <Accordion.Item eventKey={index}>
+                                            <React.Fragment key={index}>
+                                                <Accordion.Item eventKey={index} >
                                                     <Accordion.Header>
                                                         {`${country} (${countryWiseData?.allCountryData?.[country]?.length})`}
 
@@ -1481,6 +1481,7 @@ const WebinarSelectSmartListCountryUsers = (props) => {
                                                                     {countryWiseData?.allCountryData?.[country]?.map((readers, i) => {
                                                                         return (
                                                                             <tr
+                                                                             key={i}
                                                                                 id={`row-selected` + i}
                                                                                 onClick={(e) =>
                                                                                     editing(
@@ -1579,7 +1580,7 @@ const WebinarSelectSmartListCountryUsers = (props) => {
                                                         </div>
                                                     </Accordion.Body>
                                                 </Accordion.Item>
-                                            </>
+                                            </React.Fragment>
                                         )
                                     }) : ""}
                                 </Accordion>

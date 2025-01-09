@@ -1208,7 +1208,7 @@ const MedpakSelectSmartListUsers = (props) => {
                                         </li>
 
                                         <li className="">
-                                            <a href="javascript:void(0)">Verify Your Email</a>
+                                            <a href="#">Verify Your Email</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -1398,7 +1398,7 @@ const MedpakSelectSmartListUsers = (props) => {
                                                     <ul>
                                                         {Object.keys(newlyAddedCountryWiseData)?.map((country, index) => {
                                                             return (
-                                                                <>
+                                                                <React.Fragment key={index}>
                                                                     <li>
                                                                         <div className="form-group">
                                                                             <label htmlFor="">{country}</label>
@@ -1420,7 +1420,7 @@ const MedpakSelectSmartListUsers = (props) => {
                                                                             </div>
                                                                         </div>
                                                                     </li>
-                                                                </>
+                                                                </React.Fragment>
                                                             );
                                                         })}
                                                     </ul>
@@ -1428,7 +1428,7 @@ const MedpakSelectSmartListUsers = (props) => {
                                                     <ul>
                                                         {Object.keys(countryWiseData)?.map((country, index) => {
                                                             return (
-                                                                <>
+                                                                <React.Fragment key={index}>
                                                                     <li>
                                                                         { }
                                                                         <div className="form-group">
@@ -1454,7 +1454,7 @@ const MedpakSelectSmartListUsers = (props) => {
                                                                             </div>
                                                                         </div>
                                                                     </li>
-                                                                </>
+                                                                </React.Fragment>
                                                             );
                                                         })}
                                                     </ul>
@@ -1469,7 +1469,7 @@ const MedpakSelectSmartListUsers = (props) => {
 
                                 <Accordion>
                                     {Object.keys(newlyAddedCountryWiseData)?.length ? Object.keys(newlyAddedCountryWiseData)?.map((country, index) => {
-                                        return (<>
+                                        return (<React.Fragment key={index}>
                                             {!newlyAddedExcludeCountry?.includes(country) ?
                                                 <>
                                                     {!countryWiseData?.[country]?.length ?
@@ -1642,7 +1642,7 @@ const MedpakSelectSmartListUsers = (props) => {
                                                             </Accordion.Body>
                                                         </Accordion.Item> : ""}
                                                 </> : ""}
-                                        </>)
+                                        </React.Fragment>)
                                     }) : ""}
                                 </Accordion>
 
@@ -1650,7 +1650,7 @@ const MedpakSelectSmartListUsers = (props) => {
 
                                     {Object.keys(countryWiseData)?.length ? Object.keys(countryWiseData)?.map((country, index) => {
                                         return (
-                                            <>
+                                            <React.Fragment key={index}>
 
                                                 {excludeCountry?.includes(country) ?
                                                     <>
@@ -1731,7 +1731,7 @@ const MedpakSelectSmartListUsers = (props) => {
 
                                                                             {removedReaders?.map((rr, i) => {
                                                                                 return (
-                                                                                    <>
+                                                                                    <React.Fragment key={i}>
                                                                                         <tr className="hcps-deleted">
                                                                                             <td>
                                                                                                 <span>
@@ -1812,7 +1812,7 @@ const MedpakSelectSmartListUsers = (props) => {
                                                                                                 />
                                                                                             </td>
                                                                                         </tr>
-                                                                                    </>
+                                                                                    </React.Fragment>
                                                                                 );
                                                                             })}
 
@@ -1827,7 +1827,8 @@ const MedpakSelectSmartListUsers = (props) => {
                                                                             {newlyAddedCountryWiseData?.[country]?.map((readers, i) => {
                                                                                 return (
                                                                                     <tr
-                                                                                        id={`row-selected` + i} key={`row-selected${i}`}
+                                                                                        id={`row-selected` + i}
+                                                                                         key={`row-selected${i}`}
                                                                                         className="hcps-added"
                                                                                         onClick={(e) =>
                                                                                             editing(
@@ -1841,6 +1842,7 @@ const MedpakSelectSmartListUsers = (props) => {
                                                                                                 readers.contact_type
                                                                                             )
                                                                                         }
+                                                                                        
                                                                                     >
                                                                                         <td
                                                                                             id={`field_name` + readers.profile_user_id}
@@ -1970,6 +1972,7 @@ const MedpakSelectSmartListUsers = (props) => {
                                                                                     return (
                                                                                         <tr
                                                                                             id={`row-selected` + i}
+                                                                                            key={i}
                                                                                             onClick={(e) =>
                                                                                                 editing(
                                                                                                     readers.profile_id,
@@ -2070,7 +2073,7 @@ const MedpakSelectSmartListUsers = (props) => {
                                                             </Accordion.Body>
                                                         </Accordion.Item>
                                                     </> : ""}
-                                            </>
+                                            </React.Fragment>
                                         )
                                     }) : ""}
 
@@ -2137,7 +2140,7 @@ const MedpakSelectSmartListUsers = (props) => {
                                     {hpc.map((val, i) => {
                                         const fieldName = `hpc[${i}]`;
                                         return (
-                                            <>
+                                            < React.Fragment key={fieldName}>
                                                 <div className="add_hcp_boxes">
                                                     <div className="form_action">
                                                         <div className="row">
@@ -2595,7 +2598,7 @@ const MedpakSelectSmartListUsers = (props) => {
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </>
+                                            </React.Fragment>
                                         );
                                     })}
                                 </form>

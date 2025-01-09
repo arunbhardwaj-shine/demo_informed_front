@@ -348,9 +348,9 @@ const SurveyData = () => {
                   </div>
 
                   {data?.map((item, index) => {
-                    return (<>
+                    return (<React.Fragment key={index}>
                       <Accordion
-                      key={index}
+                    
                         activeKey={openAccordionIndex === index ? '0' : null}                        
                         onSelect={() => handleAccordionOpen(index)}
                         className="content_analytics_accordian"
@@ -459,7 +459,7 @@ const SurveyData = () => {
                           </Accordion.Body>
                         </Accordion.Item>
                       </Accordion>
-                    </>)
+                    </React.Fragment>)
                   })}
 
 
