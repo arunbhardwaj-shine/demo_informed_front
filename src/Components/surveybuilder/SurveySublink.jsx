@@ -784,6 +784,7 @@ const SurveySublink = () => {
                                                           label="Live"
                                                           name="group1"
                                                           type="checkbox"
+                                                          onChange={()=>{}}
                                                           checked={
                                                             data.is_draft == 1
                                                               ? true
