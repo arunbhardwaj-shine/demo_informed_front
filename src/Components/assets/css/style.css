@@ -329,12 +329,17 @@ header.-top-24~div .sidebar-menu .left-sidebar-secondary {
   padding: 15px 13px;
 }
 
-.sidebar-menu ul li a svg {
+.sidebar-menu ul li a svg, .sidebar-menu ul li a img {
   margin-right: 8px;
   flex: 0 0 24px;
   max-height: 24px;
 }
-
+.sidebar-menu ul li a img {
+  opacity: 0.6;
+}
+.sidebar-menu ul li.active a img, .sidebar-menu ul li:hover a img {
+  opacity: 1;
+}
 .page-title h2 {
   color: var(--light-blue);
   font-size: 36px;
@@ -760,13 +765,21 @@ z-index: 5;
 .active-subLink .sidebar-menu ul li.active.sub-links>a svg path {
   fill: #dbe8f5;
 }
+.active-subLink .sidebar-menu ul li.active.sub-links>a img {
+  opacity: 0.2;
+}
 
 .active-subLink .sidebar-menu ul li.side_li>a svg path {
   fill-opacity: 0.3;
 }
-
+.active-subLink .sidebar-menu ul li.side_li>a img {
+  opacity: 0.3;
+}
 .active-subLink .sidebar-menu ul li .sidebar-menu-secondary li.side_li>a svg path {
   fill-opacity: 0.6;
+}
+.active-subLink .sidebar-menu ul li .sidebar-menu-secondary li.side_li>a img {
+  opacity: 0.6;
 }
 
 .active-subLink .sidebar-menu ul li.active.sub-links {
