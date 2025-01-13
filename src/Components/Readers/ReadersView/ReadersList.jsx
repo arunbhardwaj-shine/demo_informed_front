@@ -2514,7 +2514,7 @@ const NewReaders = () => {
                                         <>
                                           <li>
                                             <h6 className="tab-content-title">
-                                              User Status
+                                              Contact Type
                                             </h6>
                                             <h6>{data?.user_status.toUpperCase()}</h6>
                                           </li>
