@@ -14552,6 +14552,16 @@ svg.pencil_icon {
     line-height: 20px;
     margin: 0 0 18px;
   }
+  .create-change-content.sunshine .sublink_left {
+    flex: 0 0 300px;
+}
+.create-change-content.sunshine .sublink_right {
+  padding: 0 12px 0 30px;
+}
+.create-change-content.sunshine .sublink_right .timeline-layout.crm-timeline .timeline-layout-inset .timeline-right-list {
+  overflow-y: unset;
+  max-height: initial;
+}
 
   .timeline-left-user table tr th {
     min-width: 50px;
@@ -25795,6 +25805,7 @@ background-size: cover;
               &>div {
                 padding: 0;
                 div{
+                  color:#0066BE;
                   margin: 0;
                   font-size: 14px;
                   padding: 0;

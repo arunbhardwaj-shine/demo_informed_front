@@ -188,6 +188,7 @@ const NewReaders = () => {
   const [refreshFlag, setRefreshFlag] = useState(false);
   const [refreshButton, setRefreshButton] = useState(false);
   const [defaultOwner, setDefaultOwner] = useState("");
+  const isUSAPharmaAccount = localStorage?.getItem("account_type") === 'USA_PHARMA' ? 1 : 0;
 
   useEffect(() => {
     if (isLikeRdAccount
@@ -1975,6 +1976,15 @@ const NewReaders = () => {
 
                         <Accordion defaultActiveKey="0" flush>
                           {Object.keys(filterdata)?.map(function (key, index) {
+                            const displayKey = isUSAPharmaAccount
+                            ? key === "Consent country"
+                              ? "States"
+                              : key === "RTR?"
+                              ? "Read-Through-Rate (RTR)"
+                              : key === "Registered For Title"
+                              ? "Registered"
+                              : key
+                            : key;
                             const filteredRoles =
                               key === "role"
                                 ? isLikeRdAccount
@@ -2002,7 +2012,8 @@ const NewReaders = () => {
                                     eventKey={index}
                                   >
                                     <Accordion.Header className="card-header">
-                                      {key}
+                                      {/* {key} */}
+                                      {displayKey}
                                     </Accordion.Header>
 
                                     <Accordion.Body className="card-body">
@@ -2219,12 +2230,23 @@ const NewReaders = () => {
                   <div className="filter-block">
                     <div className="filter-block-left full">
                       {Object.keys(filterObject)?.map((key, index) => {
+                        const displayKey = isUSAPharmaAccount
+                        ? key === "Consent country"
+                          ? "States"
+                          : key === "RTR?"
+                          ? "Read-Through-Rate (RTR)"
+                          : key === "Registered For Title"
+                          ? "Registered"
+                          : key
+                        : key;
                         return (
                           <React.Fragment key={index}>
                             {filterObject[key]?.length ? (
+                              
                               <div key={index} className="filter-div">
                                 <div className="filter-div-title">
-                                  <span>{key} |</span>
+                                  {/* <span>{key} |</span> */}
+                                  <span>{displayKey} |</span>
                                 </div>
                                 <div className="filter-div-list">
                                   {filterObject[key]?.includes("All") ? (
@@ -2494,12 +2516,12 @@ const NewReaders = () => {
                                             <h6 className="tab-content-title">
                                               User Status
                                             </h6>
-                                            <h6>{data?.user_status}</h6>
+                                            <h6>{data?.user_status.toUpperCase()}</h6>
                                           </li>
                                         </>
                                       )}
 
-                                      {data?.ipAddress || data?.ipFlag ? (
+                                      {/* {data?.ipAddress || data?.ipFlag ? (
                                         ""
                                       ) : (
                                         <li>
@@ -2512,7 +2534,7 @@ const NewReaders = () => {
                                               : "N/A"}
                                           </h6>
                                         </li>
-                                      )}
+                                      )} */}
 
                                       {data?.ipAddress || data?.ipFlag ? (
                                         ""

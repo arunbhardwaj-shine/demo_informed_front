@@ -142,7 +142,7 @@ const LicenseContentDetail = (props) => {
     if(type == 'setupLink'){
       let url = content;
       content = `
-Here is your new ePrint to share: ${url}
+Here is your new ePrint to share: ${libraryData[0]?.docintelLink}
 
 Once you’ve finished testing, let me know, and we will reset the usage so you can begin distributing the ePrint.
 
