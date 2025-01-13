@@ -1,17 +1,9 @@
 import React, { useEffect, useState, useRef } from "react";
 import MessageModel from "../../../Model/MessageModel";
-import {
-  PageChangeEvent,
-  DocumentLoadEvent,
-  Viewer
-} from "@react-pdf-viewer/core";
-import '@react-pdf-viewer/core/lib/styles/index.css';
-import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
-import '@react-pdf-viewer/default-layout/lib/styles/index.css';
-import { pageNavigationPlugin } from '@react-pdf-viewer/page-navigation';
-import '@react-pdf-viewer/page-navigation/lib/styles/index.css';
-
-let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+import { Document, Page } from 'react-pdf';
+import 'react-pdf/dist/Page/AnnotationLayer.css';
+import 'react-pdf/dist/Page/TextLayer.css';
+import { Spinner } from "react-activity";
 const RenderPdf = ({
   next,
   url,
@@ -30,95 +22,91 @@ const RenderPdf = ({
   const [modalMessage, setModalMessage] = useState("");
   const [imgCanvasUrl, setImgCanvasUrl] = useState("");
   const [modalBtn, setModalBtn] = useState("");
-  let total_pages = 1000;
-
+  const [visiblePages, setVisiblePages] = useState(new Set([1]));
+  const scrollContainerRef = useRef(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(false);
+  const containerWidth = useRef(window.innerWidth);
+  const [loadPdf, setLoadPdf] = useState(false);
+  const loadElement = <Spinner color="#53aff4" size={32} speed={1} animating={true} />;
   useEffect(() => {
     if (trigger) {
       publishClicked();
     }
   }, [trigger]);
 
-  const defaultLayoutPluginInstance = defaultLayoutPlugin({
-    sidebarTabs: (defaultTabs) => [],
-    renderToolbar: (Toolbar) => {
-      return (
-          <Toolbar>
-              {({ CurrentPageInput, NumberOfPages }) => (
-                  <div
-                      style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          width: '100%',
-                          padding: '4px',
-                      }}
-                  >
-                      <CurrentPageInput
-                          style={{
-                              width: '50px',
-                              textAlign: 'center',
-                              marginRight: '4px',
-                              padding: '4px',
-                              border: '1px solid #ddd',
-                              borderRadius: '4px',
-                          }}
-                      />
-                      <span style={{ margin: '0 4px' }}>/</span>
-                      <NumberOfPages />
-                  </div>
-              )}
-          </Toolbar>
-      );
-  },
-  });
-  const pageNavigationPluginInstance = pageNavigationPlugin();
-
-  const handleDocumentLoad = (e) => {
-    total_pages = e.doc.numPages;
-    setNumPages(e.doc.numPages);
-    setModalMessage("");
-    setModalBtn("");
-    if (total_pages == 1) {
-      const mainDiv = document.getElementsByClassName("rpv-core__inner-pages")[0];
-      const viewerInnerPage = mainDiv.querySelector(".rpv-core__inner-page");
-      if (viewerInnerPage) {
-        const viewerInnerPageHeight = viewerInnerPage.clientHeight;
-        const scrollPdfHeight = document.querySelector('.scroll_pdf').clientHeight;
-        if (viewerInnerPageHeight < scrollPdfHeight) {
-          optimizeSinglePagePdf();
-        }
+  useEffect(() => {
+      if (scrollContainerRef.current) {
+        scrollContainerRef.current.scrollTop = 0; // Reset scroll to top
       }
+    }, [url]);
+
+  useEffect(() => {
+    window.addEventListener('resize', handleResize);
+    handleResize();
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  useEffect(() => {
+    const container = scrollContainerRef.current;
+    if (container) {
+      container.addEventListener('scroll', handleScroll);
+      handleScroll();
     }
+    return () => {
+      if (container) {
+        container.removeEventListener('scroll', handleScroll);
+      }
+    };
+  }, [visiblePages]);
+  
+  const handleLoadError = (error) => {
+    setIsLoading(false);
+    setError(true);
   };
 
-  const handlePageChange = (e) => {
-    if(e.currentPage === 1){
-      var mainDiv = document.getElementsByClassName("rpv-core__inner-pages")[0];
-      let chd = mainDiv.getElementsByClassName("rpv-core__text-layer");
-      var canvas_layer = mainDiv.getElementsByClassName("rpv-core__canvas-layer")[0];
-      var canvas = canvas_layer.querySelector("canvas");
-      var dataURL = canvas.toDataURL("image/png");
-      setImgCanvasUrl(dataURL)
-    }
-    setPage(e.currentPage);
-    var mainDiv = document.getElementsByClassName("rpv-core__inner-pages")[0];
-    let chd = mainDiv.getElementsByClassName("rpv-core__text-layer");
-    setTimeout(function () {
-      let node = chd[e.currentPage];
-      if (typeof node !== "undefined") {
-        let string_val = node.textContent;
-        let words = string_val.split(" ").length;
+  const handleResize = () => {
+    containerWidth.current = scrollContainerRef.current.offsetWidth || window.innerWidth;
+  };
 
-        let wordsInfo = {
-          page: e.currentPage + 1,
-          total: words,
-        };
-        wordData.push(wordsInfo);
+  /*Code start for new editor */
+  const onDocumentLoadSuccess = ({ numPages }) => {
+    setVisiblePages(new Set([1]));
+    setNumPages(numPages);
+    setModalMessage("");
+    setModalBtn("");
+    setIsLoading(false);
+    setError(false);
+  };
+
+  const countWordsOnPage = (textContent) => {
+    const words = textContent.split(/\s+/).filter((word) => word.length > 0);
+    return words.length;
+  };
+
+  const onPageRenderSuccess = (page, pageNumber) => {
+    if(pageNumber === 1){
+      const element = document.querySelector('[data-page-number="1"]');
+      if(element){
+        var canvas = element.querySelector("canvas");
+        var dataURL = canvas.toDataURL("image/png");
+        setImgCanvasUrl(dataURL)
       }
-    }, 300);
+    }
+    setPage(pageNumber);
+    setLoadPdf(true);
+    page.getTextContent().then((textContent) => {
+      const wordCount = countWordsOnPage(textContent.items.map(item => item.str).join(' '));
+      setWordData((prevWordCounts) => [
+        ...prevWordCounts.filter((entry) => entry.page !== pageNumber),
+        { page: pageNumber, wordCount }
+      ]);
+    });
 
-    if (total_pages == "1000") {
-      if (e.currentPage === numPages - 1) {
+    if (numPages != 1) {
+      if (pageNumber === numPages) {
         setModalMessage("");
         let btn_val = "";
         if (typeof next !== "undefined") {
@@ -132,14 +120,64 @@ const RenderPdf = ({
     }
   };
 
+  const handleScroll = () => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+
+    /* GET PAGE NO ON SCROLL START */
+    let visiblePageNumber = null;
+    const pageLayers = scrollContainerRef.current.querySelectorAll('.viewer-page-layer');
+    pageLayers.forEach((page) => {
+      const rect = page.getBoundingClientRect();
+      // Check if the element is in the viewport
+      if (rect.top >= 0 && rect.top <= window.innerHeight) {
+        visiblePageNumber = page.getAttribute('data-page-number');
+      }
+    });
+    if (visiblePageNumber != null && visiblePageNumber !== page) {
+        setPage(visiblePageNumber)
+    }
+    /* GET PAGE NO ON SCROLL END */
+
+    const pageElements = Array.from(
+      container.querySelectorAll('.viewer-inner-page')
+    );
+    const newVisiblePages = new Set([...visiblePages]); // Clone current visible pages
+
+    pageElements.forEach((page, index) => {
+      const rect = page.getBoundingClientRect();
+      const isVisible =
+        rect.top < container.offsetHeight && rect.bottom > 0; // Check if visible in the container
+
+      if (isVisible) {
+        newVisiblePages.add(index + 1); // Mark page as visible
+      }
+    });
+
+    // Ensure the first page remains visible if no other pages are detected as visible
+    if (newVisiblePages.size === 0 && numPages > 0) {
+      newVisiblePages.add(1);
+    }
+
+    // Only update state if there are changes to avoid re-render loops
+    if (
+      newVisiblePages.size !== visiblePages.size ||
+      [...newVisiblePages].some((page) => !visiblePages.has(page))
+    ) {
+      setVisiblePages(newVisiblePages);
+    }
+};
+
+  /*Code end for new editor*/
+
   const publishClicked = async () => {
     var dataURL = '';
     if (numPages == 1) {
-      var mainDiv = document.getElementsByClassName("rpv-core__inner-pages")[0];
-      let chd = mainDiv.getElementsByClassName("rpv-core__text-layer");
-      var canvas_layer = mainDiv.getElementsByClassName("rpv-core__canvas-layer")[0];
-      var canvas = canvas_layer.querySelector("canvas");
-      dataURL = canvas.toDataURL("image/png");
+      const element = document.querySelector('[data-page-number="1"]');
+      if(element){
+        var canvas = element.querySelector("canvas");
+        dataURL = canvas.toDataURL("image/png");
+      }
     }else{
       dataURL = imgCanvasUrl;
     }
@@ -151,6 +189,7 @@ const RenderPdf = ({
       fd.append("data", JSON.stringify(wordData));
       handleNext(fd);
       setWordData([]);
+      setLoadPdf(false);
     } else {
       setModalMessage(
         "All pages of this pdf have not loaded,Please reload to this pdf"
@@ -176,40 +215,22 @@ const RenderPdf = ({
 
   const scrollEve = (event) => {
     const target = event.target;
-    if (target.scrollHeight - target.scrollTop <= target.clientHeight + 70) {
-      if (numPages == 1) {
+    if (target.scrollHeight - target.scrollTop <= target.clientHeight) {
+      if (numPages == 1 && loadPdf) {
         optimizeSinglePagePdf();
       }
     }
   };
 
   const optimizeSinglePagePdf = () => {
-    var mainDiv = document.getElementsByClassName("rpv-core__inner-pages")[0];
-    if (typeof mainDiv !== "undefined") {
-      let chd = mainDiv.getElementsByClassName("rpv-core__text-layer");
-      setTimeout(function () {
-        let node = chd[0];
-        if (typeof node !== "undefined") {
-          let string_val = node.textContent;
-          let words = string_val.split(" ").length;
-
-          let wordsInfo = {
-            page: 1,
-            total: words,
-          };
-          wordData.push(wordsInfo);
-        }
-      }, 300);
-
-      setModalMessage("");
-      let btn_val = "";
-      if (typeof next !== "undefined") {
-        btn_val = next == 1 ? "Next" : editStatus == 1 ? "Save" : "Publish";
-      }
-      setModalBtn(btn_val);
-      if (hidePopup == 0) {
-        setCommanShow(true);
-      }
+    setModalMessage("");
+    let btn_val = "";
+    if (typeof next !== "undefined") {
+      btn_val = next == 1 ? "Next" : editStatus == 1 ? "Save" : "Publish";
+    }
+    setModalBtn(btn_val);
+    if (hidePopup == 0) {
+      setCommanShow(true);
     }
   };
 
@@ -229,18 +250,90 @@ const RenderPdf = ({
               />
 
               <div id="pdf_view_box">
-                <div
-                  onScroll={scrollEve}
-                  className={previewArticle ? "scroll_pdf" : "scroll_pdf"}
-                >
-                  <Viewer
-                    plugins={[defaultLayoutPluginInstance,pageNavigationPluginInstance]}
-                    key={customKey}
-                    onPageChange={handlePageChange}
-                    onDocumentLoad={handleDocumentLoad}
-                    renderMode="canvas"
-                    fileUrl={url}
-                  />
+                <div className={previewArticle ? "scroll_pdf" : "scroll_pdf"}>
+                  {/* {isLoading && !error && (
+                    <div
+                      className="pdf_loader"
+                      style={{
+                        margin: "0 auto",
+                        justifyContent: "center",
+                        display: "flex",
+                      }}
+                    >
+                      <Spinner color="#53aff4" size={32} speed={1} animating={true} />
+                    </div>
+                  )} */}
+
+                  {error && (
+                    <div>
+                      <p>Failed to load the PDF. Please try again later.</p>
+                    </div>
+                  )}
+
+                  <div
+                    className='viewer-layout-container'
+                    onScroll={scrollEve}
+                    ref={scrollContainerRef}
+                    style={{
+                      height: '65vh',
+                      overflowY: 'scroll',
+                      overflowX: 'hidden',
+                      border: '1px solid #97b6cf',
+                      padding: '0px',
+                    }}
+                  >
+                    <div className="viewer-layout-toolbar">
+                      <div className="viewer-toolbar">
+                        <div className="viewer-toolbar-left">
+                          <div className="viewer-toolbar-item">
+                            <input
+                              className="viewer-toolbar-current-page-input"
+                              type="text"
+                              value={page + ""}
+                              readOnly
+                            />{' '}
+                            / {numPages}
+                          </div>
+                        </div>
+                        <div className="viewer-toolbar-center"></div>
+                        <div className="viewer-toolbar-right"></div>
+                      </div>
+                    </div>
+
+                    <Document
+                      file={url}
+                      onLoadSuccess={onDocumentLoadSuccess}
+                      onLoadError={handleLoadError}
+                      loading={loadElement}
+                      className="viewer-layout-main"
+                    >
+                      {Array.from({ length: numPages || 0 }, (_, index) => (
+                        <div
+                          key={`page_${index + 1}`}
+                          className="viewer-inner-page"
+                          style={{
+                            marginBottom: '20px',
+                            padding: '10px',
+                            backgroundColor: 'white',
+                            borderRadius: '5px',
+                            boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+                          }}
+                        >
+                          <div>
+                            {visiblePages.has(index + 1) && (
+                              <Page
+                                className="viewer-page-layer"
+                                loading={loadElement}
+                                pageNumber={index + 1}
+                                width={containerWidth.current - 20}
+                                onRenderSuccess={(page) => onPageRenderSuccess(page, index + 1)} // Track word count on render success
+                              />
+                            )}
+                          </div>
+                        </div>
+                      ))}
+                    </Document>
+                  </div>
                 </div>
               </div>
             </>

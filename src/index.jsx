@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import { createRoot } from 'react-dom/client';
 import "./index.scss";
 import App from "./App";
-import * as PDFJS from 'pdfjs-dist';
+import { pdfjs } from 'react-pdf';
 import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
 import { createStore } from "redux";
@@ -14,7 +14,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '../src/Components/assets/css/style.css';
 import '../src/Components/assets/css/responsive.css';
 import '../src/Components/assets/css/library.scss';
-PDFJS.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${PDFJS.version}/pdf.worker.js`;
+pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 const root = createRoot(document.getElementById("root"));
 
 root.render(

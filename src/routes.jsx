@@ -188,7 +188,6 @@ import LivePolls from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/Liv
 import PollsLayout from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/LiveStream/PollsLayout";
 import ChatLinkPage from "./Components/NewWebinar/WebinarFiles/WebinarDashboard/ChatLinkPage/ChatLinkPage";
 import RDListing from "./Components/R&D/RDListing";
-import PdfViewer from "./Components/Library/PdfViewer";
 //Survey Form
 
 import Check8 from "./Components/survey/Check8";
@@ -244,6 +243,7 @@ import SurveyFinalPreview from "./Components/surveybuilder/SurveyFinalPreview";
 import SetLayoutNew from "./Components/CommonComponent/SetLayoutNew";
 import SetLayoutNewTimeline from "./Components/CommonComponent/SetLayoutNewTimeline";
 import ClinetAccount from "./Components/Login/ClientAccount";
+import ResetPassword from "./Components/CommonComponent/ResetPassword";
 
 //Aland activity route
 
@@ -251,47 +251,6 @@ import AlandActivity from "./Components/AlandActivity/AlandActivity";
 
 let platform = 0;
 let show = 0;
-
-// if (
-//   window.location.pathname == "/new-webinar" ||
-//   window.location.pathname == "/contact-form" ||
-//   window.location.pathname == "/email-statsss" ||
-//   window.location.pathname == "/stats-webinar" ||
-//   window.location.pathname == "/event-create" ||
-//   window.location.pathname == "/setting-webinar"
-// ) {
-//   require("./Components/assets/css/style.css");
-//   require("./Components/assets/fonts/fonts.css");
-//   platform = 0;
-//   show = 0;
-// } else if (
-//   window.location.pathname == "/webinar" ||
-//   window.location.pathname == "/rd-register" ||
-//   window.location.pathname == "LEX-210-Registration"
-// ) {
-//   require("./Components/assets/css/webinar.css");
-//   require("./Components/assets/css/webinar-responsive.css");
-//   require("./Components/assets/css/aos.css");
-//   platform = 0;
-//   show = 0;
-// }  
-// // else if (window.location.pathname.includes("survey")){
-// //   require("./Components/assets/css/style.css?v=1.0");
-// //   require("./Components/assets/css/responsive.css?v=1.0");
-// //   require("./Components/assets/css/custom.css?v=1.0");
-// //   require("./Components/assets/css/library.scss?v=1.0");
-// //   require("./Components/assets/fonts/fonts.css?v=1.0");
-// //   require("./Components/assets/css/survey.scss?v=1.0");
-// // }
-
-// else {
-//   require("./Components/assets/css/style.css?v=1.0");
-//   require("./Components/assets/css/responsive.css?v=1.0");
-//   require("./Components/assets/css/custom.css?v=1.0");
-//   require("./Components/assets/css/library.scss?v=1.0");
-//   require("./Components/assets/fonts/fonts.css?v=1.0");
-//   require("./Components/assets/css/video.css?v=1.0");
-// }
 
 if (
   window.location.pathname == "/new-webinar" ||
@@ -342,9 +301,9 @@ const Routing = () => {
     <Router>
       <Routes>
         //DefaultLayout for Login pages
-        <Route path="/pdfviewer" element={<DefaultLayout component={PdfViewer} />} />
         <Route path="/" element={<DefaultLayout component={MainLanding} />} />
         <Route path="/account/:token" element={<DefaultLayout component={ClinetAccount} />} />
+        <Route path="/set-password" element={<DefaultLayout component={ResetPassword} />} />
         <Route
           path="/informed"
           element={<DefaultLayout component={MainLanding} />}

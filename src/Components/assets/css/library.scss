@@ -2563,15 +2563,16 @@ input:-webkit-autofill {
   padding: 12px 40px;
 }
 
-#pdf_view_box .scroll_pdf{
-  min-height: 61vh;
-  max-height: 61vh;
-}
-
 .sublink_right .new_preview_pdflink {
   margin-bottom: 0;
 }
-#pdf_view_box .viewer-layout-container .viewer-layout-toolbar, #pdf_view_box .rpv-core__inner-container {
+#pdf_view_box .viewer-layout-container .viewer-layout-toolbar {
+  position: sticky;
+  top:0;
+}
+.viewer-page-layer {
+  box-shadow: 2px 2px 8px 0 rgba(0,0,0,.2);
+  margin: 0 auto;
   position: relative;
 }
 
@@ -6645,12 +6646,12 @@ section.verify_email.content_details {
   height: auto;
 }
 
-.scroll_pdf {
-  overflow-y: auto;
-  overflow-x: auto;
-  height: 100%;
-  border: 0.5px solid vars.$light-gray;
-}
+// .scroll_pdf {
+//   overflow-y: auto;
+//   overflow-x: auto;
+//   height: 100%;
+//   border: 0.5px solid vars.$light-gray;
+// }
 
 .viewer-layout-container .viewer-layout-main {
   overflow: unset;
@@ -31860,4 +31861,63 @@ button {
   &.refresh-rotate {
     background: transparent;
   }
+}
+
+.viewer-inner-page {
+  min-height: 600px;
+}
+.scroll_pdf .viewer-layout-container .viewer-layout-toolbar .viewer-toolbar-left .viewer-toolbar-item {
+  display: block;
+}
+.viewer-layout-toolbar {
+  -ms-grid-column-span: 2;
+  align-items: center;
+  background-color: #eee;
+  border-bottom: 1px solid rgba(0,0,0,.1);
+  grid-column-end: 3;
+  grid-column-start: 1;
+  grid-row: 1;
+  justify-content: center;
+  padding: 4px;
+}
+.viewer-toolbar-current-page-input {
+  border: 1px solid rgba(0,0,0,.3);
+  padding: 4px;
+  width: 50px;
+}
+.viewer-toolbar-item {
+  padding: 0 2px;
+  color:#212529;
+}
+input.viewer-toolbar-current-page-input {
+  pointer-events: none;
+}
+#pdf_view_box .scroll_pdf {
+  position: relative;
+}
+
+#pdf_view_box .scroll_pdf .pdf_loader {
+  position: absolute;
+  // background: rgb(0 0 0 / 15%);
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  height: 100%;
+  z-index: 2;
+  align-items: center;
+  justify-content: ce;
+}
+
+.react-pdf__message.react-pdf__message--loading {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    top: 50%;
+    position: absolute;
+    left: 0;
+    right:0;
+}
+
+.react-pdf__Document.viewer-layout-main {
+  min-height: 600px;
 }
