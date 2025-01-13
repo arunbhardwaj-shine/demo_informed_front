@@ -10,6 +10,7 @@ const CommonModel = ({
   handleChange,
   handleSubmit,
   handleQR,
+  qrTitle
 }) => {
   const [selecteValue, setSelectedValue] = useState("Select Size");
   const [values, setValues] = useState({});

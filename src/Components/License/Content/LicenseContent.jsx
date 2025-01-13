@@ -357,6 +357,7 @@ const LicenseContent = (props) => {
     setAppliedFilter({});
     obj = {};
     setFilterObject({});
+    setAppliedFilter({});
     setLibraryData([]);
     setFilterApplyflag(0);
     getLibraryData(page, {}, search);
@@ -1429,13 +1430,14 @@ const LicenseContent = (props) => {
                                 }}
                               >
                                 {/* {data?.title} */}
+                               
                               </h5>
                               <h6>
                                 {data?.pdf_sub_title
                                   ? data.pdf_sub_title
                                   : data?.folder_name}
                               </h6>
-                              <p>{data?.key_author}</p>
+                              <p class="author">{data?.key_author}</p>
                               <div className="select-tags">
                                 {data?.tags?.length
                                   ? JSON.parse(data.tags)?.map((data,index) => {

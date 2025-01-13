@@ -135,6 +135,7 @@ const LibraryContent = (props) => {
   const searchInputRef = useRef(null);
   const navigate = useNavigate();
   const { title, mandatoryPdfId } = location.state || {};
+  const [qrTitle, setQrTitle] = useState("");
 
 
  
@@ -658,12 +659,13 @@ const LibraryContent = (props) => {
     hideConfirmationModal();
   };
 
-  const commonModelFun = (e, id, stateMsg) => {
+  const commonModelFun = (e, id, stateMsg,title = null) => {
     if (stateMsg == "downloadQR") {
       setHeading("Download QR");
       setFooterButton("Download");
       setModelData(downloadQRData);
       setResetDataId("");
+      setQrTitle(title);
     } else if (stateMsg == "clone") {
       setResetDataId(id);
       setHeading("Clone Article");
@@ -717,7 +719,7 @@ const LibraryContent = (props) => {
       .replace("image/png", "image/octet-stream");
     let downloadLink = document.createElement("a");
     downloadLink.href = pngUrl;
-    downloadLink.download = `${qrValue}.png`;
+    downloadLink.download = `${qrTitle}.png`;
     document.body.appendChild(downloadLink);
     downloadLink.click();
     document.body.removeChild(downloadLink);
@@ -1845,12 +1847,13 @@ const LibraryContent = (props) => {
                                     ) : null}
 
                                       {!isLikeRdAccount ?
-                      <Button
+                                        <Button
                                         onClick={(e) => {
                                           commonModelFun(
                                             e,
                                             data?.docintelLink,
-                                            "downloadQR"
+                                            "downloadQR",
+                                            data?.title
                                           );
                                           setQr({
                                             ...qrState,
@@ -3029,6 +3032,7 @@ const LibraryContent = (props) => {
         footerButton={footerButton}
         handleSubmit={resetDataId ? saveArticle : downloadQRCode}
         handleQR={resetDataId ? handleLanguage : handleQR}
+        qrTitle={qrTitle}
       />
 
       <CommonConfirmModel
