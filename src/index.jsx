@@ -10,9 +10,10 @@ import { createStore } from "redux";
 import reducers from "./reducers";
 import Routing from "./routes";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '../src/Components/assets/css/library.scss';
-import '../src/Components/assets/css/custom.css';
+// import '../src/Components/assets/css/custom.css';
 import '../src/Components/assets/css/style.css';
+import '../src/Components/assets/css/responsive.css';
+import '../src/Components/assets/css/library.scss';
 PDFJS.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${PDFJS.version}/pdf.worker.js`;
 const root = createRoot(document.getElementById("root"));
 

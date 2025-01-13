@@ -3222,12 +3222,11 @@
     flex: 0 0 100%;
   }
 
-  .sidebar-menu ul li a svg {
+  .sidebar-menu ul li a svg, .sidebar-menu ul li a img {
     margin-right: 9px;
     flex: 0 0 20px;
     max-height: 20px;
   }
-
   .sidebar-menu ul li a,
   .sidebar-menu ul li p {
     font-size: 14px;
