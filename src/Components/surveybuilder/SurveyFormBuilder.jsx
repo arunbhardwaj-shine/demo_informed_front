@@ -1483,7 +1483,6 @@ const dispatch=useDispatch()
           onHide={handleClose}
           className="send-confirm"
           id="download-qr"
-          shouldCloseOnOverlayClick={false}
           backdrop="static"
         >
           <Modal.Header>

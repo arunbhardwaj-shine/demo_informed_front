@@ -13,6 +13,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 // import '../src/Components/assets/css/custom.css';
 import '../src/Components/assets/css/style.css';
 import '../src/Components/assets/css/responsive.css';
+import '../src/Components/assets/css/survey.scss';
 import '../src/Components/assets/css/library.scss';
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 const root = createRoot(document.getElementById("root"));
