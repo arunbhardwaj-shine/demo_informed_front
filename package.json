@@ -71,7 +71,8 @@
 		"dev": "vite",
 		"build": "vite build",
 		"lint": "eslint .",
-		"preview": "vite preview"
+		"preview": "vite preview",
+		"live":"serve -l 3001 -s dist"
 	},
 	"eslintConfig": {
 		"extends": [
