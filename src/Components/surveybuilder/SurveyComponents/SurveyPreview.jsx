@@ -515,12 +515,12 @@ const [draggedElementIndex, setDraggedElementIndex] = useState(null);
                           <path
                             d="M1 0C0.447715 0 0 0.447715 0 1V10C0 10.5523 0.447715 11 1 11H15C15.5523 11 16 10.5523 16 10V1C16 0.447715 15.5523 0 15 0H1Z"
                             fill="#0066BE"
-                            fill-opacity="0.4"
+                            fillOpacity="0.4"
                           />{" "}
                           <path
                             d="M4.52712 12C4.35473 12 4.19449 12.0888 4.10313 12.235L3.47812 13.235C3.26998 13.568 3.50941 14 3.90212 14H12.0979C12.4906 14 12.73 13.568 12.5219 13.235L11.8969 12.235C11.8055 12.0888 11.6453 12 11.4729 12H4.52712Z"
                             fill="#0066BE"
-                            fill-opacity="0.4"
+                            fillOpacity="0.4"
                           />{" "}
                         </svg>
                       </span>
@@ -534,11 +534,11 @@ const [draggedElementIndex, setDraggedElementIndex] = useState(null);
                         >
                           {" "}
                           <path
-                            fill-rule="evenodd"
-                            clip-rule="evenodd"
+                            fillRule="evenodd"
+                            clipRule="evenodd"
                             d="M4 0C3.44772 0 3 0.447715 3 1V15C3 15.5523 3.44772 16 4 16H12C12.5523 16 13 15.5523 13 15V1C13 0.447715 12.5523 0 12 0H4ZM7.5 1C7.22386 1 7 1.22386 7 1.5C7 1.77614 7.22386 2 7.5 2H8.5C8.77614 2 9 1.77614 9 1.5C9 1.22386 8.77614 1 8.5 1H7.5Z"
                             fill="#0066BE"
-                            fill-opacity="0.4"
+                            fillOpacity="0.4"
                           />
                         </svg>
                       </span>

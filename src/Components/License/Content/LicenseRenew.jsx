@@ -49,7 +49,7 @@ const LicenseRenew = () => {
 
   const [userInputs, setCreateLibraryInputs] = useState({
     expDatetime: new Date(
-      moment(new Date(), "MM/DD/YYYY").add("years", 1).format("MM/DD/YYYY")
+      moment(new Date(), "MM/DD/YYYY").add(1, "years").format("MM/DD/YYYY")
     ),
     limit: "",
     specialRequirement: "",
