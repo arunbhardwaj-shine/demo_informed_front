@@ -2157,10 +2157,11 @@ const ViewTable = (props) => {
                     >
                       {inEditMode.status &&
                         inEditMode.rowKey === item.profile_id ? (
-                        <input
+                          <><input
                           value={name}
                           onChange={(event) => setName(event.target.value)}
-                        />
+                        /></>
+                        
                       ) : (
                         <span>{item.first_name + " " + item.last_name}</span>
                       )}
@@ -2169,20 +2170,26 @@ const ViewTable = (props) => {
                       {" "}
                       {inEditMode.status &&
                         inEditMode.rowKey === item.profile_id ? (
-                        <input
+                          <>
+                          <input
                           value={email}
                           type="email"
                           onChange={(event) => setEmail(event.target.value)}
                         />
-                      ) : (
-                        item.email
-                      )}
-                    </td>
-                    <input
+                        <input
                       type="hidden"
                       id={`field_index` + item.profile_user_id}
                       value={index}
                     />
+                          </>
+                        
+
+                      ) : (
+                        item.email
+                      )}
+                    </td>
+                  
+                   
                     <td>{item.bounce ? item.bounce : "N/A"}</td>
                     <td>
                       {editable ? (
@@ -2294,12 +2301,16 @@ const ViewTable = (props) => {
 
                     <td id={`field_email` + item.profile_user_id}>
                       {item.email}
-                    </td>
+                      <>
                     <input
                       type="hidden"
                       id={`field_index` + item.profile_user_id}
                       value={index}
                     />
+                    </>
+                    </td>
+                    
+                    
                     <td id={`field_bounced` + item.profile_user_id}>
                       {item.bounce}
                     </td>
@@ -2399,7 +2410,9 @@ const ViewTable = (props) => {
             </table>
           </div>
         </div>
+        <>
         <input type="hidden" value={updateCounter} />
+        </>
       </section>
 
       <Modal show={isOpen} className="send-confirm" id="resend-confirm">
