@@ -1792,13 +1792,12 @@ const ViewTable = (props) => {
                       buttonText="Download"
                     /> */}
                   <DownloadTableExcel
-                    id="test-table-xls-button"
                     className="btn btn-outline-primary"
                     filename="tablexls"
                     sheet="tablexls"
                     currentTableRef={tableRef.current}
                   >
-                    <button> Download </button>
+                    <button id = 'test-table-xls-button'> </button>
                   </DownloadTableExcel>
 
                   </div>

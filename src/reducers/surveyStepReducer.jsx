@@ -5,7 +5,7 @@ const initialState = {
 };
 
 const setCurrentStep = (state, action) => {
-  console.log(action.payload, state.currentStep);
+  // console.log(action.payload, state.currentStep);
 
   if (action.payload > state.currentStep) {
     return {
