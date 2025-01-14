@@ -1707,13 +1707,13 @@ const ViewTable = (props) => {
                       buttonText="Download"
                     /> */}
                     <DownloadTableExcel
-                      id="test-table-xls-button"
+                      
                       className="btn btn-outline-primary"
                       filename="tablexls"
                       sheet="tablexls"
                       currentTableRef={tableRef.current}
                     >
-                      <button>Download</button>
+                      <button id="test-table-xls-button">Download</button>
                     </DownloadTableExcel>
                   </div>
                   <div className="hcp-new-user">
@@ -2072,10 +2072,13 @@ const ViewTable = (props) => {
                     >
                       {inEditMode.status &&
                         inEditMode.rowKey === item.profile_id ? (
-                        <input
+                          <>
+                          <input
                           value={name}
                           onChange={(event) => setName(event.target.value)}
                         />
+                          </>
+                        
                       ) : (
                         <span>{item.first_name + " " + item.last_name}</span>
                       )}
@@ -2084,20 +2087,28 @@ const ViewTable = (props) => {
                       {" "}
                       {inEditMode.status &&
                         inEditMode.rowKey === item.profile_id ? (
-                        <input
+                          <>
+                          <input
                           value={email}
                           type="email"
                           onChange={(event) => setEmail(event.target.value)}
                         />
+                        <input
+                            type="hidden"
+                            id={`field_index` + item.profile_user_id}
+                            value={index}
+                          />
+                          </>
+                        
                       ) : (
                         item.email
                       )}
+                    
+                    
                     </td>
-                    <input
-                      type="hidden"
-                      id={`field_index` + item.profile_user_id}
-                      value={index}
-                    />
+                
+                    
+                   
                     <td>{item.bounce ? item.bounce : "N/A"}</td>
                     <td>
                       {editable ? (
@@ -2210,12 +2221,13 @@ const ViewTable = (props) => {
 
                     <td id={`field_email` + item.profile_user_id}>
                       {item.email}
-                    </td>
+                    
                     <input
                       type="hidden"
                       id={`field_index` + item.profile_user_id}
                       value={index}
                     />
+                    </td>
                     <td id={`field_bounced` + item.profile_user_id}>
                       {item.bounce}
                     </td>

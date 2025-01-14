@@ -1,7 +1,7 @@
 export const ValidationAddNewContact=(data,selectedHcp,flag)=>{
   const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
   const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
-    console.log("data-->",data)
+    // console.log("data-->",data)
     const status=data?.map((data)=>{
         
 

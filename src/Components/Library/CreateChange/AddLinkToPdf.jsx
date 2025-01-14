@@ -1287,6 +1287,7 @@ const AddLinkToPdf = () => {
   };
 
   useEffect(() => {
+    setDefaultScale(1.3347);
     setKey(prevKey => prevKey + 1);
   }, [file]);
 

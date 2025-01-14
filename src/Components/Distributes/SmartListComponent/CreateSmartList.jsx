@@ -203,7 +203,7 @@ const CreateSmartList = () => {
   useEffect(() => {
     if (uploadOrDownloadCount == 100) {
       setUpdateState(updateState + 1);
-      console.log("in useEffect");
+      // console.log("in useEffect");
     }
   }, [uploadOrDownloadCount]);
 

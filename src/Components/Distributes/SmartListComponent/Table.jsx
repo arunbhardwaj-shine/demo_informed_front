@@ -1922,13 +1922,13 @@ const Table = (props, ref) => {
                     buttonText="Download "
                   /> */}
                   <DownloadTableExcel
-                    id="test-table-xls-button"
+                    
                     className="btn btn-outline-primary"
                     filename="tablexls"
                     sheet="tablexls"
                     currentTableRef={tableRef.current}
                   >
-                    <button> Export excel </button>
+                    <button id="test-table-xls-button"> Export excel </button>
                   </DownloadTableExcel>
                   <div className="hcp-new-user">
                     <button

@@ -5,7 +5,7 @@ const initialState = {
 };
 
 const setCurrentStep = (state, action) => {
-   
+  
 
   if (action.payload > state.currentStep) {
     return {

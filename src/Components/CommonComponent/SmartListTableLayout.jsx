@@ -40,7 +40,7 @@ const SmartListTableLayout = ({ id, closeSmartListPopup }) => {
                     setSmartListPopupStatus(true);
                     setListCount(res.data.response.list_count);
                     if ((res.data.response.list_count < 50) || (res.data.response.list_count <= res.data.response.data.length)) {
-                        console.log(res.data.response.list_count <= res.data.response.data.length)
+                        // console.log(res.data.response.list_count <= res.data.response.data.length)
                         setHide(0)
                     }
                 } else {

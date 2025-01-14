@@ -104,7 +104,7 @@ const AlandActivity = () => {
       const response = await surveyAxiosInstance.post(ALAND_ACTIVITY);
 
       if (response.status === 200) {
-        console.log(response.data.data);
+        // console.log(response.data.data);
         setAlluserData(response.data.data);
       }
       loader("hide");
