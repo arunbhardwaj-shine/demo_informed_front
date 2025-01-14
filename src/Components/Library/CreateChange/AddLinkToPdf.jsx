@@ -1461,10 +1461,10 @@ const AddLinkToPdf = () => {
                       >
                         <div className='viewer-layout-container'>
                           <Document
-                            key={key+ebookSelectedId}
                             style={{
                               position: 'relative',
                             }}
+                            key={key+ebookSelectedId}
                             className="viewer-layout-main"
                             loading={loadElement}
                             file={articleType == 'ebook' && fileVersion == 1 ? path_image + "videotypeebook.pdf" : file}
@@ -1474,7 +1474,6 @@ const AddLinkToPdf = () => {
                             {Array.from(
                               new Array(numPages),
                               (el, index) => (
-                                <>
                                   <div
                                     key={`page_${index + 1}`}
                                     className="viewer-inner-page"
@@ -1505,7 +1504,6 @@ const AddLinkToPdf = () => {
                                       />
                                     </div>
                                   </div>
-                                </>
                               ),
                             )}
                           </Document>
