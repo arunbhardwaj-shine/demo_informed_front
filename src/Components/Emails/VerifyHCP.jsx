@@ -2706,7 +2706,6 @@ const VerifyHCP = (props) => {
                                 id={`row-selected` + index}
                                 onClick={(e) =>
                                   editing(
-                                    //  e.currentTarget,
                                     data?.profile_id,
                                     data?.profile_user_id,
                                     data?.email,
@@ -2714,31 +2713,24 @@ const VerifyHCP = (props) => {
                                     data?.company,
                                     data?.country,
                                     data?.first_name + " " + data?.last_name,
-                                    isLikeRdAccount
-                                      ? data?.user_type
-                                      : data?.contact_type
+                                    isLikeRdAccount ? data?.user_type : data?.contact_type
                                   )
                                 }
                               >
-                                <td
-                                  id={`field_name` + data?.profile_user_id}
-                                  contenteditable={
-                                    editable === 0 ? "false" : "true"
-                                  }
-                                >
+                                <td id={`field_name` + data?.profile_user_id}>
                                   <span>{data?.name || data?.first_name}</span>
                                 </td>
                                 <td id={`field_email` + data?.profile_user_id}>
                                   {data?.email ? data?.email : "N/A"}
                                 </td>
-                                <input
-                                  type="hidden"
-                                  id={`field_index` + data.profile_user_id}
-                                  value={index}
-                                />
-                                <td
-                                  id={`field_bounced` + data?.profile_user_id}
-                                >
+                                <td>
+                                  <input
+                                    type="hidden"
+                                    id={`field_index` + data.profile_user_id}
+                                    value={index}
+                                  />
+                                </td> {/* Place the input element inside a td */}
+                                <td id={`field_bounced` + data?.profile_user_id}>
                                   {data?.bounce ? data?.bounce : "N/A"}
                                 </td>
                                 <td>
@@ -2748,27 +2740,18 @@ const VerifyHCP = (props) => {
                                       profile_user={data?.profile_user_id}
                                     ></EditCountry>
                                   ) : (
-                                    <span>
-                                      {data?.country ? data?.country : "N/A"}
-                                    </span>
+                                    <span>{data?.country ? data?.country : "N/A"}</span>
                                   )}
                                 </td>
-                                {isLikeRdAccount
-                                        &&(<><td>{data?.site_number?data?.site_number:"N/A"}</td></>)}
+                                {isLikeRdAccount && (
+                                  <td>{data?.site_number ? data?.site_number : "N/A"}</td>
+                                )}
                                 <td>
-                                  {/*data?.ibu ? data?.ibu : "N/A"*/}
-                                  {isLikeRdAccount
-                                    ? data?.irt
-                                      ? "Yes"
-                                      : "No"
-                                    : data?.ibu
-                                    ? data?.ibu
-                                    : "N/A"}
+                                  {isLikeRdAccount ? (data?.irt ? "Yes" : "No") : data?.ibu ? data?.ibu : "N/A"}
                                 </td>
                                 <td>
-                                  {isLikeRdAccount
-                                  ? (
-                                    data?.user_type != 0 ? (
+                                  {isLikeRdAccount ? (
+                                    data?.user_type !== 0 ? (
                                       data?.user_type
                                     ) : (
                                       "N/A"
@@ -2779,59 +2762,36 @@ const VerifyHCP = (props) => {
                                       profile_user={data?.profile_user_id}
                                     ></EditContactType>
                                   ) : (
-                                    <span>
-                                      {data?.contact_type
-                                        ? data?.contact_type
-                                        : "N/A"}
-                                    </span>
+                                    <span>{data?.contact_type ? data?.contact_type : "N/A"}</span>
                                   )}
                                 </td>
                                 <td>
-                                  <span>
-                                    {data?.consent ? data?.consent : "N/A"}
-                                  </span>
+                                  <span>{data?.consent ? data?.consent : "N/A"}</span>
                                 </td>
                                 <td>
-                                  <span>
-                                    {data?.email_received
-                                      ? data?.email_received
-                                      : "N/A"}
-                                  </span>
+                                  <span>{data?.email_received ? data?.email_received : "N/A"}</span>
                                 </td>
                                 <td>
-                                  <span>
-                                    {data?.email_opening
-                                      ? data?.email_opening
-                                      : "N/A"}
-                                  </span>
+                                  <span>{data?.email_opening ? data?.email_opening : "N/A"}</span>
                                 </td>
                                 <td>
-                                  <span>
-                                    {data?.registration
-                                      ? data?.registration
-                                      : "N/A"}
-                                  </span>
+                                  <span>{data?.registration ? data?.registration : "N/A"}</span>
                                 </td>
                                 <td>
-                                  <span>
-                                    {data?.last_email
-                                      ? data?.last_email
-                                      : "N/A"}
-                                  </span>
+                                  <span>{data?.last_email ? data?.last_email : "N/A"}</span>
                                 </td>
-                                {
-                                  !IRTTraining ?
-                                    <td className="delete_row" colSpan="12">
-                                      <img
-                                        src={path_image + "delete.svg"}
-                                        alt="Delete Row"
-                                        onClick={() => deleteSelected(index)}
-                                      />
-                                    </td>
-                                  : null
-                                }
+                                {!IRTTraining ? (
+                                  <td className="delete_row" colSpan="12">
+                                    <img
+                                      src={path_image + "delete.svg"}
+                                      alt="Delete Row"
+                                      onClick={() => deleteSelected(index)}
+                                    />
+                                  </td>
+                                ) : null}
                               </tr>
                             </React.Fragment>
+
                           );
                         })}
                       </tbody>

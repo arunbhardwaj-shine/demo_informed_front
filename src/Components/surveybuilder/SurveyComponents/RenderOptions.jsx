@@ -542,7 +542,7 @@ const RenderOptions = ({
                       {option.label}
                       <input
                         type="checkbox"
-                        checked={index === 0}
+                        defaultChecked={index === 0}
                         disabled={!isEdit}
                       />
                       <span

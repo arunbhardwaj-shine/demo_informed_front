@@ -31921,3 +31921,13 @@ input.viewer-toolbar-current-page-input {
 .react-pdf__Document.viewer-layout-main {
   min-height: 600px;
 }
+.preview-livestream {
+    display: flex;
+    justify-content: flex-end;
+    a{
+      &.btn {
+        padding: 7px 15px;
+        font-size: 15px;
+    }
+    }
+}

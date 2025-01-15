@@ -3,7 +3,7 @@ import { loader } from "../../../loader";
 import { toast } from "react-toastify";
 import { useState } from "react";
 import { Form } from "react-bootstrap";
-import "../../../Components/assets/css/survey.scss";
+// import "../../../Components/assets/css/survey.scss";
 // import "../../../Components/assets/fonts/fonts.css";
 import Select from "react-select";
 import { surveyEndpoints } from "../SurveyEndpoints/SurveyEndpoints";

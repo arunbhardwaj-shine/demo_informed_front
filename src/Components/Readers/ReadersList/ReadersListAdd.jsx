@@ -1541,13 +1541,13 @@ const ReadersListAdd = () => {
                         /> */}
 
                       <DownloadTableExcel
-                        id="test-table-xls-button"
+                       
                         className="btn btn-outline-primary"
                         filename="tablexls"
                         sheet="tablexls"
                         currentTableRef={tableRef.current}
                       >
-                        <button>Download reader list</button>
+                        <button  id="test-table-xls-button">Download reader list</button>
                       </DownloadTableExcel>
 
                         <div className="hcp-new-user">

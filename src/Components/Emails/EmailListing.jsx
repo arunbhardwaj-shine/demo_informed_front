@@ -2206,8 +2206,8 @@ const getDownloadData = async (viewEmailData) => {
                                 cy="20"
                                 r="18.5"
                                 stroke="#986CA5"
-                                stroke-width="3"
-                                stroke-linejoin="round"
+                                strokeWidth="3"
+                                strokeLinejoin="round"
                               />
                               <g clipPath="url(#clip0_698_88)">
                                 <path
@@ -2256,8 +2256,8 @@ const getDownloadData = async (viewEmailData) => {
                                 cy="20"
                                 r="18.5"
                                 stroke="#F58289"
-                                stroke-width="3"
-                                stroke-linejoin="round"
+                                strokeWidth="3"
+                                strokeLinejoin="round"
                               />
                               <g clipPath="url(#clip0_698_97)">
                                 <path
@@ -2306,8 +2306,8 @@ const getDownloadData = async (viewEmailData) => {
                                 cy="20"
                                 r="18.5"
                                 stroke="#FAC755"
-                                stroke-width="3"
-                                stroke-linejoin="round"
+                                strokeWidth="3"
+                                strokeLinejoin="round"
                               />
                               <path
                                 d="M20 21.7875L11.3125 17.1063C11.4295 16.6343 11.7283 16.2277 12.1437 15.975L19.7062 11.95C19.7963 11.9008 19.8973 11.875 20 11.875C20.1027 11.875 20.2037 11.9008 20.2937 11.95L27.825 15.9563C28.0375 16.0817 28.2231 16.2478 28.3711 16.4452C28.5191 16.6425 28.6266 16.8672 28.6875 17.1063L20 21.7875Z"
@@ -2351,8 +2351,8 @@ const getDownloadData = async (viewEmailData) => {
                                   cy="20"
                                   r="18.5"
                                   stroke="#39CABC"
-                                  stroke-width="3"
-                                  stroke-linejoin="round"
+                                  strokeWidth="3"
+                                  strokeLinejoin="round"
                                 />
                                 <path
                                   d="M14.955 16.6329C14.8178 16.1684 14.6861 15.703 14.5871 15.2572C13.9363 14.8722 13.4936 14.1715 13.4936 13.3617C13.4936 12.1434 14.4842 11.1535 15.7017 11.1535C16.9192 11.1535 17.9098 12.1442 17.9098 13.3617C17.9098 13.5292 17.8872 13.6906 17.8521 13.8472C18.0633 14.3125 18.234 14.8363 18.3837 15.3687C18.8046 14.8075 19.0633 14.1177 19.0633 13.3617C19.0633 11.5043 17.5591 10 15.7017 10C13.8443 10 12.3408 11.5043 12.3408 13.3617C12.3408 14.961 13.4593 16.2931 14.955 16.6329Z"
@@ -2396,8 +2396,8 @@ const getDownloadData = async (viewEmailData) => {
                                           cy="20"
                                           r="18.5"
                                           stroke={colorArray?.[index]}
-                                          stroke-width="3"
-                                          stroke-linejoin="round"
+                                          strokeWidth="3"
+                                          strokeLinejoin="round"
                                         />
                                         <path
                                           d="M14.955 16.6329C14.8178 16.1684 14.6861 15.703 14.5871 15.2572C13.9363 14.8722 13.4936 14.1715 13.4936 13.3617C13.4936 12.1434 14.4842 11.1535 15.7017 11.1535C16.9192 11.1535 17.9098 12.1442 17.9098 13.3617C17.9098 13.5292 17.8872 13.6906 17.8521 13.8472C18.0633 14.3125 18.234 14.8363 18.3837 15.3687C18.8046 14.8075 19.0633 14.1177 19.0633 13.3617C19.0633 11.5043 17.5591 10 15.7017 10C13.8443 10 12.3408 11.5043 12.3408 13.3617C12.3408 14.961 13.4593 16.2931 14.955 16.6329Z"

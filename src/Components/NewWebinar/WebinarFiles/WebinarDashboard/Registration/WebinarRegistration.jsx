@@ -1292,7 +1292,7 @@ const WebinarRegistration = () => {
       let fileName = (localStorageEvent?.eventTitle).replaceAll(" ", "_");
       const canvas = await QRCode.toCanvas(qrUrl, { width: 300 });
       if (downloadType == "png") {
-        console.log("in png");
+       
 
         const pngUrl = canvas
           .toDataURL("image/png")

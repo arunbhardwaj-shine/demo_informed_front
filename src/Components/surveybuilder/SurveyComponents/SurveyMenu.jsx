@@ -794,7 +794,7 @@ const SurveyMenu = ({ menuRef, consentOption }) => {
       case "image":
         return (
           <div className="steps">
-            <p class="option-heading">Image</p>
+            <p className="option-heading">Image</p>
             <div className="d-flex align-items-center">
               <div className="img-preview">
                 <img
@@ -822,7 +822,7 @@ const SurveyMenu = ({ menuRef, consentOption }) => {
                     handleUpdateElement(index, "question", result);
                   }}
                 ></input>
-                <label tabindex="0" for="my-file" class="input-file-trigger">
+                <label tabIndex="0" htmlFor="my-file" className="input-file-trigger">
                   {elements[index].question === ""
                     ? "+ Add Image"
                     : "Change Image"}
@@ -834,22 +834,7 @@ const SurveyMenu = ({ menuRef, consentOption }) => {
                 </span>
               </div>
             </div>
-            {/* <div className="words-limit">
-              <p class="option-heading">Image Width (%)</p>
-              <input
-                placeholder="0"
-                type="number"
-                value={item.style.width}
-                class="form-control"
-                onChange={(e) => {
-                  const value = Math.max(
-                    0,
-                    Math.min(100, parseInt(e.target.value, 10))
-                  );
-                  handleExtraAndStyle(index, value, "width", "style");
-                }}
-              />
-            </div> */}
+            
           </div>
         );
       case "consent":

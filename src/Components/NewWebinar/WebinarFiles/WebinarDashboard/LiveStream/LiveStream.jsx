@@ -932,11 +932,11 @@ const LiveStream = () => {
           {[2, 3].includes(localStorageEvent.streamType) && (
             <div className="preview-livestream">
               <a
-                className="btn btn-primary"
+                className="btn btn-primary btn-bordered"
                 target="_blank"
                 href={streamUrls[localStorageEvent.streamType]}
               >
-                Preview LiveStream
+                Preview Live stream
               </a>
             </div>
           )}

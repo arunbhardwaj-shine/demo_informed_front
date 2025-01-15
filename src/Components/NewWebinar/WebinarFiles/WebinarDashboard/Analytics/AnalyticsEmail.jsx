@@ -130,57 +130,61 @@ const AnalyticsEmail = () => {
             </div>
             <div className="graph-box">
               <div className="graph-data">
-                <Table className="fold-table" id="individual_completion">
-                  {emailData?.length > 0 ? (
-                    <>
-                      <thead className="sticky-header">
-                        <tr>
-                          <th>Subject</th>
-                          <th>Type</th>
-                          <th>List</th>
-                          <th className="email-options">Send</th>
-                          <th className="email-options">Opened</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {emailData.map((data) => (
-                          <tr key={data.id}>
-                            <td valign="middle">
-                              {data.subject}
-                              <span>{data.created_at}</span>
-                            </td>
-                            <td valign="middle">{data.invitationType}</td>
-                            <td valign="middle">{data.listType ||"Internal"}</td>
-                            <td valign="middle" className="email-options">
-                              <div className="td-bordered">
-                                <img
-                                  src={`${path_image}mail-sent.svg`}
-                                  alt=""
-                                />
-                                <span>{data.email_sent}</span>
-                              </div>
-                            </td>
-                            <td valign="middle" className="email-options">
-                              <div className="td-bordered">
-                                <img
-                                  src={`${path_image}email-open.svg`}
-                                  alt=""
-                                />
-                                <span>
-                                  {data.email_read} ({data.read_percentage})
-                                </span>
-                              </div>
-                            </td>
+              <Table className="fold-table" id="individual_completion">
+                    {emailData?.length > 0 ? (
+                      <>
+                        <thead className="sticky-header">
+                          <tr>
+                            <th>Subject</th>
+                            <th>Type</th>
+                            <th>List</th>
+                            <th className="email-options">Send</th>
+                            <th className="email-options">Opened</th>
                           </tr>
-                        ))}
-                      </tbody>
-                    </>
-                  ) : (
+                        </thead>
+                        <tbody>
+                          {emailData.map((data) => (
+                            <tr key={data.id}>
+                              <td valign="middle">
+                                {data.subject}
+                                <span>{data.created_at}</span>
+                              </td>
+                              <td valign="middle">{data.invitationType}</td>
+                              <td valign="middle">{data.listType || "Internal"}</td>
+                              <td valign="middle" className="email-options">
+                                <div className="td-bordered">
+                                  <img
+                                    src={`${path_image}mail-sent.svg`}
+                                    alt=""
+                                  />
+                                  <span>{data.email_sent}</span>
+                                </div>
+                              </td>
+                              <td valign="middle" className="email-options">
+                                <div className="td-bordered">
+                                  <img
+                                    src={`${path_image}email-open.svg`}
+                                    alt=""
+                                  />
+                                  <span>
+                                    {data.email_read} ({data.read_percentage})
+                                  </span>
+                                </div>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </>
+                    ) : null}
+                  </Table>
+
+                  {/* Move the 'No emails had been sent' message outside the table */}
+                  {emailData?.length === 0 && (
                     <div className="no_found">
                       <p>No emails had been sent.</p>
                     </div>
                   )}
-                </Table>
+
               </div>
             </div>
           </div>

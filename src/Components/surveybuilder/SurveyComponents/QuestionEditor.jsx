@@ -41,7 +41,7 @@ const QuestionEditor = ({
             "body { font-family:Roboto,Helvetica,Arial,sans-serif; font-size:12px;color:#0066be;cursor: text; } body p img{width:100%;} body p{color:#0066be; margin: 2px 0;}, body *{margin:2px 0;}",
           automatic_uploads: true,
           image_caption: true,
-          auto_focus: false,
+         
           fontsize_formats: "8px 10px 12px 14px 18px 24px 36px", // Optional: Customize font sizes
           placeholder: Placeholder,
           link_default_target: '_blank'

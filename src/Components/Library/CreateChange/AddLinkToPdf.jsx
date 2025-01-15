@@ -104,9 +104,9 @@ const AddLinkToPdf = () => {
     const viewportWidth = document.documentElement.clientWidth;
     const viewportHeight = document.documentElement.clientHeight;
 
-    const sublink_wid = document.querySelector('.sublink_right').clientWidth;
-    const pageWidth = document.querySelector('.viewer-page-layer').clientWidth;
-    const pageHeight = document.querySelector('.viewer-page-layer').clientHeight;
+    //const sublink_wid = document.querySelector('.sublink_right').clientWidth;
+    const pageWidth = document.querySelector('.viewer-page-layer')?.clientWidth;
+    const pageHeight = document.querySelector('.viewer-page-layer')?.clientHeight;
 
     const scale = viewportWidth / pageWidth;
     if (initialscale === 0) {
@@ -147,9 +147,7 @@ const AddLinkToPdf = () => {
         const height = divElement.clientHeight;
 
         setDocumentHeight(height);
-      } else {
-        console.error('Element with class "modal-body-content" not found.');
-      }
+      }  
     }, 2000);
 
     setTimeout(() => {

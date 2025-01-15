@@ -642,14 +642,17 @@ const AnalyticsLiveStream = ({ handleAttendedUserCountryWise }) => {
                 <Table>
                   {/* Skeleton for table content */}
                   {[...Array(5)].map((_, index) => (
-                    <tr key={index}>
-                      <td>
-                        <Skeleton width={100} height={20} />
-                      </td>
-                      <td>
-                        <Skeleton width={50} height={20} />
-                      </td>
-                    </tr>
+                    <tbody key={index}> 
+                       <tr>
+                    <td>
+                      <Skeleton width={100} height={20} />
+                    </td>
+                    <td>
+                      <Skeleton width={50} height={20} />
+                    </td>
+                  </tr>
+                  </tbody>
+                  
                   ))}
                   {/* End of skeleton for table content */}
                 </Table>
@@ -661,6 +664,7 @@ const AnalyticsLiveStream = ({ handleAttendedUserCountryWise }) => {
               <div className="top-country-data">
                 <h6>The Top 5 Countries</h6>
                 <Table>
+                  <tbody>
                   {topCountries?.topCounties?.length
                     ? topCountries?.topCounties?.map((item, index) => (
                       <tr key={index}>
@@ -677,6 +681,9 @@ const AnalyticsLiveStream = ({ handleAttendedUserCountryWise }) => {
                         </td>
                       </tr>
                     )}
+
+                  </tbody>
+                  
                 </Table>
                 <div className="rd-box-export">
                   <img src={path_image + "arrow-export.svg"} alt="" onClick={handleAttendedUserCountryWise} />

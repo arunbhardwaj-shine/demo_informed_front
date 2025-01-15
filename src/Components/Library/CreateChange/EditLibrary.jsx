@@ -2531,9 +2531,9 @@ const getExistingVideos=async ()=>{
                                         {val.uploadFile == "" ? (
                                           "Upload your PDF file"
                                         ) : (
-                                          <p className="uploaded-file">
+                                          <span className="uploaded-file">
                                             {val.uploadFile}
-                                          </p>
+                                          </span>
                                         )}
                                       </p>
                                     </div>
