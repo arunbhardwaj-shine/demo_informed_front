@@ -192,7 +192,7 @@ const [draggedElementIndex, setDraggedElementIndex] = useState(null);
         return;
       }
     }
-    console.log("handle preview drop");
+   
 
     if (type.trim()) {
       handleAddElement(type);
@@ -321,7 +321,7 @@ const [draggedElementIndex, setDraggedElementIndex] = useState(null);
 
     if (e.target === e.currentTarget) {
       // Only trigger if the mouse leaves the container, not individual items
-      console.log("DragLeave");
+   
       setPlaceholderIndex(null);
       hoveredIndex=null
     }
