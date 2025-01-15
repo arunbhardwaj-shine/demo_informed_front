@@ -537,7 +537,6 @@ const  CampaignStats = () => {
               </div>
               <div className="create-change-content spc-content analytic-charts">
                 <div className="high_charts">
-                  {console.log("campaignStatsPieOptions-->",campaignStatsPieOptions)}
                   <HighchartsReact
                     highcharts={Highcharts}
                     options={campaignStatsPieOptions}

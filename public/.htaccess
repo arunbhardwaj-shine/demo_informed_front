@@ -1,0 +1,10 @@
+# Enable Rewrite Engine
+RewriteEngine On
+# Serve index.html for React SPA routing
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.html [L]
+# Serve .js files with correct MIME type for modules
+<IfModule mod_mime.c>
+  AddType application/javascript .js
+</IfModule>
