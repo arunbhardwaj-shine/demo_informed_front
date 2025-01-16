@@ -46,7 +46,9 @@ export const surveyEndpoints = {
     UPDATE_LIVE_FLAG: "/survey/update-live-flag",
     // DELETE_SURVEY_QUESTION_2: "/survey/delete-survey-question", // Duplicate
 
-    ALAND_ACTIVITY:"/survey/user-activity"
+    ALAND_ACTIVITY:"/survey/user-activity",
+    FETCH_IMAGE:"/auth/fetch-image?url="
+    
 
 
 

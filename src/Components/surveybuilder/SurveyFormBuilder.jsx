@@ -17,8 +17,7 @@ import html2canvas from "html2canvas";
 import { surveyEndpoints } from "./SurveyEndpoints/SurveyEndpoints";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import {updateCurrentStep} from "../../actions/surveyStepAction"
-
+import { updateCurrentStep } from "../../actions/surveyStepAction";
 
 var surveyValues = {};
 
@@ -28,11 +27,12 @@ const SurveyFormBuilder = (props) => {
     IMAGE_UPLOAD_AWS,
     DELETE_SURVEY_TEMPLATE,
     INSERT_CUSTOM_TEMPLATE,
+    FETCH_IMAGE
   } = surveyEndpoints;
 
-  const {currentStep}=useSelector((state)=>state.surveyStepReducer);
-  
-const dispatch=useDispatch()
+  const { currentStep } = useSelector((state) => state.surveyStepReducer);
+
+  const dispatch = useDispatch();
   const [elements, setElements] = useState([]);
   // let path = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED;
   let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -126,7 +126,7 @@ const dispatch=useDispatch()
 
       // const body = { account_id: 18207 };
       const response = await surveyAxiosInstance.post(
-        FETCH_SAVED_TEMPLATE,
+        FETCH_SAVED_TEMPLATE
         // body
       );
 
@@ -318,39 +318,43 @@ const dispatch=useDispatch()
     }
   };
 
+  const convertResponseToBlob = async (blob) => {
+    
+    const reader = new FileReader();
+    return new Promise((resolve, reject) => {
+      reader.onloadend = () => {
+        const base64String = reader.result.split(",")[1];
+        resolve(base64String);
+      };
+  
+      reader.onerror = () => {
+        reject(new Error("Error reading the file"));
+      };
+  
+      reader.readAsDataURL(blob);
+    });
+  };
+  
   const convertUrlToBase64 = async (url) => {
     try {
-      // Fetch the image from the URL
-      var request = new Request('url');
-
-      const response = await fetch(request);
-      if (!response.ok) throw new Error("Network response was not ok");
-
-      // Convert the response to a Blob
+      const response = await fetch(url);    
       const blob = await response.blob();
-      const reader = new FileReader();
+      return await convertResponseToBlob(blob);
 
-      // Create a promise to handle the FileReader
-      return new Promise((resolve, reject) => {
-        reader.onloadend = () => {
-          // Extract Base64 string from the Data URL
-          const base64String = reader.result.split(",")[1];
-          resolve(base64String);
-        };
-
-        reader.onerror = () => {
-          reject(new Error("Error reading the file"));
-        };
-
-        // Read the Blob as a Data URL
-        reader.readAsDataURL(blob);
-      });
+  
     } catch (error) {
-      console.error("Error converting URL to Base64:", error.message);
-      throw error; // Optionally rethrow the error to be handled by the caller
+      try {
+        const response = await surveyAxiosInstance.get(FETCH_IMAGE + url, {
+          responseType: "blob",
+        });
+        return await convertResponseToBlob(response.data);
+      } catch (axiosError) {
+        console.error("Error converting URL to Base64:", axiosError.message);
+        throw axiosError; // Rethrow the error if both methods fail
+      }
     }
   };
-
+  
   const captureScreenshot = async () => {
     const element = document.getElementById("templatecapture");
     const logoElement = document.getElementById("surveyLogo");
@@ -595,8 +599,6 @@ const dispatch=useDispatch()
     }));
   };
 
-   
-
   const backHandler = () => {
     setCurrentTemplate(false);
   };
@@ -737,7 +739,7 @@ const dispatch=useDispatch()
     if (newTemplateStatus != 1) {
       await props.getSurveyData(updatedTemplateData);
     }
-    dispatch(updateCurrentStep(2))
+    dispatch(updateCurrentStep(2));
   };
 
   return (
@@ -957,7 +959,9 @@ const dispatch=useDispatch()
                                 )}
                                 {changeLogoToggle && (
                                   <div className="words-limit">
-                                    <p className="option-heading">Logo Width (%)</p>
+                                    <p className="option-heading">
+                                      Logo Width (%)
+                                    </p>
                                     <input
                                       placeholder="20"
                                       type="number"
@@ -1416,19 +1420,41 @@ const dispatch=useDispatch()
                           <li className="active active-main">
                             <Link to="">Set-up</Link>
                           </li>
-                          <li className={currentStep > 1 ? "active" : "" }>
-                          <Link  to={currentStep > 1 ? "/survey/survey-configure" : "" } >Survey config</Link>
-                        </li>
-                        <li className={currentStep > 2 ? "active" : "" }>
-                          <Link  to={currentStep > 2 ? "/survey/form-builder" : "" }>Build survey</Link>
-                        </li>
+                          <li className={currentStep > 1 ? "active" : ""}>
+                            <Link
+                              to={
+                                currentStep > 1
+                                  ? "/survey/survey-configure"
+                                  : ""
+                              }
+                            >
+                              Survey config
+                            </Link>
+                          </li>
+                          <li className={currentStep > 2 ? "active" : ""}>
+                            <Link
+                              to={currentStep > 2 ? "/survey/form-builder" : ""}
+                            >
+                              Build survey
+                            </Link>
+                          </li>
 
-                        <li className={currentStep > 3 ? "active" : "" }>
-                          <Link to={currentStep > 3 ? "/survey/thank-you" : "" }>Thank you</Link>
-                        </li>
-                        <li className={currentStep > 4 ? "active" : "" }>
-                          <Link to={currentStep > 4 ? "/survey/survey-preview" : "" }>Preview</Link>
-                        </li>
+                          <li className={currentStep > 3 ? "active" : ""}>
+                            <Link
+                              to={currentStep > 3 ? "/survey/thank-you" : ""}
+                            >
+                              Thank you
+                            </Link>
+                          </li>
+                          <li className={currentStep > 4 ? "active" : ""}>
+                            <Link
+                              to={
+                                currentStep > 4 ? "/survey/survey-preview" : ""
+                              }
+                            >
+                              Preview
+                            </Link>
+                          </li>
                         </ul>
                       </Col>
                       <Col md={3}>
@@ -1525,7 +1551,6 @@ const dispatch=useDispatch()
               type="button"
               className="btn btn-primary save btn-filled"
               onClick={(e) => {
-               
                 if (!newSavedTemplateName.trim()) {
                   setError({
                     addTemplateName: "Please add template Name",
