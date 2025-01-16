@@ -321,7 +321,9 @@ const dispatch=useDispatch()
   const convertUrlToBase64 = async (url) => {
     try {
       // Fetch the image from the URL
-      const response = await fetch(url);
+      var request = new Request('url');
+
+      const response = await fetch(request);
       if (!response.ok) throw new Error("Network response was not ok");
 
       // Convert the response to a Blob

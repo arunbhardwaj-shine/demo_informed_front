@@ -2722,14 +2722,13 @@ const VerifyHCP = (props) => {
                                 </td>
                                 <td id={`field_email` + data?.profile_user_id}>
                                   {data?.email ? data?.email : "N/A"}
-                                </td>
-                                <td>
                                   <input
                                     type="hidden"
                                     id={`field_index` + data.profile_user_id}
                                     value={index}
                                   />
-                                </td> {/* Place the input element inside a td */}
+                                </td>
+                                
                                 <td id={`field_bounced` + data?.profile_user_id}>
                                   {data?.bounce ? data?.bounce : "N/A"}
                                 </td>
