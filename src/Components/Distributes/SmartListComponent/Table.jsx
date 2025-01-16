@@ -1928,7 +1928,7 @@ const Table = (props, ref) => {
                     sheet="tablexls"
                     currentTableRef={tableRef.current}
                   >
-                    <button id="test-table-xls-button"> Export excel </button>
+                    <button id="test-table-xls-button" className="btn btn-outline-primary"> Export excel </button>
                   </DownloadTableExcel>
                   <div className="hcp-new-user">
                     <button

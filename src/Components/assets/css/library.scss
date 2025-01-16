@@ -6658,10 +6658,10 @@ section.verify_email.content_details {
   padding: 15px 0;
 }
 
-.add_link_to_pdf .viewer-layout-container .viewer-layout-main {
-  overflow-x: auto;
-  overflow-y: hidden;
-}
+// .add_link_to_pdf .viewer-layout-container .viewer-layout-main {
+//   overflow-x: auto;
+//   overflow-y: hidden;
+// }
 
 .dropdown-menu.filter-options .accordion .card-header button {
   text-transform: capitalize;
@@ -23209,7 +23209,10 @@ table {
 .module-register form .split-button-dropup div:nth-child(3)>div div {
   color: vars.$dark-blue;
 }
-
+::-webkit-scrollbar {
+  width: 9px;
+  height: 9px;
+}
 @keyframes fadeInbigger {
   0% {
     opacity: 1;

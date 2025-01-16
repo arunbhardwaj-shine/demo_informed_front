@@ -2467,7 +2467,7 @@ form .input-group {
 ::-webkit-scrollbar-thumb {
   width: 14px;
   background: var(--skyblue);
-  border: 3px solid #dce6ef;
+  border: 2px solid #dce6ef;
   border-radius: 15px;
 }
 
