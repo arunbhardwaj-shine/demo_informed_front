@@ -610,11 +610,10 @@ const CommonAddEventModel = ({
 
                           {(eventInputs?.stream_type === "Zoom" ||
                             streamTypeMap[eventInputs?.stream_type] ===
-                              "Zoom" ||  
-                              streamTypeMap[eventInputs?.stream_type] ===
+                              "Zoom" ||
+                            streamTypeMap[eventInputs?.stream_type] ===
                               "Webex" ||
-                            (eventInputs?.stream_type === "Webex") ===
-                              "Zoom") && (
+                            eventInputs?.stream_type === "Webex") && (
                             <>
                               <div className="form-group d-flex align-items-center">
                                 <label htmlFor="">Meeting ID</label>
@@ -662,8 +661,12 @@ const CommonAddEventModel = ({
 
                           <div className="col-12 col-md-12 speaker-name">
                             <div className="multi-speaker-add">
-                                {Object.keys(eventInputs?.speaker_name)?.map((item, index) => (
-                                  <div className="form-group d-flex align-items-center" key={index}>
+                              {Object.keys(eventInputs?.speaker_name)?.map(
+                                (item, index) => (
+                                  <div
+                                    className="form-group d-flex align-items-center"
+                                    key={index}
+                                  >
                                     <label htmlFor="">
                                       {`Speaker's name ${index + 1}`}{" "}
                                       <span> *</span>
