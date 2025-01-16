@@ -2006,7 +2006,7 @@ const Table = (props, ref) => {
                     sheet="tablexls"
                     currentTableRef={tableRef.current}
                   >
-                    <button  id="test-table-xls-button"> Download </button>
+                    <button  id="test-table-xls-button" className="btn btn-outline-primary"> Download </button>
                   </DownloadTableExcel>
                   <div className="hcp-new-user">
                     <button
@@ -3436,7 +3436,7 @@ const Table = (props, ref) => {
                       const fieldName = `hpc[${i}]`;
                       return (
                         <React.Fragment key={fieldName}>
-                          <div className="add_hcp_boxes">React.Fragment key={index}
+                          <div className="add_hcp_boxes">
                             <div className="form_action">
                               <div className="row">
                                 <div className="col-12 col-md-6">
