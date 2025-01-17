@@ -18,6 +18,8 @@ import { surveyEndpoints } from "./SurveyEndpoints/SurveyEndpoints";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { updateCurrentStep } from "../../actions/surveyStepAction";
+ 
+
 
 var surveyValues = {};
 
@@ -265,17 +267,9 @@ const SurveyFormBuilder = (props) => {
     );
   }
 
-  const dataURLToFile = (dataURL, filename) => {
-    const [header, base64] = dataURL.split(",");
-    const mime = header.match(/:(.*?);/)[1];
-    const binary = atob(base64);
-    const array = [];
-    for (let i = 0; i < binary.length; i++) {
-      array.push(binary.charCodeAt(i));
-    }
-    return new File([new Uint8Array(array)], filename, { type: mime });
-  };
 
+
+ 
   const TemplatePreviewUpload = async (file) => {
     const filePath = uploadImageToServer(file);
     if (filePath) {
@@ -306,118 +300,149 @@ const SurveyFormBuilder = (props) => {
   };
 
   const updateBackgroundUrl = async (element, newUrl) => {
-    // Get the current background property
     const currentBackground = element.style.background;
-    // Extract the URL using regex
-    const urlMatch = currentBackground.match(/url\(["']?([^"']*)["']?\)/);
-    if (urlMatch) {
-      const oldUrl = urlMatch[1];
-      return await convertUrlToBase64(oldUrl);
-    } else {
-      console.log("No URL found in the background property");
-    }
-  };
-
-  const convertResponseToBlob = async (blob) => {
-    
-    const reader = new FileReader();
-    return new Promise((resolve, reject) => {
-      reader.onloadend = () => {
-        const base64String = reader.result.split(",")[1];
-        resolve(base64String);
+        const urlMatch = currentBackground.match(/url\(["']?([^"']*)["']?\)/);
+      
+        if (urlMatch) {
+          const oldUrl = urlMatch[1];
+          return await convertUrlToBase64(oldUrl);
+        } else {
+          console.warn("No URL found in the background property");
+        }
       };
-  
-      reader.onerror = () => {
-        reject(new Error("Error reading the file"));
+      
+      const convertResponseToBlob = async (blob) => {
+        const reader = new FileReader();
+        return new Promise((resolve, reject) => {
+          reader.onloadend = () => {
+            const base64String = reader.result.split(",")[1];
+            resolve(`data:${blob.type};base64,${base64String}`);
+          };
+      
+          reader.onerror = () => {
+            reject(new Error("Error reading the file"));
+          };
+      
+          reader.readAsDataURL(blob);
+        });
       };
-  
-      reader.readAsDataURL(blob);
-    });
-  };
-  
-  const convertUrlToBase64 = async (url) => {
-    try {
-      const response = await fetch(url);    
-      const blob = await response.blob();
-      return await convertResponseToBlob(blob);
-
-  
-    } catch (error) {
-      try {
-        const response = await surveyAxiosInstance.get(FETCH_IMAGE + url, {
-          responseType: "blob",
+      
+      const convertUrlToBase64 = async (url) => {
+        try {
+          // First attempt using fetch
+          const response = await fetch(url, { mode: "cors", cache: "reload" });
+          if (!response.ok) throw new Error(`Fetch failed with status: ${response.status}`);
+          const blob = await response.blob();
+          return await convertResponseToBlob(blob);
+        } catch (fetchError) {
+          console.warn("Fetch failed, attempting Axios fallback:", fetchError.message);
+      
+          try {
+            // Fallback to Axios with proxy
+            const response = await surveyAxiosInstance.get(FETCH_IMAGE + url, {
+              responseType: "blob",
+            });
+            return await convertResponseToBlob(response.data);
+          } catch (axiosError) {
+            console.error("Axios fallback failed:", axiosError.message);
+            throw axiosError;
+          }
+        }
+      };
+      
+      const dataURLToFile = (dataUrl, filename) => {
+        const arr = dataUrl.split(",");
+        const mime = arr[0].match(/:(.*?);/)[1];
+        const bstr = atob(arr[1]);
+        const u8arr = new Uint8Array(bstr.length);
+      
+        for (let i = 0; i < bstr.length; i++) {
+          u8arr[i] = bstr.charCodeAt(i);
+        }
+      
+        return new File([u8arr], filename, { type: mime });
+      };
+      
+      const preloadImage = async (url) => {
+        return new Promise((resolve, reject) => {
+          const img = new Image();
+          img.crossOrigin = "anonymous";
+          img.onload = resolve;
+          img.onerror = (err) => reject(new Error(`Failed to preload image: ${url}, ${err.message}`));
+          img.src = url;
         });
-        return await convertResponseToBlob(response.data);
-      } catch (axiosError) {
-        console.error("Error converting URL to Base64:", axiosError.message);
-        throw axiosError; // Rethrow the error if both methods fail
-      }
-    }
-  };
-  
-  const captureScreenshot = async () => {
-    const element = document.getElementById("templatecapture");
-    const logoElement = document.getElementById("surveyLogo");
-    const backgroundImageElement = document.getElementById(
-      "surveyBackgroundImage"
-    );
-
-    let base64backgroundImg = "";
-    let base64logoimg = "";
-
-    if (backgroundImageElement) {
-      const rawImage = await updateBackgroundUrl(backgroundImageElement);
-      if (rawImage) {
-        base64backgroundImg = `data:image/png;base64,${rawImage}`;
-      }
-    }
-
-    if (logoElement) {
-      const rawImage = await convertUrlToBase64(logoElement.src);
-      base64logoimg = `data:image/png;base64,${rawImage}`;
-    }
-
-    if (base64backgroundImg) {
-      backgroundImageElement.style.background = `url(${base64backgroundImg}); background-size: cover`;
-    }
-
-    if (base64logoimg) {
-      logoElement.src = base64logoimg;
-    }
-
-    if (element) {
-      try {
-        // Capture screenshot with html2canvas
-        const canvas = await html2canvas(element, {
-          allowTaint: true,
-          useCORS: true,
-          proxy: "https://docintel.s3-eu-west-1.amazonaws.com",
-          backgroundColor: null,
-        });
-
-        if (canvas) {
-          const imgData = canvas.toDataURL("image/png");
-
-          if (imgData) {
-            const file = dataURLToFile(imgData, "screenshot.png");
-
-            // Simulated upload function (replace with your actual implementation)
-            const imgpath = await TemplatePreviewUpload(file);
-            if (imgpath) {
-              return imgpath;
+      };
+      
+      const captureScreenshot = async () => {
+        const logoElement = document.getElementById("surveyLogo");
+        const backgroundImageElement = document.getElementById("surveyBackgroundImage");
+      
+        let base64backgroundImg = "";
+        let base64logoimg = "";
+      
+        try {
+          if (backgroundImageElement) {
+            const rawImage = await updateBackgroundUrl(backgroundImageElement);
+            if (rawImage) {
+              base64backgroundImg = rawImage;
+    backgroundImageElement.style.background = `url(${base64backgroundImg}); background-size: cover`;
             }
           }
-        } else {
-          console.error("Canvas is null or undefined");
+      
+          if (logoElement) {
+            const rawImage = await convertUrlToBase64(logoElement.src);
+            if (rawImage) {
+              base64logoimg = rawImage;
+              logoElement.src = base64logoimg;
+            }
+          }
+      
+          const element = document.getElementById("templatecapture");
+          if (element) {
+            // Preload images to ensure they are available for html2canvas
+            if (base64backgroundImg) await preloadImage(base64backgroundImg);
+            if (base64logoimg) await preloadImage(base64logoimg);
+      
+            try {
+              const canvas = await html2canvas(element, {
+                allowTaint: true,
+                useCORS: true,
+                backgroundColor: null,
+                letterRendering: 1,
+              });
+      
+              if (canvas) {
+                const imgData = canvas.toDataURL("image/png");
+                if (imgData) {
+                  const file = dataURLToFile(imgData, "screenshot.png");
+      
+                  // Simulated upload function (replace with actual implementation)
+                  const imgpath = await TemplatePreviewUpload(file);
+                  return imgpath;
+                }
+              } else {
+                console.error("Canvas is null or undefined");
+              }
+            } catch (html2canvasError) {
+              console.error("Error capturing screenshot with html2canvas:", html2canvasError.message);
+            }
+          } else {
+            console.error('Element with ID "templatecapture" not found');
+          }
+        } catch (error) {
+          console.error("Error during screenshot process:", error.message);
         }
-      } catch (error) {
-        console.error("Error capturing screenshot:", error);
-      }
-    } else {
-      console.error(`Element with ID "templatecapture" is not found`);
-    }
-    return null;
-  };
+      
+        return null;
+      };
+  
+ 
+
+
+
+
+
+ 
 
   const handleChoiceChange = (id) => {
     if (id && templates) {
