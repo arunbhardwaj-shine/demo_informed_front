@@ -14,6 +14,7 @@ import MapComponent from "./MapComponent";
 import { saveAs } from "file-saver";
 import { toast } from "react-toastify";
 import * as XLSX from "xlsx";
+import html2canvas from 'html2canvas';
  
 
 const path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -264,26 +265,82 @@ const ContentAnalytics = () => {
     }
   };
 
+  // const handleParent = async () => {
+  //   try {
+  //     loader("show");
+  //     const element = document.getElementById("parent");
+  //     // add padding to the element
+
+  //     const dataUrl = await domtoimage.toPng(element, { cacheBust: true });
+
+  //     const link = document.createElement("a");
+     
+  //     link.download = `article_stats.png`;
+  //     link.href = dataUrl;
+  //     link.click();
+
+  //     loader("hide");
+  //   } catch (err) {
+  //     loader("hide");
+  //     console.log(err);
+  //   }
+  // };
+
+
+
   const handleParent = async () => {
     try {
       loader("show");
+  
+      // Select the element to capture
       const element = document.getElementById("parent");
-      // add padding to the element
-
-      const dataUrl = await domtoimage.toPng(element, { cacheBust: true });
-
+  
+      // Ensure the element exists
+      if (!element) {
+        console.error("Parent element not found.");
+        loader("hide");
+        return;
+      }
+  
+      // Apply necessary styles to avoid layout issues (for highcharts, etc.)
+      const originalStyles = {
+        boxShadow: element.style.boxShadow,
+        padding: element.style.padding,
+        backgroundColor: element.style.backgroundColor
+      };
+      element.style.boxShadow = 'none'; // Disable box-shadow for cleaner capture
+      element.style.padding = '0'; // Reset padding if needed
+      element.style.backgroundColor = 'transparent'; // Make background transparent
+  
+      // Use html2canvas to capture the element as a canvas
+      const canvas = await html2canvas(element, {
+        useCORS: true, // Allow cross-origin requests
+        logging: true, // Useful for debugging
+        backgroundColor: 'transparent', // Make sure background is transparent
+        scale: 2 // Adjust scale for better quality
+      });
+  
+      // Convert the canvas to image data URL
+      const dataUrl = canvas.toDataURL("image/png");
+  
+      // Revert the styles to their original state
+      element.style.boxShadow = originalStyles.boxShadow;
+      element.style.padding = originalStyles.padding;
+      element.style.backgroundColor = originalStyles.backgroundColor;
+  
+      // Create download link and trigger download
       const link = document.createElement("a");
-     
       link.download = `article_stats.png`;
       link.href = dataUrl;
       link.click();
-
+  
       loader("hide");
     } catch (err) {
       loader("hide");
-      console.log(err);
+      console.error(err);
     }
   };
+
   const downloadUniqueStats = async () => {
     try {
       loader("show");
