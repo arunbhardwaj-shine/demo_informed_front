@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect  } from "react";
 import { Col, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -24,6 +24,14 @@ const data = [
 const Spc = () => {
   const navigate = useNavigate();
   let [active, setActive] = useState();
+  
+   useEffect(() => {
+    const spcState = localStorage.getItem("spc_state");
+    if (spcState) {
+      localStorage.removeItem("spc_state");
+    }
+  }, []);
+
   const handleChange = (value) => {
     setActive(value);
     if (value == 0) {

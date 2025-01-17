@@ -10,6 +10,9 @@ import { popup_alert } from "../../popup_alert";
 const SpcView = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const currentStateData = location.state?.data;
+  // console.log(currentStateData,'currentStateData')
+  const localstate = JSON.parse(localStorage.getItem('spc_state'));
   let obj = {};
 
   const [filterApplyflag, setFilterApplyflag] = useState(0);
@@ -209,18 +212,51 @@ const SpcView = () => {
     setShowFilter(false);
   };
 
-  const handleViewClick = (file,title) => {
-    try{
+  // const handleViewClick = (currentStateData,file,title) => {
+  //   try{
+  //     const state = {
+  //       currentStateData: currentStateData ,
+  //       file: file,
+  //       title: title,
+  //     };
+  //     localStorage.setItem("spc_state", JSON.stringify(state));
+  //     window.open("/spc-render");
+  //   }catch(err){
+  //     console.log(err);
+  //   }
+  // };
+
+  const handleViewClick = (currentStateData, file, title) => {
+    try {
+      const currentPath = window.location.pathname;
+  
+      if (!currentStateData) {
+        if (currentPath === "/spc-delete") {
+          currentStateData = "delete"; 
+        } else if (currentPath === "/spc-view") {
+          currentStateData = "edit"; 
+        }
+      }
+  
+      localStorage.removeItem("spc_state");
+  
       const state = {
+        currentStateData: currentStateData,
         file: file,
         title: title,
       };
+      
       localStorage.setItem("spc_state", JSON.stringify(state));
+  
       window.open("/spc-render");
-    }catch(err){
-      console.log(err);
+    } catch (err) {
+      console.log("Error updating localStorage:", err);
     }
   };
+  
+  
+
+
   return (
     <>
       <Col className="right-sidebar custom-change">
@@ -246,7 +282,7 @@ const SpcView = () => {
                   </svg>
                 </Link>
                 <h2>
-                  {location?.state?.data == "delete"
+                  {location?.state?.data == "delete" ||  localstate?.currentStateData == "delete"
                     ? "Delete SPC"
                     : "View | Edit SPC"}
                 </h2>
@@ -569,7 +605,7 @@ const SpcView = () => {
                               <div className="smartlist-buttons">
                                 {
                                   <>
-                                    {location?.state?.data != "delete" ? (
+                                    {location?.state?.data != "delete" &&  localstate?.currentStateData != "delete" ? (
                                       <Link
                                         to="/spc-edit"
                                         state={{ spcId: data.id }}
@@ -580,12 +616,13 @@ const SpcView = () => {
                                     ) : null}
 
                                     <Link
-                                      onClick={() => handleViewClick(data.file,data.title)}
+                                      onClick={() => handleViewClick(location.state?.data,data.file,data.title)}
                                       // to="/spc-render"
                                       // state={{
                                       //   file: data.file,
                                       //   title: data.title,
                                       // }}
+                                      
                                       className="btn btn-primary btn-filled view"
                                     >
                                       View
@@ -593,7 +630,7 @@ const SpcView = () => {
                                   </>
                                 }
                               </div>
-                              {location?.state?.data == "delete" ? (
+                              {location?.state?.data == "delete" ||  localstate?.currentStateData == "delete" ? (
                                 <div className="dlt_btn">
                                   <button
                                     onClick={(e) => {
