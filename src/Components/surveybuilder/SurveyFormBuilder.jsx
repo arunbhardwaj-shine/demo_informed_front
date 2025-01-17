@@ -17,7 +17,8 @@ import html2canvas from "html2canvas";
 import { surveyEndpoints } from "./SurveyEndpoints/SurveyEndpoints";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import {updateCurrentStep} from "../../actions/surveyStepAction"
+import { updateCurrentStep } from "../../actions/surveyStepAction";
+ 
 
 
 var surveyValues = {};
@@ -28,11 +29,12 @@ const SurveyFormBuilder = (props) => {
     IMAGE_UPLOAD_AWS,
     DELETE_SURVEY_TEMPLATE,
     INSERT_CUSTOM_TEMPLATE,
+    FETCH_IMAGE
   } = surveyEndpoints;
 
-  const {currentStep}=useSelector((state)=>state.surveyStepReducer);
-  
-const dispatch=useDispatch()
+  const { currentStep } = useSelector((state) => state.surveyStepReducer);
+
+  const dispatch = useDispatch();
   const [elements, setElements] = useState([]);
   // let path = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED;
   let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -126,7 +128,7 @@ const dispatch=useDispatch()
 
       // const body = { account_id: 18207 };
       const response = await surveyAxiosInstance.post(
-        FETCH_SAVED_TEMPLATE,
+        FETCH_SAVED_TEMPLATE
         // body
       );
 
@@ -265,17 +267,9 @@ const dispatch=useDispatch()
     );
   }
 
-  const dataURLToFile = (dataURL, filename) => {
-    const [header, base64] = dataURL.split(",");
-    const mime = header.match(/:(.*?);/)[1];
-    const binary = atob(base64);
-    const array = [];
-    for (let i = 0; i < binary.length; i++) {
-      array.push(binary.charCodeAt(i));
-    }
-    return new File([new Uint8Array(array)], filename, { type: mime });
-  };
 
+
+ 
   const TemplatePreviewUpload = async (file) => {
     const filePath = uploadImageToServer(file);
     if (filePath) {
@@ -306,114 +300,149 @@ const dispatch=useDispatch()
   };
 
   const updateBackgroundUrl = async (element, newUrl) => {
-    // Get the current background property
     const currentBackground = element.style.background;
-    // Extract the URL using regex
-    const urlMatch = currentBackground.match(/url\(["']?([^"']*)["']?\)/);
-    if (urlMatch) {
-      const oldUrl = urlMatch[1];
-      return await convertUrlToBase64(oldUrl);
-    } else {
-      console.log("No URL found in the background property");
-    }
-  };
-
-  const convertUrlToBase64 = async (url) => {
-    try {
-      // Fetch the image from the URL
-      var request = new Request('url');
-
-      const response = await fetch(request);
-      if (!response.ok) throw new Error("Network response was not ok");
-
-      // Convert the response to a Blob
-      const blob = await response.blob();
-      const reader = new FileReader();
-
-      // Create a promise to handle the FileReader
-      return new Promise((resolve, reject) => {
-        reader.onloadend = () => {
-          // Extract Base64 string from the Data URL
-          const base64String = reader.result.split(",")[1];
-          resolve(base64String);
-        };
-
-        reader.onerror = () => {
-          reject(new Error("Error reading the file"));
-        };
-
-        // Read the Blob as a Data URL
-        reader.readAsDataURL(blob);
-      });
-    } catch (error) {
-      console.error("Error converting URL to Base64:", error.message);
-      throw error; // Optionally rethrow the error to be handled by the caller
-    }
-  };
-
-  const captureScreenshot = async () => {
-    const element = document.getElementById("templatecapture");
-    const logoElement = document.getElementById("surveyLogo");
-    const backgroundImageElement = document.getElementById(
-      "surveyBackgroundImage"
-    );
-
-    let base64backgroundImg = "";
-    let base64logoimg = "";
-
-    if (backgroundImageElement) {
-      const rawImage = await updateBackgroundUrl(backgroundImageElement);
-      if (rawImage) {
-        base64backgroundImg = `data:image/png;base64,${rawImage}`;
-      }
-    }
-
-    if (logoElement) {
-      const rawImage = await convertUrlToBase64(logoElement.src);
-      base64logoimg = `data:image/png;base64,${rawImage}`;
-    }
-
-    if (base64backgroundImg) {
-      backgroundImageElement.style.background = `url(${base64backgroundImg}); background-size: cover`;
-    }
-
-    if (base64logoimg) {
-      logoElement.src = base64logoimg;
-    }
-
-    if (element) {
-      try {
-        // Capture screenshot with html2canvas
-        const canvas = await html2canvas(element, {
-          allowTaint: true,
-          useCORS: true,
-          proxy: "https://docintel.s3-eu-west-1.amazonaws.com",
-          backgroundColor: null,
+        const urlMatch = currentBackground.match(/url\(["']?([^"']*)["']?\)/);
+      
+        if (urlMatch) {
+          const oldUrl = urlMatch[1];
+          return await convertUrlToBase64(oldUrl);
+        } else {
+          console.warn("No URL found in the background property");
+        }
+      };
+      
+      const convertResponseToBlob = async (blob) => {
+        const reader = new FileReader();
+        return new Promise((resolve, reject) => {
+          reader.onloadend = () => {
+            const base64String = reader.result.split(",")[1];
+            resolve(`data:${blob.type};base64,${base64String}`);
+          };
+      
+          reader.onerror = () => {
+            reject(new Error("Error reading the file"));
+          };
+      
+          reader.readAsDataURL(blob);
         });
-
-        if (canvas) {
-          const imgData = canvas.toDataURL("image/png");
-
-          if (imgData) {
-            const file = dataURLToFile(imgData, "screenshot.png");
-
-            // Simulated upload function (replace with your actual implementation)
-            const imgpath = await TemplatePreviewUpload(file);
-            if (imgpath) {
-              return imgpath;
+      };
+      
+      const convertUrlToBase64 = async (url) => {
+        try {
+          // First attempt using fetch
+          const response = await fetch(url, { mode: "cors", cache: "reload" });
+          if (!response.ok) throw new Error(`Fetch failed with status: ${response.status}`);
+          const blob = await response.blob();
+          return await convertResponseToBlob(blob);
+        } catch (fetchError) {
+          console.warn("Fetch failed, attempting Axios fallback:", fetchError.message);
+      
+          try {
+            // Fallback to Axios with proxy
+            const response = await surveyAxiosInstance.get(FETCH_IMAGE + url, {
+              responseType: "blob",
+            });
+            return await convertResponseToBlob(response.data);
+          } catch (axiosError) {
+            console.error("Axios fallback failed:", axiosError.message);
+            throw axiosError;
+          }
+        }
+      };
+      
+      const dataURLToFile = (dataUrl, filename) => {
+        const arr = dataUrl.split(",");
+        const mime = arr[0].match(/:(.*?);/)[1];
+        const bstr = atob(arr[1]);
+        const u8arr = new Uint8Array(bstr.length);
+      
+        for (let i = 0; i < bstr.length; i++) {
+          u8arr[i] = bstr.charCodeAt(i);
+        }
+      
+        return new File([u8arr], filename, { type: mime });
+      };
+      
+      const preloadImage = async (url) => {
+        return new Promise((resolve, reject) => {
+          const img = new Image();
+          img.crossOrigin = "anonymous";
+          img.onload = resolve;
+          img.onerror = (err) => reject(new Error(`Failed to preload image: ${url}, ${err.message}`));
+          img.src = url;
+        });
+      };
+      
+      const captureScreenshot = async () => {
+        const logoElement = document.getElementById("surveyLogo");
+        const backgroundImageElement = document.getElementById("surveyBackgroundImage");
+      
+        let base64backgroundImg = "";
+        let base64logoimg = "";
+      
+        try {
+          if (backgroundImageElement) {
+            const rawImage = await updateBackgroundUrl(backgroundImageElement);
+            if (rawImage) {
+              base64backgroundImg = rawImage;
+    backgroundImageElement.style.background = `url(${base64backgroundImg}); background-size: cover`;
             }
           }
-        } else {
-          console.error("Canvas is null or undefined");
+      
+          if (logoElement) {
+            const rawImage = await convertUrlToBase64(logoElement.src);
+            if (rawImage) {
+              base64logoimg = rawImage;
+              logoElement.src = base64logoimg;
+            }
+          }
+      
+          const element = document.getElementById("templatecapture");
+          if (element) {
+            // Preload images to ensure they are available for html2canvas
+            if (base64backgroundImg) await preloadImage(base64backgroundImg);
+            if (base64logoimg) await preloadImage(base64logoimg);
+      
+            try {
+              const canvas = await html2canvas(element, {
+                allowTaint: true,
+                useCORS: true,
+                backgroundColor: null,
+                letterRendering: 1,
+              });
+      
+              if (canvas) {
+                const imgData = canvas.toDataURL("image/png");
+                if (imgData) {
+                  const file = dataURLToFile(imgData, "screenshot.png");
+      
+                  // Simulated upload function (replace with actual implementation)
+                  const imgpath = await TemplatePreviewUpload(file);
+                  return imgpath;
+                }
+              } else {
+                console.error("Canvas is null or undefined");
+              }
+            } catch (html2canvasError) {
+              console.error("Error capturing screenshot with html2canvas:", html2canvasError.message);
+            }
+          } else {
+            console.error('Element with ID "templatecapture" not found');
+          }
+        } catch (error) {
+          console.error("Error during screenshot process:", error.message);
         }
-      } catch (error) {
-        console.error("Error capturing screenshot:", error);
-      }
-    } else {
-      console.error(`Element with ID "templatecapture" is not found`);
-    }
-    return null;
-  };
+      
+        return null;
+      };
+  
+ 
+
+
+
+
+
+ 
 
   const handleChoiceChange = (id) => {
     if (id && templates) {
@@ -595,8 +624,6 @@ const dispatch=useDispatch()
     }));
   };
 
-   
-
   const backHandler = () => {
     setCurrentTemplate(false);
   };
@@ -737,7 +764,7 @@ const dispatch=useDispatch()
     if (newTemplateStatus != 1) {
       await props.getSurveyData(updatedTemplateData);
     }
-    dispatch(updateCurrentStep(2))
+    dispatch(updateCurrentStep(2));
   };
 
   return (
@@ -957,7 +984,9 @@ const dispatch=useDispatch()
                                 )}
                                 {changeLogoToggle && (
                                   <div className="words-limit">
-                                    <p className="option-heading">Logo Width (%)</p>
+                                    <p className="option-heading">
+                                      Logo Width (%)
+                                    </p>
                                     <input
                                       placeholder="20"
                                       type="number"
@@ -1416,19 +1445,41 @@ const dispatch=useDispatch()
                           <li className="active active-main">
                             <Link to="">Set-up</Link>
                           </li>
-                          <li className={currentStep > 1 ? "active" : "" }>
-                          <Link  to={currentStep > 1 ? "/survey/survey-configure" : "" } >Survey config</Link>
-                        </li>
-                        <li className={currentStep > 2 ? "active" : "" }>
-                          <Link  to={currentStep > 2 ? "/survey/form-builder" : "" }>Build survey</Link>
-                        </li>
+                          <li className={currentStep > 1 ? "active" : ""}>
+                            <Link
+                              to={
+                                currentStep > 1
+                                  ? "/survey/survey-configure"
+                                  : ""
+                              }
+                            >
+                              Survey config
+                            </Link>
+                          </li>
+                          <li className={currentStep > 2 ? "active" : ""}>
+                            <Link
+                              to={currentStep > 2 ? "/survey/form-builder" : ""}
+                            >
+                              Build survey
+                            </Link>
+                          </li>
 
-                        <li className={currentStep > 3 ? "active" : "" }>
-                          <Link to={currentStep > 3 ? "/survey/thank-you" : "" }>Thank you</Link>
-                        </li>
-                        <li className={currentStep > 4 ? "active" : "" }>
-                          <Link to={currentStep > 4 ? "/survey/survey-preview" : "" }>Preview</Link>
-                        </li>
+                          <li className={currentStep > 3 ? "active" : ""}>
+                            <Link
+                              to={currentStep > 3 ? "/survey/thank-you" : ""}
+                            >
+                              Thank you
+                            </Link>
+                          </li>
+                          <li className={currentStep > 4 ? "active" : ""}>
+                            <Link
+                              to={
+                                currentStep > 4 ? "/survey/survey-preview" : ""
+                              }
+                            >
+                              Preview
+                            </Link>
+                          </li>
                         </ul>
                       </Col>
                       <Col md={3}>
@@ -1525,7 +1576,6 @@ const dispatch=useDispatch()
               type="button"
               className="btn btn-primary save btn-filled"
               onClick={(e) => {
-               
                 if (!newSavedTemplateName.trim()) {
                   setError({
                     addTemplateName: "Please add template Name",
