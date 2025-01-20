@@ -1812,7 +1812,9 @@ const LibraryContent = (props) => {
                                        
 
 
-                                      {!(isUSAPharmaAccount && data.articleOwner == 1) ? (
+                                      {
+                                      // !(isUSAPharmaAccount && data.articleOwner == 1) ? (
+
                                         data?.spc_included ? (
                                           <button
                                             className="footer-btn"
@@ -1830,7 +1832,9 @@ const LibraryContent = (props) => {
                                             Preview article
                                           </a>
                                         )
-                                      ) : null}
+                                      // )
+                                      //  : null
+                                       }
 
 
 
