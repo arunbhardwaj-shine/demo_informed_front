@@ -4445,6 +4445,17 @@ form.product-unit button {
   margin-left: 10px;
 }
 
+/* Hide Edge's built-in eye icon */
+input[type="password"]::-ms-reveal {
+  display: none; /* Prevents the eye icon from appearing */
+}
+
+/* Optionally hide Edge's clear button (if it appears) */
+input[type="password"]::-ms-clear {
+  display: none;
+}
+
+
 .btn.btn-bordered.btn-voilet {
   border: 1px solid vars.$voilet;
   color: vars.$voilet;
