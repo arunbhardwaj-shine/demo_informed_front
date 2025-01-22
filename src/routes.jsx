@@ -244,6 +244,7 @@ import SetLayoutNew from "./Components/CommonComponent/SetLayoutNew";
 import SetLayoutNewTimeline from "./Components/CommonComponent/SetLayoutNewTimeline";
 import ClinetAccount from "./Components/Login/ClientAccount";
 import ResetPassword from "./Components/CommonComponent/ResetPassword";
+import Redirect from "./Auth/Redirect";
 
 //Aland activity route
 
@@ -302,6 +303,7 @@ const Routing = () => {
       <Routes>
         //DefaultLayout for Login pages
         <Route path="/" element={<DefaultLayout component={MainLanding} />} />
+        <Route path="/redirect" element={<DefaultLayout component={Redirect} />} />
         <Route path="/account/:token" element={<DefaultLayout component={ClinetAccount} />} />
         <Route path="/set-password" element={<DefaultLayout component={ResetPassword} />} />
         <Route
