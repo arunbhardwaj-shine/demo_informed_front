@@ -1190,14 +1190,15 @@ const LibraryEditListing = () => {
                                 deletestatus == false ? (
                                   <div className="data-main-footer-sec">
                                     <div className="footer-btn-wrapper">
-                                    {!(isUSAPharmaAccount && data.articleOwner == 1) ? (
+                                    {/* {!(isUSAPharmaAccount && data.articleOwner == 1) ? ( */}
                                       <a
                                         className="footer-btn"
                                         href={data?.previewArticle}
                                         target="_blank"
                                       >
                                         Preview article
-                                      </a> ) : null}
+                                      </a>
+                                     {/* ) : null} */}
                                       <Button
                                         onClick={() => {
                                           commonModelFun();
