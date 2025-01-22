@@ -2457,7 +2457,21 @@
 .verify-email-detail-clear .info_btn {
   margin: 10px 0 10px;
 }
+.preview_content {
+  width: 100%;
+  margin: 0 0 8px;
+}
 
+.preview_content .info_btn {
+  align-self: flex-end;
+  display: flex;
+  margin-left: auto;
+  gap: 13px;
+}
+
+.preview_content .info_btn .btn.btn-bordered {
+  min-width: 152px;
+}
 input:-webkit-autofill {
   -webkit-text-fill-color: vars.$primary-color !important;
 }
@@ -11274,7 +11288,9 @@ svg.pencil_icon {
 .smartlist-view .mail-box-content .tabs-data .tab-content .tab-mail-list h6.tab-content-title img {
   margin-left: 3px;
 }
-
+.content_details .verify-email-detail h6:last-child {
+  margin: 0;
+}
 /**Library Responsive**/
 
 @media only screen and (min-width: 1921px) {
@@ -11694,7 +11710,9 @@ svg.pencil_icon {
   .selected-products-list.product_show .products_top_action {
     margin-top: 0px;
   }
-
+  .preview_content .info_btn .btn.btn-bordered {
+    min-width: 125px;
+}
   .sublink_left h5 {
     font-size: 18px;
   }
@@ -12794,7 +12812,9 @@ svg.pencil_icon {
     width: 60px;
     height: 60px;
   }
-
+  .preview_content .info_btn .btn.btn-bordered {
+    min-width: 100px;
+}
   header.top-0~div .form_action.sticky-view,
   header.top-0~div .template_builder-option.library-cosent.sticky-view {
     top: 62px;

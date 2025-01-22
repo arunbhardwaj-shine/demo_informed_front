@@ -259,6 +259,10 @@ const ContentDetail = (props) => {
       
     });
   };
+
+  const nextClicked = (id) => {
+      props.getEmailData({ PdfSelected: id });
+  };
  
 
   return (
@@ -391,6 +395,7 @@ const ContentDetail = (props) => {
                                           />
                                         </span>
                                       </h6>
+                                    </div>
                                       <div className="info_btn">
                                         <Button
                                           className="btn btn-primary btn-bordered move-draft"
@@ -404,15 +409,25 @@ const ContentDetail = (props) => {
                                         >
                                           Download QR
                                         </Button>
+
                                         <Link
+                                          className="btn btn-primary btn-bordered"
+                                          to="/CreateEmail"
+                                          state={{ PdfSelected: data.id }}
+                                          onClick={() => {
+                                            nextClicked(data.id);
+                                          }}
+                                        >
+                                          Send in email
+                                        </Link>
+                                        {/* <Link
                                           to="/library-sublink"
                                           state={{ pdfid: data.id }}
                                           className="btn btn-primary btn-filled next"
                                         >
                                           New sublink
-                                        </Link>
+                                        </Link> */}
                                       </div>
-                                    </div>
                                   </div>
                                 </div>
                               </div>
