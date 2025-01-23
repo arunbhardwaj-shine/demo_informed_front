@@ -8,14 +8,15 @@ const CommonConfirmModel = ({
   popupMessage,
   path_image,
   resetDataId,
-  onCloseCross
+  onCloseCross,
+  accountLink
 }) => {
   const handleClose = () => {
     onClose(false);
   };
 
   const handleCollection = () => {
-    fun(resetDataId);
+    fun(resetDataId,accountLink);
   };
 
   const mailprocess = () => {

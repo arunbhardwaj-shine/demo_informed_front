@@ -122,6 +122,7 @@ const LicenseContent = (props) => {
   const [modalCounter, setModalCounter] = useState(0);
   const [allTags, setAllTags] = useState({});
   const [resetDataId, setResetDataId] = useState();
+  const [accountLink, setAccountLink] = useState();
   const [popupMessage, setPopupMessage] = useState({
     message1: "",
     message2: "",
@@ -456,7 +457,8 @@ const LicenseContent = (props) => {
     }
   };
 
-  const showConfirmationPopup = (stateMsg, e, id) => {
+  const showConfirmationPopup = (stateMsg, e, id,account_link) => {
+    
     if (stateMsg == "delete") {
       // setUserId(id);
       setResetDataId(id);
@@ -479,6 +481,9 @@ const LicenseContent = (props) => {
       setIsRenewOpen(!isRenewOpen);
     } else if (stateMsg == 'reset_client_account'){
       setResetDataId(id);
+      const url = new URL(account_link);
+      const part = url.pathname.split("/")[2];
+      setAccountLink(part);
       setCommonConfirmModelFun(() => resetClientDetails);
       setPopupMessage({
         message1: " Resetting the client account will retain all data but reset the login details.",
@@ -941,11 +946,13 @@ const LicenseContent = (props) => {
     }
   };
 
-  const resetClientDetails = async (pdf_id) => {
+  const resetClientDetails = async (pdf_id,account_link) => {
+    
     loader("show");
     try {
       let body = {
         pdfId: pdf_id,
+        token: account_link,
       };
       const res = await resetStats(ENDPOINT.RESET_CLIENT_ACCOUNT, body);
       // console.log(res?.data?.data)
@@ -2794,7 +2801,9 @@ const LicenseContent = (props) => {
                                                 showConfirmationPopup(
                                                   "reset_client_account",
                                                   e,
-                                                  data?.id
+                                                  data?.id,
+                                                 client_details[client_details.findIndex((el) =>el.pdfId == data?.id)].account_link
+
                                                 )
                                               }
                                               className="footer-btn reset btn btn-primary"
@@ -2866,6 +2875,7 @@ const LicenseContent = (props) => {
         popupMessage={popupMessage}
         path_image={path_image}
         resetDataId={resetDataId}
+        accountLink={accountLink}
       />
 
       <Modal id="tagsModal" show={isOpen}>

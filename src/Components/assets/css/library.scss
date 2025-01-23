@@ -25817,6 +25817,18 @@ background-size: cover;
             padding: 10px 5px 10px 48px;
             font-size: 14px;
             color:vars.$dark-blue;
+            &:focus{
+              box-shadow: 0px 0px 7px 0px rgba(0, 102, 190, 0.40);
+              &+ span{
+                svg{
+                  path{
+                    fill:#0066be;
+                  }
+                }
+              }
+            }
+            
+              
             &>div:nth-child(3) {
               background-size: 12px;
               background: vars.$white url(/componentAssets/images/dropdown_img.svg) no-repeat;
@@ -25824,7 +25836,7 @@ background-size: cover;
               border: 0;
               border-radius: 30px;
               box-shadow: none;
-              color: vars.$light-gray;
+              color: #004A89;
               font-size: 16px;
               font-weight: 300;
               height: auto;
@@ -25840,10 +25852,11 @@ background-size: cover;
               &>div {
                 padding: 0;
                 div{
-                  color:#0066BE;
+                  color:#004A89;
                   margin: 0;
                   font-size: 14px;
                   padding: 0;
+                  font-weight: 400;
                   &[class*="-placeholder"]{
                     color:rgba(151, 182, 207, 1);
                   }
@@ -25852,6 +25865,47 @@ background-size: cover;
               div[class*="-IndicatorsContainer"]{
                 display: none;
               }
+          }
+          >div {
+            padding: 0px;
+            font-size: 14px;
+            line-height: 1;
+          }
+
+          div {
+            font-size: 14px;
+            padding-left: 10px;
+          }
+          >div:nth-child(4) {
+
+            @include m.split-btn-dropdown;
+            right:0;
+            padding: 5px 5px 5px 0;
+            height: 190px;
+            max-height: 190px;
+            color: #004A89;
+            // background-color: #2fa3c6;
+            background-color: rgba(255, 255, 255, 1);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            box-shadow: 0px 1px 6px 0px rgba(0, 102, 190, 0.2);
+           
+
+            >div {
+              max-height: 175px;
+              div {
+                color: #004A89;
+                font-size: 14px;
+                padding: 8px 10px;
+                border-radius: 20px;
+
+                &:hover {
+                  background-color: rgb(0 102 190 / 16%);
+                  color: #004A89;
+                 
+                }
+              }
+            }
           }
         }
         span{
@@ -31964,4 +32018,7 @@ input.viewer-toolbar-current-page-input {
         font-size: 15px;
     }
     }
+}
+.sunshine-form input:-webkit-autofill {
+  -webkit-text-fill-color: #004A89 !important;
 }
