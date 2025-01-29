@@ -54,7 +54,7 @@ const SetLayout = () => {
       });
     }
 
-    if (localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" ){
+    if (localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" || localStorage.getItem("user_id") == "B7SHpAc XDXSH NXkN0rdQ==" || localStorage.getItem("user_id") == "iSnEsKu5gB/DRlycxB6G4g=="){
       newdata.push({
         image: `${path_image}Survey_home_icon.svg`,
         title: "Survey",
