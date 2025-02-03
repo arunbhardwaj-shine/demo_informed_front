@@ -8,6 +8,8 @@ import { Modal } from "react-bootstrap";
 const SmartListTableLayout = ({ id, closeSmartListPopup }) => {
     const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
     const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
+    const groupId= localStorage.getItem("group_id")
+    
     const [getSmartListName, setSmartListName] = useState("");
     const [getReaderDetails, setReaderDetails] = useState({});
     const [showLessInfo, setShowLessInfo] = useState(true);
@@ -319,7 +321,7 @@ const SmartListTableLayout = ({ id, closeSmartListPopup }) => {
                                                     </>
                                                 ) : (
                                                     <>
-                                                        <th scope="col" className="sort_option" >
+                                                      {groupId !=2 &&   <th scope="col" className="sort_option" >
                                                             <span onClick={() => handleSort('ibu')}>
                                                                 Business unit
                                                                 <button
@@ -343,7 +345,7 @@ const SmartListTableLayout = ({ id, closeSmartListPopup }) => {
                                                                     </svg>
                                                                 </button>
                                                             </span>
-                                                        </th>
+                                                        </th>}
                                                         <th scope="col">Contact type</th>
                                                     </>
                                                 )}
@@ -372,7 +374,7 @@ const SmartListTableLayout = ({ id, closeSmartListPopup }) => {
                                                             <td>{rr?.country ? rr?.country : "N/A"}</td>
                                                             {(isLikeRdAccount)
                                                                 && (<><td>{rr.site_number ? rr.site_number : "N/A"}</td></>)}
-                                                            <td>
+                                                            {groupId !=2 && <td>
                                                                 {(isLikeRdAccount)
 
                                                                     ? rr.irt
@@ -381,7 +383,7 @@ const SmartListTableLayout = ({ id, closeSmartListPopup }) => {
                                                                     : rr.ibu
                                                                         ? rr.ibu
                                                                         : "N/A"}
-                                                            </td>
+                                                            </td>}
                                                             <td>
                                                                 {(isLikeRdAccount)
                                                                     ? rr?.user_type != 0
