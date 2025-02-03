@@ -451,7 +451,7 @@ const Header = () => {
                   ) : (
                     ""
                   )}
-                {(localStorage.getItem("user_id") == "rjiGlqA9DXJVH7bDDTX0Lg==" || localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" || localStorage.getItem("user_id") == "B7SHpAc XDXSH NXkN0rdQ==")
+                {(localStorage.getItem("user_id") == "rjiGlqA9DXJVH7bDDTX0Lg==" || localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" || localStorage.getItem("user_id") == "B7SHpAc XDXSH NXkN0rdQ==" || localStorage.getItem("user_id") == "iSnEsKu5gB/DRlycxB6G4g==")
                  && (<li className={window.location.pathname == "/survey/survey-list" || window.location.pathname == "/survey/survey-sublink" || window.location.pathname == "/survey/survey-analytics" || window.location.pathname == "/survey/survey-analytics-detail" || window.location.pathname == "/survey/survey-setup" || window.location.pathname == "/survey/survey-builder" || window.location.pathname == "/survey/survey-configure" || window.location.pathname == "/survey/form-builder" || window.location.pathname == "/survey/thank-you" || window.location.pathname == "/survey/survey-preview"
                   ? "nav-item active active-main"
                   : "nav-item"

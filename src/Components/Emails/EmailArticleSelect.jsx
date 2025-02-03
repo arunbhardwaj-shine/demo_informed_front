@@ -899,12 +899,12 @@ const EmailArticleSelect = (props) => {
                                   <th>Language</th>
                                   <td>{data.language}</td>
                                 </tr>
-                                <tr>
+                                {/* <tr>
                                   <th>SPC</th>
                                   <td>
                                     {data.spc_included === 0 ? "No" : "Yes"}
                                   </td>
-                                </tr>
+                                </tr> */}
                                 <tr>
                                   <th>Last email</th>
                                   <td>
