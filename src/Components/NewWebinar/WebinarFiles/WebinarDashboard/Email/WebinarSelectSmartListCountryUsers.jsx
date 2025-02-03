@@ -15,6 +15,7 @@ var old_object = {};
 const WebinarSelectSmartListCountryUsers = (props) => {
     const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
     const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
+    const groupId= localStorage.getItem("group_id")
     const [totalData, setTotalData] = useState({});
     const navigate = useNavigate();
     const { eventIdContext, handleEventId } = useSidebar()
@@ -1243,7 +1244,7 @@ const WebinarSelectSmartListCountryUsers = (props) => {
                                                                                 <th scope="col">Email</th>
                                                                                 <th scope="col">Bounced</th>
                                                                                 <th scope="col">Country</th>
-                                                                                <th scope="col">Business unit</th>
+                                                                                { groupId !=2 && <th scope="col">Business unit</th>}
                                                                                 <th scope="col">Contact type</th>
                                                                                 {showLessInfo == false ? (
                                                                                     <>
@@ -1289,13 +1290,13 @@ const WebinarSelectSmartListCountryUsers = (props) => {
                                                                                                     {readers?.country ? readers?.country : "N/A"}
                                                                                                 </span>
                                                                                             </td>
-                                                                                            <td>
+                                                                                            {groupId !=2 && <td>
 
                                                                                                 {readers?.ibu && readers?.ibu != 0
                                                                                                     ? readers?.ibu
                                                                                                     : "N/A"
                                                                                                 }
-                                                                                            </td>
+                                                                                            </td>}
                                                                                             <td>
                                                                                                 <span>
                                                                                                     {readers?.contact_type
@@ -1326,7 +1327,7 @@ const WebinarSelectSmartListCountryUsers = (props) => {
                                                 <th scope="col">Email</th>
                                                 <th scope="col">Bounced</th>
                                                 <th scope="col">Country</th>
-                                                <th scope="col">Business unit</th>
+                                                { groupId !=2 && <th scope="col">Business unit</th>}
                                                 <th scope="col">Contact type</th>
                                                 {showLessInfo == false ? (
                                                     <>
@@ -1359,7 +1360,7 @@ const WebinarSelectSmartListCountryUsers = (props) => {
                                                             <td>
                                                                 <span>{rr?.country ? rr?.country : "N/A"}</span>
                                                             </td>
-                                                            <td>
+                                                          { groupId !=2 &&  <td>
                                                                 {/*rr?.ibu ? rr?.ibu : "N/A"*/}
                                                                 {isLikeRdAccount
                                                                     ? rr?.irt
@@ -1368,7 +1369,7 @@ const WebinarSelectSmartListCountryUsers = (props) => {
                                                                     : rr?.ibu && rr?.ibu != 0
                                                                         ? rr?.ibu
                                                                         : "N/A"}
-                                                            </td>
+                                                            </td>}
                                                             {isLikeRdAccount? (
                                                                 <td>
                                                                     {rr?.user_type != 0 ? rr?.user_type : "N/A"}
@@ -1463,7 +1464,7 @@ const WebinarSelectSmartListCountryUsers = (props) => {
                                                                         <th scope="col">Email</th>
                                                                         <th scope="col">Bounced</th>
                                                                         <th scope="col">Country</th>
-                                                                        <th scope="col">Business unit</th>
+                                                                        {groupId !=2 && <th scope="col">Business unit</th>}
                                                                         <th scope="col">Contact type</th>
                                                                         {showLessInfo == false ? (
                                                                             <>
@@ -1537,13 +1538,13 @@ const WebinarSelectSmartListCountryUsers = (props) => {
                                                                                         </span>
                                                                                     )}
                                                                                 </td>
-                                                                                <td>
+                                                                              { groupId !=2 && <td>
 
                                                                                     {readers?.ibu && readers?.ibu != 0
                                                                                         ? readers?.ibu
                                                                                         : "N/A"
                                                                                     }
-                                                                                </td>
+                                                                                </td>}
                                                                                 <td>
                                                                                     {isLikeRdAccount ? (
                                                                                         <span>

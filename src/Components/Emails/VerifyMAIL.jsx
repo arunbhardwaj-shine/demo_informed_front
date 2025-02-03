@@ -22,6 +22,7 @@ import "react-circular-progressbar/dist/styles.css";
 const VerifyMAIL = (props) => {
   const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
   const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
+  const groupId= localStorage.getItem("group_id")
   const location = useLocation();
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
@@ -1161,7 +1162,7 @@ const VerifyMAIL = (props) => {
                         </>
                       ) : (
                         <>
-                          <th scope="col">Business unit
+                          {groupId !=2 && <th scope="col">Business unit
                           <button
                                 className={`event_sort_btn ${sortBy == "ibu" ?
                                 sortOrder == "asc"
@@ -1182,7 +1183,7 @@ const VerifyMAIL = (props) => {
                                   </defs>
                                 </svg>
                               </button>
-                          </th>
+                          </th>}
                           <th scope="col">Contact type</th>
                         </>
                       )}
@@ -1209,7 +1210,7 @@ const VerifyMAIL = (props) => {
                               <td>{rr.email}</td>
                               <td>{rr.bounce}</td>
                               <td>{rr.country}</td>
-                              <td>
+                             {groupId !=2 && <td>
                                 {isLikeRdAccount
                                   ? rr?.irt
                                     ? "Yes"
@@ -1217,7 +1218,7 @@ const VerifyMAIL = (props) => {
                                   : rr.ibu
                                     ? rr.ibu
                                     : "N/A"}
-                              </td>
+                              </td>}
                               <td>
                                 {
                                 (isLikeRdAccount)

@@ -14,6 +14,7 @@ import SmartListLayout from "../../../../CommonComponent/SmartListLayout";
 const WebinarVerifyHcpMAIL = (props) => {
     const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
     const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
+    const groupId= localStorage.getItem("group_id")
     const location = useLocation();
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -836,7 +837,7 @@ const WebinarVerifyHcpMAIL = (props) => {
                                                 </>
                                             ) : (
                                                 <>
-                                                    <th scope="col">Business unit</th>
+                                                    {groupId !=2 && <th scope="col">Business unit</th>}
                                                     <th scope="col">Contact type</th>
                                                 </>
                                             )}
@@ -865,7 +866,7 @@ const WebinarVerifyHcpMAIL = (props) => {
                                                             {isLikeRdAccount && 
                                                                 (<><td>{rr?.site_number ? rr?.site_number : "N/A"}
                                                                 </td></>)}
-                                                            <td>
+                                                         { groupId !=2 &&  <td>
                                                                 {isLikeRdAccount
                                                                     ? rr?.irt
                                                                         ? "Yes"
@@ -873,7 +874,7 @@ const WebinarVerifyHcpMAIL = (props) => {
                                                                     : rr?.ibu
                                                                         ? rr?.ibu
                                                                         : "N/A"}
-                                                            </td>
+                                                            </td>}
                                                             <td>
                                                                 {isLikeRdAccount
                                                                     ? rr?.user_type != 0 ? rr?.user_type : "N/A"

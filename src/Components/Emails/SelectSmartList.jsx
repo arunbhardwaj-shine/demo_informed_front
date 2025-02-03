@@ -28,6 +28,7 @@ var old_object = {};
 const SelectSmartList = (props) => {
   const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
   const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
+  const groupId= localStorage.getItem("group_id")
   let file_name = useRef("");
   let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [uploadOrDownloadCount, setUploadOrDownloadCount] = React.useState(0);
@@ -1255,7 +1256,8 @@ const SelectSmartList = (props) => {
                             </span>
                           </th>
                         </>) : (
-                        <th scope="col">Business unit
+                       <>
+                     { groupId !=2 &&  <th scope="col">Business unit
                           <button
                             className={`event_sort_btn ${sortBy == "ibu" ?
                               sortOrder == "asc"
@@ -1276,7 +1278,8 @@ const SelectSmartList = (props) => {
                               </defs>
                             </svg>
                           </button>
-                        </th>
+                        </th>}
+                        </>
                       )}
                       {isLikeRdAccount? (
                         <th scope="col" className="sort_option">
@@ -1345,7 +1348,7 @@ const SelectSmartList = (props) => {
                               <td>{rr.bounce}</td>
                               <td>{rr.country}</td>
                               {isLikeRdAccount && (<><td>{rr?.site_number ? rr?.site_number : "N/A"}</td></>)}
-                              <td>
+                          { groupId !=2 &&   <td>
                                 {isLikeRdAccount
                                   ? rr.irt
                                     ? "Yes"
@@ -1353,7 +1356,7 @@ const SelectSmartList = (props) => {
                                   : rr.ibu
                                     ? rr.ibu
                                     : "N/A"}
-                              </td>
+                              </td>}
 
                               <td>
                                 {isLikeRdAccount

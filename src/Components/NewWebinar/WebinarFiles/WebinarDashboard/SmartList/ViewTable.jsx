@@ -17,8 +17,7 @@ import makeAnimated from "react-select/animated";
 const ViewTable = (props) => {
   const tableRef = useRef(null);
   const accountMapping={"56Ek4feL/1A8mZgIKQWEqg==":2147501188,"sNl1hra39QmFk9HwvXETJA==":2147536982,"MXl8m36VZFYXpgFVz3Pg0g==":2147537506}
-
-  
+  const groupId= localStorage.getItem("group_id")  
  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
  const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
   const switch_account_detail = JSON.parse(localStorage.getItem("switch_account_detail"))
@@ -2006,7 +2005,7 @@ const ViewTable = (props) => {
                     </>
                   ) : (
                     <>
-                      <th scope="col" className="sort_option">
+                      {groupId !=2 && <th scope="col" className="sort_option">
                         <span onClick={() => handleSort('ibu')} >
                           Business unit
                           <button
@@ -2030,7 +2029,7 @@ const ViewTable = (props) => {
                             </svg>
                           </button>
                         </span>
-                      </th>
+                      </th>}
                       <th scope="col">Contact type</th>
                     </>
                   )}
@@ -2123,7 +2122,7 @@ const ViewTable = (props) => {
 
                     {isLikeRdAccount&& (<><td>{item?.site_number}</td></>)}
 
-                    <td>
+                   { groupId !=2 && <td>
                       {isLikeRdAccount
                         ? item?.irt
                           ? "Yes"
@@ -2131,7 +2130,7 @@ const ViewTable = (props) => {
                         : item.ibu
                           ? item.ibu
                           : "N/A"}
-                    </td>
+                    </td>}
                     <td>
                       {isLikeRdAccount
                         ? (

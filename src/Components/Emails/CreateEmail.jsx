@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useParams, useSearchParams } from "react-router-dom";
 import { connect } from "react-redux";
 import AliceCarousel from "react-alice-carousel";
 import "react-alice-carousel/lib/alice-carousel.css";
@@ -30,6 +30,8 @@ const CreateEmail = (props) => {
 
   const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
   const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
+  const groupId= localStorage.getItem("group_id")
+
   const [progress, setProgress] = useState(0);
   const [percent, setPercent] = useState(0);
   const [showProgress, setShowProgress] = useState(false);
@@ -62,6 +64,8 @@ const CreateEmail = (props) => {
   const [uploadOrDownloadCount, setUploadOrDownloadCount] = React.useState(0);
   const [mailsIncrement, setMailsIncrement] = useState(0);
   const { state } = useLocation();
+  const [searchParams, setSearchParams] = useSearchParams();  
+  let type=searchParams.get('type')
   const [getsearch, setSearch] = useState("");
   const PdfSelected = props.getEmailData ? dxr : props.getDraftData.pdf_id;
   const [hcpsSelected, setHcpsSelected] = useState([]);
@@ -369,7 +373,7 @@ const CreateEmail = (props) => {
   }, []);
 
   axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
-  const getTemplateListData = async (flag) => {
+  const getTemplateListData = async (flag) => {    
     let pdf_id = state_object?.PdfSelected
       ? state_object?.PdfSelected
       : props.getDraftData?.pdf_id;
@@ -393,8 +397,12 @@ const CreateEmail = (props) => {
       ibu: "",
       content_included: content_included,
       siteContent: siteContent,
-      pdf: pdf_id,
+      pdf: pdf_id
     };
+    type = type || state_object?.type;
+    if(type){
+      body.type = type
+    }
 
     loader("show");
     await axios
@@ -2172,11 +2180,17 @@ const CreateEmail = (props) => {
       addedHcp : state_object?.addedHcp ? state_object?.addedHcp : [],
       selectedHcp : state_object?.selectedHcp ? state_object?.selectedHcp : [],
     };
+
+    if(type){
+      emailExistingObj.type = type;
+    }
       if(irtRoleObj?.IRTFlag){
         if(state_object?.startTraining == 1){
           emailExistingObj['startTraining'] = 1;
         }
         const mergedObject = { ...emailExistingObj, ...irtRoleObj };
+        console.log(mergedObject,"mergedObject");
+        
         props.getEmailData(mergedObject);
       }else{
         props.getEmailData(emailExistingObj);
@@ -4006,7 +4020,7 @@ const CreateEmail = (props) => {
                         </>
                       ) : (
                         <>
-                          <th scope="col">Business unit
+                         {groupId !=2 && <th scope="col">Business unit
                             <button
                               className={`event_sort_btn ${sortBy == "ibu" ?
                                 sortOrder == "asc"
@@ -4027,7 +4041,7 @@ const CreateEmail = (props) => {
                                 </defs>
                               </svg>
                             </button>
-                          </th>
+                          </th>}
                           <th scope="col">Contact type</th>
                         </>
                       )}
@@ -4055,7 +4069,7 @@ const CreateEmail = (props) => {
                               <td>{rr?.bounce ? rr.bounce : "N/A"}</td>
                               <td>{rr?.country ? rr?.country : "N/A"}</td>
                               {(isLikeRdAccount) && (<><td>{rr?.site_number ? rr?.site_number : "N/A"}</td></>)}
-                              <td>
+                           { groupId !=2 &&  <td>
                                 {(isLikeRdAccount)
                                   ? rr.irt
                                     ? "Yes"
@@ -4064,7 +4078,7 @@ const CreateEmail = (props) => {
                                     ? rr.ibu
                                     : "N/A"}
                                 {/*rr?.ibu ? rr?.ibu : "N/A"*/}
-                              </td>
+                              </td>}
                               <td>
                                 {(isLikeRdAccount)
                                   ? rr?.user_type != 0

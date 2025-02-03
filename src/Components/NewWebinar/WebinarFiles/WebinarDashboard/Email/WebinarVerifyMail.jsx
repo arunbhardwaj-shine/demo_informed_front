@@ -21,6 +21,7 @@ const WebinarVerifyMAIL = (props) => {
   const [localStorageUserId, setLocalStorageUserId] = useState(switch_account_detail != null && switch_account_detail != "undefined" && switch_account_detail
     ? switch_account_detail?.user_id
     : localStorage.getItem("user_id"))
+    const groupId= localStorage.getItem("group_id")
   const { eventIdContext, handleEventId } = useSidebar()
   const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"))
   const [eventId, setEventId] = useState(
@@ -969,7 +970,7 @@ const WebinarVerifyMAIL = (props) => {
                         </>
                       ) : (
                         <>
-                          <th scope="col">Business unit</th>
+                          {groupId !=2 && <th scope="col">Business unit</th>}
                           <th scope="col">Contact type</th>
                         </>
                       )}
@@ -997,7 +998,7 @@ const WebinarVerifyMAIL = (props) => {
                               <td>{rr?.bounce}</td>
                               <td>{rr?.country}</td>
                               {isLikeRdAccount && (<><td>{rr?.site_number ? rr?.site_number : "N/A"}</td></>)}
-                              <td>
+                         { groupId !=2 &&    <td>
                                 {isLikeRdAccount
                                   ? rr?.irt
                                     ? "Yes"
@@ -1005,7 +1006,7 @@ const WebinarVerifyMAIL = (props) => {
                                   : rr?.ibu
                                     ? rr?.ibu
                                     : "N/A"}
-                              </td>
+                              </td>}
                               <td>
                                 {isLikeRdAccount
                                   ? rr?.user_type != 0 ? rr?.user_type : "N/A"
