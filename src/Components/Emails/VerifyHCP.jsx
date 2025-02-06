@@ -28,6 +28,7 @@ const VerifyHCP = (props) => {
   const accountMapping={"56Ek4feL/1A8mZgIKQWEqg==":2147501188,"sNl1hra39QmFk9HwvXETJA==":2147536982,"MXl8m36VZFYXpgFVz3Pg0g==":2147537506}
 
   const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
+  const groupId= localStorage.getItem("group_id")
   const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
   const [totalData, setTotalData] = useState({});
   const { state } = useLocation();
@@ -1771,7 +1772,7 @@ const VerifyHCP = (props) => {
                                 </>
                               ) : (
                                 <>
-                                  <th scope="col" className="sort_option">
+                                {  groupId !=2 && <th scope="col" className="sort_option">
                                   <span onClick={() => handleSort('ibu')}>
                                     Business unit
                                     <button
@@ -1808,7 +1809,7 @@ const VerifyHCP = (props) => {
                                     </svg>
                                   </button>
                                     </span>
-                                    </th>
+                                    </th>}
                                   <th scope="col" className="sort_option">
                                   <span onClick={() => handleSort('contact_type')}>
                                     Contact type
@@ -2058,7 +2059,7 @@ const VerifyHCP = (props) => {
                                     </td>
                                     {isLikeRdAccount
                                             &&(<><td>{users?.site_number?users?.site_number:"N/A"}</td></>)}
-                                    <td>
+                                    {groupId !=2 &&<td>
                                       {isLikeRdAccount
                                         ? users?.irt
                                           ? "Yes"
@@ -2066,7 +2067,7 @@ const VerifyHCP = (props) => {
                                         : users?.ibu
                                         ? users?.ibu
                                         : "N/A"}
-                                    </td>
+                                    </td>}
                                     <td>
                                       {isLikeRdAccount
                                         ? users?.user_type!=0
@@ -2426,7 +2427,7 @@ const VerifyHCP = (props) => {
                             </>
                           ) : (
                             <>
-                              <th scope="col" className="sort_option">
+                              {groupId !=2 && <th scope="col" className="sort_option">
                               <span onClick={() => handleSort('ibu')}>
                                 Business unit
                                 <button
@@ -2463,7 +2464,7 @@ const VerifyHCP = (props) => {
                                 </svg>
                               </button>
                                 </span>
-                                </th>
+                                </th>}
                               <th scope="col" className="sort_option">
                               <span onClick={() => handleSort('contact_type')}>
                                 Interest
@@ -2745,9 +2746,9 @@ const VerifyHCP = (props) => {
                                 {isLikeRdAccount && (
                                   <td>{data?.site_number ? data?.site_number : "N/A"}</td>
                                 )}
-                                <td>
+                               { groupId !=2 &&  <td>
                                   {isLikeRdAccount ? (data?.irt ? "Yes" : "No") : data?.ibu ? data?.ibu : "N/A"}
-                                </td>
+                                </td>}
                                 <td>
                                   {isLikeRdAccount ? (
                                     data?.user_type !== 0 ? (

@@ -16,6 +16,7 @@ const WebinarSelectSmartListUsers = (props) => {
 
    const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
   const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
+  const groupId= localStorage.getItem("group_id")
   const { eventIdContext } = useSidebar();
   const switch_account_detail = JSON.parse(
     localStorage.getItem("switch_account_detail")
@@ -1378,7 +1379,7 @@ const WebinarSelectSmartListUsers = (props) => {
                                     </>
                                   ) : (
                                     <>
-                                      <th scope="col" className="sort_option">
+                                     {groupId !=2 && <th scope="col" className="sort_option">
                                         <span onClick={() => handleSort("ibu")}>
                                           Business unit
                                           <button
@@ -1415,7 +1416,7 @@ const WebinarSelectSmartListUsers = (props) => {
                                             </svg>
                                           </button>
                                         </span>
-                                      </th>
+                                      </th>}
                                       <th scope="col">Contact type</th>
                                     </>
                                   )}
@@ -1469,7 +1470,7 @@ const WebinarSelectSmartListUsers = (props) => {
                                             <td>
                                               {user?.site_number ? user?.site_number : "N/A"}
                                             </td></>)}
-                                        <td>
+                                      {groupId !=2 &&  <td>
                                           {isLikeRdAccount
                                             ? user?.irt
                                               ? "Yes"
@@ -1477,7 +1478,7 @@ const WebinarSelectSmartListUsers = (props) => {
                                             : user.ibu && user.ibu !== 0
                                               ? user.ibu
                                               : "N/A"}
-                                        </td>
+                                        </td>}
                                         {isLikeRdAccount ? (
                                           <td>
                                             {user?.user_type !== 0
@@ -1795,7 +1796,7 @@ const WebinarSelectSmartListUsers = (props) => {
                                     </>
                                   ) : (
                                     <>
-                                      <th scope="col" className="sort_option">
+                                      {groupId !=2 && <th scope="col" className="sort_option">
                                         <span onClick={() => handleSort("ibu")}>
                                           Business unit
                                           <button
@@ -1832,7 +1833,7 @@ const WebinarSelectSmartListUsers = (props) => {
                                             </svg>
                                           </button>
                                         </span>
-                                      </th>
+                                      </th>}
                                       <th scope="col">Contact type</th>
                                     </>
                                   )}
@@ -1911,7 +1912,7 @@ const WebinarSelectSmartListUsers = (props) => {
                                       {isLikeRdAccount && (<>
                                           <td>{reader?.site_number ? reader?.site_number : "N/A"}
                                           </td></>)}
-                                      <td>
+                                     {groupId !=2 &&  <td>
                                         {isLikeRdAccount
                                           ? reader.irt
                                             ? "Yes"
@@ -1919,7 +1920,7 @@ const WebinarSelectSmartListUsers = (props) => {
                                           : reader.ibu && reader.ibu !== 0
                                             ? reader.ibu
                                             : "N/A"}
-                                      </td>
+                                      </td>}
                                       <td>
                                         {isLikeRdAccount ? (
                                           <span>
@@ -2239,7 +2240,7 @@ const WebinarSelectSmartListUsers = (props) => {
                                     </>
                                   ) : (
                                     <>
-                                      <th scope="col" className="sort_option">
+                                    {  groupId !=2 && <th scope="col" className="sort_option">
                                         <span onClick={() => handleSort("ibu")}>
                                           Business unit
                                           <button
@@ -2276,7 +2277,7 @@ const WebinarSelectSmartListUsers = (props) => {
                                             </svg>
                                           </button>
                                         </span>
-                                      </th>
+                                      </th>}
                                       <th scope="col">Contact type</th>
                                     </>
                                   )}
@@ -2330,7 +2331,7 @@ const WebinarSelectSmartListUsers = (props) => {
                                             <td>
                                               {user?.site_number ? user?.site_number : "N/A"}
                                             </td></>)}
-                                        <td>
+                                     {  groupId !=2 && <td>
                                           {isLikeRdAccount
                                             ? user?.irt
                                               ? "Yes"
@@ -2338,7 +2339,7 @@ const WebinarSelectSmartListUsers = (props) => {
                                             : user.ibu && user.ibu !== 0
                                               ? user.ibu
                                               : "N/A"}
-                                        </td>
+                                        </td>}
                                         {isLikeRdAccount ? (
                                           <td>
                                             {user?.user_type !== 0
@@ -2656,7 +2657,7 @@ const WebinarSelectSmartListUsers = (props) => {
                                     </>
                                   ) : (
                                     <>
-                                      <th scope="col" className="sort_option">
+                                    { groupId !=2 && <th scope="col" className="sort_option">
                                         <span onClick={() => handleSort("ibu")}>
                                           Business unit
                                           <button
@@ -2693,7 +2694,7 @@ const WebinarSelectSmartListUsers = (props) => {
                                             </svg>
                                           </button>
                                         </span>
-                                      </th>
+                                      </th>}
                                       <th scope="col">Contact type</th>
                                     </>
                                   )}
@@ -2797,7 +2798,7 @@ const WebinarSelectSmartListUsers = (props) => {
                                           {isLikeRdAccount && (<>
                                               <td>{reader?.site_number ? reader?.site_number : "N/A"}
                                               </td></>)}
-                                          <td>
+                                    {  groupId !=2 &&    <td>
                                             {isLikeRdAccount
                                               ? reader?.irt
                                                 ? "Yes"
@@ -2805,7 +2806,7 @@ const WebinarSelectSmartListUsers = (props) => {
                                               : reader.ibu && reader.ibu !== 0
                                                 ? reader.ibu
                                                 : "N/A"}
-                                          </td>
+                                          </td>}
 
                                           <td>
                                             {isLikeRdAccount ? (

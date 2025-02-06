@@ -27,6 +27,7 @@ var old_object = {};
 const WebinarSelectSmartList = (props) => {
   const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
   const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
+  const groupId= localStorage.getItem("group_id")
   const location = useLocation();
   const { eventIdContext, handleEventId } = useSidebar()
   const switch_account_detail = JSON.parse(localStorage.getItem("switch_account_detail"))
@@ -1156,7 +1157,8 @@ const WebinarSelectSmartList = (props) => {
                           <th scope="col">Site number</th>
                           <th scope="col">IRT mandatory training</th>
                         </>) : (
-                        <th scope="col">Business unit</th>
+                        <> {groupId !=2 && <th scope="col">Business unit</th>}
+                        </>
                       )}
                       {isLikeRdAccount  ? (
                         <th scope="col">IRT role</th>
@@ -1188,7 +1190,7 @@ const WebinarSelectSmartList = (props) => {
                               <td>{rr?.bounce}</td>
                               <td>{rr?.country}</td>
                               {isLikeRdAccount && (<><td>{rr?.site_number ? rr?.site_number : "N/A"}</td></>)}
-                              <td>
+                            { groupId !=2 &&  <td>
                                 {isLikeRdAccount
                                   ? rr?.irt
                                     ? "Yes"
@@ -1196,7 +1198,7 @@ const WebinarSelectSmartList = (props) => {
                                   : rr?.ibu
                                     ? rr?.ibu
                                     : "N/A"}
-                              </td>
+                              </td>}
                               <td>
                                 {isLikeRdAccount
                                   ? rr?.user_type != 0

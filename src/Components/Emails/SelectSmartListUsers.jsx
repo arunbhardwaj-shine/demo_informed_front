@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -16,6 +17,8 @@ var old_object = {};
 const SelectSmartListUsers = (props) => {
   const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
   const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
+  const groupId= localStorage.getItem("group_id")
+
   
   const [totalData, setTotalData] = useState({});
   const [siteNumberAll, setSiteNumberAll] = useState([]);
@@ -1558,7 +1561,7 @@ const SelectSmartListUsers = (props) => {
                                     </>
                                   ) : (
                                     <>
-                                      <th scope="col" className="sort_option">
+                                     {groupId !=2  && <th scope="col" className="sort_option">
                                         <span onClick={() => handleSort("ibu")}>
                                           Business unit
                                           <button
@@ -1596,7 +1599,7 @@ const SelectSmartListUsers = (props) => {
                                             </svg>
                                           </button>
                                         </span>
-                                      </th>
+                                      </th>}
                                       <th scope="col">Contact type</th>
                                     </>
                                   )}
@@ -1649,7 +1652,7 @@ const SelectSmartListUsers = (props) => {
                                         </td>
                                         {isLikeRdAccount
                                         &&(<><td>{user?.site_number?user?.site_number:"N/A"}</td></>)}
-                                        <td>
+                                       {  groupId !=2 &&<td>
                                           {isLikeRdAccount
                                             ? user?.irt
                                               ? "Yes"
@@ -1657,7 +1660,7 @@ const SelectSmartListUsers = (props) => {
                                             : user.ibu && user.ibu !== 0
                                             ? user.ibu
                                             : "N/A"}
-                                        </td>
+                                        </td>}
                                         {isLikeRdAccount
                                         ? (
                                           <td>
@@ -1999,7 +2002,7 @@ const SelectSmartListUsers = (props) => {
                                     </>
                                   ) : (
                                     <>
-                                      <th scope="col" className="sort_option">
+                                     {groupId !=2 &&  <th scope="col" className="sort_option">
                                         <span onClick={() => handleSort("ibu")}>
                                           Business unit
                                           <button
@@ -2037,7 +2040,7 @@ const SelectSmartListUsers = (props) => {
                                             </svg>
                                           </button>
                                         </span>
-                                      </th>
+                                      </th>}
                                       <th scope="col">Contact type</th>
                                     </>
                                   )}
@@ -2116,7 +2119,7 @@ const SelectSmartListUsers = (props) => {
                                       {isLikeRdAccount
                                         &&(<><td>{reader?.site_number?reader?.site_number:"N/A"}</td></>)}
                                       
-                                      <td>
+                                     {groupId !=2 && <td>
                                         {isLikeRdAccount
                                           ? reader.irt
                                             ? "Yes"
@@ -2124,7 +2127,7 @@ const SelectSmartListUsers = (props) => {
                                           : reader.ibu && reader.ibu !== 0
                                           ? reader.ibu
                                           : "N/A"}
-                                      </td>
+                                      </td>}
                                       <td>
                                         {isLikeRdAccount
                                         ? (
@@ -2466,7 +2469,7 @@ const SelectSmartListUsers = (props) => {
                                     </>
                                   ) : (
                                     <>
-                                      <th scope="col" className="sort_option">
+                                    {groupId !=2 &&   <th scope="col" className="sort_option">
                                         <span onClick={() => handleSort("ibu")}>
                                           Business unit
                                           <button
@@ -2504,7 +2507,7 @@ const SelectSmartListUsers = (props) => {
                                             </svg>
                                           </button>
                                         </span>
-                                      </th>
+                                      </th>}
                                       <th scope="col">Contact type</th>
                                     </>
                                   )}
@@ -2557,7 +2560,7 @@ const SelectSmartListUsers = (props) => {
                                         </td>
                                         {isLikeRdAccount
                                         &&(<><td>{user?.site_number?user?.site_number:"N/A"}</td></>)}
-                                        <td>
+                                        {groupId !=2 &&<td>
                                           {isLikeRdAccount
                                             ? user?.irt
                                               ? "Yes"
@@ -2565,7 +2568,7 @@ const SelectSmartListUsers = (props) => {
                                             : user.ibu && user.ibu !== 0
                                             ? user.ibu
                                             : "N/A"}
-                                        </td>
+                                        </td>}
                                         {isLikeRdAccount
                                         ? (
                                           <td>
@@ -2921,7 +2924,7 @@ const SelectSmartListUsers = (props) => {
                                     </>
                                   ) : (
                                     <>
-                                      <th scope="col" className="sort_option">
+                                    { groupId !=2 &&  <th scope="col" className="sort_option">
                                         <span onClick={() => handleSort("ibu")}>
                                           Business unit
                                           <button
@@ -2959,7 +2962,7 @@ const SelectSmartListUsers = (props) => {
                                             </svg>
                                           </button>
                                         </span>
-                                      </th>
+                                      </th>}
                                       <th scope="col">Contact type</th>
                                     </>
                                   )}
@@ -3062,7 +3065,7 @@ const SelectSmartListUsers = (props) => {
                                           </td>
                                           {isLikeRdAccount
                                         &&(<><td>{reader?.site_number?reader?.site_number:"N/A"}</td></>)}
-                                          <td>
+                                          {groupId !=2 && <td>
                                             {isLikeRdAccount
                                               ? reader?.irt
                                                 ? "Yes"
@@ -3070,7 +3073,7 @@ const SelectSmartListUsers = (props) => {
                                               : reader.ibu && reader.ibu !== 0
                                               ? reader.ibu
                                               : "N/A"}
-                                          </td>
+                                          </td>}
                                           <td>
                                             {isLikeRdAccount
                                             ? (

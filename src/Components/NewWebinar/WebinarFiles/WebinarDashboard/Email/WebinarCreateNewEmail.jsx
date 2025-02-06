@@ -26,6 +26,8 @@ const WebinarCreateNewEmail = (props) => {
 
     const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
     const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
+    const groupId= localStorage.getItem("group_id")
+
     let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
     const navigate = useNavigate();
     const location = useLocation();
@@ -2762,7 +2764,7 @@ const WebinarCreateNewEmail = (props) => {
                                                     </>
                                                 ) : (
                                                     <>
-                                                        <th scope="col">Business unit</th>
+                                                        {groupId !=2 && <th scope="col">Business unit</th>}
                                                         <th scope="col">Contact type</th>
                                                     </>
                                                 )}
@@ -2792,7 +2794,7 @@ const WebinarCreateNewEmail = (props) => {
                                                                 {isLikeRdAccount &&
                                                                     (<><td>{rr?.site_number ? rr?.site_number : "N/A"}
                                                                     </td></>)}
-                                                                <td>
+                                                                {groupId !=2 && <td>
                                                                     {isLikeRdAccount
                                                                         ? rr.irt
                                                                             ? "Yes"
@@ -2801,7 +2803,7 @@ const WebinarCreateNewEmail = (props) => {
                                                                             ? rr.ibu
                                                                             : "N/A"}
                                                                     {/*rr?.ibu ? rr?.ibu : "N/A"*/}
-                                                                </td>
+                                                                </td>}
                                                                 <td>
                                                                     {isLikeRdAccount
                                                                         ? rr?.user_type != 0

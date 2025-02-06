@@ -23,6 +23,7 @@ const WebinarVerifyHCP = (props) => {
     
  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
  const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
+ const groupId= localStorage.getItem("group_id")
     const { eventIdContext, handleEventId } = useSidebar()
     const location = useLocation()
     const switch_account_detail = JSON.parse(localStorage.getItem("switch_account_detail"))
@@ -1537,8 +1538,7 @@ const WebinarVerifyHCP = (props) => {
                                                         </>
                                                     ) : (
                                                         <>
-                                                            {/* <th scope="col">Business unit</th> */}
-                                                            <th scope="col" className="sort_option" >
+                                                          {groupId !=2 &&  <th scope="col" className="sort_option" >
                                                                 <span onClick={() => handleSort('ibu')}>
                                                                     Business unit
                                                                     <button
@@ -1572,7 +1572,7 @@ const WebinarVerifyHCP = (props) => {
                                                                     </button>
                                                                 </span>
 
-                                                            </th>
+                                                            </th>}
                                                             <th scope="col">Interest</th>
                                                         </>
                                                     )}
@@ -1765,7 +1765,7 @@ const WebinarVerifyHCP = (props) => {
                                                                         <td>
                                                                             {users?.site_number ? users?.site_number : "N/A"}
                                                                         </td></>)}
-                                                                <td>
+                                                               {groupId !=2 && <td>
                                                                     {isLikeRdAccount
                                                                         ? users?.irt
                                                                             ? "Yes"
@@ -1773,7 +1773,7 @@ const WebinarVerifyHCP = (props) => {
                                                                         : users?.ibu
                                                                             ? users?.ibu
                                                                             : "N/A"}
-                                                                </td>
+                                                                </td>}
                                                                 <td>
                                                                     {isLikeRdAccount
                                                                         ? users?.user_type != 0
@@ -2075,8 +2075,7 @@ const WebinarVerifyHCP = (props) => {
                                                         </>
                                                     ) : (
                                                         <>
-                                                            {/* <th scope="col">Business unit</th> */}
-                                                            <th scope="col" className="sort_option" >
+                                                        {groupId !=2 &&    <th scope="col" className="sort_option" >
                                                                 <span onClick={() => handleSort('ibu')}>
                                                                     Business unit
                                                                     <button
@@ -2110,7 +2109,7 @@ const WebinarVerifyHCP = (props) => {
                                                                     </button>
                                                                 </span>
 
-                                                            </th>
+                                                            </th>}
                                                             <th scope="col">Interest</th>
                                                         </>
                                                     )}
@@ -2326,14 +2325,14 @@ const WebinarVerifyHCP = (props) => {
                                                                 <td>
                                                                     {data?.site_number ? data?.site_number : "N/A"}
                                                                 </td></>)}
-                                                        <td>
+                                                      {groupId !=2 &&   <td>
                                                             {/* data?.ibu ? data?.ibu : "N/A" */}
                                                             {(isLikeRdAccount) ? (
                                                                 data?.irt ? "Yes" : "No"
                                                             ) : (
                                                                 data?.ibu ? data?.ibu : "N/A"
                                                             )}
-                                                        </td>
+                                                        </td>}
                                                         <td>
                                                             {(isLikeRdAccount) ? (
                                                                 data?.user_type !== 0 ? data?.user_type : "N/A"

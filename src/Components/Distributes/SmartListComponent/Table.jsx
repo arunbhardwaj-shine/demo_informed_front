@@ -22,6 +22,7 @@ import Select, { createFilter } from "react-select";
 const Table = (props, ref) => {
   const accountMapping={"56Ek4feL/1A8mZgIKQWEqg==":2147501188,"sNl1hra39QmFk9HwvXETJA==":2147536982,"MXl8m36VZFYXpgFVz3Pg0g==":2147537506}
   const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
+  const groupId= localStorage.getItem("group_id")
   const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
   const [inEditMode, setInEditMode] = useState({
     status: false,
@@ -2175,8 +2176,8 @@ const Table = (props, ref) => {
                     </>
                   ) : (
                     <>
-                      <th scope="col" className="sort_option">
-                        <span onClick={() => handleSort('ibu')} >
+                      {groupId !=2 &&<th scope="col" className="sort_option">
+                         <span onClick={() => handleSort('ibu')} >
                           Business unit
                           <button
                             className={`event_sort_btn ${sortBy == "ibu" ?
@@ -2199,7 +2200,7 @@ const Table = (props, ref) => {
                             </svg>
                           </button>
                         </span>
-                      </th>
+                      </th>}
                       <th scope="col" className="sort_option">
                         <span onClick={() => handleSort('contact_type')} >
                           Contact type
@@ -2308,7 +2309,7 @@ const Table = (props, ref) => {
                         )}
                       </td>
                       {isLikeRdAccount&& (<><td>{item?.site_number ? item?.site_number : "N/A"}</td></>)}
-                      <td>
+                     {groupId !=2 &&  <td>
                         {/*item.ibu*/}
                         {isLikeRdAccount
                           ? item?.irt
@@ -2317,7 +2318,7 @@ const Table = (props, ref) => {
                           : item?.ibu
                             ? item?.ibu
                             : "N/A"}
-                      </td>
+                      </td>}
                       <td>
                         {isLikeRdAccount ? (
                           <span>

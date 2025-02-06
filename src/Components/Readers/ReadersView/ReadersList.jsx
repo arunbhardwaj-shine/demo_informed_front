@@ -200,7 +200,7 @@ const NewReaders = () => {
 
     else if (localStorage.getItem("user_id") == "b3APser7L8OELDIG8ee2HQ==") {
       setAppliedFilter({ "contact Type": ["HCP"] });
-      setFilterObject({});
+      setFilterObject({ "contact Type": ["HCP"] });
       setApifilterObject({});
     }
     else if (localStorage.getItem("user_id") == "B7SHpAc XDXSH NXkN0rdQ==") {

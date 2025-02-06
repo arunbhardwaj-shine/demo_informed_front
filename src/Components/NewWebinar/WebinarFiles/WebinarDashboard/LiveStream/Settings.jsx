@@ -11,6 +11,7 @@ const Settings = () => {
   const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"));
   const { eventIdContext, handleEventId } = useSidebar();
   const [liveStatus, setLiveStatus] = useState(0);
+  const [streamType, setStreamType] = useState(0);
   const [askQuestion, setAskQuestion] = useState(0);
   const [streamUrl, setStreamUrl] = useState("");
   const [meetingId, setMeetingId] = useState("");
@@ -92,7 +93,7 @@ const Settings = () => {
       const response = await getData(
         `${ENDPOINT.WEBINAR_SETTINGS_GET}/${eventId}`
       );
-      const { live_status, ask_question, poster_url, stream_url,meeting_id,meeting_pass} =
+      const { live_status, ask_question, poster_url, stream_url,meeting_id,meeting_pass,stream_type} =
         response?.data?.data || {};
 
       setLiveStatus(live_status);
@@ -100,6 +101,7 @@ const Settings = () => {
       setMeetingPass(meeting_pass);
       setAskQuestion(ask_question);
       setStreamUrl(stream_url);
+      setStreamType(stream_type);
 
       if (poster_url || stream_url) {
         const foundOption = posterOptions.find(
@@ -145,20 +147,20 @@ const Settings = () => {
         return;
       }
 
-      if (liveStatus === 2) {
+      if (liveStatus === 2 ) {
         if (!streamUrl.trim()) {
           showToast("Please fill in the stream URL first");
           return;
         }
-        if (!streamUrl.startsWith("https")) {
+        if (!streamUrl.startsWith("https") && !streamUrl.startsWith("http")) {
           showToast("Stream URL should start with 'https'");
           return;
         }
-        if (!meetingId.trim()) {
+        if (!meetingId.trim() && [2,3].includes(streamType)) {
           showToast("Meeting ID is required.");
           return;
         }
-        if (!meetingPass.trim()) {
+        if (!meetingPass.trim() && [2,3].includes(streamType)) {
           showToast("Passcode is required.");
           return;
         }
@@ -174,7 +176,7 @@ const Settings = () => {
         }
         if (
           !selectedPosterOption.label === "Custom message" &&
-          !posterUrl.startsWith("https")
+          !posterUrl.startsWith("https")  &&  !posterUrl.startsWith("http") 
         ) {
           showToast("Poster URL should start with 'https'");
           return;
@@ -198,7 +200,7 @@ const Settings = () => {
             ? uploadedImageUrl
             : posterUrl,
       };
-      if (liveStatus === 2) {
+      if (liveStatus === 2 && [2,3].includes(streamType)) {
         payload.meeting_id = meetingId;
         payload.meeting_pass = meetingPass;
       }
@@ -384,7 +386,7 @@ const Settings = () => {
               </div>
             </div>
           </div>
-          {liveStatus === 2 && (
+          {liveStatus === 2  && (
             <div className="stream-url">
               <Form.Group>
                 <Form.Label>Stream URL:</Form.Label>
@@ -396,7 +398,7 @@ const Settings = () => {
                 />
               </Form.Group>
 
-              <Form.Group>
+            { [2,3].includes(streamType) && <> <Form.Group>
                 <Form.Label>Meeting ID:</Form.Label>
                 <Form.Control
                   type="text"
@@ -415,6 +417,7 @@ const Settings = () => {
                   required
                 />
               </Form.Group>
+              </>}
             </div>
           )}
 

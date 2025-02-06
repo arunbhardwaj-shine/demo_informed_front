@@ -15,6 +15,8 @@ import { toast } from "react-toastify";
 const VerifyHcpMAIL = (props) => {
   const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
   const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
+  const groupId= localStorage.getItem("group_id")
+
   const location = useLocation();
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
@@ -1146,7 +1148,7 @@ const VerifyHcpMAIL = (props) => {
                         </>
                       ) : (
                         <>
-                        <th scope="col">Business unit</th>
+                        {groupId !=2 && <th scope="col">Business unit</th>}
                         <th scope="col">Contact type</th>
                         </>
                       )}
@@ -1173,7 +1175,7 @@ const VerifyHcpMAIL = (props) => {
                               <td>{rr.bounce}</td>
                               <td>{rr.country}</td>
                               {isLikeRdAccount&&(<><td>{rr?.site_number?rr?.site_number:"N/A"}</td></>)}
-                              <td>
+                            { groupId !=2 &&  <td>
                                 {isLikeRdAccount
                                     ? rr?.irt
                                       ? "Yes"
@@ -1181,7 +1183,7 @@ const VerifyHcpMAIL = (props) => {
                                     :rr.ibu
                                     ? rr.ibu
                                     : "N/A"}
-                              </td>
+                              </td>}
                               <td>
                                 {isLikeRdAccount
                                   ? rr.user_type != 0 ? rr.user_type : "N/A"
