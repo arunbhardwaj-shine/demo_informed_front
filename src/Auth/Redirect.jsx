@@ -69,7 +69,6 @@ const Redirect = () => {
       localStorage.setItem("decrypted_token", isLogin?.data?.data?.jwtToken);
       if(isLogin?.data?.data?.articleData){
         if(queryData?.current?.type == 'Renew'){
-          console.log(queryData?.current?.type,'queryData?.current?.type');
           navigate("/license/renew", {
             state: {data:isLogin?.data?.data?.articleData},
           });
@@ -86,6 +85,7 @@ const Redirect = () => {
         }
       }
     }catch(err){
+      loader("hide");
       console.log(err);
     }
   }

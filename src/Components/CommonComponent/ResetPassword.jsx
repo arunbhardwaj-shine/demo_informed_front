@@ -99,7 +99,6 @@ const ResetPassword = () => {
                     passwordId: id,
                     password: resetFormData?.password,
                 };
-
                 const setPass = await postData(ENDPOINT.UPDATE_PASSWORD, body);                
                 loader("hide");
                 if (setPass?.data?.status == 200 ) {
@@ -133,7 +132,7 @@ const ResetPassword = () => {
             const path = `/account/${userDetails}`
             navigate(path)
         } else {
-            navigate('/login');
+            navigate('/');
         }
     }
 
