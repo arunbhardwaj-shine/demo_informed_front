@@ -10,7 +10,7 @@ import drilldown from "highcharts/modules/drilldown.js";
 const CanadaDeliveryRegistration = () => {
  
   const [isDataFound, setIsDataFound] = useState(false);
- 
+  const [data, setData] = useState({});
  
   const [campaignStatsPieOptions, setCampaignStatsPieOptions] = useState({
     chart: {
