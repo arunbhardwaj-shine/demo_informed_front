@@ -42,7 +42,7 @@ const SmartList = (props) => {
   const [userObj, setUserObj] = useState({
     "name":""
   });
-  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
+  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","bWmUjqX7J011   WUTYn9g==","MXl8m36VZFYXpgFVz3Pg0g=="]
   const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
    const deletButtonColor = isLikeRdAccount ? '#8A4E9C' : '#0066be'
    const isRDAccount = isLikeRdAccount

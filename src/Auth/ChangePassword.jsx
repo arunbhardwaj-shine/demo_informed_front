@@ -7,7 +7,7 @@ import { postData } from "../axios/apiHelper";
 import { ENDPOINT } from "../axios/apiConfig";
 let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
 const ChangePassword = () => {
-  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA=="]
+  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","bWmUjqX7J011   WUTYn9g=="]
   const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
   const [user, setUser] = useState({});
   const [error, setError] = useState({});

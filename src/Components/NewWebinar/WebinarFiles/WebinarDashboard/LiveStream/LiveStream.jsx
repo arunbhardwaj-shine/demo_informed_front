@@ -29,7 +29,7 @@ let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
 const LiveStream = () => {
   const rdLikeArray = [
     "56Ek4feL/1A8mZgIKQWEqg==",
-    "sNl1hra39QmFk9HwvXETJA==",
+    "bWmUjqX7J011   WUTYn9g==",
     "MXl8m36VZFYXpgFVz3Pg0g==",
   ];
   const isLikeRdAccount = rdLikeArray.includes(localStorage.getItem("user_id"));
@@ -1043,7 +1043,7 @@ const LiveStream = () => {
                                                   switch (userId) {
                                                     case "56Ek4feL/1A8mZgIKQWEqg==":
                                                       return "LEX-210";
-                                                    case "sNl1hra39QmFk9HwvXETJA==":
+                                                    case "bWmUjqX7J011   WUTYn9g==":
                                                       return "Norgine";
                                                     case "MXl8m36VZFYXpgFVz3Pg0g==":
                                                       return "Gena";
@@ -1246,7 +1246,7 @@ const LiveStream = () => {
                                                   const userNames = {
                                                     "56Ek4feL/1A8mZgIKQWEqg==":
                                                       "LEX-210",
-                                                    "sNl1hra39QmFk9HwvXETJA==":
+                                                    "bWmUjqX7J011   WUTYn9g==":
                                                       "Norgine",
                                                     "MXl8m36VZFYXpgFVz3Pg0g==":
                                                       "Gena",
@@ -1451,7 +1451,7 @@ const LiveStream = () => {
                                                   const userNames = {
                                                     "56Ek4feL/1A8mZgIKQWEqg==":
                                                       "LEX-210",
-                                                    "sNl1hra39QmFk9HwvXETJA==":
+                                                    "bWmUjqX7J011   WUTYn9g==":
                                                       "Norgine",
                                                     "MXl8m36VZFYXpgFVz3Pg0g==":
                                                       "Gena",

@@ -2167,7 +2167,7 @@ const AutoMail = (props) => {
                                     data-bs-toggle="tab"
                                     href="javascipt:;"
                                   >
-                                   {(localStorage.getItem("user_id") == userId ||localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==")?"Add User +":"Add HCP +"}
+                                   {(localStorage.getItem("user_id") == userId ||localStorage.getItem("user_id") == "bWmUjqX7J011   WUTYn9g==")?"Add User +":"Add HCP +"}
                                   </a>
                                 </li>
                               </ul>

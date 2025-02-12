@@ -55,7 +55,7 @@ const SurveyQuestionFormDataLex = () => {
   useEffect(() => {
     getSurveyData();
   }, []);
-  let Norgine = localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+  let Norgine = localStorage.getItem("user_id") == "bWmUjqX7J011   WUTYn9g=="
 
 
   const [progressBarData, setProgressBarData] = useState({

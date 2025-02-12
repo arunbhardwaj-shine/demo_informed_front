@@ -32,7 +32,7 @@ const defaultPdfRole = {
 
 const color = ["#fee9b9", "#fec037", "#e4a923", "#c28b0c"];
 const RDAnalytics = () => {
-  const accountMapping={"56Ek4feL/1A8mZgIKQWEqg==":2147501188,"sNl1hra39QmFk9HwvXETJA==":2147536982,"MXl8m36VZFYXpgFVz3Pg0g==":2147537506}
+  const accountMapping={"56Ek4feL/1A8mZgIKQWEqg==":2147501188,"bWmUjqX7J011   WUTYn9g==":298217,"MXl8m36VZFYXpgFVz3Pg0g==":2147537506}
 
   const [show, setShow] = useState();
   const location = useLocation()
@@ -1825,7 +1825,7 @@ const RDAnalytics = () => {
 
 
                                           onClick={(event) => {
-                                            if (createdBy == "sNl1hra39QmFk9HwvXETJA==") return
+                                            if (createdBy == "bWmUjqX7J011   WUTYn9g==") return
 
                                             downloadCertificate(
                                               item?.certificate_link,
@@ -2044,7 +2044,7 @@ const RDAnalytics = () => {
                                                                   onClick={(
                                                                     event
                                                                   ) => {
-                                                                    if (createdBy == "sNl1hra39QmFk9HwvXETJA==") return
+                                                                    if (createdBy == "bWmUjqX7J011   WUTYn9g==") return
                                                                     downloadCertificate(
                                                                       item?.pdf_link,
                                                                       event

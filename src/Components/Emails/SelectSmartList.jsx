@@ -26,7 +26,7 @@ var new_object;
 var draft_object;
 var old_object = {};
 const SelectSmartList = (props) => {
-  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
+  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","bWmUjqX7J011   WUTYn9g==","MXl8m36VZFYXpgFVz3Pg0g=="]
   const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
   const groupId= localStorage.getItem("group_id")
   let file_name = useRef("");
@@ -439,7 +439,7 @@ const SelectSmartList = (props) => {
       "wW0geGtDPvig5gF 6KbJrg==": "https://webinar.informed.pro/sample_st.xlsx",
       "qDgwPdToP05Kgzc g2VjIQ==": "https://webinar.informed.pro/sample_st.xlsx",
       "z2TunmZQf3QwCsICFTLGGQ==": "https://webinar.informed.pro/sample_st.xlsx",
-      "sNl1hra39QmFk9HwvXETJA==": "https://webinar.informed.pro/Norgine_sample.xlsx",
+      "bWmUjqX7J011   WUTYn9g==": "https://webinar.informed.pro/Norgine_sample.xlsx",
       "MXl8m36VZFYXpgFVz3Pg0g==": "https://webinar.informed.pro/gena_sample.xlsx",
       "UbCJcnLM9fe HsRMgX8c1A==": "https://webinar.informed.pro/sample_st.xlsx",
       "56Ek4feL/1A8mZgIKQWEqg==": "https://webinar.informed.pro/R_Dsample.xlsx"
@@ -627,7 +627,7 @@ const SelectSmartList = (props) => {
                     </li>
                     <li className="active active-main">
                       <Link to="/SelectSmartList">
-                        {localStorage.getItem("user_id") == userId || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+                        {localStorage.getItem("user_id") == userId || localStorage.getItem("user_id") == "bWmUjqX7J011   WUTYn9g=="
                           ? "Select Users"
                           : "Select HCPs"}{" "}
                       </Link>
@@ -688,7 +688,7 @@ const SelectSmartList = (props) => {
 
                   <div className="create-smart-list">
                     <p>
-                      {localStorage.getItem("user_id") == userId || localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+                      {localStorage.getItem("user_id") == userId || localStorage.getItem("user_id") == "bWmUjqX7J011   WUTYn9g=="
                         ? `If you do not have a smart list for the Users group, you
                       can :`
                         : `If you do not have a smart list for the HCPs group, you

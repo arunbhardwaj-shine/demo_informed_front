@@ -57,7 +57,7 @@ const NewEventCreate = () => {
   const [filterdata, setFilterData] = useState({
     Event: ["Live", "Coming", "End"],
   });
-  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
+  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","bWmUjqX7J011   WUTYn9g==","MXl8m36VZFYXpgFVz3Pg0g=="]
   const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
    const deletButtonColor = isLikeRdAccount ? '#8A4E9C' : '#0066be'
    const isRDAccount = isLikeRdAccount
@@ -784,7 +784,7 @@ const [apiCallStatus,setApiCallStatus]=useState(false)
                   </div>
                 </>)
                   : null}
-                  {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") =="sNl1hra39QmFk9HwvXETJA==" ? (
+                  {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") =="bWmUjqX7J011   WUTYn9g==" ? (
                 <>
                   <div className="action-btn-add"  style={{margin:"0"}}>
                     <Button className="btn-dashed"
@@ -1127,7 +1127,7 @@ const [apiCallStatus,setApiCallStatus]=useState(false)
                className={`col email-result-block ${isRDAccount?"rd":""}`}
               >
                 { localStorage.getItem("user_id") !== "56Ek4feL/1A8mZgIKQWEqg==" &&
-                    localStorage.getItem("user_id") !== "sNl1hra39QmFk9HwvXETJA==" &&(
+                    localStorage.getItem("user_id") !== "bWmUjqX7J011   WUTYn9g==" &&(
                 <div className="email_box_block add-webinar">
                   <div
                     className="email-block-add"

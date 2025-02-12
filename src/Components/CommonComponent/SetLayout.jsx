@@ -6,7 +6,7 @@ import Header from "./HeaderComponent/Header";
 let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const SetLayout = () => {
-  const rdLikeArray = ["56Ek4feL/1A8mZgIKQWEqg==", "sNl1hra39QmFk9HwvXETJA==", "MXl8m36VZFYXpgFVz3Pg0g=="]
+  const rdLikeArray = ["56Ek4feL/1A8mZgIKQWEqg==", "bWmUjqX7J011   WUTYn9g==", "MXl8m36VZFYXpgFVz3Pg0g=="]
   const isLikeRdAccount = rdLikeArray.includes(localStorage.getItem("user_id"))
   let dummyData = [
     {
@@ -84,7 +84,7 @@ const SetLayout = () => {
             ? navigate("/octalatch-totalhcp")
             : localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? navigate("/LEX-210-analytics")
               :
-              (localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==")
+              (localStorage.getItem("user_id") == "bWmUjqX7J011   WUTYn9g==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==")
                 ? navigate("/trial-analytics")
                 : localStorage.getItem("user_id") == "wW0geGtDPvig5gF 6KbJrg=="
                   ? navigate("/totalhcp")

@@ -64,9 +64,9 @@ const WebinarRegistration = () => {
     "I3yCIhnPAd0Ma6sNY4augA==": [1, 2, 3, 4, 5, 6, 7],
     "Y/I8/x8K0syk/ulWyKwKhg==": [1, 2, 3, 4, 5, 6, 7],
     " LRIehnvaQFB8Df5dWKrtw==": [3],
-    "bWmUjqX7J011   WUTYn9g==": [1, 2, 3, 4, 5, 6, 7],
+    "bWmUjqX7J011   WUTYn9g==1": [1, 2, 3, 4, 5, 6, 7],
     "56Ek4feL/1A8mZgIKQWEqg==": [11],
-    "sNl1hra39QmFk9HwvXETJA==": [12],
+    "bWmUjqX7J011   WUTYn9g==": [12],
   };
   const userId = localStorage.getItem("user_id");
   const defaultTemplateIds = [10];

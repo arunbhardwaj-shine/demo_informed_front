@@ -34,7 +34,7 @@ import { setDefaultCurrentStep } from "../../actions/surveyStepAction";
 const SurveyList = (props) => {
   const rdLikeArray = [
     "56Ek4feL/1A8mZgIKQWEqg==",
-    "sNl1hra39QmFk9HwvXETJA==",
+    "bWmUjqX7J011   WUTYn9g==",
     "MXl8m36VZFYXpgFVz3Pg0g==",
   ];
   const {

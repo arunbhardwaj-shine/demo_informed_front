@@ -25,9 +25,9 @@ var old_object = {};
 var selected_Data = [];
 var searched_Data=[]
 const VerifyHCP = (props) => {
-  const accountMapping={"56Ek4feL/1A8mZgIKQWEqg==":2147501188,"sNl1hra39QmFk9HwvXETJA==":2147536982,"MXl8m36VZFYXpgFVz3Pg0g==":2147537506}
+  const accountMapping={"56Ek4feL/1A8mZgIKQWEqg==":2147501188,"bWmUjqX7J011   WUTYn9g==":298217,"MXl8m36VZFYXpgFVz3Pg0g==":2147537506}
 
-  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
+  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","bWmUjqX7J011   WUTYn9g==","MXl8m36VZFYXpgFVz3Pg0g=="]
   const groupId= localStorage.getItem("group_id")
   const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
   const [totalData, setTotalData] = useState({});
@@ -712,7 +712,7 @@ const VerifyHCP = (props) => {
   };
 
   const saveClicked = async () => {
-      const  isRdAndNorgianAcount=localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA=="
+      const  isRdAndNorgianAcount=localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") === "bWmUjqX7J011   WUTYn9g=="
     if (activeManual == "active") {
       const body_data = hpc.map((data) => {
         if (isRdAndNorgianAcount) {

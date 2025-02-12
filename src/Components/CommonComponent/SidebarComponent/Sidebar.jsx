@@ -11,9 +11,9 @@ let video_url = "";
 let video_poster = "";
 const Sidebar = () => {
    
-  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
+  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","bWmUjqX7J011   WUTYn9g==","MXl8m36VZFYXpgFVz3Pg0g=="]
   const isRdAccount=localStorage.getItem("user_id")=="56Ek4feL/1A8mZgIKQWEqg=="
-  const isNorgineAccount=localStorage.getItem("user_id")=="sNl1hra39QmFk9HwvXETJA=="
+  const isNorgineAccount=localStorage.getItem("user_id")=="bWmUjqX7J011   WUTYn9g=="
   const isGenaAccount=localStorage.getItem("user_id")=="MXl8m36VZFYXpgFVz3Pg0g=="
   const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
   let navigate = useNavigate();
@@ -539,7 +539,7 @@ const Sidebar = () => {
 
               <li
                 // className={
-                //   location.pathname == "/library-content" || (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="  || localStorage.getItem("user_id")=="sNl1hra39QmFk9HwvXETJA==" && (location?.state?.flag === "Non-mandatory")?location.pathname == "/library-edit-listing" || location.pathname == "/library-edit"  || location.pathname == "/library-create-user" || location.pathname == "/preview-content" || location.pathname == "/content-detail" || location.pathname == "/library-sublink" :'')    ? "active" : "side_li"
+                //   location.pathname == "/library-content" || (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="  || localStorage.getItem("user_id")=="bWmUjqX7J011   WUTYn9g==" && (location?.state?.flag === "Non-mandatory")?location.pathname == "/library-edit-listing" || location.pathname == "/library-edit"  || location.pathname == "/library-create-user" || location.pathname == "/preview-content" || location.pathname == "/content-detail" || location.pathname == "/library-sublink" :'')    ? "active" : "side_li"
                 // }
                 className={
                   location.pathname === "/library-content" ||

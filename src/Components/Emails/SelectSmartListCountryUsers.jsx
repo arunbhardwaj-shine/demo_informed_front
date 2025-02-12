@@ -14,7 +14,7 @@ import Accordion from "react-bootstrap/Accordion";
 var old_object = {};
 
 const SelectSmartListCountryUsers = (props) => {
-    const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
+    const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","bWmUjqX7J011   WUTYn9g==","MXl8m36VZFYXpgFVz3Pg0g=="]
     const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
     const [totalData, setTotalData] = useState({});
     const navigate = useNavigate();
@@ -37,7 +37,7 @@ const SelectSmartListCountryUsers = (props) => {
     const [removedReaders, setRemovedReaders] = useState([]);
  
     const [reRender, setReRender] = useState(0);
-    const [userId, setUserId] = useState(localStorage.getItem("user_id") === "sNl1hra39QmFk9HwvXETJA=="?"sNl1hra39QmFk9HwvXETJA==":"56Ek4feL/1A8mZgIKQWEqg==");
+    const [userId, setUserId] = useState(localStorage.getItem("user_id") === "bWmUjqX7J011   WUTYn9g=="?"bWmUjqX7J011   WUTYn9g==":"56Ek4feL/1A8mZgIKQWEqg==");
     const [update, setUpdate] = useState(0);
     const [activeManual, setActiveManual] = useState("active");
     const [activeExcel, setActiveExcel] = useState("");

@@ -21,8 +21,8 @@ import EditContactType from "../../../../CommonComponent/EditContactType";
 import { useSidebar } from "../../../../CommonComponent/LoginLayout";
 import Select, { createFilter } from "react-select";
 const Table = (props, ref) => {
-  const accountMapping={"56Ek4feL/1A8mZgIKQWEqg==":2147501188,"sNl1hra39QmFk9HwvXETJA==":2147536982,"MXl8m36VZFYXpgFVz3Pg0g==":2147537506}
- const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
+  const accountMapping={"56Ek4feL/1A8mZgIKQWEqg==":2147501188,"bWmUjqX7J011   WUTYn9g==":298217,"MXl8m36VZFYXpgFVz3Pg0g==":2147537506}
+ const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","bWmUjqX7J011   WUTYn9g==","MXl8m36VZFYXpgFVz3Pg0g=="]
  const groupId= localStorage.getItem("group_id")
  const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
   const switch_account_detail = JSON.parse(localStorage.getItem("switch_account_detail"))

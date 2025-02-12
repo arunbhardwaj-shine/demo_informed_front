@@ -19,8 +19,8 @@ import SmartListLayout from "../../../../CommonComponent/SmartListLayout";
 
 let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
 const WebinarAutoEmail = () => {
-  const accountMapping={"56Ek4feL/1A8mZgIKQWEqg==":2147501188,"sNl1hra39QmFk9HwvXETJA==":2147536982,"MXl8m36VZFYXpgFVz3Pg0g==":2147537506}
-  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
+  const accountMapping={"56Ek4feL/1A8mZgIKQWEqg==":2147501188,"bWmUjqX7J011   WUTYn9g==":298217,"MXl8m36VZFYXpgFVz3Pg0g==":2147537506}
+  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","bWmUjqX7J011   WUTYn9g==","MXl8m36VZFYXpgFVz3Pg0g=="]
   const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
   const { eventIdContext } = useSidebar();
   const switch_account_detail = JSON.parse(localStorage.getItem("switch_account_detail"))
@@ -207,7 +207,7 @@ const WebinarAutoEmail = () => {
   };
   useEffect(() => {
     loader("show");
-    if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==" || localStorageUserId == "sNl1hra39QmFk9HwvXETJA==") {
+    if (localStorageUserId == "56Ek4feL/1A8mZgIKQWEqg==" || localStorageUserId == "bWmUjqX7J011   WUTYn9g==" || localStorageUserId == "bWmUjqX7J011   WUTYn9g==") {
       axiosFun();
     }
 

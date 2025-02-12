@@ -30,7 +30,7 @@ function useScrollDirection() {
 }
 
 const Header = () => {
-  const rdLikeArray = ["56Ek4feL/1A8mZgIKQWEqg==", "sNl1hra39QmFk9HwvXETJA==", "MXl8m36VZFYXpgFVz3Pg0g=="]
+  const rdLikeArray = ["56Ek4feL/1A8mZgIKQWEqg==", "bWmUjqX7J011   WUTYn9g==", "MXl8m36VZFYXpgFVz3Pg0g=="]
   const isLikeRdAccount = rdLikeArray.includes(localStorage.getItem("user_id"))
   const queryParams = queryString.parse(window.location.search);
   const scrollDirection = useScrollDirection();
@@ -123,7 +123,7 @@ const Header = () => {
   const homeClicked = (e) => {
     e.preventDefault();
     localStorage.removeItem("switch_account_detail")
-    if (localStorage.getItem('user_id') === "56Ek4feL/1A8mZgIKQWEqg==") {
+    if (localStorage.getItem('user_id') === "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem('user_id') === "bWmUjqX7J011   WUTYn9g==") {
       navigate("/home-timeline")
     } else {
       navigate("/home")
@@ -324,7 +324,7 @@ const Header = () => {
                                 "MXl8m36VZFYXpgFVz3Pg0g=="
                                 ? "/trial-analytics"
                                 :
-                                localStorage.getItem("user_id") == "sNl1hra39QmFk9HwvXETJA=="
+                                localStorage.getItem("user_id") == "bWmUjqX7J011   WUTYn9g=="
                                   ? "/trial-analytics"
                                   : "/content-analytics"
                     }
