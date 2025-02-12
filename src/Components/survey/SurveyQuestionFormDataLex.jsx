@@ -83,7 +83,7 @@ const SurveyQuestionFormDataLex = () => {
       percentage: { 'strongly agree': 0, agree: 0, 'neither agree nor disagree': 0, disagree: 0, "strongly disagree": 0 ,"n/a (no answer)":0},
       overall_rating: 0,
       questionName : Norgine 
-      ? "The information provided and the topics covered were relevant to me and enhanced my understanding of the strategical and operational goals of the Norgine study." 
+      ? "The information provided and the topics covered were relevant to me and enhanced my understanding of the strategical and operational goals of the Motivate study." 
       : "The information provided and the topics covered were relevant to me and enhanced my understanding of the strategical and operational goals of the LEX-210 study.",      total_users_answered: 0,
       type: "choice",
       color: colors,
@@ -120,7 +120,7 @@ const SurveyQuestionFormDataLex = () => {
       rating: { Yes: 0, No: 0 },
       percentage: { Yes: 0, No: 0 },
       overall_rating: 0,
-      questionName: Norgine ? " Do you have any further feedback or questions regarding the Investigator Meeting held, or about any other aspects related to the Norgine study?" : " Do you have any further feedback or questions regarding the Investigator Meeting held, or about any other aspects related to the LEX-210 study?",
+      questionName: Norgine ? " Do you have any further feedback or questions regarding the Investigator Meeting held, or about any other aspects related to the Motivate study?" : " Do you have any further feedback or questions regarding the Investigator Meeting held, or about any other aspects related to the LEX-210 study?",
       total_users_answered: 0,
       type: "choice",
       color: ["#39CABC", "#FAC755"],

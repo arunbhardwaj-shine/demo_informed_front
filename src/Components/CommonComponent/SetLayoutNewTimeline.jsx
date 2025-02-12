@@ -187,7 +187,8 @@ const SetLayoutNewTimeline = () => {
       if (loaderFlag == 0) {
         setSectionLoader(true);
       }
-      let body = { date, page }
+      const type = localStorage.getItem("user_id") == 'bWmUjqX7J011   WUTYn9g==' ?  2 : 1;
+      let body = { date, page, type }
       const response = await postData(ENDPOINT.RD_LANDING_TIMELINE, body)
       let updatedTimeLineData = response?.data?.data?.data?.timelineData
       setTimelineData(prevData => ([...prevData, ...updatedTimeLineData]))
@@ -369,12 +370,27 @@ const SetLayoutNewTimeline = () => {
                       <img src={path_image + "informed-circle-icon.svg"} alt="" />
                     </div>
                     <div className="timeline-date">
-                      <h3>LEX-210 Trial</h3>
+                      <h3>
+                        {
+                          localStorage?.getItem('user_id') == 'bWmUjqX7J011   WUTYn9g=='
+                          ?
+                          "Motivate Trial"
+                          :
+                          "LEX-210 Trial"
+                        }
+                      </h3>
                      
                       {apiStatus?<p>
-                        {loadMore?.lastUpdate ? moment(loadMore?.lastUpdate).utc().format('MMMM. DD. YYYY') : "N/A"}
-                        
-                        <sub> last update</sub>
+                        {
+                          loadMore?.lastUpdate ? 
+                          <>
+                          {
+                            moment(loadMore?.lastUpdate).utc().format('MMMM. DD. YYYY') 
+                          }
+                            <sub> last update</sub>
+                          </>
+                          : ""
+                        }
                       </p>:""}
                     </div>
                     <div className="timeline-picker">
@@ -792,7 +808,13 @@ const SetLayoutNewTimeline = () => {
                                                 <div className="timeline-details">
                                                   <div className="details-box">
                                                     <p className="timeline-details-heading">What</p>
-                                                    <p>A new HCP register to LEX-210 library</p>
+                                                    {
+                                                      localStorage?.getItem('user_id') == 'bWmUjqX7J011   WUTYn9g=='
+                                                      ?
+                                                      <p>A new HCP register to Motivate library</p>
+                                                      :
+                                                      <p>A new HCP register to LEX-210 library</p>
+                                                    }
                                                   </div>
                                                   <div className="details-box">
                                                     <p className="timeline-details-heading">Who</p>

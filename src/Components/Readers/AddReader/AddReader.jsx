@@ -725,16 +725,19 @@ const ReaderAdd = () => {
         'Site User-Blinded': {
             '56Ek4feL/1A8mZgIKQWEqg==': "https://webinar.informed.pro/Site_User.xlsx",
             'MXl8m36VZFYXpgFVz3Pg0g==': "https://webinar.informed.pro/Gena_Site_User.xlsx",
+            'bWmUjqX7J011   WUTYn9g==': "https://webinar.informed.pro/Motivate_Site_User.xlsx",
             'default': "https://webinar.informed.pro/Norgine_Site_User.xlsx"
         },
         'Investigator-Blinded': {
             '56Ek4feL/1A8mZgIKQWEqg==': "https://webinar.informed.pro/Investigator.xlsx",
             'MXl8m36VZFYXpgFVz3Pg0g==': "https://webinar.informed.pro/Gena_Investigator.xlsx",
+            'bWmUjqX7J011   WUTYn9g==': "https://webinar.informed.pro/Motivate_Investigator.xlsx",
             'default': "https://webinar.informed.pro/Norgine_Investigator.xlsx"
         },
         'Site unblinded pharmacist': {
             '56Ek4feL/1A8mZgIKQWEqg==': "https://webinar.informed.pro/Pharmacist.xlsx",
             'MXl8m36VZFYXpgFVz3Pg0g==': "https://webinar.informed.pro/Gena_Pharmacist.xlsx",
+            'bWmUjqX7J011   WUTYn9g==': "https://webinar.informed.pro/Motivate_Pharmacist.xlsx",
             'default': "https://webinar.informed.pro/Norgine_Pharmacist.xlsx"
         }
     };

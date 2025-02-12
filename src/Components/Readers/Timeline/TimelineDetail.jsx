@@ -1314,7 +1314,7 @@ const TimelineDetail = (props) => {
                                                           </p>
                                                           <p>
                                                             A new HCP register to
-                                                            LEX-210 librray
+                                                            LEX-210 library
                                                           </p>
                                                         </div>
                                                         {/* <div className="details-box">

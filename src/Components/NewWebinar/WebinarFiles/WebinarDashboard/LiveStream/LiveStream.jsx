@@ -1044,7 +1044,7 @@ const LiveStream = () => {
                                                     case "56Ek4feL/1A8mZgIKQWEqg==":
                                                       return "LEX-210";
                                                     case "bWmUjqX7J011   WUTYn9g==":
-                                                      return "Norgine";
+                                                      return "Motivate-study";
                                                     case "MXl8m36VZFYXpgFVz3Pg0g==":
                                                       return "Gena";
                                                     default:
@@ -1247,7 +1247,7 @@ const LiveStream = () => {
                                                     "56Ek4feL/1A8mZgIKQWEqg==":
                                                       "LEX-210",
                                                     "bWmUjqX7J011   WUTYn9g==":
-                                                      "Norgine",
+                                                      "Motivate-study",
                                                     "MXl8m36VZFYXpgFVz3Pg0g==":
                                                       "Gena",
                                                   };
@@ -1452,7 +1452,7 @@ const LiveStream = () => {
                                                     "56Ek4feL/1A8mZgIKQWEqg==":
                                                       "LEX-210",
                                                     "bWmUjqX7J011   WUTYn9g==":
-                                                      "Norgine",
+                                                      "Motivate-study",
                                                     "MXl8m36VZFYXpgFVz3Pg0g==":
                                                       "Gena",
                                                   };

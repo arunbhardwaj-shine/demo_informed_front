@@ -297,7 +297,7 @@ const LibraryContent = (props) => {
       }
     } catch (err) {
       loader("hide");
-      console.log("err");
+      console.log(err,"err");
     }
   };
 

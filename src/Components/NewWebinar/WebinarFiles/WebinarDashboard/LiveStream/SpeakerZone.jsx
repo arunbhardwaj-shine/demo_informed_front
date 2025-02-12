@@ -205,7 +205,7 @@ const SpeakerZone = () => {
                                       localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg=='
                                         ? "LEX-210"
                                         : localStorage.getItem("user_id") == "bWmUjqX7J011   WUTYn9g=="
-                                          ? "Norgine"
+                                          ? "Motivate-study"
                                           : localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
                                             ? "Gena"
                                             : "Octapharma"
@@ -221,7 +221,7 @@ const SpeakerZone = () => {
                                             localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg=='
                                               ? <p dangerouslySetInnerHTML={{ __html: "Reply by LEX-210: " + item?.reply }}></p>
                                               : localStorage.getItem("user_id") == "bWmUjqX7J011   WUTYn9g=="
-                                                ? <p dangerouslySetInnerHTML={{ __html: "Reply by Norgine: " + item?.reply }}></p>
+                                                ? <p dangerouslySetInnerHTML={{ __html: "Reply by Motivate-study: " + item?.reply }}></p>
                                                 :
                                                 localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
                                                   ? <p dangerouslySetInnerHTML={{ __html: "Reply by Gena: " + item?.reply }}></p>
@@ -292,7 +292,7 @@ const SpeakerZone = () => {
                                         localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg=='
                                           ? "LEX-210"
                                           : localStorage.getItem("user_id") == "bWmUjqX7J011   WUTYn9g=="
-                                            ? "Norgine"
+                                            ? "Motivate-study"
                                              : localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
                                             ? "Gena"
                                             : "Octapharma"
@@ -309,7 +309,7 @@ const SpeakerZone = () => {
                                               localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg=='
                                                 ? <p dangerouslySetInnerHTML={{ __html: "Reply by LEX-210: " + item?.reply }}></p>
                                                 : localStorage.getItem("user_id") == "bWmUjqX7J011   WUTYn9g=="
-                                                  ? <p dangerouslySetInnerHTML={{ __html: "Reply by Norgine: " + item?.reply }}></p>
+                                                  ? <p dangerouslySetInnerHTML={{ __html: "Reply by Motivate-study: " + item?.reply }}></p>
                                                   : localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
                                                   ? <p dangerouslySetInnerHTML={{ __html: "Reply by gena: " + item?.reply }}></p>
                                                   : <p dangerouslySetInnerHTML={{ __html: "Reply by Octapharma: " + item?.reply }}></p>
@@ -376,7 +376,7 @@ const SpeakerZone = () => {
                                         localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg=='
                                           ? "LEX-210"
                                           : localStorage.getItem("user_id") == "bWmUjqX7J011   WUTYn9g=="
-                                            ? "Norgine":
+                                            ? "Motivate-study":
                                              localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
                                             ? "Gena"
                                             : "Octapharma"
@@ -393,7 +393,7 @@ const SpeakerZone = () => {
                                               localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg=='
                                                 ? <p dangerouslySetInnerHTML={{ __html: "Reply by LEX-210: " + item?.reply }}></p>
                                                 : localStorage.getItem("user_id") == "bWmUjqX7J011   WUTYn9g=="
-                                                  ? <p dangerouslySetInnerHTML={{ __html: "Reply by Norgine: " + item?.reply }}></p>
+                                                  ? <p dangerouslySetInnerHTML={{ __html: "Reply by Motivate-study: " + item?.reply }}></p>
                                                   :
                                                   localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
                                                     ? <p dangerouslySetInnerHTML={{ __html: "Reply by Gena: " + item?.reply }}></p> :
