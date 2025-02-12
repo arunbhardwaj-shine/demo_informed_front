@@ -87,7 +87,7 @@ const SetLayoutNewTimeline = () => {
       });
     }
 
-    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ){
+    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "bWmUjqX7J011   WUTYn9g=="  ){
       newdata.push({
         image: `${path_image}Survey_home_icon.svg`,
         title: "Survey",
