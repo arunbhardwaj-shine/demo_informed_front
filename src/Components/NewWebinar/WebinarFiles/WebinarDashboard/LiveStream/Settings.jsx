@@ -25,7 +25,7 @@ const Settings = () => {
     {
       label: "Post event poster",
       value:
-        userId=="bWmUjqX7J011   WUTYn9g==1"?"https://docintel.app/img/octa/e-templates/thanks-watching-motivate-new.jpg":"https://docintel.s3.eu-west-1.amazonaws.com/image/thanks-watch.jpg",
+        userId=="bWmUjqX7J011   WUTYn9g=="?"https://docintel.app/img/octa/e-templates/thanks-watching-motivate-new.jpg":"https://docintel.s3.eu-west-1.amazonaws.com/image/thanks-watch.jpg",
     },
     { label: "Custom message", value: "" },
   ];
@@ -68,7 +68,7 @@ const Settings = () => {
       {
         label: "Technical difficulties",
         value:
-          userId=="bWmUjqX7J011   WUTYn9g==1"?"https://docintel.app/img/octa/e-templates/techinal-issue-motivate.jpg":"https://docintel.s3.eu-west-1.amazonaws.com/image/technical-issue.jpg",
+          userId=="bWmUjqX7J011   WUTYn9g=="?"https://docintel.app/img/octa/e-templates/techinal-issue-motivate.jpg":"https://docintel.s3.eu-west-1.amazonaws.com/image/technical-issue.jpg",
       },
     ];
 
