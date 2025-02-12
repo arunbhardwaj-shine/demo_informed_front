@@ -1052,8 +1052,9 @@ const LibraryContent = (props) => {
   const nextClicked = async(id) => {
     if(isLikeRdAccount){
       if(mandatoryPdfId){
+        console.log(mandatoryPdfId,id);
         let irtRoleObj = {
-          "pdfId": mandatoryPdfId,
+          "pdfId": id ? id : mandatoryPdfId,
           "IRTFlag": 1,
           "siteRole": title
         };

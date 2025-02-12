@@ -139,6 +139,8 @@ const SetLayoutNewTimeline = () => {
           ? navigate("/totalhcp")
           : localStorage.getItem("user_id") == "iSnEsKu5gB/DRlycxB6G4g=="
             ? navigate("/octalatch-totalhcp")
+            : localStorage.getItem("user_id") == "bWmUjqX7J011   WUTYn9g=="
+            ? navigate("/trial-analytics")
             : (isLikeRdAccount)
               ? navigate("/LEX-210-analytics")
               : localStorage.getItem("user_id") == "wW0geGtDPvig5gF 6KbJrg=="

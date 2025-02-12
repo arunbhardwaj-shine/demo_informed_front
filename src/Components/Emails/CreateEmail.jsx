@@ -2189,7 +2189,7 @@ const CreateEmail = (props) => {
           emailExistingObj['startTraining'] = 1;
         }
         const mergedObject = { ...emailExistingObj, ...irtRoleObj };
-        console.log(mergedObject,"mergedObject");
+        // console.log(mergedObject,"mergedObject");
         
         props.getEmailData(mergedObject);
       }else{
