@@ -14,6 +14,9 @@ let loadData = 0;
 
 const SetLayoutNewTimeline = () => {
   const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","bWmUjqX7J011   WUTYn9g==","MXl8m36VZFYXpgFVz3Pg0g=="]
+  let videoCover = localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? "lex-video-cover.png" : "Motivate_Video_cover.png" ;
+  let bookCover = localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? "lex-book-cover.png" : "Motivate_Book_cover.png" ;
+  let articleCover = localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? "lex-article-cover.png" : "Motivate_Article_cover.png" ;
   const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
   let dummyData = [
     {
@@ -732,14 +735,14 @@ const SetLayoutNewTimeline = () => {
                                                       "video" ? <img
                                                       src={
                                                         path_image +
-                                                        "lex-video-cover.png"
+                                                        videoCover
                                                       }
                                                       alt=""
                                                     /> : item?.file_type == "ebook" ?
                                                       <img
                                                         src={
                                                           path_image +
-                                                          "lex-book-cover.png"
+                                                          bookCover
                                                         }
                                                         alt=""
                                                       />
@@ -1249,6 +1252,22 @@ const SetLayoutNewTimeline = () => {
                                                                   <div className="details-box">
                                                                     <p className="timeline-details-heading">Who</p>
                                                                     <div className="d-flex flex-wrap timeline-activity">
+                                                                      {item?.users_data?.length ? item?.users_data?.map((userId, index) => {
+                                                                        const userProfile = data?.userProfile?.find(profile => profile?.user_id == userId);
+                                                                        if (!userProfile) return null;
+                                                                        const fullName = userProfile?.first_name?.trim() ? `${userProfile.first_name} ${userProfile?.last_name || ''}`.trim() : userProfile?.name?.trim();
+                                                                        if (!fullName) return null;
+                                                                        return (
+                                                                          <div key={index} className="timeline-activity-detail">
+                                                                            <p>{fullName}</p>
+                                                                            {userProfile?.user_type != 0 && <p>{userProfile?.user_type}</p>}
+                                                                            {userProfile?.site_number != 0 && <span>{userProfile?.site_number}</span>}
+                                                                          </div>
+                                                                        );
+                                                                      }) : null}
+                                                                    </div>
+
+                                                                    {/* <div className="d-flex flex-wrap timeline-activity">
 
                                                                       {item?.users_data?.length ? item?.users_data?.map((userId, index) => {
                                                                         const userProfile = data?.userProfile?.find(profile => profile?.user_id == userId)
@@ -1266,7 +1285,7 @@ const SetLayoutNewTimeline = () => {
                                                                           </div>
                                                                         ) : null
                                                                       }) : ""}
-                                                                    </div>
+                                                                    </div> */}
                                                                   </div>
                                                                 </div>
                                                               </div>

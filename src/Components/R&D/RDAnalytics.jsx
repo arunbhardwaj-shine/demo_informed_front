@@ -1825,8 +1825,6 @@ const RDAnalytics = () => {
 
 
                                           onClick={(event) => {
-                                            if (createdBy == "bWmUjqX7J011   WUTYn9g==") return
-
                                             downloadCertificate(
                                               item?.certificate_link,
                                               event
@@ -2029,7 +2027,7 @@ const RDAnalytics = () => {
                                                           </div>
                                                           <div className="content-detail">
                                                             <h6>{item?.type}</h6>
-                                                            <p>{defaultPdfRole[item?.pdfId] || ""}</p>
+                                                            <p>{defaultPdfRole[item?.pdfId] || item?.training_type}</p>
 
 
                                                             <div className="page-count">
@@ -2044,7 +2042,6 @@ const RDAnalytics = () => {
                                                                   onClick={(
                                                                     event
                                                                   ) => {
-                                                                    if (createdBy == "bWmUjqX7J011   WUTYn9g==") return
                                                                     downloadCertificate(
                                                                       item?.pdf_link,
                                                                       event
