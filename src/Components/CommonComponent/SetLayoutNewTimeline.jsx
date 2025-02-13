@@ -14,6 +14,9 @@ let loadData = 0;
 
 const SetLayoutNewTimeline = () => {
   const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","bWmUjqX7J011   WUTYn9g==","MXl8m36VZFYXpgFVz3Pg0g=="]
+  let videoCover = localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? "lex-video-cover.png" : "Motivate_Video_cover.png" ;
+  let bookCover = localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? "lex-book-cover.png" : "Motivate_Book_cover.png" ;
+  let articleCover = localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? "lex-article-cover.png" : "Motivate_Article_cover.png" ;
   const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
   let dummyData = [
     {
@@ -732,14 +735,14 @@ const SetLayoutNewTimeline = () => {
                                                       "video" ? <img
                                                       src={
                                                         path_image +
-                                                        "lex-video-cover.png"
+                                                        videoCover
                                                       }
                                                       alt=""
                                                     /> : item?.file_type == "ebook" ?
                                                       <img
                                                         src={
                                                           path_image +
-                                                          "lex-book-cover.png"
+                                                          bookCover
                                                         }
                                                         alt=""
                                                       />
