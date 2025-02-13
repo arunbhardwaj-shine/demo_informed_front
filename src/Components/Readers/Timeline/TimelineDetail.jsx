@@ -2109,6 +2109,56 @@ const TimelineDetail = (props) => {
                                                   </div>
                                                 )}
 
+                                              {details?.action.includes("User login")
+                                                ? (
+                                                <div className="timeline-box-inset">
+
+                                                  <div className="timeline-block">
+                                                    <div className="timeline-status">
+                                                      <p>
+                                                        {details?.action}
+                                                      </p>
+                                                      <span>
+                                                        {details?.time}{" "}
+                                                      </span>
+                                                      <div className="timeline-indicator">
+                                                        <div className="indicator-box">
+                                                          <img
+                                                            src={
+                                                              path_image +
+                                                              "log-docintel.png"
+                                                            }
+                                                            alt=""
+                                                          />
+                                                        </div>
+                                                      </div>
+                                                    </div>
+                                                    <div className="timeline-details">
+                                                      <div className="details-box">
+                                                        <p className="timeline-details-heading">
+                                                          Source
+                                                        </p>
+                                                        <p>
+                                                          {" "}
+                                                          {details?.webinar !=
+                                                            ""
+                                                            ? details.webinar
+                                                            : deviceObj[
+                                                              details
+                                                                ?.device_used
+                                                            ]
+                                                              ? deviceObj[
+                                                              details
+                                                                ?.device_used
+                                                              ]
+                                                              : details?.device_used}
+                                                        </p>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              ) : null}
+
                                               {details?.action ==
                                                 "Login to docintel" ? (
                                                 <div className="timeline-box-inset">
