@@ -1825,8 +1825,6 @@ const RDAnalytics = () => {
 
 
                                           onClick={(event) => {
-                                            if (createdBy == "bWmUjqX7J011   WUTYn9g==") return
-
                                             downloadCertificate(
                                               item?.certificate_link,
                                               event

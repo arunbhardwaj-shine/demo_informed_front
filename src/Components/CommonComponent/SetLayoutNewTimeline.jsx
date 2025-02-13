@@ -1252,6 +1252,22 @@ const SetLayoutNewTimeline = () => {
                                                                   <div className="details-box">
                                                                     <p className="timeline-details-heading">Who</p>
                                                                     <div className="d-flex flex-wrap timeline-activity">
+                                                                      {item?.users_data?.length ? item?.users_data?.map((userId, index) => {
+                                                                        const userProfile = data?.userProfile?.find(profile => profile?.user_id == userId);
+                                                                        if (!userProfile) return null;
+                                                                        const fullName = userProfile?.first_name?.trim() ? `${userProfile.first_name} ${userProfile?.last_name || ''}`.trim() : userProfile?.name?.trim();
+                                                                        if (!fullName) return null;
+                                                                        return (
+                                                                          <div key={index} className="timeline-activity-detail">
+                                                                            <p>{fullName}</p>
+                                                                            {userProfile?.user_type != 0 && <p>{userProfile?.user_type}</p>}
+                                                                            {userProfile?.site_number != 0 && <span>{userProfile?.site_number}</span>}
+                                                                          </div>
+                                                                        );
+                                                                      }) : null}
+                                                                    </div>
+
+                                                                    {/* <div className="d-flex flex-wrap timeline-activity">
 
                                                                       {item?.users_data?.length ? item?.users_data?.map((userId, index) => {
                                                                         const userProfile = data?.userProfile?.find(profile => profile?.user_id == userId)
@@ -1269,7 +1285,7 @@ const SetLayoutNewTimeline = () => {
                                                                           </div>
                                                                         ) : null
                                                                       }) : ""}
-                                                                    </div>
+                                                                    </div> */}
                                                                   </div>
                                                                 </div>
                                                               </div>
