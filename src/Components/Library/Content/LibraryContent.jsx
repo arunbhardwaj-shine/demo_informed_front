@@ -267,7 +267,6 @@ const LibraryContent = (props) => {
           payload.Role = [role];
         }
       }
-
       const res = await postData(ENDPOINT.FILTERS,
       
         payload
@@ -507,7 +506,7 @@ const LibraryContent = (props) => {
   };
   const getLibraryData = async (page, obj, search, load = 0,type="") => {
     try {
-       
+      loader("show");
       setIsLoaded(false);
       if (load) {
         setPageAll(true);
