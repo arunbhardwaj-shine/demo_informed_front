@@ -13,6 +13,9 @@ const TimelineDetail = (props) => {
   const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","bWmUjqX7J011   WUTYn9g==","MXl8m36VZFYXpgFVz3Pg0g=="]
   const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
   let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+  let videoCover = localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? "lex-video-cover.png" : "Motivate_Video_cover.png" ;
+  let bookCover = localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? "lex-book-cover.png" : "Motivate_Book_cover.png" ;
+  let articleCover = localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? "lex-article-cover.png" : "Motivate_Article_cover.png" ;
   const BrokenImage =
     "https://docintel.s3-eu-west-1.amazonaws.com/cover/default/default.png";
   const { state } = useLocation();
@@ -95,7 +98,7 @@ const TimelineDetail = (props) => {
       "Symposium-rating": "Symposium rating",
       "Registered-events-add-to-calendar": "Registered events add to calendar",
       "Contact-us": "Contact us",
-      "Symposium-view": "Symposium view"
+      "Symposium-view": "Symposium view",
 
 
     }
@@ -632,7 +635,14 @@ const TimelineDetail = (props) => {
                                     />
                                   </div>
                                   <div className="timeline-date">
-                                    <h3>{timeLineData?.user?.name ? timeLineData?.user?.name : localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" ?"Gena Trial": "LEX-210 Trial"}</h3>
+                                    <h3>{
+                                      timeLineData?.user?.name ?
+                                      timeLineData?.user?.name :
+                                       localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" ?
+                                       "Gena Trial":
+                                       localStorage.getItem("user_id") == "bWmUjqX7J011   WUTYn9g==" ?
+                                       "Motivate Trial":
+                                        "LEX-210 Trial"}</h3>
                                     <p>
                                       {timeLineData?.timeline[
                                         Object.keys(timeLineData?.timeline)[0]
@@ -1313,8 +1323,13 @@ const TimelineDetail = (props) => {
                                                             What
                                                           </p>
                                                           <p>
-                                                            A new HCP register to
-                                                            LEX-210 library
+                                                            {
+                                                              localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg=='
+                                                              ?
+                                                              `A new HCP register to LEX-210 library`
+                                                              :
+                                                              `A new HCP register to library`
+                                                            }
                                                           </p>
                                                         </div>
                                                         {/* <div className="details-box">
@@ -1549,10 +1564,7 @@ const TimelineDetail = (props) => {
                                                               <div className="timeline-article d-flex">
                                                                 <div className="timeline-article-image">
                                                                   <img
-                                                                    src={
-                                                                      path_image +
-                                                                      "lex-video-cover.png"
-                                                                    }
+                                                                    src={path_image + videoCover}
                                                                     alt=""
                                                                   />
                                                                 </div>
@@ -1636,10 +1648,7 @@ const TimelineDetail = (props) => {
                                                               <div className="timeline-article d-flex">
                                                                 <div className="timeline-article-image">
                                                                   <img
-                                                                    src={
-                                                                      path_image +
-                                                                      "lex-video-cover.png"
-                                                                    }
+                                                                    src={path_image + videoCover}
                                                                     alt=""
                                                                   />
                                                                 </div>
@@ -1700,7 +1709,7 @@ const TimelineDetail = (props) => {
                                                                       "ebook" ? <img
                                                                       src={
                                                                         path_image +
-                                                                        "lex-book-cover.png"
+                                                                        bookCover
                                                                       }
                                                                       alt=""
                                                                     /> : <img
@@ -1886,7 +1895,7 @@ const TimelineDetail = (props) => {
                                                                     "ebook" ? <img
                                                                     src={
                                                                       path_image +
-                                                                      "lex-book-cover.png"
+                                                                      bookCover
                                                                     }
                                                                     alt=""
                                                                   /> : <img
@@ -2089,7 +2098,7 @@ const TimelineDetail = (props) => {
                                                                   alt=""
                                                                 />
                                                                 <p>
-                                                                  Include videos{" "}
+                                                                  Include videos
                                                                 </p>
                                                               </div>
                                                             </div>
