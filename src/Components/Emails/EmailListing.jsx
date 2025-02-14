@@ -133,9 +133,8 @@ const EmailList = (props) => {
             return (
               "<span ><div className=" +
               this.series.name +
-              '><span style="font-weight: bold;">' +
-              this.x +
-              "</span><br/><strong>" +
+              '>' +
+              "<br/><strong>" +
               this.series.name +
               "</strong> <strong >" + ":" +
               Highcharts.numberFormat(this.y, 0) +
