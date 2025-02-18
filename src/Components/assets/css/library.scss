@@ -26010,6 +26010,133 @@ background-size: cover;
   } 
 
 }
+.sunshine-table{
+  .table{
+    border-collapse: separate;
+    border-spacing: 0 5px;
+    padding-right: 8px;
+    width: 100%;
+    thead{
+      &.sticky-header{
+        position: sticky;
+        top: 0;
+        z-index: 1;
+        background: transparent;
+        th{
+          border: 0;
+          color: vars.$dark-blue;
+          font-size: 13px;
+          font-weight: 500;
+          padding: 5px 8px 16px 16px;
+          text-align: left;
+          white-space: nowrap;
+          &.sort_option{
+            button{
+              margin: 0 0 0 3px;
+            }
+          } 
+        }
+      }
+    }
+    tbody{
+      tr{
+        box-shadow: 0 1px 6px #0066be33;
+        border-radius: 13px;
+        border-spacing: 0px 10px;
+        &.blank{
+          box-shadow: none;
+          td{
+            padding: 0;
+          }
+        }
+        td{
+          &:first-child{
+            border-radius: 20px 0 0 20px;
+            font-weight: 500;
+            max-width: 310px;
+          }
+          &:last-child{
+            border-radius: 0px 20px 20px 0px;
+          }
+          padding: 8px 8px 8px 16px;
+          font-weight: 400;
+          vertical-align: middle;
+          color: vars.$dark-gray;
+          font-size: 13px;
+          &.blue{
+            color: vars.$primary-color;
+            span{
+              color:vars.$dark-gray;
+            }
+          }
+          div{
+            &.mail-status{
+              width: 32px;
+              height: 32px;
+              border: 2px solid #c8d1d9;
+              border-radius: 50%;
+              margin-right: 8px;
+              @include m.flex-middle;
+              &.mail_send{
+                border-color: vars.$voilet;
+              }
+              &.mail_view{
+                border-color: vars.$yellow;
+              }
+              &.mail_click{
+                border-color: vars.$green;
+              }
+            }
+          }
+          &.divide-line{
+            text-align: right;
+            padding-right: 12px;
+            border-left: 1px dashed vars.$light-gray;
+            button{
+              padding: 7px 14px;
+              &:last-child{
+                margin-left: 7px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+.sunshine-mail{
+  padding: 0;
+  .page-title{
+    h4{
+      font-weight: bold;
+      span{
+        color:#97B6CF;
+        font-size: 32px;
+        font-weight: bold;
+      }
+    }
+  }
+  form{
+    .form-inline{
+      .form-group{
+        display: flex;
+        align-items: center;
+        flex-wrap: nowrap;
+        label{
+          margin:0 23px 0 0;
+          width: auto;
+          flex:0 0 auto;
+          font-weight: 400;
+        }
+      }
+      span{
+        font-size: 18px;
+        color: #97B6CF;
+        font-weight: 400;
+      }
+    }
+  }
+}
 /**Sunshine login, register end**/
 
 

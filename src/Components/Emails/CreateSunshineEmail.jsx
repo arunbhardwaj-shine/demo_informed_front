@@ -9,7 +9,7 @@ import "react-alice-carousel/lib/alice-carousel.css";
 
 import { getCampaignId, getEmailData, getSearched, getSelected, getSelectedSmartListData } from "../../actions";
 import { useNavigate } from "react-router-dom";
-import { Modal, ModalDialog, Dropdown, OverlayTrigger, Tooltip } from "react-bootstrap";
+import { Modal, ModalDialog, Dropdown, OverlayTrigger, Tooltip, Button } from "react-bootstrap";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import SimpleReactValidator from "simple-react-validator";
 import { loader } from "../../loader";
@@ -30,7 +30,7 @@ var state_object = {};
 var trainingUser = {};
 var searchedUser = {};
 var stateListData = {};
-const CreateEmail = (props) => {
+const CreateSunshineEmail = (props) => {
   const accountMapping={"56Ek4feL/1A8mZgIKQWEqg==":2147501188,"sNl1hra39QmFk9HwvXETJA==":2147536982,"MXl8m36VZFYXpgFVz3Pg0g==":2147537506}
 
   const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
@@ -2029,89 +2029,6 @@ const CreateEmail = (props) => {
       toast.warning("Template not selected.");
     }
   };
-  // const addTracking = function (editor) {
-  //   editor.on("OpenWindow", function (e) {
-  //     let dialog = document.getElementsByClassName("tox-dialog")[0];
-
-  //     if (dialog) {
-  //       let header = dialog.querySelector(".tox-dialog__header");
-  //       const closeButton = header.querySelector('[aria-label="Close"]');
-  //       let text = header.querySelector(".tox-dialog__title");
-
-  //       if (text.innerText == "Insert/Edit Link") {
-  //         let uploadIcon = document.querySelector(
-  //           "body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > button > span"
-  //         );
-  //         uploadIcon.style.display = "none";
-  //         let newButton = document.createElement("button");
-  //         newButton.innerText = "Add Tracking";
-  //         newButton.classList.add("tox-button");
-  //         newButton.classList.add("tox-button--icon");
-  //         newButton.classList.add("tox-button--naked");
-  //         newButton.classList.add("track");
-  //         newButton.onclick = function () {
-  //           if (templateIdRef.current == "") {
-  //             alert("Please select the template first before adding the link");
-  //             return;
-  //           }
-  //           // alert(templateId);
-  //           let firstToxControlWrap = document.querySelector(
-  //             "body > div.tox.tox-silver-sink.tox-tinymce-aux > div > div.tox-dialog > div.tox-dialog__content-js > div > div > div > div:nth-child(1) > div > div >input"
-  //           );
-
-  //           // let text =dialog.querySelector(".tox-form__group");
-  //           if (!firstToxControlWrap.value) {
-  //             alert("Please enter a link");
-  //             return;
-  //           }
-
-  //           const baseLink =
-  //             "https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_";
-  //           if (firstToxControlWrap.value.startsWith(baseLink)) {
-  //             alert("Traking already added");
-  //             return;
-  //           }
-  //           let slugValue = prompt("Enter a slug value");
-
-  //           const currentTimestamp = Date.now();
-  //           // const redirectUrl = encodeURIComponent(firstToxControlWrap.value)
-  //           let payload = {
-  //             slug_value: slugValue,
-  //             template_id: templateIdRef.current,
-  //             url_code: `clicked_track_doc_${currentTimestamp}`,
-  //           };
-  //           linkingPayload.current = payload;
-  //           let link = `https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_${currentTimestamp}&redirect_url=${firstToxControlWrap.value}`;
-  //           firstToxControlWrap.value = link;
-  //           var saveButton = document.querySelector(
-  //             '.tox-button[title="Save"]'
-  //           );
-
-  //           saveButton.addEventListener("click", function () {
-  //             let link = `https://onesource.informed.pro/api/track-links`;
-
-  //             axios
-  //               .post(link, payload)
-  //               .then((res) => {
-  //                 console.log("done");
-  //               })
-  //               .catch((err) => {
-  //                 loader("hide");
-  //                 console.log(err);
-  //               });
-  //           });
-  //           alert("Traking added");
-  //         };
-
-  //         header.insertBefore(newButton, closeButton);
-  //       } else if (text.innerText == "Insert/Edit Media") {
-  //         document.querySelector(
-  //           "body > div.tox.tox-silver-sink.tox-tinymce-aux > div.tox-dialog-wrap > div.tox-dialog > div.tox-dialog__content-js > div > div.tox-dialog__body-content > div > div:nth-child(1) > label"
-  //         ).innerText += " (Max size: 1GB)";
-  //       }
-  //     }
-  //   });
-  // };
 
   const addTracking = function (editor) {
     editor.on("OpenWindow", function (e) {
@@ -2388,40 +2305,15 @@ const CreateEmail = (props) => {
   return (
     <>
       <div className="col right-sidebar custom-change">
-        <div className="custom-container">
+        <div className="container">
           <div className="row">
             <div className="page-top-nav sticky">
               <div className="row justify-content-end align-items-center">
-                <div className="col-12 col-md-1">
-                  <div className="header-btn-left">
-                    <button className="btn btn-primary btn-bordered back" onClick={handleBackClick}>
-                      {/* <Link to="/EmailArticleSelect">Back</Link> */} Back
-                    </button>
-                  </div>
-                </div>
-                <div className="col-12 col-md-8">
+                <div className="col-12 col-md-3"></div>
+                <div className="col-12 col-md-6">
                   <ul className="tabnav-link">
-                    <li className="active" onClick={handleSelectUsers}>
-                      {/* <Link to="/EmailArticleSelect">Select Content</Link> */}
-                      Select Content
-                    </li>
-                    <li className="active active-main">
+                    <li className="active active-main" onClick={handleSelectUsers}>
                       <a href="">Create Your Email</a>
-                    </li>
-                 
-                     {!irtRoleObj?.IRTFlag && (
-                        <li className="">
-                          <a href="">
-                            {(isLikeRdAccount) ? "Select Users" : "Select HCPs"}
-                          </a>
-                        </li>
-                      )}
-                    <li className="">
-                      <a href="">
-                        {
-                          IRTTraining ? "Verify Your IRT" : "Verify your list"
-                        }
-                      </a>
                     </li>
                     <li className="">
                       <a href="">Verify your Email</a>
@@ -2430,63 +2322,15 @@ const CreateEmail = (props) => {
                 </div>
                 <div className="col-12 col-md-3">
                   <div className="header-btn">
-                    {
-                      IRTTraining ? 
                         <Link to = {"/new-readers-reviews"}
                           // state= {{siteRole: irtRoleObj?.siteRole }}
                           state= {irtRoleObj}
                           className="btn btn-primary btn-bordered move-draft">
                           Cancel
                         </Link>
-                      :
-                      <>
-                        {
-                          (isLikeRdAccount)
-                          ? 
-                            <>
-                              {
-                                irtRoleObj?.IRTFlag ? 
-                                  <Link to = {"/RD-EmailList"}
-                                    state= {{IrtObj: irtRoleObj}}
-                                    className="btn btn-primary btn-bordered move-draft engine_cancel">
-                                    Cancel
-                                  </Link>
-                                :
-                                <Link to = {"/EmailList"}
-                                  className="btn btn-primary btn-bordered move-draft engine_cancel">
-                                  Cancel
-                                </Link>
-                              }
-                              
-                              <button
-                                  className="btn btn-primary btn-bordered"  state={{IrtObj:irtRoleObj }}
-                                  onClick={saveAsDraft}
-                                >
-                                  Save As Draft
-                                </button>
-                            </>    
-                          :
-                            <button
-                              className="btn btn-primary btn-bordered move-draft"  state={{IrtObj:irtRoleObj }}
-                              onClick={saveAsDraft}
-                            >
-                              Save As Draft
-                            </button>
-                        }
-                      </>
-
-                    }
-
+                     
                     <button
-                      className="btn btn-primary btn-filled next"  state={{ PdfSelected: PdfSelected,IrtObj:irtRoleObj }}
-                      onClick={nextClicked}
-                      disabled={
-                        typeof emailSubject == "undefined" ||
-                        emailSubject.trim().length == 0 ||
-                        typeof templateId == "undefined" ||
-                        templateId == ""
-                      }
-                    >
+                      className="btn btn-primary btn-filled next">
                       Next
                     </button>
                   </div>
@@ -2494,55 +2338,47 @@ const CreateEmail = (props) => {
               </div>
             </div>
 
-            <div className="top-header">
-              <div className="custom-container">
+            <section className="select-mail-template sunshine-mail">
+              <div className="container">
                 <div className="row">
                   <div className="page-title">
-                    <h4>Select your Template</h4>
+                    <h4><span>1.</span> Select the client you wish to send this email to by either searching for an existing client or adding a new one:</h4>
+                  </div>
+                  <div className="email-form padding-add">
+                    <form>
+                      <>
+                      <div className="form-inline d-flex justify-content-between align-items-center">
+                        <div className="col-12 col-md-4 d-flex align-items-center">
+                          <div className="form-group">
+                            <label className="form-label">Name</label>
+                            <input type="text" className="form-control"/>
+                          </div>
+                        </div>
+                        <div className="col-12 col-md-4 d-flex align-items-center">
+                          <div className="form-group">
+                            <label className="form-label">Email</label>
+                            <input type="text" className="form-control"/>
+                          </div>
+                        </div>
+                        <div className="col-12 col-md-4 d-flex align-items-center justify-content-between">
+                            <Button className="btn-filled">Search</Button>
+                            <span>- OR -</span>
+                            <Button className="btn-bordered btn-voilet">Add New Client +</Button>
+                        </div>
+                      </div>
+                      </>
+                    </form>
                   </div>
                 </div>
               </div>
-            </div>
+            </section>
 
-            <section className="select-mail-template">
-              <div className="custom-container">
+            <section className="select-mail-template sunshine-mail">
+              <div className="container">
                 <div className="row">
-                  <AliceCarousel
-                    mouseTracking
-                    disableDotsControls
-                    activeIndex={activeIndex}
-                    responsive={responsive}
-                    onSlideChanged={syncActiveIndex}
-                  >
-                    {templateList.map((template, index) => {
-                      return (
-                        <>
-                          <div
-                            key={index}
-                            className="item"
-                            // onClick={(e) => templateClicked(template, e)}
-                            onClick={(e) => irtRoleObj?.IRTFlag ? templateIRTClicked(template, e) : templateClicked(template, e)}
-                          >
-                            <img
-                              id={"template_dyn" + index}
-                              src={template.template_img}
-                              data-id={"template_dyn_data_id" + template.id}
-                              alt=""
-                              className={
-                                typeof templateId !== "undefined" &&
-                                  templateId == template.id
-                                  ? "select_mm"
-                                  : ""
-                              }
-                            />
-                            <p>{template.name}</p>
-                          </div>
-                        </>
-                      );
-                    })}
-                  </AliceCarousel>
-
-                  <input type="hidden" id="mail_template" value={templateId} />
+                <div className="page-title">
+                    <h4><span>2.</span> Create your email:</h4>
+                  </div>
                   {validator.message("Templates", templateId, "required")}
 
                   <div className="email-form padding-add">
@@ -2550,82 +2386,7 @@ const CreateEmail = (props) => {
         
                       <>
                         <div className="form-inline d-flex justify-content-between align-items-center">
-                          <div className="form-group col-12 col-md-7 d-flex align-items-center">
-                            <label htmlFor="exampleInputEmail1">
-                              Email Description <span>*</span>
-                              <LinkWithTooltip
-                                tooltip="About this specific email, this description will aid in distinguishing it from others."
-                                href="#"
-                              >
-                                <img
-                                  src={
-                                    path_image +
-                                    "info_circle_icon.svg"
-                                  }
-                                  alt="refresh-btn"
-                                />
-                              </LinkWithTooltip>
-
-                            </label>
-
-                            <input
-                              // onChange={(e) => emailDescriptionChange(e)}
-                              onChange={(e) => {
-                                setEmailDescription(e?.target?.value);
-                                setManualEmailDescription(e?.target?.value)
-                            }}
-                              type="text"
-                              className={
-                                validator?.message(
-                                  "emailDesc",
-                                  emailDescription,
-                                  "required"
-                                )
-                                  ? "form-control error"
-                                  : "form-control"
-                              }
-                              id="email-desc"
-                              value={emailDescription}
-                            />
-                            {validator.message(
-                              "emailDesc",
-                              emailDescription,
-                              "required"
-                            )}
-                          </div>
-                          <div className="form-group right-side col-12 col-md-5 d-flex align-items-center">
-                            <label htmlFor="exampleInputEmail1">
-                              Email Creator <span>*</span>
-                            </label>
-
-                            <input
-                              // onChange={(e) => emailCreatorChange(e)}
-                              onChange={(e) => {
-                                setEmailCreator(e?.target?.value);
-                                setManualEmailCreator(e?.target?.value)
-                            }}
-                              type="text"
-                              className={
-                                validator.message(
-                                  "creator",
-                                  emailCreator,
-                                  "required"
-                                )
-                                  ? "form-control error"
-                                  : "form-control"
-                              }
-                              id="email-address"
-                              value={emailCreator}
-                            />
-                            {validator.message(
-                              "creator",
-                              emailCreator,
-                              "required"
-                            )}
-                          </div>
-                        </div>
-                        <div className="form-inline d-flex justify-content-between align-items-center">
-                          <div className="form-group col-12 col-md-7 d-flex align-items-center">
+                        <div className="form-group col-12 col-md-7 d-flex align-items-center">
                             <label htmlFor="exampleInputEmail1">
                               Email Campaign <span>*</span>
                               <LinkWithTooltip
@@ -2667,7 +2428,38 @@ const CreateEmail = (props) => {
                               "required"
                             )}
                           </div>
+                          <div className="form-group right-side col-12 col-md-5 d-flex align-items-center">
+                            <label htmlFor="exampleInputEmail1">
+                              Email Creator <span>*</span>
+                            </label>
+
+                            <input
+                              // onChange={(e) => emailCreatorChange(e)}
+                              onChange={(e) => {
+                                setEmailCreator(e?.target?.value);
+                                setManualEmailCreator(e?.target?.value)
+                            }}
+                              type="text"
+                              className={
+                                validator.message(
+                                  "creator",
+                                  emailCreator,
+                                  "required"
+                                )
+                                  ? "form-control error"
+                                  : "form-control"
+                              }
+                              id="email-address"
+                              value={emailCreator}
+                            />
+                            {validator.message(
+                              "creator",
+                              emailCreator,
+                              "required"
+                            )}
+                          </div>
                         </div>
+
                       </>
                       {/* ) : null} */}
                       <div className="input-group d-flex w-100">
@@ -2750,7 +2542,7 @@ const CreateEmail = (props) => {
                           )} */}
                         </div>
                         <div className="form-buttons right-side col-12 col-md-7">
-                          
+                         
                           <button
                             className={
                               typeof getIsApprovedStatus !== "undefined" &&
@@ -4656,4 +4448,4 @@ export default connect(mapStateToProps, {
   getSelected,
   getSearched,
   getSelectedSmartListData,
-})(CreateEmail);
+})(CreateSunshineEmail);

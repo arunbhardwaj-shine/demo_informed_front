@@ -202,16 +202,6 @@ nav #collapsibleNavbar .nav-item.user-login .dropdown .dropdown-menu a.selected,
   background-position: 0 91%;
 }
 
-/* header.-top-24~div .sidebar-menu {
-  top: 0;
-  height: 100%;
-  background-position: 0 100%;
-}
-
-header.-top-24~div .sidebar-menu .left-sidebar-secondary {
-  top: 0;
-} */
-
 .left-sidebar {
   transition: 0.5s linear;
   width: 200px;
@@ -328,8 +318,13 @@ header.-top-24~div .sidebar-menu .left-sidebar-secondary {
   align-items: center;
   padding: 15px 13px;
 }
-
-.sidebar-menu ul li a svg {
+.sidebar-menu ul li a img {
+  opacity: .6;
+}
+.sidebar-menu ul li.active a img, .sidebar-menu ul li:hover a img {
+  opacity: 1;
+}
+.sidebar-menu ul li a svg, .sidebar-menu ul li a img {
   margin-right: 8px;
   flex: 0 0 24px;
   max-height: 24px;

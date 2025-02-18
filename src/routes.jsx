@@ -105,6 +105,7 @@ import FilterSegment from "./Components/Distributes/SmartListComponent/FilterSeg
 import VerifySmartList from "./Components/Distributes/SmartListComponent/VerifySmartList";
 import ViewList from "./Components/Distributes/SmartListComponent/ViewList";
 import EmailList from "./Components/Emails/EmailListing";
+import EmailListingPublisher from "./Components/Emails/EmailListingPublisher";
 import TemplateBuilder from "./Components/Emails/TemplateBuilder";
 import AutoEmail from "./Components/Emails/AutoEmail";
 import EmailArticleSelect from "./Components/Emails/EmailArticleSelect";
@@ -248,6 +249,7 @@ import ClinetAccount from "./Components/Login/ClientAccount";
 //Aland activity route
 
 import AlandActivity from "./Components/AlandActivity/AlandActivity";
+import CreateSunshineEmail from "./Components/Emails/CreateSunshineEmail";
 
 let platform = 0;
 let show = 0;
@@ -838,6 +840,14 @@ const Routing = () => {
         <Route
           path="/EmailList"
           element={<LoginLayout component={EmailList} />}
+        />
+        <Route
+          path="/Emaillist-publisher"
+          element={<LoginLayout component={EmailListingPublisher} />}
+        />
+        <Route
+          path="/create-sunshine-email"
+          element={<LoginLayout component={CreateSunshineEmail} />}
         />
         <Route
           path="/RD-EmailList"
