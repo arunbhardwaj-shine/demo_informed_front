@@ -42,7 +42,7 @@ const convertedEndTime = convertTo12HourFormat(eventEndTime);
 const timeRange = `${convertedStartTime} - ${convertedEndTime}`;
   return (
     <>
-      <div className="isth-template">
+      <div className="isth-template isth-single">
         <div className="wrapper isth">
           <div className="login-wrapper-mid-sec">
             <div className="login-wrapper-mid-left">
@@ -51,10 +51,10 @@ const timeRange = `${convertedStartTime} - ${convertedEndTime}`;
               </div>
               <div className="head-sec-boxes">
                 <div className="boxes-col-center">
-                  <a href="https://onesource.octapharma.com/ISTH2024/?mailAgenda" target="_blank">
+                  {/* <a href="#" target="_blank"> */}
                     {/* <img src={path_image + "under-spotlight-wil.jpg"} alt=""/> */}
                     <img  src={`${formData?.content?.templateOneImageUrl?formData?.content?.templateOneImageUrl:""}`}alt="" />
-                  </a>
+                  {/* </a> */}
                 </div>
               </div>
 

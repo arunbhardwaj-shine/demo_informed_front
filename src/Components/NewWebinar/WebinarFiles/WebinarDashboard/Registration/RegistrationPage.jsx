@@ -1222,7 +1222,7 @@ const RegistrationPage = ({ prevData,type }) => {
                     }}
                   >
                   </h2>
-                  <h2
+                  <h3
                     style={{
                       color: formData?.content?.eventDetails?.pageTitle?.color,
                     }}
@@ -1231,7 +1231,7 @@ const RegistrationPage = ({ prevData,type }) => {
                     }}
                   >
                     {/* {formData?.content?.eventDetails?.pageTitle?.value} */}
-                  </h2>
+                  </h3>
 
                   <h3
                     style={{

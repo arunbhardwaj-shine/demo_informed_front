@@ -1953,21 +1953,6 @@
         "typedTextColor":"#5D7682",
         "optionColor": "",
         "body": [
-            {
-                "label": "",
-                "inputType": "radio",
-                "placeholder": "",
-                "required": "yes",
-                "extension": "",
-                "name": "care_professional",
-                "option": [
-                    {
-                        "optionLabel": "I confirm I am a healthcare professional",
-                        "extension": [],
-                        "checked": ""
-                    }
-                ]
-            },
            
             {
                 "label": "Name",
