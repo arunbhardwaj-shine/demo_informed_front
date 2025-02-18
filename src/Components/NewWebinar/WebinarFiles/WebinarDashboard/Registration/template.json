@@ -1889,6 +1889,146 @@
                 ]
             }
         ]
+    },
+
+    {
+        "templateId": 13,
+        "templateName": "ISTH Single Template",
+        "templateOneImageUrl" : "https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/5gyCn1B5r4vA2tjtB5kYQCwUQDS9g862eNf4UH9S.jpg",
+        "bodyText": "",
+        "pageTitle": "To register to our symposia live stream fill in all your details below:",
+        "eventDetails": {
+            "Title": {
+                "title": "Tile",
+                "type": "text",
+                "value": "ISTH",
+                "color": "#ffffff"
+            },
+            "Specialization": {
+                "title": "Specialization",
+                "type": "text",
+                "value": "For healthcare professionals only.",
+                "color": "#ffffff"
+            },
+            "EventDateAndTime": {
+                "title": "Event Date And Time",
+                "type": "text",
+                "value": "Monday, June 26 2023 | 01:15 - 2:30 pm ET <br/>Tuesday, June 27 2023 | 01:15 - 2:30 pm ET",
+                "color": "#ffffff"
+            },
+            "eventTitle": {
+                "title": "Event Title",
+                "type": "textArea",
+                "value": "ISTH 2025 Octaphrama Symposia Live stream",
+                "color": "#ffffff"
+            },
+            "pageTitle": {
+                "title": "Registration Title",
+                "type": "textArea",
+                "value": "To register to our symposia live stream fill in all your details below:",
+                "color": "#ffffff"
+            },
+            "footerMessage": {
+                "title": "Footer Message",
+                "type": "textArea",
+                "value": "These symposia have been organized and funded by Octapharma and are intended for healthcare professionals only. Discussions about products will take place. The symposia will be live streamed on the one source, Octapharma's Haematology platform. To attend, you can register directly using your one source account. If you do not have an account yet, your registration for this event will create a new one source login. By registering to one source you will gain access to the relevant content in accordance with the data privacy of <a target='_blank' href='Octapharma AG'>Octapharma AG</a> and <a target='_blank' href='Docintel.app'>Docintel.app</a> operating this page.",
+                "color": "#5D7682"
+            },
+            "footerText": {
+                "title": "Footer Text",
+                "type": "textArea",
+                "value": "528_HAEREG_ISTH 2023<br/>Date of preparation: May 2023",
+                "color": "#5D7682"
+            },
+            "Message": {
+                "title": "Thanks Message",
+                "type": "textArea",
+                "value": "Thank you for registering!",
+                "color": "#04b39a"
+            }
+            
+        },
+        "labelColor": "#ffffff",
+        "placeholderTextColor":"#97b8da",
+        "typedTextColor":"#5D7682",
+        "optionColor": "",
+        "body": [
+            {
+                "label": "",
+                "inputType": "radio",
+                "placeholder": "",
+                "required": "yes",
+                "extension": "",
+                "name": "care_professional",
+                "option": [
+                    {
+                        "optionLabel": "I confirm I am a healthcare professional",
+                        "extension": [],
+                        "checked": ""
+                    }
+                ]
+            },
+           
+            {
+                "label": "Name",
+                "name": "userName",
+                "inputType": "text",
+                "placeholder": "Please enter name",
+                "option": [],
+                "required": "yes"
+            },
+            {
+                "label": "Email",
+                "name": "userEmail",
+                "inputType": "email",
+                "placeholder": "Please enter email",
+                "option": [],
+                "required": "yes"
+            },
+            {
+                "label": "Country",
+                "inputType": "selection",
+                "placeholder": "Select a country",
+                "option": [
+                    {
+                        "optionLabel": "  ",
+                        "extension": [],
+                        "checked": ""
+                    }
+                ],
+                "required": "yes",
+                "extension": "",
+                "name": "country"
+            },
+            {
+                "label": "I consent to:",
+                "inputType": "checkbox",
+                "placeholder": "",
+                "option": [
+                    {
+                        "optionLabel": "Both symposia",
+                        "extension": [],
+                        "checked": "",
+                        "key": "Both"
+                    },
+                    {
+                        "optionLabel": "Final Results of the WIL-31 Study - A New Treatment Standard for von Willebrand Disease Patients with Severe Bleeding?",
+                        "extension": [],
+                        "checked": "",
+                        "key": "Nuwiq"
+                    },
+                    {
+                        "optionLabel": "Bringing Together Two Worlds - Scientific and Clinical Insights For All-Round Bleed Protection in haemophilia A",
+                        "extension": [],
+                        "checked": "",
+                        "key": "Wilate"
+                    }
+                ],
+                "required": "",
+                "extension": "",
+                "name": "isth_consent"
+            }
+        ]
     }
 
 ]
