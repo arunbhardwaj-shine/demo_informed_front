@@ -1991,27 +1991,19 @@
                 "placeholder": "",
                 "option": [
                     {
-                        "optionLabel": "Both symposia",
+                        "optionLabel": "my participation during the live symposium that is recorded for live streaming and on-demand use*",
                         "extension": [],
-                        "checked": "",
-                        "key": "Both"
+                        "checked": ""
                     },
                     {
-                        "optionLabel": "Final Results of the WIL-31 Study - A New Treatment Standard for von Willebrand Disease Patients with Severe Bleeding?",
+                        "optionLabel": "receive emails about this event and other Octapharma activities during ISTH 2025 (these may be promotional in nature)",
                         "extension": [],
-                        "checked": "",
-                        "key": "Nuwiq"
-                    },
-                    {
-                        "optionLabel": "Bringing Together Two Worlds - Scientific and Clinical Insights For All-Round Bleed Protection in haemophilia A",
-                        "extension": [],
-                        "checked": "",
-                        "key": "Wilate"
+                        "checked": ""
                     }
                 ],
                 "required": "",
                 "extension": "",
-                "name": "isth_consent"
+                "name": "consent"
             }
         ]
     }

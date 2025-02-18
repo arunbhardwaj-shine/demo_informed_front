@@ -4811,86 +4811,28 @@ const FormField13 = ({
     },[form])
 
   
-
-  const handleFieldChange = (value, e = "") => {
-   
-    const newData = { ...formFieldData };
-    if (form?.inputType === "datepicker") {
-      newData[label] = moment(value).format("YYYY-MM-DD");
-    } 
-
-
-    
-
-    else if (form?.inputType === "checkbox") {
-      if (e.target.checked) {
-        if (label == "isth_consent") {
-          let options = form?.option;
-          const checkboxes = document.querySelectorAll(`input[name="${label}"]`);
-    
-          if (e.target.id == "isth_consent2") {
-            checkboxes[2].checked = true;
-            checkboxes[0].checked = checkboxes[1].checked ? true : false;
-    
-            newData[label] = options[2]?.key;
-            if (checkboxes[1].checked) {
-              newData[label] += ', ' + options[0]?.key;
-            }
-          } else if (e.target.id == "isth_consent1") {
-            checkboxes[1].checked = true;
-            checkboxes[0].checked = checkboxes[2].checked ? true : false;
-    
-            newData[label] = options[1]?.key;
-            if (checkboxes[0].checked) {
-              newData[label] += ', ' + options[0]?.key;
-            }
-          } else if (e.target.id == "isth_consent0") {
-            checkboxes[0].checked = true;
-            checkboxes[1].checked = true;
-            checkboxes[2].checked = true;
-            newData[label] = options[0]?.key;
-          }
-        } else {
+    const handleFieldChange = (value, e = "") => {
+      const newData = { ...formFieldData };
+  
+      if (form?.inputType === "datepicker") {
+        newData[label] = moment(value).format("YYYY-MM-DD");
+      } else if (form?.inputType === "checkbox") {
+        newData[label] = Array.isArray(newData[label]) ? newData[label] : [];
+  
+        if (e.target.checked) {
           newData[label] = [...newData[label], value];
-        }
-      } else {
-        if (label == "isth_consent") {
-          let options = form?.option;
-          const checkboxes = document.querySelectorAll(`input[name="${label}"]`);
-    
-          if (e.target.id == "isth_consent2") {
-            checkboxes[2].checked = false;
-            checkboxes[0].checked = false;
-    
-            if (checkboxes[1].checked) {
-              newData[label] = options[1]?.key;
-            }
-          } else if (e.target.id == "isth_consent1") {
-            checkboxes[1].checked = false;
-            checkboxes[0].checked = false;
-    
-            if (checkboxes[2].checked) {
-              newData[label] = options[2]?.key;
-            }
-          } else if (e.target.id == "isth_consent0") {
-            checkboxes[0].checked = false;
-            checkboxes[1].checked = false;
-            checkboxes[2].checked = false;
-            newData[label] = '';
-          }
         } else {
           newData[label] = newData[label].filter((item) => item !== value);
+  
+          if (newData[label].length === 0) {
+            newData[label] = '';
+          }
         }
+      } else {
+        newData[label] = value;
       }
-    }
-    
-
-
-     else {
-      newData[label] = value;
-    }
-    setFormFieldData(newData);
-  };
+      setFormFieldData(newData);
+    };
 
   if ((label?.includes("country") || label?.includes("Country")) && !label?.includes("country_(region)")) {
     form.inputType = "selection-country";
@@ -5018,7 +4960,7 @@ const FormField13 = ({
     fieldInput = (
       <ul>
         {form.option?.map((item, index) => (
-          <React.Fragment key={index}>
+          <>
             <li key={index}>
               <input
                 type={form.inputType}
@@ -5027,7 +4969,6 @@ const FormField13 = ({
                 className="organize_own_selection"
                 onChange={(e) => {
                   handleFieldChange(item.optionLabel, e);
- 
                   if (!extensionData[label + index]) {
                     setExtensionData({
                       ...extensionData,
@@ -5040,25 +4981,13 @@ const FormField13 = ({
                   }
                 }}
               />
-              {/* <label
-                style={{
-                  color: pageColors?.optionColor,
-                }}
-                htmlFor={label + index}
-              >
-                {item.optionLabel}
-              </label> */}
               <label
                 style={{
                   color: pageColors?.optionColor,
                 }}
                 htmlFor={label + index}
               >
-                <span
-                  dangerouslySetInnerHTML={{
-                    __html: item.optionLabel,
-                  }}
-                />
+                {item.optionLabel}
               </label>
               <span className="checkmark" />
             </li>
@@ -5074,7 +5003,7 @@ const FormField13 = ({
                   level={form.label}
                 />
               ))}
-          </React.Fragment>
+          </>
         ))}
       </ul>
     );
