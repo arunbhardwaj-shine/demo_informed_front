@@ -114,7 +114,7 @@ export default function ContentAnalyticsComponent({ data, sublinkData }) {
               </p>
               <p>
                 Agreed Limit:{" "}
-                <span>{data?.limit == 0 || data?.limit == 1000 ? "Unlimited" : data?.limit}</span>
+                <span>{data?.limit == 0 || data?.limit == 100000 ? "Unlimited" : data?.limit}</span>
               </p>
             </div>
             <div className="detail-box right">
@@ -208,7 +208,7 @@ export default function ContentAnalyticsComponent({ data, sublinkData }) {
                   color="#00003C"
                   limit={agreed_limit}
                   label={`Article Usage (total) Agreed Limit | ${
-                    data?.limit == 0 || data?.limit == 1000 ? "Unlimited" : data?.limit
+                    data?.limit == 0 || data?.limit == 100000 ? "Unlimited" : data?.limit
                   }`}
                   pdf_id={data?.id}
                   tooltip="Number of unique HCPs who have unique pin codes."
@@ -230,7 +230,7 @@ export default function ContentAnalyticsComponent({ data, sublinkData }) {
                     color="#f4c64b"
                     limit={agreed_limit}
                     label={`Unique Reader (total) Agreed Limit | ${
-                      data?.limit == 0 || data?.limit == 1000 ? "Unlimited" : data?.limit
+                      data?.limit == 0 || data?.limit == 100000 ? "Unlimited" : data?.limit
                     }`}
                     pdf_id={data?.id}
                     tooltip="Number of unique HCPs who have opened the content (based on ip address, device & browser)."
@@ -245,7 +245,7 @@ export default function ContentAnalyticsComponent({ data, sublinkData }) {
                   color="#ed9ba0"
                   limit={agreed_limit}
                   label={`Registered Reader (total) Agreed Limit | ${
-                    data?.limit == 0 || data?.limit == 1000 ? "Unlimited" : data?.limit
+                    data?.limit == 0 || data?.limit == 100000 ? "Unlimited" : data?.limit
                   }`}
                   pdf_id={data?.id}
                   tooltip="Number of HCPs who have register for or activated the content."
