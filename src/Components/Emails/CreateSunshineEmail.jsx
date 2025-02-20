@@ -9,7 +9,7 @@ import "react-alice-carousel/lib/alice-carousel.css";
 
 import { getCampaignId, getEmailData, getSearched, getSelected, getSelectedSmartListData } from "../../actions";
 import { useNavigate } from "react-router-dom";
-import { Modal, ModalDialog, Dropdown, OverlayTrigger, Tooltip, Button } from "react-bootstrap";
+import { Modal, ModalDialog, Dropdown, OverlayTrigger, Tooltip, Button, Container, Row } from "react-bootstrap";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import SimpleReactValidator from "simple-react-validator";
 import { loader } from "../../loader";
@@ -31,10 +31,10 @@ var trainingUser = {};
 var searchedUser = {};
 var stateListData = {};
 const CreateSunshineEmail = (props) => {
-  const accountMapping={"56Ek4feL/1A8mZgIKQWEqg==":2147501188,"sNl1hra39QmFk9HwvXETJA==":2147536982,"MXl8m36VZFYXpgFVz3Pg0g==":2147537506}
+  const accountMapping = { "56Ek4feL/1A8mZgIKQWEqg==": 2147501188, "sNl1hra39QmFk9HwvXETJA==": 2147536982, "MXl8m36VZFYXpgFVz3Pg0g==": 2147537506 }
 
-  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
-  const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
+  const rdLikeArray = ["56Ek4feL/1A8mZgIKQWEqg==", "sNl1hra39QmFk9HwvXETJA==", "MXl8m36VZFYXpgFVz3Pg0g=="]
+  const isLikeRdAccount = rdLikeArray.includes(localStorage.getItem("user_id"))
   const [progress, setProgress] = useState(0);
   const [percent, setPercent] = useState(0);
   const [showProgress, setShowProgress] = useState(false);
@@ -118,7 +118,7 @@ const CreateSunshineEmail = (props) => {
         ? props.getDraftData.creator
         : ""
   );
-  
+
   const [manualEmailCreator, setManualEmailCreator] = useState(
     state_object?.emailCreator ?? props.getDraftData?.creator ?? ""
   );
@@ -148,7 +148,7 @@ const CreateSunshineEmail = (props) => {
   const [manualEmailSubject, setManualEmailSubject] = useState(
     state_object?.emailSubject ?? props.getDraftData?.subject ?? ""
   );
-  
+
   const [templateId, setTemplateId] = useState(
     state_object != null &&
       state_object != "undefined" &&
@@ -198,11 +198,11 @@ const CreateSunshineEmail = (props) => {
   const [getIsApprovedStatus, setIsApprovedStatus] = useState(0);
   const [selectedListId, setSelectedListId] = useState(0);
 
-  const [irtRoleObj,setIRTRoleObj] = useState(
+  const [irtRoleObj, setIRTRoleObj] = useState(
     typeof state?.IrtObj !== "undefined" ? state?.IrtObj : {}
   );
-  
-  const [IRTTraining, setIRTTraining] = useState(state_object?.startTraining  ? state_object?.startTraining : 0);
+
+  const [IRTTraining, setIRTTraining] = useState(state_object?.startTraining ? state_object?.startTraining : 0);
 
   const [hpc, setHpc] = useState([
     {
@@ -221,7 +221,7 @@ const CreateSunshineEmail = (props) => {
           ? "yes"
           : "",
       institutionType: "",
-      siteNumber:""
+      siteNumber: ""
     },
   ]);
 
@@ -350,24 +350,24 @@ const CreateSunshineEmail = (props) => {
 
 
               let non_irt_institution_type =
-              res?.data?.response?.data?.non_mandatory_institution_type;
+                res?.data?.response?.data?.non_mandatory_institution_type;
 
               let nonIrtInstitution = [];
               Object.keys(non_irt_institution_type)?.map((item, i) => {
-              nonIrtInstitution.push({ label: item, value: item });
+                nonIrtInstitution.push({ label: item, value: item });
               });
 
               setNonIrtInstitutionType(nonIrtInstitution);
 
-            let irt_institution_type =
-            res?.data?.response?.data?.irt_institution_type;
+              let irt_institution_type =
+                res?.data?.response?.data?.irt_institution_type;
 
-            let newIrtInstitution = [];
-            Object.keys(irt_institution_type)?.map((item, i) => {
-              newIrtInstitution.push({ label: item, value: item });
-            });
+              let newIrtInstitution = [];
+              Object.keys(irt_institution_type)?.map((item, i) => {
+                newIrtInstitution.push({ label: item, value: item });
+              });
 
-            setIrtInstitutionType(newIrtInstitution);
+              setIrtInstitutionType(newIrtInstitution);
 
 
               setRole(newType);
@@ -426,7 +426,7 @@ const CreateSunshineEmail = (props) => {
 
         setTimeout(function () {
           if ((isLikeRdAccount)
-          && [3968, 3970, 4521, '3968', '3970', '4521'].includes(pdf_id)) {
+            && [3968, 3970, 4521, '3968', '3970', '4521'].includes(pdf_id)) {
             let div_img = '';
             if (pdf_id == '3968') {
               div_img = document.querySelector('[data-id="template_dyn_data_id554"]');
@@ -444,7 +444,7 @@ const CreateSunshineEmail = (props) => {
               }
             }
           } else {
-            if(templateId == '' || templateId?.length == 0){
+            if (templateId == '' || templateId?.length == 0) {
               const div_img = document.querySelector("#template_dyn0");
               if (div_img !== null && typeof div_img != "undefined") {
                 div_img.click();
@@ -572,7 +572,7 @@ const CreateSunshineEmail = (props) => {
           data?.lastname == "" ||
           data?.firstname == "" ||
           data?.country == "" ||
-          data?.institutionType == ""||
+          data?.institutionType == "" ||
           (data?.optIRT === 'yes' && (data?.siteNumber === "" || data?.siteName === ""))
         ) {
           return "false";
@@ -614,7 +614,7 @@ const CreateSunshineEmail = (props) => {
               ? irtRole?.[0]?.value
               : "",
           institutionType: "",
-          
+
         },
       ]);
     } else {
@@ -891,7 +891,7 @@ const CreateSunshineEmail = (props) => {
       }
 
       let redirectPath = "/EmailList";
- 
+
       if (irtRoleObj?.IRTFlag) {
         redirectPath = "/IRTRole";
       }
@@ -957,7 +957,7 @@ const CreateSunshineEmail = (props) => {
     if (div) {
       div.classList.remove("select_mm");
     }
-    
+
     const templateDescriptions = {
       "E-Mail IRT: Site User": "IRT Training Site User",
       "E-mail IRT: Investigator": "IRT Training Investigator_blinded",
@@ -1011,7 +1011,7 @@ const CreateSunshineEmail = (props) => {
       return finalTags.innerHTML == null ? finalTags : finalTags.innerHTML;
     });
     if (validator.allValid()) {
-      if(irtRoleObj?.IRTFlag){
+      if (irtRoleObj?.IRTFlag) {
         let existingObj = {
           status: getIsApprovedStatus,
           emailDescription: emailDescription,
@@ -1024,12 +1024,12 @@ const CreateSunshineEmail = (props) => {
           PdfSelected: PdfSelected,
           campaign_id: campaign_id_st,
           selected: state_object?.selected ? state_object?.selected : 0,
-          removedHcp : state_object?.removedHcp ? state_object?.removedHcp : [],
-          addedHcp : state_object?.addedHcp ? state_object?.addedHcp : [],
-          selectedHcp : state_object?.selectedHcp ? state_object?.selectedHcp : [],
+          removedHcp: state_object?.removedHcp ? state_object?.removedHcp : [],
+          addedHcp: state_object?.addedHcp ? state_object?.addedHcp : [],
+          selectedHcp: state_object?.selectedHcp ? state_object?.selectedHcp : [],
         };
-        
-        if(state_object?.startTraining == 1){
+
+        if (state_object?.startTraining == 1) {
           existingObj['startTraining'] = 1;
           const mergedObject = { ...existingObj, ...irtRoleObj };
           props.getSelectedSmartListData(stateListData)
@@ -1037,19 +1037,19 @@ const CreateSunshineEmail = (props) => {
           props.getSelected(trainingUser)
           props.getSearched(null)
           navigate("/VerifyHCP", {
-            state: {IrtObj:irtRoleObj,NextFlag:1},
+            state: { IrtObj: irtRoleObj, NextFlag: 1 },
           });
-        }else{
+        } else {
           const mergedObject = { ...existingObj, ...irtRoleObj };
           props.getSelectedSmartListData(stateListData)
           props.getEmailData(mergedObject);
           props.getSelected(trainingUser)
           props.getSearched(searchedUser)
           navigate("/VerifyHCP", {
-            state: {IrtObj:irtRoleObj,NextFlag:1},
+            state: { IrtObj: irtRoleObj, NextFlag: 1 },
           });
         }
-      }else{
+      } else {
         props.getSelectedSmartListData(stateListData)
         props.getSelected(trainingUser)
         props.getSearched(searchedUser)
@@ -1066,9 +1066,9 @@ const CreateSunshineEmail = (props) => {
           PdfSelected: PdfSelected,
           campaign_id: campaign_id_st,
           selected: state_object?.selected ? state_object?.selected : 0,
-          removedHcp : state_object?.removedHcp ? state_object?.removedHcp : [],
-          addedHcp : state_object?.addedHcp ? state_object?.addedHcp : [],
-          selectedHcp : state_object?.selectedHcp ? state_object?.selectedHcp : [],
+          removedHcp: state_object?.removedHcp ? state_object?.removedHcp : [],
+          addedHcp: state_object?.addedHcp ? state_object?.addedHcp : [],
+          selectedHcp: state_object?.selectedHcp ? state_object?.selectedHcp : [],
         });
         navigate("/SelectHCP");
       }
@@ -1267,11 +1267,11 @@ const CreateSunshineEmail = (props) => {
       const name = hpc[i].institutionType;
       list[i].institutionType = value;
       setHpc(list);
-    //   if (e?.value == "Study site") {
-    //     onIRTChange("yes", i);
-    //   } else {
-    //     onIRTChange("no", i);
-    //   }
+      //   if (e?.value == "Study site") {
+      //     onIRTChange("yes", i);
+      //   } else {
+      //     onIRTChange("no", i);
+      //   }
     }
   };
   const onIRTChange = (e, i) => {
@@ -1628,13 +1628,13 @@ const CreateSunshineEmail = (props) => {
   const saveClicked = async () => {
 
     if (activeManual == "active") {
- 
- 
-     const  isRdAndNorgianAcount=isLikeRdAccount
+
+
+      const isRdAndNorgianAcount = isLikeRdAccount
       const body_data = hpc.map((data) => {
         if (isRdAndNorgianAcount) {
- 
-          if(data?.optIRT == "yes"){
+
+          if (data?.optIRT == "yes") {
             return {
               first_name: data?.firstname,
               last_name: data?.lastname,
@@ -1644,13 +1644,13 @@ const CreateSunshineEmail = (props) => {
               siteNumber: data?.siteNumber ? data.siteNumber : "",
               siteName: data?.siteName ? data.siteName : "",
               investigator_type: data?.role,
-              siteIrt:1,
+              siteIrt: 1,
               institution_type: data?.institutionType
                 ? data?.institutionType
                 : "",
             };
           }
-          else{
+          else {
             return {
               first_name: data?.firstname,
               last_name: data?.lastname,
@@ -1663,7 +1663,7 @@ const CreateSunshineEmail = (props) => {
                 : "",
             };
           }
-       
+
         } else {
           return {
             first_name: data?.firstname,
@@ -1674,15 +1674,15 @@ const CreateSunshineEmail = (props) => {
           };
         }
       });
- 
+
       const body = {
         data: body_data,
         user_id: localStorage.getItem("user_id"),
         smart_list_id: "",
       };
- 
+
       const status = body.data.map((data, index) => {
-        if (isRdAndNorgianAcount ) {
+        if (isRdAndNorgianAcount) {
           if (
             data.first_name == "" &&
             (isRdAndNorgianAcount)
@@ -1708,10 +1708,10 @@ const CreateSunshineEmail = (props) => {
               newHcpEmail: "Please enter the email",
               index: index,
             });
- 
+
             return;
           }
- 
+
           else if (data.institution_type == "") {
             setValidationError({
               newHcpInstitution: "Please Select the institution type",
@@ -1729,44 +1729,44 @@ const CreateSunshineEmail = (props) => {
             });
             return;
           }
- 
-          
-       else if(data?.siteIrt == 1 ){
-        if ( data.siteNumber === "" &&
-          (isRdAndNorgianAcount)) {
-          setValidationError({
-            newSiteNumber: "Please select the site number ",
-            index: index,
-          });
-          return;
-        }
-        if (data.siteName === "" &&
-          (isRdAndNorgianAcount)) {
-          setValidationError({
-            newSiteName: "Please select the site name",
-            index: index,
-          });
-          return;
-        }
-       }
-           
-         
-        }else if(data.email==""){
+
+
+          else if (data?.siteIrt == 1) {
+            if (data.siteNumber === "" &&
+              (isRdAndNorgianAcount)) {
+              setValidationError({
+                newSiteNumber: "Please select the site number ",
+                index: index,
+              });
+              return;
+            }
+            if (data.siteName === "" &&
+              (isRdAndNorgianAcount)) {
+              setValidationError({
+                newSiteName: "Please select the site name",
+                index: index,
+              });
+              return;
+            }
+          }
+
+
+        } else if (data.email == "") {
           setValidationError({
             newHcpEmail: "Please enter the email",
             index: index,
           });
 
           return;
-        }else if (data.country == "" && localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==") {
+        } else if (data.country == "" && localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==") {
           setValidationError({
             newHcpCountry: "Please select the country",
             index: index,
           });
           return;
-        }      
-         if (data.email != "") {
- 
+        }
+        if (data.email != "") {
+
           let email = data.email;
           let useremail = email.trim();
           var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -1777,7 +1777,7 @@ const CreateSunshineEmail = (props) => {
                 newHcpEmail: "User with same email already added in list.",
                 index: index,
               });
- 
+
               return;
             }
           } else {
@@ -1785,7 +1785,7 @@ const CreateSunshineEmail = (props) => {
               newHcpEmail: "Email format is not valid",
               index: index,
             });
- 
+
             return;
           }
           return "true";
@@ -1794,7 +1794,7 @@ const CreateSunshineEmail = (props) => {
         }
       });
 
-     
+
       status.sort();
       if (status.every((element) => element == "true")) {
         loader("show");
@@ -1804,7 +1804,7 @@ const CreateSunshineEmail = (props) => {
           .then((res) => {
             if (res.data.status_code === 200) {
               toast.success("User added successfully");
- 
+
               res.data.response.data.map((data) => {
                 setSelectedHcp((oldArray) => [...oldArray, data]);
               });
@@ -1828,9 +1828,9 @@ const CreateSunshineEmail = (props) => {
       formData.append("user_id", user_id);
       formData.append("smart_list_id", "");
       formData.append("reader_file", selectedFile);
- 
+
       // console.log(formData);
- 
+
       if (selectedFile) {
         axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
         loader("show");
@@ -1839,11 +1839,11 @@ const CreateSunshineEmail = (props) => {
           .then((res) => {
             if (res.data.status_code === 200) {
               toast.success("User added successfully");
- 
+
               res.data.response.data.map((data) => {
                 setSelectedHcp((oldArray) => [...oldArray, data]);
               });
- 
+
               loader("hide");
               setIsOpenAdd(false);
               setActiveManual("active");
@@ -2275,38 +2275,38 @@ const CreateSunshineEmail = (props) => {
       PdfSelected: PdfSelected,
       campaign_id: campaign_id_st,
       selected: state_object?.selected ? state_object?.selected : 0,
-      removedHcp : state_object?.removedHcp ? state_object?.removedHcp : [],
-      addedHcp : state_object?.addedHcp ? state_object?.addedHcp : [],
-      selectedHcp : state_object?.selectedHcp ? state_object?.selectedHcp : [],
+      removedHcp: state_object?.removedHcp ? state_object?.removedHcp : [],
+      addedHcp: state_object?.addedHcp ? state_object?.addedHcp : [],
+      selectedHcp: state_object?.selectedHcp ? state_object?.selectedHcp : [],
     };
-      if(irtRoleObj?.IRTFlag){
-        if(state_object?.startTraining == 1){
-          emailExistingObj['startTraining'] = 1;
-        }
-        const mergedObject = { ...emailExistingObj, ...irtRoleObj };
-        props.getEmailData(mergedObject);
-      }else{
-        props.getEmailData(emailExistingObj);
+    if (irtRoleObj?.IRTFlag) {
+      if (state_object?.startTraining == 1) {
+        emailExistingObj['startTraining'] = 1;
       }
-      props.getSelected(trainingUser)
-      props.getSearched(searchedUser)
-      props.getSelectedSmartListData(stateListData)
-      navigate("/EmailArticleSelect", {
-        state: {IrtObj:irtRoleObj},
-      });
+      const mergedObject = { ...emailExistingObj, ...irtRoleObj };
+      props.getEmailData(mergedObject);
+    } else {
+      props.getEmailData(emailExistingObj);
+    }
+    props.getSelected(trainingUser)
+    props.getSearched(searchedUser)
+    props.getSelectedSmartListData(stateListData)
+    navigate("/EmailArticleSelect", {
+      state: { IrtObj: irtRoleObj },
+    });
   };
 
   const handleSelectUsers = () => {
     navigate("/EmailArticleSelect", {
-      state: {IrtObj:irtRoleObj},
+      state: { IrtObj: irtRoleObj },
     });
   };
 
   return (
     <>
       <div className="col right-sidebar custom-change">
-        <div className="container">
-          <div className="row">
+        <div className="custom-container">
+          <Row>
             <div className="page-top-nav sticky">
               <div className="row justify-content-end align-items-center">
                 <div className="col-12 col-md-3"></div>
@@ -2322,13 +2322,13 @@ const CreateSunshineEmail = (props) => {
                 </div>
                 <div className="col-12 col-md-3">
                   <div className="header-btn">
-                        <Link to = {"/new-readers-reviews"}
-                          // state= {{siteRole: irtRoleObj?.siteRole }}
-                          state= {irtRoleObj}
-                          className="btn btn-primary btn-bordered move-draft">
-                          Cancel
-                        </Link>
-                     
+                    <Link to={"/new-readers-reviews"}
+                      // state= {{siteRole: irtRoleObj?.siteRole }}
+                      state={irtRoleObj}
+                      className="btn btn-primary btn-bordered move-draft">
+                      Cancel
+                    </Link>
+
                     <button
                       className="btn btn-primary btn-filled next">
                       Next
@@ -2337,56 +2337,57 @@ const CreateSunshineEmail = (props) => {
                 </div>
               </div>
             </div>
-
+          </Row>
+        </div>
             <section className="select-mail-template sunshine-mail">
-              <div className="container">
-                <div className="row">
+              <Container>
+                <Row>
                   <div className="page-title">
                     <h4><span>1.</span> Select the client you wish to send this email to by either searching for an existing client or adding a new one:</h4>
                   </div>
                   <div className="email-form padding-add">
                     <form>
                       <>
-                      <div className="form-inline d-flex justify-content-between align-items-center">
-                        <div className="col-12 col-md-4 d-flex align-items-center">
-                          <div className="form-group">
-                            <label className="form-label">Name</label>
-                            <input type="text" className="form-control"/>
+                        <div className="form-inline d-flex justify-content-between align-items-center">
+                          <div className="col-12 col-md-4 d-flex align-items-center">
+                            <div className="form-group">
+                              <label className="form-label">Name</label>
+                              <input type="text" className="form-control" />
+                            </div>
                           </div>
-                        </div>
-                        <div className="col-12 col-md-4 d-flex align-items-center">
-                          <div className="form-group">
-                            <label className="form-label">Email</label>
-                            <input type="text" className="form-control"/>
+                          <div className="col-12 col-md-4 d-flex align-items-center">
+                            <div className="form-group">
+                              <label className="form-label">Email</label>
+                              <input type="text" className="form-control" />
+                            </div>
                           </div>
-                        </div>
-                        <div className="col-12 col-md-4 d-flex align-items-center justify-content-between">
+                          <div className="col-12 col-md-4 d-flex align-items-center justify-content-between">
                             <Button className="btn-filled">Search</Button>
                             <span>- OR -</span>
                             <Button className="btn-bordered btn-voilet">Add New Client +</Button>
+                          </div>
                         </div>
-                      </div>
                       </>
                     </form>
                   </div>
-                </div>
-              </div>
+                  </Row>
+                </Container>
             </section>
 
             <section className="select-mail-template sunshine-mail">
-              <div className="container">
-                <div className="row">
-                <div className="page-title">
+              <Container>
+                 <Row>
+                  <div className="page-title">
                     <h4><span>2.</span> Create your email:</h4>
                   </div>
                   {validator.message("Templates", templateId, "required")}
 
                   <div className="email-form padding-add">
                     <form>
-        
+
                       <>
                         <div className="form-inline d-flex justify-content-between align-items-center">
-                        <div className="form-group col-12 col-md-7 d-flex align-items-center">
+                          <div className="form-group col-12 col-md-7 d-flex align-items-center">
                             <label htmlFor="exampleInputEmail1">
                               Email Campaign <span>*</span>
                               <LinkWithTooltip
@@ -2420,7 +2421,7 @@ const CreateSunshineEmail = (props) => {
                               onChange={(e) => {
                                 setemailCampaign(e?.target?.value);
                                 setManualEmailCampaign(e?.target?.value)
-                            }}
+                              }}
                             />
                             {validator.message(
                               "emailCampaign",
@@ -2438,7 +2439,7 @@ const CreateSunshineEmail = (props) => {
                               onChange={(e) => {
                                 setEmailCreator(e?.target?.value);
                                 setManualEmailCreator(e?.target?.value)
-                            }}
+                              }}
                               type="text"
                               className={
                                 validator.message(
@@ -2496,7 +2497,7 @@ const CreateSunshineEmail = (props) => {
                       </div>
 
                       <div className="form-inline d-flex justify-content-end align-items-center">
-                        <div className="form-group col-12 col-md-5">
+                        <div className="form-group col-12 col-md-6">
                           <label htmlFor="exampleInputEmail1">
                             Email Subject <span>*</span>
                           </label>
@@ -2517,7 +2518,7 @@ const CreateSunshineEmail = (props) => {
                             onChange={(e) => {
                               setEmailSubject(e?.target?.value);
                               setManualEmailSubject(e?.target?.value)
-                          }}
+                            }}
                             value={emailSubject}
                           />
                           {validationError?.emailSubject ? (
@@ -2541,8 +2542,8 @@ const CreateSunshineEmail = (props) => {
                             "required"
                           )} */}
                         </div>
-                        <div className="form-buttons right-side col-12 col-md-7">
-                         
+                        <div className="form-buttons right-side col-12 col-md-6">
+
                           <button
                             className={
                               typeof getIsApprovedStatus !== "undefined" &&
@@ -2594,8 +2595,8 @@ const CreateSunshineEmail = (props) => {
                       </div>
                     </form>
                   </div>
-                </div>
-                <div className="row">
+                  </Row>
+                  <Row>
                   {showProgress ? (
                     <div className="progressloader">
                       {" "}
@@ -2625,7 +2626,7 @@ const CreateSunshineEmail = (props) => {
                   )}{" "}
                   <Editor
                     apiKey="gpl"
-                          tinymceScriptSrc={window.location.origin+ '/tinymce/tinymce.min.js'}
+                    tinymceScriptSrc={window.location.origin + '/tinymce/tinymce.min.js'}
                     onInit={(evt, editor) => (editorRef.current = editor)}
                     initialValue={template}
                     init={{
@@ -2753,11 +2754,10 @@ const CreateSunshineEmail = (props) => {
           onFocus={(event, editor) => {}}
           />
               */}
-                </div>
-              </div>
+                </Row>
+              </Container>
             </section>
-          </div>
-        </div>
+
       </div>
 
       <div>
@@ -3004,26 +3004,26 @@ const CreateSunshineEmail = (props) => {
 
                               {(isLikeRdAccount)
                                 ? (
-                                <p className="send-hcp-box-title">
-                                  {" "}
-                                  Role |{" "}
-                                  <span>
-                                    {data?.user_type != 0
-                                      ? data?.user_type
-                                      : "N/A"}
-                                  </span>
-                                </p>
-                              ) : (
-                                <p className="send-hcp-box-title">
-                                  {" "}
-                                  Contact type |{" "}
-                                  <span>
-                                    {data?.contact_type
-                                      ? data?.contact_type
-                                      : "N/A"}
-                                  </span>
-                                </p>
-                              )}
+                                  <p className="send-hcp-box-title">
+                                    {" "}
+                                    Role |{" "}
+                                    <span>
+                                      {data?.user_type != 0
+                                        ? data?.user_type
+                                        : "N/A"}
+                                    </span>
+                                  </p>
+                                ) : (
+                                  <p className="send-hcp-box-title">
+                                    {" "}
+                                    Contact type |{" "}
+                                    <span>
+                                      {data?.contact_type
+                                        ? data?.contact_type
+                                        : "N/A"}
+                                    </span>
+                                  </p>
+                                )}
 
                               <div className="remove-existing-field">
                                 <img
@@ -3490,251 +3490,251 @@ const CreateSunshineEmail = (props) => {
 
                               {(isLikeRdAccount)
                                 ? (
-                                <>
-                                  {" "}
+                                  <>
+                                    {" "}
 
-                                  <div className="col-12 col-md-6">
-                                    <div className="form-group">
-                                      <label for="">
-                                        IRT mandatory training
-                                      </label>
+                                    <div className="col-12 col-md-6">
+                                      <div className="form-group">
+                                        <label for="">
+                                          IRT mandatory training
+                                        </label>
 
-                                      <Select
-                                        options={optIRT}
-                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                        onChange={(event) =>
-                                          onIRTChange(event?.value, i)
-                                        }
-                                        defaultValue={
-                                          val?.optIRT == "yes"
-                                            ? {
-                                              label: "Yes",
-                                              value: val?.optIRT,
-                                            }
-                                            : ""
-                                        }
-                                        value={
-                                          optIRT.findIndex(
-                                            (el) => el.value == val?.optIRT
-                                          ) == -1
-                                            ? ""
-                                            : optIRT[
-                                            optIRT.findIndex(
-                                              (el) =>
-                                                el.value == val?.optIRT
-                                            )
-                                            ]
-                                        }
-                                        placeholder="Select IRT"
-                                      />
-                                    </div>
-                                  </div>
-                                  <div className="col-12 col-md-6">
-                                    <div className="form-group bottom">
-                                      <label for="">
-                                        Institution <span>*</span>
-                                      </label>
-                                      {val.optIRT == "yes" ? (
-                                      <Select
-                                        options={irtInstitutionType}
-                                        className={
-                                          validationError?.index == i &&
-                                            validationError?.newHcpInstitution
-                                            ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
-                                            : "dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                        }
-                                        onChange={(event) =>
-                                          onInstitutionChange(event, i)
-                                        }
-                                        // defaultValue={
-                                        //   val?.institutionType
-                                        //     ? {
-                                        //       label: val?.institutionType,
-                                        //       value: val?.institutionType,
-                                        //     }
-                                        //     : ""
-                                        // }
-                                        value={
-                                          irtInstitutionType.findIndex(
-                                            (el) => el.value == val?.institutionType
-                                          ) == -1
-                                            ? ""
-                                            : irtInstitutionType[
-                                              irtInstitutionType.findIndex(
-                                              (el) =>
-                                                el.value == val?.institutionType
-                                            )
-                                            ]
-                                        }
-                                        isClearable
-                                        placeholder="Select institution"
-                                      /> 
-                                      ): 
-                                      val.optIRT == "no" ? ( <Select
-                                        options={nonIrtInstitutionType}
-                                        className={
-                                          validationError?.index == i &&
-                                            validationError?.newHcpInstitution
-                                            ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
-                                            : "dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                        }
-                                        onChange={(event) =>
-                                          onInstitutionChange(event, i)
-                                        }
-                                        // defaultValue={
-                                        //   val?.institutionType
-                                        //     ? {
-                                        //       label: val?.institutionType,
-                                        //       value: val?.institutionType,
-                                        //     }
-                                        //     : ""
-                                        // }
-                                        value={
-                                          nonIrtInstitutionType.findIndex(
-                                            (el) => el.value == val?.institutionType
-                                          ) == -1
-                                            ? ""
-                                            : nonIrtInstitutionType[
-                                              nonIrtInstitutionType.findIndex(
-                                              (el) =>
-                                                el.value == val?.institutionType
-                                            )
-                                            ]
-                                        }
-                                        isClearable
-                                        placeholder="Select institution"
-                                      />
-                                       ): null}
-                                      {validationError?.newHcpInstitution &&
-                                        validationError?.index == i ? (
-                                        <div className="login-validation">
-                                          {validationError?.newHcpInstitution}
-                                        </div>
-                                      ) : null}
-                                    </div>
-                                  </div>
-
-                                  <div className="col-12 col-md-6">
-                                    <div className="form-group">
-                                      <label for="">IRT role <span>*</span></label>
-                                      {val.optIRT == "yes" ? (
                                         <Select
-                                          options={irtRole}
-                                          className={(validationError?.role &&
-                                            validationError?.index == i)
-                                            ?"dropdown-basic-button split-button-dropup edit-country-dropdown error"
-                                            :"dropdown-basic-button split-button-dropup edit-country-dropdown"}
-                                          onChange={(event) =>
-                                            onRoleChange(event, i, "role")
-                                          }
-                                          value={
-                                            irtRole.findIndex(
-                                              (el) => el.value == val?.role
-                                            ) == -1
-                                              ? ""
-                                              : irtRole[
-                                              irtRole.findIndex(
-                                                (el) =>
-                                                  el.value == val?.role
-                                              )
-                                              ]
-                                          }
-                                          isClearable
-                                          placeholder="Select Role"
-                                        />
-                                      ) : val.optIRT == "no" ? (
-                                        <Select
-                                          options={role}
-                                          className={(validationError?.role &&
-                                            validationError?.index == i)
-                                            ?"dropdown-basic-button split-button-dropup edit-country-dropdown error"
-                                            :"dropdown-basic-button split-button-dropup edit-country-dropdown"}
-                                          onChange={(event) =>
-                                            onRoleChange(event, i, "irtRole")
-                                          }
-                                          value={
-                                            role.findIndex(
-                                              (el) => el.value == val?.role
-                                            ) == -1
-                                              ? ""
-                                              : role[
-                                              role.findIndex(
-                                                (el) =>
-                                                  el.value == val?.role
-                                              )
-                                              ]
-                                          }
-                                          isClearable
-                                          placeholder="Select Role"
-                                        />
-                                      ) : (
-                                        <Select
+                                          options={optIRT}
                                           className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                          placeholder="Select Role"
+                                          onChange={(event) =>
+                                            onIRTChange(event?.value, i)
+                                          }
+                                          defaultValue={
+                                            val?.optIRT == "yes"
+                                              ? {
+                                                label: "Yes",
+                                                value: val?.optIRT,
+                                              }
+                                              : ""
+                                          }
+                                          value={
+                                            optIRT.findIndex(
+                                              (el) => el.value == val?.optIRT
+                                            ) == -1
+                                              ? ""
+                                              : optIRT[
+                                              optIRT.findIndex(
+                                                (el) =>
+                                                  el.value == val?.optIRT
+                                              )
+                                              ]
+                                          }
+                                          placeholder="Select IRT"
                                         />
-                                      )}
-                                      {(validationError?.role &&
-                                        validationError?.index == i) ? (
-                                        <div className="login-validation">
-                                          {validationError?.role}
-                                        </div>
-                                      ) : null}
+                                      </div>
                                     </div>
-                                  </div>
-                                </>
-                              ) : (
-                                <>
-                                  {" "}
-                                  <div className="col-12 col-md-6">
-                                    <div className="form-group">
-                                      <label htmlFor="">Contact type</label>
-                                      <DropdownButton
-                                        className="dropdown-basic-button split-button-dropup"
-                                        title={
-                                          hpc[i].contact_type != "" &&
-                                            hpc[i].contact_type != "undefined"
-                                            ? hpc[i].contact_type
-                                            : "Select Type"
-                                        }
-                                        onSelect={(event) =>
-                                          onContactTypeChange(event, i)
-                                        }
-                                      >
-                                        <Dropdown.Item
-                                          eventKey="HCP"
-                                          className={
-                                            hpc[i].contact_type == "HCP"
-                                              ? "active"
-                                              : ""
-                                          }
-                                        >
-                                          HCP
-                                        </Dropdown.Item>
-                                        <Dropdown.Item
-                                          eventKey="Staff"
-                                          className={
-                                            hpc[i].contact_type == "Staff"
-                                              ? "active"
-                                              : ""
-                                          }
-                                        >
-                                          Staff
-                                        </Dropdown.Item>
-                                        <Dropdown.Item
-                                          eventKey="Test Users"
-                                          className={
-                                            hpc[i].contact_type == "Test Users"
-                                              ? "active"
-                                              : ""
-                                          }
-                                        >
-                                          Test Users
-                                        </Dropdown.Item>
-                                      </DropdownButton>
+                                    <div className="col-12 col-md-6">
+                                      <div className="form-group bottom">
+                                        <label for="">
+                                          Institution <span>*</span>
+                                        </label>
+                                        {val.optIRT == "yes" ? (
+                                          <Select
+                                            options={irtInstitutionType}
+                                            className={
+                                              validationError?.index == i &&
+                                                validationError?.newHcpInstitution
+                                                ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
+                                                : "dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                            }
+                                            onChange={(event) =>
+                                              onInstitutionChange(event, i)
+                                            }
+                                            // defaultValue={
+                                            //   val?.institutionType
+                                            //     ? {
+                                            //       label: val?.institutionType,
+                                            //       value: val?.institutionType,
+                                            //     }
+                                            //     : ""
+                                            // }
+                                            value={
+                                              irtInstitutionType.findIndex(
+                                                (el) => el.value == val?.institutionType
+                                              ) == -1
+                                                ? ""
+                                                : irtInstitutionType[
+                                                irtInstitutionType.findIndex(
+                                                  (el) =>
+                                                    el.value == val?.institutionType
+                                                )
+                                                ]
+                                            }
+                                            isClearable
+                                            placeholder="Select institution"
+                                          />
+                                        ) :
+                                          val.optIRT == "no" ? (<Select
+                                            options={nonIrtInstitutionType}
+                                            className={
+                                              validationError?.index == i &&
+                                                validationError?.newHcpInstitution
+                                                ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
+                                                : "dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                            }
+                                            onChange={(event) =>
+                                              onInstitutionChange(event, i)
+                                            }
+                                            // defaultValue={
+                                            //   val?.institutionType
+                                            //     ? {
+                                            //       label: val?.institutionType,
+                                            //       value: val?.institutionType,
+                                            //     }
+                                            //     : ""
+                                            // }
+                                            value={
+                                              nonIrtInstitutionType.findIndex(
+                                                (el) => el.value == val?.institutionType
+                                              ) == -1
+                                                ? ""
+                                                : nonIrtInstitutionType[
+                                                nonIrtInstitutionType.findIndex(
+                                                  (el) =>
+                                                    el.value == val?.institutionType
+                                                )
+                                                ]
+                                            }
+                                            isClearable
+                                            placeholder="Select institution"
+                                          />
+                                          ) : null}
+                                        {validationError?.newHcpInstitution &&
+                                          validationError?.index == i ? (
+                                          <div className="login-validation">
+                                            {validationError?.newHcpInstitution}
+                                          </div>
+                                        ) : null}
+                                      </div>
                                     </div>
-                                  </div>
-                                </>
-                              )}
+
+                                    <div className="col-12 col-md-6">
+                                      <div className="form-group">
+                                        <label for="">IRT role <span>*</span></label>
+                                        {val.optIRT == "yes" ? (
+                                          <Select
+                                            options={irtRole}
+                                            className={(validationError?.role &&
+                                              validationError?.index == i)
+                                              ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
+                                              : "dropdown-basic-button split-button-dropup edit-country-dropdown"}
+                                            onChange={(event) =>
+                                              onRoleChange(event, i, "role")
+                                            }
+                                            value={
+                                              irtRole.findIndex(
+                                                (el) => el.value == val?.role
+                                              ) == -1
+                                                ? ""
+                                                : irtRole[
+                                                irtRole.findIndex(
+                                                  (el) =>
+                                                    el.value == val?.role
+                                                )
+                                                ]
+                                            }
+                                            isClearable
+                                            placeholder="Select Role"
+                                          />
+                                        ) : val.optIRT == "no" ? (
+                                          <Select
+                                            options={role}
+                                            className={(validationError?.role &&
+                                              validationError?.index == i)
+                                              ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
+                                              : "dropdown-basic-button split-button-dropup edit-country-dropdown"}
+                                            onChange={(event) =>
+                                              onRoleChange(event, i, "irtRole")
+                                            }
+                                            value={
+                                              role.findIndex(
+                                                (el) => el.value == val?.role
+                                              ) == -1
+                                                ? ""
+                                                : role[
+                                                role.findIndex(
+                                                  (el) =>
+                                                    el.value == val?.role
+                                                )
+                                                ]
+                                            }
+                                            isClearable
+                                            placeholder="Select Role"
+                                          />
+                                        ) : (
+                                          <Select
+                                            className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                            placeholder="Select Role"
+                                          />
+                                        )}
+                                        {(validationError?.role &&
+                                          validationError?.index == i) ? (
+                                          <div className="login-validation">
+                                            {validationError?.role}
+                                          </div>
+                                        ) : null}
+                                      </div>
+                                    </div>
+                                  </>
+                                ) : (
+                                  <>
+                                    {" "}
+                                    <div className="col-12 col-md-6">
+                                      <div className="form-group">
+                                        <label htmlFor="">Contact type</label>
+                                        <DropdownButton
+                                          className="dropdown-basic-button split-button-dropup"
+                                          title={
+                                            hpc[i].contact_type != "" &&
+                                              hpc[i].contact_type != "undefined"
+                                              ? hpc[i].contact_type
+                                              : "Select Type"
+                                          }
+                                          onSelect={(event) =>
+                                            onContactTypeChange(event, i)
+                                          }
+                                        >
+                                          <Dropdown.Item
+                                            eventKey="HCP"
+                                            className={
+                                              hpc[i].contact_type == "HCP"
+                                                ? "active"
+                                                : ""
+                                            }
+                                          >
+                                            HCP
+                                          </Dropdown.Item>
+                                          <Dropdown.Item
+                                            eventKey="Staff"
+                                            className={
+                                              hpc[i].contact_type == "Staff"
+                                                ? "active"
+                                                : ""
+                                            }
+                                          >
+                                            Staff
+                                          </Dropdown.Item>
+                                          <Dropdown.Item
+                                            eventKey="Test Users"
+                                            className={
+                                              hpc[i].contact_type == "Test Users"
+                                                ? "active"
+                                                : ""
+                                            }
+                                          >
+                                            Test Users
+                                          </Dropdown.Item>
+                                        </DropdownButton>
+                                      </div>
+                                    </div>
+                                  </>
+                                )}
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
                                   <label htmlFor="">
@@ -3885,79 +3885,79 @@ const CreateSunshineEmail = (props) => {
                               </div>*/}
                               {(isLikeRdAccount)
                                 ? (
-                                <>
-                                  {" "}
-                                  <div className="col-12 col-md-6">
-                                    <div className="form-group">
-                                      <label for="">Site number
-                                     { val.optIRT == "yes" ? <span> *</span>: null}
-                                      </label>
+                                  <>
+                                    {" "}
+                                    <div className="col-12 col-md-6">
+                                      <div className="form-group">
+                                        <label for="">Site number
+                                          {val.optIRT == "yes" ? <span> *</span> : null}
+                                        </label>
 
-                                      <Select
-                                        options={siteNumberAll}
-                                        // className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                        className={
-                                          validationError?.index == i &&
-                                            validationError?.newSiteNumber
-                                            ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
-                                            : "dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                        }
-                                        onChange={(event) =>
-                                          onSiteNumberChange(event, i)
-                                        }
-                                        value={
-                                          siteNumberAll[hpc[i]?.siteNumberIndex]
-                                            ? siteNumberAll[
-                                            hpc[i]?.siteNumberIndex
-                                            ]
-                                            : ""
-                                        }
-                                        placeholder={"Select Site Number"}
-                                      />
-                                       {validationError?.newSiteNumber &&
-                                        validationError?.index == i ? (
-                                        <div className="login-validation">
-                                          {validationError?.newSiteNumber}
-                                        </div>
-                                      ) : null}
+                                        <Select
+                                          options={siteNumberAll}
+                                          // className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                          className={
+                                            validationError?.index == i &&
+                                              validationError?.newSiteNumber
+                                              ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
+                                              : "dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                          }
+                                          onChange={(event) =>
+                                            onSiteNumberChange(event, i)
+                                          }
+                                          value={
+                                            siteNumberAll[hpc[i]?.siteNumberIndex]
+                                              ? siteNumberAll[
+                                              hpc[i]?.siteNumberIndex
+                                              ]
+                                              : ""
+                                          }
+                                          placeholder={"Select Site Number"}
+                                        />
+                                        {validationError?.newSiteNumber &&
+                                          validationError?.index == i ? (
+                                          <div className="login-validation">
+                                            {validationError?.newSiteNumber}
+                                          </div>
+                                        ) : null}
+                                      </div>
                                     </div>
-                                  </div>
-                                  <div className="col-12 col-md-6">
-                                    <div className="form-group">
-                                      <label for="">Site name  { val.optIRT == "yes" ? <span> *</span>: null}</label>
-                                      
+                                    <div className="col-12 col-md-6">
+                                      <div className="form-group">
+                                        <label for="">Site name  {val.optIRT == "yes" ? <span> *</span> : null}</label>
 
-                                      <Select
-                                        options={siteNameAll}
-                                        // className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                        className={
-                                          validationError?.index == i &&
-                                            validationError?.newSiteName
-                                            ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
-                                            : "dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                        }
-                                        onChange={(event) =>
-                                          onSiteNameChange(event, i)
-                                        }
-                                        value={
-                                          siteNameAll[hpc[i].siteNameIndex]
-                                            ? siteNameAll[hpc[i].siteNameIndex]
-                                            : ""
-                                        }
-                                        placeholder={"Select Site Name"}
-                                      />
-                                       {validationError?.newSiteName &&
-                                        validationError?.index == i ? (
-                                        <div className="login-validation">
-                                          {validationError?.newSiteName}
-                                        </div>
-                                      ) : null}
+
+                                        <Select
+                                          options={siteNameAll}
+                                          // className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                          className={
+                                            validationError?.index == i &&
+                                              validationError?.newSiteName
+                                              ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
+                                              : "dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                          }
+                                          onChange={(event) =>
+                                            onSiteNameChange(event, i)
+                                          }
+                                          value={
+                                            siteNameAll[hpc[i].siteNameIndex]
+                                              ? siteNameAll[hpc[i].siteNameIndex]
+                                              : ""
+                                          }
+                                          placeholder={"Select Site Name"}
+                                        />
+                                        {validationError?.newSiteName &&
+                                          validationError?.index == i ? (
+                                          <div className="login-validation">
+                                            {validationError?.newSiteName}
+                                          </div>
+                                        ) : null}
+                                      </div>
                                     </div>
-                                  </div>
-                                </>
-                              ) : (
-                                ""
-                              )}
+                                  </>
+                                ) : (
+                                  ""
+                                )}
                             </div>
                           </div>
 
@@ -4267,37 +4267,37 @@ const CreateSunshineEmail = (props) => {
 
                       {(isLikeRdAccount)
                         ? (
-                        <><th scope="col">Site number</th>
-                          <th scope="col">IRT mandatory training</th>
-                          <th scope="col">IRT role</th>
-                        </>
-                      ) : (
-                        <>
-                          <th scope="col">Business unit
-                            <button
-                              className={`event_sort_btn ${sortBy == "ibu" ?
-                                sortOrder == "asc"
-                                  ? "svg_asc"
-                                  : "svg_active"
-                                : ""
-                                }`}
-                              onClick={() => handleSort('ibu')}
-                            >
-                              <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
-                                <g clip-path="url(#clip0_3722_6611)">
-                                  <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF" />
-                                </g>
-                                <defs>
-                                  <clipPath id="clip0_3722_6611">
-                                    <rect width="8" height="8" fill="white" />
-                                  </clipPath>
-                                </defs>
-                              </svg>
-                            </button>
-                          </th>
-                          <th scope="col">Contact type</th>
-                        </>
-                      )}
+                          <><th scope="col">Site number</th>
+                            <th scope="col">IRT mandatory training</th>
+                            <th scope="col">IRT role</th>
+                          </>
+                        ) : (
+                          <>
+                            <th scope="col">Business unit
+                              <button
+                                className={`event_sort_btn ${sortBy == "ibu" ?
+                                  sortOrder == "asc"
+                                    ? "svg_asc"
+                                    : "svg_active"
+                                  : ""
+                                  }`}
+                                onClick={() => handleSort('ibu')}
+                              >
+                                <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
+                                  <g clip-path="url(#clip0_3722_6611)">
+                                    <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF" />
+                                  </g>
+                                  <defs>
+                                    <clipPath id="clip0_3722_6611">
+                                      <rect width="8" height="8" fill="white" />
+                                    </clipPath>
+                                  </defs>
+                                </svg>
+                              </button>
+                            </th>
+                            <th scope="col">Contact type</th>
+                          </>
+                        )}
 
                       {showLessInfo == false ? (
                         <>
