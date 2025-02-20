@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useForm, useFieldArray } from "react-hook-form";
 import axios from "axios";
+import { Button, Col, Container, Form, Row } from "react-bootstrap";
 
 const ReadersDetails = () => {
   let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -77,8 +78,8 @@ const ReadersDetails = () => {
             } else {
               setValue(
                 "Notes",
-                values.Notes
-                  ? values.Notes.map((n) => ({ value: n }))
+                values.notes
+                  ? values.notes.map((n) => ({ value: n }))
                   : []
               );
             }
@@ -129,55 +130,70 @@ const ReadersDetails = () => {
 
   return (
     <>
-     <img src={path_image + "/informed_logo.svg"} alt="logo" />
-      <h1>Contact details</h1>
-
-      <form
+    <div className="form-template-main">
+    <Container>
+      <Row>
+        <div className="d-flex justify-content-center inform-logo">
+      <img src={path_image + "inforMed_Logo_Blue_1.svg"} alt="logo" />
+      </div>
+    <div className="form-template-container">
+      <div className="form-template-header">
+      
+      <h3>Contact details</h3>
+      </div>
+      <div className="form-template">
+      <Form
         onSubmit={handleSubmit(onSubmit)}
         style={{ display: "flex", flexDirection: "column", gap: "10px" }}
       >
-        <input
-          placeholder="First name*"
-          {...register("firstName", {
+        <Row className="mb-3">
+        <Form.Group as={Col}>
+          <Form.Label>First name*</Form.Label>
+          <Form.Control type="text" placeholder="Enter email" {...register("firstName", {
             required: "First name is required",
             maxLength: {
               value: 255,
               message: "First name cannot exceed 255 characters",
             },
-          })}
-        />
-        {errors?.firstName && (
-          <p style={{ color: "red" }}>{errors.firstName.message}</p>
+          })}/>
+           {errors?.firstName && (
+          <p className="error" style={{ color: "#db0000" }}>{errors.firstName.message}</p>
         )}
-
-        <input
-          placeholder="Middle name"
+        </Form.Group>
+        <Form.Group as={Col}>
+          <Form.Label>Middle name</Form.Label>
+          <Form.Control type="text" placeholder="Middle name"
           {...register("middleName", {
             maxLength: {
               value: 255,
               message: "Middle name cannot exceed 255 characters",
             },
-          })}
-        />
-        {errors?.middleName && (
-          <p style={{ color: "red" }}>{errors.middleName.message}</p>
+          })}/>
+           {errors?.middleName && (
+          <p className="error" style={{ color: "#db0000" }}>{errors.middleName.message}</p>
         )}
-
-        <input
-          placeholder="Last name*"
+        </Form.Group>
+        <Form.Group as={Col}>
+          <Form.Label>Last name*</Form.Label>
+          <Form.Control type="text" placeholder="Last name*"
           {...register("lastName", {
             required: " Last name is required",
             maxLength: {
               value: 255,
               message: "Last name cannot exceed 255 characters",
             },
-          })}
-        />
-        {errors?.lastName && (
-          <p style={{ color: "red" }}>{errors.lastName.message}</p>
+          })}/>
+           {errors?.lastName && (
+          <p className="error" style={{ color: "#db0000" }}>{errors.lastName.message}</p>
         )}
+        </Form.Group>
 
-        <select {...register("country", { required: "Country is required" })}>
+
+        </Row>
+        <Row className="mb-3">
+        <Form.Group as={Col}>
+          <Form.Label>Country*</Form.Label>
+          <Form.Select defaultValue="Choose..." {...register("country", { required: "Country is required" })}>
           <option value="" disabled selected>
             Select
           </option>
@@ -188,13 +204,14 @@ const ReadersDetails = () => {
               </option>
             );
           })}
-        </select>
+        </Form.Select>
         {errors.country && (
-          <p style={{ color: "red" }}>{errors.country.message}</p>
+          <p className="error" style={{ color: "#db0000" }}>{errors.country.message}</p>
         )}
-
-        <input
-          placeholder="Hospital"
+        </Form.Group>
+        <Form.Group as={Col}>
+          <Form.Label>Hospital</Form.Label>
+          <Form.Control type="text" placeholder="Hospital"
           {...register("hospital", {
             maxLength: {
               value: 255,
@@ -202,12 +219,17 @@ const ReadersDetails = () => {
             },
           })}
         />
-        {errors.hospital && (
-          <p style={{ color: "red" }}>{errors.hospital.message}</p>
+         {errors.hospital && (
+          <p className="error" style={{ color: "#db0000" }}>{errors.hospital.message}</p>
         )}
+        </Form.Group>
+        
 
-        <input
-          placeholder="Title"
+        </Row>
+        <Row className="mb-3">
+        <Form.Group as={Col}>
+          <Form.Label>Title</Form.Label>
+          <Form.Control type="text" placeholder="Title"
           {...register("title", {
             maxLength: {
               value: 200,
@@ -215,9 +237,11 @@ const ReadersDetails = () => {
             },
           })}
         />
-        {errors.title && <p style={{ color: "red" }}>{errors.title.message}</p>}
-
-        <select {...register("speciality")}>
+        {errors.title && <p className="error" style={{ color: "#db0000" }}>{errors.title.message}</p>}
+        </Form.Group>
+        <Form.Group as={Col}>
+          <Form.Label>Speciality</Form.Label>
+          <Form.Select  {...register("speciality")}>
           <option value="" disabled selected>
             Select speciality
           </option>
@@ -228,9 +252,16 @@ const ReadersDetails = () => {
               </option>
             );
           })}
-        </select>
+        </Form.Select>
 
-        <select {...register("ibu")}>
+        </Form.Group>
+
+
+        </Row>
+        <Row className="mb-3">
+        <Form.Group as={Col}>
+          <Form.Label>IBU</Form.Label>
+          <Form.Select {...register("ibu")}>
           <option value="" disabled selected>
             Select
           </option>
@@ -241,8 +272,60 @@ const ReadersDetails = () => {
               </option>
             );
           })}
-        </select>
+        </Form.Select>
+        </Form.Group>
+        <Form.Group as={Col}>
+          <Form.Label>Alternative e-mail</Form.Label>
+          <Form.Control type="email"placeholder="Alternative e-mail"
+          {...register("alternativeEmail", {
+            pattern: {
+              value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+              message: "Enter a valid email address",
+            },
+          })}
+        />
+        {errors.alternativeEmail && (
+          <p className="error" style={{ color: "#db0000" }}>{errors.alternativeEmail.message}</p>
+        )}
+        </Form.Group>
 
+        </Row>
+        <Row className="mb-3">
+        <Form.Group as={Col}>
+          <Form.Label>Primary phone</Form.Label>
+          <Form.Control  type="number" placeholder="Primary phone"
+          {...register("primaryPhone", {
+            required: "Primary phone is required",
+            pattern: {
+              value: /^[0-9]{10,15}$/,
+              message: "Enter a valid phone number (10-15 digits)",
+            },
+          })}
+        />
+        {errors.primaryPhone && (
+          <p className="error" style={{ color: "#db0000" }}>{errors.primaryPhone.message}</p>
+        )}
+        </Form.Group>
+        <Form.Group as={Col}>
+          <Form.Label>Alternative phone</Form.Label>
+          <Form.Control  type="number" placeholder="Alternative phone"
+          {...register("alternativePhone", {
+            pattern: {
+              value: /^[0-9]{10,15}$/,
+              message: "Enter a valid phone number (10-15 digits)",
+            },
+          })}
+        />
+         {errors.alternativePhone && (
+          <p className="error" style={{ color: "#db0000" }}>{errors.alternativePhone.message}</p>
+        )}
+        </Form.Group>
+
+        </Row>
+        <Row className="mb-3">
+        <Form.Group as={Col}>
+        <Form.Label>Products</Form.Label>
+        <div className="select-box">
         <select
           multiple
           {...register("products")}
@@ -263,9 +346,11 @@ const ReadersDetails = () => {
             </option>
           ))}
         </select>
-
-       
-
+        </div>
+        </Form.Group>
+        <Form.Group as={Col}>
+        <Form.Label>Area of Interest</Form.Label>
+        <div className="select-box">
         <select multiple {...register("areaOfInterest")}>
           <option value="" disabled selected>
             Select Area Of The Interest
@@ -278,62 +363,33 @@ const ReadersDetails = () => {
             );
           })}
         </select>
+        </div>
+        </Form.Group>
 
-        <input
-          placeholder="Alternative e-mail"
-          {...register("alternativeEmail", {
-            pattern: {
-              value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-              message: "Enter a valid email address",
-            },
-          })}
-        />
-        {errors.alternativeEmail && (
-          <p style={{ color: "red" }}>{errors.alternativeEmail.message}</p>
-        )}
 
-        <input
-          placeholder="Primary phone"
-          {...register("primaryPhone", {
-            required: "Primary phone is required",
-            pattern: {
-              value: /^[0-9]{10,15}$/,
-              message: "Enter a valid phone number (10-15 digits)",
-            },
-          })}
-        />
 
-        {errors.primaryPhone && (
-          <p style={{ color: "red" }}>{errors.primaryPhone.message}</p>
-        )}
-        <input
-          placeholder="Alternative phone"
-          {...register("alternativePhone", {
-            pattern: {
-              value: /^[0-9]{10,15}$/,
-              message: "Enter a valid phone number (10-15 digits)",
-            },
-          })}
-        />
+        </Row>
 
-        {errors.alternativePhone && (
-          <p style={{ color: "red" }}>{errors.alternativePhone.message}</p>
-        )}
+        <Row className="mb-3">
+          <Form.Group as={Col} md={6} className="mb-3">
+            <Form.Label>Rep contact</Form.Label>
+            <Form.Control placeholder="Who is Rep contact?"
+              {...register("repContact", {
+                maxLength: {
+                  value: 200,
+                  message: "repContact cannot exceed 255 characters",
+                },
+              })}
+            />
+            {errors.repContact && (
+              <p className="error" style={{ color: "#db0000" }}>{errors.repContact.message}</p>
+            )}
+        </Form.Group>
 
-        <input
-          placeholder="Who is Rep contact?"
-          {...register("repContact", {
-            maxLength: {
-              value: 200,
-              message: "repContact cannot exceed 255 characters",
-            },
-          })}
-        />
-        {errors.repContact && (
-          <p style={{ color: "red" }}>{errors.repContact.message}</p>
-        )}
-
+        
         {fields.map((field, index) => (
+          <Col md={6} className="mb-1">
+            <Form.Label></Form.Label>
           <div
             key={field.id}
             style={{ display: "flex", alignItems: "center", gap: "10px" }}
@@ -348,7 +404,7 @@ const ReadersDetails = () => {
               placeholder="Meetings notes,special intersets ,etc"
             />
             {errors.Notes?.[index]?.value && (
-              <p style={{ color: "red" }}>
+              <p style={{ color: "#db0000" }}>
                 {errors.Notes[index].value.message}
               </p>
             )}
@@ -358,9 +414,17 @@ const ReadersDetails = () => {
                 onClick={addTextarea}
                 style={{
                   cursor: "pointer",
-                  fontSize: "18px",
+                  fontSize: "14px",
                   border: "none",
-                  background: "transparent",
+                  background: "#0066be",
+                  width: "30px",
+                  height: "30px",
+                  borderRadius: "50%",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  flex: "0 0 30px",
+                  lineHeight: "1",
                 }}
               >
                 ➕
@@ -371,19 +435,36 @@ const ReadersDetails = () => {
                 onClick={() => removeTextarea(index)}
                 style={{
                   cursor: "pointer",
-                  fontSize: "18px",
+                  fontSize: "14px",
                   border: "none",
-                  background: "transparent",
+                  background: "#0066be",
+                  width: "30px",
+                  height: "30px",
+                  borderRadius: "50%",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  flex: "0 0 30px",
+                  lineHeight: "1",
                 }}
               >
                 ➖
               </button>
             )}
           </div>
+          </Col>
         ))}
-
-        <input type="submit" value="Submit" />
-      </form>
+        
+      </Row>
+      <Button variant="primary" type="submit">
+        Submit
+      </Button>
+      </Form>
+      </div>
+      </div>
+      </Row>      
+    </Container>
+    </div>
     </>
   );
 };
