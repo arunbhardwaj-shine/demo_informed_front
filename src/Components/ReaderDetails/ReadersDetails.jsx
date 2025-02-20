@@ -2,7 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useForm, useFieldArray } from "react-hook-form";
 import axios from "axios";
+import { loader } from "../../loader";
 import StaticExample from "./SucessfullModal";
+import { toast } from "react-toastify";
 
 const ReadersDetails = () => {
   let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -16,8 +18,11 @@ const ReadersDetails = () => {
     control,
     setValue,
     reset ,
+    getValues,  
+
+
     watch,
-    formState: { errors },
+    formState: { errors, dirtyFields }
   } = useForm({
     defaultValues: {
       firstName: "",
@@ -55,6 +60,7 @@ const ReadersDetails = () => {
    
     if (url_id) {
         try {
+            loader("show")
             const result = await axios.post(
                 `https://webinar.docintel.app/lmn/api/Webservice/save_change_ul`,
                 { id:url_id}, 
@@ -62,8 +68,6 @@ const ReadersDetails = () => {
               );
           
            const values =result.data.data;
-     
-        //   if (result) {
            
             setValue("firstName", values.first_name || "" );
             setValue("middleName", values.middle_name || "");
@@ -90,11 +94,13 @@ const ReadersDetails = () => {
               );
             }
             setUserData(result.data.data);
-         // }
+         
+         loader("hide")
             
         } catch (error) {
             console.log(error);
-            
+            loader("hide")
+            toast.error("Failed to fetch user data");
         }
     
     }
@@ -127,28 +133,36 @@ const ReadersDetails = () => {
         repContact: data.repContact,
         notes: data.Notes.map(note => note.value),
         id:userData?.currentid,
-        internal_details_id:userData?.profileid,
-        profileid:userData?.internal_details_id
+        internal_details_id:userData?.internal_details_id,
+        profileid:userData?.profileid
+        
     };
 
-    console.log(body)
+    
 
+ try {
+    loader("show")
+    const result =await axios.post(
+      `https://webinar.docintel.app/lmn/api/Webservice/save_reader_details`,
+       body,
+    )
+
+    console.log(result)
+
+    if(result.data.success == true){
+        setShow(true)
+        loader("hide")
+    }else{
+        toast.error(result.data.message)
+        loader("hide")
+    }
+    
+ } catch (error) {
+    console.log(error)
+    loader("hide")
+ }
+  
  
-
-    // const result =await axios.post(
-    //   `https://webinar.docintel.app/lmn/api/Webservice/save_change_ul`,
-    //   body,
-    // )
-
-    // if(result.message == "true"){
-    //     append({ value: "" });
-    // }else{
-    //     console.log("Error saving user data");
-    // }
-    setShow(true)
-
-
-   
   };
 
   return (
@@ -169,6 +183,7 @@ const ReadersDetails = () => {
                     value: 255,
                     message: "First name cannot exceed 255 characters",
                   },
+                  validate: (value) => value.trim() !== "" || "First name cannot be empty or spaces only"
                 })}
               />
               {errors?.firstName && (
@@ -196,6 +211,7 @@ const ReadersDetails = () => {
                     value: 255,
                     message: "Last name cannot exceed 255 characters",
                   },
+                  validate: (value) => value.trim() !== "" || "Last name cannot be empty or spaces only"
                 })}
               />
               {errors?.lastName && (
@@ -224,6 +240,10 @@ const ReadersDetails = () => {
                   maxLength: {
                     value: 255,
                     message: "Hospital name cannot exceed 255 characters",
+                  },
+                  validate: (value) => {
+                    if (!dirtyFields.hospital) return true;  
+                    return value.trim() !== "" || "Hospital cannot be empty or spaces only";
                   },
                 })}
               />
@@ -368,6 +388,11 @@ const ReadersDetails = () => {
                         value: 500,
                         message: "Note cannot exceed 500 characters",
                       },
+                      validate: (value) => {
+                   if (!dirtyFields.Notes?.[index]?.value) return true;  
+                    return value.trim() !== "" || "Hospital cannot be empty or spaces only";
+                  },
+                      
                     })}
                     placeholder="Meetings notes,special intersets ,etc"
                   />
@@ -413,6 +438,12 @@ const ReadersDetails = () => {
 
             
                  <StaticExample setShow={setShow} show={show} />
+
+                 <div className="loader" id="custom_loader">
+                    <div className="loader_show">
+                    <span className="loader-view"> </span>
+                    </div>
+                </div>
             
        
           
