@@ -3,16 +3,20 @@ import { useParams } from "react-router-dom";
 import { useForm, useFieldArray } from "react-hook-form";
 import axios from "axios";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
+import StaticExample from "./SucessfullModal";
 
 const ReadersDetails = () => {
   let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+  const [show,setShow]=useState(false)
   const routeParams = useParams();
-  const [ userData, setUserData ] = useState({});
+  const url_id = routeParams.id;
+  const [ userData, setUserData ] = useState(null);
   const {
     register,
     handleSubmit,
     control,
     setValue,
+    reset ,
     watch,
     formState: { errors },
   } = useForm({
@@ -42,16 +46,19 @@ const ReadersDetails = () => {
   });
 
   useEffect(() => {
-    getUserData();
-  }, []);
+    if (routeParams.id) {
+      getUserData();
+    }
+  }, [url_id]);
+  
 
   const getUserData = async () => {
-    console.log(routeParams.id)
-    if (routeParams.id) {
+   
+    if (url_id) {
         try {
             const result = await axios.post(
                 `https://webinar.docintel.app/lmn/api/Webservice/save_change_ul`,
-                { id: routeParams.id }, 
+                { id:url_id}, 
                
               );
           
@@ -61,19 +68,19 @@ const ReadersDetails = () => {
            
             setValue("firstName", values.first_name || "" );
             setValue("middleName", values.middle_name || "");
-            setValue("country", values.country || "");
+            setValue("country", values.selected_country || "");
             setValue("lastName", values.last_name || "");
             setValue("hospital", values.hospital || "");
             setValue("title", values.title || "");
-            setValue("speciality",values.user_speciality || "");
+            setValue("speciality", values.user_speciality || "");
             setValue("ibu", values.user_ibu || "");
-            setValue("products", [values.user_products || []]);
+            setValue("products", values.user_products || []);
             setValue("areaOfInterest", values.user_indications || []);
-            setValue("alternativeEmail", values.alternativeEmail || "");
-            setValue("primaryPhone", values.primaryPhone || "");
-            setValue("alternativePhone", values.alternativePhone || "");
-            setValue("repContact", values.repContact || "");
-            if (values.notes.length === 0) {
+            setValue("alternativeEmail", values.alternative_email || "");
+            setValue("primaryPhone", values.primary_phone || "");
+            setValue("alternativePhone", values.alternative_phone || "");
+            setValue("repContact", values.rep_contact || "");
+            if (values?.notes?.length === 0) {
               append({ value: "" });
             } else {
               setValue(
@@ -102,30 +109,47 @@ const ReadersDetails = () => {
     remove(index);
   };
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
 
-    // const body = {
-    //   profile: {
-    //     first_name: data.firstName,
-    //     middle_name: data.middleName,
-    //     last_name: data.lastName,
-    //     country: data.country,
-    //     hospital: data.hospital,
-    //     title: data,
-    //     speciality: data.speciality,
-    //     ibu: data.ibu,
-    //     alternative_email: data.alternativeEmail,
-    //     primary_phone: data.primaryPhone,
-    //     alternative_phone: data.alternativePhone,
-    //   },
-    //   products: data.products,
-    //   indication: data.areaOfInterest,
-    //   UserInternalDetail: {
-    //     sales_contact: data.repContact,
-    //   },
-    //   notes: data.Notes,
-    // };
-    console.log(data);
+    const body = {
+        first_name: data.firstName,
+        middle_name: data.middleName,
+        last_name: data.lastName,
+        country: data.country,
+        hospital: data.hospital,
+        title: data.title,
+        speciality: data.speciality,
+        ibu: data.ibu,
+        alternative_email: data.alternativeEmail,
+        primary_phone: data.primaryPhone,
+        alternative_phone: data.alternativePhone,
+        products: data.products,
+        areaOfInterest: data.areaOfInterest,
+        repContact: data.repContact,
+        notes: data.Notes.map(note => note.value),
+        id:userData?.currentid,
+        internal_details_id:userData?.profileid,
+        profileid:userData?.internal_details_id
+    };
+
+    console.log(body)
+
+ 
+
+    // const result =await axios.post(
+    //   `https://webinar.docintel.app/lmn/api/Webservice/save_change_ul`,
+    //   body,
+    // )
+
+    // if(result.message == "true"){
+    //     append({ value: "" });
+    // }else{
+    //     console.log("Error saving user data");
+    // }
+    setShow(true)
+
+
+   
   };
 
   return (
