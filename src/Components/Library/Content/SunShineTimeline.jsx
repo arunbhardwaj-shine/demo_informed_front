@@ -859,7 +859,7 @@ const SunShineTimeline = () => {
                                                                             0
                                                                             ? "Unlimited"
                                                                             : details?.limit ==
-                                                                              1000
+                                                                            100000
                                                                               ? "Unlimited"
                                                                               : details?.limit}
                                                                         </strong>
@@ -869,7 +869,7 @@ const SunShineTimeline = () => {
                                                                       {details?.limit ==
                                                                         0 ||
                                                                         details?.limit ==
-                                                                        1000 ? (
+                                                                        100000 ? (
                                                                         ""
                                                                       ) : (
                                                                         <>
@@ -957,7 +957,7 @@ const SunShineTimeline = () => {
                                                                     0
                                                                     ? "Unlimited"
                                                                     : details?.limit ==
-                                                                      1000
+                                                                    100000
                                                                       ? "Unlimited"
                                                                       : details?.limit}
                                                                 </strong>
@@ -967,7 +967,7 @@ const SunShineTimeline = () => {
                                                               {details?.limit ==
                                                                 0 ||
                                                                 details?.limit ==
-                                                                1000 ? (
+                                                                100000 ? (
                                                                 ""
                                                               ) : (
                                                                 <>
@@ -1059,7 +1059,7 @@ const SunShineTimeline = () => {
                                                                       0
                                                                       ? "Unlimited"
                                                                       : details?.limit ==
-                                                                        1000
+                                                                      100000
                                                                         ? "Unlimited"
                                                                         : details?.limit}
                                                                   </strong>
@@ -1074,7 +1074,7 @@ const SunShineTimeline = () => {
                                                                 {details?.limit ==
                                                                   0 ||
                                                                   details?.limit ==
-                                                                  1000 ? (
+                                                                  100000 ? (
                                                                   ""
                                                                 ) : (
                                                                   <>

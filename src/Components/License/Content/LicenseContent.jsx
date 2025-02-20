@@ -1885,7 +1885,7 @@ const LicenseContent = (props) => {
                                                           (el) =>
                                                             el.pdfId == data?.id
                                                         )
-                                                      ]?.limit == 1000
+                                                      ]?.limit == 100000
                                                       ? "Unlimited"
                                                       : opening_details[
                                                           opening_details.findIndex(
@@ -1905,7 +1905,7 @@ const LicenseContent = (props) => {
                                                     opening_details.findIndex(
                                                       (el) => el.pdfId == data?.id
                                                     )
-                                                  ]?.limit == 1000
+                                                  ]?.limit == 100000
                                                   ? null
                                                   : opening_details[
                                                       opening_details.findIndex(
@@ -1928,7 +1928,7 @@ const LicenseContent = (props) => {
                                                   opening_details.findIndex(
                                                     (el) => el.pdfId == data?.id
                                                   )
-                                                ]?.limit != 1000 ? (
+                                                ]?.limit != 100000 ? (
                                                   <small>Left</small>
                                                 ) : null
                                               ) : null}
@@ -2010,7 +2010,7 @@ const LicenseContent = (props) => {
                                                       (el) =>
                                                         el.pdfId == data?.id
                                                     )
-                                                  ]?.limit == 1000
+                                                  ]?.limit == 100000
                                                   ? "Unlimited"
                                                   : opening_details[
                                                       opening_details.findIndex(
@@ -2030,7 +2030,7 @@ const LicenseContent = (props) => {
                                                 opening_details.findIndex(
                                                   (el) => el.pdfId == data?.id
                                                 )
-                                              ]?.limit == 1000
+                                              ]?.limit == 100000
                                               ? null
                                               : opening_details[
                                                   opening_details.findIndex(
@@ -2051,7 +2051,7 @@ const LicenseContent = (props) => {
                                               opening_details.findIndex(
                                                 (el) => el.pdfId == data?.id
                                               )
-                                            ]?.limit != 1000 ? (
+                                            ]?.limit != 100000 ? (
                                               <small>Left</small>
                                             ) : null
                                           ) : null}
@@ -2134,7 +2134,7 @@ const LicenseContent = (props) => {
                                                         (el) =>
                                                           el.pdfId == data?.id
                                                       )
-                                                    ]?.limit == 1000
+                                                    ]?.limit == 100000
                                                     ? "Unlimited"
                                                     : opening_details[
                                                         opening_details.findIndex(
@@ -2159,7 +2159,7 @@ const LicenseContent = (props) => {
                                                   opening_details.findIndex(
                                                     (el) => el.pdfId == data?.id
                                                   )
-                                                ]?.limit == 1000
+                                                ]?.limit == 100000
                                                 ? null
                                                 : opening_details[
                                                     opening_details.findIndex(
@@ -2180,7 +2180,7 @@ const LicenseContent = (props) => {
                                                 opening_details.findIndex(
                                                   (el) => el.pdfId == data?.id
                                                 )
-                                              ]?.limit != 1000 ? (
+                                              ]?.limit != 100000 ? (
                                                 <small>Left</small>
                                               ) : null
                                             ) : null}
