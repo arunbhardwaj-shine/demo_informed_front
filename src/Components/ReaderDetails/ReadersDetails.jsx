@@ -20,8 +20,8 @@ const ReadersDetails = () => {
       setValue,
       reset ,
       getValues,  
-  
-  
+      setError,
+      clearErrors,
       watch,
       formState: { errors, dirtyFields }
     } = useForm({
@@ -108,6 +108,19 @@ const ReadersDetails = () => {
     };
   
     const addTextarea = () => {
+      const emptyFieldIndex = fields.findIndex((field, index) => {
+        return !getValues(`Notes.${index}.value`)?.trim(); // Checking if the field is empty or only spaces
+      });
+    
+      if (emptyFieldIndex !== -1) {
+        // Set error for the first empty field
+        setError(`Notes.${emptyFieldIndex}.value`, {
+          type: "manual",
+          message: "Please fill out this field before adding a new one.",
+        });
+        return;
+      }
+
       append({ value: "" });
     };
   
@@ -167,6 +180,7 @@ const ReadersDetails = () => {
     };
   return (
     <>
+    <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
    { userData ? (<div className="form-template-main">
     <Container>
       <Row>
@@ -185,7 +199,7 @@ const ReadersDetails = () => {
       >
         <Row className="mb-3">
         <Form.Group as={Col}>
-          <Form.Label>First name*</Form.Label>
+          <Form.Label>First name <span>*</span></Form.Label>
           <Form.Control type="text" placeholder="Enter email" {...register("firstName", {
             required: "First name is required",
             maxLength: {
@@ -212,7 +226,7 @@ const ReadersDetails = () => {
         )}
         </Form.Group>
         <Form.Group as={Col}>
-          <Form.Label>Last name*</Form.Label>
+          <Form.Label>Last name <span>*</span></Form.Label>
           <Form.Control type="text" placeholder="Last name*"
           {...register("lastName", {
             required: " Last name is required",
@@ -231,7 +245,7 @@ const ReadersDetails = () => {
         </Row>
         <Row className="mb-3">
         <Form.Group as={Col}>
-          <Form.Label>Country*</Form.Label>
+          <Form.Label>Country <span>*</span></Form.Label>
           <Form.Select defaultValue="Choose..." {...register("country", { required: "Country is required" })}>
           <option value="" disabled >
             Select
@@ -443,20 +457,18 @@ const ReadersDetails = () => {
                      return value.trim() !== "" || "Text area cannot be empty or spaces only";
                    },
               })}
+              onChange={() => clearErrors(`Notes.${index}.value`)} // Clear error when user types
               placeholder="Meetings notes,special intersets ,etc"
             />
-            {errors.Notes?.[index]?.value && (
-              <p style={{ color: "#db0000" }}>
-                {errors.Notes[index].value.message}
-              </p>
-            )}
+           
+ 
             {index === 0 ? (
               <button
                 type="button"
                 onClick={addTextarea}
                 style={{
                   cursor: "pointer",
-                  fontSize: "14px",
+                  fontSize: "24px",
                   border: "none",
                   background: "#0066be",
                   width: "30px",
@@ -467,9 +479,10 @@ const ReadersDetails = () => {
                   justifyContent: "center",
                   flex: "0 0 30px",
                   lineHeight: "1",
+                  color:"#ffffff",
                 }}
               >
-                ➕
+                &#43;
               </button>
             ) : (
               <button
@@ -477,7 +490,7 @@ const ReadersDetails = () => {
                 onClick={() => removeTextarea(index)}
                 style={{
                   cursor: "pointer",
-                  fontSize: "14px",
+                  fontSize: "31px",
                   border: "none",
                   background: "#0066be",
                   width: "30px",
@@ -488,12 +501,18 @@ const ReadersDetails = () => {
                   justifyContent: "center",
                   flex: "0 0 30px",
                   lineHeight: "1",
+                  color:"#ffffff",
                 }}
               >
-                ➖
+                &#45;
               </button>
             )}
           </div>
+          {errors.Notes?.[index]?.value && (
+              <p className="error" style={{ color: "#db0000" }}>
+                {errors.Notes[index].value.message}
+              </p>
+            )}
           </Col>
         ))}
         
