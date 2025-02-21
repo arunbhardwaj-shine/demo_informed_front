@@ -14230,8 +14230,21 @@ gap:30px;
   font-size: 15px;
   color: #0066be;
 }
-.form-template  .inform-logo img {
+.form-template-main .inform-logo img {
   margin: 0 0 20px;
   max-width: 260px;
   width: 100%;
+}
+@media screen and (max-width: 767px) {
+  .form-template-container {
+    padding: 15px 15px;
+  }
+  .form-template-main {
+    margin: 15px 0;
+    padding: 0 15px;
+}
+.form-template-main .inform-logo img {
+  margin: 0 0 15px;
+  max-width: 200px;
+}
 }
