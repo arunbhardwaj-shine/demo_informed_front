@@ -1010,7 +1010,7 @@ const ReaderAdd = () => {
           )}
         </Form.Group>
 
-        <Form.Group className="form-group">
+        {/* <Form.Group className="form-group">
           <Form.Label htmlFor="">
             Site number  <span>*</span>
             </Form.Label>
@@ -1043,7 +1043,46 @@ const ReaderAdd = () => {
           ) : (
             ""
           )}
+        </Form.Group> */}
+
+        <Form.Group className="form-group">
+          <Form.Label htmlFor="">
+            Site number <span>*</span>
+          </Form.Label>
+          <Select
+            options={userDetail?.siteNumber
+              .sort((a, b) => {
+                // Ensure the sorting works even for strings or numbers
+                return String(a.value).localeCompare(String(b.value));
+              })}
+            placeholder="Select Site Number"
+            noOptionsMessage={() =>
+              userInputs?.country === "" ? "Please select country first" : "No options"
+            }
+            name="siteNumber"
+            value={
+              userDetail?.siteNumber.findIndex(
+                (el) => el.value == userInputs?.siteNumber
+              ) === -1
+                ? ""
+                : userDetail?.siteNumber[
+                    userDetail?.siteNumber.findIndex(
+                      (el) => el.value == userInputs?.siteNumber
+                    )
+                  ]
+            }
+            className="dropdown-basic-button split-button-dropup"
+            isClearable
+            onChange={(e) => handleChange(e?.value, "siteNumber")}
+          />
+          {error?.siteNumber ? (
+            <div className="login-validation">{error?.siteNumber}</div>
+          ) : (
+            ""
+          )}
         </Form.Group>
+
+
         <Form.Group className="form-group">
           <Form.Label htmlFor="">
             Site name  <span>*</span>

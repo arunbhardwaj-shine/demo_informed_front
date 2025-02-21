@@ -580,7 +580,7 @@ const LicenseRenew = () => {
                                       openingDetails.findIndex(
                                         (el) => el.pdfId == data?.id
                                       )
-                                    ]?.limit == 1000
+                                    ]?.limit == 100000
                                     ? "Unlimited"
                                     : openingDetails[
                                         openingDetails.findIndex(
@@ -599,7 +599,7 @@ const LicenseRenew = () => {
                                   openingDetails.findIndex(
                                     (el) => el.pdfId == data?.id
                                   )
-                                ]?.limit == 1000
+                                ]?.limit == 100000
                                 ? null
                                 : openingDetails[
                                     openingDetails.findIndex(
@@ -620,7 +620,7 @@ const LicenseRenew = () => {
                                 openingDetails.findIndex(
                                   (el) => el.pdfId == data?.id
                                 )
-                              ]?.limit != 1000 ? (
+                              ]?.limit != 100000 ? (
                                 <small>Left</small>
                               ) : null
                             ) : null}
@@ -695,7 +695,7 @@ const LicenseRenew = () => {
                                     openingDetails.findIndex(
                                       (el) => el.pdfId == data?.id
                                     )
-                                  ]?.limit == 1000
+                                  ]?.limit == 100000
                                   ? "unlimited"
                                   : openingDetails[
                                       openingDetails.findIndex(
@@ -714,7 +714,7 @@ const LicenseRenew = () => {
                                 openingDetails.findIndex(
                                   (el) => el.pdfId == data?.id
                                 )
-                              ]?.limit == 1000
+                              ]?.limit == 100000
                               ? null
                               : openingDetails[
                                   openingDetails.findIndex(
@@ -735,7 +735,7 @@ const LicenseRenew = () => {
                               openingDetails.findIndex(
                                 (el) => el.pdfId == data?.id
                               )
-                            ]?.limit != 1000 ? (
+                            ]?.limit != 100000 ? (
                               <small>Left</small>
                             ) : null
                           ) : null}
@@ -860,7 +860,7 @@ const LicenseRenew = () => {
                                                         (el) =>
                                                           el.pdfId == data?.id
                                                       )
-                                                    ]?.limit == 1000
+                                                    ]?.limit == 100000
                                                     ? "Unlimited"
                                                     : openingDetails[
                                                       openingDetails.findIndex(
@@ -884,7 +884,7 @@ const LicenseRenew = () => {
                                                 openingDetails.findIndex(
                                                     (el) => el.pdfId == data?.id
                                                   )
-                                                ]?.limit == 1000
+                                                ]?.limit == 100000
                                                 ? null
                                                 : openingDetails[
                                                   openingDetails.findIndex(
@@ -905,7 +905,7 @@ const LicenseRenew = () => {
                                                 openingDetails.findIndex(
                                                   (el) => el.pdfId == data?.id
                                                 )
-                                              ]?.limit != 1000 ? (
+                                              ]?.limit != 100000 ? (
                                                 <small>Left</small>
                                               ) : null
                                             ) : null}

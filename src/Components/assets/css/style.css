@@ -14160,3 +14160,169 @@ gap:30px;
 /* .email_stats_gap .email-stats-details ::-webkit-scrollbar {
   height: 4px;
 } */
+
+
+
+
+.form-template-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  background: #fff;
+  padding: 20px 30px;
+  border-radius: 26px;
+  box-shadow: 0px 1px 6px 0px rgba(0, 102, 190, 0.20);
+}
+.form-template input.form-control, .form-template select, .form-template textarea {
+  border-radius: 30px;
+  box-shadow: 0px 1px 6px 0px rgba(0, 102, 190, 0.20);
+  border: 0;
+  padding: 10px 25px;
+}
+.form-template label.form-label {
+  line-height: 21px;
+  color: #004a89;
+  font-size: 15px;
+  margin: 0 0 5px;
+  width: 100%;
+}
+.form-template p.error {
+  font-size: 14px;
+  margin: 3px 0 0;
+}
+.form-template select {
+  width: 100%;
+}
+.form-template textarea {
+  width: 100%;
+  border-radius: 10px;
+  resize: none;
+}
+.form-template .select-box {
+  border-radius: 20px;
+  box-shadow: 0px 1px 6px 0px rgba(0, 102, 190, 0.20);
+  border: 0;
+  padding: 10px 12px 10px 25px;
+}
+
+.form-template .select-box select {border-radius: 0;box-shadow: none;padding: 0;}
+.form-template .select-box select option {
+  padding: 1px 0;
+}
+.form-template-main .form-template-header {
+  margin: 0 0 20px;
+}
+.form-template-main .form-template-header h3 {
+  color: var(--dark-blue);
+}
+.form-template form button.btn-primary {
+  display: flex;
+  width: 100%;
+  max-width: 160px;
+  margin: 0 auto;
+  align-items: center;
+  justify-content: center;
+  margin-right: 0;
+}
+.form-template-main {
+  margin: 20px 0;
+}
+.form-template textarea, .form-template .form-control, .form-template select {
+  font-size: 15px;
+  color: #0066be;
+}
+.form-template-main .inform-logo img {
+  margin: 0 0 20px;
+  max-width: 260px;
+  width: 100%;
+}
+
+#reader-sucess{
+  font-size: 24px;
+  line-height: 145.19%;
+  text-align: center;
+  color: var(--light-gray);
+  margin-top: 28px;
+  text-transform: unset;
+}
+.form-success .modal-dialog {
+  max-width: 600px;
+  width: 100%;
+}
+.form-success .modal-dialog .modal-footer {
+  border: 0;
+  padding-bottom: 24px;
+}
+.form-success #reader-sucess {
+  margin: 0;
+  font-weight: 400;
+  color: #70899E;
+}
+.form-success .modal-footer button.light {
+  margin: 0 auto;
+  filter: drop-shadow(0px 1px 6px rgba(0, 102, 190, 0.20));
+  border: 1px solid #97B6CF;
+  color: #97B6CF;
+  padding: 10px 21px;
+}
+.form-success .modal-footer button.light:hover {
+  margin: 0 auto;
+  filter: drop-shadow(0px 1px 6px rgba(0, 102, 190, 0.20));
+  border-color: var(--light-blue);
+  color: var(--white);
+}
+.form-template label.form-label span {
+  color: rgb(219, 0, 0);
+}
+@media screen and (max-width: 767px) {
+  .form-template-container {
+    padding: 15px 15px;
+  }
+  .form-template-main {
+    margin: 15px 0;
+    padding: 0 15px;
+}
+.form-template-main .inform-logo img {
+  margin: 0 0 15px;
+  max-width: 200px;
+}
+.form-template form .col {
+  flex: 0 0 100%;
+  margin: 0 0 15px;
+}
+.form-template form .mb-3 {
+  margin-bottom: 0!important;
+}
+.form-template form {
+  gap: 0!important;
+}
+.form-template input.form-control, .form-template select, .form-template textarea {
+  padding: 10px 16px;
+}
+.form-template .select-box {
+  padding: 10px 10px 10px 16px;
+}
+.form-template form button.btn-primary {
+  max-width: 100px;
+  margin: 15px auto 5px;
+}
+.form-template-main .form-template-header h3 {
+  font-size: 22px;
+  font-weight: 600;
+}
+.form-template-main .form-template-header {
+  margin: 0 0 7px;
+}
+.form-success .modal-dialog .modal-footer {
+  padding-bottom: 5px;
+}
+.form-success .modal-header {
+  padding: 12px 11px 0;
+}
+.form-success .modal-footer button.light {
+  font-size: 16px;
+}
+.form-success #reader-sucess {
+  font-size: 20px;
+}
+}
+
