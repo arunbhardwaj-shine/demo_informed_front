@@ -20,8 +20,8 @@ const ReadersDetails = () => {
       setValue,
       reset ,
       getValues,  
-  
-  
+      setError,
+      clearErrors,
       watch,
       formState: { errors, dirtyFields }
     } = useForm({
@@ -108,6 +108,19 @@ const ReadersDetails = () => {
     };
   
     const addTextarea = () => {
+      const emptyFieldIndex = fields.findIndex((field, index) => {
+        return !getValues(`Notes.${index}.value`)?.trim(); // Checking if the field is empty or only spaces
+      });
+    
+      if (emptyFieldIndex !== -1) {
+        // Set error for the first empty field
+        setError(`Notes.${emptyFieldIndex}.value`, {
+          type: "manual",
+          message: "Please fill out this field before adding a new one.",
+        });
+        return;
+      }
+
       append({ value: "" });
     };
   
@@ -443,6 +456,7 @@ const ReadersDetails = () => {
                      return value.trim() !== "" || "Text area cannot be empty or spaces only";
                    },
               })}
+              onChange={() => clearErrors(`Notes.${index}.value`)} // Clear error when user types
               placeholder="Meetings notes,special intersets ,etc"
             />
             {errors.Notes?.[index]?.value && (
@@ -450,6 +464,7 @@ const ReadersDetails = () => {
                 {errors.Notes[index].value.message}
               </p>
             )}
+ 
             {index === 0 ? (
               <button
                 type="button"

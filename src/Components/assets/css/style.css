@@ -14235,3 +14235,12 @@ gap:30px;
   max-width: 260px;
   width: 100%;
 }
+
+#reader-sucess{
+  font-size: 24px;
+  line-height: 145.19%;
+  text-align: center;
+  color: var(--light-gray);
+  margin-top: 28px;
+  text-transform: unset;
+}
