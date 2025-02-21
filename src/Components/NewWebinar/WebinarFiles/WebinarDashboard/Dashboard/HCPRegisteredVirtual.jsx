@@ -444,9 +444,6 @@ const HCPRegisteredVirtual = () => {
   const getDataFromApi = async () => {
     try {
       loader("show");
-      // const response = await postData("https://webinar.informed.pro/Webinar/reg_data_pie",{event_id:"384"});
-      // const data = response.data.data;
-      //  const seriesMonth = data[0].Months;
       const categories = Object.keys(data.chartData).sort();
       const transformedChartData = Object.entries(data.chartData).map(
         ([name, y]) => ({

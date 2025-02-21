@@ -155,7 +155,7 @@ export const ENDPOINT = {
   GET_REGISTRATION_FORM: "/auth/getRegistrationFormByEventId",
   UPDATELOGS: "/reader/update-logs",
   USER_TRACKING: "/auth/pharma-marketing-tracking",
-  GET_EMAIL_REMINDER: "http://192.168.0.162:8000/api/emailapi/change-email-reminder",
+  GET_EMAIL_REMINDER: "http://192.168.0.162:8000/api/emailapi/v1/change-email-reminder",
   WEBINAR_GET_EVENT_REGISTRATION: "/webinar/getEventRegistrations",
   WEBINAR_UPDATE_HCP_STATUS: "/webinar/update-hcp-status",
   WEBINAR_DELETE_USER: "/webinar/delete-user",
@@ -249,4 +249,6 @@ export const ENDPOINT = {
   UPDATE_PASSWORD:`/auth/update-password`,
   UPDATE_DEFAULT_PDF_DRAFT: `/library/update_default_pdf_draft`,
   ONE_CLICK_LOGIN:`/auth/one-click-login`,
+  DOWNLOADARTICLESTATS:`analytics/country_downloads_new`,
+  DOWNLOADRENEWARTICLESTATS:`analytics/download_excel_new`,
 };

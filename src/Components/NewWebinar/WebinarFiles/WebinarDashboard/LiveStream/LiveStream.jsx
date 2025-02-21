@@ -711,7 +711,7 @@ const LiveStream = () => {
           id: id,
         };
         axios
-          .post(`webinar/send-user-mail`, body)
+          .post(`webinar/v1/send-user-mail`, body)
           .then((res) => {
             setAttendeesApiCallStatus(false);
             toast.success("Email send successfully.");

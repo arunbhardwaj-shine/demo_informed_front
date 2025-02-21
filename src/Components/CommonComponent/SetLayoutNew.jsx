@@ -113,11 +113,7 @@ const SetLayoutNew = () => {
       navigate("/license-content");
     } else if (title == "Q&A/SURVEY") {
       if (isLikeRdAccount) {
-        window.open(
-          "https://webinar.informed.pro/webinar/qa_survey?rdylr=" +
-          localStorage.getItem("user_id"),
-          "_blank"
-        );
+        //Remove code because it takes to old server
       }
     }
   };

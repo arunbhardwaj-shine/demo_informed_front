@@ -536,7 +536,7 @@ const EmailStats = () => {
     try {
       loader("show");
       //   const res = await axios.post(
-      //     `https://webinar.informed.pro/Webinar/email_stat_data`
+      
       //   );
 
       let newCategories = [

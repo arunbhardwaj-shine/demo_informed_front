@@ -360,7 +360,7 @@ const RegistrationPage = ({ prevData,type }) => {
           eventId = 454;
         }
         const response = await axios.post(
-          "https://webinar.docintel.app/flow/apis/register",
+          "https://webinar.docintel.app/lmn/api/register",
           {
             ...formFieldData,
             companyId: formData?.company_id,

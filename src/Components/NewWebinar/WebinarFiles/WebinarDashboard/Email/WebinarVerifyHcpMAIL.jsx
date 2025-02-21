@@ -142,7 +142,7 @@ const WebinarVerifyHcpMAIL = (props) => {
             };
             loader("show");
             await axios
-                .post(`emailapi/get_pdf`, body)
+                .post(`emailapi/v1/get_pdf`, body)
                 .then((res) => {
                     if (res?.data?.status_code == 200) {
                         setPdfData(res?.data?.response?.data);
@@ -218,7 +218,7 @@ const WebinarVerifyHcpMAIL = (props) => {
         axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
         loader("show");
         await axios
-            .post(`emailapi/save_draft`, body)
+            .post(`emailapi/v1/save_draft`, body)
             .then((res) => {
                 if (res?.data?.status_code === 200) {
                     setCampaign_id(res?.data?.response?.data?.id);
@@ -317,7 +317,7 @@ const WebinarVerifyHcpMAIL = (props) => {
             loader("show");
             if (localStorageUserId == 'rjiGlqA9DXJVH7bDDTX0Lg==') {
                 await axios
-                    .post(`webinar/send_webinar_email_new`, body)
+                    .post(`webinar/v1/send_webinar_email_new`, body)
                     .then((res) => {
                         loader("hide");
                         if (res?.data?.status_code === 200) {
@@ -342,7 +342,7 @@ const WebinarVerifyHcpMAIL = (props) => {
                     });
             } else {
                 await axios
-                    .post(`webinar/send_webinar_email_new`, body)
+                    .post(`webinar/v1/send_webinar_email_new`, body)
                     .then((res) => {
                         loader("hide");
                         if (res?.data?.status_code === 200) {
@@ -488,7 +488,7 @@ const WebinarVerifyHcpMAIL = (props) => {
         axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
         loader("show");
         await axios
-            .post(`emailapi/save_draft`, body)
+            .post(`emailapi/v1/save_draft`, body)
             .then((res) => {
                 if (res?.data?.status_code === 200) {
                     setCampaign_id(res?.data?.response?.data?.id);

@@ -275,7 +275,7 @@ const TemplateBuilder = (props) => {
   }, []);
   const axiosFun = async () => {
     try {
-      const result = await axios.get(`emailapi/get_site?uid=${accountMapping[localStorage.getItem("user_id")] || 2147501188}`);
+      const result = await axios.get(`emailapi/v1/get_site?uid=${accountMapping[localStorage.getItem("user_id")] || 2147501188}`);
 
       let country = result?.data?.response?.data?.site_country_data;
       let arr = [];
@@ -321,7 +321,7 @@ const TemplateBuilder = (props) => {
 
     loader("show");
     await axios
-      .post(`emailapi/get_template_list`, body)
+      .post(`emailapi/v1/get_template_list`, body)
       .then((res) => {
         let lang = res.data.response.language;
 
@@ -697,7 +697,7 @@ const TemplateBuilder = (props) => {
       axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
 
       axios
-        .post(`emailapi/send_sample_email`, body)
+        .post(`emailapi/v1/send_sample_email`, body)
         .then((res) => {
           loader("hide");
           if (res.data.status_code === 200) {
@@ -810,7 +810,7 @@ const TemplateBuilder = (props) => {
         template_name: newTemplateName,
       };
       axios
-        .post(`emailapi/update_template`, body)
+        .post(`emailapi/v1/update_template`, body)
         .then((res) => {
           if (res.data.status_code == 200) {
             toast.success(res.data.message);
@@ -909,7 +909,7 @@ const TemplateBuilder = (props) => {
       axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
       loader("show");
       await axios
-        .post(`emailapi/search_hcp`, body)
+        .post(`emailapi/v1/search_hcp`, body)
         .then((res) => {
           if (res.data.response) {
             setSearchedUsers(res.data.response.data);
@@ -1355,7 +1355,7 @@ const TemplateBuilder = (props) => {
       axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
       loader("show");
       await axios
-        .post(`emailapi/add_update_template`, body)
+        .post(`emailapi/v1/add_update_template`, body)
         .then((res) => {
           if (res.data.status_code === 200) {
             getTemplateListData(
@@ -1412,7 +1412,7 @@ const TemplateBuilder = (props) => {
       axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
       loader("show");
       await axios
-        .post(`emailapi/add_update_template`, body)
+        .post(`emailapi/v1/add_update_template`, body)
         .then((res) => {
           if (res.data.status_code === 200) {
             loader("hide");
@@ -1493,7 +1493,7 @@ const TemplateBuilder = (props) => {
             template_name: "",
           };
           axios
-            .post(`emailapi/update_template`, body)
+            .post(`emailapi/v1/update_template`, body)
             .then((res) => {
               if (res.data.status_code == 200) {
                 toast.success(res.data.message);
@@ -1545,7 +1545,7 @@ const TemplateBuilder = (props) => {
         axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
         loader("show");
         await axios
-          .post(`emailapi/add_update_template`, body)
+          .post(`emailapi/v1/add_update_template`, body)
           .then((res) => {
             if (res.data.status_code === 200) {
               getTemplateListData(
@@ -1586,7 +1586,7 @@ const TemplateBuilder = (props) => {
       axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
       loader("show");
       await axios
-        .post(`emailapi/delete_template`, body)
+        .post(`emailapi/v1/delete_template`, body)
         .then((res) => {
           if (res.data.status_code === 200) {
             setshowConfirmation(false);
@@ -1635,6 +1635,11 @@ const TemplateBuilder = (props) => {
 
     var modifiedStringagain = modifiedContent?.replace(
       '<p><img style="display: none;" src="https://webinar.informed.pro/Distributes/updatemailread/###updateid###/pdf_mail" alt="" width="1" height="1" border="0"></p>',
+      ""
+    );
+
+    var modifiedStringagain = modifiedContent?.replace(
+      '<p><img style="display: none;" src="https://webinar.docintel.app/lmn/api/updatemailread/###updateid###/pdf_mail" alt="" width="1" height="1" border="0"></p>',
       ""
     );
 
@@ -1736,7 +1741,7 @@ const TemplateBuilder = (props) => {
             let newLink = url?.querySelector(".tox-textfield")
             let newButton = document.createElement("button");
             const baseLink =
-                "https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_";
+                "https://webinar.docintel.app/lmn/api/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_";
             let payload = {}
             let apiLink = ""
 
@@ -1802,7 +1807,7 @@ const TemplateBuilder = (props) => {
                             url_code: `clicked_track_doc_${currentTimestamp}`,
                         };
                         linkingPayload.current = payload;
-                        let link = `https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_${currentTimestamp}&redirect_url=${firstToxControlWrap.value}`;
+                        let link = `https://webinar.docintel.app/lmn/api/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_${currentTimestamp}&redirect_url=${firstToxControlWrap.value}`;
                         firstToxControlWrap.value = link;
 
                     }

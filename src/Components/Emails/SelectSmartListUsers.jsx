@@ -353,7 +353,7 @@ const SelectSmartListUsers = (props) => {
     axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
     loader("show");
     await axios
-      .post(`emailapi/save_draft`, body)
+      .post(`emailapi/v1/save_draft`, body)
       .then((res) => {
         if (res.data.status_code == 200) {
           setCampaign_id(res.data.response.data.id);
@@ -388,7 +388,7 @@ const SelectSmartListUsers = (props) => {
 
   const axiosFun = async () => {
     try {
-      const result = await axios.get(`emailapi/get_site?uid=${localStorage.getItem("user_id")=="bWmUjqX7J011   WUTYn9g=="?298217:2147501188}`);
+      const result = await axios.get(`emailapi/v1/get_site?uid=${localStorage.getItem("user_id")=="bWmUjqX7J011   WUTYn9g=="?298217:2147501188}`);
 
       let country = result?.data?.response?.data?.site_country_data;
       let arr = [];

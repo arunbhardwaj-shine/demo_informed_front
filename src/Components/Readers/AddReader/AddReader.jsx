@@ -232,7 +232,7 @@ const ReaderAdd = () => {
   const axiosFun = async () => {
     try {
       axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
-      const result = await axios.get(`emailapi/get_site?uid=${accountMapping[localStorage.getItem("user_id")] || 2147501188}`);
+      const result = await axios.get(`emailapi/v1/get_site?uid=${accountMapping[localStorage.getItem("user_id")] || 2147501188}`);
       let country = result?.data?.response?.data?.site_country_data;
       let arr = [];
       Object.entries(country).map(([index, item]) => {
@@ -723,22 +723,22 @@ const ReaderAdd = () => {
     
     const roleBasedUrls = {
         'Site User-Blinded': {
-            '56Ek4feL/1A8mZgIKQWEqg==': "https://webinar.informed.pro/Site_User.xlsx",
-            'MXl8m36VZFYXpgFVz3Pg0g==': "https://webinar.informed.pro/Gena_Site_User.xlsx",
-            'bWmUjqX7J011   WUTYn9g==': "https://webinar.informed.pro/Motivate_Site_User.xlsx",
-            'default': "https://webinar.informed.pro/Norgine_Site_User.xlsx"
+            '56Ek4feL/1A8mZgIKQWEqg==': "https://webinar.docintel.app/lmn/excel/Site_User.xlsx",
+            'MXl8m36VZFYXpgFVz3Pg0g==': "https://webinar.docintel.app/lmn/excel/Gena_Site_User.xlsx",
+            'bWmUjqX7J011   WUTYn9g==': "https://webinar.docintel.app/lmn/excel/Motivate_Site_User.xlsx",
+            'default': "https://webinar.docintel.app/lmn/excel/Norgine_Site_User.xlsx"
         },
         'Investigator-Blinded': {
-            '56Ek4feL/1A8mZgIKQWEqg==': "https://webinar.informed.pro/Investigator.xlsx",
-            'MXl8m36VZFYXpgFVz3Pg0g==': "https://webinar.informed.pro/Gena_Investigator.xlsx",
-            'bWmUjqX7J011   WUTYn9g==': "https://webinar.informed.pro/Motivate_Investigator.xlsx",
-            'default': "https://webinar.informed.pro/Norgine_Investigator.xlsx"
+            '56Ek4feL/1A8mZgIKQWEqg==': "https://webinar.docintel.app/lmn/excel/Investigator.xlsx",
+            'MXl8m36VZFYXpgFVz3Pg0g==': "https://webinar.docintel.app/lmn/excel/Gena_Investigator.xlsx",
+            'bWmUjqX7J011   WUTYn9g==': "https://webinar.docintel.app/lmn/excel/Motivate_Investigator.xlsx",
+            'default': "https://webinar.docintel.app/lmn/excel/Norgine_Investigator.xlsx"
         },
         'Site unblinded pharmacist': {
-            '56Ek4feL/1A8mZgIKQWEqg==': "https://webinar.informed.pro/Pharmacist.xlsx",
-            'MXl8m36VZFYXpgFVz3Pg0g==': "https://webinar.informed.pro/Gena_Pharmacist.xlsx",
-            'bWmUjqX7J011   WUTYn9g==': "https://webinar.informed.pro/Motivate_Pharmacist.xlsx",
-            'default': "https://webinar.informed.pro/Norgine_Pharmacist.xlsx"
+            '56Ek4feL/1A8mZgIKQWEqg==': "https://webinar.docintel.app/lmn/excel/Pharmacist.xlsx",
+            'MXl8m36VZFYXpgFVz3Pg0g==': "https://webinar.docintel.app/lmn/excel/Gena_Pharmacist.xlsx",
+            'bWmUjqX7J011   WUTYn9g==': "https://webinar.docintel.app/lmn/excel/Motivate_Pharmacist.xlsx",
+            'default': "https://webinar.docintel.app/lmn/excel/Norgine_Pharmacist.xlsx"
         }
     };
 
@@ -750,12 +750,12 @@ const ReaderAdd = () => {
         if (roleUrls) {
             link.href = roleUrls[user_id] || roleUrls.default;
         } else if (isGenaAccount) {
-            link.href = "https://webinar.informed.pro/gena_sample.xlsx";
+            link.href = "https://webinar.docintel.app/lmn/excel/gena_sample.xlsx";
         } else {
-            link.href = "https://webinar.informed.pro/R_Dsample.xlsx";
+            link.href = "https://webinar.docintel.app/lmn/excel/R_Dsample.xlsx";
         }
     } else {
-        link.href = "https://webinar.informed.pro/sample.xlsx";
+        link.href = "https://webinar.docintel.app/lmn/excel/sample.xlsx";
     }
 
     link.setAttribute("download", "file.xlsx");

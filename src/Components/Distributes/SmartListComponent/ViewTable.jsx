@@ -457,7 +457,7 @@ const ViewTable = (props) => {
 
   const axiosFun = async () => {
     try {
-      const result = await axios.get(`emailapi/get_site?uid=${accountMapping[localStorage.getItem("user_id")] || 2147501188}`);
+      const result = await axios.get(`emailapi/v1/get_site?uid=${accountMapping[localStorage.getItem("user_id")] || 2147501188}`);
 
       let country = result?.data?.response?.data?.site_country_data;
       let arr = [];

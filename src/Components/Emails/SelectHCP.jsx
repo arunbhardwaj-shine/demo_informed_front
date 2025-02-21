@@ -159,7 +159,7 @@ const SelectHCP = (props) => {
     axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
     loader("show");
     await axios
-      .post(`emailapi/save_draft`, body)
+      .post(`emailapi/v1/save_draft`, body)
       .then((res) => {
         loader("hide");
         if (res.data.status_code === 200) {
@@ -215,7 +215,7 @@ const SelectHCP = (props) => {
           : props.getDraftData.pdf_id,
         };
         loader("show");
-        await axios.post(`emailapi/check_mandatory_content`, body)
+        await axios.post(`emailapi/v1/check_mandatory_content`, body)
           .then((res) => {
             setTitle(res?.data?.response?.data?.title);
             setIsContentMandatory(res?.data?.response?.data?.mandatory_content);

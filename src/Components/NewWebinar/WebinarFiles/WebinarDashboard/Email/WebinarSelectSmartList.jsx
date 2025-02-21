@@ -335,7 +335,7 @@ const WebinarSelectSmartList = (props) => {
     axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
     loader("show");
     await axios
-      .post(`emailapi/save_draft`, body)
+      .post(`emailapi/v1/save_draft`, body)
       .then((res) => {
         if (res?.data?.status_code === 200) {
           setCampaign_id(res?.data?.response?.data?.id);
@@ -550,16 +550,16 @@ const WebinarSelectSmartList = (props) => {
     const user_id = localStorage.getItem("user_id");
     const link = document.createElement("a");
     const fileMap = {
-      "wW0geGtDPvig5gF 6KbJrg==": "https://webinar.informed.pro/sample_st.xlsx",
-      "qDgwPdToP05Kgzc g2VjIQ==": "https://webinar.informed.pro/sample_st.xlsx",
-      "z2TunmZQf3QwCsICFTLGGQ==": "https://webinar.informed.pro/sample_st.xlsx",
-      "bWmUjqX7J011   WUTYn9g==": "https://webinar.informed.pro/Norgine_sample.xlsx",
-      "MXl8m36VZFYXpgFVz3Pg0g==": "https://webinar.informed.pro/gena_sample.xlsx",
-      "UbCJcnLM9fe HsRMgX8c1A==": "https://webinar.informed.pro/sample_st.xlsx",
-      "56Ek4feL/1A8mZgIKQWEqg==": "https://webinar.informed.pro/R_Dsample.xlsx"
+      "wW0geGtDPvig5gF 6KbJrg==": "https://webinar.docintel.app/lmn/excel/sample_st.xlsx",
+      "qDgwPdToP05Kgzc g2VjIQ==": "https://webinar.docintel.app/lmn/excel/sample_st.xlsx",
+      "z2TunmZQf3QwCsICFTLGGQ==": "https://webinar.docintel.app/lmn/excel/sample_st.xlsx",
+      "bWmUjqX7J011   WUTYn9g==": "https://webinar.docintel.app/lmn/excel/Norgine_sample.xlsx",
+      "MXl8m36VZFYXpgFVz3Pg0g==": "https://webinar.docintel.app/lmn/excel/gena_sample.xlsx",
+      "UbCJcnLM9fe HsRMgX8c1A==": "https://webinar.docintel.app/lmn/excel/sample_st.xlsx",
+      "56Ek4feL/1A8mZgIKQWEqg==": "https://webinar.docintel.app/lmn/excel/R_Dsample.xlsx"
     };
   
-    const defaultFileUrl = "https://webinar.informed.pro/sample.xlsx";
+    const defaultFileUrl = "https://webinar.docintel.app/lmn/excel/sample.xlsx";
     link.href = fileMap[user_id] || defaultFileUrl;
     link.setAttribute("download", "file.xlsx");
     document.body.appendChild(link);

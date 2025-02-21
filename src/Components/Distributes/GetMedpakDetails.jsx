@@ -302,7 +302,7 @@ const GetMedpakDetails = () => {
               const isAnyReminderChecked = reminderCheckedValues.includes(true);
      
               await axios
-                 .post(`emailapi/change-email-reminder`, data)
+                 .post(`emailapi/v1/change-email-reminder`, data)
                  .then((res) => {
                     // console.log("Response from the server:", reminderChecked);
                     // if (res.data.status_code === 200) {
@@ -345,7 +345,7 @@ const GetMedpakDetails = () => {
     
         loader("show");
         try {
-          const res = await axios.post(`emailapi/stop_campaign`, body);
+          const res = await axios.post(`emailapi/v1/stop_campaign`, body);
           if (res.data.status_code === 200) {
             setStopped(status);
             toast.success(

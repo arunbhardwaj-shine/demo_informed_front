@@ -301,7 +301,7 @@ const ContentDetail = (props) => {
       axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
       loader("show");
       await axios
-        .post(`emailapi/get_rd_campaign_data`, body)
+        .post(`emailapi/v1/get_rd_campaign_data`, body)
         .then((res) => {
           if (res.data.status_code == 200) {
             let campaign_data = res?.data?.response?.data;

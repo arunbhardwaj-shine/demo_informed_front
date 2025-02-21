@@ -472,7 +472,7 @@ const Invitees = () => {
       let config = {
         method: 'post',
         maxBodyLength: Infinity,
-        url: 'https://webinar.informed.pro/api/getEncryptionOrg',
+        url: 'https://webinar.docintel.app/lmn/getEncryptionOrg',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
         },

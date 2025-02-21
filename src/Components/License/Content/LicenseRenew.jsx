@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import {
   postData,
+  postFormData,
   resetStats,
 } from "../../../axios/apiHelper";
 import { ENDPOINT } from "../../../axios/apiConfig";
@@ -260,28 +261,19 @@ const LicenseRenew = () => {
   const downloadOldCollectedData = async () => {
     try {
       loader("show");
-      let durl =
-        "https://webinar.informed.pro/Analytics/download_excel_new/" +
-        data?.id;
-      const response = await axios.get(durl, { responseType: "blob" });
-      // .then((response) => {
-      // Create a Blob from the response data
-      const blob = new Blob([response.data], {
-        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      let payload = {
+        'id' : data?.id
+      };
+      const res = await postFormData(ENDPOINT.DOWNLOADRENEWARTICLESTATS, payload, {
+        responseType: "blob",
       });
-      // Create a temporary URL for the Blob
-      const url = window.URL.createObjectURL(blob);
-      // Create a link and click it to trigger the download
+      console.log(res?.data)
       const link = document.createElement("a");
+      const url = URL.createObjectURL(res?.data);
       link.href = url;
       link.download = `${data?.title}_collected_data.xlsx`;
       link.click();
-      // Clean up the temporary URL
       window.URL.revokeObjectURL(url);
-      // })
-      // .catch((error) => {
-      //   console.error('Error downloading the Excel file:', error);
-      // });
       loader("hide");
     } catch (err) {
       console.log(err);

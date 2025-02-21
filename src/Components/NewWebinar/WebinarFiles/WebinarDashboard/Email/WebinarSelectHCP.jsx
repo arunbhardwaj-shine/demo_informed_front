@@ -151,7 +151,7 @@ const WebinarSelectHCP = (props) => {
     axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
     loader("show");
     await axios
-      .post(`emailapi/save_draft`, body)
+      .post(`emailapi/v1/save_draft`, body)
       .then((res) => {
         loader("hide");
         if (res?.data?.status_code === 200) {

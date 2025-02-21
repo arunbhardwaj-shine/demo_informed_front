@@ -211,7 +211,7 @@ const EditConsentOptions = (props) => {
 
     loader("show");
     await axios
-      .post(`emailapi/get_template_list`, body)
+      .post(`emailapi/v1/get_template_list`, body)
       .then((res) => {
         let lang = res.data.response.language;
 
@@ -271,7 +271,7 @@ const EditConsentOptions = (props) => {
     axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
     const getAllTags = async () => {
       await axios
-        .post(`emailapi/get_tags`, body)
+        .post(`emailapi/v1/get_tags`, body)
         .then((res) => {
           setAllTags(res.data.response.data);
           loader("hide");
@@ -446,7 +446,7 @@ const EditConsentOptions = (props) => {
       axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
 
       axios
-        .post(`emailapi/send_sample_email`, body)
+        .post(`emailapi/v1/send_sample_email`, body)
         .then((res) => {
           loader("hide");
           if (res.data.status_code === 200) {
@@ -553,7 +553,7 @@ const EditConsentOptions = (props) => {
         template_name: newTemplateName,
       };
       axios
-        .post(`emailapi/update_template`, body)
+        .post(`emailapi/v1/update_template`, body)
         .then((res) => {
           if (res.data.status_code == 200) {
             toast.success(res.data.message);
@@ -635,7 +635,7 @@ const EditConsentOptions = (props) => {
       axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
       loader("show");
       await axios
-        .post(`emailapi/search_hcp`, body)
+        .post(`emailapi/v1/search_hcp`, body)
         .then((res) => {
           if (res.data.response) {
             setSearchedUsers(res.data.response.data);
@@ -927,7 +927,7 @@ const EditConsentOptions = (props) => {
       axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
       loader("show");
       await axios
-        .post(`emailapi/add_update_template`, body)
+        .post(`emailapi/v1/add_update_template`, body)
         .then((res) => {
           if (res.data.status_code === 200) {
             getTemplateListData(1, selectedLanguage, selectedIbu);
@@ -952,7 +952,7 @@ const EditConsentOptions = (props) => {
 
   const downloadFile = () => {
     let link = document.createElement("a");
-    link.href = "https://webinar.informed.pro/sample.xlsx";
+    link.href = "https://webinar.docintel.app/lmn/excel/sample.xlsx";
     link.setAttribute("download", "file.xlsx");
     document.body.appendChild(link);
     link.download = "";
@@ -1041,7 +1041,7 @@ const EditConsentOptions = (props) => {
             template_name: "",
           };
           axios
-            .post(`emailapi/update_template`, body)
+            .post(`emailapi/v1/update_template`, body)
             .then((res) => {
               if (res.data.status_code == 200) {
                 toast.success(res.data.message);
@@ -1087,7 +1087,7 @@ const EditConsentOptions = (props) => {
         axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
         loader("show");
         await axios
-          .post(`emailapi/add_update_template`, body)
+          .post(`emailapi/v1/add_update_template`, body)
           .then((res) => {
             if (res.data.status_code === 200) {
               getTemplateListData(1, selectedLanguage, selectedIbu);
@@ -1122,7 +1122,7 @@ const EditConsentOptions = (props) => {
       axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
       loader("show");
       await axios
-        .post(`emailapi/delete_template`, body)
+        .post(`emailapi/v1/delete_template`, body)
         .then((res) => {
           if (res.data.status_code === 200) {
             setshowConfirmation(false);
@@ -1175,7 +1175,7 @@ const EditConsentOptions = (props) => {
             let newLink = url?.querySelector(".tox-textfield")
             let newButton = document.createElement("button");
             const baseLink =
-                "https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_";
+                "https://webinar.docintel.app/lmn/api/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_";
             let payload = {}
             let apiLink = ""
 
@@ -1241,7 +1241,7 @@ const EditConsentOptions = (props) => {
                             url_code: `clicked_track_doc_${currentTimestamp}`,
                         };
                         linkingPayload.current = payload;
-                        let link = `https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_${currentTimestamp}&redirect_url=${firstToxControlWrap.value}`;
+                        let link = `https://webinar.docintel.app/lmn/api/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_${currentTimestamp}&redirect_url=${firstToxControlWrap.value}`;
                         firstToxControlWrap.value = link;
 
                     }
