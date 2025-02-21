@@ -155,20 +155,20 @@ const ReadersDetails = () => {
   
    try {
       loader("show")
-      // const result =await axios.post(
-      //   `https://webinar.docintel.app/lmn/api/Webservice/save_reader_details`,
-      //    body,
-      // )
+      const result =await axios.post(
+        `https://webinar.docintel.app/lmn/api/Webservice/save_reader_details`,
+         body,
+      )
   
      
   
-      // if(result.data.success == true){
-      //     setShow(true)
-      //     loader("hide")
-      // }else{
-      //     toast.error(result.data.message)
-      //     loader("hide")
-      // }
+      if(result.data.success == true){
+          setShow(true)
+          loader("hide")
+      }else{
+          toast.error(result.data.message)
+          loader("hide")
+      }
       
    } catch (error) {
       console.log(error)
@@ -179,6 +179,7 @@ const ReadersDetails = () => {
     };
   return (
     <>
+    <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
    { userData ? (<div className="form-template-main">
     <Container>
       <Row>
@@ -197,7 +198,7 @@ const ReadersDetails = () => {
       >
         <Row className="mb-3">
         <Form.Group as={Col}>
-          <Form.Label>First name*</Form.Label>
+          <Form.Label>First name <span>*</span></Form.Label>
           <Form.Control type="text" placeholder="Enter email" {...register("firstName", {
             required: "First name is required",
             maxLength: {
@@ -224,7 +225,7 @@ const ReadersDetails = () => {
         )}
         </Form.Group>
         <Form.Group as={Col}>
-          <Form.Label>Last name*</Form.Label>
+          <Form.Label>Last name <span>*</span></Form.Label>
           <Form.Control type="text" placeholder="Last name*"
           {...register("lastName", {
             required: " Last name is required",
@@ -243,7 +244,7 @@ const ReadersDetails = () => {
         </Row>
         <Row className="mb-3">
         <Form.Group as={Col}>
-          <Form.Label>Country*</Form.Label>
+          <Form.Label>Country <span>*</span></Form.Label>
           <Form.Select defaultValue="Choose..." {...register("country", { required: "Country is required" })}>
           <option value="" disabled >
             Select
@@ -458,11 +459,7 @@ const ReadersDetails = () => {
               onChange={() => clearErrors(`Notes.${index}.value`)} // Clear error when user types
               placeholder="Meetings notes,special intersets ,etc"
             />
-            {errors.Notes?.[index]?.value && (
-              <p style={{ color: "#db0000" }}>
-                {errors.Notes[index].value.message}
-              </p>
-            )}
+           
  
             {index === 0 ? (
               <button
@@ -470,7 +467,7 @@ const ReadersDetails = () => {
                 onClick={addTextarea}
                 style={{
                   cursor: "pointer",
-                  fontSize: "14px",
+                  fontSize: "24px",
                   border: "none",
                   background: "#0066be",
                   width: "30px",
@@ -481,9 +478,10 @@ const ReadersDetails = () => {
                   justifyContent: "center",
                   flex: "0 0 30px",
                   lineHeight: "1",
+                  color:"#ffffff",
                 }}
               >
-                ➕
+                &#43;
               </button>
             ) : (
               <button
@@ -491,7 +489,7 @@ const ReadersDetails = () => {
                 onClick={() => removeTextarea(index)}
                 style={{
                   cursor: "pointer",
-                  fontSize: "14px",
+                  fontSize: "31px",
                   border: "none",
                   background: "#0066be",
                   width: "30px",
@@ -502,12 +500,18 @@ const ReadersDetails = () => {
                   justifyContent: "center",
                   flex: "0 0 30px",
                   lineHeight: "1",
+                  color:"#ffffff",
                 }}
               >
-                ➖
+                &#45;
               </button>
             )}
           </div>
+          {errors.Notes?.[index]?.value && (
+              <p className="error" style={{ color: "#db0000" }}>
+                {errors.Notes[index].value.message}
+              </p>
+            )}
           </Col>
         ))}
         

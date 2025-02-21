@@ -9,8 +9,8 @@ function StaticExample({setShow,show}) {
 
   return (
     <>
-      <Modal className='modal-dialog-centered modal-dialog-scrollable' show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
+      <Modal className='modal-dialog-centered form-success' show={show} onHide={handleClose} backdrop="static" keyboard={false}  size="sm">
+        <Modal.Header>
         <Modal.Title>
   <img src={`${path_image}success.svg`} alt="Success" />
 </Modal.Title>
