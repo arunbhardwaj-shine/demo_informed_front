@@ -149,27 +149,26 @@ const ReadersDetails = () => {
           id:userData?.currentid,
           internal_details_id:userData?.internal_details_id,
           profileid:userData?.profileid
-          
       };
   
       
   
    try {
       loader("show")
-      const result =await axios.post(
-        `https://webinar.docintel.app/lmn/api/Webservice/save_reader_details`,
-         body,
-      )
+      // const result =await axios.post(
+      //   `https://webinar.docintel.app/lmn/api/Webservice/save_reader_details`,
+      //    body,
+      // )
   
-      console.log(result)
+     
   
-      if(result.data.success == true){
-          setShow(true)
-          loader("hide")
-      }else{
-          toast.error(result.data.message)
-          loader("hide")
-      }
+      // if(result.data.success == true){
+      //     setShow(true)
+      //     loader("hide")
+      // }else{
+      //     toast.error(result.data.message)
+      //     loader("hide")
+      // }
       
    } catch (error) {
       console.log(error)
@@ -452,9 +451,9 @@ const ReadersDetails = () => {
                   message: "Note cannot exceed 500 characters",
                 },
                 validate: (value) => {
-                    if (!dirtyFields.Notes?.[index]?.value) return true;  
-                     return value.trim() !== "" || "Text area cannot be empty or spaces only";
-                   },
+                  if (!watch(`Notes.${index}.value`)) return true; // Check if there was an initial value
+                  return value.trim() !== "" || "Text area cannot be empty or spaces only";
+                },
               })}
               onChange={() => clearErrors(`Notes.${index}.value`)} // Clear error when user types
               placeholder="Meetings notes,special intersets ,etc"
