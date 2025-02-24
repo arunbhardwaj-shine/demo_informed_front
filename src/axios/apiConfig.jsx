@@ -249,4 +249,7 @@ export const ENDPOINT = {
   UPDATE_PASSWORD:`/auth/update-password`,
   UPDATE_DEFAULT_PDF_DRAFT: `/library/update_default_pdf_draft`,
   ONE_CLICK_LOGIN:`/auth/one-click-login`,
+  REMOVE_SCHEDULE_EMAIL:'email/remove-scheduled-email',
+  MEETING_CREDENTIAL:'create-meeting',
+  MEETING_ID_DELETE:'delete-meeting'
 };
