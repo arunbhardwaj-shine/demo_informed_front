@@ -1189,7 +1189,7 @@ const EmailList = (props) => {
                       <h4>Filter By</h4>
                       <Accordion defaultActiveKey="0" flush>
                         {filterdata.hasOwnProperty("tags") &&
-                          filterdata.tags.length > 0 && (
+                          filterdata.tags.length > 0 && !isRND && (
                             <Accordion.Item className="card" eventKey="0">
                               <Accordion.Header className="card-header">
                                 Tags
