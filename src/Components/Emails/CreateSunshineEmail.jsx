@@ -1,12 +1,15 @@
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
-import { Link, useLocation, useParams, useSearchParams } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { connect } from "react-redux";
 import AliceCarousel from "react-alice-carousel";
 import "react-alice-carousel/lib/alice-carousel.css";
+
 import { getCampaignId, getEmailData, getSearched, getSelected, getSelectedSmartListData } from "../../actions";
 import { useNavigate } from "react-router-dom";
-import { Modal,   Dropdown, OverlayTrigger, Tooltip } from "react-bootstrap";
+import { Modal, ModalDialog, Dropdown, OverlayTrigger, Tooltip, Button, Container, Row } from "react-bootstrap";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import SimpleReactValidator from "simple-react-validator";
 import { loader } from "../../loader";
@@ -15,9 +18,11 @@ import { toast } from "react-toastify";
 import Select, { createFilter } from "react-select";
 import { Editor } from "@tinymce/tinymce-react";
 import SmartListLayout from "../CommonComponent/SmartListLayout";
+
 import { CircularProgressbar } from "react-circular-progressbar";
+import { buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
- 
+import { ProgressBar } from "react-bootstrap";
 // import "bootstrap/dist/css/bootstrap.min.css";
 import SmartListTableLayout from "../CommonComponent/SmartListTableLayout";
 var dxr = 0;
@@ -25,13 +30,11 @@ var state_object = {};
 var trainingUser = {};
 var searchedUser = {};
 var stateListData = {};
-const CreateEmail = (props) => {
-  const accountMapping={"56Ek4feL/1A8mZgIKQWEqg==":2147501188,"bWmUjqX7J011   WUTYn9g==":298217,"MXl8m36VZFYXpgFVz3Pg0g==":2147537506}
+const CreateSunshineEmail = (props) => {
+  const accountMapping = { "56Ek4feL/1A8mZgIKQWEqg==": 2147501188, "sNl1hra39QmFk9HwvXETJA==": 2147536982, "MXl8m36VZFYXpgFVz3Pg0g==": 2147537506 }
 
-  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","bWmUjqX7J011   WUTYn9g==","MXl8m36VZFYXpgFVz3Pg0g=="]
-  const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
-  const groupId= localStorage.getItem("group_id")
-
+  const rdLikeArray = ["56Ek4feL/1A8mZgIKQWEqg==", "sNl1hra39QmFk9HwvXETJA==", "MXl8m36VZFYXpgFVz3Pg0g=="]
+  const isLikeRdAccount = rdLikeArray.includes(localStorage.getItem("user_id"))
   const [progress, setProgress] = useState(0);
   const [percent, setPercent] = useState(0);
   const [showProgress, setShowProgress] = useState(false);
@@ -49,6 +52,7 @@ const CreateEmail = (props) => {
   const [siteNameAll, setSiteNameAll] = useState([]);
   const [role, setRole] = useState([]);
   const [irtRole, setIrtRole] = useState([]);
+  const [institutionType, setInstitutionType] = useState([]);
   const [irtInstitutionType, setIrtInstitutionType] = useState([]);
   const [nonIrtInstitutionType, setNonIrtInstitutionType] = useState([]);
   const [optIRT, setoptIRT] = useState([
@@ -58,17 +62,22 @@ const CreateEmail = (props) => {
   const filterConfig = {
     matchFrom: "start",
   };
+  let file_name = useRef("");
   let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
   const navigate = useNavigate();
   const [showPreogressBar, setShowProgressBar] = useState(false);
   const [uploadOrDownloadCount, setUploadOrDownloadCount] = React.useState(0);
   const [mailsIncrement, setMailsIncrement] = useState(0);
+  const [SendListData, setSendListData] = useState([]);
+  const [UserData, setUserData] = useState([]);
+  const location = useLocation();
   const { state } = useLocation();
-  const [searchParams, setSearchParams] = useSearchParams();  
-  let type=searchParams.get('type')
+  const [uniqueId, setUniqueId] = useState("");
   const [getsearch, setSearch] = useState("");
   const PdfSelected = props.getEmailData ? dxr : props.getDraftData.pdf_id;
+
   const [hcpsSelected, setHcpsSelected] = useState([]);
+
   const [manualReRender, setManualReRender] = useState(0);
   const campaign_id = props.getDraftData ? props.getDraftData.campaign_id : "";
   const [selectedFile, setSelectedFile] = useState(null);
@@ -109,7 +118,7 @@ const CreateEmail = (props) => {
         ? props.getDraftData.creator
         : ""
   );
-  
+
   const [manualEmailCreator, setManualEmailCreator] = useState(
     state_object?.emailCreator ?? props.getDraftData?.creator ?? ""
   );
@@ -139,7 +148,7 @@ const CreateEmail = (props) => {
   const [manualEmailSubject, setManualEmailSubject] = useState(
     state_object?.emailSubject ?? props.getDraftData?.subject ?? ""
   );
-  
+
   const [templateId, setTemplateId] = useState(
     state_object != null &&
       state_object != "undefined" &&
@@ -171,13 +180,14 @@ const CreateEmail = (props) => {
   const [searchedUsers, setSearchedUsers] = useState([]);
   const [countryall, setCountryall] = useState([]);
   const [irtCountry, setIRTCountry] = useState([]);
- 
+  const [message, setMessage] = useState("");
   const [reRender, setReRender] = useState(0);
   const [activeIndex, setActiveIndex] = useState(0);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [selectedHcp, setSelectedHcp] = useState([]);
- 
+  const slidePrev = () => setActiveIndex(activeIndex - 1);
+  const slideNext = () => setActiveIndex(activeIndex + 1);
   const syncActiveIndex = ({ item }) => setActiveIndex(item);
 
   const [getTemplatePopup, setTemplatePopup] = useState(false);
@@ -188,11 +198,11 @@ const CreateEmail = (props) => {
   const [getIsApprovedStatus, setIsApprovedStatus] = useState(0);
   const [selectedListId, setSelectedListId] = useState(0);
 
-  const [irtRoleObj,setIRTRoleObj] = useState(
+  const [irtRoleObj, setIRTRoleObj] = useState(
     typeof state?.IrtObj !== "undefined" ? state?.IrtObj : {}
   );
-  
-  const [IRTTraining, setIRTTraining] = useState(state_object?.startTraining  ? state_object?.startTraining : 0);
+
+  const [IRTTraining, setIRTTraining] = useState(state_object?.startTraining ? state_object?.startTraining : 0);
 
   const [hpc, setHpc] = useState([
     {
@@ -211,7 +221,7 @@ const CreateEmail = (props) => {
           ? "yes"
           : "",
       institutionType: "",
-      siteNumber:""
+      siteNumber: ""
     },
   ]);
 
@@ -226,7 +236,7 @@ const CreateEmail = (props) => {
   const [showLessInfo, setShowLessInfo] = useState(true);
   const [getSmartListId, setSmartListId] = useState(0);
 
- 
+  const newArr = [];
 
   useEffect(() => {
     if (addListOpen == true) {
@@ -331,28 +341,33 @@ const CreateEmail = (props) => {
                 newIrtType.push({ label: item, value: item });
               });
 
-              
+              // let instution_type = res?.data?.response?.data?.institution_type;
+              // let newInstitutionType = [];
+              // Object.keys(instution_type)?.map((item, i) => {
+              //   newInstitutionType.push({ label: item, value: item });
+              // });
+              // setInstitutionType(newInstitutionType);
 
 
               let non_irt_institution_type =
-              res?.data?.response?.data?.non_mandatory_institution_type;
+                res?.data?.response?.data?.non_mandatory_institution_type;
 
               let nonIrtInstitution = [];
               Object.keys(non_irt_institution_type)?.map((item, i) => {
-              nonIrtInstitution.push({ label: item, value: item });
+                nonIrtInstitution.push({ label: item, value: item });
               });
 
               setNonIrtInstitutionType(nonIrtInstitution);
 
-            let irt_institution_type =
-            res?.data?.response?.data?.irt_institution_type;
+              let irt_institution_type =
+                res?.data?.response?.data?.irt_institution_type;
 
-            let newIrtInstitution = [];
-            Object.keys(irt_institution_type)?.map((item, i) => {
-              newIrtInstitution.push({ label: item, value: item });
-            });
+              let newIrtInstitution = [];
+              Object.keys(irt_institution_type)?.map((item, i) => {
+                newIrtInstitution.push({ label: item, value: item });
+              });
 
-            setIrtInstitutionType(newIrtInstitution);
+              setIrtInstitutionType(newIrtInstitution);
 
 
               setRole(newType);
@@ -373,7 +388,7 @@ const CreateEmail = (props) => {
   }, []);
 
   axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
-  const getTemplateListData = async (flag) => {    
+  const getTemplateListData = async (flag) => {
     let pdf_id = state_object?.PdfSelected
       ? state_object?.PdfSelected
       : props.getDraftData?.pdf_id;
@@ -397,12 +412,8 @@ const CreateEmail = (props) => {
       ibu: "",
       content_included: content_included,
       siteContent: siteContent,
-      pdf: pdf_id
+      pdf: pdf_id,
     };
-    type = type || state_object?.type;
-    if(type){
-      body.type = type
-    }
 
     loader("show");
     await axios
@@ -415,7 +426,7 @@ const CreateEmail = (props) => {
 
         setTimeout(function () {
           if ((isLikeRdAccount)
-          && [3968, 3970, 4521, '3968', '3970', '4521'].includes(pdf_id)) {
+            && [3968, 3970, 4521, '3968', '3970', '4521'].includes(pdf_id)) {
             let div_img = '';
             if (pdf_id == '3968') {
               div_img = document.querySelector('[data-id="template_dyn_data_id554"]');
@@ -433,7 +444,7 @@ const CreateEmail = (props) => {
               }
             }
           } else {
-            if(templateId == '' || templateId?.length == 0){
+            if (templateId == '' || templateId?.length == 0) {
               const div_img = document.querySelector("#template_dyn0");
               if (div_img !== null && typeof div_img != "undefined") {
                 div_img.click();
@@ -456,7 +467,9 @@ const CreateEmail = (props) => {
     loader("hide");
   };
 
- 
+  useEffect(() => {
+    //console.log("sdsdsd");
+  }, [selectedHcp]);
 
   useEffect(() => {
     const body = {
@@ -469,7 +482,10 @@ const CreateEmail = (props) => {
         .post(`emailapi/get_tags`, body)
         .then((res) => {
           setAllTags(res?.data?.response?.data);
-           
+          // console.log(campaign_id_st);
+          // if (typeof campaign_id_st === "undefined" || campaign_id_st == 0) {
+          // loader("hide");
+          // }
         })
         .catch((err) => {
           loader("hide");
@@ -477,7 +493,7 @@ const CreateEmail = (props) => {
         });
     };
     getAllTags();
-   
+    // getCampaignData();
   }, []);
 
   useEffect(() => {
@@ -556,7 +572,7 @@ const CreateEmail = (props) => {
           data?.lastname == "" ||
           data?.firstname == "" ||
           data?.country == "" ||
-          data?.institutionType == ""||
+          data?.institutionType == "" ||
           (data?.optIRT === 'yes' && (data?.siteNumber === "" || data?.siteName === ""))
         ) {
           return "false";
@@ -598,7 +614,7 @@ const CreateEmail = (props) => {
               ? irtRole?.[0]?.value
               : "",
           institutionType: "",
-          
+
         },
       ]);
     } else {
@@ -643,7 +659,7 @@ const CreateEmail = (props) => {
                 setSelectedHcp((oldArray) => [...oldArray, data]);
               }
             });
-           
+            // setSelectedHcp(res.data.response.data);
             loader("hide");
           } else {
             toast.warning(res.data.message);
@@ -659,7 +675,10 @@ const CreateEmail = (props) => {
     } else {
       toast.warning("Please select smart list");
     }
-  
+    // e.preventDefault();
+    // setSelectedHcp((oldArray) => [...readers, ...oldArray]);
+    // setIsOpensend(true);
+    // setAddListOpen(false);
   };
 
   const sendsampeap = (event) => {
@@ -719,13 +738,13 @@ const CreateEmail = (props) => {
         source_code: template,
       };
 
- 
+      //console.log(body);
       axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
 
       axios
         .post(`emailapi/send_sample_email`, body)
         .then((res) => {
-          
+          //console.log(res);
           loader("hide");
           if (res.data.status_code === 200) {
             setUploadOrDownloadCount(100);
@@ -864,7 +883,7 @@ const CreateEmail = (props) => {
       : props.getDraftData.campaign;
 
     if (typeof campaign !== "undefined" && campaign !== "") {
-      
+      // console.log(props.getDraftData);
 
       let up_temp = template;
       if (editorRef.current) {
@@ -872,7 +891,7 @@ const CreateEmail = (props) => {
       }
 
       let redirectPath = "/EmailList";
- 
+
       if (irtRoleObj?.IRTFlag) {
         redirectPath = "/IRTRole";
       }
@@ -914,10 +933,10 @@ const CreateEmail = (props) => {
               visible: "show",
               message: "Your changes has been saved <br />successfully !",
               type: "success",
-             
+              // redirect: "/EmailList",
               redirect: redirectPath
             });
-            
+            // toast.success("Draft saved");
           } else {
             toast.warning(res.data.message);
           }
@@ -938,7 +957,7 @@ const CreateEmail = (props) => {
     if (div) {
       div.classList.remove("select_mm");
     }
-    
+
     const templateDescriptions = {
       "E-Mail IRT: Site User": "IRT Training Site User",
       "E-mail IRT: Investigator": "IRT Training Investigator_blinded",
@@ -992,7 +1011,7 @@ const CreateEmail = (props) => {
       return finalTags.innerHTML == null ? finalTags : finalTags.innerHTML;
     });
     if (validator.allValid()) {
-      if(irtRoleObj?.IRTFlag){
+      if (irtRoleObj?.IRTFlag) {
         let existingObj = {
           status: getIsApprovedStatus,
           emailDescription: emailDescription,
@@ -1005,12 +1024,12 @@ const CreateEmail = (props) => {
           PdfSelected: PdfSelected,
           campaign_id: campaign_id_st,
           selected: state_object?.selected ? state_object?.selected : 0,
-          removedHcp : state_object?.removedHcp ? state_object?.removedHcp : [],
-          addedHcp : state_object?.addedHcp ? state_object?.addedHcp : [],
-          selectedHcp : state_object?.selectedHcp ? state_object?.selectedHcp : [],
+          removedHcp: state_object?.removedHcp ? state_object?.removedHcp : [],
+          addedHcp: state_object?.addedHcp ? state_object?.addedHcp : [],
+          selectedHcp: state_object?.selectedHcp ? state_object?.selectedHcp : [],
         };
-        
-        if(state_object?.startTraining == 1){
+
+        if (state_object?.startTraining == 1) {
           existingObj['startTraining'] = 1;
           const mergedObject = { ...existingObj, ...irtRoleObj };
           props.getSelectedSmartListData(stateListData)
@@ -1018,19 +1037,19 @@ const CreateEmail = (props) => {
           props.getSelected(trainingUser)
           props.getSearched(null)
           navigate("/VerifyHCP", {
-            state: {IrtObj:irtRoleObj,NextFlag:1},
+            state: { IrtObj: irtRoleObj, NextFlag: 1 },
           });
-        }else{
+        } else {
           const mergedObject = { ...existingObj, ...irtRoleObj };
           props.getSelectedSmartListData(stateListData)
           props.getEmailData(mergedObject);
           props.getSelected(trainingUser)
           props.getSearched(searchedUser)
           navigate("/VerifyHCP", {
-            state: {IrtObj:irtRoleObj,NextFlag:1},
+            state: { IrtObj: irtRoleObj, NextFlag: 1 },
           });
         }
-      }else{
+      } else {
         props.getSelectedSmartListData(stateListData)
         props.getSelected(trainingUser)
         props.getSearched(searchedUser)
@@ -1047,9 +1066,9 @@ const CreateEmail = (props) => {
           PdfSelected: PdfSelected,
           campaign_id: campaign_id_st,
           selected: state_object?.selected ? state_object?.selected : 0,
-          removedHcp : state_object?.removedHcp ? state_object?.removedHcp : [],
-          addedHcp : state_object?.addedHcp ? state_object?.addedHcp : [],
-          selectedHcp : state_object?.selectedHcp ? state_object?.selectedHcp : [],
+          removedHcp: state_object?.removedHcp ? state_object?.removedHcp : [],
+          addedHcp: state_object?.addedHcp ? state_object?.addedHcp : [],
+          selectedHcp: state_object?.selectedHcp ? state_object?.selectedHcp : [],
         });
         navigate("/SelectHCP");
       }
@@ -1061,7 +1080,7 @@ const CreateEmail = (props) => {
 
   const approvedClicked = async (e) => {
     let ab = getIsApprovedStatus;
-     
+    // console.log(ab);
     if (getIsApprovedStatus === 3) {
       await setIsApprovedStatus(2);
       ab = 2;
@@ -1069,7 +1088,7 @@ const CreateEmail = (props) => {
       await setIsApprovedStatus(3);
       ab = 3;
     }
-    
+    //setIsApprovedStatus(3);
     e.preventDefault();
     let tagss = [];
     finalTags.map((tags) => {
@@ -1153,7 +1172,33 @@ const CreateEmail = (props) => {
       setHpc(list);
     }
 
-    
+    // e.preventDefault();
+
+    // if (index != 0) {
+
+    //   const { value } = e.target;
+
+    //   const old_hpc = hpc;
+
+    //   old_hpc[i].siteDetails[index].siteNumber = value;
+
+    //   setHpc(old_hpc);
+
+    //   setUpdate(update + 1);
+
+    // } else if (index == 0) {
+
+    //   const { value } = e;
+
+    //   const old_hpc = hpc;
+
+    //   old_hpc[i].siteDetails[index].siteNumber = value;
+
+    //   setHpc(old_hpc);
+
+    //   setUpdate(update + 1);
+
+    // }
   };
 
   const onSiteNameChange = (e, i) => {
@@ -1222,7 +1267,11 @@ const CreateEmail = (props) => {
       const name = hpc[i].institutionType;
       list[i].institutionType = value;
       setHpc(list);
-   
+      //   if (e?.value == "Study site") {
+      //     onIRTChange("yes", i);
+      //   } else {
+      //     onIRTChange("no", i);
+      //   }
     }
   };
   const onIRTChange = (e, i) => {
@@ -1257,10 +1306,12 @@ const CreateEmail = (props) => {
     e.target.value = "";
     const new_atg = document.getElementById("new-tag");
     new_atg.value = "";
-  
+    //console.log(new_atg);
   };
 
- 
+  // const emailDescriptionChange = (e) => {
+  //   setEmailDescription(e.target.value);
+  // };
 
   const emailCreatorChange = (e) => {
     setEmailCreator(e.target.value);
@@ -1286,7 +1337,7 @@ const CreateEmail = (props) => {
         alltemp_tags = alltemp_tags?.map((data) => {
           return data.toLowerCase();
         });
-         
+        // console.log(alltemp_tags);
       }
 
       if (
@@ -1300,7 +1351,7 @@ const CreateEmail = (props) => {
           tags: newTag,
         };
 
-    
+        //console.log(body);
         axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
         loader("show");
         await axios
@@ -1329,7 +1380,7 @@ const CreateEmail = (props) => {
   };
 
   const sendSample = (event) => {
-    
+    //  console.log(selectedHcp);
 
     event.preventDefault();
     let error = {};
@@ -1380,12 +1431,12 @@ const CreateEmail = (props) => {
     const tags = tagClickedFirst;
 
     tags.splice(index, 1);
-  
+    //console.log(tags);
     setTagClickedFirst(tags);
     setFinalTags(tags);
     setTagsReRender(tagsReRender + 1);
 
-    
+    // tagClickedFirst.splice(index, 1);
   };
 
   const removeTagFinal = (index) => {
@@ -1415,19 +1466,39 @@ const CreateEmail = (props) => {
         name: name,
         email: email,
       };
-     
+      // let error = {};
+      // if (name == "") {
+      //   error.name = "Please enter name";
+      // }
+      // if (email == "") {
+      //   error.email = "Please enter email";
+      // }
+      // if (Object.keys(error)?.length) {
+      //   toast.error(error[Object.keys(error)[0]]);
+      //   setValidationError(error);
+      //   return;
+      // } else {
+      //   const body = {
+      //     user_id: localStorage.getItem("user_id"),
+      //     name: name,
+      //     email: email,
+      //   };
+      //console.log(body);
       axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
       loader("show");
       await axios
         .post(`emailapi/search_hcp`, body)
         .then((res) => {
-         
+          // console.log(res);
+          // console.log(res.data.response.data);
           if (res.data.response) {
             setSearchedUsers(res.data.response.data);
           } else {
             toast.warning(res.data.message);
           }
-           
+          // if (res.data.message) {
+          //   setMessage(res.data.message);
+          // }
           loader("hide");
         })
         .catch((err) => {
@@ -1457,7 +1528,7 @@ const CreateEmail = (props) => {
     const name = hpc[i].firstname;
     list[i].firstname = value;
     setHpc(list);
-     
+    // console.log(hpc);
   };
 
   const onLastNameChange = (e, i) => {
@@ -1466,7 +1537,7 @@ const CreateEmail = (props) => {
     const name = hpc[i].lastname;
     list[i].lastname = value;
     setHpc(list);
-    
+    //console.log(hpc);
   };
 
   const onEmailChange = (e, i) => {
@@ -1475,7 +1546,8 @@ const CreateEmail = (props) => {
     const name = hpc[i].email;
     list[i].email = value;
     setHpc(list);
-     
+    // setEmailData(e.target.value);
+    //console.log(hpc);
   };
 
   const onContactTypeChange = (e, i) => {
@@ -1556,29 +1628,29 @@ const CreateEmail = (props) => {
   const saveClicked = async () => {
 
     if (activeManual == "active") {
- 
- 
-     const  isRdAndNorgianAcount=isLikeRdAccount
+
+
+      const isRdAndNorgianAcount = isLikeRdAccount
       const body_data = hpc.map((data) => {
         if (isRdAndNorgianAcount) {
- 
-          if(data?.optIRT == "yes"){
+
+          if (data?.optIRT == "yes") {
             return {
               first_name: data?.firstname,
               last_name: data?.lastname,
               email: data?.email,
               country: data?.country,
-               
+              // contact_type: data?.contact_type,
               siteNumber: data?.siteNumber ? data.siteNumber : "",
               siteName: data?.siteName ? data.siteName : "",
               investigator_type: data?.role,
-              siteIrt:1,
+              siteIrt: 1,
               institution_type: data?.institutionType
                 ? data?.institutionType
                 : "",
             };
           }
-          else{
+          else {
             return {
               first_name: data?.firstname,
               last_name: data?.lastname,
@@ -1591,7 +1663,7 @@ const CreateEmail = (props) => {
                 : "",
             };
           }
-       
+
         } else {
           return {
             first_name: data?.firstname,
@@ -1602,15 +1674,15 @@ const CreateEmail = (props) => {
           };
         }
       });
- 
+
       const body = {
         data: body_data,
         user_id: localStorage.getItem("user_id"),
         smart_list_id: "",
       };
- 
+
       const status = body.data.map((data, index) => {
-        if (isRdAndNorgianAcount ) {
+        if (isRdAndNorgianAcount) {
           if (
             data.first_name == "" &&
             (isRdAndNorgianAcount)
@@ -1636,10 +1708,10 @@ const CreateEmail = (props) => {
               newHcpEmail: "Please enter the email",
               index: index,
             });
- 
+
             return;
           }
- 
+
           else if (data.institution_type == "") {
             setValidationError({
               newHcpInstitution: "Please Select the institution type",
@@ -1657,44 +1729,44 @@ const CreateEmail = (props) => {
             });
             return;
           }
- 
-          
-       else if(data?.siteIrt == 1 ){
-        if ( data.siteNumber === "" &&
-          (isRdAndNorgianAcount)) {
-          setValidationError({
-            newSiteNumber: "Please select the site number ",
-            index: index,
-          });
-          return;
-        }
-        if (data.siteName === "" &&
-          (isRdAndNorgianAcount)) {
-          setValidationError({
-            newSiteName: "Please select the site name",
-            index: index,
-          });
-          return;
-        }
-       }
-           
-         
-        }else if(data.email==""){
+
+
+          else if (data?.siteIrt == 1) {
+            if (data.siteNumber === "" &&
+              (isRdAndNorgianAcount)) {
+              setValidationError({
+                newSiteNumber: "Please select the site number ",
+                index: index,
+              });
+              return;
+            }
+            if (data.siteName === "" &&
+              (isRdAndNorgianAcount)) {
+              setValidationError({
+                newSiteName: "Please select the site name",
+                index: index,
+              });
+              return;
+            }
+          }
+
+
+        } else if (data.email == "") {
           setValidationError({
             newHcpEmail: "Please enter the email",
             index: index,
           });
 
           return;
-        }else if (data.country == "" && localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==") {
+        } else if (data.country == "" && localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==") {
           setValidationError({
             newHcpCountry: "Please select the country",
             index: index,
           });
           return;
-        }      
-         if (data.email != "") {
- 
+        }
+        if (data.email != "") {
+
           let email = data.email;
           let useremail = email.trim();
           var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -1705,7 +1777,7 @@ const CreateEmail = (props) => {
                 newHcpEmail: "User with same email already added in list.",
                 index: index,
               });
- 
+
               return;
             }
           } else {
@@ -1713,7 +1785,7 @@ const CreateEmail = (props) => {
               newHcpEmail: "Email format is not valid",
               index: index,
             });
- 
+
             return;
           }
           return "true";
@@ -1722,7 +1794,7 @@ const CreateEmail = (props) => {
         }
       });
 
-     
+
       status.sort();
       if (status.every((element) => element == "true")) {
         loader("show");
@@ -1732,7 +1804,7 @@ const CreateEmail = (props) => {
           .then((res) => {
             if (res.data.status_code === 200) {
               toast.success("User added successfully");
- 
+
               res.data.response.data.map((data) => {
                 setSelectedHcp((oldArray) => [...oldArray, data]);
               });
@@ -1743,7 +1815,7 @@ const CreateEmail = (props) => {
               loader("hide");
             }
             loader("hide");
-            
+            //setSelectedHcp(res.data.response.data);
           })
           .catch((err) => {
             toast.error("Something went wrong");
@@ -1756,9 +1828,9 @@ const CreateEmail = (props) => {
       formData.append("user_id", user_id);
       formData.append("smart_list_id", "");
       formData.append("reader_file", selectedFile);
- 
- 
- 
+
+      // console.log(formData);
+
       if (selectedFile) {
         axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
         loader("show");
@@ -1767,11 +1839,11 @@ const CreateEmail = (props) => {
           .then((res) => {
             if (res.data.status_code === 200) {
               toast.success("User added successfully");
- 
+
               res.data.response.data.map((data) => {
                 setSelectedHcp((oldArray) => [...oldArray, data]);
               });
- 
+
               loader("hide");
               setIsOpenAdd(false);
               setActiveManual("active");
@@ -1889,7 +1961,34 @@ const CreateEmail = (props) => {
     e.preventDefault();
     setShowLessInfo(!showLessInfo);
   };
-   
+  // const openSmartListPopup = async (smart_list_id) => {
+  //   setShowLessInfo(true);
+  //   axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+  //   const body = {
+  //     user_id: localStorage.getItem("user_id"),
+  //     list_id: smart_list_id,
+  //     show_specific: 1,
+  //   };
+  //   loader("show");
+  //   await axios
+  //     .post(`distributes/get_reders_list`, body)
+  //     .then((res) => {
+  //       if (res.data.status_code == 200) {
+  //         setAddListOpen(false);
+  //         setReaderDetails(res.data.response.data);
+  //         setSmartListName(res.data.response.smart_list_name);
+  //         setSmartListPopupStatus(true);
+  //       } else {
+  //         toast.warning(res.data.message);
+  //       }
+  //       loader("hide");
+  //     })
+  //     .catch((err) => {
+  //       toast.warning("Something went wrong");
+  //       loader("hide");
+  //     });
+  // };
+
   const handleScroll = (ev) => {
     if (ev.target.scrollTop > 20) {
       document
@@ -1930,7 +2029,7 @@ const CreateEmail = (props) => {
       toast.warning("Template not selected.");
     }
   };
-  
+
   const addTracking = function (editor) {
     editor.on("OpenWindow", function (e) {
       let dialog = document.getElementsByClassName("tox-dialog")[0];
@@ -2176,36 +2275,30 @@ const CreateEmail = (props) => {
       PdfSelected: PdfSelected,
       campaign_id: campaign_id_st,
       selected: state_object?.selected ? state_object?.selected : 0,
-      removedHcp : state_object?.removedHcp ? state_object?.removedHcp : [],
-      addedHcp : state_object?.addedHcp ? state_object?.addedHcp : [],
-      selectedHcp : state_object?.selectedHcp ? state_object?.selectedHcp : [],
+      removedHcp: state_object?.removedHcp ? state_object?.removedHcp : [],
+      addedHcp: state_object?.addedHcp ? state_object?.addedHcp : [],
+      selectedHcp: state_object?.selectedHcp ? state_object?.selectedHcp : [],
     };
-
-    if(type){
-      emailExistingObj.type = type;
-    }
-      if(irtRoleObj?.IRTFlag){
-        if(state_object?.startTraining == 1){
-          emailExistingObj['startTraining'] = 1;
-        }
-        const mergedObject = { ...emailExistingObj, ...irtRoleObj };
-        // console.log(mergedObject,"mergedObject");
-        
-        props.getEmailData(mergedObject);
-      }else{
-        props.getEmailData(emailExistingObj);
+    if (irtRoleObj?.IRTFlag) {
+      if (state_object?.startTraining == 1) {
+        emailExistingObj['startTraining'] = 1;
       }
-      props.getSelected(trainingUser)
-      props.getSearched(searchedUser)
-      props.getSelectedSmartListData(stateListData)
-      navigate("/EmailArticleSelect", {
-        state: {IrtObj:irtRoleObj},
-      });
+      const mergedObject = { ...emailExistingObj, ...irtRoleObj };
+      props.getEmailData(mergedObject);
+    } else {
+      props.getEmailData(emailExistingObj);
+    }
+    props.getSelected(trainingUser)
+    props.getSearched(searchedUser)
+    props.getSelectedSmartListData(stateListData)
+    navigate("/EmailArticleSelect", {
+      state: { IrtObj: irtRoleObj },
+    });
   };
 
   const handleSelectUsers = () => {
     navigate("/EmailArticleSelect", {
-      state: {IrtObj:irtRoleObj},
+      state: { IrtObj: irtRoleObj },
     });
   };
 
@@ -2213,39 +2306,14 @@ const CreateEmail = (props) => {
     <>
       <div className="col right-sidebar custom-change">
         <div className="custom-container">
-          <div className="row">
+          <Row>
             <div className="page-top-nav sticky">
               <div className="row justify-content-end align-items-center">
-                <div className="col-12 col-md-1">
-                  <div className="header-btn-left">
-                    <button className="btn btn-primary btn-bordered back" onClick={handleBackClick}>
-                       Back
-                    </button>
-                  </div>
-                </div>
-                <div className="col-12 col-md-8">
+                <div className="col-12 col-md-3"></div>
+                <div className="col-12 col-md-6">
                   <ul className="tabnav-link">
-                    <li className="active" onClick={handleSelectUsers}>
-                       
-                      Select Content
-                    </li>
-                    <li className="active active-main">
+                    <li className="active active-main" onClick={handleSelectUsers}>
                       <a href="">Create Your Email</a>
-                    </li>
-                 
-                     {!irtRoleObj?.IRTFlag && (
-                        <li className="">
-                          <a href="">
-                            {(isLikeRdAccount) ? "Select Users" : "Select HCPs"}
-                          </a>
-                        </li>
-                      )}
-                    <li className="">
-                      <a href="">
-                        {
-                          IRTTraining ? "Verify Your IRT" : "Verify your list"
-                        }
-                      </a>
                     </li>
                     <li className="">
                       <a href="">Verify your Email</a>
@@ -2254,200 +2322,70 @@ const CreateEmail = (props) => {
                 </div>
                 <div className="col-12 col-md-3">
                   <div className="header-btn">
-                    {
-                      IRTTraining ? 
-                        <Link to = {"/new-readers-reviews"}
-                           
-                          state= {irtRoleObj}
-                          className="btn btn-primary btn-bordered move-draft">
-                          Cancel
-                        </Link>
-                      :
-                      <>
-                        {
-                          (isLikeRdAccount)
-                          ? 
-                            <>
-                              {
-                                irtRoleObj?.IRTFlag ? 
-                                  <Link to = {"/RD-EmailList"}
-                                    state= {{IrtObj: irtRoleObj}}
-                                    className="btn btn-primary btn-bordered move-draft engine_cancel">
-                                    Cancel
-                                  </Link>
-                                :
-                                <Link to = {"/EmailList"}
-                                  className="btn btn-primary btn-bordered move-draft engine_cancel">
-                                  Cancel
-                                </Link>
-                              }
-                              
-                              <button
-                                  className="btn btn-primary btn-bordered"  state={{IrtObj:irtRoleObj }}
-                                  onClick={saveAsDraft}
-                                >
-                                  Save As Draft
-                                </button>
-                            </>    
-                          :
-                            <button
-                              className="btn btn-primary btn-bordered move-draft"  state={{IrtObj:irtRoleObj }}
-                              onClick={saveAsDraft}
-                            >
-                              Save As Draft
-                            </button>
-                        }
-                      </>
-
-                    }
+                    <Link to={"/new-readers-reviews"}
+                      // state= {{siteRole: irtRoleObj?.siteRole }}
+                      state={irtRoleObj}
+                      className="btn btn-primary btn-bordered move-draft">
+                      Cancel
+                    </Link>
 
                     <button
-                      className="btn btn-primary btn-filled next"  state={{ PdfSelected: PdfSelected,IrtObj:irtRoleObj }}
-                      onClick={nextClicked}
-                      disabled={
-                        typeof emailSubject == "undefined" ||
-                        emailSubject.trim().length == 0 ||
-                        typeof templateId == "undefined" ||
-                        templateId == ""
-                      }
-                    >
+                      className="btn btn-primary btn-filled next">
                       Next
                     </button>
                   </div>
                 </div>
               </div>
             </div>
-
-            <div className="top-header">
-              <div className="custom-container">
-                <div className="row">
+          </Row>
+        </div>
+            <section className="select-mail-template sunshine-mail">
+              <Container>
+                <Row>
                   <div className="page-title">
-                    <h4>Select your Template</h4>
+                    <h4><span>1.</span> Select the client you wish to send this email to by either searching for an existing client or adding a new one:</h4>
                   </div>
-                </div>
-              </div>
-            </div>
-
-            <section className="select-mail-template">
-              <div className="custom-container">
-                <div className="row">
-                  <AliceCarousel
-                    mouseTracking
-                    disableDotsControls
-                    activeIndex={activeIndex}
-                    responsive={responsive}
-                    onSlideChanged={syncActiveIndex}
-                  >
-                    {templateList.map((template, index) => {
-                      return (
-                        <React.Fragment key={index}>
-                          <div
-                           
-                            className="item"
-                            // onClick={(e) => templateClicked(template, e)}
-                            onClick={(e) => irtRoleObj?.IRTFlag ? templateIRTClicked(template, e) : templateClicked(template, e)}
-                          >
-                            <img
-                              id={"template_dyn" + index}
-                              src={template.template_img}
-                              data-id={"template_dyn_data_id" + template.id}
-                              alt=""
-                              className={
-                                typeof templateId !== "undefined" &&
-                                  templateId == template.id
-                                  ? "select_mm"
-                                  : ""
-                              }
-                            />
-                            <p>{template.name}</p>
+                  <div className="email-form padding-add">
+                    <form>
+                      <>
+                        <div className="form-inline d-flex justify-content-between align-items-center">
+                          <div className="col-12 col-md-4 d-flex align-items-center">
+                            <div className="form-group">
+                              <label className="form-label">Name</label>
+                              <input type="text" className="form-control" />
+                            </div>
                           </div>
-                        </React.Fragment>
-                      );
-                    })}
-                  </AliceCarousel>
+                          <div className="col-12 col-md-4 d-flex align-items-center">
+                            <div className="form-group">
+                              <label className="form-label">Email</label>
+                              <input type="text" className="form-control" />
+                            </div>
+                          </div>
+                          <div className="col-12 col-md-4 d-flex align-items-center justify-content-between">
+                            <Button className="btn-filled">Search</Button>
+                            <span>- OR -</span>
+                            <Button className="btn-bordered btn-voilet">Add New Client +</Button>
+                          </div>
+                        </div>
+                      </>
+                    </form>
+                  </div>
+                  </Row>
+                </Container>
+            </section>
 
-                  <input type="hidden" id="mail_template" value={templateId} />
+            <section className="select-mail-template sunshine-mail">
+              <Container>
+                 <Row>
+                  <div className="page-title">
+                    <h4><span>2.</span> Create your email:</h4>
+                  </div>
                   {validator.message("Templates", templateId, "required")}
 
                   <div className="email-form padding-add">
                     <form>
-        
+
                       <>
-                        <div className="form-inline d-flex justify-content-between align-items-center">
-                          <div className="form-group col-12 col-md-7 d-flex align-items-center">
-                            <label htmlFor="exampleInputEmail1">
-                              Email Description <span>*</span>
-                              <LinkWithTooltip
-                                tooltip="About this specific email, this description will aid in distinguishing it from others."
-                                href="#"
-                              >
-                                <img
-                                  src={
-                                    path_image +
-                                    "info_circle_icon.svg"
-                                  }
-                                  alt="refresh-btn"
-                                />
-                              </LinkWithTooltip>
-
-                            </label>
-
-                            <input
-                         
-                              onChange={(e) => {
-                                setEmailDescription(e?.target?.value);
-                                setManualEmailDescription(e?.target?.value)
-                            }}
-                              type="text"
-                              className={
-                                validator?.message(
-                                  "emailDesc",
-                                  emailDescription,
-                                  "required"
-                                )
-                                  ? "form-control error"
-                                  : "form-control"
-                              }
-                              id="email-desc"
-                              value={emailDescription}
-                            />
-                            {validator.message(
-                              "emailDesc",
-                              emailDescription,
-                              "required"
-                            )}
-                          </div>
-                          <div className="form-group right-side col-12 col-md-5 d-flex align-items-center">
-                            <label htmlFor="exampleInputEmail1">
-                              Email Creator <span>*</span>
-                            </label>
-
-                            <input
-                            
-                              onChange={(e) => {
-                                setEmailCreator(e?.target?.value);
-                                setManualEmailCreator(e?.target?.value)
-                            }}
-                              type="text"
-                              className={
-                                validator.message(
-                                  "creator",
-                                  emailCreator,
-                                  "required"
-                                )
-                                  ? "form-control error"
-                                  : "form-control"
-                              }
-                              id="email-address"
-                              value={emailCreator}
-                            />
-                            {validator.message(
-                              "creator",
-                              emailCreator,
-                              "required"
-                            )}
-                          </div>
-                        </div>
                         <div className="form-inline d-flex justify-content-between align-items-center">
                           <div className="form-group col-12 col-md-7 d-flex align-items-center">
                             <label htmlFor="exampleInputEmail1">
@@ -2479,11 +2417,11 @@ const CreateEmail = (props) => {
                               }
                               id="email-campaign"
                               value={emailCampaign}
-                              
+                              // onChange={changeEmailCampaign}
                               onChange={(e) => {
                                 setemailCampaign(e?.target?.value);
                                 setManualEmailCampaign(e?.target?.value)
-                            }}
+                              }}
                             />
                             {validator.message(
                               "emailCampaign",
@@ -2491,9 +2429,40 @@ const CreateEmail = (props) => {
                               "required"
                             )}
                           </div>
+                          <div className="form-group right-side col-12 col-md-5 d-flex align-items-center">
+                            <label htmlFor="exampleInputEmail1">
+                              Email Creator <span>*</span>
+                            </label>
+
+                            <input
+                              // onChange={(e) => emailCreatorChange(e)}
+                              onChange={(e) => {
+                                setEmailCreator(e?.target?.value);
+                                setManualEmailCreator(e?.target?.value)
+                              }}
+                              type="text"
+                              className={
+                                validator.message(
+                                  "creator",
+                                  emailCreator,
+                                  "required"
+                                )
+                                  ? "form-control error"
+                                  : "form-control"
+                              }
+                              id="email-address"
+                              value={emailCreator}
+                            />
+                            {validator.message(
+                              "creator",
+                              emailCreator,
+                              "required"
+                            )}
+                          </div>
                         </div>
+
                       </>
-                      
+                      {/* ) : null} */}
                       <div className="input-group d-flex w-100">
                         <div className="input-group-prepend">
                           <button
@@ -2511,8 +2480,8 @@ const CreateEmail = (props) => {
                           <ul>
                             {finalTags.map((tags, index) => {
                               return (
-                                <React.Fragment key={index}>
-                                  <li className="list1" >
+                                <>
+                                  <li className="list1" key={index}>
                                     {tags.innerHTML || tags}{" "}
                                     <img
                                       src={path_image + "filter-close.svg"}
@@ -2520,7 +2489,7 @@ const CreateEmail = (props) => {
                                       onClick={() => removeTag(index)}
                                     />
                                   </li>
-                                </React.Fragment>
+                                </>
                               );
                             })}
                           </ul>
@@ -2528,7 +2497,7 @@ const CreateEmail = (props) => {
                       </div>
 
                       <div className="form-inline d-flex justify-content-end align-items-center">
-                        <div className="form-group col-12 col-md-5">
+                        <div className="form-group col-12 col-md-6">
                           <label htmlFor="exampleInputEmail1">
                             Email Subject <span>*</span>
                           </label>
@@ -2545,11 +2514,11 @@ const CreateEmail = (props) => {
                                 : "form-control"
                             }
                             id="email-subject"
-                          
+                            // onChange={(e) => emailSubjectChanged(e)}
                             onChange={(e) => {
                               setEmailSubject(e?.target?.value);
                               setManualEmailSubject(e?.target?.value)
-                          }}
+                            }}
                             value={emailSubject}
                           />
                           {validationError?.emailSubject ? (
@@ -2567,10 +2536,14 @@ const CreateEmail = (props) => {
                               "required"
                             )
                           ) : null}
-                         
+                          {/* {validator.message(
+                            "emailSubject",
+                            emailSubject,
+                            "required"
+                          )} */}
                         </div>
-                        <div className="form-buttons right-side col-12 col-md-7">
-                          
+                        <div className="form-buttons right-side col-12 col-md-6">
+
                           <button
                             className={
                               typeof getIsApprovedStatus !== "undefined" &&
@@ -2622,8 +2595,8 @@ const CreateEmail = (props) => {
                       </div>
                     </form>
                   </div>
-                </div>
-                <div className="row">
+                  </Row>
+                  <Row>
                   {showProgress ? (
                     <div className="progressloader">
                       {" "}
@@ -2653,16 +2626,16 @@ const CreateEmail = (props) => {
                   )}{" "}
                   <Editor
                     apiKey="gpl"
-                          tinymceScriptSrc={window.location.origin+ '/tinymce/tinymce.min.js'}
+                    tinymceScriptSrc={window.location.origin + '/tinymce/tinymce.min.js'}
                     onInit={(evt, editor) => (editorRef.current = editor)}
                     initialValue={template}
                     init={{
                       height: "100vh",
                       menubar: "file edit view insert format tools table help",
                       plugins:
-                        "preview importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media codesample table charmap pagebreak nonbreaking anchor insertdatetime advlist lists wordcount help charmap quickbars emoticons",
+                        "preview importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap pagebreak nonbreaking anchor insertdatetime advlist lists wordcount help charmap quickbars emoticons",
                       toolbar:
-                        "undo redo | bold italic underline strikethrough | fontfamily fontsize blocks | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media pageembed link anchor codesample | ltr rtl",
+                        "undo redo | bold italic underline strikethrough | fontfamily fontsize blocks | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media pageembed template link anchor codesample | ltr rtl",
                       content_style:
                         "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
                       automatic_uploads: true,
@@ -2714,7 +2687,7 @@ const CreateEmail = (props) => {
                           input.setAttribute("type", "file");
                           input.setAttribute("accept", "image/*");
 
-                          
+                          // Create a loading indicator element (e.g., a spinner)
                           const loadingIndicator =
                             document.createElement("div");
                           loadingIndicator.className = "loading-indicator";
@@ -2764,12 +2737,27 @@ const CreateEmail = (props) => {
                       setTemplateSaving(content);
                     }}
                   />
-                  
-                </div>
-              </div>
+                  {/*
+
+              <CKEditor
+              editor={ClassicEditor}
+              data={template}
+              readOnly={true}
+              onReady={(editor) => {
+              // You can store the "editor" and use when it is needed.
+            }}
+            onChange={(event, editor) => {
+            const data = editor.getData();
+            setTemplate(data);
+          }}
+          onBlur={(event, editor) => {}}
+          onFocus={(event, editor) => {}}
+          />
+              */}
+                </Row>
+              </Container>
             </section>
-          </div>
-        </div>
+
       </div>
 
       <div>
@@ -2794,11 +2782,11 @@ const CreateEmail = (props) => {
                   {allTags
                     ? Object.values(allTags)?.map((data, index) => {
                       return (
-                        <React.Fragment key={index}>
-                          <div  onClick={() => tagClicked(data)}>
+                        <>
+                          <div key={index} onClick={() => tagClicked(data)}>
                             {data}{" "}
                           </div>
-                        </React.Fragment>
+                        </>
                       );
                     })
                     : ""}
@@ -2813,8 +2801,8 @@ const CreateEmail = (props) => {
               <div className="total-selected">
                 {tagClickedFirst.map((data, index) => {
                   return (
-                    <React.Fragment key={index}>
-                      <div className="tag-cross" >
+                    <>
+                      <div className="tag-cross" key={index}>
                         {data.innerHTML || data}
                         <img
                           src={path_image + "filter-close.svg"}
@@ -2822,7 +2810,7 @@ const CreateEmail = (props) => {
                           onClick={() => removeTagFinal(index)}
                         />
                       </div>
-                    </React.Fragment>
+                    </>
                   );
                 })}
               </div>
@@ -3004,7 +2992,7 @@ const CreateEmail = (props) => {
                     <>
                       {selectedHcp.map((data, index2) => {
                         return (
-                          <React.Fragment key={index2}>
+                          <>
                             <div className="search-hcp-box" key={index2}>
                               <p className="send-hcp-box-title">
                                 Name |{" "}
@@ -3016,26 +3004,26 @@ const CreateEmail = (props) => {
 
                               {(isLikeRdAccount)
                                 ? (
-                                <p className="send-hcp-box-title">
-                                  {" "}
-                                  Role |{" "}
-                                  <span>
-                                    {data?.user_type != 0
-                                      ? data?.user_type
-                                      : "N/A"}
-                                  </span>
-                                </p>
-                              ) : (
-                                <p className="send-hcp-box-title">
-                                  {" "}
-                                  Contact type |{" "}
-                                  <span>
-                                    {data?.contact_type
-                                      ? data?.contact_type
-                                      : "N/A"}
-                                  </span>
-                                </p>
-                              )}
+                                  <p className="send-hcp-box-title">
+                                    {" "}
+                                    Role |{" "}
+                                    <span>
+                                      {data?.user_type != 0
+                                        ? data?.user_type
+                                        : "N/A"}
+                                    </span>
+                                  </p>
+                                ) : (
+                                  <p className="send-hcp-box-title">
+                                    {" "}
+                                    Contact type |{" "}
+                                    <span>
+                                      {data?.contact_type
+                                        ? data?.contact_type
+                                        : "N/A"}
+                                    </span>
+                                  </p>
+                                )}
 
                               <div className="remove-existing-field">
                                 <img
@@ -3045,12 +3033,43 @@ const CreateEmail = (props) => {
                                 />
                               </div>
                             </div>
-                          </React.Fragment>
+                          </>
                         );
                       })}
                     </>
 
-                  
+                    // <table className="table">
+                    //   <thead>
+                    //     <tr>
+                    //       <th scope="col">Name</th>
+                    //       <th scope="col">Email</th>
+                    //       <th scope="col">Country</th>
+                    //       <th scope="col"></th>
+                    //     </tr>
+                    //   </thead>
+                    //   <tbody>
+                    //     {selectedHcp.map((data, index2) => {
+                    //       return (
+                    //         <>
+                    //           <tr key={index2}>
+                    //             <td>{data.name || data.first_name}</td>
+                    //             <td>{data.email}</td>
+                    //
+                    //             <td>{data.country}</td>
+                    //
+                    //             <td className="delete_row" colSpan="12">
+                    //               <img
+                    //                 src={path_image + "delete.svg"}
+                    //                 alt="Delete Row"
+                    //                 onClick={() => deleteSelected(index2)}
+                    //               />
+                    //             </td>
+                    //           </tr>
+                    //         </>
+                    //       );
+                    //     })}
+                    //   </tbody>
+                    // </table>
                   )}
                 </div>
               </div>
@@ -3090,7 +3109,8 @@ const CreateEmail = (props) => {
               onClick={() => {
                 setAddListOpen(false);
                 setIsOpensend(true);
-                
+                // setSelectedHcp([]);
+                // setSearchedUsers([]);
               }}
             ></button>
           </Modal.Header>
@@ -3123,15 +3143,41 @@ const CreateEmail = (props) => {
                   </button>
                 </form>
               </div>
-              
+              {/*
+                <div className="filter-by">
+                  <button className="btn btn-outline-primary" type="submit">
+                    Filter By{" "}
+                    <svg
+                      width="16"
+                      height="14"
+                      viewBox="0 0 16 14"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M0.615385 2.46154H3.07692C3.07692 3.14031 3.62892 3.69231 4.30769 3.69231H5.53846C6.21723 3.69231 6.76923 3.14031 6.76923 2.46154H15.3846C15.7243 2.46154 16 2.18646 16 1.84615C16 1.50585 15.7243 1.23077 15.3846 1.23077H6.76923C6.76923 0.552 6.21723 0 5.53846 0H4.30769C3.62892 0 3.07692 0.552 3.07692 1.23077H0.615385C0.275692 1.23077 0 1.50585 0 1.84615C0 2.18646 0.275692 2.46154 0.615385 2.46154Z"
+                        fill="#97B6CF"
+                      ></path>
+                      <path
+                        d="M15.3846 6.15362H11.6923C11.6923 5.47485 11.1403 4.92285 10.4615 4.92285H9.23077C8.552 4.92285 8 5.47485 8 6.15362H0.615385C0.275692 6.15362 0 6.4287 0 6.76901C0 7.10931 0.275692 7.38439 0.615385 7.38439H8C8 8.06316 8.552 8.61516 9.23077 8.61516H10.4615C11.1403 8.61516 11.6923 8.06316 11.6923 7.38439H15.3846C15.7243 7.38439 16 7.10931 16 6.76901C16 6.4287 15.7243 6.15362 15.3846 6.15362Z"
+                        fill="#97B6CF"
+                      ></path>
+                      <path
+                        d="M15.3846 11.077H6.76923C6.76923 10.3982 6.21723 9.84619 5.53846 9.84619H4.30769C3.62892 9.84619 3.07692 10.3982 3.07692 11.077H0.615385C0.275692 11.077 0 11.352 0 11.6923C0 12.0327 0.275692 12.3077 0.615385 12.3077H3.07692C3.07692 12.9865 3.62892 13.5385 4.30769 13.5385H5.53846C6.21723 13.5385 6.76923 12.9865 6.76923 12.3077H15.3846C15.7243 12.3077 16 12.0327 16 11.6923C16 11.352 15.7243 11.077 15.3846 11.077Z"
+                        fill="#97B6CF"
+                      ></path>
+                    </svg>
+                  </button>
+                </div>
+              */}
             </div>
             <div className="col smartlist-result-block new-smartlist">
               {typeof smartListData !== "undefined" &&
                 smartListData.length > 0 ? (
                 smartListData.map((data, index) => {
                   return (
-                    <React.Fragment key={index}>
-                      <div className="smartlist_box_block"  >
+                    <>
+                      <div className="smartlist_box_block" key={index}>
                         <div className="smartlist-view email_box">
                           <div className="mail-box-content">
                             <div className="mail-box-conten-title">
@@ -3153,12 +3199,112 @@ const CreateEmail = (props) => {
                               </div>
                             </div>
                             <SmartListLayout data={data} iseditshow={0} isviewshow={1} deletestatus={0} viewSmartListData={viewSmartListData} />
-                           
-                            
+                            {/* <div className="mailbox-table">
+                              <table>
+                                <tbody>
+                                  <tr>
+                                    <th>Contact type</th>
+                                    <td>{data.contact_type}</td>
+                                  </tr>
+                                  <tr>
+                                    <th>Speciality</th>
+                                    <td>{data.speciality}</td>
+                                  </tr>
+                                  <tr>
+                                    <th>Readers</th>
+                                    <td>{data.reader_selection}</td>
+                                  </tr>
+                                  <tr>
+                                    <th>IBU</th>
+                                    <td>{data.ibu}</td>
+                                  </tr>
+                                  <tr>
+                                    <th>Product</th>
+                                    <td>{data.product}</td>
+                                  </tr>
+                                  <tr>
+                                    <th>Country</th>
+                                    <td>{data.country}</td>
+                                  </tr>
+                                  <tr>
+                                    <th>Registered</th>
+                                    <td>{data.registered}</td>
+                                  </tr>
+                                  <tr>
+                                    <th>Created by</th>
+                                    <td>
+                                      <span>{data.creator}</span>
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+
+                            <div className="mail-time">
+                              <span>{data.created_at}</span>
+                            </div>
+                            <div className="smart-list-added-user">
+                              <img
+                                src={path_image + "smartlist-user.svg"}
+                                alt="User icon"
+                              />
+                              {data.readers_count}
+                            </div> */}
+                            {/*
+                                  <div className="mail-stats">
+                                  <ul>
+                                  <li>
+                                  <div className="mail-status smartlist_view">
+                                  <svg
+                                  width="16"
+                                  height="14"
+                                  viewBox="0 0 16 14"
+                                  fill="none"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  >
+                                  <path
+                                  d="M9.65531 2.57856C10.3951 3.04241 10.9139 3.82733 11.0083 4.73845C11.31 4.87942 11.6449 4.96049 11.9999 4.96049C13.296 4.96049 14.3465 3.91 14.3465 2.6141C14.3465 1.31801 13.296 0.267517 11.9999 0.267517C10.7162 0.267916 9.67488 1.29964 9.65531 2.57856ZM8.11801 7.38316C9.4141 7.38316 10.4646 6.33246 10.4646 5.03657C10.4646 3.74067 9.4139 2.69018 8.11801 2.69018C6.82211 2.69018 5.77102 3.74087 5.77102 5.03677C5.77102 6.33266 6.82211 7.38316 8.11801 7.38316ZM9.11339 7.5431H7.12223C5.46552 7.5431 4.11771 8.89111 4.11771 10.5478V12.9829L4.1239 13.021L4.29163 13.0735C5.87266 13.5675 7.24622 13.7322 8.37679 13.7322C10.585 13.7322 11.8649 13.1027 11.9438 13.0625L12.1005 12.9833H12.1173V10.5478C12.1179 8.89111 10.7701 7.5431 9.11339 7.5431ZM12.9957 5.12063H11.0199C10.9985 5.91115 10.6611 6.62299 10.1273 7.13496C11.6 7.57285 12.6774 8.93843 12.6774 10.5514V11.3018C14.6282 11.2303 15.7524 10.6774 15.8265 10.6403L15.9832 10.5608H16V8.12495C16 6.46844 14.6522 5.12063 12.9957 5.12063ZM4.0005 4.96089C4.45955 4.96089 4.88666 4.82691 5.24847 4.59868C5.36348 3.8485 5.76563 3.19296 6.3401 2.74649C6.34249 2.70256 6.34669 2.65903 6.34669 2.6147C6.34669 1.31861 5.29599 0.268116 4.0005 0.268116C2.70421 0.268116 1.65391 1.31861 1.65391 2.6147C1.65391 3.9102 2.70421 4.96089 4.0005 4.96089ZM6.10787 7.13496C5.57674 6.62559 5.24048 5.91754 5.21592 5.13181C5.14264 5.12642 5.07016 5.12063 4.99548 5.12063H3.00452C1.34781 5.12063 0 6.46844 0 8.12495V10.5604L0.00618994 10.5979L0.173917 10.6508C1.44226 11.0468 2.57422 11.2293 3.55742 11.2868V10.5514C3.55782 8.93843 4.63487 7.57325 6.10787 7.13496Z"
+                                  fill="#FAC755"
+                                  ></path>
+                                  </svg>
+                                  </div>
+                                  <span>10%</span>
+                                  </li>
+                                  <li>
+                                  <div className="mail-status mail_click">
+                                  <svg
+                                  width="14"
+                                  height="16"
+                                  viewBox="0 0 14 16"
+                                  fill="none"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  >
+                                  <path
+                                  d="M2.96391 5.30631C2.85416 4.93468 2.74879 4.56243 2.6696 4.20577C2.14894 3.89774 1.79477 3.33718 1.79477 2.68932C1.79477 1.71473 2.58729 0.922837 3.56126 0.922837C4.53522 0.922837 5.32774 1.71535 5.32774 2.68932C5.32774 2.82338 5.30966 2.95246 5.2816 3.07779C5.45058 3.45004 5.58713 3.86906 5.70685 4.29493C6.04356 3.84599 6.25058 3.29415 6.25058 2.68932C6.25058 1.20343 5.04715 0 3.56126 0C2.07536 0 0.872559 1.20343 0.872559 2.68932C0.872559 3.96882 1.76734 5.03445 2.96391 5.30631Z"
+                                  fill="#C8D1D9"
+                                  ></path>
+                                  <path
+                                  d="M1.10616 11.673C1.76898 10.9566 2.51286 11.2372 3.50865 11.3887C4.36415 11.5203 5.20655 11.2802 5.15043 10.8182C5.06189 10.0705 4.93718 9.73632 4.65347 8.76797C4.42713 7.9979 3.99751 6.6099 3.60655 5.28301C3.08278 3.50779 2.93126 2.68348 3.62837 2.47771C4.37974 2.25885 4.8106 3.32635 5.20094 4.80663C5.64552 6.49143 5.87935 7.23531 6.01029 7.19603C6.241 7.12993 5.92549 6.40912 6.52907 6.23141C7.28356 6.01193 7.42946 6.60179 7.64084 6.54256C7.85222 6.47896 7.78052 5.88161 8.38223 5.70577C8.98706 5.53118 9.29073 6.27568 9.54014 6.20148C9.78706 6.12853 9.78145 5.85978 10.1543 5.75316C10.5278 5.64217 11.9333 6.27132 12.7376 9.01925C13.7472 12.4743 12.6098 13.1165 12.9546 14.2863L8.44833 15.9998C8.08356 15.1224 6.9537 15.0576 5.95417 14.4983C4.94716 13.9315 4.26314 12.8272 1.63866 12.8808C0.6516 12.9008 0.698366 12.1139 1.10616 11.673Z"
+                                  fill="#C8D1D9"
+                                  ></path>
+                                  </svg>
+                                  </div>
+                                  <span>60%</span>
+                                  </li>
+                                  </ul>
+                                  </div>
+                                */}
+                            {/* <div className="smartlist-buttons">
+                              <button className="btn btn-primary btn-bordered view">
+                                <a onClick={() => openSmartListPopup(data.id)}>
+                                  View
+                                </a>
+                              </button>
+                            </div> */}
                           </div>
                         </div>
                       </div>
-                    </React.Fragment>
+                    </>
                   );
                 })
               ) : (
@@ -3189,14 +3335,16 @@ const CreateEmail = (props) => {
         centered
       >
         <div
-          
+          //className="modal fade"
+          //id="add_hcp"
           data-bs-backdrop="static"
           data-bs-keyboard="false"
           tabindex="-1"
-        
+          //aria-labelledby="add_hcp"
           aria-hidden="true"
         >
-         
+          {/* <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div className="modal-content"> */}
           <div className="modal-header">
             <h5 className="modal-title" id="staticBackdropLabel">
               Add New Contact
@@ -3244,7 +3392,7 @@ const CreateEmail = (props) => {
                   {hpc.map((val, i) => {
                     const fieldName = `hpc[${i}]`;
                     return (
-                      <React.Fragment key={fieldName}>
+                      <>
                         <div className="add_hcp_boxes" key={i}>
                           <div className="form_action">
                             <div className="row">
@@ -3342,238 +3490,251 @@ const CreateEmail = (props) => {
 
                               {(isLikeRdAccount)
                                 ? (
-                                <>
-                                  {" "}
+                                  <>
+                                    {" "}
 
-                                  <div className="col-12 col-md-6">
-                                    <div className="form-group">
-                                      <label for="">
-                                        IRT mandatory training
-                                      </label>
+                                    <div className="col-12 col-md-6">
+                                      <div className="form-group">
+                                        <label for="">
+                                          IRT mandatory training
+                                        </label>
 
-                                      <Select
-                                        options={optIRT}
-                                        className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                        onChange={(event) =>
-                                          onIRTChange(event?.value, i)
-                                        }
-                                        defaultValue={
-                                          val?.optIRT == "yes"
-                                            ? {
-                                              label: "Yes",
-                                              value: val?.optIRT,
-                                            }
-                                            : ""
-                                        }
-                                        value={
-                                          optIRT.findIndex(
-                                            (el) => el.value == val?.optIRT
-                                          ) == -1
-                                            ? ""
-                                            : optIRT[
-                                            optIRT.findIndex(
-                                              (el) =>
-                                                el.value == val?.optIRT
-                                            )
-                                            ]
-                                        }
-                                        placeholder="Select IRT"
-                                      />
-                                    </div>
-                                  </div>
-                                  <div className="col-12 col-md-6">
-                                    <div className="form-group bottom">
-                                      <label for="">
-                                        Institution <span>*</span>
-                                      </label>
-                                      {val.optIRT == "yes" ? (
-                                      <Select
-                                        options={irtInstitutionType}
-                                        className={
-                                          validationError?.index == i &&
-                                            validationError?.newHcpInstitution
-                                            ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
-                                            : "dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                        }
-                                        onChange={(event) =>
-                                          onInstitutionChange(event, i)
-                                        }
-                                        
-                                        value={
-                                          irtInstitutionType.findIndex(
-                                            (el) => el.value == val?.institutionType
-                                          ) == -1
-                                            ? ""
-                                            : irtInstitutionType[
-                                              irtInstitutionType.findIndex(
-                                              (el) =>
-                                                el.value == val?.institutionType
-                                            )
-                                            ]
-                                        }
-                                        isClearable
-                                        placeholder="Select institution"
-                                      /> 
-                                      ): 
-                                      val.optIRT == "no" ? ( <Select
-                                        options={nonIrtInstitutionType}
-                                        className={
-                                          validationError?.index == i &&
-                                            validationError?.newHcpInstitution
-                                            ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
-                                            : "dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                        }
-                                        onChange={(event) =>
-                                          onInstitutionChange(event, i)
-                                        }
-                                        
-                                        
-                                        value={
-                                          nonIrtInstitutionType.findIndex(
-                                            (el) => el.value == val?.institutionType
-                                          ) == -1
-                                            ? ""
-                                            : nonIrtInstitutionType[
-                                              nonIrtInstitutionType.findIndex(
-                                              (el) =>
-                                                el.value == val?.institutionType
-                                            )
-                                            ]
-                                        }
-                                        isClearable
-                                        placeholder="Select institution"
-                                      />
-                                       ): null}
-                                      {validationError?.newHcpInstitution &&
-                                        validationError?.index == i ? (
-                                        <div className="login-validation">
-                                          {validationError?.newHcpInstitution}
-                                        </div>
-                                      ) : null}
-                                    </div>
-                                  </div>
-
-                                  <div className="col-12 col-md-6">
-                                    <div className="form-group">
-                                      <label for="">IRT role <span>*</span></label>
-                                      {val.optIRT == "yes" ? (
                                         <Select
-                                          options={irtRole}
-                                          className={(validationError?.role &&
-                                            validationError?.index == i)
-                                            ?"dropdown-basic-button split-button-dropup edit-country-dropdown error"
-                                            :"dropdown-basic-button split-button-dropup edit-country-dropdown"}
-                                          onChange={(event) =>
-                                            onRoleChange(event, i, "role")
-                                          }
-                                          value={
-                                            irtRole.findIndex(
-                                              (el) => el.value == val?.role
-                                            ) == -1
-                                              ? ""
-                                              : irtRole[
-                                              irtRole.findIndex(
-                                                (el) =>
-                                                  el.value == val?.role
-                                              )
-                                              ]
-                                          }
-                                          isClearable
-                                          placeholder="Select Role"
-                                        />
-                                      ) : val.optIRT == "no" ? (
-                                        <Select
-                                          options={role}
-                                          className={(validationError?.role &&
-                                            validationError?.index == i)
-                                            ?"dropdown-basic-button split-button-dropup edit-country-dropdown error"
-                                            :"dropdown-basic-button split-button-dropup edit-country-dropdown"}
-                                          onChange={(event) =>
-                                            onRoleChange(event, i, "irtRole")
-                                          }
-                                          value={
-                                            role.findIndex(
-                                              (el) => el.value == val?.role
-                                            ) == -1
-                                              ? ""
-                                              : role[
-                                              role.findIndex(
-                                                (el) =>
-                                                  el.value == val?.role
-                                              )
-                                              ]
-                                          }
-                                          isClearable
-                                          placeholder="Select Role"
-                                        />
-                                      ) : (
-                                        <Select
+                                          options={optIRT}
                                           className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                          placeholder="Select Role"
+                                          onChange={(event) =>
+                                            onIRTChange(event?.value, i)
+                                          }
+                                          defaultValue={
+                                            val?.optIRT == "yes"
+                                              ? {
+                                                label: "Yes",
+                                                value: val?.optIRT,
+                                              }
+                                              : ""
+                                          }
+                                          value={
+                                            optIRT.findIndex(
+                                              (el) => el.value == val?.optIRT
+                                            ) == -1
+                                              ? ""
+                                              : optIRT[
+                                              optIRT.findIndex(
+                                                (el) =>
+                                                  el.value == val?.optIRT
+                                              )
+                                              ]
+                                          }
+                                          placeholder="Select IRT"
                                         />
-                                      )}
-                                      {(validationError?.role &&
-                                        validationError?.index == i) ? (
-                                        <div className="login-validation">
-                                          {validationError?.role}
-                                        </div>
-                                      ) : null}
+                                      </div>
                                     </div>
-                                  </div>
-                                </>
-                              ) : (
-                                <>
-                                  {" "}
-                                  <div className="col-12 col-md-6">
-                                    <div className="form-group">
-                                      <label htmlFor="">Contact type</label>
-                                      <DropdownButton
-                                        className="dropdown-basic-button split-button-dropup"
-                                        title={
-                                          hpc[i].contact_type != "" &&
-                                            hpc[i].contact_type != "undefined"
-                                            ? hpc[i].contact_type
-                                            : "Select Type"
-                                        }
-                                        onSelect={(event) =>
-                                          onContactTypeChange(event, i)
-                                        }
-                                      >
-                                        <Dropdown.Item
-                                          eventKey="HCP"
-                                          className={
-                                            hpc[i].contact_type == "HCP"
-                                              ? "active"
-                                              : ""
-                                          }
-                                        >
-                                          HCP
-                                        </Dropdown.Item>
-                                        <Dropdown.Item
-                                          eventKey="Staff"
-                                          className={
-                                            hpc[i].contact_type == "Staff"
-                                              ? "active"
-                                              : ""
-                                          }
-                                        >
-                                          Staff
-                                        </Dropdown.Item>
-                                        <Dropdown.Item
-                                          eventKey="Test Users"
-                                          className={
-                                            hpc[i].contact_type == "Test Users"
-                                              ? "active"
-                                              : ""
-                                          }
-                                        >
-                                          Test Users
-                                        </Dropdown.Item>
-                                      </DropdownButton>
+                                    <div className="col-12 col-md-6">
+                                      <div className="form-group bottom">
+                                        <label for="">
+                                          Institution <span>*</span>
+                                        </label>
+                                        {val.optIRT == "yes" ? (
+                                          <Select
+                                            options={irtInstitutionType}
+                                            className={
+                                              validationError?.index == i &&
+                                                validationError?.newHcpInstitution
+                                                ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
+                                                : "dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                            }
+                                            onChange={(event) =>
+                                              onInstitutionChange(event, i)
+                                            }
+                                            // defaultValue={
+                                            //   val?.institutionType
+                                            //     ? {
+                                            //       label: val?.institutionType,
+                                            //       value: val?.institutionType,
+                                            //     }
+                                            //     : ""
+                                            // }
+                                            value={
+                                              irtInstitutionType.findIndex(
+                                                (el) => el.value == val?.institutionType
+                                              ) == -1
+                                                ? ""
+                                                : irtInstitutionType[
+                                                irtInstitutionType.findIndex(
+                                                  (el) =>
+                                                    el.value == val?.institutionType
+                                                )
+                                                ]
+                                            }
+                                            isClearable
+                                            placeholder="Select institution"
+                                          />
+                                        ) :
+                                          val.optIRT == "no" ? (<Select
+                                            options={nonIrtInstitutionType}
+                                            className={
+                                              validationError?.index == i &&
+                                                validationError?.newHcpInstitution
+                                                ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
+                                                : "dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                            }
+                                            onChange={(event) =>
+                                              onInstitutionChange(event, i)
+                                            }
+                                            // defaultValue={
+                                            //   val?.institutionType
+                                            //     ? {
+                                            //       label: val?.institutionType,
+                                            //       value: val?.institutionType,
+                                            //     }
+                                            //     : ""
+                                            // }
+                                            value={
+                                              nonIrtInstitutionType.findIndex(
+                                                (el) => el.value == val?.institutionType
+                                              ) == -1
+                                                ? ""
+                                                : nonIrtInstitutionType[
+                                                nonIrtInstitutionType.findIndex(
+                                                  (el) =>
+                                                    el.value == val?.institutionType
+                                                )
+                                                ]
+                                            }
+                                            isClearable
+                                            placeholder="Select institution"
+                                          />
+                                          ) : null}
+                                        {validationError?.newHcpInstitution &&
+                                          validationError?.index == i ? (
+                                          <div className="login-validation">
+                                            {validationError?.newHcpInstitution}
+                                          </div>
+                                        ) : null}
+                                      </div>
                                     </div>
-                                  </div>
-                                </>
-                              )}
+
+                                    <div className="col-12 col-md-6">
+                                      <div className="form-group">
+                                        <label for="">IRT role <span>*</span></label>
+                                        {val.optIRT == "yes" ? (
+                                          <Select
+                                            options={irtRole}
+                                            className={(validationError?.role &&
+                                              validationError?.index == i)
+                                              ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
+                                              : "dropdown-basic-button split-button-dropup edit-country-dropdown"}
+                                            onChange={(event) =>
+                                              onRoleChange(event, i, "role")
+                                            }
+                                            value={
+                                              irtRole.findIndex(
+                                                (el) => el.value == val?.role
+                                              ) == -1
+                                                ? ""
+                                                : irtRole[
+                                                irtRole.findIndex(
+                                                  (el) =>
+                                                    el.value == val?.role
+                                                )
+                                                ]
+                                            }
+                                            isClearable
+                                            placeholder="Select Role"
+                                          />
+                                        ) : val.optIRT == "no" ? (
+                                          <Select
+                                            options={role}
+                                            className={(validationError?.role &&
+                                              validationError?.index == i)
+                                              ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
+                                              : "dropdown-basic-button split-button-dropup edit-country-dropdown"}
+                                            onChange={(event) =>
+                                              onRoleChange(event, i, "irtRole")
+                                            }
+                                            value={
+                                              role.findIndex(
+                                                (el) => el.value == val?.role
+                                              ) == -1
+                                                ? ""
+                                                : role[
+                                                role.findIndex(
+                                                  (el) =>
+                                                    el.value == val?.role
+                                                )
+                                                ]
+                                            }
+                                            isClearable
+                                            placeholder="Select Role"
+                                          />
+                                        ) : (
+                                          <Select
+                                            className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                            placeholder="Select Role"
+                                          />
+                                        )}
+                                        {(validationError?.role &&
+                                          validationError?.index == i) ? (
+                                          <div className="login-validation">
+                                            {validationError?.role}
+                                          </div>
+                                        ) : null}
+                                      </div>
+                                    </div>
+                                  </>
+                                ) : (
+                                  <>
+                                    {" "}
+                                    <div className="col-12 col-md-6">
+                                      <div className="form-group">
+                                        <label htmlFor="">Contact type</label>
+                                        <DropdownButton
+                                          className="dropdown-basic-button split-button-dropup"
+                                          title={
+                                            hpc[i].contact_type != "" &&
+                                              hpc[i].contact_type != "undefined"
+                                              ? hpc[i].contact_type
+                                              : "Select Type"
+                                          }
+                                          onSelect={(event) =>
+                                            onContactTypeChange(event, i)
+                                          }
+                                        >
+                                          <Dropdown.Item
+                                            eventKey="HCP"
+                                            className={
+                                              hpc[i].contact_type == "HCP"
+                                                ? "active"
+                                                : ""
+                                            }
+                                          >
+                                            HCP
+                                          </Dropdown.Item>
+                                          <Dropdown.Item
+                                            eventKey="Staff"
+                                            className={
+                                              hpc[i].contact_type == "Staff"
+                                                ? "active"
+                                                : ""
+                                            }
+                                          >
+                                            Staff
+                                          </Dropdown.Item>
+                                          <Dropdown.Item
+                                            eventKey="Test Users"
+                                            className={
+                                              hpc[i].contact_type == "Test Users"
+                                                ? "active"
+                                                : ""
+                                            }
+                                          >
+                                            Test Users
+                                          </Dropdown.Item>
+                                        </DropdownButton>
+                                      </div>
+                                    </div>
+                                  </>
+                                )}
                               <div className="col-12 col-md-6">
                                 <div className="form-group">
                                   <label htmlFor="">
@@ -3661,85 +3822,142 @@ const CreateEmail = (props) => {
                                     </>
                                   )}
 
-                               
+                                  {/*<DropdownButton className="dropdown-basic-button split-button-dropup country"
+                                   title= {hpc[i].country != "" &&  hpc[i].country != "undefined" ? hpc[i].country == "B&H" ? "Bosnia and Herzegovina" : hpc[i].country : "Select Country" }
+                                   onSelect={(event) => onCountryChange(event, i)}
+                                   >
+                                    <div className="scroll_div">
+                                    {countryall.length === 0
+                                     ? ""
+                                     : Object.entries(countryall).map(
+                                         ([index, item]) => {
+                                           return (
+                                             <>
+                                              <Dropdown.Item eventKey={index} className = {hpc[i].country == index ? "active" : "" }>{item == "B&H" ? "Bosnia and Herzegovina" : item}</Dropdown.Item>
+                                             </>
+                                           );
+                                         }
+                                       )}
+                                    </div>
+
+                                  </DropdownButton>
+
+                                    <select
+                                      className="country-form"
+                                      aria-label="select"
+                                      onChange={(event) =>
+                                        onCountryChange(event, i)
+                                      }
+                                    >
+                                      <option value="" selected>
+                                        Select Country
+                                      </option>
+
+                                      {countryall.length === 0
+                                        ? ""
+                                        : Object.entries(countryall).map(
+                                            ([index, item]) => {
+                                              return (
+                                                <>
+                                                  <option value={index} key={index}>
+                                                    {item}
+                                                  </option>
+                                                </>
+                                              );
+                                            }
+                                          )}
+                                    </select>
+                                    */}
                                 </div>
                               </div>
-                              
+                              {/*<div className="col-12 col-md-6 btn_rmv">
+                                <div className="form-group">
+                                  {i !== 0 && (
+                                    <button
+                                      type="button"
+                                      className="btn btn-filled"
+                                      onClick={() => deleteRecord(i)}
+                                    >
+                                      Remove
+                                    </button>
+                                  )}
+                                </div>
+                              </div>*/}
                               {(isLikeRdAccount)
                                 ? (
-                                <>
-                                  {" "}
-                                  <div className="col-12 col-md-6">
-                                    <div className="form-group">
-                                      <label for="">Site number
-                                     { val.optIRT == "yes" ? <span> *</span>: null}
-                                      </label>
+                                  <>
+                                    {" "}
+                                    <div className="col-12 col-md-6">
+                                      <div className="form-group">
+                                        <label for="">Site number
+                                          {val.optIRT == "yes" ? <span> *</span> : null}
+                                        </label>
 
-                                      <Select
-                                        options={siteNumberAll}
-                                        // className="dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                        className={
-                                          validationError?.index == i &&
-                                            validationError?.newSiteNumber
-                                            ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
-                                            : "dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                        }
-                                        onChange={(event) =>
-                                          onSiteNumberChange(event, i)
-                                        }
-                                        value={
-                                          siteNumberAll[hpc[i]?.siteNumberIndex]
-                                            ? siteNumberAll[
-                                            hpc[i]?.siteNumberIndex
-                                            ]
-                                            : ""
-                                        }
-                                        placeholder={"Select Site Number"}
-                                      />
-                                       {validationError?.newSiteNumber &&
-                                        validationError?.index == i ? (
-                                        <div className="login-validation">
-                                          {validationError?.newSiteNumber}
-                                        </div>
-                                      ) : null}
+                                        <Select
+                                          options={siteNumberAll}
+                                          // className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                          className={
+                                            validationError?.index == i &&
+                                              validationError?.newSiteNumber
+                                              ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
+                                              : "dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                          }
+                                          onChange={(event) =>
+                                            onSiteNumberChange(event, i)
+                                          }
+                                          value={
+                                            siteNumberAll[hpc[i]?.siteNumberIndex]
+                                              ? siteNumberAll[
+                                              hpc[i]?.siteNumberIndex
+                                              ]
+                                              : ""
+                                          }
+                                          placeholder={"Select Site Number"}
+                                        />
+                                        {validationError?.newSiteNumber &&
+                                          validationError?.index == i ? (
+                                          <div className="login-validation">
+                                            {validationError?.newSiteNumber}
+                                          </div>
+                                        ) : null}
+                                      </div>
                                     </div>
-                                  </div>
-                                  <div className="col-12 col-md-6">
-                                    <div className="form-group">
-                                      <label for="">Site name  { val.optIRT == "yes" ? <span> *</span>: null}</label>
-                                      
+                                    <div className="col-12 col-md-6">
+                                      <div className="form-group">
+                                        <label for="">Site name  {val.optIRT == "yes" ? <span> *</span> : null}</label>
 
-                                      <Select
-                                        options={siteNameAll}
-                                        
-                                        className={
-                                          validationError?.index == i &&
-                                            validationError?.newSiteName
-                                            ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
-                                            : "dropdown-basic-button split-button-dropup edit-country-dropdown"
-                                        }
-                                        onChange={(event) =>
-                                          onSiteNameChange(event, i)
-                                        }
-                                        value={
-                                          siteNameAll[hpc[i].siteNameIndex]
-                                            ? siteNameAll[hpc[i].siteNameIndex]
-                                            : ""
-                                        }
-                                        placeholder={"Select Site Name"}
-                                      />
-                                       {validationError?.newSiteName &&
-                                        validationError?.index == i ? (
-                                        <div className="login-validation">
-                                          {validationError?.newSiteName}
-                                        </div>
-                                      ) : null}
+
+                                        <Select
+                                          options={siteNameAll}
+                                          // className="dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                          className={
+                                            validationError?.index == i &&
+                                              validationError?.newSiteName
+                                              ? "dropdown-basic-button split-button-dropup edit-country-dropdown error"
+                                              : "dropdown-basic-button split-button-dropup edit-country-dropdown"
+                                          }
+                                          onChange={(event) =>
+                                            onSiteNameChange(event, i)
+                                          }
+                                          value={
+                                            siteNameAll[hpc[i].siteNameIndex]
+                                              ? siteNameAll[hpc[i].siteNameIndex]
+                                              : ""
+                                          }
+                                          placeholder={"Select Site Name"}
+                                        />
+                                        {validationError?.newSiteName &&
+                                          validationError?.index == i ? (
+                                          <div className="login-validation">
+                                            {validationError?.newSiteName}
+                                          </div>
+                                        ) : null}
+                                      </div>
                                     </div>
-                                  </div>
-                                </>
-                              ) : (
-                                ""
-                              )}
+                                  </>
+                                ) : (
+                                  ""
+                                )}
                             </div>
                           </div>
 
@@ -3777,16 +3995,49 @@ const CreateEmail = (props) => {
                                       : "Add HCP +"}
                                   </a>
                                 </li>
-                                
+                                {/*<li className="nav-item add-file">
+                                    <a
+                                      id="add_file_btn"
+                                      onClick={(e) => addFile(e)}
+                                      className="nav-link btn-filled"
+                                      data-bs-toggle="tab"
+                                      href="javascipt:;"
+                                    >
+                                      Add File
+                                    </a>
+                                  </li>*/}
                               </ul>
                             </div>
                           </div>
                         </div>
-                      </React.Fragment>
+                      </>
                     );
                   })}
                 </form>
-               
+                {/*<form id="add_file" className={"tab-pane" + activeExcel}>
+                  <div className="upload-file-box">
+                    <div className="form-group files">
+                      <div className="box">
+                        <input
+                          type="file"
+                          id="file-4"
+                          className="form-control inputfile"
+                          multiple=""
+                          accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                          onChange={onFileChange}
+                          ref={file_name}
+                        />
+                        {(file_name.current?.files===undefined || file_name.current.files?.length===0 )? <><label htmlFor="file-4"><span>Choose Your File</span></label>
+                        <p>Upload your excel file</p></> : <h5>{file_name.current.files[0].name}</h5> }
+
+
+
+                      </div>
+                    </div>
+                    </div>
+
+                    <div className="download-sample sample-file"><p>Download sample Excel file to upload new HCPs</p><div className="upload-btn" onClick={downloadFile}>Download File</div></div>
+                  </form>*/}
               </div>
             </div>
           </div>
@@ -3800,10 +4051,11 @@ const CreateEmail = (props) => {
             </button>
           </div>
         </div>
-       
+        {/* </div>
+        </div> */}
       </Modal>
 
-      
+      {/*Modal for Template action start*/}
       <div className="template_action">
         <Modal
           className="modal send-confirm"
@@ -4015,37 +4267,37 @@ const CreateEmail = (props) => {
 
                       {(isLikeRdAccount)
                         ? (
-                        <><th scope="col">Site number</th>
-                          <th scope="col">IRT mandatory training</th>
-                          <th scope="col">IRT role</th>
-                        </>
-                      ) : (
-                        <>
-                         {groupId !=2 && <th scope="col">Business unit
-                            <button
-                              className={`event_sort_btn ${sortBy == "ibu" ?
-                                sortOrder == "asc"
-                                  ? "svg_asc"
-                                  : "svg_active"
-                                : ""
-                                }`}
-                              onClick={() => handleSort('ibu')}
-                            >
-                              <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
-                                <g clip-path="url(#clip0_3722_6611)">
-                                  <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF" />
-                                </g>
-                                <defs>
-                                  <clipPath id="clip0_3722_6611">
-                                    <rect width="8" height="8" fill="white" />
-                                  </clipPath>
-                                </defs>
-                              </svg>
-                            </button>
-                          </th>}
-                          <th scope="col">Contact type</th>
-                        </>
-                      )}
+                          <><th scope="col">Site number</th>
+                            <th scope="col">IRT mandatory training</th>
+                            <th scope="col">IRT role</th>
+                          </>
+                        ) : (
+                          <>
+                            <th scope="col">Business unit
+                              <button
+                                className={`event_sort_btn ${sortBy == "ibu" ?
+                                  sortOrder == "asc"
+                                    ? "svg_asc"
+                                    : "svg_active"
+                                  : ""
+                                  }`}
+                                onClick={() => handleSort('ibu')}
+                              >
+                                <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
+                                  <g clip-path="url(#clip0_3722_6611)">
+                                    <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF" />
+                                  </g>
+                                  <defs>
+                                    <clipPath id="clip0_3722_6611">
+                                      <rect width="8" height="8" fill="white" />
+                                    </clipPath>
+                                  </defs>
+                                </svg>
+                              </button>
+                            </th>
+                            <th scope="col">Contact type</th>
+                          </>
+                        )}
 
                       {showLessInfo == false ? (
                         <>
@@ -4063,14 +4315,14 @@ const CreateEmail = (props) => {
                       getReaderDetails.length > 0 &&
                       sortData(getReaderDetails, sortBy, sortOrder).map((rr, i) => {
                         return (
-                          <React.Fragment key={i}>
-                            <tr>
+                          <>
+                            <tr key={i}>
                               <td>{rr?.first_name ? rr?.first_name : "N/A"}</td>
                               <td>{rr?.email ? rr?.email : "N/A"}</td>
                               <td>{rr?.bounce ? rr.bounce : "N/A"}</td>
                               <td>{rr?.country ? rr?.country : "N/A"}</td>
                               {(isLikeRdAccount) && (<><td>{rr?.site_number ? rr?.site_number : "N/A"}</td></>)}
-                           { groupId !=2 &&  <td>
+                              <td>
                                 {(isLikeRdAccount)
                                   ? rr.irt
                                     ? "Yes"
@@ -4079,7 +4331,7 @@ const CreateEmail = (props) => {
                                     ? rr.ibu
                                     : "N/A"}
                                 {/*rr?.ibu ? rr?.ibu : "N/A"*/}
-                              </td>}
+                              </td>
                               <td>
                                 {(isLikeRdAccount)
                                   ? rr?.user_type != 0
@@ -4132,7 +4384,7 @@ const CreateEmail = (props) => {
                               ) : null}
                               <td className="add-new-hcp" colspan="12"></td>
                             </tr>
-                          </React.Fragment>
+                          </>
                         );
                       })}
                   </tbody>
@@ -4196,4 +4448,4 @@ export default connect(mapStateToProps, {
   getSelected,
   getSearched,
   getSelectedSmartListData,
-})(CreateEmail);
+})(CreateSunshineEmail);
