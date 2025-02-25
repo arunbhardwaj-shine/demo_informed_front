@@ -24,6 +24,7 @@ import SpcCreate from "./Components/Library/SpcCreate";
 import Products from "./Components/Library/Products";
 import ChangePassword from "./Auth/ChangePassword";
 import WebinarQuestion from "./Components/Firbase/WebinarQuestion";
+import ReadersDetails from "./Components/ReaderDetails/ReadersDetails";
 
 //Firbase
 
@@ -303,6 +304,11 @@ const Routing = () => {
   return (
     <Router>
       <Routes>
+
+
+
+       <Route path="/readers/change_ul/:id" element={<ReadersDetails/>} /> 
+
         //DefaultLayout for Login pages
         <Route path="/" element={<DefaultLayout component={MainLanding} />} />
         <Route path="/redirect" element={<DefaultLayout component={Redirect} />} />
@@ -1132,7 +1138,6 @@ const Routing = () => {
           path="/aland-activity"
           element={<LoginLayout component={AlandActivity} />}
         />
-        
       </Routes>
     </Router>
   );

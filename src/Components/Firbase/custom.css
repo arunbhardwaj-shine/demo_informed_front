@@ -991,6 +991,109 @@ p#totalCountText {
 }
 
 
+/**isth single 2025**/
+.isth-single {
+  background: #222A37;
+  padding: 15px;
+}
+.isth-single .login-wrapper-mid-sec {
+  margin: 0px 0 0 0;
+  border-radius: 8px;
+background: rgba(49, 60, 79, 0.20) url(../assets/images/wilate-registration-bg.png) no-repeat;
+box-shadow: 0px 0px 17px 0px rgba(0, 0, 0, 0.24);
+-webkit-backdrop-filter: blur(10px);
+backdrop-filter: blur(10px);
+background-position: bottom right;
+background-size: 288px;
+}
+
+.isth-single .boxes-col-center img {
+  max-width: 223px;
+  box-shadow: none;
+  border-radius: 0;
+}
+.isth-single .login-wrapper-mid-left h3 {
+  text-align: center;
+  font-size: 24px;
+  line-height: 35px;
+  font-weight: 600;
+  font-family: "Roboto Slab", serif;
+  margin: 0 0 8px;
+}
+.isth-single .login-wrapper-mid-left h3 span{
+  color:#F3942D;
+}
+.isth-single .footer-message p a {
+  color: #F3942D;
+}
+.isth-single .consent-form .btn#submit_registration {
+  background: linear-gradient(92deg, #F3942D 0.96%, #E94362 84.51%);
+}
+.isth-single .consent-form .btn#submit_registration:hover {
+  background: linear-gradient(272deg, #F3942D 0.96%, #E94362 84.51%);
+}
+.isth-single .boxes-col-center {
+  margin: 0 0 20px;
+}
+.isth-single .mid-left-bottom ul li span {
+  background: linear-gradient(109deg, #F3942D 12.71%, #E94362 50%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.isth-single .mid-left-bottom ul li span.divide {
+  background: #F3942D;
+  background-clip: unset;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: #F3942D;
+  padding: 0;
+  width: 1px;
+}
+.isth-single .mid-left-bottom ul li {
+  font-weight: 400;
+}
+.isth-single  .mid-left-bottom {
+  margin-bottom: 8px;
+}
+.isth-single .consent-form-inner .center-sided h2 {
+  font-family: "Roboto Slab";
+  font-size: 25px;
+  font-weight: 500;
+  line-height: 139.5%;
+  letter-spacing: 0.35px;
+  margin-bottom: 30px;
+  margin-top: 20px;
+}
+.isth-single .consent-form-inner .center-sided h3 {
+  font-family: "Poppins";
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 0.16px;
+  margin: 0 0 20px;
+}
+.isth-single .consent-form .split-button-dropup > div:nth-child(3){
+
+  background: #FFFFFF url("data:image/svg+xml,%3csvg%20width='16'%20height='10'%20viewBox='0%200%2016%2010'%20fill='none'%20xmlns='http://www.w3.org/2000/svg'%3e%3cpath%20d='M6.99996%209.56039C7.7132%209.56039%207.42649%209.4509%207.20786%209.23238L0.328226%202.35268C-0.109409%201.91504%20-0.109409%201.20549%200.328226%200.768035C0.765684%200.330577%201.47509%200.330577%201.91276%200.768035L7.99996%206.85558L14.0872%200.768247C14.5248%200.33079%2015.2342%200.33079%2015.6716%200.768247C16.1094%201.2057%2016.1094%201.91525%2015.6716%202.35289L8.79205%209.2326C8.57332%209.45115%208.2866%209.56039%207.99996%209.56039Z'%20fill='white' fill-opacity='0.4'/%3e%3c/svg%3e") no-repeat 93% center;
+}
+.isth-single .consent-form-inner .form-control {
+  border-radius: 30px;
+  background: rgba(49, 60, 79, 0.40);
+box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.20);
+}
+.isth-single .consent-form .split-button-dropup>div:nth-child(3) {
+  background-color: rgba(49, 60, 79, 0.40);
+  box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.20);
+}
+.isth-single .consent-form-list.attend-sec li input:checked~.checkmark {
+  background: #F3942D;
+  border-color: #F3942D;
+}
+.isth-single .consent-form .btn#submit_registration {
+  margin: 56px 12px 0px auto;
+}
+/**isth single 2025**/
+
 @media only screen and (max-width:1550px) {
   .eahad-footer img {
     flex: 0 0 140px;
@@ -1070,6 +1173,21 @@ p#totalCountText {
     margin-bottom: 5px;
     margin-top: 5px;
   }
+  .isth-single .login-wrapper-mid-sec {
+    margin: 6px 0 0 0;
+}
+.isth-single .consent-form-inner .center-sided h2 {
+  font-size: 33px;
+}
+.isth-single .mid-left-bottom {
+  margin-top: 35px;
+}
+.isth-single .boxes-col-center img {
+  max-width: 205px;
+}
+.isth-single .consent-form .btn#submit_registration {
+  margin: 24px 12px 0px auto;
+}
 }
 
 @media only screen and (max-width: 1365px) {
@@ -1145,6 +1263,17 @@ p#totalCountText {
   .question-block .header-logo img {
     max-width: 250px;
   }
+  .isth-single .boxes-col-center img {
+    max-width: 190px;
+}
+.isth-single .login-wrapper-mid-left h3 {
+  font-size: 22px;
+  line-height: 32px;
+}
+.isth-single .consent-form-inner .center-sided h2 {
+  margin-bottom: 25px;
+  margin-top: 10px;
+}
 }
 
 @media only screen and (max-width: 1279px) {
@@ -1167,7 +1296,15 @@ p#totalCountText {
     font-size: 34px;
   }
 }
-
+@media only screen and (max-width: 1199px) {
+  .isth-single .consent-form-inner .center-sided h2 {
+    font-size: 23px;
+  }
+  .isth-single .consent-form-inner .center-sided h3 {
+    font-size: 15px;
+    margin: 0 0 15px;
+  }
+  }
 @media only screen and (max-width: 1023px) {
   .login-wrapper-logo {
     flex: 0 0 210px;
@@ -1222,6 +1359,19 @@ p#totalCountText {
   .modal.show .modal-dialog {
     max-width: 95%;
   }
+  .isth-single .consent-form-inner .center-sided h3 {
+    line-height: 1.2;
+}
+.isth-single .login-wrapper-mid-left h3 {
+  font-size: 20px;
+  line-height: 29px;
+}
+.isth-single .boxes-col-center img {
+  max-width: 190px;
+}
+.isth-single .consent-form .btn#submit_registration {
+  margin: 10px 12px 0px auto;
+}
 }
 
 @media only screen and (max-width: 767px) {
@@ -1592,6 +1742,49 @@ p#totalCountText {
   .session-modal #pollModel .check-group {
     padding: 0 10px 0 0;
   }
+  .isth-single .login-wrapper-mid-sec {
+    margin: 0;
+}
+.isth-single .boxes-col-center img {
+  max-width: 180px;
+}
+.isth-single .login-wrapper-mid-left h3 {
+  font-size: 24px;
+  line-height: 34px;
+}
+.isth-single .login-wrapper-mid-left .head-sec p:before {
+  width: 257px;
+  height: 4px;
+  left: -26px;
+}
+.isth-single .mid-left-bottom ul li {
+  font-size: 12px;
+  line-height: 24px;
+}
+.isth-single .consent-form-inner .center-sided h3 {
+  font-size: 14px;
+  margin: 0 0 15px;
+}
+.isth-single .consent-form-inner {
+  padding: 16px 12px;
+}
+.isth-single .consent-form-inner .center-sided h2 {
+  margin-bottom: 18px;
+  font-size: 20px;
+}
+.isth-single .consent-form-inner .form-control {
+  font-size: 12px;
+  line-height: 22px;
+}
+.isth-single .consent-form .split-button-dropup div:nth-child(3)>div div {
+  font-size: 12px;
+}
+.isth-single .login-wrapper-mid-sec {
+  background-size: 280px;
+}
+.isth-single .consent-form .btn#submit_registration {
+  margin: 5px auto 24px auto;
+}
 }
 
 @media only screen and (max-width:374px) {

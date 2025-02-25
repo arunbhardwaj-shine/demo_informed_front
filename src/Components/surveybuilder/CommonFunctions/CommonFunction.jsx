@@ -49,6 +49,44 @@ surveyAxiosInstance.interceptors.request.use(
   }
 );
 
+
+const clearLocalStorageExcept = () => {
+	const keysToKeep = ['uname', 'pass', 'acceptedCookies']; 
+	for (let i = localStorage.length - 1; i >= 0; i--) {
+	  const key = localStorage.key(i);
+	  if (!keysToKeep.includes(key)) {
+		localStorage.removeItem(key);
+	  }
+	}
+}
+
+surveyAxiosInstance.interceptors.response.use(
+ 
+  (res) => {
+    return res;
+  },
+  (err) => {
+    switch (err?.response?.status) {
+      case 401:
+       
+        clearLocalStorageExcept();
+        window.location.href = "/";
+        break;
+      case 500:
+        toast.warning(err?.response.data.message)
+        break;
+      default:
+        toast.error(err?.response.data.message)
+        break;
+    }
+    return Promise.reject(err);
+  }
+
+);
+
+
+
+
 export const saveAsDraft = async (e, draft, pathname, navigate) => {
   e.preventDefault();
   let liveFlag = draft == 0 ? 0 : 1;

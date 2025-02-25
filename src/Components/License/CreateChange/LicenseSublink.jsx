@@ -819,7 +819,7 @@ const LicenseSublink = () => {
                                                                             0
                                                                             ? "Unlimited"
                                                                             : details?.limit ==
-                                                                              1000
+                                                                            100000
                                                                               ? "Unlimited"
                                                                               : details?.limit}
                                                                         </strong>
@@ -829,7 +829,7 @@ const LicenseSublink = () => {
                                                                       {details?.limit ==
                                                                         0 ||
                                                                         details?.limit ==
-                                                                        1000 ? (
+                                                                        100000 ? (
                                                                         ""
                                                                       ) : (
                                                                         <>
@@ -917,7 +917,7 @@ const LicenseSublink = () => {
                                                                     0
                                                                     ? "Unlimited"
                                                                     : details?.limit ==
-                                                                      1000
+                                                                    100000
                                                                       ? "Unlimited"
                                                                       : details?.limit}
                                                                 </strong>
@@ -927,7 +927,7 @@ const LicenseSublink = () => {
                                                               {details?.limit ==
                                                                 0 ||
                                                                 details?.limit ==
-                                                                1000 ? (
+                                                                100000 ? (
                                                                 ""
                                                               ) : (
                                                                 <>
@@ -1019,7 +1019,7 @@ const LicenseSublink = () => {
                                                                       0
                                                                       ? "Unlimited"
                                                                       : details?.limit ==
-                                                                        1000
+                                                                      100000
                                                                         ? "Unlimited"
                                                                         : details?.limit}
                                                                   </strong>
@@ -1034,7 +1034,7 @@ const LicenseSublink = () => {
                                                                 {details?.limit ==
                                                                   0 ||
                                                                   details?.limit ==
-                                                                  1000 ? (
+                                                                  100000 ? (
                                                                   ""
                                                                 ) : (
                                                                   <>

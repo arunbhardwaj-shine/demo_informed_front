@@ -41,6 +41,7 @@ const template = {
   9: ["header"],
   10: ["logo", "header", "footer"],
   11: ["logo", "header", "footer"],
+  13: ["templateOne"],
 };
 const WebinarRegistration = () => {
   const { eventIdContext } = useSidebar();
@@ -52,13 +53,13 @@ const WebinarRegistration = () => {
   const [thumbnails, setThumbnails] = useState({}); // Store thumbnails per template
 
   const templateUserIDs = {
-    "iSnEsKu5gB/DRlycxB6G4g==": [1, 2, 3, 4, 5, 6, 7],
+    "iSnEsKu5gB/DRlycxB6G4g==": [1, 2, 3, 4, 5, 6, 7,13],
     "B7SHpAc XDXSH NXkN0rdQ==": [1, 2, 3, 4, 5, 6, 7],
     "wW0geGtDPvig5gF 6KbJrg==": [1, 2, 3, 4, 5, 6, 7],
     "UbCJcnLM9fe HsRMgX8c1A==": [1, 2, 3, 4, 5, 6, 7],
     "z2TunmZQf3QwCsICFTLGGQ==": [1, 2, 3, 5, 6, 7, 8, 9],
     "qDgwPdToP05Kgzc g2VjIQ==": [1, 2, 3, 4, 5, 6, 7],
-    "rjiGlqA9DXJVH7bDDTX0Lg==": [1, 2, 3, 4, 5, 6, 7, 10],
+    "rjiGlqA9DXJVH7bDDTX0Lg==": [1, 2, 3, 4, 5, 6, 7, 10,13],
     "MpEPwXLqTPveAfumxT/KXw==": [1, 2, 3, 4, 5, 6, 7],
     "5EdDBhVCQm08iLJwBENCWw==": [1, 2, 3, 4, 5, 6, 7],
     "I3yCIhnPAd0Ma6sNY4augA==": [1, 2, 3, 4, 5, 6, 7],
@@ -132,6 +133,7 @@ const WebinarRegistration = () => {
   const [apiStatus, setApiStatus] = useState(false);
   const initialFormData = {
     title: "",
+    eventTitle:"",
     pageTitle: "",
     bodyText: "",
     logoImageUrl: "",

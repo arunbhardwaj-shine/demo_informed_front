@@ -14,6 +14,7 @@ import TemplateFive from "./TemplateFive";
 import TemplateSix from "./TemplateSix";
 import TemplateEight from "./TemplateEight";
 import TemplateNine from "./TemplateNine";
+import TemplateThirteen from "./TemplateThirteen";
 import moment from "moment";
 import CountryList from "./CountryList";
 import DatePicker from "react-datepicker";
@@ -1199,6 +1200,86 @@ const RegistrationPage = ({ prevData,type }) => {
     </>
   );
 
+  const myContent13 = (
+    <>
+      
+      <section className="consent-form">
+        <div className="container">
+          <div
+            className="consent-form-inner"
+            style={{ background: `${pageColors?.background}` }}
+          >
+            <form id="registration_form" onSubmit={handleSubmit}>
+              <div className="row" id="form_upper">
+                <div className="col-sm-12 col-md-12 center-sided">
+
+                <h2
+                    style={{
+                      color: formData?.content?.eventDetails?.eventTitle?.color,
+                    }}
+                    dangerouslySetInnerHTML={{
+                      __html: formData?.content?.eventDetails?.eventTitle?.value,
+                    }}
+                  >
+                  </h2>
+                  <h3
+                    style={{
+                      color: formData?.content?.eventDetails?.pageTitle?.color,
+                    }}
+                    dangerouslySetInnerHTML={{
+                      __html: formData?.content?.eventDetails?.pageTitle?.value,
+                    }}
+                  >
+                    {/* {formData?.content?.eventDetails?.pageTitle?.value} */}
+                  </h3>
+
+                  <h3
+                    style={{
+                      color: formData?.content?.eventDetails?.bodyText?.color,
+                    }}
+                    dangerouslySetInnerHTML={{
+                      __html: formData?.content?.eventDetails?.bodyText?.value,
+                    }}
+                  >
+                    {/* {formData?.content?.eventDetails?.bodyText?.value} */}
+                  </h3>
+                </div>
+              </div>
+              <div className="center-sided-inside">
+                <div className="row">
+                  {formData?.content?.body?.map((form, index) => (
+                    <FormField13
+                      key={`${form.label}_${index}`}
+                      form={form}
+                      formFieldData={formFieldData}
+                      setFormFieldData={setFormFieldData}
+                      formErrors={formErrors}
+                      pageColors={pageColors}
+                      level="root"
+                      templateId={formData?.content?.templateId}
+                    />
+                  ))}
+                  {!prevData && (
+                    <button
+                      type="submit"
+                      className="btn btn-primary"
+                      id="submit_registration"
+                    >
+                      Submit
+                    </button>
+                  )}
+                </div>
+                <div className="footer-sec">
+                  
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </section>
+    </>
+  );
+
 
   return (
     <>
@@ -1276,6 +1357,10 @@ const RegistrationPage = ({ prevData,type }) => {
 {formData?.content?.templateId === 12 && (
               <TemplateTwelve formData={formData}>{myContent12}</TemplateTwelve>
             )}
+
+{formData?.content?.templateId === 13 && (
+        <TemplateThirteen formData={formData}>{myContent13}</TemplateThirteen>
+      )}
       </>)
 
 :apiCallStatus?
@@ -4690,6 +4775,272 @@ const FormField12 = ({
         {form.label}
         {isRequired ? "*" : ""}
       </label>
+      {fieldInput}
+      <div className="help-block">{formErrors[label]}</div>
+      <style>
+      {`
+        #registration_form > div .form-control::placeholder {
+          color: ${pageColors?.placeholderTextColor};
+        }
+        
+      `}
+    </style>
+    </div>
+  );
+};
+
+const FormField13 = ({
+  form,
+  formFieldData,
+  setFormFieldData,
+  formErrors,
+  pageColors,
+  level,
+  templateId,
+}) => {
+  const [countryList, setCountryList] = useState(CountryList);
+  const [extensionData, setExtensionData] = useState({});
+  const label = form?.name?.replace(/ /g, "_");
+
+  useEffect(()=>{
+    const placeholderElements = document.querySelectorAll("#registration_form > div  .css-1jqq78o-placeholder");
+  
+    placeholderElements.forEach((placeholderElement) => {
+      placeholderElement.style.color = pageColors?.placeholderTextColor || "defaultColor";
+    });
+    },[form])
+
+  
+    const handleFieldChange = (value, e = "") => {
+      const newData = { ...formFieldData };
+  
+      if (form?.inputType === "datepicker") {
+        newData[label] = moment(value).format("YYYY-MM-DD");
+      } else if (form?.inputType === "checkbox") {
+        newData[label] = Array.isArray(newData[label]) ? newData[label] : [];
+  
+        if (e.target.checked) {
+          newData[label] = [...newData[label], value];
+        } else {
+          newData[label] = newData[label].filter((item) => item !== value);
+  
+          if (newData[label].length === 0) {
+            newData[label] = '';
+          }
+        }
+      } else {
+        newData[label] = value;
+      }
+      setFormFieldData(newData);
+    };
+
+  if ((label?.includes("country") || label?.includes("Country")) && !label?.includes("country_(region)")) {
+    form.inputType = "selection-country";
+  } else if (label?.includes("state_(us)")) {
+    form.inputType = "selection-state";
+  }
+
+  const isRequired = form.required === "yes";
+
+  let fieldInput = null;
+
+  if (form.inputType === "textarea") {
+    fieldInput = (
+      <textarea
+        className="form-control"
+        placeholder={form.placeholder}
+        cols="40"
+        rows="4"
+        onChange={(e) => handleFieldChange(e.target.value)}
+        style={{
+          color: pageColors?.typedTextColor,
+        }}
+        data-placeholder-color={pageColors?.placeholderTextColor}
+      ></textarea>
+    );
+  } else if (
+    form.inputType === "selection" ||
+    form.inputType === "selection-country" ||
+    form.inputType === "selection-state"
+  ) {
+    const options = form.option?.map((op,index) => ({
+      label: op.optionLabel,
+      value: op.optionLabel,
+      key:index
+    }));
+
+    fieldInput = (
+      <Select
+        options={
+          form.inputType === "selection-country"
+            ? countryList
+            : form.inputType === "selection-state"
+              ? stateOptions
+              : options
+        }
+        className="dropdown-basic-button split-button-dropup mr-2 btn-bigger"
+        isClearable
+        onChange={(selectedOption) => handleFieldChange(selectedOption.value)}
+        placeholder={form.placeholder ? form.placeholder : "Select"}
+        data-placeholder-color={pageColors?.placeholderTextColor}
+      />
+    );
+  } else if (form.inputType === "datepicker") {
+    fieldInput = (
+      <DatePicker
+        selected={formFieldData[label] ? new Date(formFieldData[label]) : null}
+        name={form.label}
+        dateFormat="dd/MM/yyyy"
+        className="form-control"
+        placeholderText="Select task date"
+        onChange={(date) => handleFieldChange(date)}
+        onKeyDown={(e) => {
+          e.preventDefault();
+        }}
+      />
+    );
+  } else if (form.inputType === "radio") {
+    fieldInput = (
+      <ul>
+        {form.option?.map((item, index) => (
+          <React.Fragment key={index}>
+            <li key={index}>
+              <input
+                type={form.inputType}
+                id={label + index}
+                name={label}
+                className="organize_own_selection"
+                onChange={() => {
+                  handleFieldChange(item.optionLabel);
+                  // if (item.extension) {
+                  setExtensionData({
+                    [item.optionLabel]: item.extension ? item.extension : [],
+                  });
+                  // }
+                }}
+              />
+              <label
+                style={{
+                  fontWeight:'500', color: "#ffffff" ,
+                }}
+                htmlFor={label + index}
+              >
+                {item.optionLabel} {label =="care_professional" && 
+        
+      
+      
+        <span style={{
+          color: "#E94362"
+        }} >{isRequired ? "*" : ""}</span>
+      }
+              </label>
+              <span className="checkmark" />
+            </li>
+            {extensionData[item.optionLabel]?.length > 0 &&
+              extensionData[item.optionLabel]?.map((opt, i) => (
+                <FormField13
+                  form={opt}
+                  key={i}
+                  formFieldData={formFieldData}
+                  setFormFieldData={setFormFieldData}
+                  formErrors={formErrors}
+                  pageColors={pageColors}
+                  level={form.label}
+                />
+              ))}
+          </React.Fragment>
+        ))}
+      </ul>
+    );
+  } 
+
+  
+
+  else if (form.inputType === "checkbox") {
+    fieldInput = (
+      <ul>
+        {form.option?.map((item, index) => (
+          <>
+            <li key={index}>
+              <input
+                type={form.inputType}
+                id={label + index}
+                name={label}
+                className="organize_own_selection"
+                onChange={(e) => {
+                  handleFieldChange(item.optionLabel, e);
+                  if (!extensionData[label + index]) {
+                    setExtensionData({
+                      ...extensionData,
+                      [label + index]: item.extension ? item.extension : [],
+                    });
+                  } else {
+                    const updatedExtensionData = { ...extensionData };
+                    delete updatedExtensionData[label + index];
+                    setExtensionData(updatedExtensionData);
+                  }
+                }}
+              />
+              <label
+                style={{
+                  color: pageColors?.optionColor,
+                }}
+                htmlFor={label + index}
+              >
+                {item.optionLabel}
+              </label>
+              <span className="checkmark" />
+            </li>
+            {extensionData[label + index]?.length > 0 &&
+              extensionData[label + index]?.map((opt, i) => (
+                <FormField13
+                  form={opt}
+                  key={i}
+                  formFieldData={formFieldData}
+                  setFormFieldData={setFormFieldData}
+                  formErrors={formErrors}
+                  pageColors={pageColors}
+                  level={form.label}
+                />
+              ))}
+          </>
+        ))}
+      </ul>
+    );
+  }
+
+   else {
+    fieldInput = (
+      <input
+        type={form.inputType}
+        className="form-control"
+        id={label.replace(/[A-Z]/g, (m) => "-" + m.toLowerCase())}
+        placeholder={form.placeholder}
+        onChange={(e) => handleFieldChange(e.target.value)}
+        style={{
+          color: pageColors?.typedTextColor,
+        }}
+        data-placeholder-color={pageColors?.placeholderTextColor}
+      />  
+    );
+  }
+// console.log(label,'label')
+  return (
+    <div
+      // className="col-sm-12 col-md-12 consent-form-list attend-sec"
+      className={`${((label?.includes("consent") || label =="care_professional") ? `col-sm-12 col-md-12 consent-form-list attend-sec` : "col-sm-6 col-md-6 consent-form-list attend-sec"
+   ) }
+        `}
+      style={{ marginBottom: `${form?.addSpace ? form?.addSpace : 10}px` }}
+    >
+     {label !="care_professional" &&  <label
+        style={{
+          color: pageColors?.labelColor,
+        }}
+      >
+        {form.label}
+        <span>{isRequired ? "*" : ""}</span>
+      </label>}
       {fieldInput}
       <div className="help-block">{formErrors[label]}</div>
       <style>
