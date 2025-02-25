@@ -24,13 +24,14 @@ import optimizeImage from "../../../Utils/optimizeImage";
 
 let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
 const LicenseCreateUser = () => {
+  const resellerDefaultValue = localStorage.getItem('user_id') == ' kCeCVRyC5/qwI7BcPJqDQ==' || localStorage.getItem('user_id') == 'kCeCVRyC5/qwI7BcPJqDQ==' ? [2147491346] : [];
   const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","bWmUjqX7J011   WUTYn9g==","MXl8m36VZFYXpgFVz3Pg0g=="]
   const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
   const newdate = new Date();
   const titleFieldRef = useRef(null);
   const limitFieldRef = useRef(null);
   const [counterFlag, setCounterFlag] = useState(0);
-  const [reseller, setReseller] = useState([]);
+  const [reseller, setReseller] = useState(resellerDefaultValue);
   const [show, setShow] = useState(false);
   const [commanShow, setCommanShow] = useState(false);
   const [id, setId] = useState(localStorage.getItem("user_id"));
