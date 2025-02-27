@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useLocation, useSearchParams } from "react-router-dom";
-import { postData, getData,postFormData } from "../../../../../axios/apiHelper";
+import { postData, getData, postFormData } from "../../../../../axios/apiHelper";
 import { ENDPOINT } from "../../../../../axios/apiConfig";
 import { loader } from "../../../../../loader";
 import { Button, Col, Row } from "react-bootstrap";
@@ -20,12 +20,14 @@ const ChatLinkPage = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const aliceCarouselRef = useRef(null);
 
-  const templateUserIDs={"iSnEsKu5gB/DRlycxB6G4g==":[1,2,4,5,6,7,8,9,10],"B7SHpAc XDXSH NXkN0rdQ==":[1,2,4,5,6,7,8,9,10], "wW0geGtDPvig5gF 6KbJrg==":[1,2,4,5,6,7,8,9,10],
-  "UbCJcnLM9fe HsRMgX8c1A==":[1,2,4,5,6,7,8,9,10],"z2TunmZQf3QwCsICFTLGGQ==":[1,2,4,5,6,7,8,9,10],"qDgwPdToP05Kgzc g2VjIQ==":[1,2,4,5,6,7,8,9,10] ,"rjiGlqA9DXJVH7bDDTX0Lg==":[1,2,4,5,6,7,8,9,10,11],
-"MpEPwXLqTPveAfumxT/KXw==":[1,2,4,5,6,7,8,9,10],"5EdDBhVCQm08iLJwBENCWw==":[1,2,4,5,6,7,8,9,10],"I3yCIhnPAd0Ma6sNY4augA==":[1,2,4,5,6,7,8,9,10],"Y/I8/x8K0syk/ulWyKwKhg==":[1,2,4,5,6,7,8,9,10]
-,"bWmUjqX7J011   WUTYn9g==":[1,2,4,5,6,7,8,9,10],"56Ek4feL/1A8mZgIKQWEqg==":[12],"sNl1hra39QmFk9HwvXETJA==":[13]}
+  const templateUserIDs = {
+    "iSnEsKu5gB/DRlycxB6G4g==": [1, 2, 4, 5, 6, 7, 8, 9, 10], "B7SHpAc XDXSH NXkN0rdQ==": [1, 2, 4, 5, 6, 7, 8, 9, 10], "wW0geGtDPvig5gF 6KbJrg==": [1, 2, 4, 5, 6, 7, 8, 9, 10],
+    "UbCJcnLM9fe HsRMgX8c1A==": [1, 2, 4, 5, 6, 7, 8, 9, 10], "z2TunmZQf3QwCsICFTLGGQ==": [1, 2, 4, 5, 6, 7, 8, 9, 10], "qDgwPdToP05Kgzc g2VjIQ==": [1, 2, 4, 5, 6, 7, 8, 9, 10], "rjiGlqA9DXJVH7bDDTX0Lg==": [1, 2, 4, 5, 6, 7, 8, 9, 10, 11],
+    "MpEPwXLqTPveAfumxT/KXw==": [1, 2, 4, 5, 6, 7, 8, 9, 10], "5EdDBhVCQm08iLJwBENCWw==": [1, 2, 4, 5, 6, 7, 8, 9, 10], "I3yCIhnPAd0Ma6sNY4augA==": [1, 2, 4, 5, 6, 7, 8, 9, 10], "Y/I8/x8K0syk/ulWyKwKhg==": [1, 2, 4, 5, 6, 7, 8, 9, 10]
+    , "bWmUjqX7J011   WUTYn9g==": [1, 2, 4, 5, 6, 7, 8, 9, 10], "56Ek4feL/1A8mZgIKQWEqg==": [12], "sNl1hra39QmFk9HwvXETJA==": [13]
+  }
 
-  const userId=localStorage.getItem("user_id") 
+  const userId = localStorage.getItem("user_id")
 
   const defaultTemplateIds = [11];
 
@@ -36,15 +38,15 @@ const ChatLinkPage = () => {
   //     }
   //   }).filter(Boolean); 
 
-    const dynamicEventData = dynamicEventDataJson.filter(template => {
-      if (templateUserIDs[userId]?.includes(template.templateId)) {
-        return true; 
-      } else if (!templateUserIDs.hasOwnProperty(userId) && defaultTemplateIds.includes(template.templateId)) {
-        return true;
-      } else {
-        return false;
-      }
-    });
+  const dynamicEventData = dynamicEventDataJson.filter(template => {
+    if (templateUserIDs[userId]?.includes(template.templateId)) {
+      return true;
+    } else if (!templateUserIDs.hasOwnProperty(userId) && defaultTemplateIds.includes(template.templateId)) {
+      return true;
+    } else {
+      return false;
+    }
+  });
 
   const responsive = {
     0: { items: 1 },
@@ -81,6 +83,7 @@ const ChatLinkPage = () => {
   const [defaultFooterImage, setDefaultFooterImage] = useState();
   const [defaultSecondHeaderImage, setDefaultSecondHeaderImage] = useState();
   const [isDataSaved, setIsDataSaved] = useState(true);
+  const [rerander, setRerander] = useState(true);
   const [templateData, setTemplateData] = useState(dynamicEventData[0]);
   const [apiData, setApiData] = useState({});
   const [downloadqr, setDownloadQr] = useState(false);
@@ -101,7 +104,7 @@ const ChatLinkPage = () => {
     });
     return initialState;
   });
-  const [downloadType,setDownloadType]=useState("png")
+  const [downloadType, setDownloadType] = useState("png")
 
   useEffect(() => {
     fetchApiData();
@@ -113,7 +116,7 @@ const ChatLinkPage = () => {
       const response = await getData(
         `${ENDPOINT.GETCHATLINKDATA}/${eventData?.eventId}`
       );
-     
+
       const { chatLinkData } = response?.data?.data;
       if (chatLinkData && Object.keys(chatLinkData).length !== 0) {
         const index = dynamicEventData.findIndex(
@@ -125,10 +128,10 @@ const ChatLinkPage = () => {
 
           const filteredItem = dynamicEventData[index];
           setTemplateData(filteredItem);
-    
+
           setActiveIndex(index);
           currentIndex.current = index
-       
+
         } else {
           setTemplateData(dynamicEventData[0]);
           setActiveIndex(0);
@@ -439,10 +442,13 @@ const ChatLinkPage = () => {
         eventId: eventData?.eventId,
         companyId: eventData?.companyId,
       };
+      setRerander(() => false)
       const response = await postData(ENDPOINT.STORECHATLINKDATA, payload);
       setFormData(dynamicContent);
       setApiData(dynamicContent);
       setIsDataSaved(true);
+
+
       if (errorMsg && errorMsg !== "") {
         toast.error(errorMsg);
         return;
@@ -451,6 +457,8 @@ const ChatLinkPage = () => {
       console.error("Error:", error);
     } finally {
       loader("hide");
+      setRerander(() => true)
+
     }
 
     if (e) {
@@ -528,8 +536,8 @@ const ChatLinkPage = () => {
           template?.templateId == 4 ||
           template?.templateId == 5 ||
           template?.templateId == 6 ||
-          template?.templateId == 7 || 
-          template?.templateId == 8 ||  
+          template?.templateId == 7 ||
+          template?.templateId == 8 ||
           template?.templateId == 9 ||
           template?.templateId == 10
         ) {
@@ -579,8 +587,8 @@ const ChatLinkPage = () => {
           template?.templateId == 4 ||
           template?.templateId == 5 ||
           template?.templateId == 6 ||
-          template?.templateId == 7 || 
-          template?.templateId == 8 ||  
+          template?.templateId == 7 ||
+          template?.templateId == 8 ||
           template?.templateId == 9 ||
           template?.templateId == 10
         ) {
@@ -603,9 +611,9 @@ const ChatLinkPage = () => {
 
   const generateQRUrl = () => {
     // Generate the QR code URL based on your logic
-    const url =  eventData?.eventId > 402
-    ? `https://events.docintel.app/events/index.html?evnt=${eventData?.eventCode}`
-    : `${window.location.host}/event?evnt=${eventData?.eventCode}`; 
+    const url = eventData?.eventId > 402
+      ? `https://events.docintel.app/events/index.html?evnt=${eventData?.eventCode}`
+      : `${window.location.host}/event?evnt=${eventData?.eventCode}`;
     return url;
   };
 
@@ -616,37 +624,37 @@ const ChatLinkPage = () => {
     const qrUrl = generateQRUrl();
 
     try {
-      let fileName= (eventData?.eventTitle).replaceAll(" ","_")
+      let fileName = (eventData?.eventTitle).replaceAll(" ", "_")
       const canvas = await QRCode.toCanvas(qrUrl, { width: 300 });
- if(downloadType=="png"){  
-      const pngUrl = canvas.toDataURL('image/png').replace(/^data:image\/[^;]/, 'data:application/octet-stream');
-      
-      const downloadLink = document.createElement('a');
-      downloadLink.href = pngUrl;
-      downloadLink.download = `${fileName}_ChatLink.png`; // Set the filename
-      document.body.appendChild(downloadLink);
-      downloadLink.click();
-      document.body.removeChild(downloadLink);
+      if (downloadType == "png") {
+        const pngUrl = canvas.toDataURL('image/png').replace(/^data:image\/[^;]/, 'data:application/octet-stream');
+
+        const downloadLink = document.createElement('a');
+        downloadLink.href = pngUrl;
+        downloadLink.download = `${fileName}_ChatLink.png`; // Set the filename
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
       }
 
-      else if(downloadType=="eps"){        
+      else if (downloadType == "eps") {
         const pngUrl = canvas
           .toDataURL("image/png")
           .replace("image/png", "image/png");
         const res = await postFormData(ENDPOINT.DOWNLOAD_EPS_FILE, { "svgCode": pngUrl },
-        {
-          responseType: "blob",
-        }
-      );
-      const url = URL.createObjectURL(res?.data);    
-      const downloadLink = document.createElement('a');
-      downloadLink.href = url;
-      downloadLink.download = `${fileName}_ChatLink.eps`;;     
-      // downloadLink.style.display = 'none';    
-      document.body.appendChild(downloadLink);      
-      downloadLink.click();     
-      URL.revokeObjectURL(url);
-      document.body.removeChild(downloadLink);
+          {
+            responseType: "blob",
+          }
+        );
+        const url = URL.createObjectURL(res?.data);
+        const downloadLink = document.createElement('a');
+        downloadLink.href = url;
+        downloadLink.download = `${fileName}_ChatLink.eps`;;
+        // downloadLink.style.display = 'none';    
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        URL.revokeObjectURL(url);
+        document.body.removeChild(downloadLink);
 
       }
     } catch (error) {
@@ -654,6 +662,12 @@ const ChatLinkPage = () => {
     }
   };
 
+
+  const iframeSrc = eventData?.eventCode
+    // ? `https://events.docintel.app/events/index.html?evnt=${eventData.eventCode}&name=${encodeURIComponent(eventData.name || '')}&date=${encodeURIComponent(eventData.date || '')}`
+    ? `http://localhost:5173/events/index.html?evnt=${eventData.eventCode}&type=iframe`
+
+    : '';
   return (
     <>
       <Col className="right-sidebar custom-change">
@@ -664,10 +678,9 @@ const ChatLinkPage = () => {
               <div className="page-title">
                 <h2>Chat Link</h2>
               </div>
-           { currentIndex.current !=null &&   <div className="top-right-action">
+              {currentIndex.current != null && <div className="top-right-action">
                 <div className="d-flex justify-content-end header_btns">
-                <div className={`dropdown qr-download ${
-                      !isDataSaved ? "disabled" : ""
+                  <div className={`dropdown qr-download ${!isDataSaved ? "disabled" : ""
                     }`}>
                     <button
                       className="btn btn-primary dropdown"
@@ -677,13 +690,12 @@ const ChatLinkPage = () => {
                       Download QR
 
                     </button>
-                    </div>
-                 
+                  </div>
+
                   <a
-                    className={`copy_link btn-voilet ${
-                      !isDataSaved ? "disabled" : ""
-                    }`}
-                    
+                    className={`copy_link btn-voilet ${!isDataSaved ? "disabled" : ""
+                      }`}
+
                     href={
                       eventData?.eventId > 402
                         ? `https://events.docintel.app/events/index.html?evnt=${eventData?.eventCode}`
@@ -717,7 +729,7 @@ const ChatLinkPage = () => {
                 <h6>Select Template</h6>
               </div>
 
-              {(dynamicEventData?.length && currentIndex.current !=null) && <AliceCarousel
+              {(dynamicEventData?.length && currentIndex.current != null) && <AliceCarousel
                 ref={aliceCarouselRef}
                 mouseTracking
                 //disableButtonsControls
@@ -725,11 +737,11 @@ const ChatLinkPage = () => {
                 disableDotsControls
                 activeIndex={activeIndex}
                 responsive={responsive}
-                onInitialized={()=>{
+                onInitialized={() => {
                   aliceCarouselRef.current?.slideTo(currentIndex.current)
                 }}
               >
-                { dynamicEventData.map((template, index) => {
+                {dynamicEventData.map((template, index) => {
                   return (
                     <React.Fragment key={index}>
                       <div
@@ -743,7 +755,7 @@ const ChatLinkPage = () => {
                           alt=""
                           className={
                             typeof activeIndex !== "undefined" &&
-                            activeIndex == index
+                              activeIndex == index
                               ? "select_mm"
                               : "nothing"
                           }
@@ -760,7 +772,7 @@ const ChatLinkPage = () => {
               <div className="row ">
                 <div className="col-md-6 col-sm-6">
                   <div className="chatlink-left">
-                    {currentIndex.current !=null && Object.entries(templateData?.fieldData).map(
+                    {currentIndex.current != null && Object.entries(templateData?.fieldData).map(
                       ([field, value]) => (
                         <div
                           key={field}
@@ -962,8 +974,8 @@ const ChatLinkPage = () => {
                                 </div>
                               </div>
                               <span className="suggestion">
-                              (Recommended size 750 x 180)
-                              {/* { formData?.templateId === 8 ? '(Recommended size 300 x 140)' : '(Recommended size 750 x 180)'} */}
+                                (Recommended size 750 x 180)
+                                {/* { formData?.templateId === 8 ? '(Recommended size 300 x 140)' : '(Recommended size 750 x 180)'} */}
                               </span>
                             </>
                           ) : value.type === "file" &&
@@ -1075,14 +1087,21 @@ const ChatLinkPage = () => {
                         </div>
                       )
                     )}
-                 {currentIndex.current !=null &&  <Button className="save-btn" onClick={handleSubmitForm}>
+                    {currentIndex.current != null && <Button className="save-btn" onClick={handleSubmitForm}>
                       Save
                     </Button>}
                   </div>
                 </div>
 
                 <div className="col-md-6 col-sm-6">
-                  <div className="webinar-popup">
+                  {rerander ? <iframe
+                    src={iframeSrc}
+                    width="100%"
+                    height="100%"
+                    title="Event Preview"
+                  ></iframe> : null}
+
+                  {/* <div className="webinar-popup">
                     <div className="loader" id="custom_loader">
                       <div className="loader_show">
                         <span className="loader-view"> </span>
@@ -1350,7 +1369,7 @@ const ChatLinkPage = () => {
                         </div>
                       </div>
                     </div>}
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>
