@@ -25984,6 +25984,63 @@ background-size: cover;
   }
 }
 }
+.sunshine_mail_verify{
+  .verify-mail-box{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  .verify-right {
+    width: 590px;
+    .preview-mail-box{
+      table{
+        zoom:0.9;
+      }
+    }
+  }
+  .verify-left {
+    width: calc(100% - 590px);
+}
+} 
+.sunshine-mail-recipt{
+height: 100%;
+  .d-flex{
+    gap:20px;
+    height: 100%;
+  }
+  h6{
+    margin-bottom: 23px;
+  }
+  .mail-recipt-right{
+    gap:0;
+    margin:0;
+    padding:0 0 0 23px;
+    border-bottom: 0;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    border-left:1px dashed vars.$primary-color;
+    .mail-content-select-box{
+      width: 100%;
+      max-width: 100%;
+    }
+  }
+  .mail-recipt-left{
+    max-width: 360px;
+    .mail-content-table{
+      table{
+        width:100%;
+        th{
+          color: rgba(0, 74, 137, 0.55);
+          font-weight: 500;
+          padding: 6px 8px 6px 0;
+        }
+        td{
+          color:vars.$dark-blue;
+        }
+      } 
+    } 
+  }
+}
 @media only screen and (max-width: 1500px) {
   .sunshine-account{
     .sunshine-account-inset{
@@ -26206,9 +26263,11 @@ background-size: cover;
 }
 .sunshine-mail{
   padding: 0;
+  margin-bottom: 46px;
   .page-title{
     h4{
       font-weight: bold;
+      margin:0 0 8px;
       span{
         color:#97B6CF;
         font-size: 32px;
@@ -26223,10 +26282,13 @@ background-size: cover;
         align-items: center;
         flex-wrap: nowrap;
         label{
-          margin:0 23px 0 0;
+          margin:0 10px 0 0;
           width: auto;
           flex:0 0 auto;
           font-weight: 400;
+          span{
+            color: #C31162;
+          }
         }
       }
       span{

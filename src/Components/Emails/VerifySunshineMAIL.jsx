@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { Modal,Tab,Tabs } from "react-bootstrap";
+import { Col, Modal,Tab,Tabs } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import Select, { createFilter } from "react-select";
@@ -448,7 +448,7 @@ const VerifySunshineMAIL = (props) => {
               </div>
             </div>
 
-            <section className="verify_email">
+            <section className="verify_email sunshine_mail_verify">
               <div className="row">
                 <div className="col-12 verify-left">
                   <div className="verify-mail-box">
@@ -503,19 +503,65 @@ const VerifySunshineMAIL = (props) => {
                         </h6> */}
                       </div>
                     </div>
-                    <div className="mail-recipt">
-                      <div className="row">
-                        <div className="col-12 col-md-12 mail-recipt-right">
+                    <div className="mail-recipt sunshine-mail-recipt">
+                      <div className="d-flex justify-content-between">
+                      <Col className="mail-recipt-left">
+                          <h6>
+                            The recipients 
+                            {/* <span>| {selectedUser?.length}</span> */}
+                          </h6>
+                            {selectedUser?.length > 0
+                                ? 
+                                <Col md={12}>
+                                    <div className="mail-content-select-box">
+                                        <div className="mail-content-select-top">
+                                            <div className="mail-box-content">
+                                                <h5>{selectedUser?.[0]?.name}</h5>
+                                            </div>
+                                        </div>
+                                        <div className="mail-content-table">
+                                            <table>
+                                            <tbody>
+                                                <tr>
+                                                <th>Email</th>
+                                                <td>{selectedUser?.[0]?.email}</td>
+                                                </tr>
+                                                <tr>
+                                                <th>Country</th>
+                                                <td>{selectedUser?.[0]?.country}</td>
+                                                </tr>
+                                                <tr>
+                                                <th>Contact type</th>
+                                                <td>{selectedUser?.[0]?.contact_type}</td>
+                                                </tr>
+                                                <tr>
+                                                <th>Last Email</th>
+                                                <td>{selectedUser?.[0]?.last_email ? selectedUser?.[0]?.last_email : "N/A"}</td>
+                                                </tr>
+                                            </tbody>
+                                            </table>
+                                        </div>
+                                        <div className="mail-content-footer">
+                                            <button className="btn btn-primary btn-filled"
+                                            onClick={(e) => Edit(e,selectedUser?.[0])}>Edit</button>
+                                        </div>
+                                    </div>
+                                </Col>
+                                : null
+                            }
+                        </Col>
+                        <Col className="mail-recipt-right">
                           <h6>Content that will be send</h6>
-                          <p>
-                            Content <span>| 1</span>
-                          </p>
+                          {/* <p>
+                            Content 
+                            <span>| 1</span>
+                          </p> */}
                           
                           {typeof getpdfdata !== "undefined" && getpdfdata.hasOwnProperty('pdf_title') &&
                             getSelectedPdfId != 13 &&
                             getSelectedPdfId != 14 &&
                             getSelectedPdfId != 16 && (
-                                <div className="col-12 col-md-6">
+                              <Col md={12}>
                                     <div className="mail-content-select-box">
                                         <div className="mail-content-select-top">
                                             <div className="mail-preview-img">
@@ -581,54 +627,10 @@ const VerifySunshineMAIL = (props) => {
                                             </a>
                                         </div>
                                     </div>
-                                </div>
+                                </Col>
                             )}
-                        </div>
-                        <div className="col-12 col-md-12 mail-recipt-left">
-                          <h6>
-                            The recipients <span>| {selectedUser?.length}</span>
-                            {console.log(selectedUser)}
-                          </h6>
-                            {selectedUser?.length > 0
-                                ? 
-                                <div className="col-12 col-md-6">
-                                    <div className="mail-content-select-box">
-                                        <div className="mail-content-select-top">
-                                            <div className="mail-box-content">
-                                                <h5>{selectedUser?.[0]?.name}</h5>
-                                            </div>
-                                        </div>
-                                        <div className="mail-content-table">
-                                            <table>
-                                            <tbody>
-                                                <tr>
-                                                <th>Email</th>
-                                                <td>{selectedUser?.[0]?.email}</td>
-                                                </tr>
-                                                <tr>
-                                                <th>Country</th>
-                                                <td>{selectedUser?.[0]?.country}</td>
-                                                </tr>
-                                                <tr>
-                                                <th>Contact type</th>
-                                                <td>{selectedUser?.[0]?.contact_type}</td>
-                                                </tr>
-                                                <tr>
-                                                <th>Last Email</th>
-                                                <td>{selectedUser?.[0]?.last_email ? selectedUser?.[0]?.last_email : "N/A"}</td>
-                                                </tr>
-                                            </tbody>
-                                            </table>
-                                        </div>
-                                        <div className="mail-content-footer">
-                                            <button className="btn btn-primary btn-filled"
-                                            onClick={(e) => Edit(e,selectedUser?.[0])}>Edit</button>
-                                        </div>
-                                    </div>
-                                </div>
-                                : null
-                            }
-                        </div>
+                        </Col>
+                        
                       </div>
                     </div>
                   </div>
