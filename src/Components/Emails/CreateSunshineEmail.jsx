@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import SimpleReactValidator from "simple-react-validator";
 import { getCampaignId, getEmailData, getSearched, getSelected } from "../../actions";
 import { useNavigate } from "react-router-dom";
-import { Modal, ModalDialog, Dropdown, OverlayTrigger, Tooltip, Button, Container, Row } from "react-bootstrap";
+import { Modal, ModalDialog, Dropdown, OverlayTrigger, Tooltip, Button, Container, Row, Table } from "react-bootstrap";
 import { loader } from "../../loader";
 import { popup_alert } from "../../popup_alert";
 import { toast } from "react-toastify";
@@ -877,18 +877,48 @@ const CreateSunshineEmail = (props) => {
                   </>
                 </form>
               </div>
-
-              <div className="search-hcp-table sample_list_dt">
-                <div className="search-hcp-table-inside sample_list_dt">
+              <div className="d-flex justify-content-between search-client-list">
+              <div className="sample_list_dt col">
+              <form>
+                <fieldset>
+                  <legend>Search results | <span>0</span></legend>
                   {searchedUsers.length === 0 ? (
                     <div className="not-found">
-                      <h4>No Record Found!</h4>
+                      <h4>No Search result found!</h4>
                     </div>
                   ) : (
                     searchedUsers.map((data, index) => {
                       return (
                         <div className="search-hcp-box" key={index}>
-                          <p className="send-hcp-box-title">
+                          <Table>
+                            <thead>
+                              <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Contact type</th>
+                                <th>&nbsp;</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                              <td>
+                                {data.name}
+                              </td>
+                              <td>{data.email}</td>
+                              <td>{data.contact_type}</td>
+                              <td><div
+                            className="add-new-field"
+                            onClick={() => selectHcp(index,'client')}
+                          >
+                            <img
+                              src={path_image + "add-row.png"}
+                              alt="Add More"
+                            />
+                          </div></td>
+                            </tr>
+                            </tbody>
+                          </Table>
+                          {/* <p className="send-hcp-box-title">
                             Name | <span>{data.name}</span>
                           </p>
                           <p className="send-hcp-box-title">
@@ -905,33 +935,66 @@ const CreateSunshineEmail = (props) => {
                               src={path_image + "add-row.png"}
                               alt="Add More"
                             />
-                          </div>
+                          </div> */}
                         </div>
                       );
                     })
                   )}
-                </div>
-              </div>
+                  
+                </fieldset>
+              </form>
 
-              <div className="selected-hcp-table">
-                <div className="table-title">
-                  <h4>
-                    Selected contact <span>| 
-                      {selectedClient?.length}
-                      </span>
-                  </h4>
-                </div>
-                <div className="selected-hcp-list">
+                {/* <div className="search-hcp-table-inside sample_list_dt">
+                
+                 
+                </div> */}
+              </div>
+              <div className="arrow-icon">
+              <img src={path_image + "swap-arrow.svg"} alt="Double arrow" />
+              </div>
+              <div className="sample_list_dt col">
+              <form>
+                <fieldset>
+                  <legend>Selected client | <span>{selectedClient?.length}</span></legend>
                   {selectedClient?.length == 0 ? (
                     <div className="not-found">
-                      <h4>No Contact selected yet!</h4>
+                      <h4>No selected client yet!</h4>
                     </div>
                   ) : (
                     <>
                       {selectedClient?.map((data, index2) => {
                         return (
                           <div className="search-hcp-box" key={data?.id || index2}>
-                            <p className="send-hcp-box-title">
+                            <Table>
+                            <thead>
+                              <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Contact type</th>
+                                <th>&nbsp;</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                              <td>
+                              {data?.name}
+                              </td>
+                              <td>{data?.email}</td>
+                              <td>{data?.contact_type ? data?.contact_type : "N/A"}</td>
+                              <td><div className="remove-existing-field">
+                                <Button class="btn btn-outline-primary ">
+                                <img
+                                src={path_image + "delete.svg"}
+                                alt="Delete Row"
+                                onClick={() => deleteSelected(index2,'client')}
+                              />
+                                </Button>
+                              
+                            </div></td>
+                            </tr>
+                            </tbody>
+                          </Table>
+                            {/* <p className="send-hcp-box-title">
                               Name | <span>{data?.name}</span>
                             </p>
                             <p className="send-hcp-box-title">
@@ -946,15 +1009,27 @@ const CreateSunshineEmail = (props) => {
                                 alt="Delete Row"
                                 onClick={() => deleteSelected(index2,'client')}
                               />
-                            </div>
+                            </div> */}
                           </div>
                         );
                       })}
                     </>
                   )}
-                </div>
-              </div>
+                </fieldset>
                 
+                  
+                
+              </form>
+                {/* <div className="table-title">
+                  <h4>
+                    Selected contact <span>| 
+                      {selectedClient?.length}
+                      </span>
+                  </h4>
+                </div> */}
+                
+              </div>
+              </div>
             </Row>
           </Container>
         </section>
@@ -1409,7 +1484,7 @@ const CreateSunshineEmail = (props) => {
                 </div>
               {/* </form> */}
             </div>
-            <div className="search-hcp-table sample_list_dt">
+            <div className="sample_list_dt">
               <div className="search-hcp-table-inside sample_list_dt">
                 {searchSampleUsers.length === 0 ? (
                   <div className="not-found">
