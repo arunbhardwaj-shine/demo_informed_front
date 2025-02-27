@@ -26236,6 +26236,116 @@ background-size: cover;
       }
     }
   }
+  .search-client-list {
+    padding: 0;
+    gap:3px;
+  }
+  .sample_list_dt{
+    min-height: 160px !important;
+    form{
+      height:100%;
+      fieldset{
+        border-radius: 15px;
+        border: 1px dashed #97B6CF;
+        padding: 18px 43px 18px 16px;
+        min-height: 160px;
+        height: 100%;
+        legend{
+          float: none;
+          width:auto;
+          color: vars.$dark-blue;
+          font-size: 13px;
+          font-style: normal;
+          font-weight: 500;
+          margin:0;
+          padding: 0 5px;
+          span{
+            font-weight: 400;
+          }
+        }
+        .not-found{
+          
+          min-height: 95px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          height: 100%;
+          h4{
+            font-size: 20px;
+            font-weight: 300;
+            text-transform: capitalize;
+          }
+        }
+        .search-hcp-box{
+          table{
+            border-collapse: separate;
+            border-spacing: 0px 10px;
+            margin:0;
+            thead{
+              th{
+                font-size: 13px;
+                line-height: 15px;
+                color: vars.$dark-blue;
+                font-weight: 500;
+                padding-top:0;
+              }
+            }
+            tbody{
+              tr{
+                background: transparent;
+                box-shadow: 0px 1px 6px rgba(0, 102, 190, 0.2);
+                border-radius: 13px;
+                border-spacing: 0px 10px;
+                td{
+                  vertical-align: middle;
+                  font-size: 13px;
+                  line-height: 15px;
+                  color: vars.$light-gray;
+                  padding: 12px 10px;
+                  border: 0;
+                  background: vars.$white;
+                  &:first-child{
+                    border-radius: 13px 0 0 13px;
+                  }
+                  &:last-child{
+                    border-radius: 0px 13px 13px 0;
+                  }
+                  .add-new-field, .remove-existing-field{
+                    text-align: right;
+                    position: relative;
+                    right: -30px;
+                    img{
+                      width:40px;
+                      height:40px;
+                    }
+                    button{
+                      background: vars.$primary-color;
+                      border: 0;
+                      width:40px;
+                      height: 40px;
+                      min-width: initial;
+                      padding:7px;
+                      img{
+                        width:24px;
+                        height:24px;
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+       
+       
+      }
+    }
+  }
+  .arrow-icon{
+    align-items: center;
+    justify-content: center;
+    display: flex;
+  }
 }
 /**Sunshine login, register end**/
 
