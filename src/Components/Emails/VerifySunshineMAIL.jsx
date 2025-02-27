@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
- 
 import { connect } from "react-redux";
 import axios from "axios";
 import { Link } from "react-router-dom";
@@ -239,70 +238,32 @@ const VerifySunshineMAIL = (props) => {
             : props?.getDraftData?.campaign_data?.list_selection,
         },
       };
-      console.log(body,'body');
       axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
-    //   loader("show");
-    //   if(localStorage.getItem('user_id') == 'rjiGlqA9DXJVH7bDDTX0Lg=='){
-    //     await axios
-    //       .post(`emailapi/send_email_new`, body)
-    //       .then((res) => {
-    //         loader("hide");
-    //         if (res.data.status_code === 200) {
-    //           popup_alert({
-    //             visible: "show",
-    //             message: res?.data?.message ?res?.data?.message:"Mail sent successfully",
-    //             type: "success",
-    //             redirect: "/EmailList",
-    //           });
-    //         } else {
-    //           popup_alert({
-    //             visible: "show",
-    //             message: res.data.message,
-    //             type: "error",
-    //           });
-    //         }
-    //       })
-    //       .catch((err) => {
-    //         loader("hide");
-    //         toast.error("Something went wrong");
-    //         console.log(err);
-    //       });
-    //   }else{
-    //     await axios
-    //       .post(`emailapi/send_email`, body)
-    //       .then((res) => {
-    //         loader("hide");
-    //         if (res.data.status_code === 200) {
-
-    //           if(irtRoleObj?.IRTFlag){
-    //             // setSearchedUsers(searchedUsers)
-    //             popup_alert({
-    //               visible: "show",
-    //               message:  res?.data?.message ?  res?.data?.message : "Your changes has been saved <br />successfully !",
-    //               type: "success",
-    //               redirect: "/IRTRole",
-    //             });
-    //           }else
-    //         {  popup_alert({
-    //             visible: "show",
-    //             message: res?.data?.message ?res?.data?.message:"Mail sent successfully",
-    //             type: "success",
-    //             redirect: "/EmailList",
-    //           });}
-    //         } else {
-    //           popup_alert({
-    //             visible: "show",
-    //             message: res.data.message,
-    //             type: "error",
-    //           });
-    //         }
-    //       })
-    //       .catch((err) => {
-    //         toast.error("Something went wrong");
-    //         loader("hide");
-    //         console.log(err);
-    //       });
-    //   }
+      loader("show");
+      await axios
+        .post(`emailapi/send_email_new`, body)
+        .then((res) => {
+          loader("hide");
+          if (res.data.status_code === 200) {
+            popup_alert({
+              visible: "show",
+              message: res?.data?.message ?res?.data?.message:"Mail sent successfully",
+              type: "success",
+              redirect: "/license-content",
+            });
+          } else {
+            popup_alert({
+              visible: "show",
+              message: res.data.message,
+              type: "error",
+            });
+          }
+        })
+        .catch((err) => {
+          loader("hide");
+          toast.error("Something went wrong");
+          console.log(err);
+        });
   };
 
   const backClicked = () => {
@@ -398,7 +359,6 @@ const VerifySunshineMAIL = (props) => {
       console.log(err);
     }
   };
-  
 
   return (
     <>

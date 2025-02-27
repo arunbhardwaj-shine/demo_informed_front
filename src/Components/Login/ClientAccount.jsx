@@ -129,6 +129,7 @@ const ClinetAccount = () => {
         localStorage.setItem("name", res?.data?.data?.name);
         localStorage.setItem("decrypted_token", res?.data?.data?.jwtToken);
         localStorage.setItem("account_type", 'USA_PHARMA');
+        localStorage.setItem('logs_token', token);
         loader("hide");
         navigate("/home");
       }
@@ -205,6 +206,7 @@ const ClinetAccount = () => {
         localStorage.setItem("name", res?.data?.data?.name);
         localStorage.setItem("decrypted_token", res?.data?.data?.jwtToken);
         localStorage.setItem("account_type", 'USA_PHARMA');
+        localStorage.setItem('logs_token', token);
         loader("hide");
         navigate("/home");
       } catch (err) {
@@ -269,6 +271,7 @@ const ClinetAccount = () => {
         localStorage.setItem("name", res?.data?.data?.name);
         localStorage.setItem("decrypted_token", res?.data?.data?.jwtToken);
         localStorage.setItem("account_type", 'USA_PHARMA');
+        localStorage.setItem('logs_token', token);
         loader("hide");
         navigate("/home");
       }
