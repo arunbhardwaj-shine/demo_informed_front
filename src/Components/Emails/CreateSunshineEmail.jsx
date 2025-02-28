@@ -365,6 +365,7 @@ const CreateSunshineEmail = (props) => {
       toast.error(error[Object.keys(error)[0]]);
       return;
     } else {
+      setValidationError({});
       setSearchEmail('');
       setSearchName('');
       setIsOpensend(true);
@@ -450,10 +451,10 @@ const CreateSunshineEmail = (props) => {
   const searchPharma = async (e,type) => {
     try{
       if (searchName == "" && searchEmail == "") {
-        // let newErrors = {};
-        // newErrors.searchEmail = "Please enter email"
-        // newErrors.searchName = "Please enter name"
-        // setValidationError(newErrors);
+        let newErrors = {};
+        newErrors.searchEmail = "Please enter email"
+        newErrors.searchName = "Please enter name"
+        setValidationError(newErrors);
         toast.warning("Please enter name or email first");
       }else{
         setValidationError({});
