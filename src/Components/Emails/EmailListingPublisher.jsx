@@ -189,7 +189,7 @@ const EmailListingPublisher = (props) => {
   }, []);
 
   const showViewEmailModal = async (data) => {
-    console.log(data);
+   
     let id = data;
     loader('show');
     try {
@@ -287,7 +287,7 @@ const EmailListingPublisher = (props) => {
       await axios
         .post(`emailapi/get-pharma-campaigns-filters`, body)
         .then((res) => {
-          console.log(res)
+    
           setFilterData(res?.data?.data  ? res?.data?.data : {});
 
           getData("initial");
@@ -315,7 +315,7 @@ const EmailListingPublisher = (props) => {
     axios
       .post(`/emailapi/get-pharma-campaigns?page=` + page, body)
       .then((res) => {
-        console.log(res)
+        
         if (res.data.status_code == 200) {
           setSendListData(res.data.data.emails);
           if (stage == "initial") {
@@ -471,7 +471,7 @@ const EmailListingPublisher = (props) => {
     props.getSearched(null)
     if (([3968, 3970, 4521].includes(irtRoleObj?.pdfId)) || irtRoleObj?.pdfId) {
       await navigateRole(irtRoleObj);
-      // console.log(irtRoleObj?.pdfId,'irtRoleObj?.pdfId');
+     
     } else {
       navigate("/EmailArticleSelect", {
         state: { IrtObj: irtRoleObj },
@@ -551,6 +551,7 @@ const EmailListingPublisher = (props) => {
 
   const handleOnFilterCompany = (fcomapny) => {
     let tag_index = filterCompany.indexOf(fcomapny);
+   
     if (tag_index !== -1) {
       filterCompany.splice(tag_index, 1);
       setFilterCompany(filterCompany);
@@ -914,7 +915,7 @@ const EmailListingPublisher = (props) => {
   };
 
   const dynamicSort = (key, direction) => (a, b) => {
-    console.log(key, direction)
+    
     // Function to get the value of a nested key
     const getNestedValue = (obj, keys) => {
       for (const key of keys) {
@@ -956,7 +957,7 @@ const EmailListingPublisher = (props) => {
     
 
     const sortedUserData = [...SendListData].sort(dynamicSort(key, direction));
-   console.log(sortedUserData)
+  
 
 
     setSendListData(sortedUserData);
@@ -1328,7 +1329,7 @@ const getDownloadData = async (viewEmailData) => {
                   ) : (
                     <button
                       // className="btn btn-outline-primary"
-                      className={`btn btn-outline-primary ${SendListData.length > 0 ? "disabled" : ""}    ${isRND ? "rd" : ""}`}
+                      className={`btn btn-outline-primary ${SendListData.length < 1 ? "disabled" : ""}    ${isRND ? "rd" : ""}`}
                       onClick={(e) => showDeleteButtons()}
                     >
                       <svg
@@ -1580,7 +1581,7 @@ const getDownloadData = async (viewEmailData) => {
                     <thead className="sticky-header">
                       <tr>
                         <th className="sort_option" >
-                        <span onClick={(e) => userSort(e, "subject") }>
+                        <span onClick={(e) => userSort(e, "subject")}>
                           Subject
                         <button className={`event_sort_btn ${isActive?.subject == "dec"
                                     ? "svg_active"
@@ -1593,9 +1594,9 @@ const getDownloadData = async (viewEmailData) => {
                         </th>
 
                         <th className="sort_option" >
-                        <span onClick={(e) => userSort(e, "campaign")}>
+                        <span onClick={(e) => userSort(e, "client_company")}>
                           Client Company
-                        <button className={`event_sort_btn ${isActive?.campaign == "dec"
+                        <button className={`event_sort_btn ${isActive?.client_company == "dec"
                                     ? "svg_active"
                                     : isActive?.name == "asc"
                                       ? "svg_asc"
@@ -1605,9 +1606,9 @@ const getDownloadData = async (viewEmailData) => {
                         </span></th>
 
                         <th className="sort_option" >
-                        <span onClick={(e) => userSort(e, "creator")} > 
+                        <span onClick={(e) => userSort(e, "client_email")} > 
                           Client Email
-                          <button   className={`event_sort_btn ${isActive?.creator == "dec"
+                          <button   className={`event_sort_btn ${isActive?.client_email == "dec"
                                     ? "svg_active"
                                     : isActive?.name == "asc"
                                       ? "svg_asc"
@@ -1617,8 +1618,8 @@ const getDownloadData = async (viewEmailData) => {
                         </span></th>
 
                         <th className="sort_option" >
-                        <span onClick={(e) => userSort(e, "country")} >Client Country
-                          <button className={`event_sort_btn ${isActive?.country == "dec"
+                        <span onClick={(e) => userSort(e, "client_country")} >Client Country
+                          <button className={`event_sort_btn ${isActive?.client_country == "dec"
                                     ? "svg_active"
                                     : isActive?.name == "asc"
                                       ? "svg_asc"
@@ -1628,8 +1629,8 @@ const getDownloadData = async (viewEmailData) => {
                         </span></th>
 
                         <th className="sort_option" >
-                        <span onClick={(e) => userSort(e, "send_date")}>Send Date
-                          <button className={`event_sort_btn ${isActive?.send_date == "dec"
+                        <span onClick={(e) => userSort(e, "sent_date")}>Send Date
+                          <button className={`event_sort_btn ${isActive?.sent_date == "dec"
                                     ? "svg_active"
                                     : isActive?.name == "asc"
                                       ? "svg_asc"
@@ -1669,8 +1670,8 @@ const getDownloadData = async (viewEmailData) => {
                                    > <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none" > <g clipPath="url(#clip0_3722_6611)"> <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF" /> </g> <defs> <clipPath id="clip0_3722_6611"> <rect width="8" height="8" fill="white" /> </clipPath> </defs> </svg> </button>
                         </span></th>
 
-                        <th  className="sort_option" > <span onClick={(e) => userSort(e, "Account_Setup")}>Account Setup
-                          <button className={`event_sort_btn ${isActive?.Account_Setup == "dec"
+                        <th  className="sort_option" > <span onClick={(e) => userSort(e, "account_setup")}>Account Setup
+                          <button className={`event_sort_btn ${isActive?.account_setup == "dec"
                                     ? "svg_active"
                                     : isActive?.name == "asc"
                                       ? "svg_asc"
