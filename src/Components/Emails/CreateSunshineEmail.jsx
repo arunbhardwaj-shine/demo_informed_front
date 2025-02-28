@@ -852,7 +852,11 @@ const CreateSunshineEmail = (props) => {
                       <div className="col-12 col-md-4 d-flex align-items-center">
                         <div className="form-group">
                           <label className="form-label">Name</label>
-                          <input type="text" className="form-control" value={searchName} onChange={(e) => setSearchName(e.target.value)} />
+                          <input type="text"
+                            className={validationError?.searchName ? "form-control error": "form-control"}
+                            value={searchName}
+                             onChange={(e) => setSearchName(e.target.value)} />
+
                             {validationError?.searchName &&
                               <div className="login-validation">
                                 {validationError?.searchName}
@@ -863,7 +867,9 @@ const CreateSunshineEmail = (props) => {
                       <div className="col-12 col-md-4 d-flex align-items-center">
                         <div className="form-group">
                           <label className="form-label">Email</label>
-                          <input type="text" className="form-control" value={searchEmail} onChange={(e) => setSearchEmail(e.target.value)} />
+                          <input type="text"
+                          className={validationError?.searchEmail ? "form-control error": "form-control"}
+                           value={searchEmail} onChange={(e) => setSearchEmail(e.target.value)} />
                             {validationError?.searchEmail &&
                               <div className="login-validation">
                                 {validationError?.searchEmail}
@@ -1403,7 +1409,9 @@ const CreateSunshineEmail = (props) => {
                       
                         <div className="form-group col-sm-5">
                           <label className="form-label">Name</label>
-                          <input type="text" className="form-control" value={searchName} onChange={(e) => setSearchName(e.target.value)} />
+                          <input type="text"
+                            className={validationError?.searchName ? "form-control error" : "form-control"}
+                            value={searchName} onChange={(e) => setSearchName(e.target.value)} />
                             {validationError?.searchName &&
                               <div className="login-validation">
                                 {validationError?.searchName}
@@ -1413,7 +1421,9 @@ const CreateSunshineEmail = (props) => {
 
                         <div className="form-group col-sm-5">
                           <label className="form-label">Email</label>
-                          <input type="text" className="form-control" value={searchEmail} onChange={(e) => setSearchEmail(e.target.value)} />
+                          <input type="text"
+                          className={validationError?.searchEmail ? "form-control error" : "form-control"}
+                           value={searchEmail} onChange={(e) => setSearchEmail(e.target.value)} />
                             {validationError?.searchEmail &&
                               <div className="login-validation">
                                 {validationError?.searchEmail}
@@ -1526,18 +1536,14 @@ const CreateSunshineEmail = (props) => {
           </section>
         </Modal.Body>
         <Modal.Footer>
-          {
-            selectedHcp.length > 0 ? (
-              <button
-                type="button"
-                className="btn btn-primary btn-filled"
-                data-bs-dismiss="modal"
-                onClick={sendSampleMail}
-              >
-                Send
-              </button>
-            ) : null
-          }
+            <button
+              type="button"
+              className= {selectedHcp.length > 0 ? "btn btn-primary btn-filled" : "btn btn-primary btn-filled disabled"}
+              data-bs-dismiss="modal"
+              onClick={sendSampleMail}
+            >
+              Send
+            </button>
         </Modal.Footer>
       </Modal>
 
