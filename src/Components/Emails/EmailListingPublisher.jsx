@@ -134,10 +134,10 @@ const EmailListingPublisher = (props) => {
             formatter: function () {
               return (
                 "<span ><div className=" +
-                this.series.name +
+                this.point.category +
                 ">" +
                 "<br/><strong>" +
-                this.series.name +
+                this.point.category+
                 "</strong> <strong >" +
                 ":" +
                 Highcharts.numberFormat(this.y, 0) +
@@ -1866,7 +1866,7 @@ const getDownloadData = async (viewEmailData) => {
                       <tbody>
                         <tr>
                           <th>Client Company</th>
-                          <td style={{color:"#70899E"}}>{viewEmailData[0].campaign}</td>
+                          <td style={{color:"#70899E"}}>{viewEmailData[0].client_company}</td>
                         </tr>
                         <tr>
                           <th>Client Email</th>
