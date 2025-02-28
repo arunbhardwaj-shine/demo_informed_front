@@ -25817,6 +25817,9 @@ background-size: cover;
             padding: 10px 5px 10px 48px;
             font-size: 14px;
             color:vars.$dark-blue;
+            &:disabled{
+              background: #e9ecef;
+            }
             &:focus{
               box-shadow: 0px 0px 7px 0px rgba(0, 102, 190, 0.40);
               &+ span{
@@ -25850,7 +25853,7 @@ background-size: cover;
               white-space: nowrap;
               min-height: initial;
               &>div {
-                padding: 0;
+                padding: 0 17px 0 1px;
                 div{
                   color:#004A89;
                   margin: 0;
@@ -25889,7 +25892,6 @@ background-size: cover;
             -webkit-backdrop-filter: blur(10px);
             backdrop-filter: blur(10px);
             box-shadow: 0px 1px 6px 0px rgba(0, 102, 190, 0.2);
-           
 
             >div {
               max-height: 175px;
@@ -26284,6 +26286,25 @@ height: 100%;
   }
   form{
     .form-inline{
+      &.sunshine-email-form{
+        .form-group{
+          flex-wrap: wrap;
+          input[type="text"]{
+            flex:1 1;
+            max-width: 330px;
+          }
+          label{
+            margin-right: 22px;
+          }
+          .login-validation{padding-left:70px;}
+        }
+        .btn-filled{
+          min-width: 140px;
+        }
+        .btn-voilet{
+          min-width: 170px;
+        }
+      }
       .form-group{
         display: flex;
         align-items: center;
@@ -26316,7 +26337,7 @@ height: 100%;
       fieldset{
         border-radius: 15px;
         border: 1px dashed #97B6CF;
-        padding: 18px 43px 18px 16px;
+        padding: 0px 13px 5px 16px;
         min-height: 160px;
         height: 100%;
         legend{
@@ -26327,11 +26348,17 @@ height: 100%;
           font-style: normal;
           font-weight: 500;
           margin:0;
-          padding: 0 5px;
+          padding: 0 10px;
           span{
             font-weight: 400;
           }
         }
+        .search-hcp-box {
+          overflow-y: auto;
+          height: 150px;
+          padding-right: 26px;
+          padding-left: 4px;
+      }
         .not-found{
           
           min-height: 95px;
@@ -26348,7 +26375,7 @@ height: 100%;
         .search-hcp-box{
           table{
             border-collapse: separate;
-            border-spacing: 0px 10px;
+            border-spacing: 0px 15px;
             margin:0;
             thead{
               th{
@@ -26357,6 +26384,7 @@ height: 100%;
                 color: vars.$dark-blue;
                 font-weight: 500;
                 padding-top:0;
+                padding-bottom: 0;
               }
             }
             tbody{
@@ -26373,6 +26401,7 @@ height: 100%;
                   padding: 12px 10px;
                   border: 0;
                   background: vars.$white;
+                  height:64px;
                   &:first-child{
                     border-radius: 13px 0 0 13px;
                   }
@@ -26415,6 +26444,14 @@ height: 100%;
     justify-content: center;
     display: flex;
   }
+}
+.send-sample-sunshine{
+  .search-hcp-table{
+    &.sample_list_dt{
+      margin-top: 20px;
+    }
+  }
+  
 }
 /**Sunshine login, register end**/
 

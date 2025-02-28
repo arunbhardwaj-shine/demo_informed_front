@@ -365,6 +365,7 @@ const CreateSunshineEmail = (props) => {
       toast.error(error[Object.keys(error)[0]]);
       return;
     } else {
+      setValidationError({});
       setSearchEmail('');
       setSearchName('');
       setIsOpensend(true);
@@ -454,7 +455,7 @@ const CreateSunshineEmail = (props) => {
         newErrors.searchEmail = "Please enter email"
         newErrors.searchName = "Please enter name"
         setValidationError(newErrors);
-        // toast.warning("Please enter name or email first");
+        toast.warning("Please enter name or email first");
       }else{
         setValidationError({});
         const body = {
@@ -848,27 +849,33 @@ const CreateSunshineEmail = (props) => {
               <div className="email-form">
                 <Form>
                   <>
-                    <div className="form-inline d-flex justify-content-between align-items-center">
+                    <div className="form-inline sunshine-email-form d-flex justify-content-between align-items-start">
                       <div className="col-12 col-md-4 d-flex align-items-center">
                         <div className="form-group">
                           <label className="form-label">Name</label>
-                          <input type="text" className="form-control" value={searchName} onChange={(e) => setSearchName(e.target.value)} />
-                            {validationError?.searchName &&
+                          <input type="text"
+                            className={validationError?.searchName ? "form-control error": "form-control"}
+                            value={searchName}
+                             onChange={(e) => setSearchName(e.target.value)} />
+
+                            {/* {validationError?.searchName &&
                               <div className="login-validation">
                                 {validationError?.searchName}
                               </div>
-                            }
+                            } */}
                         </div>
                       </div>
                       <div className="col-12 col-md-4 d-flex align-items-center">
                         <div className="form-group">
                           <label className="form-label">Email</label>
-                          <input type="text" className="form-control" value={searchEmail} onChange={(e) => setSearchEmail(e.target.value)} />
-                            {validationError?.searchEmail &&
+                          <input type="text"
+                          className={validationError?.searchEmail ? "form-control error": "form-control"}
+                           value={searchEmail} onChange={(e) => setSearchEmail(e.target.value)} />
+                            {/* {validationError?.searchEmail &&
                               <div className="login-validation">
                                 {validationError?.searchEmail}
                               </div>
-                            }
+                            } */}
                         </div>
                       </div>
                       <div className="col-12 col-md-4 d-flex align-items-center justify-content-between">
@@ -1371,7 +1378,7 @@ const CreateSunshineEmail = (props) => {
         </Modal.Footer>
       </Modal>
               
-      <Modal id="send-sample" show={isOpen_send} custom-atr="non-scroll">
+      <Modal id="send-sample" show={isOpen_send} custom-atr="non-scroll" className="send-sample-sunshine">
         <Modal.Header>
           <h4>Send a Sample</h4>
           <button
@@ -1398,27 +1405,31 @@ const CreateSunshineEmail = (props) => {
             <div className="form-search-hcp">
               {/* <form> */}
                 <div className="form-inline row justify-content-between align-items-center">
-                  <div className="col-12 col-md-8">
+                  <div className="col-12 col-md-10">
                     <div className="row justify-content-between align-items-center">
                       
                         <div className="form-group col-sm-5">
                           <label className="form-label">Name</label>
-                          <input type="text" className="form-control" value={searchName} onChange={(e) => setSearchName(e.target.value)} />
-                            {validationError?.searchName &&
+                          <input type="text"
+                            className={validationError?.searchName ? "form-control error" : "form-control"}
+                            value={searchName} onChange={(e) => setSearchName(e.target.value)} />
+                            {/* {validationError?.searchName &&
                               <div className="login-validation">
                                 {validationError?.searchName}
                               </div>
-                            }
+                            } */}
                         </div>
 
                         <div className="form-group col-sm-5">
                           <label className="form-label">Email</label>
-                          <input type="text" className="form-control" value={searchEmail} onChange={(e) => setSearchEmail(e.target.value)} />
-                            {validationError?.searchEmail &&
+                          <input type="text"
+                          className={validationError?.searchEmail ? "form-control error" : "form-control"}
+                           value={searchEmail} onChange={(e) => setSearchEmail(e.target.value)} />
+                            {/* {validationError?.searchEmail &&
                               <div className="login-validation">
                                 {validationError?.searchEmail}
                               </div>
-                            }
+                            } */}
                         </div>
                         
                       <div className="form-group col-sm-2">
@@ -1431,9 +1442,9 @@ const CreateSunshineEmail = (props) => {
                       </div>
                     </div>
                   </div>
-                  <div className="form-button col-12 col-md-4">
+                  <div className="form-button col-12 col-md-2">
                     <button
-                      className="btn btn-primary btn-bordered"
+                      className="btn btn-primary btn-bordered m-0"
                       type="button"
                       data-bs-toggle="modal"
                       data-bs-target="#add_hcp"
@@ -1448,7 +1459,7 @@ const CreateSunshineEmail = (props) => {
                 </div>
               {/* </form> */}
             </div>
-            <div className="sample_list_dt">
+            <div className="search-hcp-table sample_list_dt">
               <div className="search-hcp-table-inside sample_list_dt">
                 {searchSampleUsers.length === 0 ? (
                   <div className="not-found">
@@ -1526,18 +1537,14 @@ const CreateSunshineEmail = (props) => {
           </section>
         </Modal.Body>
         <Modal.Footer>
-          {
-            selectedHcp.length > 0 ? (
-              <button
-                type="button"
-                className="btn btn-primary btn-filled"
-                data-bs-dismiss="modal"
-                onClick={sendSampleMail}
-              >
-                Send
-              </button>
-            ) : null
-          }
+            <button
+              type="button"
+              className= {selectedHcp.length > 0 ? "btn btn-primary btn-filled" : "btn btn-primary btn-filled disabled"}
+              data-bs-dismiss="modal"
+              onClick={sendSampleMail}
+            >
+              Send
+            </button>
         </Modal.Footer>
       </Modal>
 
