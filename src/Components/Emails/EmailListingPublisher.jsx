@@ -300,10 +300,6 @@ const EmailListingPublisher = (props) => {
     }
   }
 
-
-
-
-
  
 
   const getData = (stage, page = 1) => {
