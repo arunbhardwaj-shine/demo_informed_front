@@ -1309,14 +1309,14 @@ const LicenseEditListing = () => {
                                       >
                                         Download QR
                                       </Button>
-                                      <Button
+                                      {/* <Button
                                         className="footer-btn"
                                         onClick={() => {
                                           navigate("/CreateEmail");
                                         }}
                                       >
                                         Send in email
-                                      </Button>
+                                      </Button> */}
                                     </div>
                                   </div>
                                 ) : null}

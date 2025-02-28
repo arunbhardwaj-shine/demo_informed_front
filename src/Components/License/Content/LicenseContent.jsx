@@ -39,6 +39,8 @@ import {
   getEmailData,
   getDraftData,
   getSelectedSmartListData,
+  getSelected,
+  getSearched,
 } from "../../../actions";
 const path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
 
@@ -180,7 +182,9 @@ const LicenseContent = (props) => {
     getLibraryData(page, filterObject, search);
     props.getDraftData(null);
     props.getSelectedSmartListData(null);
+    props.getSelected(null);
     props.getEmailData(null);
+    props.getSearched(null);
 
     function handleOutsideClick(event) {
       if (
@@ -326,6 +330,7 @@ const LicenseContent = (props) => {
             let normal_data = client_details;
             try {
               let body = {
+                id:id,
                 client_ids: filteredArray,
               };
               const res = await postData(ENDPOINT.CLIENT_DETAILS, body);
@@ -1675,16 +1680,21 @@ const LicenseContent = (props) => {
                                         >
                                           Send in email
                                         </Button>*/}
-                                      <Link
-                                        to="/CreateEmail"
-                                        state={{ PdfSelected: data.id }}
-                                        onClick={() => {
-                                          nextClicked(data.id);
-                                        }}
-                                        className="footer-btn"
-                                      >
-                                        Send in email
-                                      </Link>
+                                        {
+                                          data?.linkType == 'Sunshine USA'
+                                          ?
+                                          <Link
+                                            to={JSON.parse(data?.pharma_id)?.length >= 2 ? '' : "/create-sunshine-email"}
+                                            state={{ PdfSelected: data.id }}
+                                            onClick={() => {
+                                              nextClicked(data.id);
+                                            }}
+                                            className={JSON.parse(data?.pharma_id)?.length >= 2 ? "footer-btn disabled" : "footer-btn"}
+                                          >
+                                            Send in email
+                                          </Link>
+                                          : null
+                                        }
                                     </div>
                                   </div>
                                 ) : null}
@@ -3129,5 +3139,7 @@ const mapStateToProps = (state) => {
 export default connect(mapStateToProps, {
   getDraftData: getDraftData,
   getSelectedSmartListData: getSelectedSmartListData,
+  getSelected,
+  getSearched,
   getEmailData: getEmailData,
 })(LicenseContent);
