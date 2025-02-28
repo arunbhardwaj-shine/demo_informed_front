@@ -1824,7 +1824,7 @@ const getDownloadData = async (viewEmailData) => {
                         })
                         :
                         <tr>
-                          <td colSpan="10" className="no_found"><div className={`email_box_block no_found`}>
+                          <td colSpan="10"><div className={`email_box_block no_found`}>
                           <p>No Data Found</p>
                         </div></td>
                         </tr>

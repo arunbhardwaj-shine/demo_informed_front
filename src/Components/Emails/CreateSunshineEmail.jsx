@@ -848,7 +848,7 @@ const CreateSunshineEmail = (props) => {
               <div className="email-form">
                 <Form>
                   <>
-                    <div className="form-inline sunshine-email-form d-flex justify-content-between align-items-center">
+                    <div className="form-inline sunshine-email-form d-flex justify-content-between align-items-start">
                       <div className="col-12 col-md-4 d-flex align-items-center">
                         <div className="form-group">
                           <label className="form-label">Name</label>
@@ -1371,7 +1371,7 @@ const CreateSunshineEmail = (props) => {
         </Modal.Footer>
       </Modal>
               
-      <Modal id="send-sample" show={isOpen_send} custom-atr="non-scroll">
+      <Modal id="send-sample" show={isOpen_send} custom-atr="non-scroll" className="send-sample-sunshine">
         <Modal.Header>
           <h4>Send a Sample</h4>
           <button
@@ -1398,7 +1398,7 @@ const CreateSunshineEmail = (props) => {
             <div className="form-search-hcp">
               {/* <form> */}
                 <div className="form-inline row justify-content-between align-items-center">
-                  <div className="col-12 col-md-8">
+                  <div className="col-12 col-md-10">
                     <div className="row justify-content-between align-items-center">
                       
                         <div className="form-group col-sm-5">
@@ -1431,9 +1431,9 @@ const CreateSunshineEmail = (props) => {
                       </div>
                     </div>
                   </div>
-                  <div className="form-button col-12 col-md-4">
+                  <div className="form-button col-12 col-md-2">
                     <button
-                      className="btn btn-primary btn-bordered"
+                      className="btn btn-primary btn-bordered m-0"
                       type="button"
                       data-bs-toggle="modal"
                       data-bs-target="#add_hcp"
@@ -1448,7 +1448,7 @@ const CreateSunshineEmail = (props) => {
                 </div>
               {/* </form> */}
             </div>
-            <div className="sample_list_dt">
+            <div className="search-hcp-table sample_list_dt">
               <div className="search-hcp-table-inside sample_list_dt">
                 {searchSampleUsers.length === 0 ? (
                   <div className="not-found">

@@ -26288,9 +26288,15 @@ height: 100%;
     .form-inline{
       &.sunshine-email-form{
         .form-group{
+          flex-wrap: wrap;
+          input[type="text"]{
+            flex:1 1;
+            max-width: 330px;
+          }
           label{
             margin-right: 22px;
           }
+          .login-validation{padding-left:70px;}
         }
         .btn-filled{
           min-width: 140px;
@@ -26438,6 +26444,14 @@ height: 100%;
     justify-content: center;
     display: flex;
   }
+}
+.send-sample-sunshine{
+  .search-hcp-table{
+    &.sample_list_dt{
+      margin-top: 20px;
+    }
+  }
+  
 }
 /**Sunshine login, register end**/
 
