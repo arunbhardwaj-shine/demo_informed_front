@@ -359,7 +359,7 @@ const Header = () => {
                       window.location.pathname == "/bounced-email" ||
                       window.location.pathname == "/get-details" ||
                       window.location.pathname == "/create-sunshine-email" ||
-                      window.location.pathname == "/Emaillist-publisher" ||
+                      window.location.pathname == "/EmailList-publisher" ||
                       window.location.pathname == "/Verify-sunshine-mail" ||
                       window.location.pathname == "/IRTRole"
                       ? "nav-item active active-main"
