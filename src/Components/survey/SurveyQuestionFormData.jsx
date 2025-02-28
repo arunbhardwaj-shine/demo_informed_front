@@ -531,9 +531,7 @@ const SurveyQuestionFormDataOthers = () => {
 
   const userSorting = (e, key) => {
     const direction = sortName === 0 ? 'asc' : 'dec';
-  
     const sortedData = [...userData].sort(dynamicSorting(key, direction));
-  
     setUserData(sortedData);
     setSortName(sortName === 0 ? 1 : 0);
     setIsActiveSort({ [key]: direction === 'asc' ? 'dec' : 'asc' });

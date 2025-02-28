@@ -1481,7 +1481,22 @@ const Sidebar = () => {
 
                   </ul>
 
-              )  :
+              ) :  
+              window.location.pathname ==  "/EmailList-publisher"   ?(<ul>
+                <li
+                  className={
+                    location.pathname == "/EmailList-publisher"
+                      ? "active"
+                      : "side_li"
+                  }
+                >
+                  <Link to={"/EmailList-publisher"}>
+                  <img src= { sidebar_image_path +"webinar-email.svg" } alt=""/>
+                   {" "}
+                    <p>Email</p>
+                  </Link>
+                </li></ul>) 
+              :
                   window.location.pathname == "/webinar/event-listing" ||
                     window.location.pathname == "/webinar/registration" ||
                     window.location.pathname == "/poll-listing"
