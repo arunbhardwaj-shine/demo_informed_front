@@ -1870,15 +1870,19 @@ const LibraryContent = (props) => {
                                       </Button>:''}
 
                                     
-
-                                      <Button
-                                        onClick={() => {
-                                          nextClicked(data.id);
-                                        }}
-                                        className="footer-btn"
-                                      >
-                                        Send in email
-                                      </Button>
+                                      {
+                                        localStorage.getItem("group_id") == 2 ?
+                                        null
+                                        :
+                                        <Button
+                                          onClick={() => {
+                                            nextClicked(data.id);
+                                          }}
+                                          className="footer-btn"
+                                        >
+                                          Send in email
+                                        </Button>
+                                      }
 
                                       {[
                                         "wW0geGtDPvig5gF 6KbJrg==",

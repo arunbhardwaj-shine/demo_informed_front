@@ -860,6 +860,10 @@ const Routing = () => {
           path="/VerifyHcpMAIL"
           element={<LoginLayout component={VerifyHcpMAIL} />}
         />
+        <Route
+          path="/Verify-sunshine-mail"
+          element={<LoginLayout component={VerifySunshineMAIL} />}
+        />
         {/* <Route
           path="/SelectSmartListUsers"
           element={<LoginLayout component={SelectSmartListUsers} />}

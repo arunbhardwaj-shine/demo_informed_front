@@ -1211,14 +1211,19 @@ const LibraryEditListing = () => {
                                       >
                                         Download QR
                                       </Button>
-                                      <Button
-                                        className="footer-btn"
-                                        onClick={() => {
-                                          navigate("/CreateEmail");
-                                        }}
-                                      >
-                                        Send in email
-                                      </Button>
+                                      {
+                                        localStorage.getItem("group_id") == 2 ?
+                                        null
+                                        : 
+                                        <Button
+                                          className="footer-btn"
+                                          onClick={() => {
+                                            navigate("/CreateEmail");
+                                          }}
+                                        >
+                                          Send in email
+                                        </Button>
+                                      }
                                     </div>
                                   </div>
                                 ) : null}
