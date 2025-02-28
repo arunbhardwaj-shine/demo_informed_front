@@ -450,11 +450,11 @@ const CreateSunshineEmail = (props) => {
   const searchPharma = async (e,type) => {
     try{
       if (searchName == "" && searchEmail == "") {
-        let newErrors = {};
-        newErrors.searchEmail = "Please enter email"
-        newErrors.searchName = "Please enter name"
-        setValidationError(newErrors);
-        // toast.warning("Please enter name or email first");
+        // let newErrors = {};
+        // newErrors.searchEmail = "Please enter email"
+        // newErrors.searchName = "Please enter name"
+        // setValidationError(newErrors);
+        toast.warning("Please enter name or email first");
       }else{
         setValidationError({});
         const body = {
@@ -857,11 +857,11 @@ const CreateSunshineEmail = (props) => {
                             value={searchName}
                              onChange={(e) => setSearchName(e.target.value)} />
 
-                            {validationError?.searchName &&
+                            {/* {validationError?.searchName &&
                               <div className="login-validation">
                                 {validationError?.searchName}
                               </div>
-                            }
+                            } */}
                         </div>
                       </div>
                       <div className="col-12 col-md-4 d-flex align-items-center">
@@ -870,11 +870,11 @@ const CreateSunshineEmail = (props) => {
                           <input type="text"
                           className={validationError?.searchEmail ? "form-control error": "form-control"}
                            value={searchEmail} onChange={(e) => setSearchEmail(e.target.value)} />
-                            {validationError?.searchEmail &&
+                            {/* {validationError?.searchEmail &&
                               <div className="login-validation">
                                 {validationError?.searchEmail}
                               </div>
-                            }
+                            } */}
                         </div>
                       </div>
                       <div className="col-12 col-md-4 d-flex align-items-center justify-content-between">
@@ -1412,11 +1412,11 @@ const CreateSunshineEmail = (props) => {
                           <input type="text"
                             className={validationError?.searchName ? "form-control error" : "form-control"}
                             value={searchName} onChange={(e) => setSearchName(e.target.value)} />
-                            {validationError?.searchName &&
+                            {/* {validationError?.searchName &&
                               <div className="login-validation">
                                 {validationError?.searchName}
                               </div>
-                            }
+                            } */}
                         </div>
 
                         <div className="form-group col-sm-5">
@@ -1424,11 +1424,11 @@ const CreateSunshineEmail = (props) => {
                           <input type="text"
                           className={validationError?.searchEmail ? "form-control error" : "form-control"}
                            value={searchEmail} onChange={(e) => setSearchEmail(e.target.value)} />
-                            {validationError?.searchEmail &&
+                            {/* {validationError?.searchEmail &&
                               <div className="login-validation">
                                 {validationError?.searchEmail}
                               </div>
-                            }
+                            } */}
                         </div>
                         
                       <div className="form-group col-sm-2">
