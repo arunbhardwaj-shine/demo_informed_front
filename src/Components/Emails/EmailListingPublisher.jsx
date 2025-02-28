@@ -284,9 +284,10 @@ const EmailListingPublisher = (props) => {
         id: irtRoleObj?.pdfId
       };
       await axios
-        .post(`emailapi/get_campaign_list_filter`, body)
+        .post(`emailapi/get-pharma-campaigns-filters`, body)
         .then((res) => {
-          setFilterData(res?.data?.response?.filter ? res?.data?.response?.filter : {});
+          console.log(res)
+          setFilterData(res?.data?.data  ? res?.data?.data : {});
 
           getData("initial");
         })
@@ -315,7 +316,7 @@ const EmailListingPublisher = (props) => {
     };
     page = page == 3 ? 1 : page;
     axios
-      .post(`/emailapi/sunshine-us-campaigns?page=` + page, body)
+      .post(`/emailapi/get-pharma-campaigns?page=` + page, body)
       .then((res) => {
         console.log(res)
         if (res.data.status_code == 200) {
@@ -1268,72 +1269,7 @@ const getDownloadData = async (viewEmailData) => {
                             </Accordion.Item>
                           )}
                         {
-                          !isLikeRdAccount ? (
-                            <Accordion.Item className="card" eventKey="3">
-                              <Accordion.Header className="card-header">
-                                Campaign
-                              </Accordion.Header>
-                              <Accordion.Body className="card-body">
-                                <ul>
-                                  <li>
-                                    <label className="select-multiple-option">
-                                      <input
-                                        type="checkbox"
-                                        id={`custom-checkbox-campaign-0`}
-                                        name="campaign[]"
-                                        value="Sent"
-                                        checked={
-                                          updateflag > 0 &&
-                                          typeof filtercampaign !== "undefined" &&
-                                          filtercampaign.indexOf(1) !== -1
-                                        }
-                                        onChange={() => handleOnFilterCampaign(1)}
-                                      />
-                                      Sent
-                                      <span className="checkmark"></span>
-                                    </label>
-                                  </li>
-                                  <li>
-                                    <label className="select-multiple-option">
-                                      <input
-                                        type="checkbox"
-                                        id={`custom-checkbox-campaign-1`}
-                                        name="campaign[]"
-                                        value="Draft"
-                                        checked={
-                                          updateflag > 0 &&
-                                          typeof filtercampaign !== "undefined" &&
-                                          filtercampaign.indexOf(2) !== -1
-                                        }
-                                        onChange={() => handleOnFilterCampaign(2)}
-                                      />
-                                      Draft
-                                      <span className="checkmark"></span>
-                                    </label>
-                                  </li>
-                                  <li>
-                                    <label className="select-multiple-option">
-                                      <input
-                                        type="checkbox"
-                                        id={`custom-checkbox-campaign-2`}
-                                        name="campaign[]"
-                                        value="draft-approved"
-                                        checked={
-                                          updateflag > 0 &&
-                                          typeof filtercampaign !== "undefined" &&
-                                          filtercampaign.indexOf(3) !== -1
-                                        }
-                                        onChange={() => handleOnFilterCampaign(3)}
-                                      />
-                                      Draft Approved
-                                      <span className="checkmark"></span>
-                                    </label>
-                                  </li>
-                                </ul>
-                              </Accordion.Body>
-                            </Accordion.Item>
-                           ) : 
-                           (
+                         
                             <>
                             {filterdata.hasOwnProperty("sites") &&
                               filterdata.sites.length > 0 && irtRoleObj?.IRTFlag && (
@@ -1374,7 +1310,7 @@ const getDownloadData = async (viewEmailData) => {
                               )}
  
                               </>
-                            )
+                            
                         }
 
 
@@ -1408,7 +1344,7 @@ const getDownloadData = async (viewEmailData) => {
                   ) : (
                     <button
                       // className="btn btn-outline-primary"
-                      className={`btn btn-outline-primary ${isRND ? "rd" : ""}`}
+                      className={`btn btn-outline-primary ${SendListData.length > 0 ? "disabled" : ""}    ${isRND ? "rd" : ""}`}
                       onClick={(e) => showDeleteButtons()}
                     >
                       <svg
@@ -1649,7 +1585,7 @@ const getDownloadData = async (viewEmailData) => {
                         </th>
 
                         <th className="sort_option" >
-                        <span onClick={(e) => userSort(e, "campaign")} >
+                        <span onClick={(e) => userSort(e, "campaign")}>
                           Client Company
                         <button className={`event_sort_btn ${isActive?.campaign == "dec"
                                     ? "svg_active"
@@ -1744,7 +1680,6 @@ const getDownloadData = async (viewEmailData) => {
                         SendListData.map((data, index) => {
                           return (
                           <React.Fragment key={index}>
-                          
                             <tr>
                               <td className="blue">
                                 {data?.subject}
