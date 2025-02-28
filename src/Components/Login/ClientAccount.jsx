@@ -147,7 +147,8 @@ const ClinetAccount = () => {
           "email": pharmaFormData?.email,
           "country": pharmaFormData?.country,
           "company": pharmaFormData?.company,
-          "password": pharmaFormData?.password
+          "password": pharmaFormData?.password,
+          "accountId" : accountId
         };
         const res = await postData(ENDPOINT.ACCOUNT_SETUP, payload);
         clearLocalStorageExcept();
