@@ -1482,21 +1482,21 @@ const Sidebar = () => {
                   </ul>
 
               ) :  
-              location.pathname ==  "/EmailList-publisher" ||
+              location.pathname ==  "/Emaillist-publisher" ||
               location.pathname ==  "/create-sunshine-email" ||
               location.pathname ==  "/Verify-sunshine-mail" 
 
                 ?(<ul>
                 <li
                   className={
-                    location.pathname == "/EmailList-publisher" ||
+                    location.pathname == "/Emaillist-publisher" ||
                     location.pathname == "/create-sunshine-email" ||
                     location.pathname == "/Verify-sunshine-mail"
                       ? "active"
                       : "side_li"
                   }
                 >
-                  <Link to={"/EmailList-publisher"}>
+                  <Link to={"/Emaillist-publisher"}>
                     <img src= { sidebar_image_path +"webinar-email.svg" } alt=""/>
                     <p>Email</p>
                   </Link>
