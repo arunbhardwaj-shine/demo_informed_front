@@ -665,7 +665,7 @@ const ChatLinkPage = () => {
 
   const iframeSrc = eventData?.eventCode
     // ? `https://events.docintel.app/events/index.html?evnt=${eventData.eventCode}&name=${encodeURIComponent(eventData.name || '')}&date=${encodeURIComponent(eventData.date || '')}`
-    ? `http://localhost:5173/events/index.html?evnt=${eventData.eventCode}&type=iframe`
+    ? `https://events.docintel.app/events/index.html?evnt=${eventData.eventCode}&type=iframe`
 
     : '';
   return (
