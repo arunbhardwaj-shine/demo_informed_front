@@ -756,6 +756,7 @@ const EmailListingPublisher = (props) => {
   };
 
   const removeindividualfilter = (src, item) => {
+    console.log(src, item)
     // setRemoveFlag(true);
     loader("show");
     setloadmore(0);
@@ -1180,50 +1181,12 @@ const getDownloadData = async (viewEmailData) => {
                     >
                       <h4>Filter By</h4>
                       <Accordion defaultActiveKey="0" flush>
-                        {filterdata.hasOwnProperty("tags") &&
-                          filterdata.tags.length > 0 && (
-                            <Accordion.Item className="card" eventKey="0">
-                              <Accordion.Header className="card-header">
-                                Tags
-                              </Accordion.Header>
-                              <Accordion.Body className="card-body">
-                                <ul>
-                                  {Object.entries(filterdata.tags).map(
-                                    ([index, item]) => (
-                                      <li>
-                                        {item != "" ? (
-                                          <label className="select-multiple-option">
-                                            <input
-                                              type="checkbox"
-                                              id={`custom-checkbox-tags-${index}`}
-                                              name="tags[]"
-                                              value={item}
-                                              checked={
-                                                updateflag > 0 &&
-                                                typeof filtertags !==
-                                                "undefined" &&
-                                                filtertags.indexOf(item) !== -1
-                                              }
-                                              onChange={() =>
-                                                handleOnFilterTags(item)
-                                              }
-                                            />
-                                            {item}
-                                            <span className="checkmark"></span>
-                                          </label>
-                                        ) : null}
-                                      </li>
-                                    )
-                                  )}
-                                </ul>
-                              </Accordion.Body>
-                            </Accordion.Item>
-                          )}
+                        
 
                       
                         {filterdata.hasOwnProperty("created") &&
                           filterdata.created.length > 0 && (
-                            <Accordion.Item className="card" eventKey="1">
+                            <Accordion.Item className="card" eventKey="0">
                               <Accordion.Header className="card-header">
                                 Date
                               </Accordion.Header>
@@ -1261,7 +1224,7 @@ const getDownloadData = async (viewEmailData) => {
 
                     {filterdata.hasOwnProperty("company") &&
                           filterdata.created.length > 0 && (
-                            <Accordion.Item className="card" eventKey="3">
+                            <Accordion.Item className="card" eventKey="1">
                               <Accordion.Header className="card-header">
                                  Company
                               </Accordion.Header>
@@ -1413,7 +1376,7 @@ const getDownloadData = async (viewEmailData) => {
                               <div
                                 className="filter-result"
                                 onClick={(event) =>
-                                  removeindividualfilter("comapny", item)
+                                  removeindividualfilter("company", item)
                                 }
                               >
                                 {item}
