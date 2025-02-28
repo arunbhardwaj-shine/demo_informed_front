@@ -237,6 +237,7 @@ const VerifySunshineMAIL = (props) => {
             ? props?.getEmailData?.selected
             : props?.getDraftData?.campaign_data?.list_selection,
         },
+        contact_type : 1
       };
       axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
       loader("show");
@@ -571,9 +572,9 @@ const VerifySunshineMAIL = (props) => {
                                                 <tr>
                                                 <th>Last email</th>
                                                 <td>
-                                                    {getpdfdata.last_sent == ""
+                                                    {getpdfdata.pdf_last_sent == ""
                                                     ? "N/A"
-                                                    : getpdfdata.last_sent}
+                                                    : getpdfdata.pdf_last_sent}
                                                 </td>
                                                 </tr>
                                             </tbody>

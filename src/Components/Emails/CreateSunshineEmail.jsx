@@ -398,12 +398,15 @@ const CreateSunshineEmail = (props) => {
                 'country' : res?.data?.data?.country,
                 'company' : res?.data?.data?.company,
                 'contact_type' : formData?.contact,
+                'pharma_registered' : res?.data?.data?.pharma_registered,
+                'last_email' : res?.data?.data?.last_email,
               };
               if(samplePopup){
                 setSelectedHcp((prevUsers) => [...prevUsers, newUser]);
                 setIsOpensend(true);
               }else{
-                setSelectedClient((prevUsers) => [...prevUsers, newUser])
+                // setSelectedClient((prevUsers) => [...prevUsers, newUser])
+                setSelectedClient([newUser])
               }
             } else {
               setIsOpenAddNewClient(false);
@@ -426,16 +429,16 @@ const CreateSunshineEmail = (props) => {
 
   const validate = () => {
     let newErrors = {};
-    if (!formData.firstName.trim()) newErrors.firstName = "First name is required";
-    if (!formData.lastName.trim()) newErrors.lastName = "Last name is required";
-    if (!formData.company.trim()) newErrors.company = "Company is required";
-    if (!formData.email.trim()) {
+    if (!formData?.firstName?.trim()) newErrors.firstName = "First name is required";
+    if (!formData?.lastName?.trim()) newErrors.lastName = "Last name is required";
+    if (!formData?.company?.trim()) newErrors.company = "Company is required";
+    if (!formData?.email?.trim()) {
       newErrors.email = "Email is required";
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
       newErrors.email = "Invalid email format";
     }
-    if (!formData.contact) newErrors.contact = "Contact type is required";
-    if (!formData.country) newErrors.country = "Country is required";
+    if (!formData?.contact) newErrors.contact = "Contact type is required";
+    if (!formData?.country) newErrors.country = "Country is required";
     setValidationError(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -524,7 +527,8 @@ const CreateSunshineEmail = (props) => {
       let prev_obj = selectedClient.find((x) => x.id === added_user_id);
       if (typeof prev_obj == "undefined") {
         const removedArray = arr.splice(index, 1);
-        setSelectedClient((oldArray) => [...oldArray, removedArray[0]]);
+        // setSelectedClient((oldArray) => [...oldArray, removedArray[0]]);
+        setSelectedClient([removedArray?.[0]]);
         setSearchedUsers(arr);
       } else {
         toast.error("User with same email already added in list.");
@@ -649,7 +653,6 @@ const CreateSunshineEmail = (props) => {
   }
 
   const nextClicked = async() => {
-
     const tags = finalTags?.map((finalTags) => {
       return finalTags.innerHTML == null ? finalTags : finalTags.innerHTML;
     });
@@ -881,69 +884,65 @@ const CreateSunshineEmail = (props) => {
               <div className="sample_list_dt col">
               <form>
                 <fieldset>
-                  <legend>Search results | <span>0</span></legend>
+                  <legend>Search results | <span>{searchedUsers?.length}</span></legend>
                   {searchedUsers.length === 0 ? (
                     <div className="not-found">
                       <h4>No Search result found!</h4>
                     </div>
                   ) : (
-                    searchedUsers.map((data, index) => {
-                      return (
-                        <div className="search-hcp-box" key={index}>
-                          <Table>
-                            <thead>
-                              <tr>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Contact type</th>
-                                <th>&nbsp;</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr>
-                              <td>
-                                {data.name}
-                              </td>
-                              <td>{data.email}</td>
-                              <td>{data.contact_type}</td>
-                              <td><div
-                            className="add-new-field"
-                            onClick={() => selectHcp(index,'client')}
-                          >
-                            <img
-                              src={path_image + "add-row.png"}
-                              alt="Add More"
-                            />
-                          </div></td>
-                            </tr>
-                            </tbody>
-                          </Table>
-                          {/* <p className="send-hcp-box-title">
-                            Name | <span>{data.name}</span>
-                          </p>
-                          <p className="send-hcp-box-title">
-                            Email | <span>{data.email}</span>
-                          </p>
-                          <p className="send-hcp-box-title">
-                            Contact type | <span>{data.contact_type}</span>
-                          </p>
-                          <div
-                            className="add-new-field"
-                            onClick={() => selectHcp(index,'client')}
-                          >
-                            <img
-                              src={path_image + "add-row.png"}
-                              alt="Add More"
-                            />
-                          </div> */}
-                        </div>
-                      );
-                    })
+                          <div className="search-hcp-box">
+                            <Table>
+                              <thead>
+                                <tr>
+                                  <th>Name</th>
+                                  <th>Email</th>
+                                  <th>Contact type</th>
+                                  <th>&nbsp;</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {
+                                  searchedUsers.map((data, index) => {
+                                    return (
+                                      <tr key={index}>
+                                        <td>
+                                          {data.name}
+                                        </td>
+                                        <td>{data.email}</td>
+                                        <td>{data.contact_type}</td>
+                                        <td>
+                                          <div className="add-new-field"
+                                            onClick={() => selectHcp(index, 'client')}
+                                          >
+                                            {
+                                              data?.pharma_registered == 0 
+                                              ? 
+                                              <img
+                                                src={path_image + "add-row.png"}
+                                                alt="Add More"
+                                              />
+                                              : null
+                                            }
+                                        </div>
+                                        </td>
+                                      </tr>
+
+                                    );
+                                  })
+                                }
+                              </tbody>
+                            </Table>
+                          </div>
                   )}
-                  
                 </fieldset>
               </form>
 
+
+              
+                {/* <div className="search-hcp-table-inside sample_list_dt">
+                
+                 
+                </div> */}
               </div>
               <div className="arrow-icon">
               <img src={path_image + "swap-arrow.svg"} alt="Double arrow" />
@@ -958,42 +957,41 @@ const CreateSunshineEmail = (props) => {
                     </div>
                   ) : (
                     <>
-                      {selectedClient?.map((data, index2) => {
-                        return (
-                          <div className="search-hcp-box" key={data?.id || index2}>
-                            <Table>
-                            <thead>
-                              <tr>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Contact type</th>
-                                <th>&nbsp;</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr>
-                              <td>
-                              {data?.name}
-                              </td>
-                              <td>{data?.email}</td>
-                              <td>{data?.contact_type ? data?.contact_type : "N/A"}</td>
-                              <td><div className="remove-existing-field">
-                                <Button class="btn btn-outline-primary ">
-                                <img
-                                src={path_image + "delete.svg"}
-                                alt="Delete Row"
-                                onClick={() => deleteSelected(index2,'client')}
-                              />
-                                </Button>
-                              
-                            </div></td>
-                            </tr>
-                            </tbody>
-                          </Table>
-                            
-                          </div>
-                        );
-                      })}
+                            <div className="search-hcp-box">
+                              <Table>
+                                <thead>
+                                  <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Contact type</th>
+                                    <th>&nbsp;</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {selectedClient?.map((data, index2) => {
+                                    return (
+                                      <tr key={data?.id || index2}>
+                                        <td>
+                                          {data?.name}
+                                        </td>
+                                        <td>{data?.email}</td>
+                                        <td>{data?.contact_type ? data?.contact_type : "N/A"}</td>
+                                        <td><div className="remove-existing-field">
+                                          <Button className="btn btn-outline-primary ">
+                                            <img
+                                              src={path_image + "delete.svg"}
+                                              alt="Delete Row"
+                                              onClick={() => deleteSelected(index2, 'client')}
+                                            />
+                                          </Button>
+
+                                        </div></td>
+                                      </tr>
+                                    );
+                                  })}
+                                </tbody>
+                              </Table>
+                            </div>
                     </>
                   )}
                 </fieldset>
@@ -1101,20 +1099,16 @@ const CreateSunshineEmail = (props) => {
                     </div>
                     <div className="tags_added">
                       <ul>
-                        {finalTags.map((tags, index) => {
-                          return (
-                            <>
-                              <li className="list1" key={index}>
-                                {tags.innerHTML || tags}{" "}
-                                <img
-                                  src={path_image + "filter-close.svg"}
-                                  alt="Close-filter"
-                                  onClick={() => removeTag(index)}
-                                />
-                              </li>
-                            </>
-                          );
-                        })}
+                      {finalTags.map((tag, index) => (
+                        <li className="list1" key={index}>
+                          {tag.innerHTML || tag}{" "}
+                          <img
+                            src={path_image + "filter-close.svg"}
+                            alt="Close-filter"
+                            onClick={() => removeTag(index)}
+                          />
+                        </li>
+                      ))}
                       </ul>
                     </div>
                   </div>
