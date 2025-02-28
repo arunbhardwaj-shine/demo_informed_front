@@ -26274,7 +26274,73 @@ height: 100%;
       }
     }
   }
+  @media only screen and (max-width: 1650px) {
+    .table{
+      thead{
+        &.sticky-header{
+          th{
+            &:first-child{
+              width: 220px;
+            }
+            &:nth-child(3){
+              width: 120px;
+            }
+          }
+        }
+      }
+      tbody{
+        tr{
+          td{
+            padding: 12px 8px 12px 8px;
+          }
+        }
+      }
+    }
+  }
+  @media only screen and (max-width: 1450px) {
+    .table{
+      tbody{
+        tr{
+          td{
+            &.divide-line{
+              text-align: left;
+              button{
+                padding: 7px 10px;
+                margin:0 0 3px;
+                &:last-child{
+                  margin-left: 0px;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 }
+@media only screen and (max-width: 1365px) {
+  .sunshine-table{
+    overflow-x: auto;
+  .table{
+    tbody{
+      tr{
+        td{
+          &.divide-line{
+            button{
+              padding: 7px 10px;
+              margin:0 0 3px;
+              &:last-child{
+                margin-left: 0px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+}
+
 .sunshine-mail{
   padding: 0;
   margin-bottom: 46px;
@@ -26292,7 +26358,9 @@ height: 100%;
   }
   form{
     .form-inline{
+      margin-bottom: 32px;
       &.sunshine-email-form{
+        margin-bottom: 12px;
         .form-group{
           flex-wrap: wrap;
           input[type="text"]{
@@ -26331,7 +26399,29 @@ height: 100%;
         font-weight: 400;
       }
     }
+
   }
+  @media only screen and (max-width:1400px){
+  .page-title{
+    h4{
+      span{
+        font-size: 20px;
+      }
+    }
+  }
+  form{
+    .form-inline{
+      &.sunshine-email-form{
+        .btn-voilet {
+          min-width: 120px;
+      }
+      .btn-filled{
+        min-width: 100px;
+      }
+      }
+    }
+  }
+}
   .search-client-list {
     padding: 0;
     gap:3px;
@@ -26443,12 +26533,23 @@ height: 100%;
        
        
       }
+
     }
+    
   }
   .arrow-icon{
     align-items: center;
     justify-content: center;
     display: flex;
+  }
+  .tox{
+    border: 0.5px solid #97B6CF;
+    background: rgba(255, 255, 255, 0.04);
+    box-shadow: 0px 0px 15px 0px rgba(0, 102, 190, 0.24) inset;
+    padding:10px;
+    .tox-editor-header {
+      display: block;
+  }
   }
 }
 .send-sample-sunshine{
