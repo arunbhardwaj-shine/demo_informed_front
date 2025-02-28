@@ -313,10 +313,11 @@ const EmailListingPublisher = (props) => {
     axios
       .post(`/emailapi/sunshine-us-campaigns?page=` + page, body)
       .then((res) => {
+        console.log(res)
         if (res.data.status_code == 200) {
-          setSendListData(res.data.response.data.emails);
+          setSendListData(res.data.data.emails);
           if (stage == "initial") {
-            setOriginalSendListData(res.data.response.data.emails);
+            setOriginalSendListData(res.data.data.emails);
 
             // setFilterData(res.data.response.data.filter);
           }
@@ -1738,7 +1739,7 @@ const getDownloadData = async (viewEmailData) => {
                         ?
                         SendListData.map((data, index) => {
                           return (
-                          <>
+                          <React.Fragment key={index}>
                           
                             <tr>
                               <td className="blue">
@@ -1748,13 +1749,14 @@ const getDownloadData = async (viewEmailData) => {
                               {data?.campaign}
                               </td>
                               <td>
-                              {data?.creator}
+                              {data?.clientEmail }
                               </td>
                               <td>
-                              {data?.country}
+                              {data?.clientCountry}
                               </td>
                               <td className="blue">
-                                12.5.2024 <span>|</span> 05:15 pm
+                              {data?.sent_date}
+                                 
                               </td>
                               <td>
                                 <div className="d-flex align-items-center">
@@ -1785,7 +1787,7 @@ const getDownloadData = async (viewEmailData) => {
                                 </div>
                               </td>
                               <td>
-                                No
+                               {data?.accountSetup == 1 ?"Yes":"No"}  
                               </td>
                               <td className="divide-line">
                                 <Button className="btn-bordered"  onClick={(e) => showModal("send", campaign_id)}>Resend</Button>
@@ -1813,9 +1815,9 @@ const getDownloadData = async (viewEmailData) => {
                             </tr>
                             <tr className="blank"><td colSpan="10" style={{ height: "10px" }}>
                             
-                              </td></tr>
+                            </td></tr>
                             
-                          </>
+                          </React.Fragment>
                           )
                         })
                         :
@@ -1957,11 +1959,11 @@ const getDownloadData = async (viewEmailData) => {
                         </tr>
                         <tr>
                           <th>Client Email</th>
-                          <td style={{color:"#70899E"}}>{viewEmailData[0].smart_list_name}</td>
+                          <td style={{color:"#70899E"}}>{viewEmailData[0].clientEmail }</td>
                         </tr>
                         <tr>
                           <th>Client Country </th>
-                          <td style={{color:"#70899E"}}>{viewEmailData?.[0]?.article_title ? viewEmailData?.[0]?.article_title : viewEmailData?.[0]?.pdf_title}</td>
+                          <td style={{color:"#70899E"}}>{viewEmailData?.[0]?.clientCountry}</td>
                         </tr>
                         {/* <tr>
                           <th>Docintel Link </th>
