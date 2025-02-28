@@ -78,161 +78,88 @@ const EmailListingPublisher = (props) => {
   );
   // const [filter, setFilter] = useState(initialFilterProp || {});
   const deletButtonColor =isLikeRdAccount ? '#8A4E9C' : '#0066be'
-  const [options_ch, setOptions_ch] = useState({
-    chart: {
-      type: "column",
-      options3d: {
-        enabled: true,
-        alpha: 10,
-        beta: 25,
-        depth: 70,
-      },
-      //   events: {
-      //     load: function() {
-      //         var chart = this;
-      //         chart.series.forEach(function(series) {
-      //             series.data.forEach(function(point) {
-      //                 point.onMouseOver(); // Trigger tooltip display
-      //             });
-      //         });
-      //     }
-      // }
-    },
-    title: {
-      text: "Chart description",
-    },
-    subtitle: {
-      text: "Total Users ",  
-      align: "left", 
-      y: 0,  
-      x:0,
-      style: {
-        fontSize: "14px",
-        fontWeight: "bold",
-      },
-    },
-    annotations: [{
-      labels: [{
-        point: {
-          x: 0,
-          y: 0,
-          xAxis: 0,
-          yAxis: 0,
-        },
-        text: "Right Subtitle Text", // Right-aligned text
-        style: {
-          fontSize: "14px",
-          fontWeight: "bold",
-        },
-        align: 'right', // Align to the right
-        x: 0, // Adjust horizontal position
-        y: 0, // Adjust vertical position
-      }]
-    }],
-    
-    // plotOptions: {
-    //   column: {
-    //     depth: 25,
-    //   },
-    // },
-    xAxis: {
-      categories: ["Week 1", "Week 2","Week 3","Week 4"],
-      labels: {
-        skew3d: true,
-        style: {
-          fontSize: "16px",
-        },
-      },
-    },
-    yAxis: {
-      title: {
-        text: null,
-      },
-       min: 100,
-    max: 400,  
-    tickInterval: 100,  
-    },
-    tooltip: {
-      enabled: false,
-    },
-    plotOptions: {
-      series: {
-        dataLabels: {
-          allowOverlap: false,
-          distance: 40,
+   const [options_ch, setOptions_ch] = useState({
+      chart: {
+        type: "column",
+        options3d: {
           enabled: true,
-          inside: false,
-          overflow: "justify",
-          crop: true,
-          shape: "callout",
-          size: "100%",
-          backgroundColor: "rgba(255,255,255)",
-          // borderColor: "rgba(0,0,0,0.9)",
-          // borderColor:this.point.color,
-          color: "rgba(0,0,0)",
-          // borderWidth: 0.5,
-          // borderRadius: 5,
+          alpha: 10,
+          beta: 25,
+          depth: 70,
+        },
+      },
+      title: {
+        text: "Mail campaign stats",
+      },
+  
+      xAxis: {
+        categories: ["Emails sent", "Emails opened"],
+        labels: {
+          skew3d: true,
           style: {
-            fontFamily: "Helvetica, sans-serif",
-            // fontSize: "13px",
-            fontWeight: "normal",
-            textShadow: "none",
-          },
-          formatter: function () {
-            return (
-              "<span ><div className=" +
-              this.series.name +
-              '><span style="font-weight: bold;">' +
-              this.x +
-              "</span><br/><strong>" +
-              this.series.name +
-              "</strong> <strong >" + ":" +
-              Highcharts.numberFormat(this.y, 0) +
-              "</strong></div></span>"
-            );
+            fontSize: "16px",
           },
         },
       },
-      column: {
-        depth: 25,
+      yAxis: {
+        title: {
+          text: null,
+        },
       },
-    },
-    series: [
-      {
-        name: "Email Send",
-        data: [
-          { y: 100, color: "#8a4e9c" },
-          { y: 200, color: "#ffbe2c" },
-          { y: 300, color: "#39cabc" },
-        ],
+      tooltip: {
+        enabled: false,
       },
-      {
-        name: "Emails Bounced",
-        data: [
-          { y: 100, color: "#8a4e9c" },
-          { y: 200, color: "#ffbe2c" },
-          { y: 300, color: "#39cabc" },
-        ],
+      plotOptions: {
+        series: {
+          dataLabels: {
+            allowOverlap: false,
+            distance: 40,
+            enabled: true,
+            inside: false,
+            overflow: "justify",
+            crop: true,
+            shape: "callout",
+            size: "100%",
+            backgroundColor: "rgba(255,255,255)",
+  
+            color: "rgba(0,0,0)",
+  
+            style: {
+              fontFamily: "Helvetica, sans-serif",
+  
+              fontWeight: "normal",
+              textShadow: "none",
+            },
+            formatter: function () {
+              return (
+                "<span ><div className=" +
+                this.series.name +
+                ">" +
+                "<br/><strong>" +
+                this.series.name +
+                "</strong> <strong >" +
+                ":" +
+                Highcharts.numberFormat(this.y, 0) +
+                "</strong></div></span>"
+              );
+            },
+          },
+        },
+        column: {
+          depth: 25,
+        },
       },
-      {
-        name: "Email opend",
-        data: [
-          { y: 100, color: "#8a4e9c" },
-          { y: 200, color: "#ffbe2c" },
-          { y: 300, color: "#39cabc" },
-        ],
-      },
-      {
-        name: "CTR",
-        data: [
-          { y: 100, color: "#8a4e9c" },
-          { y: 200, color: "#ffbe2c" },
-          { y: 300, color: "#39cabc" },
-        ],
-      },
-      
-    ],
-  });
+      series: [
+        {
+          name: "Email campaign",
+          data: [
+            { y: 2, color: "#8a4e9c" },
+            { y: 3, color: "#ffbe2c" },
+            { y: 0, color: "#39cabc" },
+          ],
+        },
+      ],
+    });
   const buttonRef = useRef(null);
   const filterRef = useRef(null);
   useEffect(() => {
@@ -388,7 +315,7 @@ const EmailListingPublisher = (props) => {
     };
     page = page == 3 ? 1 : page;
     axios
-      .post(`emailapi/getlist?page=` + page, body)
+      .post(`/emailapi/sunshine-us-campaigns?page=` + page, body)
       .then((res) => {
         if (res.data.status_code == 200) {
           setSendListData(res.data.response.data.emails);
@@ -529,6 +456,7 @@ const EmailListingPublisher = (props) => {
   }, [location.pathname]);
 
   const showDeleteButtons = () => {
+   
     if (deletestatus) {
       setDeleteStatus(false);
     } else {
@@ -981,6 +909,20 @@ const EmailListingPublisher = (props) => {
     }
   };
 
+  const userSorting = (e, key) => {
+    const direction = sortNameDirection === 0 ? "asc" : "dec";
+
+    const sortedUserData = [...readerDetailsData].sort(
+      dynamicSort(key, direction)
+    );
+
+    setReaderDetailsData(sortedUserData);
+    setSortNameDirection(sortNameDirection === 0 ? 1 : 0);
+    setIsActive({ [key]: direction === "asc" ? "dec" : "asc" });
+    setSorting(1 - sorting);
+    setSortingCount(sortingCount + 1);
+  };
+
   const userSort = (e, key) => {
     
     const direction = sortNameDirection === 0 ? 'asc' : 'dec';
@@ -989,7 +931,8 @@ const EmailListingPublisher = (props) => {
     const sortedUserData = [...SendListData].sort(dynamicSort(key, direction));
    console.log(sortedUserData)
 
-     setSendListData(sortedUserData);
+
+    setSendListData(sortedUserData);
     setSortNameDirection(sortNameDirection === 0 ? 1 : 0);
     setIsActive({ [key]: direction === 'asc' ? 'dec' : 'asc' });
     setSorting(1 - sorting);
@@ -1691,7 +1634,7 @@ const getDownloadData = async (viewEmailData) => {
                     <thead className="sticky-header">
                       <tr>
                         <th className="sort_option" onClick={(e) => userSort(e, "subject") }>Subject
-                        <button className={`event_sort_btn ${isActive?.name == "dec"
+                        <button className={`event_sort_btn ${isActive?.subject == "dec"
                                     ? "svg_active"
                                     : isActive?.name == "asc"
                                       ? "svg_asc"
@@ -1700,7 +1643,7 @@ const getDownloadData = async (viewEmailData) => {
                                   > <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none" > <g clipPath="url(#clip0_3722_6611)"> <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF" /> </g> <defs> <clipPath id="clip0_3722_6611"> <rect width="8" height="8" fill="white" /> </clipPath> </defs> </svg> </button>
                         </th>
                         <th className="sort_option" onClick={(e) => userSort(e, "campaign")}>Client Company
-                        <button className={`event_sort_btn ${isActive?.name == "dec"
+                        <button className={`event_sort_btn ${isActive?.campaign == "dec"
                                     ? "svg_active"
                                     : isActive?.name == "asc"
                                       ? "svg_asc"
@@ -1709,7 +1652,7 @@ const getDownloadData = async (viewEmailData) => {
                                   > <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none" > <g clipPath="url(#clip0_3722_6611)"> <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF" /> </g> <defs> <clipPath id="clip0_3722_6611"> <rect width="8" height="8" fill="white" /> </clipPath> </defs> </svg> </button>
                         </th>
                         <th className="sort_option" onClick={(e) => userSort(e, "creator")}>Client Email
-                          <button   className={`event_sort_btn ${isActive?.name == "dec"
+                          <button   className={`event_sort_btn ${isActive?.creator == "dec"
                                     ? "svg_active"
                                     : isActive?.name == "asc"
                                       ? "svg_asc"
@@ -1718,7 +1661,7 @@ const getDownloadData = async (viewEmailData) => {
                                > <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none" > <g clipPath="url(#clip0_3722_6611)"> <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF" /> </g> <defs> <clipPath id="clip0_3722_6611"> <rect width="8" height="8" fill="white" /> </clipPath> </defs> </svg> </button>
                         </th>
                         <th className="sort_option" onClick={(e) => userSort(e, "country")}>Client Country
-                          <button className={`event_sort_btn ${isActive?.name == "dec"
+                          <button className={`event_sort_btn ${isActive?.country == "dec"
                                     ? "svg_active"
                                     : isActive?.name == "asc"
                                       ? "svg_asc"
@@ -1727,7 +1670,7 @@ const getDownloadData = async (viewEmailData) => {
                                 > <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none" > <g clipPath="url(#clip0_3722_6611)"> <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF" /> </g> <defs> <clipPath id="clip0_3722_6611"> <rect width="8" height="8" fill="white" /> </clipPath> </defs> </svg> </button>
                         </th>
                         <th className="sort_option" onClick={(e) => userSort(e, "send_date")}>Send Date
-                          <button className={`event_sort_btn ${isActive?.name == "dec"
+                          <button className={`event_sort_btn ${isActive?.send_date == "dec"
                                     ? "svg_active"
                                     : isActive?.name == "asc"
                                       ? "svg_asc"
@@ -1736,7 +1679,7 @@ const getDownloadData = async (viewEmailData) => {
                                  > <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none" > <g clipPath="url(#clip0_3722_6611)"> <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF" /> </g> <defs> <clipPath id="clip0_3722_6611"> <rect width="8" height="8" fill="white" /> </clipPath> </defs> </svg> </button>
                         </th>
                         <th   className="sort_option" onClick={(e) => userSort(e, "total_Sent")}>Send
-                          <button className={`event_sort_btn ${isActive?.name == "dec"
+                          <button className={`event_sort_btn ${isActive?.total_Sent == "dec"
                                     ? "svg_active"
                                     : isActive?.name == "asc"
                                       ? "svg_asc"
@@ -1745,7 +1688,7 @@ const getDownloadData = async (viewEmailData) => {
                                   > <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none" > <g clipPath="url(#clip0_3722_6611)"> <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF" /> </g> <defs> <clipPath id="clip0_3722_6611"> <rect width="8" height="8" fill="white" /> </clipPath> </defs> </svg> </button>
                         </th>
                         <th className="sort_option" onClick={(e) => userSort(e, "total_Opened_pr")}>Opened
-                          <button className={`event_sort_btn ${isActive?.name == "dec"
+                          <button className={`event_sort_btn ${isActive?.total_Opened_pr == "dec"
                                     ? "svg_active"
                                     : isActive?.name == "asc"
                                       ? "svg_asc"
@@ -1754,7 +1697,7 @@ const getDownloadData = async (viewEmailData) => {
                                    > <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none" > <g clipPath="url(#clip0_3722_6611)"> <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF" /> </g> <defs> <clipPath id="clip0_3722_6611"> <rect width="8" height="8" fill="white" /> </clipPath> </defs> </svg> </button>
                         </th>
                         <th className="sort_option" onClick={(e) => userSort(e, "total_Click_pr")}>CTR
-                          <button   className={`event_sort_btn ${isActive?.name == "dec"
+                          <button   className={`event_sort_btn ${isActive?.total_Click_pr == "dec"
                                     ? "svg_active"
                                     : isActive?.name == "asc"
                                       ? "svg_asc"
@@ -1762,9 +1705,15 @@ const getDownloadData = async (viewEmailData) => {
                                   }`}
                                    > <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none" > <g clipPath="url(#clip0_3722_6611)"> <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF" /> </g> <defs> <clipPath id="clip0_3722_6611"> <rect width="8" height="8" fill="white" /> </clipPath> </defs> </svg> </button>
                         </th>
-                        <th className="sort_option">Account Setup
-                          <button className="event_sort_btn"> <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none" > <g clipPath="url(#clip0_3722_6611)"> <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF" /> </g> <defs> <clipPath id="clip0_3722_6611"> <rect width="8" height="8" fill="white" /> </clipPath> </defs> </svg> </button>
+                        <th  className="sort_option" onClick={(e) => userSort(e, "Account_Setup")}>Account Setup
+                          <button className={`event_sort_btn ${isActive?.Account_Setup == "dec"
+                                    ? "svg_active"
+                                    : isActive?.name == "asc"
+                                      ? "svg_asc"
+                                      : ""
+                                  }`}> <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none" > <g clipPath="url(#clip0_3722_6611)"> <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF" /> </g> <defs> <clipPath id="clip0_3722_6611"> <rect width="8" height="8" fill="white" /> </clipPath> </defs> </svg> </button>
                         </th>
+                        <th></th>
                         <th></th>
                       </tr>
                     </thead>
@@ -1826,9 +1775,31 @@ const getDownloadData = async (viewEmailData) => {
                               <td className="divide-line">
                                 <Button className="btn-bordered">Resend</Button>
                                 <Button className="btn-filled" onClick={(e) => showViewEmailModal(data.id)}>View</Button>
+                               
                               </td>
+                              <td>
+                              {deletestatus && (
+                                <div className="dlt_btn">
+                                  <button
+                                    onClick={(e) =>
+                                      showConfirmationPopup(data.id)
+                                    }
+                                  >
+                                    <img
+                                      src={path + "delete.svg"}
+                                      alt="Delete Row"
+                                    />
+                                  </button>
+                                </div>
+                              )}
+
+                              </td>
+                             
                             </tr>
-                            <tr className="blank"><td colSpan="10" style={{ height: "10px" }}></td></tr>
+                            <tr className="blank"><td colSpan="10" style={{ height: "10px" }}>
+                            
+                              </td></tr>
+                            
                           </>
                           )
                         })
@@ -2174,7 +2145,7 @@ const getDownloadData = async (viewEmailData) => {
                       >
                         <div className="mail_click">
                           <div className="mail_click_box">
-                            <h6>CTR 1</h6>
+                            <h6>{ctrName}</h6>
                             <div className="mail_click_box_content">
                               <svg
                                 width="40"
@@ -2254,6 +2225,60 @@ const getDownloadData = async (viewEmailData) => {
                           })
                           : null
                       } */}
+
+                    {viewEmailData[0]?.multi_ctr &&
+                      viewEmailData[0]?.multi_ctr?.length > 0
+                        ? viewEmailData[0]?.multi_ctr.map((ctr, index) => {
+                            return (
+                              <li
+                                key={index}
+                                onClick={() => {
+                                  getReaderData(
+                                    "ctr",
+                                    ctr?.click_name,
+                                    colorArray?.[index],
+                                    ctr?.click_key
+                                  );
+                                }}
+                              >
+                                <div className="mail_click">
+                                  <div className="mail_click_box">
+                                    <h6 style={{ color: colorArray?.[index] }}>
+                                      {ctr?.click_name}
+                                    </h6>
+                                    <div className="mail_click_box_content">
+                                      <svg
+                                        width="40"
+                                        height="40"
+                                        viewBox="0 0 40 40"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                      >
+                                        <circle
+                                          cx="20"
+                                          cy="20"
+                                          r="18.5"
+                                          stroke={colorArray?.[index]}
+                                          strokeWidth="3"
+                                          strokeLinejoin="round"
+                                        />
+                                        <path
+                                          d="M14.955 16.6329C14.8178 16.1684 14.6861 15.703 14.5871 15.2572C13.9363 14.8722 13.4936 14.1715 13.4936 13.3617C13.4936 12.1434 14.4842 11.1535 15.7017 11.1535C16.9192 11.1535 17.9098 12.1442 17.9098 13.3617C17.9098 13.5292 17.8872 13.6906 17.8521 13.8472C18.0633 14.3125 18.234 14.8363 18.3837 15.3687C18.8046 14.8075 19.0633 14.1177 19.0633 13.3617C19.0633 11.5043 17.5591 10 15.7017 10C13.8443 10 12.3408 11.5043 12.3408 13.3617C12.3408 14.961 13.4593 16.2931 14.955 16.6329Z"
+                                          fill={colorArray?.[index]}
+                                        />
+                                        <path
+                                          d="M12.6329 24.5915C13.4615 23.696 14.3913 24.0467 15.6361 24.2361C16.7054 24.4006 17.7584 24.1005 17.6883 23.5229C17.5776 22.5884 17.4217 22.1706 17.0671 20.9602C16.7842 19.9976 16.2471 18.2626 15.7584 16.604C15.1037 14.385 14.9143 13.3546 15.7857 13.0974C16.7249 12.8238 17.2635 14.1582 17.7514 16.0085C18.3071 18.1145 18.5994 19.0444 18.7631 18.9953C19.0515 18.9127 18.6571 18.0116 19.4116 17.7895C20.3547 17.5152 20.5371 18.2525 20.8013 18.1784C21.0655 18.0989 20.9759 17.3523 21.728 17.1325C22.4841 16.9142 22.8637 17.8448 23.1754 17.7521C23.4841 17.6609 23.4771 17.325 23.9432 17.1917C24.41 17.053 26.1668 17.8394 27.1723 21.2743C28.4342 25.5931 27.0125 26.3959 27.4435 27.8581L21.8107 30C21.3547 28.9033 19.9424 28.8222 18.693 28.1231C17.4342 27.4146 16.5792 26.0342 13.2986 26.1013C12.0647 26.1262 12.1232 25.1426 12.6329 24.5915Z"
+                                          fill={colorArray?.[index]}
+                                        />
+                                      </svg>
+                                      <span>{ctr?.total_Click_pr}%</span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </li>
+                            );
+                          })
+                        : null}
                     </ul>
                   </div>
                 </div>
@@ -2410,7 +2435,7 @@ const getDownloadData = async (viewEmailData) => {
                       <tr>
                         {/* <th scope="col">Name</th> */}
                         <th scope="col" className="sort_option" >
-                          <span onClick={(e) => userSort(e, "first_name")} >
+                          <span onClick={(e) => userSorting(e, "first_name")} >
                             Name
                             <button
                               className={`event_sort_btn ${isActive?.first_name == "dec"
@@ -2419,7 +2444,7 @@ const getDownloadData = async (viewEmailData) => {
                                   ? "svg_asc"
                                   : ""
                                 }`}
-                              onClick={(e) => userSort(e, "first_name")}
+                              onClick={(e) => userSorting(e, "first_name")}
                             >
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -2446,7 +2471,7 @@ const getDownloadData = async (viewEmailData) => {
                         </th>
                         {/* <th scope="col">Email</th> */}
                         <th scope="col" className="sort_option" >
-                          <span onClick={(e) => userSort(e, "email")} >
+                          <span onClick={(e) => userSorting(e, "email")} >
                             Email
                             <button
                               className={`event_sort_btn ${isActive?.email == "dec"
@@ -2455,7 +2480,7 @@ const getDownloadData = async (viewEmailData) => {
                                   ? "svg_asc"
                                   : ""
                                 }`}
-                              onClick={(e) => userSort(e, "email")}
+                              onClick={(e) => userSorting(e, "email")}
                             >
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -2483,7 +2508,7 @@ const getDownloadData = async (viewEmailData) => {
                         {/* <th scope="col">Bounced</th> */}
                         {/* <th scope="col">Country</th> */}
                         <th scope="col" className="sort_option" >
-                          <span onClick={(e) => userSort(e, "country")} >
+                          <span onClick={(e) => userSorting(e, "country")} >
                             Country
                             <button
                               className={`event_sort_btn ${isActive?.country == "dec"
@@ -2492,7 +2517,7 @@ const getDownloadData = async (viewEmailData) => {
                                   ? "svg_asc"
                                   : ""
                                 }`}
-                              onClick={(e) => userSort(e, "country")}
+                              onClick={(e) => userSorting(e, "country")}
                             >
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -2519,7 +2544,7 @@ const getDownloadData = async (viewEmailData) => {
                         </th>
                         {(isLikeRdAccount) ? (<>
                             <th scope="col" className="sort_option">
-                              <span onClick={(e) => userSort(e, "site_number")}>
+                              <span onClick={(e) => userSorting(e, "site_number")}>
                                 Site number
                                 <button
                                   className={`event_sort_btn ${isActive?.site_number == "dec"
@@ -2528,7 +2553,7 @@ const getDownloadData = async (viewEmailData) => {
                                       ? "svg_asc"
                                       : ""
                                     }`}
-                                  onClick={(e) => userSort(e, "site_number")}
+                                  onClick={(e) => userSorting(e, "site_number")}
                                 >
                                   <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -2552,7 +2577,7 @@ const getDownloadData = async (viewEmailData) => {
                                 </button>
                               </span></th>
                             <th scope="col" className="sort_option">
-                              <span onClick={(e) => userSort(e, "irt")}>
+                              <span onClick={(e) => userSorting(e, "irt")}>
                                 IRT mandatory training
                                 <button
                                   className={`event_sort_btn ${isActive?.irt == "dec"
@@ -2561,7 +2586,7 @@ const getDownloadData = async (viewEmailData) => {
                                       ? "svg_asc"
                                       : ""
                                     }`}
-                                  onClick={(e) => userSort(e, "irt")}
+                                  onClick={(e) => userSorting(e, "irt")}
                                 >
                                   <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -2586,9 +2611,10 @@ const getDownloadData = async (viewEmailData) => {
                               </span>
                             </th>
                           </>) : (
-                          // <th scope="col">Business Unit</th>
+                        
+                        localStorage.getItem('group_id') != 2 ?
                           <th scope="col" className="sort_option" >
-                            <span onClick={(e) => userSort(e, "ibu")} >
+                            <span onClick={(e) => userSorting(e, "ibu")} >
                               Business Unit
                               <button
                                 className={`event_sort_btn ${isActive?.ibu == "dec"
@@ -2597,7 +2623,7 @@ const getDownloadData = async (viewEmailData) => {
                                     ? "svg_asc"
                                     : ""
                                   }`}
-                                onClick={(e) => userSort(e, "ibu")}
+                                onClick={(e) => userSorting(e, "ibu")}
                               >
                                 <svg
                                   xmlns="http://www.w3.org/2000/svg"
@@ -2621,11 +2647,12 @@ const getDownloadData = async (viewEmailData) => {
                               </button>
                             </span>
 
-                          </th>
+                          </th> : null
+
                         )}
                         {/* <th scope="col">Date</th> */}
                         <th scope="col" className="sort_option" >
-                          <span onClick={(e) => userSort(e, "send_date")} >
+                          <span onClick={(e) => userSorting(e, "send_date")} >
                             Date
                             <button
                               className={`event_sort_btn ${isActive?.send_date == "dec"
@@ -2634,7 +2661,7 @@ const getDownloadData = async (viewEmailData) => {
                                   ? "svg_asc"
                                   : ""
                                 }`}
-                              onClick={(e) => userSort(e, "send_date")}
+                              onClick={(e) => userSorting(e, "send_date")}
                             >
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -2689,6 +2716,8 @@ const getDownloadData = async (viewEmailData) => {
                                 </td>
                                 {(isLikeRdAccount)
                                   && (<td>{item?.site_number ? item?.site_number : "N/A"}</td>)}
+                                  
+                                { localStorage.getItem('group_id') != 2 ?
                                 <td>
                                   {(isLikeRdAccount)
                                     ? item.irt
@@ -2697,7 +2726,7 @@ const getDownloadData = async (viewEmailData) => {
                                     : item.ibu
                                       ? item.ibu
                                       : "N/A"}
-                                </td>
+                                </td>: null}
                                 <td>
                                   {
                                     item?.recent_send?.length > 0 ? moment(item?.recent_send?.[0]?.sent_date, 'YYYY-MM-DD HH:mm:ss').format('DD-MMM-YY | hh:mm a')
