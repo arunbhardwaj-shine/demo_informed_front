@@ -53,6 +53,7 @@ const EmailListingPublisher = (props) => {
   const [deletecardid, setDeleteCardId] = useState();
   const [filtertags, setFilterTags] = useState([]);
   const [filtercreator, setFilterCreators] = useState([]);
+  const [filterCompany, setFilterCompany] = useState([]);
   const [filterdate, setFilterDate] = useState([]);
   const [filtersites, setFilterSites] = useState([]);
   const [filterrole, setFilterRole] = useState([]);
@@ -548,6 +549,31 @@ const EmailListingPublisher = (props) => {
     }
   };
 
+  const handleOnFilterCompany = (fcomapny) => {
+    let tag_index = filterCompany.indexOf(fcomapny);
+    if (tag_index !== -1) {
+      filterCompany.splice(tag_index, 1);
+      setFilterCompany(filterCompany);
+    } else {
+      filterCompany.push(fcomapny);
+      setFilterCompany(filterCompany);
+    }
+
+    let getfilter = filter;
+    if (getfilter.hasOwnProperty("comapny")) {
+      getfilter.company = filterCompany;
+    } else {
+      getfilter = Object.assign({ company: filterCompany }, filter);
+    }
+    setFilter(getfilter);
+
+    let up = updateflag + 1;
+    setUpdateFlag(up);
+  };
+
+
+
+
   const handleOnFilterTags = (ftag) => {
     let tag_index = filtertags.indexOf(ftag);
     if (tag_index !== -1) {
@@ -702,6 +728,7 @@ const EmailListingPublisher = (props) => {
     document.getElementById("email_search").value = "";
     setSearch("");
     setFilterTags([]);
+    setFilterCompany([]);
     setFilterCreators([]);
     setFilterDate([]);
     setFilterSites([]);
@@ -735,6 +762,8 @@ const EmailListingPublisher = (props) => {
       handleOnFilterTags(item);
     } else if (src == "campaign") {
       handleOnFilterCampaign(item);
+    } else if (src == "company") {
+      handleOnFilterCompany(item);
     } else if (src == "date") {
       handleOnFilterDate(item);
     } else if (src == "site") {
@@ -1190,46 +1219,10 @@ const getDownloadData = async (viewEmailData) => {
                             </Accordion.Item>
                           )}
 
-                        {filterdata.hasOwnProperty("creators") &&
-                          filterdata.creators.length > 0 && (
-                            <Accordion.Item className="card" eventKey="1">
-                              <Accordion.Header className="card-header">
-                                Creator
-                              </Accordion.Header>
-                              <Accordion.Body className="card-body">
-                                <ul>
-                                  {Object.entries(filterdata.creators).map(
-                                    ([index, item]) => (
-                                      <li>
-                                        <label className="select-multiple-option">
-                                          <input
-                                            type="checkbox"
-                                            id={`custom-checkbox-creator-${index}`}
-                                            name="creator[]"
-                                            value={item}
-                                            checked={
-                                              updateflag > 0 &&
-                                              typeof filtercreator !==
-                                              "undefined" &&
-                                              filtercreator.indexOf(item) !== -1
-                                            }
-                                            onChange={() =>
-                                              handleOnFilterCreator(item)
-                                            }
-                                          />
-                                          {item}
-                                          <span className="checkmark"></span>
-                                        </label>
-                                      </li>
-                                    )
-                                  )}
-                                </ul>
-                              </Accordion.Body>
-                            </Accordion.Item>
-                          )}
+                      
                         {filterdata.hasOwnProperty("created") &&
                           filterdata.created.length > 0 && (
-                            <Accordion.Item className="card" eventKey="2">
+                            <Accordion.Item className="card" eventKey="1">
                               <Accordion.Header className="card-header">
                                 Date
                               </Accordion.Header>
@@ -1264,50 +1257,45 @@ const getDownloadData = async (viewEmailData) => {
                               </Accordion.Body>
                             </Accordion.Item>
                           )}
-                        {
-                         
-                            <>
-                            {filterdata.hasOwnProperty("sites") &&
-                              filterdata.sites.length > 0 && irtRoleObj?.IRTFlag && (
-                                <Accordion.Item className="card" eventKey="3">
-                                  <Accordion.Header className="card-header">
-                                    Sites
-                                  </Accordion.Header>
-                                  <Accordion.Body className="card-body">
-                                    <ul>
-                                      {Object.entries(filterdata.sites).map(
-                                        ([index, item]) => (
-                                          <li>
-                                            <label className="select-multiple-option">
-                                              <input
-                                                type="checkbox"
-                                                id={`custom-checkbox-sites-${index}`}
-                                                name="sites[]"
-                                                value={item}
-                                                checked={
-                                                  updateflag > 0 &&
-                                                  typeof filtersites !==
-                                                  "undefined" &&
-                                                  filtersites.indexOf(item) !== -1
-                                                }
-                                                onChange={() =>
-                                                  handleOnFilterSites(item)
-                                                }
-                                              />
-                                              {item}
-                                              <span className="checkmark"></span>
-                                            </label>
-                                          </li>
-                                        )
-                                      )}
-                                    </ul>
-                                  </Accordion.Body>
-                                </Accordion.Item>
-                              )}
- 
-                              </>
-                            
-                        }
+
+                    {filterdata.hasOwnProperty("company") &&
+                          filterdata.created.length > 0 && (
+                            <Accordion.Item className="card" eventKey="3">
+                              <Accordion.Header className="card-header">
+                                 Company
+                              </Accordion.Header>
+                              <Accordion.Body className="card-body">
+                                <ul>
+                                  {Object.entries(filterdata.company).map(
+                                    ([index, item]) => (
+                                      <li>
+                                        <label className="select-multiple-option">
+                                          <input
+                                            type="checkbox"
+                                            id={`custom-checkbox-date-${index}`}
+                                            name="date[]"
+                                            value={item}
+                                            checked={
+                                              updateflag > 0 &&
+                                              typeof filterCompany !==
+                                              "undefined" &&
+                                              filterCompany.indexOf(item) !== -1
+                                            }
+                                            onChange={() =>
+                                              handleOnFilterCompany(item)
+                                            }
+                                          />
+                                          {item}
+                                          <span className="checkmark"></span>
+                                        </label>
+                                      </li>
+                                    )
+                                  )}
+                                </ul>
+                              </Accordion.Body>
+                            </Accordion.Item>
+                          )}
+                      
 
 
                       </Accordion>
@@ -1383,7 +1371,7 @@ const getDownloadData = async (viewEmailData) => {
             {updateflag > 0 &&
               (filtertags.length > 0 ||
                 filtercreator.length > 0 ||
-                filterdate.length > 0 ||   filtersites.length > 0 ||
+                filterdate.length > 0 ||   filtersites.length > 0 || filterCompany.length >0 ||
                 filterrole.length > 0 ||
                 filtercampaign.length > 0) && (
                 <div className="apply-filter">
@@ -1401,6 +1389,30 @@ const getDownloadData = async (viewEmailData) => {
                                 className="filter-result"
                                 onClick={(event) =>
                                   removeindividualfilter("tag", item)
+                                }
+                              >
+                                {item}
+                                <img
+                                  src={path_image + "filter-close.svg"}
+                                  alt="Close-filter"
+                                />
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                     {filterCompany.length > 0 && (
+                        <div className="filter-div">
+                          <div className="filter-div-title">
+                            <span>Comapny |</span>
+                          </div>
+                          <div className="filter-div-list">
+                            {Object.entries(filterCompany).map(([index, item]) => (
+                              <div
+                                className="filter-result"
+                                onClick={(event) =>
+                                  removeindividualfilter("comapny", item)
                                 }
                               >
                                 {item}
@@ -1681,13 +1693,13 @@ const getDownloadData = async (viewEmailData) => {
                                 {data?.subject}
                               </td>
                               <td>
-                              {data?.campaign}
+                              {data?.client_company}
                               </td>
                               <td>
-                              {data?.clientEmail }
+                              {data?.client_email }
                               </td>
                               <td>
-                              {data?.clientCountry}
+                              {data?.client_country}
                               </td>
                               <td className="blue">
                               {data?.sent_date}
@@ -1722,7 +1734,7 @@ const getDownloadData = async (viewEmailData) => {
                                 </div>
                               </td>
                               <td>
-                               {data?.accountSetup == 1 ?"Yes":"No"}  
+                               {data?.account_setup == 1 ?"Yes":"No"}  
                               </td>
                               <td className="divide-line">
                                 <Button className="btn-bordered"  onClick={(e) => showModal("send", campaign_id)}>Resend</Button>
@@ -1894,11 +1906,11 @@ const getDownloadData = async (viewEmailData) => {
                         </tr>
                         <tr>
                           <th>Client Email</th>
-                          <td style={{color:"#70899E"}}>{viewEmailData[0].clientEmail }</td>
+                          <td style={{color:"#70899E"}}>{viewEmailData[0].client_email }</td>
                         </tr>
                         <tr>
                           <th>Client Country </th>
-                          <td style={{color:"#70899E"}}>{viewEmailData?.[0]?.clientCountry}</td>
+                          <td style={{color:"#70899E"}}>{viewEmailData?.[0]?.client_country}</td>
                         </tr>
                         {/* <tr>
                           <th>Docintel Link </th>
