@@ -91,8 +91,6 @@ const ResetPassword = () => {
             try {
                 loader("show");
                 let token = queryParams.get('hthhsdfhsfh').substring(0, queryParams.get('hthhsdfhsfh').length - 4);
-                console.log("[tokend", token)
-                console.log("id", id)
                 let body = {
                     email: queryParams.get('email').trim().replace(" ", "+"),
                     token: token,

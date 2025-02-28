@@ -98,8 +98,7 @@ const SetLayout = () => {
                         ? navigate("/totalhcp")
                         : navigate("/content-analytics");
     } else if (title == "Email") {
-
-      navigate("/EmailList");
+      localStorage.getItem("group_id") == 2 ? navigate("/Emaillist-publisher") : navigate("/EmailList");
     } else if (title == "Webinar") {
       if (
         typeof localStorage.getItem("webinar_flag") !== "undefined" &&
