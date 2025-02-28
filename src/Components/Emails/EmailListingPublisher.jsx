@@ -1836,6 +1836,7 @@ const getDownloadData = async (viewEmailData) => {
         <Modal
           id="mail-view"
           show={viewEmailModal}
+          backdrop="static"
           onHide={hideEmailModal}
           custom-atr="non-scroll"
         >
