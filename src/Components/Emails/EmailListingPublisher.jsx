@@ -78,161 +78,88 @@ const EmailListingPublisher = (props) => {
   );
   // const [filter, setFilter] = useState(initialFilterProp || {});
   const deletButtonColor =isLikeRdAccount ? '#8A4E9C' : '#0066be'
-  const [options_ch, setOptions_ch] = useState({
-    chart: {
-      type: "column",
-      options3d: {
-        enabled: true,
-        alpha: 10,
-        beta: 25,
-        depth: 70,
-      },
-      //   events: {
-      //     load: function() {
-      //         var chart = this;
-      //         chart.series.forEach(function(series) {
-      //             series.data.forEach(function(point) {
-      //                 point.onMouseOver(); // Trigger tooltip display
-      //             });
-      //         });
-      //     }
-      // }
-    },
-    title: {
-      text: "Chart description",
-    },
-    subtitle: {
-      text: "Total Users ",  
-      align: "left", 
-      y: 0,  
-      x:0,
-      style: {
-        fontSize: "14px",
-        fontWeight: "bold",
-      },
-    },
-    annotations: [{
-      labels: [{
-        point: {
-          x: 0,
-          y: 0,
-          xAxis: 0,
-          yAxis: 0,
-        },
-        text: "Right Subtitle Text", // Right-aligned text
-        style: {
-          fontSize: "14px",
-          fontWeight: "bold",
-        },
-        align: 'right', // Align to the right
-        x: 0, // Adjust horizontal position
-        y: 0, // Adjust vertical position
-      }]
-    }],
-    
-    // plotOptions: {
-    //   column: {
-    //     depth: 25,
-    //   },
-    // },
-    xAxis: {
-      categories: ["Week 1", "Week 2","Week 3","Week 4"],
-      labels: {
-        skew3d: true,
-        style: {
-          fontSize: "16px",
-        },
-      },
-    },
-    yAxis: {
-      title: {
-        text: null,
-      },
-       min: 100,
-    max: 400,  
-    tickInterval: 100,  
-    },
-    tooltip: {
-      enabled: false,
-    },
-    plotOptions: {
-      series: {
-        dataLabels: {
-          allowOverlap: false,
-          distance: 40,
+   const [options_ch, setOptions_ch] = useState({
+      chart: {
+        type: "column",
+        options3d: {
           enabled: true,
-          inside: false,
-          overflow: "justify",
-          crop: true,
-          shape: "callout",
-          size: "100%",
-          backgroundColor: "rgba(255,255,255)",
-          // borderColor: "rgba(0,0,0,0.9)",
-          // borderColor:this.point.color,
-          color: "rgba(0,0,0)",
-          // borderWidth: 0.5,
-          // borderRadius: 5,
+          alpha: 10,
+          beta: 25,
+          depth: 70,
+        },
+      },
+      title: {
+        text: "Mail campaign stats",
+      },
+  
+      xAxis: {
+        categories: ["Emails sent", "Emails opened"],
+        labels: {
+          skew3d: true,
           style: {
-            fontFamily: "Helvetica, sans-serif",
-            // fontSize: "13px",
-            fontWeight: "normal",
-            textShadow: "none",
-          },
-          formatter: function () {
-            return (
-              "<span ><div className=" +
-              this.series.name +
-              '><span style="font-weight: bold;">' +
-              this.x +
-              "</span><br/><strong>" +
-              this.series.name +
-              "</strong> <strong >" + ":" +
-              Highcharts.numberFormat(this.y, 0) +
-              "</strong></div></span>"
-            );
+            fontSize: "16px",
           },
         },
       },
-      column: {
-        depth: 25,
+      yAxis: {
+        title: {
+          text: null,
+        },
       },
-    },
-    series: [
-      {
-        name: "Email Send",
-        data: [
-          { y: 100, color: "#8a4e9c" },
-          { y: 200, color: "#ffbe2c" },
-          { y: 300, color: "#39cabc" },
-        ],
+      tooltip: {
+        enabled: false,
       },
-      {
-        name: "Emails Bounced",
-        data: [
-          { y: 100, color: "#8a4e9c" },
-          { y: 200, color: "#ffbe2c" },
-          { y: 300, color: "#39cabc" },
-        ],
+      plotOptions: {
+        series: {
+          dataLabels: {
+            allowOverlap: false,
+            distance: 40,
+            enabled: true,
+            inside: false,
+            overflow: "justify",
+            crop: true,
+            shape: "callout",
+            size: "100%",
+            backgroundColor: "rgba(255,255,255)",
+  
+            color: "rgba(0,0,0)",
+  
+            style: {
+              fontFamily: "Helvetica, sans-serif",
+  
+              fontWeight: "normal",
+              textShadow: "none",
+            },
+            formatter: function () {
+              return (
+                "<span ><div className=" +
+                this.series.name +
+                ">" +
+                "<br/><strong>" +
+                this.series.name +
+                "</strong> <strong >" +
+                ":" +
+                Highcharts.numberFormat(this.y, 0) +
+                "</strong></div></span>"
+              );
+            },
+          },
+        },
+        column: {
+          depth: 25,
+        },
       },
-      {
-        name: "Email opend",
-        data: [
-          { y: 100, color: "#8a4e9c" },
-          { y: 200, color: "#ffbe2c" },
-          { y: 300, color: "#39cabc" },
-        ],
-      },
-      {
-        name: "CTR",
-        data: [
-          { y: 100, color: "#8a4e9c" },
-          { y: 200, color: "#ffbe2c" },
-          { y: 300, color: "#39cabc" },
-        ],
-      },
-      
-    ],
-  });
+      series: [
+        {
+          name: "Email campaign",
+          data: [
+            { y: 2, color: "#8a4e9c" },
+            { y: 3, color: "#ffbe2c" },
+            { y: 0, color: "#39cabc" },
+          ],
+        },
+      ],
+    });
   const buttonRef = useRef(null);
   const filterRef = useRef(null);
   useEffect(() => {
@@ -981,6 +908,20 @@ const EmailListingPublisher = (props) => {
     }
   };
 
+  const userSorting = (e, key) => {
+    const direction = sortNameDirection === 0 ? "asc" : "dec";
+
+    const sortedUserData = [...readerDetailsData].sort(
+      dynamicSort(key, direction)
+    );
+
+    setReaderDetailsData(sortedUserData);
+    setSortNameDirection(sortNameDirection === 0 ? 1 : 0);
+    setIsActive({ [key]: direction === "asc" ? "dec" : "asc" });
+    setSorting(1 - sorting);
+    setSortingCount(sortingCount + 1);
+  };
+
   const userSort = (e, key) => {
     
     const direction = sortNameDirection === 0 ? 'asc' : 'dec';
@@ -989,7 +930,8 @@ const EmailListingPublisher = (props) => {
     const sortedUserData = [...SendListData].sort(dynamicSort(key, direction));
    console.log(sortedUserData)
 
-     setSendListData(sortedUserData);
+
+    setSendListData(sortedUserData);
     setSortNameDirection(sortNameDirection === 0 ? 1 : 0);
     setIsActive({ [key]: direction === 'asc' ? 'dec' : 'asc' });
     setSorting(1 - sorting);
@@ -2582,7 +2524,7 @@ const getDownloadData = async (viewEmailData) => {
                       >
                         <div className="mail_click">
                           <div className="mail_click_box">
-                            <h6>CTR 1</h6>
+                            <h6>Link clicked (CTR 1)</h6>
                             <div className="mail_click_box_content">
                               <svg
                                 width="40"
@@ -2818,7 +2760,7 @@ const getDownloadData = async (viewEmailData) => {
                       <tr>
                         {/* <th scope="col">Name</th> */}
                         <th scope="col" className="sort_option" >
-                          <span onClick={(e) => userSort(e, "first_name")} >
+                          <span onClick={(e) => userSorting(e, "first_name")} >
                             Name
                             <button
                               className={`event_sort_btn ${isActive?.first_name == "dec"
@@ -2827,7 +2769,7 @@ const getDownloadData = async (viewEmailData) => {
                                   ? "svg_asc"
                                   : ""
                                 }`}
-                              onClick={(e) => userSort(e, "first_name")}
+                              onClick={(e) => userSorting(e, "first_name")}
                             >
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -2854,7 +2796,7 @@ const getDownloadData = async (viewEmailData) => {
                         </th>
                         {/* <th scope="col">Email</th> */}
                         <th scope="col" className="sort_option" >
-                          <span onClick={(e) => userSort(e, "email")} >
+                          <span onClick={(e) => userSorting(e, "email")} >
                             Email
                             <button
                               className={`event_sort_btn ${isActive?.email == "dec"
@@ -2863,7 +2805,7 @@ const getDownloadData = async (viewEmailData) => {
                                   ? "svg_asc"
                                   : ""
                                 }`}
-                              onClick={(e) => userSort(e, "email")}
+                              onClick={(e) => userSorting(e, "email")}
                             >
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -2891,7 +2833,7 @@ const getDownloadData = async (viewEmailData) => {
                         {/* <th scope="col">Bounced</th> */}
                         {/* <th scope="col">Country</th> */}
                         <th scope="col" className="sort_option" >
-                          <span onClick={(e) => userSort(e, "country")} >
+                          <span onClick={(e) => userSorting(e, "country")} >
                             Country
                             <button
                               className={`event_sort_btn ${isActive?.country == "dec"
@@ -2900,7 +2842,7 @@ const getDownloadData = async (viewEmailData) => {
                                   ? "svg_asc"
                                   : ""
                                 }`}
-                              onClick={(e) => userSort(e, "country")}
+                              onClick={(e) => userSorting(e, "country")}
                             >
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -2927,7 +2869,7 @@ const getDownloadData = async (viewEmailData) => {
                         </th>
                         {(isLikeRdAccount) ? (<>
                             <th scope="col" className="sort_option">
-                              <span onClick={(e) => userSort(e, "site_number")}>
+                              <span onClick={(e) => userSorting(e, "site_number")}>
                                 Site number
                                 <button
                                   className={`event_sort_btn ${isActive?.site_number == "dec"
@@ -2936,7 +2878,7 @@ const getDownloadData = async (viewEmailData) => {
                                       ? "svg_asc"
                                       : ""
                                     }`}
-                                  onClick={(e) => userSort(e, "site_number")}
+                                  onClick={(e) => userSorting(e, "site_number")}
                                 >
                                   <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -2960,7 +2902,7 @@ const getDownloadData = async (viewEmailData) => {
                                 </button>
                               </span></th>
                             <th scope="col" className="sort_option">
-                              <span onClick={(e) => userSort(e, "irt")}>
+                              <span onClick={(e) => userSorting(e, "irt")}>
                                 IRT mandatory training
                                 <button
                                   className={`event_sort_btn ${isActive?.irt == "dec"
@@ -2969,7 +2911,7 @@ const getDownloadData = async (viewEmailData) => {
                                       ? "svg_asc"
                                       : ""
                                     }`}
-                                  onClick={(e) => userSort(e, "irt")}
+                                  onClick={(e) => userSorting(e, "irt")}
                                 >
                                   <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -2996,7 +2938,7 @@ const getDownloadData = async (viewEmailData) => {
                           </>) : (
                           // <th scope="col">Business Unit</th>
                           <th scope="col" className="sort_option" >
-                            <span onClick={(e) => userSort(e, "ibu")} >
+                            <span onClick={(e) => userSorting(e, "ibu")} >
                               Business Unit
                               <button
                                 className={`event_sort_btn ${isActive?.ibu == "dec"
@@ -3005,7 +2947,7 @@ const getDownloadData = async (viewEmailData) => {
                                     ? "svg_asc"
                                     : ""
                                   }`}
-                                onClick={(e) => userSort(e, "ibu")}
+                                onClick={(e) => userSorting(e, "ibu")}
                               >
                                 <svg
                                   xmlns="http://www.w3.org/2000/svg"
@@ -3033,7 +2975,7 @@ const getDownloadData = async (viewEmailData) => {
                         )}
                         {/* <th scope="col">Date</th> */}
                         <th scope="col" className="sort_option" >
-                          <span onClick={(e) => userSort(e, "send_date")} >
+                          <span onClick={(e) => userSorting(e, "send_date")} >
                             Date
                             <button
                               className={`event_sort_btn ${isActive?.send_date == "dec"
@@ -3042,7 +2984,7 @@ const getDownloadData = async (viewEmailData) => {
                                   ? "svg_asc"
                                   : ""
                                 }`}
-                              onClick={(e) => userSort(e, "send_date")}
+                              onClick={(e) => userSorting(e, "send_date")}
                             >
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
