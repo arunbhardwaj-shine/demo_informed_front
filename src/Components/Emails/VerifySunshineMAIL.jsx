@@ -250,7 +250,7 @@ const VerifySunshineMAIL = (props) => {
               visible: "show",
               message: res?.data?.message ?res?.data?.message:"Mail sent successfully",
               type: "success",
-              redirect: "/license-content",
+              redirect: "/Emaillist-publisher",
             });
           } else {
             popup_alert({
