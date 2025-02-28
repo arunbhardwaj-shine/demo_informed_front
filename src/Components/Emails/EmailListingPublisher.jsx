@@ -388,7 +388,7 @@ const EmailListingPublisher = (props) => {
     };
     page = page == 3 ? 1 : page;
     axios
-      .post(`emailapi/getlist?page=` + page, body)
+      .post(`/emailapi/sunshine-us-campaigns?page=` + page, body)
       .then((res) => {
         if (res.data.status_code == 200) {
           setSendListData(res.data.response.data.emails);
@@ -529,6 +529,7 @@ const EmailListingPublisher = (props) => {
   }, [location.pathname]);
 
   const showDeleteButtons = () => {
+   
     if (deletestatus) {
       setDeleteStatus(false);
     } else {
@@ -1831,9 +1832,25 @@ const getDownloadData = async (viewEmailData) => {
                               <td className="divide-line">
                                 <Button className="btn-bordered">Resend</Button>
                                 <Button className="btn-filled" onClick={(e) => showViewEmailModal(data.id)}>View</Button>
+                                {deletestatus && (
+                                <div className="dlt_btn">
+                                  <button
+                                    onClick={(e) =>
+                                      showConfirmationPopup(data.id)
+                                    }
+                                  >
+                                    <img
+                                      src={path + "delete.svg"}
+                                      alt="Delete Row"
+                                    />
+                                  </button>
+                                </div>
+                              )}
                               </td>
+                           
                             </tr>
                             <tr className="blank"><td colSpan="10" style={{ height: "10px" }}></td></tr>
+                            
                           </>
                           )
                         })
@@ -2211,20 +2228,7 @@ const getDownloadData = async (viewEmailData) => {
                                     )}
                                   </div>
                                 )}
-                              {deletestatus && (
-                                <div className="dlt_btn">
-                                  <button
-                                    onClick={(e) =>
-                                      showConfirmationPopup(data.id)
-                                    }
-                                  >
-                                    <img
-                                      src={path + "delete.svg"}
-                                      alt="Delete Row"
-                                    />
-                                  </button>
-                                </div>
-                              )}
+                        
                             </div>
                           </div>
                         </div>

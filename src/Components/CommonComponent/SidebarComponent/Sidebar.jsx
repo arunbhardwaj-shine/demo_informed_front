@@ -1482,7 +1482,7 @@ const Sidebar = () => {
                   </ul>
 
               ) :  
-              window.location.pathname ==  "/EmailList-publisher"   ?(<ul>
+              window.location.pathname ==  "/EmailList-publisher" ?(<ul>
                 <li
                   className={
                     location.pathname == "/EmailList-publisher"

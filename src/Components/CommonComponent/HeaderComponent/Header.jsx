@@ -357,16 +357,27 @@ const Header = () => {
                       window.location.pathname == "/blocked-users" ||
                       window.location.pathname == "/bounced-email" ||
                       window.location.pathname == "/get-details" ||
+                      window.location.pathname == "/EmailList-publisher" ||
                       window.location.pathname == "/IRTRole"
                       ? "nav-item active active-main"
                       : "nav-item"
                   } onClick={handleMenuItemClick}
                 >
-                  <Link className="nav-link"
-                    to={"/EmailList"}
-                  >
-                    EMAIL
-                  </Link>
+                  {
+                    localStorage.getItem('group_id') == 2
+                    ?
+                    <Link className="nav-link"
+                      to={"/EmailList-publisher"}
+                    >
+                      EMAIL
+                    </Link>
+                    :
+                    <Link className="nav-link"
+                      to={"/EmailList"}
+                    >
+                      EMAIL
+                    </Link>
+                  }
                 </li>
 
                 {localStorage.getItem("group_id") == 2 ? (
