@@ -306,6 +306,7 @@ const EmailListingPublisher = (props) => {
 
   const getData = (stage, page = 1) => {
     loader("show");
+
     const body = {
       user_id: localStorage.getItem("user_id"),
       search: page == 3 ? '' : search,
@@ -364,12 +365,19 @@ const EmailListingPublisher = (props) => {
   };
 
   const submitHandler = (event) => {
+    event.preventDefault();
+ 
+  
+    if (search.trim().length < 1) {
+      console.log("Search is empty after trimming.");
+      return;
+    }
+  
     setloadmore(0);
     setShowFilter(false);
     getData("progress");
-    event.preventDefault();
-    return false;
   };
+  
 
   const searchChange = (e) => {
     setSearch(e.target.value);
@@ -1109,6 +1117,7 @@ const getDownloadData = async (viewEmailData) => {
                     </button>
                   </form>
                 </div>
+
                 <div
                   className={
                     showfilter
@@ -1760,7 +1769,7 @@ const getDownloadData = async (viewEmailData) => {
           <Modal.Body>
             <img src={path + "alert.png"} alt="" />
             <h4>
-              This email will be sent to everybody who has not opened the email{" "}
+            Would you like to resend the email?
             </h4>
 
             <div className="modal-buttons">
