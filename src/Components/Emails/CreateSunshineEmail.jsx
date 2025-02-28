@@ -476,12 +476,29 @@ const CreateSunshineEmail = (props) => {
               if(type == 'sample'){
                 setSearchSampleUsers((prevUsers) => {
                   const filteredUsers = prevUsers.filter(user => user.type !== "search");
-                  return [...filteredUsers, ...newSearchUser];
+                  const mergedUsers = [...filteredUsers, ...newSearchUser].reduce((acc, user) => {
+                    if (!acc.some(existingUser => existingUser.email === user.email)) {
+                      acc.push(user);
+                    }
+                    return acc;
+                  }, []);
+
+                  return mergedUsers;
+                  // return [...filteredUsers, ...newSearchUser];
                 });
               }else{
                 setSearchedUsers((prevUsers) => {
                   const filteredUsers = prevUsers.filter(user => user.type !== "search");
-                  return [...filteredUsers, ...newSearchUser];
+                  // Merge unique users based on email
+                  const mergedUsers = [...filteredUsers, ...newSearchUser].reduce((acc, user) => {
+                    if (!acc.some(existingUser => existingUser.email === user.email)) {
+                      acc.push(user);
+                    }
+                    return acc;
+                  }, []);
+
+                  return mergedUsers;
+                  // return [...filteredUsers, ...newSearchUser];
                 });
               }
             } else {
@@ -554,13 +571,20 @@ const CreateSunshineEmail = (props) => {
     if(type == 'client'){
       setSelectedClient((prev) => {
         const removedUser = prev[index];
-        setSearchedUsers((prevUsers) => [...prevUsers, removedUser]);
+        setSearchedUsers((prevUsers) => {
+          const isUserExists = prevUsers.some(user => user.email === removedUser.email);
+          return isUserExists ? prevUsers : [...prevUsers, removedUser];
+        });
         return prev.filter((_, i) => i !== index);
       });
     }else{
       setSelectedHcp((prev) => {
         const removedUser = prev[index];
-        setSearchSampleUsers((prevUsers) => [...prevUsers, removedUser]);
+        setSearchSampleUsers((prevUsers) => {
+          const isUserExists = prevUsers.some(user => user.email === removedUser.email);
+          return isUserExists ? prevUsers : [...prevUsers, removedUser];
+        });
+        // setSearchSampleUsers((prevUsers) => [...prevUsers, removedUser]);
         return prev.filter((_, i) => i !== index);
       });
     }
