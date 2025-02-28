@@ -67,18 +67,6 @@ const timeRange = `${convertedStartTime} - ${convertedEndTime}`;
                 }}
               >
               </h3>
-              <div className="head-sec">
-                {/* <p>For healthcare professionals only.</p> */}
-                <p
-                style={{
-                  color: formData?.content?.eventDetails?.Specialization?.color,
-                }}
-                dangerouslySetInnerHTML={{
-                  __html: formData?.content?.eventDetails?.Specialization?.value,
-                }}
-              >
-              </p>
-              </div>
 
               <div className="mid-left-bottom">
                 <ul>
@@ -94,6 +82,19 @@ const timeRange = `${convertedStartTime} - ${convertedEndTime}`;
               >
               </li>
                 </ul>
+              </div>
+
+              <div className="head-sec">
+                {/* <p>For healthcare professionals only.</p> */}
+                <p
+                style={{
+                  color: formData?.content?.eventDetails?.Specialization?.color,
+                }}
+                dangerouslySetInnerHTML={{
+                  __html: formData?.content?.eventDetails?.Specialization?.value,
+                }}
+              >
+              </p>
               </div>
               
             </div>
