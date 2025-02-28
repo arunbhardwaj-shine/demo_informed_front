@@ -134,10 +134,10 @@ const EmailListingPublisher = (props) => {
             formatter: function () {
               return (
                 "<span ><div className=" +
-                this.series.name +
+                this.point.category +
                 ">" +
                 "<br/><strong>" +
-                this.series.name +
+                this.point.category+
                 "</strong> <strong >" +
                 ":" +
                 Highcharts.numberFormat(this.y, 0) +
