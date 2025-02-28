@@ -518,6 +518,15 @@ const EmailListingPublisher = (props) => {
           var updatedArray = SendListData.filter(function (item) {
             return item["id"] != deletecardid;
           });
+
+          if(updatedArray.length == 0){
+            setDeleteStatus(false)
+            
+           
+          }
+
+
+
           if (typeof updatedArray !== "undefined") {
             setSendListData(updatedArray);
           }
