@@ -480,14 +480,19 @@ const ContentDetail = (props) => {
                                         >
                                           Send in email
                                         </Link> */}
-                                        <Button
-                                          onClick={() => {
-                                            nextClicked(data?.id,data?.reader_mandatory,data?.trail_user_type);
-                                          }}
-                                          className="btn btn-primary btn-bordered"
-                                        >
-                                          Send in email
-                                        </Button>
+                                        {
+                                          localStorage.getItem("group_id") == 2 ?
+                                          null
+                                          : 
+                                          <Button
+                                            onClick={() => {
+                                              nextClicked(data?.id,data?.reader_mandatory,data?.trail_user_type);
+                                            }}
+                                            className="btn btn-primary btn-bordered"
+                                          >
+                                            Send in email
+                                          </Button>
+                                        }
                                         
                                         {/* <Link
                                           to="/library-sublink"

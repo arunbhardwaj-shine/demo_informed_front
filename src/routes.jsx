@@ -252,6 +252,7 @@ import Redirect from "./Auth/Redirect";
 
 import AlandActivity from "./Components/AlandActivity/AlandActivity";
 import CreateSunshineEmail from "./Components/Emails/CreateSunshineEmail";
+import VerifySunshineMAIL from "./Components/Emails/VerifySunshineMAIL";
 
 let platform = 0;
 let show = 0;
@@ -817,6 +818,9 @@ const Routing = () => {
           element={<LoginLayout component={CreateSunshineEmail} />}
         />
         <Route
+          path="/Verify-sunshine-mail" element={<LoginLayout component={VerifySunshineMAIL} />}
+          />
+        <Route
           path="/RD-EmailList"
           element={<LoginLayout component={EmailList} />}
         />
@@ -855,6 +859,10 @@ const Routing = () => {
         <Route
           path="/VerifyHcpMAIL"
           element={<LoginLayout component={VerifyHcpMAIL} />}
+        />
+        <Route
+          path="/Verify-sunshine-mail"
+          element={<LoginLayout component={VerifySunshineMAIL} />}
         />
         {/* <Route
           path="/SelectSmartListUsers"

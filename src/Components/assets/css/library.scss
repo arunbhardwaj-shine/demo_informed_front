@@ -26192,6 +26192,12 @@ height: 100%;
               margin: 0 0 0 3px;
             }
           } 
+          &:first-child{
+            width: 300px;
+          }
+          &:nth-child(2){
+            width: 120px;
+          }
         }
       }
     }
@@ -26215,7 +26221,7 @@ height: 100%;
           &:last-child{
             border-radius: 0px 20px 20px 0px;
           }
-          padding: 8px 8px 8px 16px;
+          padding: 12px 8px 12px 16px;
           font-weight: 400;
           vertical-align: middle;
           color: vars.$dark-gray;
@@ -26264,6 +26270,7 @@ height: 100%;
 .sunshine-mail{
   padding: 0;
   margin-bottom: 46px;
+  margin-top:5px;
   .page-title{
     h4{
       font-weight: bold;

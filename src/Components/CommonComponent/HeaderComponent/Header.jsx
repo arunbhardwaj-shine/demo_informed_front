@@ -61,8 +61,9 @@ const Header = () => {
     // localStorage.clear();
     let navigateRoute = "/";
     if (typeof localStorage.getItem('account_type') != 'undefined' && localStorage.getItem('account_type') == 'USA_PHARMA') {
-      let userToken = localStorage.getItem('user_id')?.replace(/ /g, '+')
-      userToken  = userToken?.replace(/\//g, '---');
+      // let userToken = localStorage.getItem('user_id')?.replace(/ /g, '+')
+      // userToken  = userToken?.replace(/\//g, '---');
+      let userToken = localStorage.getItem('logs_token');
       navigateRoute = "/account/" + userToken;
     }
     const keysToKeep = ['uname', 'pass', 'acceptedCookies'];
@@ -357,7 +358,9 @@ const Header = () => {
                       window.location.pathname == "/blocked-users" ||
                       window.location.pathname == "/bounced-email" ||
                       window.location.pathname == "/get-details" ||
-                      window.location.pathname == "/EmailList-publisher" ||
+                      window.location.pathname == "/create-sunshine-email" ||
+                      window.location.pathname == "/Emaillist-publisher" ||
+                      window.location.pathname == "/Verify-sunshine-mail" ||
                       window.location.pathname == "/IRTRole"
                       ? "nav-item active active-main"
                       : "nav-item"
@@ -366,17 +369,17 @@ const Header = () => {
                   {
                     localStorage.getItem('group_id') == 2
                     ?
-                    <Link className="nav-link"
-                      to={"/EmailList-publisher"}
-                    >
-                      EMAIL
-                    </Link>
+                      <Link className="nav-link"
+                        to={"/Emaillist-publisher"}
+                      >
+                        EMAIL
+                      </Link>
                     :
-                    <Link className="nav-link"
-                      to={"/EmailList"}
-                    >
-                      EMAIL
-                    </Link>
+                      <Link className="nav-link"
+                        to={"/EmailList"}
+                      >
+                        EMAIL
+                      </Link>
                   }
                 </li>
 
