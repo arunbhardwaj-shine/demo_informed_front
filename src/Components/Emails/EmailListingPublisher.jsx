@@ -1760,7 +1760,7 @@ const getDownloadData = async (viewEmailData) => {
           <Modal.Body>
             <img src={path + "alert.png"} alt="" />
             <h4>
-              This email will be sent to everybody who has not opened the email{" "}
+            Would you like to resend the email?
             </h4>
 
             <div className="modal-buttons">
