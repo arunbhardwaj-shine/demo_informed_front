@@ -1903,7 +1903,7 @@ const getDownloadData = async (viewEmailData) => {
                       <tbody>
                         <tr>
                           <th>Client Company</th>
-                          <td style={{color:"#70899E"}}>{viewEmailData[0].campaign}</td>
+                          <td style={{color:"#70899E"}}>{viewEmailData[0].client_company}</td>
                         </tr>
                         <tr>
                           <th>Client Email</th>
