@@ -667,7 +667,7 @@ const CreateSunshineEmail = (props) => {
           templateId: templateId,
           tags: tags,
           template: template,
-          PdfSelected: 6061,
+          PdfSelected: PdfSelected,
         });
         navigate("/Verify-sunshine-mail");
     } else {
