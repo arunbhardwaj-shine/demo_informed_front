@@ -1080,7 +1080,6 @@ const getDownloadData = async (viewEmailData) => {
 };
 
 
-
   return (
     <>
 
@@ -1691,8 +1690,8 @@ const getDownloadData = async (viewEmailData) => {
                 <Table className="fold-table">
                     <thead className="sticky-header">
                       <tr>
-                        <th className="sort_option" onClick={(e) => userSort(e, "subject")}>Subject
-                        <button    className={`event_sort_btn ${isActive?.name == "dec"
+                        <th className="sort_option" onClick={(e) => userSort(e, "subject") }>Subject
+                        <button className={`event_sort_btn ${isActive?.name == "dec"
                                     ? "svg_active"
                                     : isActive?.name == "asc"
                                       ? "svg_asc"
@@ -1776,12 +1775,8 @@ const getDownloadData = async (viewEmailData) => {
                         SendListData.map((data, index) => {
                           return (
                           <>
-                           <tr>
-                          <td colSpan="10" className="no_found"><div className={`email_box_block no_found`}>
-                          <p>No Data Found</p>
-                        </div></td>
-                        </tr>
-                            {/* <tr>
+                          
+                            <tr>
                               <td className="blue">
                                 {data?.subject}
                               </td>
@@ -1832,7 +1827,7 @@ const getDownloadData = async (viewEmailData) => {
                                 <Button className="btn-bordered">Resend</Button>
                                 <Button className="btn-filled" onClick={(e) => showViewEmailModal(data.id)}>View</Button>
                               </td>
-                            </tr> */}
+                            </tr>
                             <tr className="blank"><td colSpan="10" style={{ height: "10px" }}></td></tr>
                           </>
                           )
@@ -1972,15 +1967,15 @@ const getDownloadData = async (viewEmailData) => {
                       <tbody>
                         <tr>
                           <th>Client Company</th>
-                          <td>{viewEmailData[0].campaign}</td>
+                          <td style={{color:"#70899E"}}>{viewEmailData[0].campaign}</td>
                         </tr>
                         <tr>
                           <th>Client Email</th>
-                          <td>{viewEmailData[0].smart_list_name}</td>
+                          <td style={{color:"#70899E"}}>{viewEmailData[0].smart_list_name}</td>
                         </tr>
                         <tr>
                           <th>Client Country </th>
-                          <td>{viewEmailData?.[0]?.article_title ? viewEmailData?.[0]?.article_title : viewEmailData?.[0]?.pdf_title}</td>
+                          <td style={{color:"#70899E"}}>{viewEmailData?.[0]?.article_title ? viewEmailData?.[0]?.article_title : viewEmailData?.[0]?.pdf_title}</td>
                         </tr>
                         {/* <tr>
                           <th>Docintel Link </th>
