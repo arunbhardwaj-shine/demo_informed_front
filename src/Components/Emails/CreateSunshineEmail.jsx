@@ -848,7 +848,7 @@ const CreateSunshineEmail = (props) => {
               <div className="email-form">
                 <Form>
                   <>
-                    <div className="form-inline d-flex justify-content-between align-items-center">
+                    <div className="form-inline sunshine-email-form d-flex justify-content-between align-items-center">
                       <div className="col-12 col-md-4 d-flex align-items-center">
                         <div className="form-group">
                           <label className="form-label">Name</label>
