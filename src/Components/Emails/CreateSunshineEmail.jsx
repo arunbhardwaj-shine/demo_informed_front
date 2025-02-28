@@ -653,7 +653,6 @@ const CreateSunshineEmail = (props) => {
   }
 
   const nextClicked = async() => {
-
     const tags = finalTags?.map((finalTags) => {
       return finalTags.innerHTML == null ? finalTags : finalTags.innerHTML;
     });
