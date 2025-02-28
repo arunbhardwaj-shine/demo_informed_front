@@ -4260,7 +4260,9 @@ form#add_hcp_form .row:not(:first-child) {
   color: var(--light-gray);
   font-weight: 300;
 }
-
+#add_hcp .form-group input:-webkit-autofill {
+  -webkit-text-fill-color: #4e718e !important;
+}
 .update_quest #add_hcp .modal-body .hcp-add-form form .form-group .form-control[type="color"] {
   padding: 12px 10px;
   min-height: 45px;
