@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import SimpleReactValidator from "simple-react-validator";
 import { getCampaignId, getEmailData, getSearched, getSelected } from "../../actions";
 import { useNavigate } from "react-router-dom";
-import { Modal, ModalDialog, Dropdown, OverlayTrigger, Tooltip, Button, Container, Row, Table } from "react-bootstrap";
+import { Modal, ModalDialog, Dropdown, OverlayTrigger, Tooltip, Button, Container, Row, Table, Form } from "react-bootstrap";
 import { loader } from "../../loader";
 import { popup_alert } from "../../popup_alert";
 import { toast } from "react-toastify";
@@ -666,7 +666,7 @@ const CreateSunshineEmail = (props) => {
           templateId: templateId,
           tags: tags,
           template: template,
-          PdfSelected: PdfSelected,
+          PdfSelected: 6061,
         });
         navigate("/Verify-sunshine-mail");
     } else {
@@ -845,8 +845,8 @@ const CreateSunshineEmail = (props) => {
               <div className="page-title">
                 <h4><span>1.</span> Select the client you wish to send this email to by either searching for an existing client or adding a new one:</h4>
               </div>
-              <div className="email-form padding-add">
-                <form>
+              <div className="email-form">
+                <Form>
                   <>
                     <div className="form-inline d-flex justify-content-between align-items-center">
                       <div className="col-12 col-md-4 d-flex align-items-center">
@@ -878,7 +878,7 @@ const CreateSunshineEmail = (props) => {
                       </div>
                     </div>
                   </>
-                </form>
+                </Form>
               </div>
               <div className="d-flex justify-content-between search-client-list">
               <div className="sample_list_dt col">
@@ -948,7 +948,7 @@ const CreateSunshineEmail = (props) => {
               <img src={path_image + "swap-arrow.svg"} alt="Double arrow" />
               </div>
               <div className="sample_list_dt col">
-              <form>
+              <Form>
                 <fieldset>
                   <legend>Selected client | <span>{selectedClient?.length}</span></legend>
                   {selectedClient?.length == 0 ? (
@@ -995,18 +995,7 @@ const CreateSunshineEmail = (props) => {
                     </>
                   )}
                 </fieldset>
-                
-                  
-                
-              </form>
-                {/* <div className="table-title">
-                  <h4>
-                    Selected contact <span>| 
-                      {selectedClient?.length}
-                      </span>
-                  </h4>
-                </div> */}
-                
+              </Form>
               </div>
               </div>
             </Row>
