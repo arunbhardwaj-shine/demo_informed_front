@@ -46,6 +46,7 @@ const CreateSunshineEmail = (props) => {
   const [newTag, setNewTag] = useState("");
   const PdfSelected = props.getEmailData ? dxr : props.getDraftData.pdf_id;
   const editorRef = useRef(null);
+  const linkingPayload = useRef();
   const contactOptions = [
     {value :"Client", label :"Client"}
   ];
@@ -157,6 +158,7 @@ const CreateSunshineEmail = (props) => {
       .then((res) => {
         setTemplate(res?.data?.response?.data?.source_code);
         setTemplateId(res?.data?.response?.data?.id);
+        templateIdRef.current = res?.data?.response?.data?.id;
       })
       .catch((err) => {
         console.log(err);
@@ -685,8 +687,9 @@ const CreateSunshineEmail = (props) => {
         let url = dialog?.querySelector(".tox-control-wrap")
         let newLink = url?.querySelector(".tox-textfield")
         let newButton = document.createElement("button");
-        const baseLink =
-          "https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_";
+        const baseLink ="https://webinar.docintel.app/lmn/api/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_";
+
+          // "https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_";
         let payload = {}
         let apiLink = ""
 
@@ -753,7 +756,7 @@ const CreateSunshineEmail = (props) => {
                 url_code: `clicked_track_doc_${currentTimestamp}`,
               };
               linkingPayload.current = payload;
-              let link = `https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_${currentTimestamp}&redirect_url=${firstToxControlWrap.value}`;
+              let link = `https://webinar.docintel.app/lmn/api/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_${currentTimestamp}&redirect_url=${firstToxControlWrap.value}`;
               firstToxControlWrap.value = link;
 
             }
@@ -911,7 +914,7 @@ const CreateSunshineEmail = (props) => {
                                 {
                                   searchedUsers.map((data, index) => {
                                     return (
-                                      <tr key={index}>
+                                      <tr key={index} className = {data?.pharma_registered == 0 ? "not_assigned" : "assigned"}>
                                         <td>
                                           {data.name}
                                         </td>
@@ -928,7 +931,19 @@ const CreateSunshineEmail = (props) => {
                                                 src={path_image + "add-row.png"}
                                                 alt="Add More"
                                               />
-                                              : null
+                                              : 
+                                              <LinkWithTooltip
+                                                tooltip="Already Assigned."
+                                                href="#"
+                                              >
+                                                <img
+                                                  src={
+                                                    path_image +
+                                                    "info_circle_icon.svg"
+                                                  }
+                                                  alt="refresh-btn"
+                                                />
+                                              </LinkWithTooltip>
                                             }
                                         </div>
                                         </td>
