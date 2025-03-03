@@ -1139,7 +1139,7 @@ const WebinarSelectSmartListUsers = (props) => {
                       className="content_analytics_accordian"
                       defaultActiveKey={"4"}
                     >
-                      <Accordion.Item
+                     {unSubscribedUsers?.length>0 && <Accordion.Item
                         eventKey="1"
                         className="content_unsubscribed"
                       >
@@ -1559,8 +1559,8 @@ const WebinarSelectSmartListUsers = (props) => {
                             </table>
                           </div>
                         </Accordion.Body>
-                      </Accordion.Item>
-                      <Accordion.Item eventKey="2" className="content_added">
+                      </Accordion.Item>}
+                      {readersNewlyAdded?.length >0 && <Accordion.Item eventKey="2" className="content_added">
                         <Accordion.Header>
                           Added <span>| {readersNewlyAdded?.length || 0}</span>
                           {/* <span>| </span> */}
@@ -2003,8 +2003,8 @@ const WebinarSelectSmartListUsers = (props) => {
                             </table>
                           </div>
                         </Accordion.Body>
-                      </Accordion.Item>
-                      <Accordion.Item eventKey="3" className="content_deleted">
+                      </Accordion.Item>}
+                    { removedReaders?.length >0 && <Accordion.Item eventKey="3" className="content_deleted">
                         <Accordion.Header>
                           Deleted <span>| {removedReaders?.length || 0}</span>
                           {/* <span>| </span> */}
@@ -2420,9 +2420,9 @@ const WebinarSelectSmartListUsers = (props) => {
                             </table>
                           </div>
                         </Accordion.Body>
-                      </Accordion.Item>
+                      </Accordion.Item>}
 
-                      <Accordion.Item eventKey="4" className="content_hcps">
+                    {readers?.length >0&&  <Accordion.Item eventKey="4" className="content_hcps">
                         <Accordion.Header>
                           HCPs{" "}
                           <span>
@@ -2898,7 +2898,7 @@ const WebinarSelectSmartListUsers = (props) => {
                             </table>
                           </div>
                         </Accordion.Body>
-                      </Accordion.Item>
+                      </Accordion.Item>}
                     </Accordion>
                   </div>
                 </div>
