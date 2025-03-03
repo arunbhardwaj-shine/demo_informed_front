@@ -4257,11 +4257,11 @@ form#add_hcp_form .row:not(:first-child) {
   border: 0;
   padding: 12px 27px;
   width: 100%;
-  color: var(--light-gray);
+  color: var(--light-blue);
   font-weight: 300;
 }
 #add_hcp .form-group input:-webkit-autofill {
-  -webkit-text-fill-color: #4e718e !important;
+  -webkit-text-fill-color: var(--light-blue) !important;
 }
 .update_quest #add_hcp .modal-body .hcp-add-form form .form-group .form-control[type="color"] {
   padding: 12px 10px;
@@ -8020,7 +8020,9 @@ header.top-0~div .custom-change .invitee table#table-to-xls thead.sticky-header 
   color: var(--light-gray);
   font-size: 14px;
 }
-
+.modal #add_hcp_form .split-button-dropup.edit-country-dropdown>div:nth-child(3) div {
+  color: var(--light-blue);
+}
 .modal .form-search-hcp .form-inline .form-group label {
   padding-right: 12px;
 }
