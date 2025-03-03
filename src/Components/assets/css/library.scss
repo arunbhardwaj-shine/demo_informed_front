@@ -26201,11 +26201,9 @@ height: 100%;
           &:nth-child(2){
             width: 130px;
           }
-          // .event_sort_btn {
-          //   &.active{
-
-          //   }
-          // }
+          &.sort_option_blank{
+            width: 198px;
+          }
         }
       }
     }
@@ -26248,6 +26246,7 @@ height: 100%;
               border: 2px solid #c8d1d9;
               border-radius: 50%;
               margin-right: 8px;
+              flex: 0 0 32px;
               @include m.flex-middle;
               &.mail_send{
                 border-color: vars.$voilet;
@@ -26264,6 +26263,13 @@ height: 100%;
             text-align: right;
             padding-right: 12px;
             border-left: 1px dashed vars.$light-gray;
+            // width:198px;
+            padding-left: 13px;
+            .dlt_btn{
+              button{
+                padding: 7px 7px;
+              }
+            }
             button{
               padding: 7px 14px;
               &:last-child{
@@ -26274,6 +26280,42 @@ height: 100%;
         }
       }
     }
+  }
+  @media only screen and (max-width: 1750px) {
+    .table{
+      thead{
+        &.sticky-header{
+          th{
+            &:first-child{
+              width: 250px;
+            }
+            &:nth-child(3){
+              width: 120px;
+            }
+          }
+        }
+      }
+      tbody{
+        tr{
+          td{
+            &.divide-line{
+              button{
+                padding: 7px 9px;
+                font-size: 15px;
+                min-width: 75px;        
+              }
+              .dlt_btn{
+                button{
+                  min-width: 40px;
+                  margin:0;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
   }
   @media only screen and (max-width: 1650px) {
     .table{
@@ -26298,8 +26340,40 @@ height: 100%;
       }
     }
   }
+  @media only screen and (max-width: 1550px) {
+    .table{
+      
+      tbody{
+        tr{
+          td{
+            &.divide-line{
+              button{
+                padding: 7px 5px;
+                font-size: 14px;
+                min-width: 62px;      
+              }
+            }
+            
+          }
+        }
+      }
+    }
+  }
   @media only screen and (max-width: 1450px) {
     .table{
+      thead{
+        &.sticky-header{
+          th{
+            &:nth-child(3){
+              width: 100px;
+              word-break: break-word;
+            }
+            &.sort_option_blank {
+              width: 160px;
+          }
+          }
+        }
+      }
       tbody{
         tr{
           td{
@@ -26312,7 +26386,18 @@ height: 100%;
                   margin-left: 0px;
                 }
               }
+              .dlt_btn{
+                button{
+                  min-width: 32px;
+                  padding:5px;
+                }
+              }
             }
+            &:nth-child(3){
+              width: 100px;
+              word-break: break-word;
+            }
+
           }
         }
       }
@@ -26323,6 +26408,7 @@ height: 100%;
   .sunshine-table{
     overflow-x: auto;
   .table{
+    width: 1200px;
     tbody{
       tr{
         td{

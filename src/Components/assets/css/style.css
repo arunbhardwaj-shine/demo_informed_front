@@ -6090,6 +6090,7 @@ h2 {
 .smart_list_names .header-btn-right button:active {
   background-color: var(--skyblue);
   color: var(--white);
+  border-color: var(--skyblue);
 }
 
 #create_list_popup .create-smart-step .create-smart-step-box {
