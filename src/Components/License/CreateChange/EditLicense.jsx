@@ -1501,7 +1501,7 @@ const EditLicense = () => {
                                 <span>Change Your File</span>
                               </label>
                               {userInputs?.uploadFile?.[0]?.name ? (
-                                <p>{userInputs?.uploadFile?.[0].name}</p>
+                                <p className="uploaded-file">{userInputs?.uploadFile?.[0].name}</p>
                               ) : (
                                 <p>Change your PDF</p>
                               )}
@@ -1530,7 +1530,7 @@ const EditLicense = () => {
                                 <span>Change Your File</span>
                               </label>
                               {userInputs?.uploadFile?.[0]?.name ? (
-                                <p>{userInputs?.uploadFile?.[0]?.name}</p>
+                                <p className="uploaded-file">{userInputs?.uploadFile?.[0]?.name}</p>
                               ) : (
                                 <p>Upload your Video file</p>
                               )}
@@ -1577,12 +1577,16 @@ const EditLicense = () => {
                                       <label htmlFor={`file-${i}`}>
                                         <span>Change Your File</span>
                                       </label>
-
-                                      <p>
-                                        {val.uploadFile == ""
-                                          ? "Upload your PDF file"
-                                          : val.uploadFile}
-                                      </p>
+                                        {
+                                          val.uploadFile == ""
+                                          ?
+                                          <p>Upload your PDF file</p>
+                                          : 
+                                          <p className="uploaded-file">{val.uploadFile}</p>
+                                        }
+                                      
+                                      {/* <p>{val.uploadFile == "" ? "Upload your PDF file" : ""}</p>
+                                      <p>{val.uploadFile !== "" ? val.uploadFile : ""}</p> */}
                                     </div>
                                   </div>
                                 </div>
@@ -1646,7 +1650,7 @@ const EditLicense = () => {
                               <span>Choose Your File</span>
                             </label>
                             {userInputs?.coverPhoto?.[0]?.name ? (
-                              <p>{userInputs?.coverPhoto?.[0]?.name}</p>
+                              <p className="uploaded-file">{userInputs?.coverPhoto?.[0]?.name}</p>
                             ) : (
                               <p>
                                 Chnage your cover image <br />

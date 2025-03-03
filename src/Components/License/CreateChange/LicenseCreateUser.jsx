@@ -1405,7 +1405,7 @@ const LicenseCreateUser = () => {
                               <span>Choose Your File</span>
                             </label>
                             {userInputs?.uploadFile?.[0]?.name ? (
-                              <p>{userInputs?.uploadFile?.[0].name}</p>
+                              <p className="uploaded-file">{userInputs?.uploadFile?.[0].name}</p>
                             ) : (
                               <p>Upload your PDF</p>
                             )}
@@ -1434,7 +1434,7 @@ const LicenseCreateUser = () => {
                               <span>Choose Your File</span>
                             </label>
                             {userInputs?.uploadFile?.[0]?.name ? (
-                              <p>{userInputs?.uploadFile?.[0]?.name}</p>
+                              <p className="uploaded-file">{userInputs?.uploadFile?.[0]?.name}</p>
                             ) : (
                               <p>Upload your Video file</p>
                             )}
@@ -1481,12 +1481,18 @@ const LicenseCreateUser = () => {
                                     <label htmlFor={`file-${i}`}>
                                       <span>Choose Your File</span>
                                     </label>
-
-                                    <p>
+                                    {
+                                          val.uploadFile == ""
+                                          ?
+                                          <p>Upload your PDF file</p>
+                                          : 
+                                          <p className="uploaded-file">{val.uploadFile}</p>
+                                        }
+                                    {/* <p>
                                       {val.uploadFile == ""
                                         ? "Upload your PDF file"
                                         : val.uploadFile}
-                                    </p>
+                                    </p> */}
                                   </div>
                                 </div>
                               </div>
@@ -1540,7 +1546,7 @@ const LicenseCreateUser = () => {
                             <span>Choose Your File</span>
                           </label>
                           {userInputs?.coverPhoto?.[0]?.name ? (
-                            <p>{userInputs?.coverPhoto?.[0]?.name}</p>
+                            <p className="uploaded-file">{userInputs?.coverPhoto?.[0]?.name}</p>
                           ) : (
                             <p>
                               Upload your cover image <br />

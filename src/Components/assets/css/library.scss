@@ -3900,7 +3900,7 @@ form.product-unit button {
 }
 
 
-.create-change-content .upload-file-box .box p.uploaded-file {
+.create-change-content .upload-file-box .box p.uploaded-file, .create-change-content .upload-file-box .box p span.uploaded-file {
   color: vars.$primary-color;
 }
 
@@ -26406,6 +26406,7 @@ height: 100%;
           input[type="text"]{
             flex:1 1;
             max-width: 330px;
+            color:vars.$primary-color;
           }
           label{
             margin-right: 22px;
@@ -26431,6 +26432,9 @@ height: 100%;
           span{
             color: #C31162;
           }
+        }
+        input[type="text"]{
+          color:vars.$primary-color;
         }
       }
       span{
