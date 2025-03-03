@@ -495,7 +495,7 @@ const ClinetAccount = () => {
                       <div className="sunshine-form-inset register">
                         <h4>Sign up</h4>
                         <p>Your new inforMed.pro account is personal and can only be access by you. <br/>We will use the email for password recovery as well as alerts and relevant tips.</p>
-                        <Form onSubmit={handlePharmaSignUp}>
+                        <Form onSubmit={handlePharmaSignUp} novalidate>
                           <Row>
                             <FormGroup as={Col} md={6} className="mb-4">
                               <div className={`form-group ${pharmaErrors?.name ? 'error' : ''}`}>
@@ -515,7 +515,7 @@ const ClinetAccount = () => {
                             <FormGroup as={Col} md={6} className="mb-4">
                               <div className={`form-group ${pharmaErrors?.email ? 'error' : ''}`}>
                                 <input
-                                 type="email"
+                                 type="text"
                                   name="email"
                                   placeholder="Email"
                                   value={pharmaFormData.email}
