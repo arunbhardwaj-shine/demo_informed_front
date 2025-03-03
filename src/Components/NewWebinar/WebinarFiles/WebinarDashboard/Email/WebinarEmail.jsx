@@ -231,7 +231,7 @@ const WebinarEmail = (props) => {
       axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
       let response = [];
       await axios
-        .post(`/webinar/v1/get_webinar_campaign`, body)
+        .post(`/webinar/get_webinar_campaign`, body)
         .then((res) => {
           response = res?.data;
         })
@@ -305,7 +305,7 @@ const WebinarEmail = (props) => {
     axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
     loader("show");
     await axios
-      .post(`emailapi/v1/get_campaign_details`, body)
+      .post(`emailapi/get_campaign_details`, body)
       .then((res) => {
         if (res.data.status_code == 200) {
           let campaign_data = res.data.response.data;
@@ -594,7 +594,7 @@ const WebinarEmail = (props) => {
         axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
         loader("show");
         axios
-          .post(`emailapi/v1/delete_campaign`, body)
+          .post(`emailapi/delete_campaign`, body)
           .then((res) => {
             if (res.data.status_code == 200) {
             } else {
@@ -778,7 +778,7 @@ const WebinarEmail = (props) => {
     };
     loader("show");
     axios
-      .post(`webinar/v1/resend_webinar_email`, body)
+      .post(`webinar/resend_webinar_email`, body)
       .then((res) => {
         if (res.data.status_code == 200) {
           getWebinarCompaignList();
@@ -809,7 +809,7 @@ const WebinarEmail = (props) => {
     axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
     loader("show");
     await axios
-      .post(`emailapi/v1/get_campaign_details`, body)
+      .post(`emailapi/get_campaign_details`, body)
       .then((res) => {
         if (res.data.status_code == 200) {
           let draft_campaign = res.data.response.data;
@@ -851,7 +851,7 @@ const WebinarEmail = (props) => {
           };
           axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
           axios
-            .post(`webinar/v1/send_webinar_email_new`, body)
+            .post(`webinar/send_webinar_email_new`, body)
             .then((res) => {
               loader("hide");
               if (res.data.status_code === 200) {

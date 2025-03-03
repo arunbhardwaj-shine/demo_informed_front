@@ -155,7 +155,7 @@ export const ENDPOINT = {
   GET_REGISTRATION_FORM: "/auth/getRegistrationFormByEventId",
   UPDATELOGS: "/reader/update-logs",
   USER_TRACKING: "/auth/pharma-marketing-tracking",
-  GET_EMAIL_REMINDER: "http://192.168.0.162:8000/api/emailapi/v1/change-email-reminder",
+  GET_EMAIL_REMINDER: "http://192.168.0.162:8000/api/emailapi/change-email-reminder",
   WEBINAR_GET_EVENT_REGISTRATION: "/webinar/getEventRegistrations",
   WEBINAR_UPDATE_HCP_STATUS: "/webinar/update-hcp-status",
   WEBINAR_DELETE_USER: "/webinar/delete-user",

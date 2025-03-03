@@ -222,7 +222,7 @@ const SelectSmartList = (props) => {
     axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
     loader("show");
     await axios
-      .post(`emailapi/v1/save_draft`, body)
+      .post(`emailapi/save_draft`, body)
       .then((res) => {
         if (res.data.status_code === 200) {
           setCampaign_id(res.data.response.data.id);

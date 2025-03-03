@@ -671,7 +671,7 @@ const Analytics = (props) => {
       axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
       let response = [];
       await axios
-        .post(`/webinar/v1/get_webinar_campaign`, body)
+        .post(`/webinar/get_webinar_campaign`, body)
         .then((res) => {
           response = res?.data;
         })

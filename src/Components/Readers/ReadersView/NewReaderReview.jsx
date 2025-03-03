@@ -1664,7 +1664,7 @@ const NewReadersReview = (props) => {
   const axiosFun = async () => {
     try {
       axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
-      const result = await axios.get(`emailapi/v1/get_site?uid=${accountMapping[localStorage.getItem("user_id")] || 2147501188}`);
+      const result = await axios.get(`emailapi/get_site?uid=${accountMapping[localStorage.getItem("user_id")] || 2147501188}`);
       let country = result?.data?.response?.data?.site_country_data;
       let arr = [];
       Object.entries(country).map(([index, item]) => {
@@ -1789,7 +1789,7 @@ const NewReadersReview = (props) => {
       };
       loader("show");
       await axios
-      .post(`emailapi/v1/get_user_details`, body)
+      .post(`emailapi/get_user_details`, body)
       .then((res) => {
         userDetails = res.data.response.data;
       })
@@ -1807,7 +1807,7 @@ const NewReadersReview = (props) => {
         axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
         
         await axios
-          .post(`emailapi/v1/get_rd_campaign_data`, body)
+          .post(`emailapi/get_rd_campaign_data`, body)
           .then((res) => {
             if (res.data.status_code == 200) {
               let campaign_data = res?.data?.response?.data;

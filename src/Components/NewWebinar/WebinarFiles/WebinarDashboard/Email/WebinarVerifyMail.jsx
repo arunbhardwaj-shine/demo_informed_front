@@ -169,7 +169,7 @@ const WebinarVerifyMAIL = (props) => {
       };
       loader("show");
       await axios
-        .post(`emailapi/v1/get_pdf`, body)
+        .post(`emailapi/get_pdf`, body)
         .then((res) => {
           if (res?.data?.status_code == 200) {
             setPdfData(res?.data?.response?.data);
@@ -258,7 +258,7 @@ const WebinarVerifyMAIL = (props) => {
     axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
     loader("show");
     await axios
-      .post(`emailapi/v1/save_draft`, body)
+      .post(`emailapi/save_draft`, body)
       .then((res) => {
         if (res.data.status_code === 200) {
           setCampaign_id(res?.data?.response?.data?.id);
@@ -387,7 +387,7 @@ const WebinarVerifyMAIL = (props) => {
       setShowProgressBar(true);
       if (localStorageUserId == 'rjiGlqA9DXJVH7bDDTX0Lg==' || localStorageUserId == 'm5JI5zEDY3xHFTZBnSGQZg==') {
         await axios
-          .post(`webinar/v1/send_webinar_email_new`, body)
+          .post(`webinar/send_webinar_email_new`, body)
           .then((res) => {
             // loader("hide");
             if (res?.data?.status_code === 200) {
@@ -426,7 +426,7 @@ const WebinarVerifyMAIL = (props) => {
       } else {
 
         await axios
-          .post(`webinar/v1/send_webinar_email_new`, body)
+          .post(`webinar/send_webinar_email_new`, body)
           .then((res) => {
             // loader("hide");
             if (res?.data?.status_code === 200) {
@@ -607,7 +607,7 @@ const WebinarVerifyMAIL = (props) => {
     axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
     loader("show");
     await axios
-      .post(`emailapi/v1/save_draft`, body)
+      .post(`emailapi/save_draft`, body)
       .then((res) => {
         if (res?.data?.status_code === 200) {
           dispatch(getWebinarDraftData({ ...props.getWebinarDraftData, status: status }));

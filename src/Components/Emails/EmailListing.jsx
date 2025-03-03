@@ -291,7 +291,7 @@ const EmailList = (props) => {
         id: irtRoleObj?.pdfId,
       };
       await axios
-        .post(`emailapi/v1/get_campaign_list_filter`, body)
+        .post(`emailapi/get_campaign_list_filter`, body)
         .then((res) => {
           setFilterData(
             res?.data?.response?.filter ? res?.data?.response?.filter : {}
@@ -318,7 +318,7 @@ const EmailList = (props) => {
     };
     page = page == 3 ? 1 : page;
     axios
-      .post(`emailapi/v1/getlist?page=` + page, body)
+      .post(`emailapi/getlist?page=` + page, body)
       .then((res) => {
         if (res.data.status_code == 200) {
           setSendListData(res.data.response.data.emails);
@@ -346,7 +346,7 @@ const EmailList = (props) => {
     };
     loader("show");
     axios
-      .post(`emailapi/v1/resend_email`, body)
+      .post(`emailapi/resend_email`, body)
       .then((res) => {
         if (res.data.status_code == 200) {
           toast.success(res.data.message ?? "Email send successfully.");
@@ -397,7 +397,7 @@ const EmailList = (props) => {
     axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
     loader("show");
     await axios
-      .post(`emailapi/v1/get_campaign_details`, body)
+      .post(`emailapi/get_campaign_details`, body)
       .then((res) => {
         if (res.data.status_code == 200) {
           let campaign_data = res?.data?.response?.data;
@@ -482,7 +482,7 @@ const EmailList = (props) => {
     axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
     loader("show");
     axios
-      .post(`emailapi/v1/delete_campaign`, body)
+      .post(`emailapi/delete_campaign`, body)
       .then((res) => {
         if (res.data.status_code == 200) {
           hideConfirmationModal();
@@ -742,7 +742,7 @@ const EmailList = (props) => {
     axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
     loader("show");
     await axios
-      .post(`emailapi/v1/get_campaign_details`, body)
+      .post(`emailapi/get_campaign_details`, body)
       .then((res) => {
         if (res.data.status_code == 200) {
           let draft_campaign = res.data.response.data;
@@ -777,7 +777,7 @@ const EmailList = (props) => {
           };
           axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
           axios
-            .post(`emailapi/v1/send_email`, body)
+            .post(`emailapi/send_email`, body)
             .then((res) => {
               loader("hide");
               if (res.data.status_code === 200) {
@@ -846,7 +846,7 @@ const EmailList = (props) => {
     loader("show");
     axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
     await axios
-      .post(`emailapi/v1/get_article_readers`, body)
+      .post(`emailapi/get_article_readers`, body)
       .then((res) => {
         if (res.data.status_code == 200) {
           loader("hide");
@@ -914,7 +914,7 @@ const EmailList = (props) => {
       axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
       loader("show");
       await axios
-        .post(`emailapi/v1/get_rd_campaign_data`, body)
+        .post(`emailapi/get_rd_campaign_data`, body)
         .then((res) => {
           if (res.data.status_code == 200) {
             let campaign_data = res?.data?.response?.data;

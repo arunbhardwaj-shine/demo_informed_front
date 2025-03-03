@@ -266,7 +266,7 @@ const CreateEmail = (props) => {
   };
   const axiosFun = async () => {
     try {
-      const result = await axios.get(`emailapi/v1/get_site?uid=${accountMapping[localStorage.getItem("user_id")] || 2147501188}`);
+      const result = await axios.get(`emailapi/get_site?uid=${accountMapping[localStorage.getItem("user_id")] || 2147501188}`);
 
       let country = result?.data?.response?.data?.site_country_data;
       let arr = [];
@@ -406,7 +406,7 @@ const CreateEmail = (props) => {
 
     loader("show");
     await axios
-      .post(`emailapi/v1/get_template_list`, body)
+      .post(`emailapi/get_template_list`, body)
       .then((res) => {
         setTemplateList(res.data.response.data);
         getSelectedTemplateSource(res.data.response.data);
@@ -466,7 +466,7 @@ const CreateEmail = (props) => {
     axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
     const getAllTags = async () => {
       await axios
-        .post(`emailapi/v1/get_tags`, body)
+        .post(`emailapi/get_tags`, body)
         .then((res) => {
           setAllTags(res?.data?.response?.data);
            
@@ -723,7 +723,7 @@ const CreateEmail = (props) => {
       axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
 
       axios
-        .post(`emailapi/v1/send_sample_email`, body)
+        .post(`emailapi/send_sample_email`, body)
         .then((res) => {
           
           loader("hide");
@@ -808,7 +808,7 @@ const CreateEmail = (props) => {
       axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
       loader("show");
       await axios
-        .post(`emailapi/v1/add_update_template`, body)
+        .post(`emailapi/add_update_template`, body)
         .then((res) => {
           if (res.data.status_code === 200) {
             loader("hide");
@@ -906,7 +906,7 @@ const CreateEmail = (props) => {
       axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
       loader("show");
       await axios
-        .post(`emailapi/v1/save_draft`, body)
+        .post(`emailapi/save_draft`, body)
         .then((res) => {
           if (res.data.status_code === 200) {
             setCampaign_id(res.data.response.data.id);
@@ -1105,7 +1105,7 @@ const CreateEmail = (props) => {
     axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
     loader("show");
     await axios
-      .post(`emailapi/v1/save_draft`, body)
+      .post(`emailapi/save_draft`, body)
       .then((res) => {
         loader("hide");
 
@@ -1304,7 +1304,7 @@ const CreateEmail = (props) => {
         axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
         loader("show");
         await axios
-          .post(`emailapi/v1/save_tags`, body)
+          .post(`emailapi/save_tags`, body)
           .then((res) => {
             loader("hide");
           })
@@ -1419,7 +1419,7 @@ const CreateEmail = (props) => {
       axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
       loader("show");
       await axios
-        .post(`emailapi/v1/search_hcp`, body)
+        .post(`emailapi/search_hcp`, body)
         .then((res) => {
          
           if (res.data.response) {
@@ -1850,7 +1850,7 @@ const CreateEmail = (props) => {
         axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
         loader("show");
         await axios
-          .post(`emailapi/v1/add_update_template`, body)
+          .post(`emailapi/add_update_template`, body)
           .then((res) => {
             if (res.data.status_code === 200) {
               getTemplateListData(1);

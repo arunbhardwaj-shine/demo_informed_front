@@ -119,7 +119,7 @@ const VerifyHCP = (props) => {
 
   const axiosFun = async () => {
     try {
-      const result = await axios.get(`emailapi/v1/get_site?uid=${accountMapping[localStorage.getItem("user_id")] || 2147501188}`);
+      const result = await axios.get(`emailapi/get_site?uid=${accountMapping[localStorage.getItem("user_id")] || 2147501188}`);
 
       let country = result?.data?.response?.data?.site_country_data;
       let arr = [];
@@ -164,7 +164,7 @@ const VerifyHCP = (props) => {
     };
     loader("show");
     axios
-      .post(`emailapi/v1/get_user_details`, body)
+      .post(`emailapi/get_user_details`, body)
       .then((res) => {
         setSelectedHcp(res.data.response.data);
         loader("hide");
@@ -1116,7 +1116,7 @@ const VerifyHCP = (props) => {
       axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
       loader("show");
       await axios
-        .post(`emailapi/v1/search_hcp`, body)
+        .post(`emailapi/search_hcp`, body)
         .then((res) => {
           if (res.data.status_code === 200) {
             setSearchedUsers(res.data.response.data);
@@ -1261,7 +1261,7 @@ const VerifyHCP = (props) => {
     axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
     loader("show");
     await axios
-      .post(`emailapi/v1/save_draft`, body)
+      .post(`emailapi/save_draft`, body)
       .then((res) => {
         if (res.data.status_code === 200) {
           setCampaign_id(res.data.response.data.id);

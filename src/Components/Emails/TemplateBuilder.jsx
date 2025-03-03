@@ -275,7 +275,7 @@ const TemplateBuilder = (props) => {
   }, []);
   const axiosFun = async () => {
     try {
-      const result = await axios.get(`emailapi/v1/get_site?uid=${accountMapping[localStorage.getItem("user_id")] || 2147501188}`);
+      const result = await axios.get(`emailapi/get_site?uid=${accountMapping[localStorage.getItem("user_id")] || 2147501188}`);
 
       let country = result?.data?.response?.data?.site_country_data;
       let arr = [];
@@ -321,7 +321,7 @@ const TemplateBuilder = (props) => {
 
     loader("show");
     await axios
-      .post(`emailapi/v1/get_template_list`, body)
+      .post(`emailapi/get_template_list`, body)
       .then((res) => {
         let lang = res.data.response.language;
 
@@ -697,7 +697,7 @@ const TemplateBuilder = (props) => {
       axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
 
       axios
-        .post(`emailapi/v1/send_sample_email`, body)
+        .post(`emailapi/send_sample_email`, body)
         .then((res) => {
           loader("hide");
           if (res.data.status_code === 200) {
@@ -810,7 +810,7 @@ const TemplateBuilder = (props) => {
         template_name: newTemplateName,
       };
       axios
-        .post(`emailapi/v1/update_template`, body)
+        .post(`emailapi/update_template`, body)
         .then((res) => {
           if (res.data.status_code == 200) {
             toast.success(res.data.message);
@@ -909,7 +909,7 @@ const TemplateBuilder = (props) => {
       axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
       loader("show");
       await axios
-        .post(`emailapi/v1/search_hcp`, body)
+        .post(`emailapi/search_hcp`, body)
         .then((res) => {
           if (res.data.response) {
             setSearchedUsers(res.data.response.data);
@@ -1355,7 +1355,7 @@ const TemplateBuilder = (props) => {
       axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
       loader("show");
       await axios
-        .post(`emailapi/v1/add_update_template`, body)
+        .post(`emailapi/add_update_template`, body)
         .then((res) => {
           if (res.data.status_code === 200) {
             getTemplateListData(
@@ -1412,7 +1412,7 @@ const TemplateBuilder = (props) => {
       axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
       loader("show");
       await axios
-        .post(`emailapi/v1/add_update_template`, body)
+        .post(`emailapi/add_update_template`, body)
         .then((res) => {
           if (res.data.status_code === 200) {
             loader("hide");
@@ -1493,7 +1493,7 @@ const TemplateBuilder = (props) => {
             template_name: "",
           };
           axios
-            .post(`emailapi/v1/update_template`, body)
+            .post(`emailapi/update_template`, body)
             .then((res) => {
               if (res.data.status_code == 200) {
                 toast.success(res.data.message);
@@ -1545,7 +1545,7 @@ const TemplateBuilder = (props) => {
         axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
         loader("show");
         await axios
-          .post(`emailapi/v1/add_update_template`, body)
+          .post(`emailapi/add_update_template`, body)
           .then((res) => {
             if (res.data.status_code === 200) {
               getTemplateListData(
@@ -1586,7 +1586,7 @@ const TemplateBuilder = (props) => {
       axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
       loader("show");
       await axios
-        .post(`emailapi/v1/delete_template`, body)
+        .post(`emailapi/delete_template`, body)
         .then((res) => {
           if (res.data.status_code === 200) {
             setshowConfirmation(false);

@@ -216,7 +216,7 @@ const WebinarAutoEmail = () => {
   }, []);
   const axiosFun = async () => {
     try {
-      const result = await axios.get(`emailapi/v1/get_site?uid=${accountMapping[localStorage.getItem("user_id")] ||  2147501188}`);
+      const result = await axios.get(`emailapi/get_site?uid=${accountMapping[localStorage.getItem("user_id")] ||  2147501188}`);
 
       let country = result?.data?.response?.data?.site_country_data;
       let arr = [];
@@ -334,7 +334,7 @@ const WebinarAutoEmail = () => {
       axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
       loader("show");
       await axios
-        .post(`emailapi/v1/search_hcp`, body)
+        .post(`emailapi/search_hcp`, body)
         .then((res) => {
           if (res.data.response) {
             setSearchedUsers(res?.data?.response?.data);
@@ -445,7 +445,7 @@ const WebinarAutoEmail = () => {
 
       axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
       axios
-        .post(`webinar/v1/send_sample_email`, body)
+        .post(`webinar/send_sample_email`, body)
         .then((res) => {
           loader("hide");
           if (res?.data?.status_code === 200) {
@@ -816,7 +816,7 @@ const WebinarAutoEmail = () => {
         axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
         loader("show");
         await axios
-          .post(`webinar/v1/add_update_template`, body)
+          .post(`webinar/add_update_template`, body)
           .then((res) => {
             if (res?.data?.status_code == 200) {
               getTemplateListData();
@@ -1017,7 +1017,7 @@ const WebinarAutoEmail = () => {
         axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
         loader("show");
         await axios
-          .post(`webinar/v1/add_update_template`, body)
+          .post(`webinar/add_update_template`, body)
           .then((res) => {
             if (res?.data?.status_code == 200) {
               getTemplateListData();

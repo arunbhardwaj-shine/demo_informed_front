@@ -82,7 +82,7 @@ const EmailArticleSelect = (props) => {
     };
     loader("show");
     axios
-      .post(`emailapi/v1/get_content_list?page=` + page, body)
+      .post(`emailapi/get_content_list?page=` + page, body)
       .then((res) => {
         if (res.data.status_code == 200) {
           setSendListData(res.data.response.data);

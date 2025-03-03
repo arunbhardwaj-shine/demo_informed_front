@@ -134,7 +134,7 @@ const EmailStats = (props) => {
     axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
     loader("show");
     await axios
-      .post(`emailapi/v1/get_campaign_details`, body)
+      .post(`emailapi/get_campaign_details`, body)
       .then((res) => {
         if (res.data.status_code == 200) {
           let campaign_data = res.data.response.data;
@@ -264,7 +264,7 @@ const EmailStats = (props) => {
         user_id: localStorage.getItem("user_id"),
       };
       await axios
-        .post(`emailapi/v1/get_campaign_list_filter`, body)
+        .post(`emailapi/get_campaign_list_filter`, body)
         .then((res) => {
           setFilterData(res?.data?.response?.filter ? res?.data?.response?.filter : {});
 
