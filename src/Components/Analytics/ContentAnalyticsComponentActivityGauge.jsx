@@ -6,9 +6,11 @@ import { Col } from "react-bootstrap";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 import { loader } from "../../loader";
+import { postFormData } from "../../axios/apiHelper";
 import highchartsMore from "highcharts/highcharts-more";
 
 import solidGauge from "highcharts/modules/solid-gauge";
+import { ENDPOINT } from "../../axios/apiConfig";
 
 
 
@@ -95,24 +97,20 @@ export default function ContentAnalyticsComponentActivityGauge({
   const downloadUniqueStats = async() => {
     try {
       loader("show");
-      let durl = "https://webinar.informed.pro/Analytics/country_downloads_new/"+pdf_id;
-
-      const response = await axios.get(durl, { responseType: 'blob' })
-      // .then((response) => {
-        // Create a Blob from the response data
-        const blob = new Blob([response.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-
-        // Create a temporary URL for the Blob
-        const url = window.URL.createObjectURL(blob);
-
-        // Create a link and click it to trigger the download
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = 'Articledownloads.xlsx';
-        link.click();
-
-        // Clean up the temporary URL
-        window.URL.revokeObjectURL(url);
+      let payload = {
+        'id' : pdf_id
+      };
+      const res = await postFormData(ENDPOINT.DOWNLOADARTICLESTATS, payload, {
+        responseType: "blob",
+      });
+      console.log(res?.data)
+      const link = document.createElement("a");
+      const url = URL.createObjectURL(res?.data);
+      link.href = url;
+      link.download = `Articledownloads.xlsx`;
+      link.click();
+      window.URL.revokeObjectURL(url);
+      loader("hide");
       
       loader("hide");
     } catch (err) {

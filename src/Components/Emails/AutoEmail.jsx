@@ -1107,7 +1107,7 @@ const AutoEmail = () => {
         let newLink = url?.querySelector(".tox-textfield")
         let newButton = document.createElement("button");
         const baseLink =
-          "https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_";
+          "https://webinar.docintel.app/lmn/api/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_";
         let payload = {}
         let apiLink = ""
 
@@ -1174,7 +1174,7 @@ const AutoEmail = () => {
                 url_code: `clicked_track_doc_${currentTimestamp}`,
               };
               linkingPayload.current = payload;
-              let link = `https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_${currentTimestamp}&redirect_url=${firstToxControlWrap.value}`;
+              let link = `https://webinar.docintel.app/lmn/api/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_${currentTimestamp}&redirect_url=${firstToxControlWrap.value}`;
               firstToxControlWrap.value = link;
 
             }

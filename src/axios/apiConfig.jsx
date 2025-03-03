@@ -88,7 +88,7 @@ export const ENDPOINT = {
   LOGIN: `auth/login`,
   FILTERLIST: `https://webinar.docintel.app/lmn/api/distributes/filters_list`,
   READERLISTING: "reader/get-trail",
-  REGISTERRD: `https://medarkive.com/Pages/RegisterRd`,
+  REGISTERRD: `https://webinar.docintel.app/lmn/api/emailapi/RegisterRd`,
   EDITSITE: "reader/trailId",
   ADDSITE: "reader/add-trail",
   UPDATESITE: "reader/edit-trail",
@@ -249,6 +249,8 @@ export const ENDPOINT = {
   UPDATE_PASSWORD:`/auth/update-password`,
   UPDATE_DEFAULT_PDF_DRAFT: `/library/update_default_pdf_draft`,
   ONE_CLICK_LOGIN:`/auth/one-click-login`,
+  DOWNLOADARTICLESTATS:`analytics/country_downloads_new`,
+  DOWNLOADRENEWARTICLESTATS:`analytics/download_excel_new`,
   REMOVE_SCHEDULE_EMAIL:'email/remove-scheduled-email',
   MEETING_CREDENTIAL:'create-meeting',
   MEETING_ID_DELETE:'delete-meeting'

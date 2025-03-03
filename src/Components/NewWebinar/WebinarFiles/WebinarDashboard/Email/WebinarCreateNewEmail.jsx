@@ -811,7 +811,7 @@ const WebinarCreateNewEmail = (props) => {
                 let newLink = url?.querySelector(".tox-textfield")
                 let newButton = document.createElement("button");
                 const baseLink =
-                    "https://webinar.docintel.app/flow/webinar/track_mail/##TOKEN##?is_ics=0&tracking_code=clicked_track_doc_";
+                    "https://webinar.docintel.app/lmn/api/track_mail/##TOKEN##?is_ics=0&tracking_code=clicked_track_doc_";
                 let payload = {}
                 let apiLink = ""
 
@@ -878,7 +878,7 @@ const WebinarCreateNewEmail = (props) => {
                                 url_code: `clicked_track_doc_${currentTimestamp}`,
                             };
                             linkingPayload.current = payload;
-                            let link = `https://webinar.docintel.app/flow/webinar/track_mail/##TOKEN##?is_ics=0&tracking_code=clicked_track_doc_${currentTimestamp}&redirect_url=${firstToxControlWrap.value}&url_type=new_webinar`; firstToxControlWrap.value = link;
+                            let link = `https://webinar.docintel.app/lmn/api/track_mail/##TOKEN##?is_ics=0&tracking_code=clicked_track_doc_${currentTimestamp}&redirect_url=${firstToxControlWrap.value}&url_type=new_webinar`; firstToxControlWrap.value = link;
 
                         }
 
@@ -1787,7 +1787,6 @@ const WebinarCreateNewEmail = (props) => {
                                                         <img
                                                             id={"template_dyn" + index}
                                                             src={template?.template_img}
-                                                            // src="https://webinar.informed.pro/template_images/default.png"
                                                             alt=""
                                                             className={
                                                                 typeof templateId !== "undefined" &&

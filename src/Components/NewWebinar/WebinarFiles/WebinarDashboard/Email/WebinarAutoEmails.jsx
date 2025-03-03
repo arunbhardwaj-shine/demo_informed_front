@@ -847,7 +847,7 @@ const WebinarAutoEmail = () => {
         let newLink = url?.querySelector(".tox-textfield");
         let newButton = document.createElement("button");
         const baseLink =
-          "https://webinar.docintel.app/flow/webinar/track_mail/##TOKEN##?is_ics=0&tracking_code=clicked_track_doc_";
+          "https://webinar.docintel.app/lmn/api/track_mail/##TOKEN##?is_ics=0&tracking_code=clicked_track_doc_";
         let payload = {};
         let apiLink = "";
 
@@ -924,7 +924,7 @@ const WebinarAutoEmail = () => {
                 url_code: `clicked_track_doc_${currentTimestamp}`,
               };
               linkingPayload.current = payload;
-              let link = `https://webinar.docintel.app/flow/webinar/track_mail/##TOKEN##?is_ics=0&tracking_code=clicked_track_doc_${currentTimestamp}&redirect_url=${firstToxControlWrap.value}&url_type=new_webinar`;
+              let link = `https://webinar.docintel.app/lmn/api/track_mail/##TOKEN##?is_ics=0&tracking_code=clicked_track_doc_${currentTimestamp}&redirect_url=${firstToxControlWrap.value}&url_type=new_webinar`;
               firstToxControlWrap.value = link;
             }
 
@@ -1152,6 +1152,11 @@ const WebinarAutoEmail = () => {
 
     var modifiedStringagain = modifiedContent?.replace(
       '<p><img style="display: none;" src="https://webinar.informed.pro/Distributes/updatemailread/###updateid###/pdf_mail" alt="" width="1" height="1" border="0"></p>',
+      ""
+    );
+
+    var modifiedStringagain = modifiedContent?.replace(
+      '<p><img style="display: none;" src="https://webinar.docintel.app/lmn/api/updatemailread/###updateid###/pdf_mail" alt="" width="1" height="1" border="0"></p>',
       ""
     );
 

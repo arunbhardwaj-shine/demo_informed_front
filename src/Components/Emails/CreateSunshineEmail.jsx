@@ -712,8 +712,6 @@ const CreateSunshineEmail = (props) => {
         let newLink = url?.querySelector(".tox-textfield")
         let newButton = document.createElement("button");
         const baseLink ="https://webinar.docintel.app/lmn/api/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_";
-
-          // "https://webinar.docintel.app/flow/webinar/track_multilinks?token=###updateid###&tracking_code=clicked_track_doc_";
         let payload = {}
         let apiLink = ""
 

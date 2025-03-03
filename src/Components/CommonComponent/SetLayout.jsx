@@ -117,11 +117,7 @@ const SetLayout = () => {
       navigate("/survey/survey-list");
     } else if (title == "Q&A/SURVEY") {
       if (isLikeRdAccount) {
-        window.open(
-          "https://webinar.informed.pro/webinar/qa_survey?rdylr=" +
-          localStorage.getItem("user_id"),
-          "_blank"
-        );
+        //Nothing
       }
     }
   };
