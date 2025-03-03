@@ -18,6 +18,7 @@ const GetDetails = () => {
   const [sortingEmail, setSortingEmail] = useState(0);
 
   const [distributeData, setDistributeData] = useState({});
+  const[lastSync,setLastSync]= useState("");
   const [search, setSearch] = useState("");
   const [updatedData, setUpdatedData] = useState([]);
   const location = useLocation();
@@ -167,6 +168,11 @@ const GetDetails = () => {
           // });
 
           setDistributeData(res.data.response.data.distribute_data);
+          setLastSync(res.data.response.data.last_sync);
+          if (readers.length === 0 ) {
+            // setTimeout(() => getCampaignReaderDetails(1), 1000); 
+            getCampaignReaderDetails(1);
+        }
         } else {
           toast.warning(res.data.message);
         }
@@ -410,7 +416,7 @@ const GetDetails = () => {
                   </div>
                   <div className="table_xls search_view sync">
                     <div className="smart-list-btns">
-                      <div className="top-left-action">
+                      <div className="top-left-action d-flex align-items-center" style={{gap:"0 10px"}}>
                         <button
                           className="btn btn-primary btn-bordered back"
                           onClick={(e) => syncData(e)}
@@ -428,6 +434,13 @@ const GetDetails = () => {
                             />
                           </svg>
                         </button>
+                        {lastSync != null && (
+                                                    <div className="sync-time"><p>Last Sync<br/>
+                                                    <span>{lastSync}</span></p>
+                                                   
+                                                    </div>
+                                                )}
+
                       </div>
                       <div className="top-right-action">
                         <div className="search-bar">

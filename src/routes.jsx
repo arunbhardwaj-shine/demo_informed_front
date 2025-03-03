@@ -106,6 +106,7 @@ import FilterSegment from "./Components/Distributes/SmartListComponent/FilterSeg
 import VerifySmartList from "./Components/Distributes/SmartListComponent/VerifySmartList";
 import ViewList from "./Components/Distributes/SmartListComponent/ViewList";
 import EmailList from "./Components/Emails/EmailListing";
+import EmailListingPublisher from "./Components/Emails/EmailListingPublisher";
 import TemplateBuilder from "./Components/Emails/TemplateBuilder";
 import AutoEmail from "./Components/Emails/AutoEmail";
 import EmailArticleSelect from "./Components/Emails/EmailArticleSelect";
@@ -250,6 +251,8 @@ import Redirect from "./Auth/Redirect";
 //Aland activity route
 
 import AlandActivity from "./Components/AlandActivity/AlandActivity";
+import CreateSunshineEmail from "./Components/Emails/CreateSunshineEmail";
+import VerifySunshineMAIL from "./Components/Emails/VerifySunshineMAIL";
 
 let platform = 0;
 let show = 0;
@@ -807,6 +810,17 @@ const Routing = () => {
           element={<LoginLayout component={EmailList} />}
         />
         <Route
+          path="/Emaillist-publisher"
+          element={<LoginLayout component={EmailListingPublisher} />}
+        />
+        <Route
+          path="/create-sunshine-email"
+          element={<LoginLayout component={CreateSunshineEmail} />}
+        />
+        <Route
+          path="/Verify-sunshine-mail" element={<LoginLayout component={VerifySunshineMAIL} />}
+          />
+        <Route
           path="/RD-EmailList"
           element={<LoginLayout component={EmailList} />}
         />
@@ -845,6 +859,10 @@ const Routing = () => {
         <Route
           path="/VerifyHcpMAIL"
           element={<LoginLayout component={VerifyHcpMAIL} />}
+        />
+        <Route
+          path="/Verify-sunshine-mail"
+          element={<LoginLayout component={VerifySunshineMAIL} />}
         />
         {/* <Route
           path="/SelectSmartListUsers"

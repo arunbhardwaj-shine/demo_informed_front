@@ -2570,12 +2570,7 @@ const CreateEmail = (props) => {
                          
                         </div>
                         <div className="form-buttons right-side col-12 col-md-7">
-                          <button
-                            className="btn btn-primary btn-filled"
-                            onClick={(e) => updateTemplate(e)}
-                          >
-                            Save
-                          </button>
+                          
                           <button
                             className={
                               typeof getIsApprovedStatus !== "undefined" &&
@@ -2601,13 +2596,13 @@ const CreateEmail = (props) => {
                             />
                           </button>
                           <button
-                            className="btn btn-primary btn-filled btn-large"
+                            className="btn btn-primary btn-bordered btn-large"
                             onClick={sendSample}
                           >
                             Send A Sample
                           </button>
                           <button
-                            className="btn btn-primary btn-filled"
+                            className="btn btn-primary btn-bordered"
                             onClick={(e) => {
                               setTemplatePopup(
                                 (getTemplatePopup) => !getTemplatePopup
@@ -2616,6 +2611,12 @@ const CreateEmail = (props) => {
                             }}
                           >
                             Save As template
+                          </button>
+                          <button
+                            className="btn btn-primary btn-filled"
+                            onClick={(e) => updateTemplate(e)}
+                          >
+                            Save
                           </button>
                         </div>
                       </div>

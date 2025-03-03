@@ -15,7 +15,8 @@ import CommonConfirmModel from "../../../Model/CommonConfirmModel";
 import {
   getEmailData,
   getDraftData,
-  getSelectedSmartListData,
+  getSelected,
+  getSearched
 } from "../../../actions";
 import { connect } from "react-redux";
 
@@ -64,6 +65,11 @@ const LicenseContentDetail = (props) => {
       updateArticleState()
     }
     getLibraryData();
+
+    props.getDraftData(null);
+    props.getEmailData(null);
+    props.getSelected(null);
+    props.getSearched(null);
   }, []);
 
   const updateArticleState=async()=>{
@@ -436,16 +442,20 @@ Let me know if you’d like any further adjustments!`;
                                         >
                                           Download QR
                                         </Button>
-                                        <Link
-                                          className="btn btn-primary btn-bordered"
-                                          to="/CreateEmail"
-                                          state={{ PdfSelected: data.id }}
-                                          onClick={() => {
-                                            nextClicked(data.id);
-                                          }}
-                                        >
-                                          Send in email
-                                        </Link>
+                                        {
+                                          localStorage.getItem('user_id') == 'rjiGlqA9DXJVH7bDDTX0Lg==' && data?.linkType == 'Sunshine USA' ?
+                                          <Link
+                                            className={JSON.parse(data?.pharma_id)?.length >= 2 ? "btn btn-primary btn-bordered disabled" : "btn btn-primary btn-bordered"}
+                                            to={JSON.parse(data?.pharma_id)?.length >= 2 ? '' : "/create-sunshine-email"}
+                                            state={{ PdfSelected: data.id }}
+                                            onClick={() => {
+                                              nextClicked(data.id);
+                                            }}
+                                          >
+                                            Send in email
+                                          </Link>
+                                          : null
+                                        }
                                         {/* <Link
                                           to="/license-sublink"
                                           state={{ pdfid: data.id }}
@@ -788,6 +798,8 @@ const mapStateToProps = (state) => {
 export default connect(mapStateToProps, {
   getEmailData: getEmailData,
   getDraftData: getDraftData,
+  getSelected,
+  getSearched
 })(LicenseContentDetail)
 
 // export default LicenseContentDetail;

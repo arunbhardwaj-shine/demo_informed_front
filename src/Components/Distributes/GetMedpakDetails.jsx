@@ -26,11 +26,11 @@ const GetMedpakDetails = () => {
     const { distribute_id } = location.state;
     const [reminderChecked, setReminderChecked] = useState({})
     const [allChecked, setAllChecked] = useState(false);
+    const[lastSync,setLastSync]= useState("");
 
     const [isStopped, setStopped] = useState(0); 
 
     useEffect(() => {
-        // console.log("reminder state-->", reminderChecked)
         setData([]);
         getCampaignReaderDetails(0);
     }, []);
@@ -83,6 +83,7 @@ const GetMedpakDetails = () => {
                     setHeading(heading);
                     setUpdatedData(readers);
                     setDistributeData(res.data.response.data.distribute_data);
+                    setLastSync(res.data.response.data.last_sync);
                     const status =res.data.response.data.distribute_data?.campaign_status;
                     setStopped(status === 6 ? 1 : 0);
 
@@ -93,6 +94,11 @@ const GetMedpakDetails = () => {
                        }
                     });
                     setReminderChecked((prevData) => ({ ...prevData, ...updatedReminderChecked }));
+
+                    if (readers.length === 0 ) {
+                        // setTimeout(() => getCampaignReaderDetails(1), 1000); 
+                        getCampaignReaderDetails(1);
+                    }
 
                 } else {
                     toast.warning(res.data.message);
@@ -454,8 +460,8 @@ const GetMedpakDetails = () => {
                                         </div>
                                     </div>
                                     <div className="table_xls search_view sync">
-                                        <div className="smart-list-btns">
-                                            <div className="top-left-action d-flex align-items-center w-100" style={{ gap: "0 10px" }}>
+                                        <div className="smart-list-btns d-flex align-items-center justify-content-between">
+                                            <div className="top-left-action d-flex align-items-center" style={{ gap: "0 10px" }}>
 
                                                 <div className="search-bar">
                                                     <form
@@ -508,6 +514,12 @@ const GetMedpakDetails = () => {
                                                         />
                                                     </svg>
                                                 </button>
+                                                {lastSync != null && (
+                                                    <div className="sync-time"><p>Last Sync<br/>
+                                                    <span>{lastSync}</span></p>
+                                                   
+                                                    </div>
+                                                )}
 
                                                 {/* <div className="campaign_stopped">
                                                  <p>Campaign Stopped</p>
@@ -537,7 +549,7 @@ const GetMedpakDetails = () => {
                                                     />
                                                     <label for="checked_all">Reminder</label>
                                                 </div> */}
-                                            {/* <div className="top-right-action">
+                                            <div className="top-right-action">
 
                                                <div className="all-checked-reminder">
                                                   <p for="checked_all">Selected Readers : {checkedCount}</p>
@@ -552,11 +564,11 @@ const GetMedpakDetails = () => {
                                                         Save
                                                     </button>
                                                 </div>
-                                            </div> */}
+                                            </div>
                                         </div>
                                     </div>
                                     <div className="d-flex justify-content-end">
-                                    {/* <div className="all-checked-reminder">
+                                    <div className="all-checked-reminder">
                                         <input
                                         type="checkbox"
                                         id="checked_all"
@@ -564,7 +576,7 @@ const GetMedpakDetails = () => {
                                         onChange={(e) => handleOnCheckedAll(e)}
                                         />
                                         <label htmlFor="checked_all">Select All</label>
-                                    </div> */}
+                                    </div>
                                     </div>
                                     <div className="table_xls">
                                         <table className="table get-details" id="table-to-xls">
@@ -679,7 +691,7 @@ const GetMedpakDetails = () => {
                                                         ) : (
                                                             ""
                                                         )}
-                                                        {/* <th scope="col">Block Reminder</th> */}
+                                                        <th scope="col">Block Reminder</th>
                                                     </>
                                                 </tr>
                                             </thead>
@@ -737,7 +749,7 @@ const GetMedpakDetails = () => {
                                                                             : "N/A"}
                                                                     </td> */}
 
-                                                                    {/* <td key={item.user_id}>
+                                                                    <td key={item.user_id}>
                                                                         {item.article_already_register !== 1 ? (
                                                                             <input
                                                                                 type="checkbox"
@@ -747,7 +759,7 @@ const GetMedpakDetails = () => {
                                                                         ) : (
                                                                             'N/A'
                                                                         )}
-                                                                        </td> */}
+                                                                        </td>
                                                                 </tr>
                                                             ) : (
                                                                 <tr>

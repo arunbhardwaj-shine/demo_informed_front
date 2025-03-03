@@ -1036,10 +1036,7 @@ background-size: 288px;
   margin: 0 0 20px;
 }
 .isth-single .mid-left-bottom ul li span {
-  background: linear-gradient(109deg, #F3942D 12.71%, #E94362 50%);
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: #F3942D;
 }
 
 .isth-single .mid-left-bottom ul li span.divide {

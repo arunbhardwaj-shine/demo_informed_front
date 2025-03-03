@@ -16,6 +16,7 @@ const ClinetAccount = () => {
   const { token } = useParams();
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
+  const [accountId, setAccountId] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
@@ -47,6 +48,9 @@ const ClinetAccount = () => {
     cpassword: '',
   });
 
+  const queryString = window.location.search;
+  const queryParams = new URLSearchParams(queryString);
+
   useEffect(() => {
     if (localStorage.getItem("uname") && localStorage.getItem("pass")) {
       setRememberMe(true);
@@ -77,12 +81,36 @@ const ClinetAccount = () => {
   // for get user information
   const getUserInfo = async (token) => {
     try {
+      let getUserAccount = queryParams?.get('hhhrf');
       loader("show");
       const result = await getData(ENDPOINT.PHARMA_INFO + "/" + token);
       setPharmaLoginSingup(result?.data?.data)
       setUsername(token);
-      loader("hide");
+      if(!getUserAccount){
+        loader("hide");
+      }else{
+        getUserDetails(getUserAccount);
+      }
     } catch (err) {
+      console.log(err);
+    }
+  }
+
+  const getUserDetails = async(getUserAccount) => {
+    try{
+      setAccountId(getUserAccount);
+      const baseUrl = import.meta.env.VITE_APP_API_KEY;
+      const result = await getData(baseUrl + 'get-user-details/'+getUserAccount);
+      setPharmaFormData(prevState => ({
+        ...prevState,
+        name: result?.data?.data?.name,
+        email: result?.data?.data?.email,
+        country: result?.data?.data?.country,
+        company: result?.data?.data?.company
+      }));
+      loader("hide");
+    }catch(err){
+      loader("hide");
       console.log(err);
     }
   }
@@ -119,7 +147,8 @@ const ClinetAccount = () => {
           "email": pharmaFormData?.email,
           "country": pharmaFormData?.country,
           "company": pharmaFormData?.company,
-          "password": pharmaFormData?.password
+          "password": pharmaFormData?.password,
+          "accountId" : accountId
         };
         const res = await postData(ENDPOINT.ACCOUNT_SETUP, payload);
         clearLocalStorageExcept();
@@ -129,6 +158,7 @@ const ClinetAccount = () => {
         localStorage.setItem("name", res?.data?.data?.name);
         localStorage.setItem("decrypted_token", res?.data?.data?.jwtToken);
         localStorage.setItem("account_type", 'USA_PHARMA');
+        localStorage.setItem('logs_token', token);
         loader("hide");
         navigate("/home");
       }
@@ -205,6 +235,7 @@ const ClinetAccount = () => {
         localStorage.setItem("name", res?.data?.data?.name);
         localStorage.setItem("decrypted_token", res?.data?.data?.jwtToken);
         localStorage.setItem("account_type", 'USA_PHARMA');
+        localStorage.setItem('logs_token', token);
         loader("hide");
         navigate("/home");
       } catch (err) {
@@ -269,6 +300,7 @@ const ClinetAccount = () => {
         localStorage.setItem("name", res?.data?.data?.name);
         localStorage.setItem("decrypted_token", res?.data?.data?.jwtToken);
         localStorage.setItem("account_type", 'USA_PHARMA');
+        localStorage.setItem('logs_token', token);
         loader("hide");
         navigate("/home");
       }
@@ -487,6 +519,7 @@ const ClinetAccount = () => {
                                   name="email"
                                   placeholder="Email"
                                   value={pharmaFormData.email}
+                                  disabled = {accountId ? true : false}
                                   className="form-control"
                                   onChange={handlePharmaChange}
                                 />
@@ -502,6 +535,7 @@ const ClinetAccount = () => {
                                       name="country"
                                       options={countryList}
                                       placeholder="Select country"
+                                      value={countryList.find(option => option.value === pharmaFormData.country) || null}
                                       components={customComponents}
                                       onChange={handlePharmaChange}
                                       isClearable

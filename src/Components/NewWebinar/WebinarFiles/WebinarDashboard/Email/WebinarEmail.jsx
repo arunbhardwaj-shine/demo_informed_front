@@ -10,7 +10,11 @@ import HighchartsReact from "highcharts-react-official";
 import CommonConfirmModel from "../../../../../Model/CommonConfirmModel";
 import { popup_alert } from "../../../../../popup_alert";
 import { connect } from "react-redux";
-import { getWebinarEmailData, getWebinarSelectedSmartListData, getWebinarDraftData } from '../../../../../actions'
+import {
+  getWebinarEmailData,
+  getWebinarSelectedSmartListData,
+  getWebinarDraftData,
+} from "../../../../../actions";
 import axios from "axios";
 import { toast } from "react-toastify";
 import domtoimage from "dom-to-image";
@@ -19,10 +23,16 @@ import { saveAs } from "file-saver";
 
 const WebinarEmail = (props) => {
   const navigate = useNavigate();
-  const switch_account_detail = JSON.parse(localStorage.getItem("switch_account_detail"))
-  const [localStorageUserId,setLocalStorageUserId]=useState(switch_account_detail != null && switch_account_detail != "undefined" && switch_account_detail
-  ? switch_account_detail?.user_id
-  : localStorage.getItem("user_id"))
+  const switch_account_detail = JSON.parse(
+    localStorage.getItem("switch_account_detail")
+  );
+  const [localStorageUserId, setLocalStorageUserId] = useState(
+    switch_account_detail != null &&
+      switch_account_detail != "undefined" &&
+      switch_account_detail
+      ? switch_account_detail?.user_id
+      : localStorage.getItem("user_id")
+  );
   let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
   let path = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
   // const colorArray = ['#0E9B8E', '#00003C', '#FFBE2C', '#FFBE2C', '#F58289', '#D61975', '#0066BE'];
@@ -40,15 +50,16 @@ const WebinarEmail = (props) => {
   ];
   const buttonRef = useRef(null);
   const filterRef = useRef(null);
-  const { eventIdContext, handleEventId } = useSidebar()
-  const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"))
-  const [search, setSearch] = useState("")
-  const [emailListData, setEmailListData] = useState([])
-  const [totalEmailListData, setTotalEmailListData] = useState([])
-  const [appliedFilter, setAppliedFilter] = useState({})
-  const [filterObject, setFilterObject] = useState({})
+  const { eventIdContext, handleEventId } = useSidebar();
+
+  const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"));
+  const [search, setSearch] = useState("");
+  const [emailListData, setEmailListData] = useState([]);
+  const [totalEmailListData, setTotalEmailListData] = useState([]);
+  const [appliedFilter, setAppliedFilter] = useState({});
+  const [filterObject, setFilterObject] = useState({});
   const [apifilterObject, setApifilterObject] = useState({});
-  const [showFilter, setShowFilter] = useState(false)
+  const [showFilter, setShowFilter] = useState(false);
   const [filterdata, setFilterData] = useState({});
   const [deletestatus, setDeleteStatus] = useState(false);
   const [viewEmailModal, setviewEmailModal] = useState(false);
@@ -62,10 +73,8 @@ const WebinarEmail = (props) => {
   const [getreference, setReference] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [ctrName, setCTRName] = useState("");
-  const [readerDetailsData, setReaderDetailsData] = useState([])
-  const [functionParameter, setFunctionParameter] = useState({
-
-  })
+  const [readerDetailsData, setReaderDetailsData] = useState([]);
+  const [functionParameter, setFunctionParameter] = useState({});
   const [getDraftEmailSendStatus, setDraftEmailSendStatus] = useState(false);
   const [getDraftCamapignId, setDraftCamapignId] = useState(0);
   const [readerDetailsPopupStatus, setReaderDetailsPopupStatus] =
@@ -82,13 +91,22 @@ const WebinarEmail = (props) => {
   const [sorting, setSorting] = useState(0);
   const [sortNameDirection, setSortNameDirection] = useState(0);
   const [isActive, setIsActive] = useState({});
-  const [sortBy, setSortBy] = useState('name'); // Initial sort key
-  const [sortOrder, setSortOrder] = useState('asc');
-  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","bWmUjqX7J011   WUTYn9g==","MXl8m36VZFYXpgFVz3Pg0g=="]
-  const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
-   const deletButtonColor = isLikeRdAccount ? '#8A4E9C' : '#0066be'
-   const isRDAccount = isLikeRdAccount
- 
+  const [sortBy, setSortBy] = useState("name"); // Initial sort key
+  const [sortOrder, setSortOrder] = useState("asc");
+
+  const [cancelCampaignConfirmationPopup, setCancelCampaignConfirmationPopup] =
+    useState(false);
+  const [selectedData, setSelectedData] = useState(null);
+  const [selectedIndex, setSelectedIndex] = useState(null);
+
+  const rdLikeArray = [
+    "56Ek4feL/1A8mZgIKQWEqg==",
+    "bWmUjqX7J011   WUTYn9g==",
+    "MXl8m36VZFYXpgFVz3Pg0g==",
+  ];
+  const isLikeRdAccount = rdLikeArray.includes(localStorage.getItem("user_id"));
+  const deletButtonColor = isLikeRdAccount ? "#8A4E9C" : "#0066be";
+  const isRDAccount = isLikeRdAccount;
 
   const [options, setOptions] = useState({
     chart: {
@@ -99,14 +117,12 @@ const WebinarEmail = (props) => {
         beta: 25,
         depth: 70,
       },
-
     },
     title: {
       text: "Mail campaign stats",
     },
     xAxis: {
       categories: [],
-
     },
     yAxis: {
       title: {
@@ -117,16 +133,15 @@ const WebinarEmail = (props) => {
       enabled: true,
     },
     tooltip: {
-
       formatter: function () {
         return (
           "<span ><div className=" +
           this.series.name +
-          '>'
+          ">" +
           // <span style="font-weight: bold">'
-          +
           this.x +
-          " <strong >" + ":" +
+          " <strong >" +
+          ":" +
           Highcharts.numberFormat(this.y, 0) +
           "</strong></div></span>"
         );
@@ -159,9 +174,9 @@ const WebinarEmail = (props) => {
             return (
               "<span ><div className=" +
               this.series.name +
-              // '><span style="font-weight: 400">' +  
-              this.x
-              + " <strong >" +
+              // '><span style="font-weight: 400">' +
+              this.x +
+              " <strong >" +
               Highcharts.numberFormat(this.y, 0) +
               "</strong></div></span>"
             );
@@ -178,8 +193,8 @@ const WebinarEmail = (props) => {
   });
 
   useEffect(() => {
-    getWebinarCompaignList()
-  }, [])
+    getWebinarCompaignList();
+  }, []);
 
   useEffect(() => {
     props.getWebinarEmailData(null);
@@ -204,42 +219,47 @@ const WebinarEmail = (props) => {
     };
   }, []);
 
-  const getWebinarCompaignList = async (filter = "",popupFlag="") => {
+  const getWebinarCompaignList = async (filter = "", popupFlag = "") => {
     try {
-      loader("show")
+      loader("show");
       let body = {
-        user_id:localStorageUserId,
+        user_id: localStorageUserId,
         event_id: eventId,
-        search: '',
-        filter: filter
+        search: "",
+        filter: filter,
       };
       axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
-      let response = []
+      let response = [];
       await axios
         .post(`/webinar/v1/get_webinar_campaign`, body)
         .then((res) => {
-          response = res?.data
+          response = res?.data;
         })
         .catch((err) => {
           loader("hide");
           console.log(err);
         });
       // const response = await postData(ENDPOINT.WEBINAR_EMAIL_COMPAIGN_LIST, body)
-      let filterData = []
+      let filterData = [];
       if (search != "") {
-        filterData = response?.response?.data?.filter((item, index) => item?.subject?.includes(search))
+        filterData = response?.response?.data?.filter((item, index) =>
+          item?.subject?.includes(search)
+        );
       } else {
-        filterData = response?.response?.data
+        filterData = response?.response?.data;
       }
-      setEmailListData(filterData)
-      localStorage.setItem("inviteFlag",response?.response?.invite_flag || 0)
-      localStorage.setItem("registerFlag",response?.response?.register_flag || 0)
-      setTotalEmailListData(response?.response?.data)
+      setEmailListData(filterData);
+      localStorage.setItem("inviteFlag", response?.response?.invite_flag || 0);
+      localStorage.setItem(
+        "registerFlag",
+        response?.response?.register_flag || 0
+      );
+      setTotalEmailListData(response?.response?.data);
       if (Object.keys(filterdata)?.length == 0) {
-        getFilterList()
+        getFilterList();
       }
-      loader("hide")
-      if(popupFlag=="sendDraftMail"){
+      loader("hide");
+      if (popupFlag == "sendDraftMail") {
         popup_alert({
           visible: "show",
           message: "Mail sent successfully",
@@ -248,18 +268,20 @@ const WebinarEmail = (props) => {
         });
       }
     } catch (err) {
-      loader("hide")
-      console.log("--err", err)
+      loader("hide");
+      console.log("--err", err);
     }
-  }
+  };
   const getFilterList = async () => {
     try {
-      const response = await postData(ENDPOINT.WEBINAR_EMAIL_GET_FILTER_LIST, { eventId })
-      setFilterData(response?.data?.data)
+      const response = await postData(ENDPOINT.WEBINAR_EMAIL_GET_FILTER_LIST, {
+        eventId,
+      });
+      setFilterData(response?.data?.data);
     } catch (err) {
-      console.log("--err", err)
+      console.log("--err", err);
     }
-  }
+  };
 
   const draftNavigate = async (
     campaign_id,
@@ -293,7 +315,9 @@ const WebinarEmail = (props) => {
               typeof campaign_data.smart_list_data != "undefined" &&
               campaign_data.smart_list_data != ""
             ) {
-              props.getWebinarSelectedSmartListData(campaign_data.smart_list_data);
+              props.getWebinarSelectedSmartListData(
+                campaign_data.smart_list_data
+              );
             }
           }
         } else {
@@ -317,14 +341,16 @@ const WebinarEmail = (props) => {
     setSearch(e?.target?.value);
 
     if (e?.target?.value === "") {
-      setEmailListData(totalEmailListData)
+      setEmailListData(totalEmailListData);
     }
   };
 
   const submitSearchHandler = (event) => {
     event.preventDefault();
-    let searchData = totalEmailListData?.filter((item) => item?.subject?.includes(search))
-    setEmailListData(searchData)
+    let searchData = totalEmailListData?.filter((item) =>
+      item?.subject?.includes(search)
+    );
+    setEmailListData(searchData);
   };
 
   const handleOnFilterChange = (e, item, index, key, data = []) => {
@@ -357,7 +383,7 @@ const WebinarEmail = (props) => {
     }
     setAppliedFilter(newObj);
     setApifilterObject(apifilterObject);
-  }
+  };
 
   const applyFilter = (e) => {
     e.preventDefault();
@@ -381,7 +407,7 @@ const WebinarEmail = (props) => {
       setEmailListData([]);
       setTotalEmailListData([]);
       setAppliedFilter(old_object);
-      getWebinarCompaignList(old_object)
+      getWebinarCompaignList(old_object);
     } else {
       let obj = {};
       setFilterObject({});
@@ -391,7 +417,7 @@ const WebinarEmail = (props) => {
       setTotalEmailListData([]);
       getWebinarCompaignList("");
     }
-  }
+  };
 
   const clearFilter = () => {
     setSearch("");
@@ -399,15 +425,15 @@ const WebinarEmail = (props) => {
     setApifilterObject({});
     setFilterObject({});
     setEmailListData([]);
-    setTotalEmailListData([])
-    getWebinarCompaignList()
+    setTotalEmailListData([]);
+    getWebinarCompaignList();
     setShowFilter(false);
   };
   const createNewEmail = () => {
     props.getWebinarDraftData(null);
     props.getWebinarSelectedSmartListData(null);
     props.getWebinarEmailData(null);
-  }
+  };
 
   const hideEmailModal = () => {
     setviewEmailModal(false);
@@ -427,7 +453,7 @@ const WebinarEmail = (props) => {
     if (typeof data !== "undefined") {
       // let valueupdate =JSON.parse(JSON.stringify(options)) ;
       let valueupdate = options;
-      valueupdate.xAxis.categories = ["Emails sent", "Emails opened"]
+      valueupdate.xAxis.categories = ["Emails sent", "Emails opened"];
       valueupdate.series[0].data = [
         { y: data?.email_sent, color: "#8a4e9c" },
         { y: data?.email_read, color: "#ffbe2c" },
@@ -437,10 +463,10 @@ const WebinarEmail = (props) => {
 
         let obj = {
           y: data?.labels_value[item],
-          color: colorArray?.[index]
-        }
+          color: colorArray?.[index],
+        };
         valueupdate.series[0].data.push(obj);
-      })
+      });
       setCTRName(data?.labels_value);
       setOptions(valueupdate);
       setviewEmailData(data);
@@ -449,32 +475,43 @@ const WebinarEmail = (props) => {
     setCampaignId(data);
   };
 
-  const getReaderData = async (type = "", dynamic_name = "", popup_name = "", loadAll = 1) => {
+  const getReaderData = async (
+    type = "",
+    dynamic_name = "",
+    popup_name = "",
+    loadAll = 1
+  ) => {
     try {
-      loader("show")
+      loader("show");
       const body = {
         eventId: eventId,
         autoId: campaignId?.auto_id,
         campaign_id: campaignId?.id || 0,
         type: type,
         name: dynamic_name,
-        loadAll: loadAll
-      }
-      const response = await postData(ENDPOINT.WEBINAR_EMAIL_GET_READERS_LIST, body)
+        loadAll: loadAll,
+      };
+      const response = await postData(
+        ENDPOINT.WEBINAR_EMAIL_GET_READERS_LIST,
+        body
+      );
       setviewEmailModal(false);
       setFunctionParameter({
-        type, dynamic_name, popup_name, loadAll
-      })
+        type,
+        dynamic_name,
+        popup_name,
+        loadAll,
+      });
       let temporaryUsers = [...readerDetailsData, ...response?.data?.data];
       setReaderDetailsData(temporaryUsers);
-      setDetailPopupName(popup_name)
+      setDetailPopupName(popup_name);
       setReaderDetailsPopupStatus(true);
-      loader("hide")
+      loader("hide");
     } catch (err) {
-      loader("hide")
-      console.log("--err", err)
+      loader("hide");
+      console.log("--err", err);
     }
-  }
+  };
 
   const downloadUsers = (readerDetailsData) => {
     try {
@@ -483,13 +520,14 @@ const WebinarEmail = (props) => {
         return;
       }
 
-
       readerDetailsData = readerDetailsData?.map((item, index) => {
         let finalData = {};
         finalData.Name = item?.name ? item?.name.trim() : "N/A";
         finalData.Email = item?.email ? item?.email.trim() : "N/A";
         finalData.Country = item?.country ? item?.country.trim() : "N/A";
-        finalData.Date = item?.formatted_date ? item?.formatted_date.trim() : "N/A";
+        finalData.Date = item?.formatted_date
+          ? item?.formatted_date.trim()
+          : "N/A";
         return finalData;
       });
       const worksheet = XLSX.utils.json_to_sheet(readerDetailsData);
@@ -512,7 +550,11 @@ const WebinarEmail = (props) => {
       const blob = new Blob([excelBuffer], {
         type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8",
       });
-      let fileName = (viewEmailData?.campaign ? viewEmailData?.campaign : viewEmailData?.subject + " " + detailPopupName).replaceAll(" ", "_")
+      let fileName = (
+        viewEmailData?.campaign
+          ? viewEmailData?.campaign
+          : viewEmailData?.subject + " " + detailPopupName
+      ).replaceAll(" ", "_");
       saveAs(blob, `${fileName}.xlsx`);
     } catch (error) {
       console.error(
@@ -541,8 +583,8 @@ const WebinarEmail = (props) => {
     try {
       let body = {
         eventId: eventId,
-        emailAutoresponserId: item?.auto_id
-      }
+        emailAutoresponserId: item?.auto_id,
+      };
 
       if (item?.previous_campaign != 1) {
         const body = {
@@ -555,7 +597,6 @@ const WebinarEmail = (props) => {
           .post(`emailapi/v1/delete_campaign`, body)
           .then((res) => {
             if (res.data.status_code == 200) {
-
             } else {
               toast.warning(res.data.message);
             }
@@ -565,16 +606,21 @@ const WebinarEmail = (props) => {
             loader("hide");
             toast.error("Something went wrong");
           });
-        let filterId = item?.id
-        const updatedRes = emailListData?.filter((item) => item?.id !== filterId);
+        let filterId = item?.id;
+        const updatedRes = emailListData?.filter(
+          (item) => item?.id !== filterId
+        );
         setEmailListData(updatedRes);
-      }
-      else {
-        const res = await postData(ENDPOINT.WEBINAR_EMAIL_DELETE_COMPAIGN, body);
-        let filterId = item?.auto_id
-        const updatedRes = emailListData?.filter((item) => item?.auto_id !== filterId);
+      } else {
+        const res = await postData(
+          ENDPOINT.WEBINAR_EMAIL_DELETE_COMPAIGN,
+          body
+        );
+        let filterId = item?.auto_id;
+        const updatedRes = emailListData?.filter(
+          (item) => item?.auto_id !== filterId
+        );
         setEmailListData(updatedRes);
-
       }
       loader("hide");
       popup_alert({
@@ -586,15 +632,11 @@ const WebinarEmail = (props) => {
 
       hideConfirmationModal();
       loader("hide");
-
     } catch (err) {
       loader("hide");
-      console.log("--err", err)
+      console.log("--err", err);
     }
-  }
-
-
-
+  };
 
   const hideConfirmationModal = () => {
     setConfirmationPopup(false);
@@ -629,7 +671,7 @@ const WebinarEmail = (props) => {
   //   setTimeout(() => {
   //     divElement.classList.remove('hide');
   //   }, 2000);
-    
+
   //     loader("hide");
   //   } catch (err) {
   //     loader("hide");
@@ -639,24 +681,30 @@ const WebinarEmail = (props) => {
 
   const handleParent = async () => {
     try {
-      const buttonsContainer = document.querySelector('.clear-search.top-right-action');
-      buttonsContainer.classList.add('hide');
-  
+      const buttonsContainer = document.querySelector(
+        ".clear-search.top-right-action"
+      );
+      buttonsContainer.classList.add("hide");
+
       loader("show");
       const element = document.getElementById("chart-description");
-  
+
       const dataUrl = await domtoimage.toPng(element, { cacheBust: true });
-      let fileName= (viewEmailData?.campaign ? viewEmailData?.campaign : viewEmailData?.subject).replaceAll(" ","_")
+      let fileName = (
+        viewEmailData?.campaign
+          ? viewEmailData?.campaign
+          : viewEmailData?.subject
+      ).replaceAll(" ", "_");
       const link = document.createElement("a");
       // link.download = `${Math.random()}.png`;
       link.download = `${fileName}.png`;
       link.href = dataUrl;
       link.click();
-      
+
       setTimeout(() => {
-        buttonsContainer.classList.remove('hide');
+        buttonsContainer.classList.remove("hide");
       }, 100);
-  
+
       loader("hide");
     } catch (err) {
       loader("hide");
@@ -674,11 +722,11 @@ const WebinarEmail = (props) => {
     };
 
     // If key is a string, split it into an array of keys
-    const keys = typeof key === 'string' ? key.split('.') : [key];
+    const keys = typeof key === "string" ? key.split(".") : [key];
     const valueA = getNestedValue(a, keys);
     const valueB = getNestedValue(b, keys);
 
-    if (direction === 'asc') {
+    if (direction === "asc") {
       return valueA < valueB ? -1 : valueA > valueB ? 1 : 0;
     } else {
       return valueA > valueB ? -1 : valueA < valueB ? 1 : 0;
@@ -686,32 +734,34 @@ const WebinarEmail = (props) => {
   };
 
   const userSort = (e, key) => {
-    const direction = sortNameDirection === 0 ? 'asc' : 'dec';
+    const direction = sortNameDirection === 0 ? "asc" : "dec";
 
-    const sortedUserData = [...readerDetailsData].sort(dynamicSort(key, direction));
+    const sortedUserData = [...readerDetailsData].sort(
+      dynamicSort(key, direction)
+    );
 
     setReaderDetailsData(sortedUserData);
     setSortNameDirection(sortNameDirection === 0 ? 1 : 0);
-    setIsActive({ [key]: direction === 'asc' ? 'dec' : 'asc' });
+    setIsActive({ [key]: direction === "asc" ? "dec" : "asc" });
     setSorting(1 - sorting);
     setSortingCount(sortingCount + 1);
   };
 
   const handleSort = (key) => {
     setSortBy(key);
-    setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc'); 
+    setSortOrder(sortOrder === "asc" ? "desc" : "asc");
   };
 
   const sortData = (data, key, order) => {
     return data.sort((a, b) => {
       const valueA = a[key];
       const valueB = b[key];
-  
+
       // Handle different data types (numbers, strings)
-      if (typeof valueA === 'number' && typeof valueB === 'number') {
-        return order === 'asc' ? valueA - valueB : valueB - valueA;
+      if (typeof valueA === "number" && typeof valueB === "number") {
+        return order === "asc" ? valueA - valueB : valueB - valueA;
       } else {
-        return order === 'asc'
+        return order === "asc"
           ? valueA?.localeCompare(valueB) // Handle string sorting with locale awareness
           : valueB?.localeCompare(valueA);
       }
@@ -724,14 +774,14 @@ const WebinarEmail = (props) => {
     const body = {
       user_id: localStorageUserId,
       campaign_id: campaignId?.id,
-      event_id:eventId
+      event_id: eventId,
     };
     loader("show");
     axios
       .post(`webinar/v1/resend_webinar_email`, body)
       .then((res) => {
         if (res.data.status_code == 200) {
-          getWebinarCompaignList()
+          getWebinarCompaignList();
           toast.success(res.data.message ?? "Email send successfully.");
         } else if (res.data.status_code == 201) {
           toast.warning(res.data.message);
@@ -753,7 +803,7 @@ const WebinarEmail = (props) => {
   const sendDraftMail = async () => {
     setDraftEmailSendStatus(false);
     const body = {
-      user_id:localStorageUserId,
+      user_id: localStorageUserId,
       campaign_id: getDraftCamapignId,
     };
     axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
@@ -772,7 +822,7 @@ const WebinarEmail = (props) => {
               return userId.profile_user_id || userId.user_id;
             }
           );
-      
+
           const body = {
             user_id: localStorageUserId,
             route_location: draft_campaign?.route_location,
@@ -792,12 +842,12 @@ const WebinarEmail = (props) => {
               smart_list_id: draft_campaign?.smart_list_data?.id,
               template_id: draft_campaign?.campaign_data?.template_id,
 
-              list_selection:draft_campaign?.campaign_data?.list_selection,
-            auto_responder_id:draft_campaign?.campaign_data?.template_id,
-              typeOfHcp:draft_campaign?.campaign_data?.typeOfHcp,
-              thisEventToggled:draft_campaign?.campaign_data?.thisEventToggled
+              list_selection: draft_campaign?.campaign_data?.list_selection,
+              auto_responder_id: draft_campaign?.campaign_data?.template_id,
+              typeOfHcp: draft_campaign?.campaign_data?.typeOfHcp,
+              thisEventToggled: draft_campaign?.campaign_data?.thisEventToggled,
             },
-            auto_responder_id:draft_campaign?.campaign_data?.template_id,
+            auto_responder_id: draft_campaign?.campaign_data?.template_id,
           };
           axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
           axios
@@ -806,7 +856,7 @@ const WebinarEmail = (props) => {
               loader("hide");
               if (res.data.status_code === 200) {
                 // getData("initial");
-                getWebinarCompaignList("","sendDraftMail")
+                getWebinarCompaignList("", "sendDraftMail");
                 // popup_alert({
                 //   visible: "show",
                 //   message: "Mail sent successfully",
@@ -840,61 +890,97 @@ const WebinarEmail = (props) => {
     try {
       // Display loader
       loader("show");
-  
+
       // Ensure viewEmailData is defined and contains the necessary properties
       if (!viewEmailData || !viewEmailData.id) {
         throw new Error("Invalid viewEmailData: campaign_id is required");
       }
-      const labels=[]
-       if(viewEmailData.labels){
-
-      Object.entries(viewEmailData.labels).map(([label,value])=>{
-      if(viewEmailData.labels_value && viewEmailData.labels_value[label]){
-        labels.push({click_key:label,click_name:value})
+      const labels = [];
+      if (viewEmailData.labels) {
+        Object.entries(viewEmailData.labels).map(([label, value]) => {
+          if (viewEmailData.labels_value && viewEmailData.labels_value[label]) {
+            labels.push({ click_key: label, click_name: value });
+          }
+        });
       }
-    })
-
-       }
       // Prepare the payload data safely
       const data = {
         campaignId: viewEmailData.id,
         eventId: eventId,
         emailAutoResponserId: viewEmailData.auto_id,
         linksClicked: labels,
-        subject: viewEmailData.subject
+        subject: viewEmailData.subject,
       };
-  
+
       // Make API request
-      const res = await postFormData(ENDPOINT.WEBINAR_EMAIL_STATS_DOWNLOAD, data, {
-        responseType: "blob",
-      });
-  
+      const res = await postFormData(
+        ENDPOINT.WEBINAR_EMAIL_STATS_DOWNLOAD,
+        data,
+        {
+          responseType: "blob",
+        }
+      );
+
       // Ensure response contains data
       if (!res?.data) {
         throw new Error("No data received from the server");
       }
-  
+
       // Create a downloadable link for the blob data
       const url = URL.createObjectURL(res.data);
       const link = document.createElement("a");
       link.href = url;
-      link.download = `${viewEmailData.subject??"webinar_email_stats"}.xlsx`;
+      link.download = `${viewEmailData.subject ?? "webinar_email_stats"}.xlsx`;
       document.body.appendChild(link); // Required for some browsers to work
       link.click();
-  
+
       // Clean up the URL object and remove the link from DOM
       URL.revokeObjectURL(url);
       document.body.removeChild(link);
-  
     } catch (err) {
       // Log the error for debugging
       console.error("Error in getDownloadData:", err.message || err);
-  
     } finally {
       // Always hide loader, regardless of success or failure
       loader("hide");
     }
   };
+
+  const handleScheduleEmail = async ({ id }, index) => {
+    try {
+      loader("show");
+      const {data:response} =await postData(ENDPOINT.REMOVE_SCHEDULE_EMAIL, {
+        campaignId: id,
+        isWebinar: 1,
+      });
+      
+      popup_alert({
+        visible: "show",
+        message:response?.message,
+        type: "success",
+        redirect: "",
+      });
+
+      const sendListDataTemp = [...emailListData];
+      sendListDataTemp[index].status = response?.data.status;
+      setEmailListData(sendListDataTemp);
+    } catch (error) {
+      console.log("error--", error);
+    } finally {
+      loader("hide");
+    }
+  };
+
+  const hideCancelCampaignConfirmationpopup = () => {
+    setCancelCampaignConfirmationPopup(false);
+  };
+
+  const showConfirmation = (data, index) => {
+    setSelectedData(data);
+    setSelectedIndex(index);
+    setCancelCampaignConfirmationPopup(true);
+  };
+
   return (
     <>
       <Col className="right-sidebar custom-change">
@@ -905,10 +991,10 @@ const WebinarEmail = (props) => {
                 <h2>Emails</h2>
               </div>
               <div className="top-right-action flex-wrap">
-              {isLikeRdAccount ? (
-                <>
-                  <div className="action-btn-add" style={{margin:"0"}}>
-                    {/* <Button className="btn-dashed"
+                {isLikeRdAccount ? (
+                  <>
+                    <div className="action-btn-add" style={{ margin: "0" }}>
+                      {/* <Button className="btn-dashed"
                     to="/webinar/email/create-new-email"
                     state={{flag:1}}
                     onClick={createNewEmail}
@@ -917,13 +1003,23 @@ const WebinarEmail = (props) => {
                       <img src={`${path_image}add-icon.png`} alt="" />
                     </Button> */}
 
-                  <Link  to="/webinar/email/create-new-email"
-                    state={{flag:1}} className="btn-dashed" onClick={createNewEmail}>Create Email <img src={path_image + "add-icon.png"} alt="" /></Link>
-                  </div>
-                </>
+                      <Link
+                        to="/webinar/email/create-new-email"
+                        state={{ flag: 1 }}
+                        className="btn-dashed"
+                        onClick={createNewEmail}
+                      >
+                        Create Email{" "}
+                        <img src={path_image + "add-icon.png"} alt="" />
+                      </Link>
+                    </div>
+                  </>
                 ) : null}
                 <div className="search-bar">
-                  <form className="d-flex" onSubmit={(e) => submitSearchHandler(e)}>
+                  <form
+                    className="d-flex"
+                    onSubmit={(e) => submitSearchHandler(e)}
+                  >
                     <input
                       className="form-control me-2"
                       type="search"
@@ -1034,58 +1130,54 @@ const WebinarEmail = (props) => {
                                     <ul>
                                       {filterdata[key]?.length
                                         ? filterdata[key]?.map(
-                                          (item, index) => (
-                                            <li key={index}>
-                                              {item != "" ? (
-                                                <label className="select-multiple-option">
-                                                  <input
-                                                    type={"checkbox"}
-                                                    id={`custom-checkbox-tags-${index}`}
-                                                    value={
-                                                      typeof item ==
-                                                        "object"
-                                                        ? item?.title
-                                                        : item
-                                                    }
-                                                    name={key}
-                                                    checked={
-                                                      typeof item ==
-                                                        "object"
-                                                        ? appliedFilter[
-                                                          key
-                                                        ]?.includes(
-                                                          item.id
+                                            (item, index) => (
+                                              <li key={index}>
+                                                {item != "" ? (
+                                                  <label className="select-multiple-option">
+                                                    <input
+                                                      type={"checkbox"}
+                                                      id={`custom-checkbox-tags-${index}`}
+                                                      value={
+                                                        typeof item == "object"
+                                                          ? item?.title
+                                                          : item
+                                                      }
+                                                      name={key}
+                                                      checked={
+                                                        typeof item == "object"
+                                                          ? appliedFilter[
+                                                              key
+                                                            ]?.includes(item.id)
+                                                            ? true
+                                                            : false
+                                                          : appliedFilter[
+                                                              key
+                                                            ]?.includes(item)
+                                                          ? true
+                                                          : false
+                                                      }
+                                                      onChange={(e) =>
+                                                        handleOnFilterChange(
+                                                          e,
+                                                          typeof item ==
+                                                            "object"
+                                                            ? item.id
+                                                            : item,
+                                                          index,
+                                                          key,
+                                                          [...filterdata[key]]
                                                         )
-                                                          ? true
-                                                          : false
-                                                        : appliedFilter[
-                                                          key
-                                                        ]?.includes(item)
-                                                          ? true
-                                                          : false
-                                                    }
-                                                    onChange={(e) =>
-                                                      handleOnFilterChange(
-                                                        e,
-                                                        typeof item ==
-                                                          "object"
-                                                          ? item.id
-                                                          : item,
-                                                        index,
-                                                        key,
-                                                        [...filterdata[key]]
-                                                      )
-                                                    }
-                                                  />
-                                                  {typeof item == "object"
-                                                    ? item?.title
-                                                    : item}
-                                                  <span className="checkmark"></span>
-                                                </label>
-                                              ) : null}
-                                            </li>
+                                                      }
+                                                    />
+                                                    {typeof item == "object"
+                                                      ? item?.title
+                                                      : item}
+                                                    <span className="checkmark"></span>
+                                                  </label>
+                                                ) : null}
+                                              </li>
+                                            )
                                           )
-                                        )
                                         : null}
                                     </ul>
                                   </Accordion.Body>
@@ -1117,14 +1209,20 @@ const WebinarEmail = (props) => {
                   {deletestatus ? (
                     <button
                       className="btn btn-outline-primary cancel"
-                      onClick={() => setDeleteStatus((deletestatus) => !deletestatus)}
+                      onClick={() =>
+                        setDeleteStatus((deletestatus) => !deletestatus)
+                      }
                     >
                       Cancel
                     </button>
                   ) : (
                     <button
-                      className={`btn btn-outline-primary ${isRDAccount?"rd":""}`}
-                      onClick={(e) => setDeleteStatus((deletestatus) => !deletestatus)}
+                      className={`btn btn-outline-primary ${
+                        isRDAccount ? "rd" : ""
+                      }`}
+                      onClick={(e) =>
+                        setDeleteStatus((deletestatus) => !deletestatus)
+                      }
                     >
                       <svg
                         width="24"
@@ -1177,10 +1275,9 @@ const WebinarEmail = (props) => {
                                 <span>{key} |</span>
                               </div>
                               <div className="filter-div-list">
-
                                 {filterObject[key]?.map((item, index) => (
                                   <div
-                                  key={index}
+                                    key={index}
                                     className={
                                       key == "role"
                                         ? "filter-result upper"
@@ -1192,9 +1289,7 @@ const WebinarEmail = (props) => {
                                   >
                                     {item}
                                     <img
-                                      src={
-                                        path_image + "filter-close.svg"
-                                      }
+                                      src={path_image + "filter-close.svg"}
                                       onClick={(event) => {
                                         removeindividualfilter(key, item);
                                       }}
@@ -1202,7 +1297,6 @@ const WebinarEmail = (props) => {
                                     />
                                   </div>
                                 ))}
-
                               </div>
                             </div>
                           ) : null}
@@ -1221,59 +1315,85 @@ const WebinarEmail = (props) => {
                 </div>
               </div>
             ) : null}
-            <div className={`email-result ${isRDAccount?"rd":""}`}>
+            <div className={`email-result ${isRDAccount ? "rd" : ""}`}>
               <div className="col email-result-block">
-                {!deletestatus && (!isLikeRdAccount && (
+                {!deletestatus && !isLikeRdAccount && (
                   <div className="email_box_block">
                     <div className="email-block-add">
                       <Link
                         to="/webinar/email/create-new-email"
-                        state={{flag:1}}
-                        onClick={createNewEmail}>
+                        state={{ flag: 1 }}
+                        onClick={createNewEmail}
+                      >
                         <img src={path_image + "add-button.svg"} alt="" />
                       </Link>
                       <p>Create New Email</p>
                     </div>
-                  </div>)
+                  </div>
                 )}
                 {emailListData?.length > 0 ? (
-                  emailListData?.map((data,index) => {
+                  emailListData?.map((data, index) => {
                     return (
-                      <div className="email_box_block" key={index} >
+                      <div className="email_box_block" key={index}>
                         <div
                           className={
                             "email_box " +
-                            ((data?.status == 5)
-                              ? "queue" :
-                              data?.status == 1
-                                ? "approved"
-                                : data?.status == 2
-                                  ? "email-draft"
-                                  : data?.status == 3
-                                    ? "draft-approved"
-                                    : "approved")
+                            (data?.status == 5
+                              ? "queue"
+                              : data?.status == 1
+                              ? "approved"
+                              : data?.status == 2
+                              ? "email-draft"
+                              : data.status == 10
+                              ? "in-progress"
+                              : data.status == 9
+                              ? "email-cancelled"
+                              : data?.status == 3
+                              ? "draft-approved"
+                              : "approved")
                           }
                         >
                           <div className="mail-top-title">
-
                             <span>
-                              {(data?.status == 5)
-                                ? "Sending in queue" :
-                                data?.status == 2 ? "Draft" : "Approved Draft"
-                              }
+                              {data?.status == 5
+                                ? "Sending in queue"
+                                : data?.status == 2
+                                ? "Draft"
+                                : data?.status == 9
+                                ? "Cancelled"
+                                : data?.status == 10
+                                ? "Email is in progress"
+                                : "Approved Draft"}
                             </span>
                           </div>
                           <div className="mail-box-content">
                             <div className="mail-box-content-top">
                               <div className="mail-box-content-top-view">
-                                {
-                                  data?.resend_badge >= 2 ?
-                                    <div className="mail-resend" title="Resend Emails">
-                                      <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><g id="Glyph"><g data-name="Glyph" id="Glyph-2"><path d="M49,35a8,8,0,0,0-3.17.66l.12-.34a1,1,0,1,0-1.9-.64l-1,3a1,1,0,0,0,.58,1.25l2.5,1a1,1,0,0,0,.74-1.86l-.76-.3A6,6,0,1,1,43,43a1,1,0,0,0-2,0,8,8,0,1,0,8-8Z" fill="#0066be" /><path d="M56,32.06V16.23A8.24,8.24,0,0,0,47.77,8H10.23A8.24,8.24,0,0,0,2,16.23V37.77A8.24,8.24,0,0,0,10.23,46H36.36A13,13,0,1,0,56,32.06ZM34.19,27.64a8.11,8.11,0,0,1-10.37,0L6.63,42.86A6.38,6.38,0,0,1,5.2,41.45l17.09-15.1L5.52,12.15a6.56,6.56,0,0,1,1.57-1.3L25,26a6.14,6.14,0,0,0,8,0L50.91,10.85a6.56,6.56,0,0,1,1.57,1.3L35.74,26.33l6.51,5.56a12.46,12.46,0,0,0-1.67,1.21ZM49,54A11,11,0,1,1,60,43,11,11,0,0,1,49,54Z" fill="#0066be" /></g></g></svg>
-                                      <span>{data?.resend_badge - 1}</span>
-                                    </div>
-                                    : null
-                                }
+                                {data?.resend_badge >= 2 ? (
+                                  <div
+                                    className="mail-resend"
+                                    title="Resend Emails"
+                                  >
+                                    <svg
+                                      viewBox="0 0 64 64"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                      <g id="Glyph">
+                                        <g data-name="Glyph" id="Glyph-2">
+                                          <path
+                                            d="M49,35a8,8,0,0,0-3.17.66l.12-.34a1,1,0,1,0-1.9-.64l-1,3a1,1,0,0,0,.58,1.25l2.5,1a1,1,0,0,0,.74-1.86l-.76-.3A6,6,0,1,1,43,43a1,1,0,0,0-2,0,8,8,0,1,0,8-8Z"
+                                            fill="#0066be"
+                                          />
+                                          <path
+                                            d="M56,32.06V16.23A8.24,8.24,0,0,0,47.77,8H10.23A8.24,8.24,0,0,0,2,16.23V37.77A8.24,8.24,0,0,0,10.23,46H36.36A13,13,0,1,0,56,32.06ZM34.19,27.64a8.11,8.11,0,0,1-10.37,0L6.63,42.86A6.38,6.38,0,0,1,5.2,41.45l17.09-15.1L5.52,12.15a6.56,6.56,0,0,1,1.57-1.3L25,26a6.14,6.14,0,0,0,8,0L50.91,10.85a6.56,6.56,0,0,1,1.57,1.3L35.74,26.33l6.51,5.56a12.46,12.46,0,0,0-1.67,1.21ZM49,54A11,11,0,1,1,60,43,11,11,0,0,1,49,54Z"
+                                            fill="#0066be"
+                                          />
+                                        </g>
+                                      </g>
+                                    </svg>
+                                    <span>{data?.resend_badge - 1}</span>
+                                  </div>
+                                ) : null}
                                 <h5>{data?.subject ? data?.subject : ""}</h5>
                                 <p>{data?.event}</p>
                                 <div className="mailbox-table">
@@ -1281,26 +1401,43 @@ const WebinarEmail = (props) => {
                                     <tbody>
                                       <tr>
                                         <th>Campaign</th>
-                                        <td>{data?.campaign ? data?.campaign : data?.subject}</td>
+                                        <td>
+                                          {data?.campaign
+                                            ? data?.campaign
+                                            : data?.subject}
+                                        </td>
                                       </tr>
                                       <tr>
                                         <th>Creator</th>
-                                        <td>{data?.creator ? data?.creator : "N/A"}</td>
+                                        <td>
+                                          {data?.creator
+                                            ? data?.creator
+                                            : "N/A"}
+                                        </td>
                                       </tr>
                                       <tr>
                                         <th>List</th>
-                                        <td>{data?.smart_list_name 
-                                        ? data?.smart_list_name?.includes("_internal_hcps_temporary") 
-                                        ?"All HCPs"
-                                        :data?.smart_list_name?.includes("_no_registered_users_temporary")
-                                        ?"Non registered HCPs"
-                                        :data?.smart_list_name?.includes("_registered_users_temporary") 
-                                        ?"Registered HCPs"
-                                      
-                                        :data?.smart_list_name?.includes("_uslist_temporary")
-                                        ?"US list"
-                                        :data?.smart_list_name
-                                        : "N/A"}</td>
+                                        <td>
+                                          {data?.smart_list_name
+                                            ? data?.smart_list_name?.includes(
+                                                "_internal_hcps_temporary"
+                                              )
+                                              ? "All HCPs"
+                                              : data?.smart_list_name?.includes(
+                                                  "_no_registered_users_temporary"
+                                                )
+                                              ? "Non registered HCPs"
+                                              : data?.smart_list_name?.includes(
+                                                  "_registered_users_temporary"
+                                                )
+                                              ? "Registered HCPs"
+                                              : data?.smart_list_name?.includes(
+                                                  "_uslist_temporary"
+                                                )
+                                              ? "US list"
+                                              : data?.smart_list_name
+                                            : "N/A"}
+                                        </td>
                                       </tr>
                                     </tbody>
                                   </table>
@@ -1308,8 +1445,12 @@ const WebinarEmail = (props) => {
                                 <div className="mailbox-tags">
                                   <ul>
                                     {data?.tags != "" ? (
-                                      data?.tags?.map((tag,i) => {
-                                        return <li className="list1" key={i}>{tag}</li>;
+                                      data?.tags?.map((tag, i) => {
+                                        return (
+                                          <li className="list1" key={i}>
+                                            {tag}
+                                          </li>
+                                        );
                                       })
                                     ) : (
                                       <li className="list1">N/A</li>
@@ -1317,7 +1458,11 @@ const WebinarEmail = (props) => {
                                   </ul>
                                 </div>
                                 <div className="mail-time">
-                                  <span>{data?.created_at ? data?.created_at : "N/A"}</span>
+                                  <span>
+                                    {data?.created_at
+                                      ? data?.created_at
+                                      : "N/A"}
+                                  </span>
                                 </div>
                               </div>
                               <div className="mail-stats">
@@ -1355,7 +1500,9 @@ const WebinarEmail = (props) => {
                                         </defs>
                                       </svg>
                                     </div>
-                                    <span>{data?.email_sent ? data?.email_sent : 0}</span>
+                                    <span>
+                                      {data?.email_sent ? data?.email_sent : 0}
+                                    </span>
                                   </li>
                                   <li>
                                     <div
@@ -1416,155 +1563,187 @@ const WebinarEmail = (props) => {
                                       </svg>
                                     </div>
                                     <span>
-                                      {(data?.labels_value[Object.keys(data?.labels_value)[0]] > 0 && data?.email_read > 0)
-                                        ? ((data?.labels_value[Object.keys(data?.labels_value)[0]] / data?.email_read) * 100)==100
-                                        ?100 + "%"
-                                        :((data?.labels_value[Object.keys(data?.labels_value)[0]] / data?.email_read) * 100)?.toFixed(2)+"%"
+                                      {data?.labels_value[
+                                        Object.keys(data?.labels_value)[0]
+                                      ] > 0 && data?.email_read > 0
+                                        ? (data?.labels_value[
+                                            Object.keys(data?.labels_value)[0]
+                                          ] /
+                                            data?.email_read) *
+                                            100 ==
+                                          100
+                                          ? 100 + "%"
+                                          : (
+                                              (data?.labels_value[
+                                                Object.keys(
+                                                  data?.labels_value
+                                                )[0]
+                                              ] /
+                                                data?.email_read) *
+                                              100
+                                            )?.toFixed(2) + "%"
                                         : 0}
                                     </span>
                                   </li>
                                 </ul>
                               </div>
                             </div>
-                            {
-                              data?.previous_campaign != 1 && data?.status != 5 ?
-                                (<>
-                                  {data?.status == 1 ? (
-                                    <div className="mailbox-buttons">
-                                      {!deletestatus && (
-                                        <>
-                                          <div className="send_new">
-                                              <button
-                                                className="btn btn-primary btn-bordered send-new"
-                                                onClick={() =>
-                                                  draftNavigate(
-                                                    data.id,
-                                                    data.pdf_id,
-                                                    "webinar/email/selectHCP",
-                                                    data.campaign,
-                                                    data.creator,
-                                                    data.discription,
-                                                    data.subject,
-                                                    data.tags
-                                                  )
-                                                }
-                                              >
-                                                Send New
-                                              </button>
-                                            </div>
-
-                                          <div className="mailbox-buttons-list">
-                                            {(data?.status == 1) && (data?.email_read != data?.email_sent) ? (
-                                                <button
-                                                  className="btn btn-primary btn-bordered send"
-                                                  onClick={(e) =>
-                                                    showModal("resend", data)
-                                                  }
-                                                >
-                                                  Resend
-                                                </button>
-                                              ) : (
-                                                ""
-                                              )}
-
-                                            <button
-                                              className="btn btn-primary btn-filled edit"
-                                              onClick={(e) =>
-                                                showViewEmailModal(data)
-                                              }
-                                            >
-                                              View
-                                            </button>
-                                          </div>
-                                        </>
-                                      )}
-                                    </div>
-                                    // ) : 
-                                    // data.status == 5 ? (
-                                    //     <div className="mailbox-buttons d-flex justify-content-end">
-                                    //       <button
-                                    //             className="btn btn-primary btn-filled edit"
-                                    //             onClick={(e) =>
-                                    //               showViewEmailModal(data)
-                                    //             }
-                                    //           >
-                                    //             View
-                                    //           </button>
-                                    //     </div>
-                                  ) : (
-                                    <div className="mailbox-buttons">
-                                      {!deletestatus && (
-                                        <div className="mailbox-buttons-list">
-                                          {(data?.route_location == "webinar/email/verifyMAIL"
-                                          ||data?.route_location == "webinar/email/verifyHcpMAIL" )
-                                          &&
-                                            data?.pdf_id != 13 ? (
-                                            <button
-                                              className="btn btn-primary send btn-bordered"
-                                              onClick={() => {
-                                                getWebinarEmailData(null);
-                                                draftEmailCampaign(data?.id);
-                                                setDraftEmailSendStatus(
-                                                  (getDraftEmailSendStatus) =>
-                                                    !getDraftEmailSendStatus
-                                                );
-                                              }}
-                                            >
-                                              Send
-                                            </button>
-                                          ) : (
-                                            ""
-                                          )}
+                            {data?.previous_campaign != 1 &&
+                            data?.status != 5 ? (
+                              <>
+                                {data?.status == 1 ? (
+                                  <div className="mailbox-buttons">
+                                    {!deletestatus && (
+                                      <>
+                                        <div className="send_new">
                                           <button
-                                            className="btn btn-primary edit btn-filled"
-                                            onClick={() => {
-                                              getWebinarEmailData(null);
-                                              // getSelectedSmartListData(null);
+                                            className="btn btn-primary btn-bordered send-new"
+                                            onClick={() =>
                                               draftNavigate(
                                                 data.id,
                                                 data.pdf_id,
-                                                data.route_location,
+                                                "webinar/email/selectHCP",
                                                 data.campaign,
                                                 data.creator,
                                                 data.discription,
                                                 data.subject,
                                                 data.tags
+                                              )
+                                            }
+                                          >
+                                            Send New
+                                          </button>
+                                        </div>
+
+                                        <div className="mailbox-buttons-list">
+                                          {data?.status == 1 &&
+                                          data?.email_read !=
+                                            data?.email_sent ? (
+                                            <button
+                                              className="btn btn-primary btn-bordered send"
+                                              onClick={(e) =>
+                                                showModal("resend", data)
+                                              }
+                                            >
+                                              Resend
+                                            </button>
+                                          ) : (
+                                            ""
+                                          )}
+
+                                          <button
+                                            className="btn btn-primary btn-filled edit"
+                                            onClick={(e) =>
+                                              showViewEmailModal(data)
+                                            }
+                                          >
+                                            View
+                                          </button>
+                                        </div>
+                                      </>
+                                    )}
+                                  </div>
+                                ) : (
+                                  // ) :
+                                  // data.status == 5 ? (
+                                  //     <div className="mailbox-buttons d-flex justify-content-end">
+                                  //       <button
+                                  //             className="btn btn-primary btn-filled edit"
+                                  //             onClick={(e) =>
+                                  //               showViewEmailModal(data)
+                                  //             }
+                                  //           >
+                                  //             View
+                                  //           </button>
+                                  //     </div>
+                                  <div className="mailbox-buttons">
+                                    {!deletestatus && data?.status != 9 &&  data.status != 10 && (
+                                      <div className="mailbox-buttons-list">
+                                        {(data?.route_location ==
+                                          "webinar/email/verifyMAIL" ||
+                                          data?.route_location ==
+                                            "webinar/email/verifyHcpMAIL") &&
+                                        data?.pdf_id != 13 ? (
+                                          <button
+                                            className="btn btn-primary send btn-bordered"
+                                            onClick={() => {
+                                              getWebinarEmailData(null);
+                                              draftEmailCampaign(data?.id);
+                                              setDraftEmailSendStatus(
+                                                (getDraftEmailSendStatus) =>
+                                                  !getDraftEmailSendStatus
                                               );
                                             }}
                                           >
-                                            Edit
+                                            Send
                                           </button>
-                                        </div>
-                                      )}
-                                    </div>
-                                  )
-                                  }
-                                </>)
-                                : data?.status != 5 ? (<>
-                                  <div className="mailbox-buttons">
-                                    {!deletestatus && (
-                                      // <div className="mailbox-buttons">
-                                      <div className="mailbox-buttons-list">
+                                        ) : (
+                                          ""
+                                        )}
                                         <button
-                                          className="btn btn-primary btn-filled edit"
-                                          onClick={(e) =>
-                                            showViewEmailModal(data)
-                                          }
+                                          className="btn btn-primary edit btn-filled"
+                                          onClick={() => {
+                                            getWebinarEmailData(null);
+                                            // getSelectedSmartListData(null);
+                                            draftNavigate(
+                                              data.id,
+                                              data.pdf_id,
+                                              data.route_location,
+                                              data.campaign,
+                                              data.creator,
+                                              data.discription,
+                                              data.subject,
+                                              data.tags
+                                            );
+                                          }}
                                         >
-                                          View
+                                          Edit
                                         </button>
                                       </div>
-                                      // </div>
-                                    )
-                                    } </div>
-                                </>) : ""
-                            }
-                            {(deletestatus&&data?.previous_campaign != 1) && (
+                                    )}
+                                  </div>
+                                )}
+                              </>
+                            ) : data?.status != 5 ? (
+                              <>
+                                <div className="mailbox-buttons">
+                                  {!deletestatus && (
+                                    // <div className="mailbox-buttons">
+                                    <div className="mailbox-buttons-list">
+                                      <button
+                                        className="btn btn-primary btn-filled edit"
+                                        onClick={(e) =>
+                                          showViewEmailModal(data)
+                                        }
+                                      >
+                                        View
+                                      </button>
+                                    </div>
+                                    // </div>
+                                  )}{" "}
+                                </div>
+                              </>
+                            ) : data.status == 5 || data.status == 8 ? (
+                              <div
+                                className={`mailbox-buttons d-flex justify-content-end`}
+                              >
+                                <button
+                                  className="btn btn-primary btn-filled edit"
+                                  // onClick={(e) =>
+                                  //   handleScheduleEmail(data, index)
+                                  // }
+                                  onClick={() => showConfirmation(data, index)}
+                                >
+                                  Cancel
+                                </button>
+                              </div>
+                            ) : (
+                              ""
+                            )}
+                            {deletestatus && data?.previous_campaign != 1 && (
                               <div className="dlt_btn">
                                 <button
-                                  onClick={(e) =>
-                                    showConfirmationPopup(data)
-                                  }
+                                  onClick={(e) => showConfirmationPopup(data)}
                                 >
                                   <img
                                     src={path + "delete.svg"}
@@ -1579,16 +1758,14 @@ const WebinarEmail = (props) => {
                     );
                   })
                 ) : deletestatus ? (
-                  <div className="email_box_block no_found no_found_dlt " >
-                    <p >No Data Found</p>
-                  </div>
-                )
-                :(
-                <div className="email_box_block no_found no_found_dlt ">
+                  <div className="email_box_block no_found no_found_dlt ">
                     <p>No Data Found</p>
                   </div>
-                )
-              }
+                ) : (
+                  <div className="email_box_block no_found no_found_dlt ">
+                    <p>No Data Found</p>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -1616,82 +1793,119 @@ const WebinarEmail = (props) => {
             {typeof viewEmailData !== "undefined" && (
               <div className="modal-body-view">
                 <div className="mail-box-wrap" id="chart-description">
-                <div className="mail-box-content">
-                  <div className="mail-box-heading-block">
-                    <div className="mail-box-heading">
-                      <h5>{viewEmailData?.subject}</h5>
-                      <p>{viewEmailData?.event}</p>
-                    </div>
-                    <div className="clear-search top-right-action">
-                      {
-                        (viewEmailData?.status == 1) && (viewEmailData?.email_read != viewEmailData?.email_sent)
-                        ? 
-                        <div className="mail-view-btn">
-                          <button
-                            className="btn btn-primary btn-bordered"
-                            onClick={(e) => showModal("send", campaignId)}
-                          >
-                            Resend
-                          </button>
-                        </div>
-                        : null
-                      }
-                      <button
-                        className="btn print"
-                        title="Print Stats"
-                        onClick={handleParent}>
-                       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                        <path d="M2 4C2 2.89543 2.89543 2 4 2H7.41667C7.96895 2 8.41667 1.55228 8.41667 1C8.41667 0.447715 7.96895 0 7.41667 0H4C1.79086 0 0 1.79086 0 4V7.41667C0 7.96895 0.447715 8.41667 1 8.41667C1.55228 8.41667 2 7.96895 2 7.41667V4Z" fill="#0066BE"/>
-                        <path d="M16.5833 0C16.031 0 15.5833 0.447715 15.5833 1C15.5833 1.55228 16.031 2 16.5833 2H20C21.1046 2 22 2.89543 22 4V7.41667C22 7.96895 22.4477 8.41667 23 8.41667C23.5523 8.41667 24 7.96895 24 7.41667V4C24 1.79086 22.2091 0 20 0H16.5833Z" fill="#0066BE"/>
-                        <path d="M2 16.5833C2 16.031 1.55228 15.5833 1 15.5833C0.447715 15.5833 0 16.031 0 16.5833V20C0 22.2091 1.79086 24 4 24H8.33333C8.88562 24 9.33333 23.5523 9.33333 23C9.33333 22.4477 8.88562 22 8.33333 22H4C2.89543 22 2 21.1046 2 20V16.5833Z" fill="#0066BE"/>
-                        <path d="M24 16.5833C24 16.031 23.5523 15.5833 23 15.5833C22.4477 15.5833 22 16.031 22 16.5833V20C22 21.1046 21.1046 22 20 22H16.5833C16.031 22 15.5833 22.4477 15.5833 23C15.5833 23.5523 16.031 24 16.5833 24H20C22.2091 24 24 22.2091 24 20V16.5833Z" fill="#0066BE"/>
-                        <path fillRule="evenodd" clipRule="evenodd" d="M9 12.5004C9 10.8449 10.344 9.5 11.9996 9.5C13.6551 9.5 15 10.8449 15 12.5004C15 14.156 13.6551 15.5 11.9996 15.5C10.344 15.5 9 14.156 9 12.5004ZM13.7991 12.5004C13.7991 11.5073 12.9927 10.7 11.9996 10.7C11.0064 10.7 10.2 11.5073 10.2 12.5004C10.2 13.4936 11.0064 14.3 11.9996 14.3C12.9927 14.3 13.7991 13.4936 13.7991 12.5004Z" fill="#0066BE"/>
-                        <path fillRule="evenodd" clipRule="evenodd" d="M16.5963 8.3H18.4615C18.8952 8.3 19.3118 8.46771 19.6194 8.7676C19.927 9.06757 20.1 9.47489 20.1 9.9V16.5C20.1 17.3862 19.3642 18.1 18.4615 18.1H5.53846C4.63579 18.1 3.9 17.3862 3.9 16.5V9.9C3.9 9.47489 4.07298 9.06757 4.38065 8.7676C4.68823 8.46771 5.10478 8.3 5.53846 8.3H7.4037C7.47384 8.3 7.53879 8.26556 7.57717 8.2097L8.67004 6.61137C8.97401 6.16652 9.48587 5.9 10.0326 5.9H13.9674C14.5141 5.9 15.026 6.1665 15.33 6.61137L16.4228 8.20961C16.4611 8.26552 16.5261 8.3 16.5963 8.3ZM9.85906 7.3904L8.76624 8.98866C8.46169 9.43342 7.94989 9.7 7.4037 9.7H5.53846C5.48265 9.7 5.42956 9.72164 5.39042 9.7592C5.35199 9.79727 5.33077 9.84786 5.33077 9.9V16.5C5.33077 16.608 5.42144 16.7 5.53846 16.7H18.4615C18.5786 16.7 18.6692 16.608 18.6692 16.5V9.9C18.6692 9.84787 18.648 9.79729 18.6096 9.75923C18.5705 9.72165 18.5174 9.7 18.4615 9.7H16.5963C16.0501 9.7 15.5383 9.43347 15.2338 8.98871L14.1409 7.3904C14.1026 7.33449 14.0376 7.3 13.9674 7.3H10.0326C9.96249 7.3 9.89744 7.33457 9.85906 7.3904Z" fill="#0066BE"/>
-                       </svg>
-                      </button>
-                      {viewEmailData.id !=0 &&
-                      <button
-                        className="btn print"
-                        title="Download stats"
-                        onClick={() => {
-                          getDownloadData(viewEmailData);
-                        }}
-                      >
-                        <svg
-                          width="25"
-                          height="20"
-                          viewBox="0 0 20 20"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
+                  <div className="mail-box-content">
+                    <div className="mail-box-heading-block">
+                      <div className="mail-box-heading">
+                        <h5>{viewEmailData?.subject}</h5>
+                        <p>{viewEmailData?.event}</p>
+                      </div>
+                      <div className="clear-search top-right-action">
+                        {viewEmailData?.status == 1 &&
+                        viewEmailData?.email_read !=
+                          viewEmailData?.email_sent ? (
+                          <div className="mail-view-btn">
+                            <button
+                              className="btn btn-primary btn-bordered"
+                              onClick={(e) => showModal("send", campaignId)}
+                            >
+                              Resend
+                            </button>
+                          </div>
+                        ) : null}
+                        <button
+                          className="btn print"
+                          title="Print Stats"
+                          onClick={handleParent}
                         >
-                          <path
-                            d="M18.3335 13.125C18.1125 13.125 17.9005 13.2128 17.7442 13.3691C17.588 13.5254 17.5002 13.7373 17.5002 13.9583V15.1775C17.4995 15.7933 17.2546 16.3836 16.8192 16.819C16.3838 17.2544 15.7934 17.4993 15.1777 17.5H4.82266C4.2069 17.4993 3.61655 17.2544 3.18114 16.819C2.74573 16.3836 2.50082 15.7933 2.50016 15.1775V13.9583C2.50016 13.7373 2.41237 13.5254 2.25609 13.3691C2.0998 13.2128 1.88784 13.125 1.66683 13.125C1.44582 13.125 1.23385 13.2128 1.07757 13.3691C0.921293 13.5254 0.833496 13.7373 0.833496 13.9583V15.1775C0.834599 16.2351 1.25524 17.2492 2.00311 17.997C2.75099 18.7449 3.76501 19.1656 4.82266 19.1667H15.1777C16.2353 19.1656 17.2493 18.7449 17.9972 17.997C18.7451 17.2492 19.1657 16.2351 19.1668 15.1775V13.9583C19.1668 13.7373 19.079 13.5254 18.9228 13.3691C18.7665 13.2128 18.5545 13.125 18.3335 13.125Z"
-                            fill="#0066BE"
-                          />
-                          <path
-                            d="M14.7456 9.20249C14.5893 9.04626 14.3774 8.9585 14.1564 8.9585C13.9355 8.9585 13.7235 9.04626 13.5673 9.20249L10.8231 11.9467L10.8333 1.77108C10.8333 1.55006 10.7455 1.3381 10.5893 1.18182C10.433 1.02554 10.221 0.937744 10 0.937744C9.77899 0.937744 9.56702 1.02554 9.41074 1.18182C9.25446 1.3381 9.16667 1.55006 9.16667 1.77108L9.15643 11.9467L6.41226 9.20249C6.25509 9.05069 6.04459 8.96669 5.82609 8.96859C5.60759 8.97049 5.39858 9.05813 5.24408 9.21264C5.08957 9.36715 5.00193 9.57615 5.00003 9.79465C4.99813 10.0131 5.08213 10.2236 5.23393 10.3808L9.40059 14.5475C9.478 14.6251 9.56996 14.6867 9.6712 14.7287C9.77245 14.7707 9.88098 14.7923 9.99059 14.7923C10.1002 14.7923 10.2087 14.7707 10.31 14.7287C10.4112 14.6867 10.5032 14.6251 10.5806 14.5475L14.7473 10.3808C14.9033 10.2243 14.9907 10.0123 14.9904 9.79131C14.9901 9.57034 14.902 9.35854 14.7456 9.20249Z"
-                            fill="#0066BE"
-                          />
-                        </svg>
-                      </button>}
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                          >
+                            <path
+                              d="M2 4C2 2.89543 2.89543 2 4 2H7.41667C7.96895 2 8.41667 1.55228 8.41667 1C8.41667 0.447715 7.96895 0 7.41667 0H4C1.79086 0 0 1.79086 0 4V7.41667C0 7.96895 0.447715 8.41667 1 8.41667C1.55228 8.41667 2 7.96895 2 7.41667V4Z"
+                              fill="#0066BE"
+                            />
+                            <path
+                              d="M16.5833 0C16.031 0 15.5833 0.447715 15.5833 1C15.5833 1.55228 16.031 2 16.5833 2H20C21.1046 2 22 2.89543 22 4V7.41667C22 7.96895 22.4477 8.41667 23 8.41667C23.5523 8.41667 24 7.96895 24 7.41667V4C24 1.79086 22.2091 0 20 0H16.5833Z"
+                              fill="#0066BE"
+                            />
+                            <path
+                              d="M2 16.5833C2 16.031 1.55228 15.5833 1 15.5833C0.447715 15.5833 0 16.031 0 16.5833V20C0 22.2091 1.79086 24 4 24H8.33333C8.88562 24 9.33333 23.5523 9.33333 23C9.33333 22.4477 8.88562 22 8.33333 22H4C2.89543 22 2 21.1046 2 20V16.5833Z"
+                              fill="#0066BE"
+                            />
+                            <path
+                              d="M24 16.5833C24 16.031 23.5523 15.5833 23 15.5833C22.4477 15.5833 22 16.031 22 16.5833V20C22 21.1046 21.1046 22 20 22H16.5833C16.031 22 15.5833 22.4477 15.5833 23C15.5833 23.5523 16.031 24 16.5833 24H20C22.2091 24 24 22.2091 24 20V16.5833Z"
+                              fill="#0066BE"
+                            />
+                            <path
+                              fillRule="evenodd"
+                              clipRule="evenodd"
+                              d="M9 12.5004C9 10.8449 10.344 9.5 11.9996 9.5C13.6551 9.5 15 10.8449 15 12.5004C15 14.156 13.6551 15.5 11.9996 15.5C10.344 15.5 9 14.156 9 12.5004ZM13.7991 12.5004C13.7991 11.5073 12.9927 10.7 11.9996 10.7C11.0064 10.7 10.2 11.5073 10.2 12.5004C10.2 13.4936 11.0064 14.3 11.9996 14.3C12.9927 14.3 13.7991 13.4936 13.7991 12.5004Z"
+                              fill="#0066BE"
+                            />
+                            <path
+                              fillRule="evenodd"
+                              clipRule="evenodd"
+                              d="M16.5963 8.3H18.4615C18.8952 8.3 19.3118 8.46771 19.6194 8.7676C19.927 9.06757 20.1 9.47489 20.1 9.9V16.5C20.1 17.3862 19.3642 18.1 18.4615 18.1H5.53846C4.63579 18.1 3.9 17.3862 3.9 16.5V9.9C3.9 9.47489 4.07298 9.06757 4.38065 8.7676C4.68823 8.46771 5.10478 8.3 5.53846 8.3H7.4037C7.47384 8.3 7.53879 8.26556 7.57717 8.2097L8.67004 6.61137C8.97401 6.16652 9.48587 5.9 10.0326 5.9H13.9674C14.5141 5.9 15.026 6.1665 15.33 6.61137L16.4228 8.20961C16.4611 8.26552 16.5261 8.3 16.5963 8.3ZM9.85906 7.3904L8.76624 8.98866C8.46169 9.43342 7.94989 9.7 7.4037 9.7H5.53846C5.48265 9.7 5.42956 9.72164 5.39042 9.7592C5.35199 9.79727 5.33077 9.84786 5.33077 9.9V16.5C5.33077 16.608 5.42144 16.7 5.53846 16.7H18.4615C18.5786 16.7 18.6692 16.608 18.6692 16.5V9.9C18.6692 9.84787 18.648 9.79729 18.6096 9.75923C18.5705 9.72165 18.5174 9.7 18.4615 9.7H16.5963C16.0501 9.7 15.5383 9.43347 15.2338 8.98871L14.1409 7.3904C14.1026 7.33449 14.0376 7.3 13.9674 7.3H10.0326C9.96249 7.3 9.89744 7.33457 9.85906 7.3904Z"
+                              fill="#0066BE"
+                            />
+                          </svg>
+                        </button>
+                        {viewEmailData.id != 0 && (
+                          <button
+                            className="btn print"
+                            title="Download stats"
+                            onClick={() => {
+                              getDownloadData(viewEmailData);
+                            }}
+                          >
+                            <svg
+                              width="25"
+                              height="20"
+                              viewBox="0 0 20 20"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                d="M18.3335 13.125C18.1125 13.125 17.9005 13.2128 17.7442 13.3691C17.588 13.5254 17.5002 13.7373 17.5002 13.9583V15.1775C17.4995 15.7933 17.2546 16.3836 16.8192 16.819C16.3838 17.2544 15.7934 17.4993 15.1777 17.5H4.82266C4.2069 17.4993 3.61655 17.2544 3.18114 16.819C2.74573 16.3836 2.50082 15.7933 2.50016 15.1775V13.9583C2.50016 13.7373 2.41237 13.5254 2.25609 13.3691C2.0998 13.2128 1.88784 13.125 1.66683 13.125C1.44582 13.125 1.23385 13.2128 1.07757 13.3691C0.921293 13.5254 0.833496 13.7373 0.833496 13.9583V15.1775C0.834599 16.2351 1.25524 17.2492 2.00311 17.997C2.75099 18.7449 3.76501 19.1656 4.82266 19.1667H15.1777C16.2353 19.1656 17.2493 18.7449 17.9972 17.997C18.7451 17.2492 19.1657 16.2351 19.1668 15.1775V13.9583C19.1668 13.7373 19.079 13.5254 18.9228 13.3691C18.7665 13.2128 18.5545 13.125 18.3335 13.125Z"
+                                fill="#0066BE"
+                              />
+                              <path
+                                d="M14.7456 9.20249C14.5893 9.04626 14.3774 8.9585 14.1564 8.9585C13.9355 8.9585 13.7235 9.04626 13.5673 9.20249L10.8231 11.9467L10.8333 1.77108C10.8333 1.55006 10.7455 1.3381 10.5893 1.18182C10.433 1.02554 10.221 0.937744 10 0.937744C9.77899 0.937744 9.56702 1.02554 9.41074 1.18182C9.25446 1.3381 9.16667 1.55006 9.16667 1.77108L9.15643 11.9467L6.41226 9.20249C6.25509 9.05069 6.04459 8.96669 5.82609 8.96859C5.60759 8.97049 5.39858 9.05813 5.24408 9.21264C5.08957 9.36715 5.00193 9.57615 5.00003 9.79465C4.99813 10.0131 5.08213 10.2236 5.23393 10.3808L9.40059 14.5475C9.478 14.6251 9.56996 14.6867 9.6712 14.7287C9.77245 14.7707 9.88098 14.7923 9.99059 14.7923C10.1002 14.7923 10.2087 14.7707 10.31 14.7287C10.4112 14.6867 10.5032 14.6251 10.5806 14.5475L14.7473 10.3808C14.9033 10.2243 14.9907 10.0123 14.9904 9.79131C14.9901 9.57034 14.902 9.35854 14.7456 9.20249Z"
+                                fill="#0066BE"
+                              />
+                            </svg>
+                          </button>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                  <div className="mailbox-table">
-                    <table>
-                      <tbody>
-                        <tr>
-                          <th>Campaign</th>
-                          <td>{viewEmailData?.campaign ? viewEmailData?.campaign : viewEmailData?.subject}</td>
-                        </tr>
-                        <tr>
-                          <th>List</th>
-                          <td>{viewEmailData?.smart_list_name ? viewEmailData?.smart_list_name : "N/A"}</td>
-                        </tr>
-                        {/* <tr>
+                    <div className="mailbox-table">
+                      <table>
+                        <tbody>
+                          <tr>
+                            <th>Campaign</th>
+                            <td>
+                              {viewEmailData?.campaign
+                                ? viewEmailData?.campaign
+                                : viewEmailData?.subject}
+                            </td>
+                          </tr>
+                          <tr>
+                            <th>List</th>
+                            <td>
+                              {viewEmailData?.smart_list_name
+                                ? viewEmailData?.smart_list_name
+                                : "N/A"}
+                            </td>
+                          </tr>
+                          {/* <tr>
                           <th>Content Title </th>
                           <td>{viewEmailData?.article_title ? viewEmailData?.article_title : "N/A"}</td>
                         </tr> */}
-                        {/* <tr>
+                          {/* <tr>
                           <th>Docintel Link </th>
                           <td>
                             <a
@@ -1702,182 +1916,268 @@ const WebinarEmail = (props) => {
                             </a>
                           </td>
                         </tr> */}
-                      </tbody>
-                    </table>
+                        </tbody>
+                      </table>
+                    </div>
+                    <div className="mail-time">
+                      <span>{viewEmailData?.created_at}</span>
+                    </div>
+                    <div className="mailbox-tags">
+                      <h6>Tags</h6>
+                      <ul>
+                        {viewEmailData?.tags != "" ? (
+                          viewEmailData?.tags?.map((tag, i) => {
+                            return (
+                              <li className="list1" key={i}>
+                                {tag}
+                              </li>
+                            );
+                          })
+                        ) : (
+                          <li className="list1">N/A</li>
+                        )}
+                      </ul>
+                    </div>
                   </div>
-                  <div className="mail-time">
-                    <span>{viewEmailData?.created_at}</span>
-                  </div>
-                  <div className="mailbox-tags">
-                    <h6>Tags</h6>
-                    <ul>
-                      {viewEmailData?.tags != "" ? (
-                        viewEmailData?.tags?.map((tag,i) => {
-                          return <li className="list1" key={i}>{tag}</li>;
-                        })
-                      ) : (
-                        <li className="list1">N/A</li>
-                      )}
-                    </ul>
-                  </div>
-
-                </div>
-                <div className="chart-description">
-                  <div className="mail-stats">
-                    <ul className={viewEmailData?.multi_ctr?.length > 0 ? "mail-stats-ul" : ""}>
-                      <li
-                        onClick={() => {
-                          getReaderData("sent", "", "Email sent");
-                        }}
+                  <div className="chart-description">
+                    <div className="mail-stats">
+                      <ul
+                        className={
+                          viewEmailData?.multi_ctr?.length > 0
+                            ? "mail-stats-ul"
+                            : ""
+                        }
                       >
-                        <div className="mail_send">
-                          <h6>Emails sent</h6>
-                          <div className="mail-stats-list">
-                            <svg
-                              width="40"
-                              height="40"
-                              viewBox="0 0 40 40"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <circle
-                                cx="20"
-                                cy="20"
-                                r="18.5"
-                                stroke="#986CA5"
-                                strokeWidth="3"
-                                strokeLinejoin="round"
-                              />
-                              <g clipPath="url(#clip0_698_88)">
-                                <path
-                                  d="M21.905 10.0557C21.5703 10.1568 21.264 10.3392 21.0106 10.5926L11.933 19.6701C11.6745 19.9286 11.4958 20.2371 11.3965 20.5645L20.1535 18.8131L21.905 10.0557Z"
-                                  fill="#986CA5"
-                                />
-                                <path
-                                  d="M29.3698 15.9047L24.0578 10.5925C23.7892 10.3241 23.4613 10.136 23.1032 10.0391L21.2259 19.426C21.1795 19.6579 20.9982 19.8393 20.7663 19.8857L11.3793 21.7632C11.4745 22.1129 11.6586 22.4434 11.9328 22.7176L12.3995 23.1842L10.1715 25.4121C9.9428 25.641 9.9428 26.012 10.1717 26.2408C10.2861 26.3551 10.436 26.4124 10.586 26.4124C10.736 26.4124 10.8858 26.3551 11.0002 26.2408L13.2282 24.0129L14.1745 24.9593L10.1715 28.9623C9.9428 29.191 9.9428 29.5621 10.1717 29.7908C10.2861 29.9052 10.436 29.9625 10.586 29.9625C10.736 29.9625 10.8858 29.9052 11.0002 29.7908L15.0032 25.7878L15.9496 26.7343L13.7218 28.9623C13.4929 29.191 13.4929 29.5621 13.7218 29.7908C13.8361 29.9052 13.9861 29.9625 14.1361 29.9625C14.2861 29.9625 14.4359 29.9052 14.5503 29.7908L16.7783 27.563L17.2449 28.0296C17.6508 28.4354 18.1919 28.6589 18.7686 28.6589C19.3454 28.6589 19.8866 28.4354 20.2924 28.0296L29.3698 18.9522C30.2101 18.1119 30.2101 16.7448 29.3698 15.9047Z"
-                                  fill="#986CA5"
-                                />
-                              </g>
-                              <defs>
-                                <clipPath id="clip0_698_88">
-                                  <rect
-                                    width="20"
-                                    height="20"
-                                    fill="white"
-                                    transform="translate(10 10)"
-                                  />
-                                </clipPath>
-                              </defs>
-                            </svg>
-                            <span>{viewEmailData?.email_sent}</span>
-                          </div>
-                        </div>
-                      </li>
-                      <li
-                        onClick={() => {
-                          getReaderData("open", "", "Email open");
-                        }}
-                      >
-                        <div className="mail_open">
-                          <h6>Emails opened</h6>
-                          <div className="mail-stats-list">
-                            <svg
-                              width="40"
-                              height="40"
-                              viewBox="0 0 40 40"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <circle
-                                cx="20"
-                                cy="20"
-                                r="18.5"
-                                stroke="#FAC755"
-                                strokeWidth="3"
-                                strokeLinejoin="round"
-                              />
-                              <path
-                                d="M20 21.7875L11.3125 17.1063C11.4295 16.6343 11.7283 16.2277 12.1437 15.975L19.7062 11.95C19.7963 11.9008 19.8973 11.875 20 11.875C20.1027 11.875 20.2037 11.9008 20.2937 11.95L27.825 15.9563C28.0375 16.0817 28.2231 16.2478 28.3711 16.4452C28.5191 16.6425 28.6266 16.8672 28.6875 17.1063L20 21.7875Z"
-                                fill="#FAC755"
-                              />
-                              <path
-                                d="M17.25 21.7251L11.25 25.9251V18.4939L17.25 21.7251Z"
-                                fill="#FAC755"
-                              />
-                              <path
-                                d="M21.5189 22.3875L28.4626 27.25C28.2924 27.517 28.0579 27.7371 27.7805 27.89C27.5031 28.0429 27.1918 28.1237 26.8751 28.125H13.1251C12.8084 28.1237 12.4971 28.0429 12.2197 27.89C11.9423 27.7371 11.7078 27.517 11.5376 27.25L18.4814 22.3875L19.7064 23.05C19.7965 23.099 19.8975 23.1247 20.0001 23.1247C20.1027 23.1247 20.2037 23.099 20.2939 23.05L21.5189 22.3875Z"
-                                fill="#FAC755"
-                              />
-                              <path
-                                d="M28.75 18.4939V25.9251L22.75 21.7251L28.75 18.4939Z"
-                                fill="#FAC755"
-                              />
-                            </svg>
-
-                            <span>{(viewEmailData?.read_precent && viewEmailData?.read_precent != "0.00%")
-                              ? viewEmailData?.read_precent
-                              : '0%'}
-                            </span>
-                          </div>
-                        </div>
-                      </li>
-
-                      {Object.keys(ctrName)?.length > 0 ? 
-                        Object.keys(ctrName)?.map((item, index) => (<>
                         <li
-                        key={index}
                           onClick={() => {
-                            getReaderData("ctr", item, viewEmailData?.labels[item]);
+                            getReaderData("sent", "", "Email sent");
                           }}
                         >
-                          <div className="mail_click">
-                            <div className="mail_click_box">
-                              <h6 style={{ color: colorArray[index] }}>{viewEmailData?.labels[item]}</h6>
-                              <div className="mail_click_box_content">
-                                <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" > 
-                                <circle cx="20" cy="20" r="18.5" stroke={`${colorArray[index]}`} strokeWidth="3" strokeLinejoin="round" /> 
-                                <path d="M14.955 16.6329C14.8178 16.1684 14.6861 15.703 14.5871 15.2572C13.9363 14.8722 13.4936 14.1715 13.4936 13.3617C13.4936 12.1434 14.4842 11.1535 15.7017 11.1535C16.9192 11.1535 17.9098 12.1442 17.9098 13.3617C17.9098 13.5292 17.8872 13.6906 17.8521 13.8472C18.0633 14.3125 18.234 14.8363 18.3837 15.3687C18.8046 14.8075 19.0633 14.1177 19.0633 13.3617C19.0633 11.5043 17.5591 10 15.7017 10C13.8443 10 12.3408 11.5043 12.3408 13.3617C12.3408 14.961 13.4593 16.2931 14.955 16.6329Z" fill={`${colorArray[index]}`} /> 
-                                <path d="M12.6329 24.5915C13.4615 23.696 14.3913 24.0467 15.6361 24.2361C16.7054 24.4006 17.7584 24.1005 17.6883 23.5229C17.5776 22.5884 17.4217 22.1706 17.0671 20.9602C16.7842 19.9976 16.2471 18.2626 15.7584 16.604C15.1037 14.385 14.9143 13.3546 15.7857 13.0974C16.7249 12.8238 17.2635 14.1582 17.7514 16.0085C18.3071 18.1145 18.5994 19.0444 18.7631 18.9953C19.0515 18.9127 18.6571 18.0116 19.4116 17.7895C20.3547 17.5152 20.5371 18.2525 20.8013 18.1784C21.0655 18.0989 20.9759 17.3523 21.728 17.1325C22.4841 16.9142 22.8637 17.8448 23.1754 17.7521C23.4841 17.6609 23.4771 17.325 23.9432 17.1917C24.41 17.053 26.1668 17.8394 27.1723 21.2743C28.4342 25.5931 27.0125 26.3959 27.4435 27.8581L21.8107 30C21.3547 28.9033 19.9424 28.8222 18.693 28.1231C17.4342 27.4146 16.5792 26.0342 13.2986 26.1013C12.0647 26.1262 12.1232 25.1426 12.6329 24.5915Z" fill={`${colorArray[index]}`} /> </svg>
-                                <span>{((ctrName[item] / viewEmailData?.email_read) * 100)==100
-                                ?100 + "%"
-                              :((ctrName[item] / viewEmailData?.email_read) * 100)==0
-                              ?0
-                              :((ctrName[item] / viewEmailData?.email_read) * 100)?.toFixed(2)+"%"
-
-                              }</span>
-                              </div>
+                          <div className="mail_send">
+                            <h6>Emails sent</h6>
+                            <div className="mail-stats-list">
+                              <svg
+                                width="40"
+                                height="40"
+                                viewBox="0 0 40 40"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <circle
+                                  cx="20"
+                                  cy="20"
+                                  r="18.5"
+                                  stroke="#986CA5"
+                                  strokeWidth="3"
+                                  strokeLinejoin="round"
+                                />
+                                <g clipPath="url(#clip0_698_88)">
+                                  <path
+                                    d="M21.905 10.0557C21.5703 10.1568 21.264 10.3392 21.0106 10.5926L11.933 19.6701C11.6745 19.9286 11.4958 20.2371 11.3965 20.5645L20.1535 18.8131L21.905 10.0557Z"
+                                    fill="#986CA5"
+                                  />
+                                  <path
+                                    d="M29.3698 15.9047L24.0578 10.5925C23.7892 10.3241 23.4613 10.136 23.1032 10.0391L21.2259 19.426C21.1795 19.6579 20.9982 19.8393 20.7663 19.8857L11.3793 21.7632C11.4745 22.1129 11.6586 22.4434 11.9328 22.7176L12.3995 23.1842L10.1715 25.4121C9.9428 25.641 9.9428 26.012 10.1717 26.2408C10.2861 26.3551 10.436 26.4124 10.586 26.4124C10.736 26.4124 10.8858 26.3551 11.0002 26.2408L13.2282 24.0129L14.1745 24.9593L10.1715 28.9623C9.9428 29.191 9.9428 29.5621 10.1717 29.7908C10.2861 29.9052 10.436 29.9625 10.586 29.9625C10.736 29.9625 10.8858 29.9052 11.0002 29.7908L15.0032 25.7878L15.9496 26.7343L13.7218 28.9623C13.4929 29.191 13.4929 29.5621 13.7218 29.7908C13.8361 29.9052 13.9861 29.9625 14.1361 29.9625C14.2861 29.9625 14.4359 29.9052 14.5503 29.7908L16.7783 27.563L17.2449 28.0296C17.6508 28.4354 18.1919 28.6589 18.7686 28.6589C19.3454 28.6589 19.8866 28.4354 20.2924 28.0296L29.3698 18.9522C30.2101 18.1119 30.2101 16.7448 29.3698 15.9047Z"
+                                    fill="#986CA5"
+                                  />
+                                </g>
+                                <defs>
+                                  <clipPath id="clip0_698_88">
+                                    <rect
+                                      width="20"
+                                      height="20"
+                                      fill="white"
+                                      transform="translate(10 10)"
+                                    />
+                                  </clipPath>
+                                </defs>
+                              </svg>
+                              <span>{viewEmailData?.email_sent}</span>
                             </div>
                           </div>
                         </li>
-                      </>))
-                        : 
-                          <li onClick={() => {
-                            getReaderData("ctr", "", "default");
-                          }}>
+                        <li
+                          onClick={() => {
+                            getReaderData("open", "", "Email open");
+                          }}
+                        >
+                          <div className="mail_open">
+                            <h6>Emails opened</h6>
+                            <div className="mail-stats-list">
+                              <svg
+                                width="40"
+                                height="40"
+                                viewBox="0 0 40 40"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <circle
+                                  cx="20"
+                                  cy="20"
+                                  r="18.5"
+                                  stroke="#FAC755"
+                                  strokeWidth="3"
+                                  strokeLinejoin="round"
+                                />
+                                <path
+                                  d="M20 21.7875L11.3125 17.1063C11.4295 16.6343 11.7283 16.2277 12.1437 15.975L19.7062 11.95C19.7963 11.9008 19.8973 11.875 20 11.875C20.1027 11.875 20.2037 11.9008 20.2937 11.95L27.825 15.9563C28.0375 16.0817 28.2231 16.2478 28.3711 16.4452C28.5191 16.6425 28.6266 16.8672 28.6875 17.1063L20 21.7875Z"
+                                  fill="#FAC755"
+                                />
+                                <path
+                                  d="M17.25 21.7251L11.25 25.9251V18.4939L17.25 21.7251Z"
+                                  fill="#FAC755"
+                                />
+                                <path
+                                  d="M21.5189 22.3875L28.4626 27.25C28.2924 27.517 28.0579 27.7371 27.7805 27.89C27.5031 28.0429 27.1918 28.1237 26.8751 28.125H13.1251C12.8084 28.1237 12.4971 28.0429 12.2197 27.89C11.9423 27.7371 11.7078 27.517 11.5376 27.25L18.4814 22.3875L19.7064 23.05C19.7965 23.099 19.8975 23.1247 20.0001 23.1247C20.1027 23.1247 20.2037 23.099 20.2939 23.05L21.5189 22.3875Z"
+                                  fill="#FAC755"
+                                />
+                                <path
+                                  d="M28.75 18.4939V25.9251L22.75 21.7251L28.75 18.4939Z"
+                                  fill="#FAC755"
+                                />
+                              </svg>
+
+                              <span>
+                                {viewEmailData?.read_precent &&
+                                viewEmailData?.read_precent != "0.00%"
+                                  ? viewEmailData?.read_precent
+                                  : "0%"}
+                              </span>
+                            </div>
+                          </div>
+                        </li>
+
+                        {Object.keys(ctrName)?.length > 0 ? (
+                          Object.keys(ctrName)?.map((item, index) => (
+                            <>
+                              <li
+                                key={index}
+                                onClick={() => {
+                                  getReaderData(
+                                    "ctr",
+                                    item,
+                                    viewEmailData?.labels[item]
+                                  );
+                                }}
+                              >
+                                <div className="mail_click">
+                                  <div className="mail_click_box">
+                                    <h6 style={{ color: colorArray[index] }}>
+                                      {viewEmailData?.labels[item]}
+                                    </h6>
+                                    <div className="mail_click_box_content">
+                                      <svg
+                                        width="40"
+                                        height="40"
+                                        viewBox="0 0 40 40"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                      >
+                                        <circle
+                                          cx="20"
+                                          cy="20"
+                                          r="18.5"
+                                          stroke={`${colorArray[index]}`}
+                                          strokeWidth="3"
+                                          strokeLinejoin="round"
+                                        />
+                                        <path
+                                          d="M14.955 16.6329C14.8178 16.1684 14.6861 15.703 14.5871 15.2572C13.9363 14.8722 13.4936 14.1715 13.4936 13.3617C13.4936 12.1434 14.4842 11.1535 15.7017 11.1535C16.9192 11.1535 17.9098 12.1442 17.9098 13.3617C17.9098 13.5292 17.8872 13.6906 17.8521 13.8472C18.0633 14.3125 18.234 14.8363 18.3837 15.3687C18.8046 14.8075 19.0633 14.1177 19.0633 13.3617C19.0633 11.5043 17.5591 10 15.7017 10C13.8443 10 12.3408 11.5043 12.3408 13.3617C12.3408 14.961 13.4593 16.2931 14.955 16.6329Z"
+                                          fill={`${colorArray[index]}`}
+                                        />
+                                        <path
+                                          d="M12.6329 24.5915C13.4615 23.696 14.3913 24.0467 15.6361 24.2361C16.7054 24.4006 17.7584 24.1005 17.6883 23.5229C17.5776 22.5884 17.4217 22.1706 17.0671 20.9602C16.7842 19.9976 16.2471 18.2626 15.7584 16.604C15.1037 14.385 14.9143 13.3546 15.7857 13.0974C16.7249 12.8238 17.2635 14.1582 17.7514 16.0085C18.3071 18.1145 18.5994 19.0444 18.7631 18.9953C19.0515 18.9127 18.6571 18.0116 19.4116 17.7895C20.3547 17.5152 20.5371 18.2525 20.8013 18.1784C21.0655 18.0989 20.9759 17.3523 21.728 17.1325C22.4841 16.9142 22.8637 17.8448 23.1754 17.7521C23.4841 17.6609 23.4771 17.325 23.9432 17.1917C24.41 17.053 26.1668 17.8394 27.1723 21.2743C28.4342 25.5931 27.0125 26.3959 27.4435 27.8581L21.8107 30C21.3547 28.9033 19.9424 28.8222 18.693 28.1231C17.4342 27.4146 16.5792 26.0342 13.2986 26.1013C12.0647 26.1262 12.1232 25.1426 12.6329 24.5915Z"
+                                          fill={`${colorArray[index]}`}
+                                        />{" "}
+                                      </svg>
+                                      <span>
+                                        {(ctrName[item] /
+                                          viewEmailData?.email_read) *
+                                          100 ==
+                                        100
+                                          ? 100 + "%"
+                                          : (ctrName[item] /
+                                              viewEmailData?.email_read) *
+                                              100 ==
+                                            0
+                                          ? 0
+                                          : (
+                                              (ctrName[item] /
+                                                viewEmailData?.email_read) *
+                                              100
+                                            )?.toFixed(2) + "%"}
+                                      </span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </li>
+                            </>
+                          ))
+                        ) : (
+                          <li
+                            onClick={() => {
+                              getReaderData("ctr", "", "default");
+                            }}
+                          >
                             <div className="mail_click">
                               <div className="mail_click_box">
                                 <h6>Link clicked (CTR 1)</h6>
                                 <div className="mail_click_box_content">
-                                  <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" > <circle cx="20" cy="20" r="18.5" stroke="#39CABC" strokeWidth="3" strokeLinejoin="round" /> <path d="M14.955 16.6329C14.8178 16.1684 14.6861 15.703 14.5871 15.2572C13.9363 14.8722 13.4936 14.1715 13.4936 13.3617C13.4936 12.1434 14.4842 11.1535 15.7017 11.1535C16.9192 11.1535 17.9098 12.1442 17.9098 13.3617C17.9098 13.5292 17.8872 13.6906 17.8521 13.8472C18.0633 14.3125 18.234 14.8363 18.3837 15.3687C18.8046 14.8075 19.0633 14.1177 19.0633 13.3617C19.0633 11.5043 17.5591 10 15.7017 10C13.8443 10 12.3408 11.5043 12.3408 13.3617C12.3408 14.961 13.4593 16.2931 14.955 16.6329Z" fill="#39CABC" /> <path d="M12.6329 24.5915C13.4615 23.696 14.3913 24.0467 15.6361 24.2361C16.7054 24.4006 17.7584 24.1005 17.6883 23.5229C17.5776 22.5884 17.4217 22.1706 17.0671 20.9602C16.7842 19.9976 16.2471 18.2626 15.7584 16.604C15.1037 14.385 14.9143 13.3546 15.7857 13.0974C16.7249 12.8238 17.2635 14.1582 17.7514 16.0085C18.3071 18.1145 18.5994 19.0444 18.7631 18.9953C19.0515 18.9127 18.6571 18.0116 19.4116 17.7895C20.3547 17.5152 20.5371 18.2525 20.8013 18.1784C21.0655 18.0989 20.9759 17.3523 21.728 17.1325C22.4841 16.9142 22.8637 17.8448 23.1754 17.7521C23.4841 17.6609 23.4771 17.325 23.9432 17.1917C24.41 17.053 26.1668 17.8394 27.1723 21.2743C28.4342 25.5931 27.0125 26.3959 27.4435 27.8581L21.8107 30C21.3547 28.9033 19.9424 28.8222 18.693 28.1231C17.4342 27.4146 16.5792 26.0342 13.2986 26.1013C12.0647 26.1262 12.1232 25.1426 12.6329 24.5915Z" fill="#39CABC" /> </svg>
+                                  <svg
+                                    width="40"
+                                    height="40"
+                                    viewBox="0 0 40 40"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                  >
+                                    {" "}
+                                    <circle
+                                      cx="20"
+                                      cy="20"
+                                      r="18.5"
+                                      stroke="#39CABC"
+                                      strokeWidth="3"
+                                      strokeLinejoin="round"
+                                    />{" "}
+                                    <path
+                                      d="M14.955 16.6329C14.8178 16.1684 14.6861 15.703 14.5871 15.2572C13.9363 14.8722 13.4936 14.1715 13.4936 13.3617C13.4936 12.1434 14.4842 11.1535 15.7017 11.1535C16.9192 11.1535 17.9098 12.1442 17.9098 13.3617C17.9098 13.5292 17.8872 13.6906 17.8521 13.8472C18.0633 14.3125 18.234 14.8363 18.3837 15.3687C18.8046 14.8075 19.0633 14.1177 19.0633 13.3617C19.0633 11.5043 17.5591 10 15.7017 10C13.8443 10 12.3408 11.5043 12.3408 13.3617C12.3408 14.961 13.4593 16.2931 14.955 16.6329Z"
+                                      fill="#39CABC"
+                                    />{" "}
+                                    <path
+                                      d="M12.6329 24.5915C13.4615 23.696 14.3913 24.0467 15.6361 24.2361C16.7054 24.4006 17.7584 24.1005 17.6883 23.5229C17.5776 22.5884 17.4217 22.1706 17.0671 20.9602C16.7842 19.9976 16.2471 18.2626 15.7584 16.604C15.1037 14.385 14.9143 13.3546 15.7857 13.0974C16.7249 12.8238 17.2635 14.1582 17.7514 16.0085C18.3071 18.1145 18.5994 19.0444 18.7631 18.9953C19.0515 18.9127 18.6571 18.0116 19.4116 17.7895C20.3547 17.5152 20.5371 18.2525 20.8013 18.1784C21.0655 18.0989 20.9759 17.3523 21.728 17.1325C22.4841 16.9142 22.8637 17.8448 23.1754 17.7521C23.4841 17.6609 23.4771 17.325 23.9432 17.1917C24.41 17.053 26.1668 17.8394 27.1723 21.2743C28.4342 25.5931 27.0125 26.3959 27.4435 27.8581L21.8107 30C21.3547 28.9033 19.9424 28.8222 18.693 28.1231C17.4342 27.4146 16.5792 26.0342 13.2986 26.1013C12.0647 26.1262 12.1232 25.1426 12.6329 24.5915Z"
+                                      fill="#39CABC"
+                                    />{" "}
+                                  </svg>
                                   <span>0%</span>
                                 </div>
                               </div>
                             </div>
                           </li>
-                        
-                        }
-                    </ul>
-                  </div>
-                  <div className="chart-description-view">
-                    <HighchartsReact
-                      key={campaignId?.auto_id}
-                      highcharts={Highcharts}
-                      options={options}
-                    />
+                        )}
+                      </ul>
+                    </div>
+                    <div className="chart-description-view">
+                      <HighchartsReact
+                        key={campaignId?.auto_id}
+                        highcharts={Highcharts}
+                        options={options}
+                      />
+                    </div>
                   </div>
                 </div>
-                </div>
-                {viewEmailData?.template ? (<> <div className="preview-mail-box" dangerouslySetInnerHTML={{ __html: viewEmailData?.template, }} ></div> </>) : ""}
+                {viewEmailData?.template ? (
+                  <>
+                    {" "}
+                    <div
+                      className="preview-mail-box"
+                      dangerouslySetInnerHTML={{
+                        __html: viewEmailData?.template,
+                      }}
+                    ></div>{" "}
+                  </>
+                ) : (
+                  ""
+                )}
               </div>
             )}
           </Modal.Body>
@@ -1903,7 +2203,7 @@ const WebinarEmail = (props) => {
                 setReaderDetailsPopupStatus(false);
                 setReaderDetailsData([]);
                 setviewEmailModal(true);
-                setFunctionParameter({})
+                setFunctionParameter({});
               }}
             ></button>
           </Modal.Header>
@@ -1942,45 +2242,54 @@ const WebinarEmail = (props) => {
                 <table className="table" id="table-to-xls">
                   <thead className="sticky-header">
                     <tr>
-
-                       <th scope="col" className="sort_option" >
-                                <span onClick={() => handleSort('name')} >
-                                Name
-                                <button
-                                className={`event_sort_btn ${sortBy == "name" ?
-                                sortOrder == "asc"
-                                ? "svg_asc"
-                                : "svg_active"
-                                : "" 
-                                }`}
-                                onClick={() => handleSort('name')}
-                                >
-                                <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
-                                    <g clip-path="url(#clip0_3722_6611)">
-                                    <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF"/>
-                                    </g>
-                                    <defs>
-                                    <clipPath id="clip0_3722_6611">
-                                        <rect width="8" height="8" fill="white"/>
-                                    </clipPath>
-                                    </defs>
-                                </svg>
-                                </button>
-                                </span>
-                            
-                        </th> 
+                      <th scope="col" className="sort_option">
+                        <span onClick={() => handleSort("name")}>
+                          Name
+                          <button
+                            className={`event_sort_btn ${
+                              sortBy == "name"
+                                ? sortOrder == "asc"
+                                  ? "svg_asc"
+                                  : "svg_active"
+                                : ""
+                            }`}
+                            onClick={() => handleSort("name")}
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="8"
+                              height="8"
+                              viewBox="0 0 8 8"
+                              fill="none"
+                            >
+                              <g clip-path="url(#clip0_3722_6611)">
+                                <path
+                                  d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z"
+                                  fill="#97B6CF"
+                                />
+                              </g>
+                              <defs>
+                                <clipPath id="clip0_3722_6611">
+                                  <rect width="8" height="8" fill="white" />
+                                </clipPath>
+                              </defs>
+                            </svg>
+                          </button>
+                        </span>
+                      </th>
                       {/* <th scope="col">Email</th> */}
-                      <th scope="col" className="sort_option" >
-                        <span  onClick={() => handleSort('email')} >
+                      <th scope="col" className="sort_option">
+                        <span onClick={() => handleSort("email")}>
                           Email
                           <button
-                             className={`event_sort_btn ${sortBy == "email" ?
-                             sortOrder == "asc"
-                             ? "svg_asc"
-                             : "svg_active"
-                             : "" 
-                             }`}
-                              onClick={() => handleSort('email')}
+                            className={`event_sort_btn ${
+                              sortBy == "email"
+                                ? sortOrder == "asc"
+                                  ? "svg_asc"
+                                  : "svg_active"
+                                : ""
+                            }`}
+                            onClick={() => handleSort("email")}
                           >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -2003,20 +2312,20 @@ const WebinarEmail = (props) => {
                             </svg>
                           </button>
                         </span>
-
                       </th>
                       {/* <th scope="col">Country</th> */}
-                      <th scope="col" className="sort_option" >
-                        <span  onClick={() => handleSort('country')}>
+                      <th scope="col" className="sort_option">
+                        <span onClick={() => handleSort("country")}>
                           Country
                           <button
-                            className={`event_sort_btn ${sortBy == "country" ?
-                            sortOrder == "asc"
-                            ? "svg_asc"
-                            : "svg_active"
-                            : "" 
+                            className={`event_sort_btn ${
+                              sortBy == "country"
+                                ? sortOrder == "asc"
+                                  ? "svg_asc"
+                                  : "svg_active"
+                                : ""
                             }`}
-                              onClick={() => handleSort('country')}
+                            onClick={() => handleSort("country")}
                           >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -2039,20 +2348,20 @@ const WebinarEmail = (props) => {
                             </svg>
                           </button>
                         </span>
-
                       </th>
                       {/* <th scope="col">Date</th> */}
-                      <th scope="col" className="sort_option" >
-                        <span  onClick={() => handleSort('formatted_date')}>
+                      <th scope="col" className="sort_option">
+                        <span onClick={() => handleSort("formatted_date")}>
                           Date
                           <button
-                            className={`event_sort_btn ${sortBy == "formatted_date" ?
-                            sortOrder == "asc"
-                            ? "svg_asc"
-                            : "svg_active"
-                            : "" 
+                            className={`event_sort_btn ${
+                              sortBy == "formatted_date"
+                                ? sortOrder == "asc"
+                                  ? "svg_asc"
+                                  : "svg_active"
+                                : ""
                             }`}
-                              onClick={() => handleSort('formatted_date')}
+                            onClick={() => handleSort("formatted_date")}
                           >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -2075,44 +2384,67 @@ const WebinarEmail = (props) => {
                             </svg>
                           </button>
                         </span>
-
                       </th>
                     </tr>
-
                   </thead>
-                   <tbody>
-                      {typeof readerDetailsData !== "undefined" && readerDetailsData?.length > 0 ? (
-                        <>
-                          {sortData(readerDetailsData, sortBy, sortOrder).map((item, index) => (
-                            <tr key={"readers_" + index} className="hcp" id={`row-selected${index}`}>
+                  <tbody>
+                    {typeof readerDetailsData !== "undefined" &&
+                    readerDetailsData?.length > 0 ? (
+                      <>
+                        {sortData(readerDetailsData, sortBy, sortOrder).map(
+                          (item, index) => (
+                            <tr
+                              key={"readers_" + index}
+                              className="hcp"
+                              id={`row-selected${index}`}
+                            >
                               <td>{item?.name}</td>
                               <td>{item?.email ? item?.email : "N/A"}</td>
                               <td>
-                                <span>{item?.country ? item?.country : "N/A"}</span>
+                                <span>
+                                  {item?.country ? item?.country : "N/A"}
+                                </span>
                               </td>
                               <td>
-                                <span>{item?.formatted_date ? item?.formatted_date : "N/A"}</span>
+                                <span>
+                                  {item?.formatted_date
+                                    ? item?.formatted_date
+                                    : "N/A"}
+                                </span>
                               </td>
                             </tr>
-                          ))}
-                        </>
-                      ) : readerDetailsData?.length === 0 ? (
-                        <tr className="table_no_data_found">
-                          <td colSpan="4">
-                            <div className="no_found">
-                              <p>No Data Found</p>
-                            </div>
-                          </td>
-                        </tr>
-                      ) : null}
-                    </tbody>
-
-                  </table>
-                  {  readerDetailsData?.length >= 50 && functionParameter?.loadAll==1 &&    (<div className="text-center load_more">
-                    <button className="btn btn-primary btn-filled" onClick={()=>getReaderData(functionParameter?.type,functionParameter?.dynamic_name,functionParameter?.popup_name,2)}>
-                      Load All
-                    </button>
-                  </div>)}
+                          )
+                        )}
+                      </>
+                    ) : readerDetailsData?.length === 0 ? (
+                      <tr className="table_no_data_found">
+                        <td colSpan="4">
+                          <div className="no_found">
+                            <p>No Data Found</p>
+                          </div>
+                        </td>
+                      </tr>
+                    ) : null}
+                  </tbody>
+                </table>
+                {readerDetailsData?.length >= 50 &&
+                  functionParameter?.loadAll == 1 && (
+                    <div className="text-center load_more">
+                      <button
+                        className="btn btn-primary btn-filled"
+                        onClick={() =>
+                          getReaderData(
+                            functionParameter?.type,
+                            functionParameter?.dynamic_name,
+                            functionParameter?.popup_name,
+                            2
+                          )
+                        }
+                      >
+                        Load All
+                      </button>
+                    </div>
+                  )}
               </div>
             }
           </Modal.Body>
@@ -2177,8 +2509,8 @@ const WebinarEmail = (props) => {
         resetDataId={campaignId}
       />
 
-       {/*Modal start for send Draft Email*/}
-       <div>
+      {/*Modal start for send Draft Email*/}
+      <div>
         <Modal
           className="modal send-confirm event_list"
           id="send-draft-mail"
@@ -2231,6 +2563,55 @@ const WebinarEmail = (props) => {
       </div>
       {/*Modal end for send Draft Email*/}
 
+      <Modal
+        show={cancelCampaignConfirmationPopup}
+        className="send-confirm"
+        id="resend-confirm"
+      >
+        <Modal.Header>
+          <button
+            type="button"
+            className="btn-close"
+            data-bs-dismiss="modal"
+            onClick={() => {
+              hideCancelCampaignConfirmationpopup();
+            }}
+          ></button>
+        </Modal.Header>
+        <Modal.Body>
+          <img src={path_image + "alert.png"} alt="" />
+          <h4>
+            Are you sure you want cancel this campaign?
+            <br />
+            Once it cancelled it can't be reversed
+          </h4>
+          <div className="modal-buttons">
+            <button
+              type="button"
+              className="btn btn-primary btn-filled"
+              data-bs-dismiss="modal"
+              onClick={() => {
+                if (selectedData !== null && selectedIndex !== null) {
+                  handleScheduleEmail(selectedData, selectedIndex);
+                }
+                hideCancelCampaignConfirmationpopup();
+              }}
+            >
+              Yes Please!
+            </button>
+            <button
+              type="button"
+              className="btn btn-primary btn-bordered light"
+              data-bs-dismiss="modal"
+              onClick={() => {
+                hideCancelCampaignConfirmationpopup();
+              }}
+            >
+              Cancel
+            </button>
+          </div>
+        </Modal.Body>
+      </Modal>
     </>
   );
 };
@@ -2242,4 +2623,4 @@ export default connect(mapStateToProps, {
   getWebinarEmailData: getWebinarEmailData,
   getWebinarSelectedSmartListData: getWebinarSelectedSmartListData,
   getWebinarDraftData: getWebinarDraftData,
-})(WebinarEmail);;
+})(WebinarEmail);

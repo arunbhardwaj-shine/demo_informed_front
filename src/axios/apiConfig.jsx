@@ -251,4 +251,7 @@ export const ENDPOINT = {
   ONE_CLICK_LOGIN:`/auth/one-click-login`,
   DOWNLOADARTICLESTATS:`analytics/country_downloads_new`,
   DOWNLOADRENEWARTICLESTATS:`analytics/download_excel_new`,
+  REMOVE_SCHEDULE_EMAIL:'email/remove-scheduled-email',
+  MEETING_CREDENTIAL:'create-meeting',
+  MEETING_ID_DELETE:'delete-meeting'
 };
