@@ -1719,8 +1719,14 @@ const getDownloadData = async (viewEmailData) => {
                                {data?.account_setup == 1 ?"Yes":"No"}  
                               </td>
                               <td className="divide-line">
-                                <Button className="btn-bordered"  onClick={(e) => showModal("send", campaign_id)}>Resend</Button>
-                                <Button className="btn-filled" onClick={(e) => showViewEmailModal(data.id)}>View</Button>
+                                {
+                                  !deletestatus ?
+                                  <>
+                                    <Button className="btn-bordered"  onClick={(e) => showModal("send", campaign_id)}>Resend</Button>
+                                    <Button className="btn-filled" onClick={(e) => showViewEmailModal(data.id)}>View</Button>
+                                  </>
+                                  : null
+                                }
                                
                               </td>
                               <td>
