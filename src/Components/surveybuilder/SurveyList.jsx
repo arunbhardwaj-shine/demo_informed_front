@@ -273,7 +273,7 @@ const SurveyList = (props) => {
     loader("hide");
   };
 
-  const downloadQRCode = () => {
+  const downloadQRCode = (title="") => {
     // // Generate download with use canvas and stream
     // const canvas = document.getElementById("qr-gen");
     // const pngUrl = canvas
@@ -293,7 +293,7 @@ const SurveyList = (props) => {
         .replace("image/png", "image/octet-stream");
       const downloadLink = document.createElement("a");
       downloadLink.href = pngUrl;
-      downloadLink.download = `QR-code.png`;
+      downloadLink.download = title ? title+".png" : `QR-code.png`;
       document.body.appendChild(downloadLink);
       downloadLink.click();
       document.body.removeChild(downloadLink);
@@ -1093,7 +1093,7 @@ const SurveyList = (props) => {
                                                     value: `https://survey.docintel.app/survey?Utmde=${data.unique_code}&dl=QR`,
                                                   });
                                                   setTimeout(function () {
-                                                    downloadQRCode();
+                                                    downloadQRCode(data?.survey_link_title);
                                                   }, 500);
                                                 }}
                                               >
@@ -1173,10 +1173,13 @@ const SurveyList = (props) => {
                                           </div>
                                           <div className="mail-time">
                                             <span>
-                                              {format(
-                                                new Date(data.date),
+                                              {
+                                                data?.createdDate
+                                              }
+                                              {/* {format(
+                                                new Date(),
                                                 "MMMM d, yyyy '|' h:mm a"
-                                              )}
+                                              )} */}
                                             </span>
                                           </div>
 

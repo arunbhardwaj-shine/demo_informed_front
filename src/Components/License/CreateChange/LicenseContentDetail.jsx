@@ -41,6 +41,7 @@ const LicenseContentDetail = (props) => {
 
   const [accountSetupLink, setAccountSetupLink] = useState('');
   const [reRender, setReRender] = useState(0);
+  const [qrTitle, setQrTitle] = useState("");
   const navigate = useNavigate();
   const [articleId, setArticleId] = useState(
     typeof state?.pdfId !== "undefined" ? state?.pdfId : ""
@@ -189,8 +190,9 @@ Let me know if you’d like any further adjustments!`;
     setReRender(reRender + 1);
   };
 
-  const commonModelFun = () => {
+  const commonModelFun = (title = null) => {
     setShow(true);
+    setQrTitle(title);
   };
 
   const downloadQRData = [
@@ -221,7 +223,7 @@ Let me know if you’d like any further adjustments!`;
       .replace("image/png", "image/octet-stream");
     let downloadLink = document.createElement("a");
     downloadLink.href = pngUrl;
-    downloadLink.download = `${qrValue}.png`;
+    downloadLink.download = qrTitle ? `${qrTitle}.png` : `${qrValue}.png`;
     document.body.appendChild(downloadLink);
     downloadLink.click();
     document.body.removeChild(downloadLink);
@@ -433,7 +435,7 @@ Let me know if you’d like any further adjustments!`;
                                         <Button
                                           className="btn btn-primary btn-bordered move-draft"
                                           onClick={() => {
-                                            commonModelFun();
+                                            commonModelFun(data?.title);
                                             setQr({
                                               ...qrState,
                                               value: data?.docintelLink+`~QRcode`,
