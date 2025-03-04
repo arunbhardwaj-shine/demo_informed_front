@@ -1173,10 +1173,13 @@ const SurveyList = (props) => {
                                           </div>
                                           <div className="mail-time">
                                             <span>
-                                              {format(
-                                                new Date(data.date),
+                                              {
+                                                data?.createdDate
+                                              }
+                                              {/* {format(
+                                                new Date(),
                                                 "MMMM d, yyyy '|' h:mm a"
-                                              )}
+                                              )} */}
                                             </span>
                                           </div>
 
