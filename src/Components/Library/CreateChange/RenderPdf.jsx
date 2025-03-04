@@ -185,7 +185,7 @@ const RenderPdf = ({
 
     if (dataURL && dataURL.startsWith('data:image/png;base64,')) {
       var file = dataURLtoBlob(dataURL);
-      file = await optimizeImage(file, { width: 125 });
+      file = await optimizeImage(file, { width: 225 });
       var fd = new FormData();
       fd.append("file", file);
       fd.append("data", JSON.stringify(wordData));
