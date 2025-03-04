@@ -92,6 +92,7 @@ const LicenseContent = (props) => {
   const [pdftagsid, setpdftagsid] = useState();
   const [client_details, setClientDetails] = useState([]);
   const [clientDetailLoader, setClientDetailLoader] = useState(false);
+  const [qrTitle, setQrTitle] = useState("");
   const navigate = useNavigate();
   let obj = {};
   const [userId, setUserId] = useState();
@@ -543,8 +544,9 @@ const LicenseContent = (props) => {
     hideConfirmationModal();
   };
 
-  const commonModelFun = () => {
+  const commonModelFun = (title = null) => {
     setShow(true);
+    setQrTitle(title);
   };
 
   function LinkWithTooltip({ id, children, href, tooltip }) {
@@ -591,7 +593,7 @@ const LicenseContent = (props) => {
       .replace("image/png", "image/octet-stream");
     let downloadLink = document.createElement("a");
     downloadLink.href = pngUrl;
-    downloadLink.download = `${qrValue}.png`;
+    downloadLink.download = qrTitle ? `${qrTitle}.png` : `${qrValue}.png`;
     document.body.appendChild(downloadLink);
     downloadLink.click();
     document.body.removeChild(downloadLink);
@@ -1662,7 +1664,7 @@ const LicenseContent = (props) => {
                                       </a>
                                       <Button
                                         onClick={() => {
-                                          commonModelFun();
+                                          commonModelFun(data?.title);
                                           setQr({
                                             ...qrState,
                                             value: data?.docintelLink+`~QRcode`,
