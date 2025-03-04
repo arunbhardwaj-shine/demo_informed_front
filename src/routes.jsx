@@ -1129,6 +1129,18 @@ const Routing = () => {
           path="/survey/survey-sublink"
           element={<LoginLayout component={SurveySublink} />}
         />
+        <Route path="/survey/email" element={<LoginLayout component={EmailList}  type="survey"/>}/>
+        <Route path="/survey/auto-email" element={<LoginLayout component={AutoEmail}  type="survey"/>} />
+        <Route path="/survey/smartlist" element={<LoginLayout component={SmartList}  type="survey"/>} />
+        <Route path="/survey/email-article-select" element={<LoginLayout component={EmailArticleSelect}  type="survey"/>} />
+        <Route path="/survey/create-email" element={<LoginLayout component={CreateEmail}  type="survey"/>} />
+        <Route path="/survey/filter-segment" element={<LoginLayout component={FilterSegment} />}  type="survey" />
+        <Route path="/survey/select-hcp" element={<LoginLayout component={SelectHCP}  type="survey" />} />
+        <Route path="/survey/verify-hcp" element={<LoginLayout component={VerifyHCP}  type="survey"/>} />
+        <Route path="/survey/verify-mail" element={<LoginLayout component={VerifyMAIL}  type="survey"/>} />
+        <Route path="/survey/verify-hcp-mail" element={<LoginLayout component={VerifyHcpMAIL}  type="survey"/>} />
+        <Route path="/survey/verify-sunshine-mail" element={<LoginLayout component={VerifySunshineMAIL}   type="survey"/>} />
+        <Route path="/survey/select-smartlist-users" element={<LoginLayout component={SelectSmartListUsersLayout}  type="survey"/>} />
         <Route
           path="/survey/survey-analytics"
           element={<LoginLayout component={SurveyAnalytics} />}
