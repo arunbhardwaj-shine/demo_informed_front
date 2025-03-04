@@ -8024,6 +8024,9 @@ header.top-0~div .custom-change .invitee table#table-to-xls thead.sticky-header 
 .modal #add_hcp_form .split-button-dropup.edit-country-dropdown>div:nth-child(3) div {
   color: var(--light-blue);
 }
+.modal #add_hcp .split-button-dropup.edit-country-dropdown > div div[class*=-placeholder] {
+  color: #97B6CF;
+}
 .modal .form-search-hcp .form-inline .form-group label {
   padding-right: 12px;
 }

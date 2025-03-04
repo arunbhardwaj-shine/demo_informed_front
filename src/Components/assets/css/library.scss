@@ -3900,7 +3900,7 @@ form.product-unit button {
 }
 
 
-.create-change-content .upload-file-box .box p.uploaded-file {
+.create-change-content .upload-file-box .box p.uploaded-file, .create-change-content .upload-file-box .box p span.uploaded-file {
   color: vars.$primary-color;
 }
 
@@ -14714,9 +14714,6 @@ svg.pencil_icon {
 }
 
 
-
-
-
 .submit-button {
   text-align: end;
 }
@@ -17684,33 +17681,6 @@ table {
 .analytics-poll {
   max-width: 1375px;
   margin: 0 auto;
-  // .poll-creation {
-  //   .outer-layout {
-  //     .question-outer-layout {
-  //       button {
-  //         &.reset {
-  //           display: none;
-  //         }
-  //       }
-
-  //       .question-status {
-  //         &.display {
-  //           display: none;
-  //         }
-
-  //         .btn-group {
-  //           display: none;
-  //         }
-  //       }
-
-  //       .question-action {
-  //         display: none;
-  //       }
-  //     }
-
-  //     .pie-chart-outer-layout {}
-  //   }
-  // }
   .analytics-poll-questions {
     border-radius: 20px;
     background: vars.$white;
@@ -19630,19 +19600,10 @@ table {
   }
 }
 
-// .scroll-added-new {
-//   padding-top: 90vh;
-//   min-height: 90vh;
-// }
-
 .landing-banner {
   box-shadow: 0px 1px 32px 0px rgba(0, 74, 137, 0.5);
   background: #68d1e8 url(/componentAssets/images/banner-bg-shade.png) no-repeat;
-  // position: sticky;
-  // top: 0;
   background-size: cover;
-  // position: fixed;
-  // width: 100%;
 
   &.pharma {
     background: vars.$primary-color url(/componentAssets/images/pharma-marketing-bg.png) no-repeat;
@@ -20494,7 +20455,6 @@ table {
 .how-work {
   border-radius: 20px 20px;
   background: vars.$white;
-  // box-shadow: 0px 1px 32px 0px rgba(0, 102, 190, 0.16);
   margin-top: -30px;
   position: relative;
   z-index: 3;
@@ -20825,14 +20785,6 @@ table {
   }
 }
 
-// .future-expand h5 {
-//   color: vars.$dark-gray;
-//   text-align: center;
-//   font-size: 20px;
-//   line-height: 30px;
-//   margin: 42px 0 0;
-//   font-weight: 400;
-// }
 .works-started {
   >h3 {
     color: vars.$voilet;
@@ -25127,6 +25079,8 @@ table {
 }
 
 /**survey data end**/
+
+
 /**Survey rating**/
 .survey-rating {
   gap: 67px 4%;
@@ -25616,8 +25570,7 @@ table {
   }
 
 }
-
-@media screen and (max-width:1500px) {
+@media only screen and (max-width: 1500px){
   .irt_mandatory-block {
     .irt_mandatory-listing {
       .irt_mandatory-section {
@@ -26453,6 +26406,7 @@ height: 100%;
           input[type="text"]{
             flex:1 1;
             max-width: 330px;
+            color:vars.$primary-color;
           }
           label{
             margin-right: 22px;
@@ -26478,6 +26432,9 @@ height: 100%;
           span{
             color: #C31162;
           }
+        }
+        input[type="text"]{
+          color:vars.$primary-color;
         }
       }
       span{

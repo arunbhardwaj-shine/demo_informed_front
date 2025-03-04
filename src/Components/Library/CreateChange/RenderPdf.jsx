@@ -4,6 +4,7 @@ import { Document, Page } from 'react-pdf';
 import 'react-pdf/dist/Page/AnnotationLayer.css';
 import 'react-pdf/dist/Page/TextLayer.css';
 import { Spinner } from "react-activity";
+import optimizeImage from "../../../Utils/optimizeImage";
 const RenderPdf = ({
   next,
   url,
@@ -184,6 +185,7 @@ const RenderPdf = ({
 
     if (dataURL && dataURL.startsWith('data:image/png;base64,')) {
       var file = dataURLtoBlob(dataURL);
+      file = await optimizeImage(file, { width: 225 });
       var fd = new FormData();
       fd.append("file", file);
       fd.append("data", JSON.stringify(wordData));
