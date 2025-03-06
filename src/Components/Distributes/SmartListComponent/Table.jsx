@@ -119,7 +119,7 @@ const Table = (props, ref) => {
     }
     const getalCountry = async () => {
       let body = {
-        type:type == "survey" ? 1 :type,
+       
         user_id: localStorage.getItem("user_id"),
       };
       await axios
