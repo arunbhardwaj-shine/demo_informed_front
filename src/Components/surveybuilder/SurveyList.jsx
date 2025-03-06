@@ -590,6 +590,7 @@ const SurveyList = (props) => {
     setFilterObject(old_object);
     applyFilter();
   };
+  
   const handleOnFilterChange = (e, item, index, key, data = []) => {
     let newObj = JSON.parse(JSON.stringify(appliedFilter));
     let otherObj = JSON.parse(JSON.stringify(otherFilter));
@@ -752,6 +753,7 @@ const SurveyList = (props) => {
                       </svg>
                     )}
                   </button>
+
                   {/*Code for show filters*/}
                  
 
@@ -862,6 +864,7 @@ const SurveyList = (props) => {
                     </div>
                   )}
                 </div>
+
                 <div className="clear-search">
                   {deletestatus ? (
                     <button
@@ -910,8 +913,11 @@ const SurveyList = (props) => {
                     </button>
                   )}
                 </div>
+
               </div>
             </div>
+
+
             {Object.keys(filterObject)?.length !== 0 && filterApplyflag > 0 ? (
               <div className="apply-filter">
                 <div className="filter-block">
@@ -972,6 +978,8 @@ const SurveyList = (props) => {
                 </div>
               </div>
             ) : null}
+
+
             <div className="email-result survey-listing">
               <div className="col email-result-block library-content-box-layout">
                 {!deletestatus && filterApplyflag > 0 && (

@@ -21,13 +21,9 @@ const SurveySetup = (props) => {
   const [isSelected, setIsSelected] = useState(false);
   const [show, setShow] = useState(false);
   const [modalCounter, setModalCounter] = useState(0);
-
   const [count, setCount] = useState(0);
-
   const [view, setView] = useState(false);
-
   const handleView = () => setView(true);
-
   const [error, setError] = useState({});
   const navigate = useNavigate();
 
@@ -584,6 +580,7 @@ const SurveySetup = (props) => {
           </div>
         </div>
       </Col>
+      
       <Modal
         id="tagsModal"
         show={show}
@@ -676,6 +673,8 @@ const SurveySetup = (props) => {
           </button>
         </Modal.Footer>
       </Modal>
+
+
       <Modal
         show={view}
         onHide={handleBlock}
