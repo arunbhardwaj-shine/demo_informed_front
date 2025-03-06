@@ -100,7 +100,7 @@ const EmailList = (props) => {
    const [selectedData, setSelectedData] = useState(null);
    const [selectedIndex, setSelectedIndex] = useState(null);
 
-  const deletButtonColor = isLikeRdAccount ? "#8A4E9C" : "#0066be";
+  const deletButtonColor = isLikeRdAccount ? "#8A4E9C" : "#8A4E9C";
   const [options_ch, setOptions_ch] = useState({
     chart: {
       type: "column",
@@ -1080,16 +1080,16 @@ const EmailList = (props) => {
                 )}
               </div>
               <div className="top-right-action flex-wrap">
-                {isLikeRdAccount ? (
-                  <>
+                {/* {isLikeRdAccount ? (
+                  <> */}
                     <div className="action-btn-add" style={{ margin: "0" }}>
                       <Button className="btn-dashed" onClick={createNewEmail}>
                         Create Email
                         <img src={`${path_image}add-icon.png`} alt="" />
                       </Button>
                     </div>
-                  </>
-                ) : null}
+                  {/* </>
+                ) : null} */}
                 <div className="search-bar">
                   <form className="d-flex" onSubmit={(e) => submitHandler(e)}>
                     <input
@@ -1474,7 +1474,7 @@ const EmailList = (props) => {
                     </button>
                   ) : (
                     <button
-                      className={`btn btn-outline-primary ${isRND ? "rd" : ""}`}
+                      className={`btn btn-outline-primary ${isRND ? "rd" : "rd"}`}
                       onClick={(e) => showDeleteButtons()}
                     >
                       <svg
@@ -1705,9 +1705,9 @@ const EmailList = (props) => {
                   </div>
                 </div>
               )}
-            <div className={`email-result ${isRND ? "rd" : ""}`}>
+            <div className={`email-result ${isRND ? "rd" : "rd"}`}>
               <div className="col email-result-block">
-                {filtertags.length == 0 &&
+                {/* {filtertags.length == 0 &&
                   filtercreator.length == 0 &&
                   filterdate.length == 0 &&
                   filtersites.length == 0 &&
@@ -1724,7 +1724,7 @@ const EmailList = (props) => {
                         <p>Create New Email</p>
                       </div>
                     </div>
-                  )}
+                  )} */}
 
                 {SendListData.length > 0 ? (
                   SendListData.map((data, index) => {
@@ -2171,7 +2171,7 @@ const EmailList = (props) => {
                   //   <p>No Data Found</p>
                   // </div>
                   <div
-                    className={`email_box_block no_found ${isRND ? "rd" : ""}`}
+                    className={`email_box_block no_found ${isRND ? "rd" : "rd"}`}
                   >
                     <p>No Data Found</p>
                   </div>
