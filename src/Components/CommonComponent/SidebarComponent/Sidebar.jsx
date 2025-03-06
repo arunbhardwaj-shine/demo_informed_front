@@ -241,6 +241,8 @@ const Sidebar = () => {
   const isActiveChatPage = location.pathname === '/webinar/live-stream/chat-link'
   const isActiveSurveyPage = location.pathname === '/webinar/analytics/question-data'
 
+  const isActiveSurveyEmail = location.pathname === '/survey/email'
+
   const isActiveEmail = location.pathname === '/webinar/email' ||
     location.pathname === '/webinar/email/create-new-email' ||
     location.pathname === '/webinar/email/selectHCP' ||
@@ -1312,7 +1314,13 @@ const Sidebar = () => {
                   )
                   :
 
-                  window.location.pathname == "/survey/survey-list" || window.location.pathname == "/survey/survey-setup" || window.location.pathname == "/survey/survey-sublink" || window.location.pathname == "/survey/survey-analytics" || window.location.pathname == "/survey/survey-analytics-detail"?
+                  window.location.pathname == "/survey/survey-list" ||
+                  window.location.pathname == "/survey/survey-setup" ||
+                  window.location.pathname == "/survey/survey-sublink" ||
+                  window.location.pathname == "/survey/survey-analytics" ||
+                  window.location.pathname == "/survey/email" ||
+                  window.location.pathname == "/survey/auto-email" ||
+                  window.location.pathname == "/survey/survey-analytics-detail"?
 
                   (
 
@@ -1392,8 +1400,46 @@ const Sidebar = () => {
 
                       </li>
 
-                    </ul>
+                      <li className={
+                          location.pathname == "/survey/email"
+                           ? "active sub-links"
+                        : "side_li sub-links"
+                        }
+                      >
+                        <Link to={"/survey/email"}>
+                          <img src= { sidebar_image_path +"mail-icon.svg" } alt=""/>
+                          <p>Email</p>
+                        </Link>
+                          <div className="left-sidebar-secondary">
+                            <div className="sidebar-menu-secondary">
+                              <ul>
+                                <li className={isActiveSurveyEmail ? 'active' : 'side_li'}
+                                >
+                                  <Link to="/survey/email">
+                                  <img src= { sidebar_image_path +"webinar-email.svg" } alt=""/>
+                                    <p>Email</p>
+                                  </Link>
+                                </li>
+                                <li className={isActiveAutomail ? 'active' : 'side_li'}
+                                >
+                                  <Link to="/webinar/email/auto-emails">
+                                  <img src= { sidebar_image_path +"auto-email.svg" } alt=""/>
+                                  {" "}
+                                    <p>Auto Emails</p>
+                                  </Link>
+                                </li>
 
+                                <li className={isActiveSmartlist ? 'active' : 'side_li'}>
+                                  <Link to="/webinar/email/smartlist">
+                                  <img src= { sidebar_image_path +"attendees.svg" } alt=""/>
+                                    <p>Smart List</p>
+                                  </Link>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                      </li>
+                    </ul>
                 ):
 
                 window.location.pathname == "/survey/survey-list" || window.location.pathname == "/survey/survey-sublink" || window.location.pathname == "/survey/survey-analytics" || window.location.pathname == "/survey/survey-analytics-detail"?
