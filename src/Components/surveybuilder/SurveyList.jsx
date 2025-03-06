@@ -1193,7 +1193,9 @@ const SurveyList = (props) => {
                                               <h6 className="tab-content-title">
                                                 Last email
                                               </h6>
-                                              <h6>20  May.2025 | 2:00 PM</h6>
+                                              <h6>{
+                                                data?.createdDate
+                                              }</h6>
                                             </li>
                                           </ul>
                                           {/* <div className="mailbox-tags">
