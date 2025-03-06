@@ -20,6 +20,13 @@ import EditCountry from "../../CommonComponent/EditCountry";
 import EditContactType from "../../CommonComponent/EditContactType";
 import Select, { createFilter } from "react-select";
 const Table = (props, ref) => {
+ 
+
+  
+  
+  const type= props?.type === "survey" ? "survey" : 0;
+
+
   const accountMapping={"56Ek4feL/1A8mZgIKQWEqg==":2147501188,"bWmUjqX7J011   WUTYn9g==":298217,"MXl8m36VZFYXpgFVz3Pg0g==":2147537506}
   const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","bWmUjqX7J011   WUTYn9g==","MXl8m36VZFYXpgFVz3Pg0g=="]
   const groupId= localStorage.getItem("group_id")
@@ -112,6 +119,7 @@ const Table = (props, ref) => {
     }
     const getalCountry = async () => {
       let body = {
+        type:type == "survey" ? 1 :type,
         user_id: localStorage.getItem("user_id"),
       };
       await axios
@@ -830,6 +838,7 @@ const Table = (props, ref) => {
       });
 
       body = {
+        type:type == "survey" ? 1 :type,
         user_list: profile_user_id_array,
         smart_list_id: typeof getlistid !== "undefined" ? getlistid : "",
         user_id: localStorage.getItem("user_id"),
@@ -856,6 +865,7 @@ const Table = (props, ref) => {
         return data.profile_user_id;
       });
       body = {
+        type:type == "survey" ? 1 :type,
         user_list: profile_user_id_array,
         smart_list_id:
           typeof queryParams.listId !== "undefined" ? queryParams.listId : "",
@@ -881,12 +891,13 @@ const Table = (props, ref) => {
       .then((res) => {
         loader("hide");
         if (res.data.status_code == 200) {
+          const RouteName= type == "survey" ? "/survey/smartlist" : "/SmartList";
           if (flag == "update") {
             popup_alert({
               visible: "show",
               message: "Your changes has been saved <br />successfully !",
               type: "success",
-              redirect: "/SmartList",
+              redirect: RouteName,
             });
           } else {
             var path = "";
@@ -895,7 +906,7 @@ const Table = (props, ref) => {
               localStorage.removeItem("sd_i");
               path = "/SelectSmartList";
             } else {
-              path = "/SmartList";
+              path = RouteName;
             }
             popup_alert({
               visible: "show",
@@ -1038,6 +1049,7 @@ const Table = (props, ref) => {
 
       const body = {
         user_id: localStorage.getItem("user_id"),
+        type:type == "survey" ? 1 :type,
         edit_list_array: editableData,
       };
 
@@ -1094,6 +1106,7 @@ const Table = (props, ref) => {
     profile_user_id,
   }) => {
     const body = {
+      type:type == "survey" ? 1 :type,
       user_id: localStorage.getItem("user_id"),
       profile_user_id: profile_user_id,
       profile_id: profile_id,
@@ -1411,6 +1424,7 @@ const Table = (props, ref) => {
         };
       });
       const body = {
+        type:type == "survey" ? 1 :type,
         data: body_data,
         user_id: localStorage.getItem("user_id"),
         smart_list_id: getlistid,
@@ -1608,6 +1622,7 @@ const Table = (props, ref) => {
       });
 
       const body = {
+        type:type == "survey" ? 1 :type,
         data: body_data,
         user_id: localStorage.getItem("user_id"),
         smart_list_id: getlistid,
@@ -1842,7 +1857,7 @@ const Table = (props, ref) => {
               <div className="col-12 col-md-1">
                 <div className="header-btn-left">
                   <button className="btn btn-primary btn-bordered back">
-                    <Link to={"/CreateSmartList"}>Back</Link>
+                    <Link to={type === "survey" ? "/survey/smartlist/createlist" : "/CreateSmartList"}>Back</Link>
                   </button>
                 </div>
               </div>
@@ -1859,7 +1874,7 @@ const Table = (props, ref) => {
               <div className="col-12 col-md-3">
                 <div className="header-btn">
                   <button className="btn btn-primary btn-bordered move-draft">
-                    <Link to={{ pathname: "/CreateSmartList" }}>Cancel</Link>
+                    <Link to={{ pathname: type === "survey" ? "/survey/smartlist/createlist" : "/CreateSmartList" }}>Cancel</Link>
                   </button>
                   <button
                     className="btn btn-primary btn-filled create"

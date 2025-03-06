@@ -4,6 +4,8 @@ import React, { useEffect, useState } from "react";
 import { Spinner } from "react-activity";
 
 const UploadExcel = (props) => {
+  
+  const type= props?.type === "survey" ? "survey" : 0;
   const location = useLocation();
   const { data } = location.state;
   const { smartListName } = location.state;
@@ -42,6 +44,7 @@ const UploadExcel = (props) => {
               listData?.length > 0 ? 
               <>
                 <Table data={listData} smartListName={smartListName} 
+                    type={type}
                     upload_by_filter="0" 
                     creator={creator} 
                     sendDataToParent={sendDataToParent} 

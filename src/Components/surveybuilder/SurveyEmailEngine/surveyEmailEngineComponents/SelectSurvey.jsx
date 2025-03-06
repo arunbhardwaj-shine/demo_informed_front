@@ -38,7 +38,7 @@ const SelectSurvey = ({ SendListData,setSendListData,handlePdfSelection,setCurre
       [surveyId]: selectedOption ? selectedOption.value : null,  
     }));
 
-    selectedOption()
+  //  selectedOption()
   
     if (PdfSelected == surveyId) {
       setCurrentSelectedSublink(selectedOption?.value);

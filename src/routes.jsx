@@ -1139,6 +1139,13 @@ const Routing = () => {
         <Route path="/survey/email" element={<LoginLayout component={EmailList}  type="survey"/>}/>
         <Route path="/survey/auto-email" element={<LoginLayout component={AutoEmail}  type="survey"/>} />
         <Route path="/survey/smartlist" element={<LoginLayout component={SmartList}  type="survey"/>} />
+        <Route path="/survey/smartlist/createlist" element={<LoginLayout component={CreateSmartList}  type="survey"/>} />
+        <Route path="/survey/smartlist/UploadExcel" element={<LoginLayout component={UploadExcel}  type="survey"/>} />
+        <Route path="/survey/ViewSmartList" element={<LoginLayout component={ViewList}  type="survey"/>} />
+        <Route path="/survey/EditList" element={<LoginLayout component={EditList}  type="survey"/>} />
+        <Route path="/survey/AutoEmail" element={<LoginLayout component={AutoEmail}  type="survey"/>} />
+
+
         <Route path="/survey/email-article-select" element={<LoginLayout component={EmailArticleSelect}  type="survey"/>} />
         <Route path="/survey/create-email" element={<LoginLayout component={CreateEmail}  type="survey"/>} />
         <Route path="/survey/filter-segment" element={<LoginLayout component={FilterSegment} />}  type="survey" />
