@@ -332,7 +332,7 @@ const submitHandler = (event) => {
               <div className="row justify-content-end align-items-center">
                 <div className="col-12 col-md-1">
                   <div className="header-btn-left">
-                  <button className="btn btn-primary btn-bordered back"  >
+                  <button className="btn btn-primary btn-bordered back">
                        Back
                     </button>
 
@@ -341,7 +341,7 @@ const submitHandler = (event) => {
                 <div className="col-12 col-md-9">
                   <ul className="tabnav-link">
                     <li className="active active-main">
-                      <a href="#" onClick={(e) => e.preventDefault()}>Select Content</a>
+                      <a href="#" onClick={(e) => e.preventDefault()}>Select Survey</a>
                     </li>
                     <li className="">
                       <a href="">Create Your Email</a>
@@ -394,13 +394,7 @@ const submitHandler = (event) => {
               <div className="page-title">
                 <h4>Select your content</h4>
               </div>
-
-            
-            </div>
-
-            {/*Code for filters start*/}
-
-            <div className="top-right-action">
+              <div className="top-right-action">
                 <div className="search-bar">
                   <form className="d-flex" onSubmit={(e) => submitHandler(e)}>
                     <input
@@ -609,6 +603,12 @@ const submitHandler = (event) => {
                 
 
               </div>
+            
+            </div>
+
+            {/*Code for filters start*/}
+
+            
 
   {Object.keys(filterObject)?.length !== 0 && filterApplyflag > 0 ? (
               <div className="apply-filter">
