@@ -289,6 +289,7 @@ const EmailList = (props) => {
         user_id: localStorage.getItem("user_id"),
         flag: irtRoleObj?.IRTFlag,
         id: irtRoleObj?.pdfId,
+        type: props?.type,
       };
       await axios
         .post(`emailapi/get_campaign_list_filter`, body)
@@ -315,6 +316,7 @@ const EmailList = (props) => {
       user_id: localStorage.getItem("user_id"),
       search: page == 3 ? "" : search,
       filter: filter,
+      type: props?.type,
     };
     page = page == 3 ? 1 : page;
     axios
