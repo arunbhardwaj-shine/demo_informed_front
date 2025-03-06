@@ -6,7 +6,7 @@ import { Route, Navigate,useLocation, useNavigate } from "react-router-dom";
 const SidebarContext = createContext();
 
 
-const LoginLayout = ({ component: Component, ...rest }) => {
+const LoginLayout = ({ component: Component,type='', ...rest }) => {
   // Check if the user is authenticated (e.g. via a token stored in localStorage)
   const isAuthenticated = localStorage.getItem("user_id") !== null;
   const location=useLocation()
@@ -68,7 +68,7 @@ const LoginLayout = ({ component: Component, ...rest }) => {
               <div className="container-fluid">
                 <div className="row">
                   <Sidebar />
-                  <Component key={location?.pathname ? location?.pathname : generateString()} {...rest} />
+                  <Component type={type} key={location?.pathname ? location?.pathname : generateString()} {...rest} />
                 </div>
               </div>
             </div>
