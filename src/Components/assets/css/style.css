@@ -1889,15 +1889,83 @@ ul.tabnav-link li {
   flex: 0 0 97px;
   margin-bottom: 8px;
 }
+.mail-content-select-box .mail-box-content {
+  justify-content: flex-start;
+}
 
 .mail-content-select-top .mail-box-content {
   padding: 0;
   width: calc(100% - 97px);
   flex: 1 1 0;
 }
-
-.mail-content-select-box .mail-box-content {
-  justify-content: flex-start;
+.mail-box-content .survey_status{
+  margin: -3px 0 6px;
+}
+.survey-mail .mail-box-content p {
+  margin: 0 0 4px;
+}
+.survey-mail .mail-box-content span{
+  color: rgba(0, 74, 137, 0.50);
+  font-size: 12px;
+  font-weight: 400;
+}
+.mail-box-content .survey_status span{
+  border-radius: 13px;
+  background: #39cabc;
+  padding: 2px 12px;
+  color: #fff;
+  font-size: 12px;
+}
+.mail-content-select .survey-mail  .mail-content-table th, .survey-mail .tab-content-title{
+  color: rgba(0, 74, 137, 0.55);
+  font-weight: 500;
+  padding: 4px 12px 3px 0;
+}
+.mail-content-select .survey-mail  .mail-content-table td{
+  color: #004A89;
+  font-weight: 400;
+}
+.survey-mail .sublink-add{
+margin:4px 24px 15px 0;
+}
+.survey-mail .sublink-add p{
+  color: #8A4E9C;
+  font-size: 13px;
+  cursor: pointer;
+}
+.survey-mail .sublink-add p img{
+ margin-left:4px;
+}
+.survey-mail .mail-content-footer .btn {
+  padding: 6px 16px;
+}
+.survey-mail .tab-content-title{
+ font-size: 14px;
+ min-width: 92px;
+}
+.survey-mail .tab-content-title img{
+  margin-left: 4px;
+ }
+ .survey-mail .select-dropdown-wrapper select,  .survey-mail .select-dropdown-wrapper, .survey-mail .select-dropdown-wrapper .dropdown-basic-button{
+width:100%;
+ }
+ .survey-mail .split-button-dropup > div:nth-child(3){
+  min-height: 30px;padding-top: 7px;padding-bottom: 7px;
+ }
+ .survey-mail .split-button-dropup div:nth-child(3) > div div {
+  font-size: 14px;
+  color: #0066BE;
+  margin:0;
+  padding: 0 20px 0 0;
+}
+.survey_mail_engine.mail-content-select [class*="col-"] {
+  margin-bottom: 56px;
+}
+.survey_mail_engine.mail-content-select [class*="col-"]:first-child .email_box, .survey_mail_engine.mail-content-select [class*="col-"]:nth-child(3n+1) .email_box {
+  margin-left: 0;
+}
+.survey_mail_engine.mail-content-select [class*="col-"]:nth-child(3n) .email_box {
+  margin-right: 0;
 }
 
 .mailbox-text {
@@ -2409,7 +2477,64 @@ form .input-group {
   height: 6px;
   background-size: 16px;
 }
+#tagsModal form label{
+  margin: 0 14px 0 0;
+  color: #004A89;
+  font-size: 18px;
+  font-weight: 400;
+}
+.survey-tags-modal form .form-control{
+  background: #FFF;
+  box-shadow: 0px 1px 6px 0px rgba(0, 102, 190, 0.20);
+  padding:12px 24px;
+  border-radius: 30px;
+  border:0;
+  max-width: 486px;
+  width:100%;
+}
 
+.survey-tags-modal form .dropdown-basic-button{
+  width:100%;
+}
+.survey-tags-modal form .dropdown-basic-button .btn.btn-primary {
+  border-radius: 30px;
+  background: #ffffff url(../images/dropdown-arrow.svg) no-repeat 93% center;
+  box-shadow: 0px 1px 6px 0px rgba(0, 102, 190, 0.20);
+  width: 100%;
+  padding:16px 50px 16px 24px;
+  text-align: left;
+  border:0;
+  color: #97B6CF;
+font-size: 16px;
+font-weight: 300;
+}
+.survey-tags-modal .split-button-dropup .dropdown-menu a.dropdown-item {
+  font-size: 15px;
+  line-height: 18px;
+  padding: 4px 14px;
+}
+.survey-tags-modal form .dropdown-basic-button .btn:after {
+  display: none;
+}
+.survey-tags-modal form .form-control:focus, .survey-tags-modal form .dropdown-basic-button .btn:focus{
+  box-shadow: 0px 1px 6px rgba(0, 102, 190, 0.55);
+}
+.survey-tags-modal form .input-group {
+  justify-content: space-between;
+}
+.survey-tags-modal form .input-group .tags_added {
+  flex: 1 1;
+}
+.survey-tags-modal form .input-group .input-group-prepend {
+  padding-left: 32px;
+  margin-left: 32px;
+  padding-right: 0px;
+  margin-right: 0px;
+}
+.survey-tags-modal form .input-group-prepend::after {
+  right: 177px;
+  left: auto;
+}
 .modal-body .tag-lists {
   box-shadow: inset 0px 0px 9px rgba(0, 102, 190, 0.28);
   border-radius: 15px;
