@@ -246,6 +246,7 @@ import SetLayoutNew from "./Components/CommonComponent/SetLayoutNew";
 import SetLayoutNewTimeline from "./Components/CommonComponent/SetLayoutNewTimeline";
 import ClinetAccount from "./Components/Login/ClientAccount";
 import ResetPassword from "./Components/CommonComponent/ResetPassword";
+import CreateSurveyEmail from "./Components/surveybuilder/SurveyEmailEngine/CreateSurveyEmail";
 import Redirect from "./Auth/Redirect";
 
 //Aland activity route
@@ -1129,6 +1130,12 @@ const Routing = () => {
           path="/survey/survey-sublink"
           element={<LoginLayout component={SurveySublink} />}
         />
+         <Route
+          path="/survey/emails-selectsurvey"
+          element={<LoginLayout component={CreateSurveyEmail} />}
+        />
+
+
         <Route path="/survey/email" element={<LoginLayout component={EmailList}  type="survey"/>}/>
         <Route path="/survey/auto-email" element={<LoginLayout component={AutoEmail}  type="survey"/>} />
         <Route path="/survey/smartlist" element={<LoginLayout component={SmartList}  type="survey"/>} />

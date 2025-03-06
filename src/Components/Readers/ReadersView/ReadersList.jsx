@@ -2516,7 +2516,11 @@ const NewReaders = () => {
                                             <h6 className="tab-content-title">
                                               Contact Type
                                             </h6>
-                                            <h6>{data?.user_status.toUpperCase()}</h6>
+                                            <h6>
+                                              {
+                                                data?.user_status.includes('Hcp') ? data?.user_status.toUpperCase() : data?.user_status
+                                              }
+                                            </h6>
                                           </li>
                                         </>
                                       )}

@@ -46,15 +46,15 @@ const navigate=useNavigate();
    
   };
 
-  const setDownloadLink = (link) => {
+  const setDownloadLink = (link, title = null) => {
     // setSectionLoader(true);
     setQr({ ...qrState, value: link });
     setTimeout(function () {
-      downloadQRCode();
+      downloadQRCode(title);
     }, 500);
   };
 
-  const downloadQRCode = () => {
+  const downloadQRCode = (title = null) => {
     // Generate download with use canvas and stream
     const canvas = document.getElementById("qr-gen");
     const pngUrl = canvas
@@ -62,7 +62,7 @@ const navigate=useNavigate();
       .replace("image/png", "image/octet-stream");
     let downloadLink = document.createElement("a");
     downloadLink.href = pngUrl;
-    downloadLink.download = `QR-code.png`;
+    downloadLink.download = title ? title+".png" : `QR-code.png`;
     document.body.appendChild(downloadLink);
     downloadLink.click();
     document.body.removeChild(downloadLink);
@@ -129,7 +129,8 @@ const navigate=useNavigate();
                         className="sublink-qr"
                         onClick={(e) =>
                           setDownloadLink(
-                            `https://survey.docintel.app/survey?Utmde=${data.unique_code}&dl=QR`
+                            `https://survey.docintel.app/survey?Utmde=${data.unique_code}&dl=QR`,
+                            data?.identifier
                           )
                         }
                       >

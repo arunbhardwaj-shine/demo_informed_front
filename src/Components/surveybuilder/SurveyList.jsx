@@ -273,7 +273,7 @@ const SurveyList = (props) => {
     loader("hide");
   };
 
-  const downloadQRCode = () => {
+  const downloadQRCode = (title="") => {
     // // Generate download with use canvas and stream
     // const canvas = document.getElementById("qr-gen");
     // const pngUrl = canvas
@@ -293,7 +293,7 @@ const SurveyList = (props) => {
         .replace("image/png", "image/octet-stream");
       const downloadLink = document.createElement("a");
       downloadLink.href = pngUrl;
-      downloadLink.download = `QR-code.png`;
+      downloadLink.download = title ? title+".png" : `QR-code.png`;
       document.body.appendChild(downloadLink);
       downloadLink.click();
       document.body.removeChild(downloadLink);
@@ -590,6 +590,7 @@ const SurveyList = (props) => {
     setFilterObject(old_object);
     applyFilter();
   };
+  
   const handleOnFilterChange = (e, item, index, key, data = []) => {
     let newObj = JSON.parse(JSON.stringify(appliedFilter));
     let otherObj = JSON.parse(JSON.stringify(otherFilter));
@@ -752,6 +753,7 @@ const SurveyList = (props) => {
                       </svg>
                     )}
                   </button>
+
                   {/*Code for show filters*/}
                  
 
@@ -862,6 +864,7 @@ const SurveyList = (props) => {
                     </div>
                   )}
                 </div>
+
                 <div className="clear-search">
                   {deletestatus ? (
                     <button
@@ -910,8 +913,11 @@ const SurveyList = (props) => {
                     </button>
                   )}
                 </div>
+
               </div>
             </div>
+
+
             {Object.keys(filterObject)?.length !== 0 && filterApplyflag > 0 ? (
               <div className="apply-filter">
                 <div className="filter-block">
@@ -972,6 +978,8 @@ const SurveyList = (props) => {
                 </div>
               </div>
             ) : null}
+
+
             <div className="email-result survey-listing">
               <div className="col email-result-block library-content-box-layout">
                 {!deletestatus && filterApplyflag > 0 && (
@@ -1093,7 +1101,7 @@ const SurveyList = (props) => {
                                                     value: `https://survey.docintel.app/survey?Utmde=${data.unique_code}&dl=QR`,
                                                   });
                                                   setTimeout(function () {
-                                                    downloadQRCode();
+                                                    downloadQRCode(data?.survey_link_title);
                                                   }, 500);
                                                 }}
                                               >
@@ -1173,10 +1181,13 @@ const SurveyList = (props) => {
                                           </div>
                                           <div className="mail-time">
                                             <span>
-                                              {format(
-                                                new Date(data.date),
+                                              {
+                                                data?.createdDate
+                                              }
+                                              {/* {format(
+                                                new Date(),
                                                 "MMMM d, yyyy '|' h:mm a"
-                                              )}
+                                              )} */}
                                             </span>
                                           </div>
 
