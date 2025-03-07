@@ -1428,7 +1428,7 @@ const Sidebar = () => {
                                 </li>
                                 <li className={isActiveAutomail ? 'active' : 'side_li'}
                                 >
-                                  <Link to="/webinar/email/auto-emails">
+                                  <Link to="/survey/AutoEmail">
                                   <img src= { sidebar_image_path +"auto-email.svg" } alt=""/>
                                   {" "}
                                     <p>Auto Emails</p>
@@ -1436,7 +1436,7 @@ const Sidebar = () => {
                                 </li>
 
                                 <li className={isActiveSmartlist ? 'active' : 'side_li'}>
-                                  <Link to="/webinar/email/smartlist">
+                                  <Link to="/survey/smartlist">
                                   <img src= { sidebar_image_path +"attendees.svg" } alt=""/>
                                     <p>Smart List</p>
                                   </Link>

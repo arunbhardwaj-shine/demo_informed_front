@@ -1038,6 +1038,23 @@ const SurveyList = (props) => {
                                     )}
                                     <h5>{data.survey_title}</h5>
                                     <p>{data.subtitle}</p>
+                                    <span>
+                                    {data.creator_name}
+                                    </span>
+                                    <div className="mailbox-tags">
+                                            <ul>
+                                              {JSON.parse(data?.tags)?.length >
+                                              0 ? (
+                                                JSON.parse(data.tags).map(
+                                                  (tag, index) => (
+                                                    <li key={index}>{tag}</li>
+                                                  )
+                                                )
+                                              ) : (
+                                                <li>N/A</li>
+                                              )}
+                                            </ul>
+                                          </div>
                                   </div>
                                 </div>
                                 <div className="tabs-data">
@@ -1158,14 +1175,30 @@ const SurveyList = (props) => {
                                                 <h6>N/A</h6>
                                               )}
                                             </li>
-                                            <li className="d-flex align-items-center">
+                                            {/* <li className="d-flex align-items-center">
                                               <h6 className="tab-content-title">
                                                 Creator
                                               </h6>
                                               <h6>{data.creator_name}</h6>
+                                            </li> */}
+                                            <li className="d-flex align-items-center">
+                                              <h6 className="tab-content-title">
+                                                Created date
+                                              </h6>
+                                              <h6>{
+                                                data?.createdDate
+                                              }</h6>
+                                            </li>
+                                            <li className="d-flex align-items-center">
+                                              <h6 className="tab-content-title">
+                                                Last email
+                                              </h6>
+                                              <h6>{
+                                                data?.createdDate
+                                              }</h6>
                                             </li>
                                           </ul>
-                                          <div className="mailbox-tags">
+                                          {/* <div className="mailbox-tags">
                                             <ul>
                                               {JSON.parse(data?.tags)?.length >
                                               0 ? (
@@ -1178,8 +1211,8 @@ const SurveyList = (props) => {
                                                 <li>N/A</li>
                                               )}
                                             </ul>
-                                          </div>
-                                          <div className="mail-time">
+                                          </div> */}
+                                          {/* <div className="mail-time">
                                             <span>
                                               {
                                                 data?.createdDate
@@ -1188,8 +1221,8 @@ const SurveyList = (props) => {
                                                 new Date(),
                                                 "MMMM d, yyyy '|' h:mm a"
                                               )} */}
-                                            </span>
-                                          </div>
+                                            {/*</span>
+                                          </div> */}
 
                                           {data?.is_draft != null &&
                                           data?.is_draft == "0" ? (
@@ -1440,6 +1473,8 @@ const SurveyList = (props) => {
                                           )}
                                         </div>
                                         <div className="mailbox-buttons">
+                                         
+                                          <div className="mailbox-buttons-list">
                                           <div className="send_new">
                                             {data?.is_draft == 0 ? (
                                               <Button
@@ -1465,7 +1500,6 @@ const SurveyList = (props) => {
                                               </Button>
                                             )}
                                           </div>
-                                          <div className="mailbox-buttons-list">
                                             <Button
                                               className="send btn-bordered"
                                               onClick={(e) =>
@@ -1476,7 +1510,11 @@ const SurveyList = (props) => {
                                                 )
                                               }
                                             >
-                                              Edit
+                                              Edit Topic
+                                            </Button>
+                                            <Button
+                                              className="edit btn-bordered">
+                                              Send in email
                                             </Button>
                                             <Button
                                               className={

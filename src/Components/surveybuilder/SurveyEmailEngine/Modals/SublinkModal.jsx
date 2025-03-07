@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Modal, DropdownButton, Dropdown, Button } from "react-bootstrap";
+import { Modal, DropdownButton, Dropdown, Button, Form, Row, Col } from "react-bootstrap";
 import { surveyAxiosInstance } from "../../CommonFunctions/CommonFunction";
 import { surveyEndpoints } from "../../SurveyEndpoints/SurveyEndpoints";
 import { toast } from "react-toastify";
@@ -139,10 +139,10 @@ const SublinkModal = ({
 
   return (
     <>
-      <Modal show={createNewLink} className="send-confirm" id="download-qr">
+      <Modal show={createNewLink} id="tagsModal" className="survey-tags-modal">
         <Modal.Header>
           <h5 className="modal-title" id="staticBackdropLabel">
-            Create New Link
+          Create New SubLink
           </h5>
           <button
             type="button"
@@ -158,7 +158,62 @@ const SublinkModal = ({
           ></button>
         </Modal.Header>
         <Modal.Body>
-          <div className="form-group">
+          <Form>
+          <Row>
+            <Form.Group as={Col} xs={7} className="d-flex align-items-center mb-5">
+              <Form.Label>Identifier</Form.Label>
+              <Form.Control type="text" placeholder="Title of the subLink" onChange={(event) => onIdentifierChange(event)}/>
+            </Form.Group>
+
+            <Form.Group as={Col} xs={5} className="d-flex align-items-center mb-5">
+              <Form.Label>Delivery</Form.Label>
+              <DropdownButton
+              className={
+                "dropdown-basic-button split-button-dropup " +
+                (newLink?.delivery ? "addval" : "")
+              }
+              title={
+                newLink?.delivery ? newLink?.delivery : "Select delivery type"
+              }
+              name="delivery"
+              onSelect={(e) => handleChange("delivery", e)}
+            >
+              <div className="scroll_div delivery_popup">
+                <div className="scroll_div_inset">
+                  <Dropdown.Item
+                    eventKey="Email"
+                    className={newLink?.delivery == "Email" ? "active" : ""}
+                  >
+                    Email
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    eventKey="InforMedGO"
+                    className={
+                      newLink?.delivery == "InforMedGO" ? "active" : ""
+                    }
+                  >
+                    InforMedGO
+                  </Dropdown.Item>
+
+                  <Dropdown.Item
+                    eventKey="Social"
+                    className={newLink?.delivery == "Social" ? "active" : ""}
+                  >
+                    Social
+                  </Dropdown.Item>
+
+                  <Dropdown.Item
+                    eventKey="Website"
+                    className={newLink?.delivery == "Website" ? "active" : ""}
+                  >
+                    Website
+                  </Dropdown.Item>
+                </div>
+              </div>
+            </DropdownButton>
+            </Form.Group>
+          </Row>
+          {/* <div className="form-group">
             <label htmlFor="">Delivery</label>
             <DropdownButton
               className={
@@ -214,14 +269,10 @@ const SublinkModal = ({
               placeholder=""
               onChange={(event) => onIdentifierChange(event)}
             />
-          </div>
+          </div> */}
 
-          <div className="input-group d-flex w-100">
-            <div className="input-group-prepend">
-              <Button className="btn-filled" onClick={handleShow}>
-                Add Topic +
-              </Button>
-            </div>
+          <Form.Group className="input-group d-flex mb-2">
+            
             <div className="tags_added">
               <ul>
                 {finalTags.map((tags, index) => (
@@ -236,10 +287,16 @@ const SublinkModal = ({
                 ))}
               </ul>
             </div>
-          </div>
+            <div className="input-group-prepend">
+              <Button className="btn-bordered" onClick={handleShow}>
+                Add Topic +
+              </Button>
+            </div>
+          </Form.Group>
+          </Form>
         </Modal.Body>
 
-        <div className="modal-footer">
+        <div className="modal-footer d-flex justify-content-end">
           <button
             type="button"
             className={
@@ -249,7 +306,7 @@ const SublinkModal = ({
             }
             onClick={() => handleSubmit()}
           >
-            Apply
+            Create
           </button>
         </div>
       </Modal>

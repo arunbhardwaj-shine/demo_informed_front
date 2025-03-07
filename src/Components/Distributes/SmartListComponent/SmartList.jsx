@@ -13,6 +13,10 @@ import SmartListLayout from "../../CommonComponent/SmartListLayout";
 import SmartListTableLayout from "../../CommonComponent/SmartListTableLayout";
 
 const SmartList = (props) => {
+  // const RouteName=
+
+  const type= props?.type === "survey" ? "survey" : 0;
+
   const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","bWmUjqX7J011   WUTYn9g==","MXl8m36VZFYXpgFVz3Pg0g=="]
   const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
   const [smartListData, setSmartListData] = useState([]);
@@ -60,6 +64,7 @@ const SmartList = (props) => {
 
   const body = {
     user_id: localStorage.getItem("user_id"),
+    type:type == "survey" ? 1 :type,
     // user_id: "56Ek4feL/1A8mZgIKQWEqg==",
     search: search,
     filter: filter,
@@ -89,6 +94,7 @@ const SmartList = (props) => {
   
 
   useEffect(() => {
+  
     getSmartListData(0);
 
    
@@ -167,6 +173,7 @@ const SmartList = (props) => {
     const body = {
       user_id: localStorage.getItem("user_id"),
       smart_list_id: deletecardid,
+      type:type == "survey" ? 1 :type,
     };
     axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
     loader("show");
@@ -375,7 +382,7 @@ const SmartList = (props) => {
               {isLikeRdAccount ? (
                 <>
                   <div className="action-btn-add" style={{margin:"0"}}>
-                  <Link  to="/CreateSmartList"
+                  <Link  to={ type == "survey" ? "/survey/smartlist/createlist" : "/CreateSmartList"}
                   state={{ creator: getUserDetails?.name }} className="btn-dashed">Create List <img src={path_image + "add-icon.png"} alt="" /></Link>
                   </div>
                 </>
@@ -834,7 +841,7 @@ const SmartList = (props) => {
                       <div className="smartlist-add smartlist-view">
                           <>
                             <Link
-                              to="/CreateSmartList"
+                              to={type == "survey" ? "/survey/smartlist/createlist" : "/CreateSmartList"}
                               state={{ creator: getUserDetails?.name }}
                             >
                               <img src={path_image + "add-button.svg"} alt="" />
@@ -856,7 +863,7 @@ const SmartList = (props) => {
                                 <h5>{data.name}</h5>
                                 <img className="edit-name" src={path_image + "edit-button.svg"} alt="Edit" onClick={()=>handleClick(data,index)} />
                           </div>
-                            <SmartListLayout data= {data} deletestatus={deletestatus} callLinkClickFun={linkClicked} iseditshow={1} isviewshow={1} viewSmartListData = {viewSmartListData} />
+                            <SmartListLayout data= {data} deletestatus={deletestatus} callLinkClickFun={linkClicked} iseditshow={1} isviewshow={1} viewSmartListData = {viewSmartListData} type={type} />
                             {deletestatus && (
                               <div className="dlt_btn">
                                 <button

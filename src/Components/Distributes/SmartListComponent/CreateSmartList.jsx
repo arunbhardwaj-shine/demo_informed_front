@@ -12,7 +12,8 @@ import Select from "react-select";
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 
-const CreateSmartList = () => {
+const CreateSmartList = (props) => {
+  const type = props?.type == "survey" ? "survey" : 0;
   const [uploadOrDownloadCount, setUploadOrDownloadCount] = React.useState(0);
   const [fileLength, setFileLength] = useState(0);
   const location = useLocation();
@@ -196,7 +197,8 @@ const CreateSmartList = () => {
       localStorage.removeItem("sd_i");
       navigate("/SelectSmartList");
     } else {
-      navigate("/SmartList");
+      const RouteName= type === "survey" ? "/survey/smartlist" : "/SmartList";
+      navigate(RouteName);
     }
   };
 
@@ -244,7 +246,11 @@ const CreateSmartList = () => {
           clearInterval(timer);
           setTimeout(() => {
             setData(res.data.response.data);
-            navigate("/UploadExcel", {
+
+            const RouteName= type == "survey" ? "/survey/smartlist/UploadExcel" : "/UploadExcel";
+
+
+            navigate( RouteName, {
               state: {
                 data: res.data.response.data,
                 smartListName: smartListName,

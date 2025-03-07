@@ -38,8 +38,6 @@ const SelectSurvey = ({ SendListData, setSendListData, handlePdfSelection, setCu
       [surveyId]: selectedOption ? selectedOption.value : null,
     }));
 
-    // selectedOption()
-
     if (PdfSelected == surveyId) {
       setCurrentSelectedSublink(selectedOption?.value);
     }
@@ -55,7 +53,7 @@ const SelectSurvey = ({ SendListData, setSendListData, handlePdfSelection, setCu
 
   return (
     <>
-      <div className="mail-content-select">
+      <div className="mail-content-select survey_mail_engine">
         <div className="row">
           {typeof SendListData !== "undefined" &&
             SendListData.length > 0 ? (
@@ -69,7 +67,8 @@ const SelectSurvey = ({ SendListData, setSendListData, handlePdfSelection, setCu
               ];
               return (
                 <div className="col-12 col-md-4" key={index}>
-                  <div className="mail-content-select-box">
+                  <div className="email_box">
+                  <div className="mail-content-select-box survey-mail">
                     <div className="mail-content-select-top">
                       <div className="mail-box-content">
                         {data?.is_draft == "1" && (
@@ -84,7 +83,7 @@ const SelectSurvey = ({ SendListData, setSendListData, handlePdfSelection, setCu
                         )}
                         <h5>{data.survey_title}</h5>
                         <p>{data.subtitle}</p>
-                        <h6>{data.creator_name}</h6>
+                        <span>{data.creator_name}</span>
                         <div className="mailbox-tags">
                           <ul>
                             {JSON.parse(data?.tags)?.length > 0 ? (
@@ -150,11 +149,9 @@ const SelectSurvey = ({ SendListData, setSendListData, handlePdfSelection, setCu
                         </tbody>
                       </table>
                     </div>
-                    <div className="data-main-box change-tab-main-box tab-panel">
-                      <ul className="tab-mail-list data change">
-                        <li>
+                    <div className="d-flex justify-content-between align-items-center">
                           <h6 className="tab-content-title">
-                            Link
+                            Link 
                             <img
                               src={path_image + "info_circle_icon.svg"}
                               alt=""
@@ -184,14 +181,12 @@ const SelectSurvey = ({ SendListData, setSendListData, handlePdfSelection, setCu
                               />
                             </div>
                           </div>
-                        </li>
-                      </ul>
                     </div>
 
                     {
-                      <div className="d-flex justify-content-between">
+                      <div className="d-flex justify-content-end sublink-add">
                         <p onClick={() => { showSublinkModal(data.survey_id); }}>
-                        Create new subLink{" "}
+                          Create New SubLink{" "}
                           <img
                             src={path_image + "creator-add.png"}
                             alt=""
@@ -241,6 +236,7 @@ const SelectSurvey = ({ SendListData, setSendListData, handlePdfSelection, setCu
                                 </button>
                               </a>
                           </div>
+                  </div>
                   </div>
                 </div>
               );
