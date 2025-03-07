@@ -242,8 +242,14 @@ const Sidebar = () => {
   const isActiveSurveyPage = location.pathname === '/webinar/analytics/question-data'
 
   const isActiveSurveyEmail = location.pathname === '/survey/email' ||
-  location.pathname === '/survey/email/selectsurvey' ||
-  location.pathname === '/survey/email/create-email'
+		  location.pathname === '/survey/email/selectsurvey' ||
+		  location.pathname === '/survey/email/select-hcp' ||
+		  location.pathname === '/survey/email/smart-list' ||
+		  location.pathname === '/survey/email/select-smartlist-users' ||
+		  location.pathname === '/survey/email/verify-hcp' ||
+		  location.pathname === '/survey/email/verify-hcp-mail' ||
+		  location.pathname === '/survey/email/verify-mail' ||
+		  location.pathname === '/survey/email/create-email'
 
   const isActiveSurveySmartList = location.pathname === '/survey/smartlist' || location.pathname === '/survey/ViewSmartList' || location.pathname === '/survey/smartlist/UploadExcel' || location.pathname ===  '/survey/smartlist/createlist'
 
@@ -1344,6 +1350,12 @@ const Sidebar = () => {
                   window.location.pathname == "/survey/email/create-email" ||
                   window.location.pathname == "/survey/AutoEmail" ||
                   window.location.pathname == "/survey/smartlist" ||
+                  window.location.pathname == "/survey/email/select-hcp" ||
+                  window.location.pathname == "/survey/email/smart-list" ||
+                  window.location.pathname == "/survey/email/select-smartlist-users" ||
+                  window.location.pathname == "/survey/email/verify-hcp" ||
+                  window.location.pathname == "/survey/email/verify-mail" ||
+                  window.location.pathname == "/survey/email/verify-hcp-mail" ||
                   window.location.pathname == "/survey/TemplateBuilder" ||
                   window.location.pathname == "/survey/ViewSmartList" ||
                   window.location.pathname == "/survey/smartlist/createlist" ||
@@ -1456,6 +1468,12 @@ const Sidebar = () => {
                       <li className={
                           location.pathname == "/survey/email" ||
                           location.pathname == "/survey/email/selectsurvey" ||
+                          location.pathname == "/survey/email/select-hcp" ||
+                          location.pathname == "/survey/email/smart-list" ||
+                          location.pathname == "/survey/email/select-smartlist-users" ||
+                          location.pathname == "/survey/email/verify-hcp" ||
+                          location.pathname == "/survey/email/verify-mail" ||
+                          location.pathname == "/survey/email/verify-hcp-mail" ||
                           location.pathname == "/survey/AutoEmail" ||
                           location.pathname == "/survey/smartlist" ||
                           location.pathname == "/survey/email/create-email" ||
