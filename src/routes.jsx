@@ -1136,7 +1136,9 @@ const Routing = () => {
         />
 
 
-        <Route path="/survey/email" element={<LoginLayout component={EmailList}  type="survey"/>}/>
+        <Route path="/survey/email" element={<LoginLayout component={EmailList}  type="survey" />}/>
+        <Route path="/survey/email/selectsurvey" element={<LoginLayout component={CreateSurveyEmail} type="survey" />} />
+        <Route path="/survey/email/create-email" element={<LoginLayout component={CreateEmail}  type="survey" />} />
         <Route path="/survey/auto-email" element={<LoginLayout component={AutoEmail}  type="survey"/>} />
         <Route path="/survey/smartlist" element={<LoginLayout component={SmartList}  type="survey"/>} />
         <Route path="/survey/smartlist/createlist" element={<LoginLayout component={CreateSmartList}  type="survey"/>} />
@@ -1146,7 +1148,7 @@ const Routing = () => {
         <Route path="/survey/AutoEmail" element={<LoginLayout component={AutoEmail}  type="survey"/>} />
 
 
-        <Route path="/survey/email-article-select" element={<LoginLayout component={EmailArticleSelect}  type="survey"/>} />
+        {/* <Route path="/survey/email-article-select" element={<LoginLayout component={EmailArticleSelect}  type="survey"/>} />
         <Route path="/survey/create-email" element={<LoginLayout component={CreateEmail}  type="survey"/>} />
         <Route path="/survey/filter-segment" element={<LoginLayout component={FilterSegment} />}  type="survey" />
         <Route path="/survey/select-hcp" element={<LoginLayout component={SelectHCP}  type="survey" />} />
@@ -1154,7 +1156,7 @@ const Routing = () => {
         <Route path="/survey/verify-mail" element={<LoginLayout component={VerifyMAIL}  type="survey"/>} />
         <Route path="/survey/verify-hcp-mail" element={<LoginLayout component={VerifyHcpMAIL}  type="survey"/>} />
         <Route path="/survey/verify-sunshine-mail" element={<LoginLayout component={VerifySunshineMAIL}   type="survey"/>} />
-        <Route path="/survey/select-smartlist-users" element={<LoginLayout component={SelectSmartListUsersLayout}  type="survey"/>} />
+        <Route path="/survey/select-smartlist-users" element={<LoginLayout component={SelectSmartListUsersLayout}  type="survey"/>} /> */}
         <Route
           path="/survey/survey-analytics"
           element={<LoginLayout component={SurveyAnalytics} />}
