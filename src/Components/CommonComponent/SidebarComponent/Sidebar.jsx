@@ -245,6 +245,10 @@ const Sidebar = () => {
   location.pathname === '/survey/email/selectsurvey' ||
   location.pathname === '/survey/email/create-email'
 
+  const isActiveSurveySmartList = location.pathname === '/survey/smartlist'
+
+  const isActiveSurveyAutomail = location.pathname === '/survey/AutoEmail'
+
   const isActiveEmail = location.pathname === '/webinar/email' ||
     location.pathname === '/webinar/email/create-new-email' ||
     location.pathname === '/webinar/email/selectHCP' ||
@@ -1323,7 +1327,8 @@ const Sidebar = () => {
                   window.location.pathname == "/survey/email" ||
                   window.location.pathname == "/survey/email/selectsurvey" ||
                   window.location.pathname == "/survey/email/create-email" ||
-                  window.location.pathname == "/survey/auto-email" ||
+                  window.location.pathname == "/survey/AutoEmail" ||
+                  window.location.pathname == "/survey/smartlist" ||
                   window.location.pathname == "/survey/survey-analytics-detail"?
 
                   (
@@ -1407,6 +1412,8 @@ const Sidebar = () => {
                       <li className={
                           location.pathname == "/survey/email" ||
                           location.pathname == "/survey/email/selectsurvey" ||
+                          location.pathname == "/survey/AutoEmail" ||
+                          location.pathname == "/survey/smartlist" ||
                           location.pathname == "/survey/email/create-email" 
                            ? "active sub-links"
                         : "side_li sub-links"
@@ -1426,7 +1433,7 @@ const Sidebar = () => {
                                     <p>Email</p>
                                   </Link>
                                 </li>
-                                <li className={isActiveAutomail ? 'active' : 'side_li'}
+                                <li className={isActiveSurveyAutomail ? 'active' : 'side_li'}
                                 >
                                   <Link to="/survey/AutoEmail">
                                   <img src= { sidebar_image_path +"auto-email.svg" } alt=""/>
@@ -1435,7 +1442,7 @@ const Sidebar = () => {
                                   </Link>
                                 </li>
 
-                                <li className={isActiveSmartlist ? 'active' : 'side_li'}>
+                                <li className={isActiveSurveySmartList ? 'active' : 'side_li'}>
                                   <Link to="/survey/smartlist">
                                   <img src= { sidebar_image_path +"attendees.svg" } alt=""/>
                                     <p>Smart List</p>
