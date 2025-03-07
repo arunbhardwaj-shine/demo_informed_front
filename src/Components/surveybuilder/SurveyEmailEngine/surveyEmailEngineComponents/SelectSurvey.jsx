@@ -115,7 +115,7 @@ const SelectSurvey = ({ SendListData, setSendListData, handlePdfSelection, setCu
                       </div>
                     </div>
                     <div>
-                      <div class="mail-content-table">
+                      <div className="mail-content-table">
                         <table>
                           <tbody><tr>
                             <th>Consent</th>

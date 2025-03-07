@@ -13,7 +13,7 @@ const SmartListLayout = ({data,deletestatus,callLinkClickFun,iseditshow,isviewsh
     const [flag, setFlag] = useState(0);
     
 
-    const { eventIdContext, handleEventId } = useSidebar()
+    const { eventIdContext, handleEventId } = useSidebar() ?? {};
     const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"))
     const [eventId, setEventId] = useState(
       eventIdContext?.eventId
