@@ -49,6 +49,7 @@ const SurveyList = (props) => {
   // const filterdata = [];
   const [showfilter, setShowFilter] = useState(false);
   const [deletestatus, setDeleteStatus] = useState(false);
+  const [editSurvey, setEditSurvey] = useState(false);
   const [updateflag, setUpdateFlag] = useState([]);
   const [filterapplied, setFilterApply] = useState(false);
   const [search, setSearch] = useState("");
@@ -132,6 +133,11 @@ const SurveyList = (props) => {
   const showDeleteButtons = () => {
     setDeleteStatus(!deletestatus);
   };
+
+  const showSurveyEditButtons = () => {
+    setEditSurvey(!editSurvey);
+  };
+
 
   const getFilterAppliedData = async () => {
     if (filter?.Survey?.length > 0) {
@@ -484,7 +490,7 @@ const SurveyList = (props) => {
         creator_name: data.creator_name,
         setUpData,
         formBuilderData,
-        surveyConfigData: surveyConfigData || "", // Use logical OR for default value
+        surveyConfigData: surveyConfigData || "",  
         thanksPageData,
       });
     }
@@ -1643,6 +1649,25 @@ const SurveyList = (props) => {
                                       />
                                     </button>
                                   </div>
+                                )}
+                                 {editSurvey && (
+                                  <div className="dlt_btn">
+                                    <button
+                                       onClick={(e) =>
+                                        editHandler(
+                                          e,
+                                          data?.current_route,
+                                          data
+                                        )
+                                      }
+                                    >
+                                      <img
+                                        src={path + "edit.svg"}
+                                        alt="edit Row"
+                                      />
+                                    </button>
+                                  </div>
+
                                 )}
                               </div>
                             </div>

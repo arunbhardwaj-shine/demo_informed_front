@@ -1144,6 +1144,7 @@ const Routing = () => {
         <Route path="/survey/ViewSmartList" element={<LoginLayout component={ViewList}  type="survey"/>} />
         <Route path="/survey/EditList" element={<LoginLayout component={EditList}  type="survey"/>} />
         <Route path="/survey/AutoEmail" element={<LoginLayout component={AutoEmail}  type="survey"/>} />
+        <Route path="/survey/TemplateBuilder" element={<LoginLayout component={TemplateBuilder}  type="survey"/>} />
 
 
         <Route path="/survey/email-article-select" element={<LoginLayout component={EmailArticleSelect}  type="survey"/>} />

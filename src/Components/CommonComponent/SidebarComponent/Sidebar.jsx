@@ -242,6 +242,7 @@ const Sidebar = () => {
   const isActiveSurveyPage = location.pathname === '/webinar/analytics/question-data'
 
   const isActiveSurveyEmail = location.pathname === '/survey/email'
+  const isActiveSurveyTemplate= location.pathname === "/survey/TemplateBuilder";
 
   const isActiveEmail = location.pathname === '/webinar/email' ||
     location.pathname === '/webinar/email/create-new-email' ||
@@ -1420,6 +1421,17 @@ const Sidebar = () => {
                                     <p>Email</p>
                                   </Link>
                                 </li>
+                                <li
+                                    className={isActiveSurveyTemplate ? "active" : "side_li"}
+                                  >
+                                    <Link to={"/survey/TemplateBuilder"}>
+                                      <img
+                                        src={sidebar_image_path + "template-builder.svg"}
+                                        alt=""
+                                      />{" "}
+                                      <p>Template Builder</p>
+                                    </Link>
+                                  </li>
                                 <li className={isActiveAutomail ? 'active' : 'side_li'}
                                 >
                                   <Link to="/survey/AutoEmail">
