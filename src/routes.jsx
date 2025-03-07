@@ -239,6 +239,7 @@ import NotFound from "./Components/surveybuilder/NotFound";
 import ThanksPage from "./Components/surveybuilder/ThanksPage";
 import SurveyList from "./Components/surveybuilder/SurveyList";
 import SurveySublink from "./Components/surveybuilder/SurveySublink";
+import SurveySublinkNew from "./Components/surveybuilder/SurveySublinkNew";
 import SurveyAnalytics from "./Components/surveybuilder/SurveyAnalytics";
 import SurveyAnalyticsDetail from "./Components/surveybuilder/SurveyAnalyticsDetail";
 import SurveyFinalPreview from "./Components/surveybuilder/SurveyFinalPreview";
@@ -1129,6 +1130,10 @@ const Routing = () => {
         <Route
           path="/survey/survey-sublink"
           element={<LoginLayout component={SurveySublink} />}
+        />
+        <Route
+          path="/survey/survey-sublink-new"
+          element={<LoginLayout component={SurveySublinkNew} />}
         />
          <Route
           path="/survey/emails-selectsurvey"

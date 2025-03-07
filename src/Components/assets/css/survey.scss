@@ -40,7 +40,188 @@ span {
     }
   }
 }
-
+.survey-sublink{
+  h5{
+    color: #004A89;
+    font-size: 20px;
+    font-weight: 500;
+    span{
+      font-weight: 400;
+    }
+  }
+  .survey-builder {
+    .survey-listing {
+      padding: 0;
+      .email_box_block{
+        margin: 0 0 32px;
+        .mail-box-content{
+          border-radius: 13px;
+          box-shadow: 0px 2px 6px 0px rgba(0, 102, 190, 0.20);
+          padding:12px 24px 8px 16px;
+          .mail-box-content-top{
+            flex-direction: row;
+          }
+          .mail-box-content-top-left{
+            h5{
+              font-size: 16px;
+              p{
+                font-size: 14px;
+              }
+            }
+            .mailbox-tags{
+              margin:0;
+            }
+            .tab-content-links{
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                .copy-content{
+                  margin:0;
+                }
+              a{
+                color: #8A4E9C;
+                font-size: 14px;
+                font-weight: 400;
+              }
+              .tab-content-qr{
+                border-radius: 4px;
+                background: vars.$white;
+                box-shadow: 0px 1px 6px 0px rgba(0, 102, 190, 0.2);
+                padding: 3px 1px;
+                display: inline-flex;
+                img{
+                  cursor: pointer;
+                  margin: 0 3px;
+                }
+              }
+            }
+            .mail-time{
+              margin-bottom: 0;
+            }
+          }
+          .mail-box-content-top-right{
+            @include m.flex-center;
+            gap:48px;
+            position: relative;
+            .mail-stats{
+              ul{
+                gap:24px;
+                li{
+                  .mail_send{
+                      border-color: #8A4E9C;
+                  }
+                  .mail-hit{
+                    border-color: #0066BE;
+                  }
+                  .mail_view{
+                    border-color: #FAC755;
+                  }
+                  .mail_click{
+                    border-color: #39CABC;
+                  }
+                  span{
+                    color: #4E718E;
+                    font-size: 13px;
+                  }
+                }
+              }
+            }
+            .mailbox-buttons{
+              padding:0;
+              margin:0;
+              min-height: initial;
+              flex-direction: column;
+              position: static;
+              gap:16px;
+              &:before{
+                right: 112px;
+                border-left: 1px dashed #97B6CF;
+                border-top: 0;
+                top: -12px;
+                bottom: 0;
+                left: auto;
+                height: calc(100% + 20px);
+              }
+              button{
+                min-width: 90px;
+                font-size: 14px;
+                
+              }
+            }
+          }
+        }
+        .mail-box-acccordion{
+          border-radius: 13px;
+          box-shadow: 0px 1px 6px 0px rgba(0, 102, 190, 0.20);
+          .accordion{
+            border:0;
+            .accordion-item{
+              border: 0;
+              background: rgba(0, 102, 190, 0.03);
+              display: flex;
+              flex-direction: column-reverse;
+              padding:20px 0 0;
+              margin-top: -19px;
+              .accordion-header{
+                
+                button{
+                  text-align: center;
+                  padding: 11px 11px;
+                  color: #97B6CF;
+                  font-size: 16px;
+                  font-weight: 500;
+                  line-height: 1;
+                  justify-content: center;
+                  border-radius: 0 0 13px 13px;
+                  border-top: 1px dashed #97B6CF;
+                  background: #ffffff;
+                  box-shadow: none;
+                  &.collapsed{
+                    border: 0;
+                  }
+                  &::after{
+                    margin:0 0 0 8px;
+                    background-image: url(../../../../public/componentAssets/images/accordian_arrow.svg) ;
+                    background-size: 16px;
+                    width: 16px;
+                    height: 10px;
+                  }
+                }
+              }
+              .accordion-body{
+                padding:30px 24px 24px;
+                .sublink-title{
+                  h6{
+                    color: #004A89;
+                    font-size: 18px;
+                    font-weight: 500;
+                  }
+                }
+                .btn-dashed{
+                  padding: 9px 24px;
+                  border-radius: 30px;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  font-size: 14px;
+                  color: #0066be;
+                  height: 40px;
+                  gap: 10px;
+                  background: transparent;
+                  font-weight: 500;
+                  border: 1px dashed #0066BE;
+                }
+                .mail-box-content{
+                  margin-top: 16px;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
 .survey-builder {
   .survey-engine {
     padding: 0;
