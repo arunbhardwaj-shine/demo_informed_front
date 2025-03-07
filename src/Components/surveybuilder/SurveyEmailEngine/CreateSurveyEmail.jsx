@@ -394,7 +394,9 @@ const submitHandler = (event) => {
               </div>
               <div className="top-right-action">
                 <div className="search-bar">
-                  <form className="d-flex" onSubmit={(e) => submitHandler(e)}>
+                  <form className="d-flex"
+                   onSubmit={(e) => submitHandler(e)}
+                   >
                     <input
                       className="form-control me-2"
                       type="search"

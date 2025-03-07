@@ -466,7 +466,18 @@ const Header = () => {
                     ""
                   )}
                 {(localStorage.getItem("user_id") == "rjiGlqA9DXJVH7bDDTX0Lg==" || localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "bWmUjqX7J011   WUTYn9g==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" || localStorage.getItem("user_id") == "B7SHpAc XDXSH NXkN0rdQ==" || localStorage.getItem("user_id") == "iSnEsKu5gB/DRlycxB6G4g==")
-                 && (<li className={window.location.pathname == "/survey/survey-list" || window.location.pathname == "/survey/survey-sublink" || window.location.pathname == "/survey/survey-analytics" || window.location.pathname == "/survey/survey-analytics-detail" || window.location.pathname == "/survey/survey-setup" || window.location.pathname == "/survey/survey-builder" || window.location.pathname == "/survey/survey-configure" || window.location.pathname == "/survey/form-builder" || window.location.pathname == "/survey/thank-you" || window.location.pathname == "/survey/survey-preview"
+                 && (<li className={window.location.pathname == "/survey/survey-list" || window.location.pathname == "/survey/survey-sublink" || window.location.pathname == "/survey/survey-analytics" || window.location.pathname == "/survey/survey-analytics-detail" || window.location.pathname == "/survey/survey-setup" || window.location.pathname == "/survey/survey-builder" || window.location.pathname == "/survey/survey-configure" || window.location.pathname == "/survey/form-builder" || window.location.pathname == "/survey/thank-you" || window.location.pathname == "/survey/survey-preview" || window.location.pathname == "/survey/email" || 
+                  window.location.pathname == "/survey/email/selectsurvey" ||
+                  window.location.pathname == "/survey/email/create-email" ||
+                  window.location.pathname == "/survey/auto-email" ||
+                  window.location.pathname == "/survey/smartlist" ||
+                  window.location.pathname == "/survey/smartlist/createlist" ||
+                  window.location.pathname == "/survey/smartlist/UploadExcel" ||
+                  window.location.pathname == "/survey/ViewSmartList" ||
+                  window.location.pathname == "/survey/EditList" ||
+                  window.location.pathname == "/survey/AutoEmail" ||
+                  window.location.pathname == "/survey/topics" ||
+                  window.location.pathname == "/survey/TemplateBuilder"
                   ? "nav-item active active-main"
                   : "nav-item"
                 } onClick={handleMenuItemClick}>

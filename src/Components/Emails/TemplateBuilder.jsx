@@ -20,6 +20,9 @@ import SmartListTableLayout from "../CommonComponent/SmartListTableLayout";
 
 var state_object = {};
 const TemplateBuilder = (props) => {
+
+  const type= props?.type === "survey" ? "survey" : 0;
+
   const accountMapping={"56Ek4feL/1A8mZgIKQWEqg==":2147501188,"bWmUjqX7J011   WUTYn9g==":298217,"MXl8m36VZFYXpgFVz3Pg0g==":2147537506}
 
   const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","bWmUjqX7J011   WUTYn9g==","MXl8m36VZFYXpgFVz3Pg0g=="]
@@ -158,6 +161,7 @@ const TemplateBuilder = (props) => {
   const getSmartListData = async (flag) => {
     axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
     const body = {
+      type:type == "survey" ? 1 :type,
       user_id: localStorage.getItem("user_id"),
       search: getsearch,
       filter: "",
@@ -183,6 +187,7 @@ const TemplateBuilder = (props) => {
       loader("show");
 
       const body = {
+        type:type == "survey" ? 1 :type,
         user_id: localStorage.getItem("user_id"),
         language: "",
         ibu: "",
@@ -313,6 +318,7 @@ const TemplateBuilder = (props) => {
     }
 
     const body = {
+      type:type == "survey" ? 1 :type,
       user_id: localStorage.getItem("user_id"),
       language: check_lng_index,
       ibu: ibu,
@@ -615,6 +621,7 @@ const TemplateBuilder = (props) => {
     if (typeof getSmartListId != "undefined" && getSmartListId !== 0) {
       loader("show");
       const body = {
+        type:type == "survey" ? 1 :type,
         user_id: localStorage.getItem("user_id"),
         list_id: getSmartListId,
         show_specific: 1,
@@ -691,6 +698,7 @@ const TemplateBuilder = (props) => {
         user_list: selected_ids,
         smartlist_id: "",
         source_code: template,
+        type:type == "survey" ? 1 :type,
       };
 
      
@@ -808,6 +816,7 @@ const TemplateBuilder = (props) => {
         template_id: templateId,
         image_url: "",
         template_name: newTemplateName,
+        type:type == "survey" ? 1 :type,
       };
       axios
         .post(`emailapi/update_template`, body)
@@ -901,9 +910,11 @@ const TemplateBuilder = (props) => {
       toast.warning("Please enter name or email first");
     } else {
       const body = {
+        type:type == "survey" ? 1 :type,
         user_id: localStorage.getItem("user_id"),
         name: name,
         email: email,
+        type:type == "survey" ? 1 :type,
       };
 
       axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
@@ -1099,6 +1110,7 @@ const TemplateBuilder = (props) => {
         }
       });
       const body = {
+        type:type == "survey" ? 1 :type,
         data: body_data,
         user_id: localStorage.getItem("user_id"),
         smart_list_id: "",
@@ -1343,6 +1355,7 @@ const TemplateBuilder = (props) => {
       }
 
       const body = {
+        type:type == "survey" ? 1 :type,
         user_id: localStorage.getItem("user_id"),
         source_code: template,
         template_id: templateId,
@@ -1399,6 +1412,7 @@ const TemplateBuilder = (props) => {
       }
 
       const body = {
+        type:type == "survey" ? 1 :type,
         user_id: localStorage.getItem("user_id"),
         source_code: newTemplateContent,
         template_id: "",
@@ -1487,6 +1501,7 @@ const TemplateBuilder = (props) => {
         axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
         if (dataUrl) {
           const body = {
+            type:type == "survey" ? 1 :type,
             user_id: localStorage.getItem("user_id"),
             template_id: templateId,
             image_url: dataUrl,
@@ -1541,6 +1556,7 @@ const TemplateBuilder = (props) => {
           status: 2,
           language: 2,
           content_included: saveTemplateType,
+          type:type == "survey" ? 1 :type,
         };
         axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
         loader("show");
