@@ -670,6 +670,18 @@ const SurveyList = (props) => {
                 <h2>Surveys</h2>
               </div>
               <div className="top-right-action">
+              <div className="action-btn-add" style={{ margin: "0" }}>
+                                      <Button className="btn-dashed" onClick={createNewEmail}>
+                                        Create Survey
+                                        <img src={`${path_image}add-icon.png`} alt="" />
+                                      </Button>
+                                    </div>
+                <div className="action-btn-add" style={{ margin: "0" }}>
+                                      <Button className="btn-dashed" onClick={showSurveyEditButtons}>
+                                        Edit survey
+                                        <img src={`${path_image}edit.svg`} alt="" />
+                                      </Button>
+                                    </div>
                 <div className="search-bar">
                   <form className="d-flex" onSubmit={(e) => submitHandler(e)}>
                     <input
@@ -988,7 +1000,7 @@ const SurveyList = (props) => {
 
             <div className="email-result survey-listing">
               <div className="col email-result-block library-content-box-layout">
-                {!deletestatus && filterApplyflag > 0 && (
+                {/* {!deletestatus && filterApplyflag > 0 && (
                   <div className="email_box_block">
                     <div className="email-block-add">
                       <button onClick={createNewEmail}>
@@ -997,7 +1009,7 @@ const SurveyList = (props) => {
                       <p>Create New Survey</p>
                     </div>
                   </div>
-                )}
+                )} */}
                 {isData.length < 1 && (
                   <div className="mail_trigger_right_dummy">
                     <div className="mail_trigger_dummy_content d-flex justify-content-center">

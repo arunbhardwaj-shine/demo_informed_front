@@ -248,6 +248,7 @@ import ClinetAccount from "./Components/Login/ClientAccount";
 import ResetPassword from "./Components/CommonComponent/ResetPassword";
 import CreateSurveyEmail from "./Components/surveybuilder/SurveyEmailEngine/CreateSurveyEmail";
 import Redirect from "./Auth/Redirect";
+import SurveyTopics from "./Components/surveybuilder/SurvyeTopics";
 
 //Aland activity route
 
@@ -1134,9 +1135,13 @@ const Routing = () => {
           path="/survey/emails-selectsurvey"
           element={<LoginLayout component={CreateSurveyEmail} />}
         />
+    <Route path="/survey/topics" element={<LoginLayout component={SurveyTopics}/>} />
 
 
-        <Route path="/survey/email" element={<LoginLayout component={EmailList}  type="survey"/>}/>
+
+        <Route path="/survey/email" element={<LoginLayout component={EmailList}  type="survey" />}/>
+        <Route path="/survey/email/selectsurvey" element={<LoginLayout component={CreateSurveyEmail} type="survey" />} />
+        <Route path="/survey/email/create-email" element={<LoginLayout component={CreateEmail}  type="survey" />} />
         <Route path="/survey/auto-email" element={<LoginLayout component={AutoEmail}  type="survey"/>} />
         <Route path="/survey/smartlist" element={<LoginLayout component={SmartList}  type="survey"/>} />
         <Route path="/survey/smartlist/createlist" element={<LoginLayout component={CreateSmartList}  type="survey"/>} />
@@ -1147,7 +1152,7 @@ const Routing = () => {
         <Route path="/survey/TemplateBuilder" element={<LoginLayout component={TemplateBuilder}  type="survey"/>} />
 
 
-        <Route path="/survey/email-article-select" element={<LoginLayout component={EmailArticleSelect}  type="survey"/>} />
+        {/* <Route path="/survey/email-article-select" element={<LoginLayout component={EmailArticleSelect}  type="survey"/>} />
         <Route path="/survey/create-email" element={<LoginLayout component={CreateEmail}  type="survey"/>} />
         <Route path="/survey/filter-segment" element={<LoginLayout component={FilterSegment} />}  type="survey" />
         <Route path="/survey/select-hcp" element={<LoginLayout component={SelectHCP}  type="survey" />} />
@@ -1155,7 +1160,7 @@ const Routing = () => {
         <Route path="/survey/verify-mail" element={<LoginLayout component={VerifyMAIL}  type="survey"/>} />
         <Route path="/survey/verify-hcp-mail" element={<LoginLayout component={VerifyHcpMAIL}  type="survey"/>} />
         <Route path="/survey/verify-sunshine-mail" element={<LoginLayout component={VerifySunshineMAIL}   type="survey"/>} />
-        <Route path="/survey/select-smartlist-users" element={<LoginLayout component={SelectSmartListUsersLayout}  type="survey"/>} />
+        <Route path="/survey/select-smartlist-users" element={<LoginLayout component={SelectSmartListUsersLayout}  type="survey"/>} /> */}
         <Route
           path="/survey/survey-analytics"
           element={<LoginLayout component={SurveyAnalytics} />}

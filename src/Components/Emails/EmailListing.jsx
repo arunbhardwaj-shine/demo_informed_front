@@ -27,6 +27,7 @@ import {
 } from "../../axios/apiHelper";
 
 const EmailList = (props) => {
+  const routeTypeSurvey = props?.type == 'survey' ? 1 : 0;
   const rdLikeArray = [
     "56Ek4feL/1A8mZgIKQWEqg==",
     "bWmUjqX7J011   WUTYn9g==",
@@ -456,7 +457,8 @@ const EmailList = (props) => {
     if ([3968, 3970, 4521].includes(irtRoleObj?.pdfId) || irtRoleObj?.pdfId) {
       await navigateRole(irtRoleObj);
     } else {
-      navigate("/EmailArticleSelect", {
+      const routeName = routeTypeSurvey ? '/survey/email/selectsurvey' : '/EmailArticleSelect'
+      navigate(routeName, {
         state: { IrtObj: irtRoleObj },
       });
     }

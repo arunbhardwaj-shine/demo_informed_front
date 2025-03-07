@@ -241,8 +241,14 @@ const Sidebar = () => {
   const isActiveChatPage = location.pathname === '/webinar/live-stream/chat-link'
   const isActiveSurveyPage = location.pathname === '/webinar/analytics/question-data'
 
-  const isActiveSurveyEmail = location.pathname === '/survey/email'
-  const isActiveSurveyTemplate= location.pathname === "/survey/TemplateBuilder";
+  const isActiveSurveyEmail = location.pathname === '/survey/email' ||
+  location.pathname === '/survey/email/selectsurvey' ||
+  location.pathname === '/survey/email/create-email'
+
+  const isActiveSurveySmartList = location.pathname === '/survey/smartlist' || location.pathname === '/survey/ViewSmartList' || location.pathname === '/survey/smartlist/UploadExcel' || location.pathname ===  '/survey/smartlist/createlist'
+
+  const isActiveSurveyAutomail = location.pathname === '/survey/AutoEmail'
+  const isActiveSurveyTemplate= location.pathname === '/survey/TemplateBuilder';
 
   const isActiveEmail = location.pathname === '/webinar/email' ||
     location.pathname === '/webinar/email/create-new-email' ||
@@ -257,8 +263,8 @@ const Sidebar = () => {
       location.pathname == "/webinar/email/smartlist/uploadsmartlist")
       && webinar_c_id != 0)
   const isActiveAutomail = location.pathname === '/webinar/email/auto-emails'
-  const isActiveSmartlist = location.pathname === '/webinar/email/smartlist' ||
 
+  const isActiveSmartlist = location.pathname === '/webinar/email/smartlist' ||
     location.pathname == "/webinar/email/smartlist/editlist" ||
     location.pathname == "/webinar/email/smartlist/filterSegment" ||
     location.pathname == "/webinar/email/smartlist/table" ||
@@ -281,7 +287,8 @@ const Sidebar = () => {
             window.location.pathname == "/webinar/live-stream/polls-layout" ||
             window.location.pathname == "/webinar/analytics/question-data" ||
             window.location.pathname == "/webinar/live-stream/chat-link" ||
-            window.location.pathname == "/webinar/analytics" || window.location.pathname == "/webinar/analytics/analytics-attendees" ||
+            window.location.pathname == "/webinar/analytics" || 
+            window.location.pathname == "/webinar/analytics/analytics-attendees" ||
             window.location.pathname == "/webinar/analytics/analytics-poll" ||
             window.location.pathname == "/webinar/analytics/analytics-questions" ||
             window.location.pathname == "/webinar/analytics/analytics-emails" ||
@@ -319,7 +326,8 @@ const Sidebar = () => {
             window.location.pathname == "/webinar/live-stream/polls-layout" ||
             window.location.pathname == "/webinar/analytics/question-data" ||
             window.location.pathname == "/webinar/live-stream/chat-link" ||
-            window.location.pathname === "/webinar/analytics" || window.location.pathname == "/webinar/analytics/analytics-attendees" ||
+            window.location.pathname === "/webinar/analytics" || 
+            window.location.pathname == "/webinar/analytics/analytics-attendees" ||
             window.location.pathname == "/webinar/analytics/analytics-poll" ||
             window.location.pathname == "/webinar/analytics/analytics-questions" ||
             window.location.pathname == "/webinar/analytics/analytics-emails" ||
@@ -335,6 +343,17 @@ const Sidebar = () => {
             window.location.pathname === '/webinar/email/verifyMAIL' ||
             window.location.pathname === '/webinar/email/verifyHCP' ||
             window.location.pathname === '/webinar/email/verifyHcpMAIL' ||
+            window.location.pathname === '/survey/email' ||
+            window.location.pathname === '/survey/email/selectsurvey' ||
+            window.location.pathname === '/survey/email/create-email' ||
+            window.location.pathname === '/survey/auto-email' ||
+            window.location.pathname === '/survey/smartlist' ||
+            window.location.pathname === '/survey/smartlist/createlist' ||
+            window.location.pathname === '/survey/smartlist/UploadExcel' ||
+            window.location.pathname === '/survey/ViewSmartList' ||
+            window.location.pathname === '/survey/EditList' ||
+            window.location.pathname === '/survey/AutoEmail' ||
+            window.location.pathname === '/survey/TemplateBuilder' ||
             window.location.pathname === '/webinar/email/selectSmartListUsers') && (
               <button className="toggle_btn" onClick={() => toggleClassToBody()}>
                 <img src={path_image + "arrow-left.svg"} alt="toggle-sidebar" />
@@ -1318,9 +1337,17 @@ const Sidebar = () => {
                   window.location.pathname == "/survey/survey-list" ||
                   window.location.pathname == "/survey/survey-setup" ||
                   window.location.pathname == "/survey/survey-sublink" ||
+                  window.location.pathname == "/survey/topics" ||
                   window.location.pathname == "/survey/survey-analytics" ||
                   window.location.pathname == "/survey/email" ||
-                  window.location.pathname == "/survey/auto-email" ||
+                  window.location.pathname == "/survey/email/selectsurvey" ||
+                  window.location.pathname == "/survey/email/create-email" ||
+                  window.location.pathname == "/survey/AutoEmail" ||
+                  window.location.pathname == "/survey/smartlist" ||
+                  window.location.pathname == "/survey/TemplateBuilder" ||
+                  window.location.pathname == "/survey/ViewSmartList" ||
+                  window.location.pathname == "/survey/smartlist/createlist" ||
+                  window.location.pathname == "/survey/smartlist/UploadExcel" ||
                   window.location.pathname == "/survey/survey-analytics-detail"?
 
                   (
@@ -1378,6 +1405,31 @@ const Sidebar = () => {
 
                       <li
 
+                              className={
+
+                                location.pathname == "/survey/topics"
+
+                                  ? "active"
+
+                                  : "side_li"
+
+                              }
+
+                              >
+
+                              <Link to={"/survey/topics"}>
+
+                              <img src= { sidebar_image_path + "topics.svg" } alt=""/>
+                              {" "}
+
+                                <p>Topics</p>
+
+                              </Link>
+
+                              </li>
+
+                      <li
+
                         className={
 
                           location.pathname == "/survey/survey-analytics" || window.location.pathname == "/survey/survey-analytics-detail"
@@ -1402,7 +1454,15 @@ const Sidebar = () => {
                       </li>
 
                       <li className={
-                          location.pathname == "/survey/email"
+                          location.pathname == "/survey/email" ||
+                          location.pathname == "/survey/email/selectsurvey" ||
+                          location.pathname == "/survey/AutoEmail" ||
+                          location.pathname == "/survey/smartlist" ||
+                          location.pathname == "/survey/email/create-email" ||
+                          window.location.pathname == "/survey/ViewSmartList" ||
+                          window.location.pathname == "/survey/smartlist/createlist" ||
+                          window.location.pathname == "/survey/smartlist/UploadExcel" ||
+                          location.pathname == "/survey/TemplateBuilder" 
                            ? "active sub-links"
                         : "side_li sub-links"
                         }
@@ -1422,17 +1482,17 @@ const Sidebar = () => {
                                   </Link>
                                 </li>
                                 <li
-                                    className={isActiveSurveyTemplate ? "active" : "side_li"}
-                                  >
-                                    <Link to={"/survey/TemplateBuilder"}>
-                                      <img
-                                        src={sidebar_image_path + "template-builder.svg"}
-                                        alt=""
-                                      />{" "}
-                                      <p>Template Builder</p>
-                                    </Link>
-                                  </li>
-                                <li className={isActiveAutomail ? 'active' : 'side_li'}
+                                  className={isActiveSurveyTemplate ? "active" : "side_li"}
+                                >
+                                  <Link to={"/survey/TemplateBuilder"}>
+                                    <img
+                                      src={sidebar_image_path + "template-builder.svg"}
+                                      alt=""
+                                    />{" "}
+                                    <p>Template Builder</p>
+                                  </Link>
+                                </li>
+                                <li className={isActiveSurveyAutomail ? 'active' : 'side_li'}
                                 >
                                   <Link to="/survey/AutoEmail">
                                   <img src= { sidebar_image_path +"auto-email.svg" } alt=""/>
@@ -1441,7 +1501,7 @@ const Sidebar = () => {
                                   </Link>
                                 </li>
 
-                                <li className={isActiveSmartlist ? 'active' : 'side_li'}>
+                                <li className={isActiveSurveySmartList ? 'active' : 'side_li'}>
                                   <Link to="/survey/smartlist">
                                   <img src= { sidebar_image_path +"attendees.svg" } alt=""/>
                                     <p>Smart List</p>
@@ -1454,7 +1514,7 @@ const Sidebar = () => {
                     </ul>
                 ):
 
-                window.location.pathname == "/survey/survey-list" || window.location.pathname == "/survey/survey-sublink" || window.location.pathname == "/survey/survey-analytics" || window.location.pathname == "/survey/survey-analytics-detail"?
+                window.location.pathname == "/survey/survey-list" || window.location.pathname == "/survey/topics" || window.location.pathname == "/survey/survey-sublink" || window.location.pathname == "/survey/survey-analytics" || window.location.pathname == "/survey/survey-analytics-detail"?
 
                 (
 
@@ -1510,6 +1570,32 @@ const Sidebar = () => {
                       </Link>
 
                     </li>
+
+                    
+                      <li
+
+                              className={
+
+                                location.pathname == "/survey/topics"
+
+                                  ? "active"
+
+                                  : "side_li"
+
+                              }
+
+                              >
+
+                              <Link to={"/survey/topics"}>
+
+                              <img src= { sidebar_image_path + "topics.svg" } alt=""/>
+                              {" "}
+
+                                <p>Topics</p>
+
+                              </Link>
+
+                          </li>
 
                     <li
 
