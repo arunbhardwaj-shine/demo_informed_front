@@ -25948,6 +25948,11 @@ background-size: cover;
   .verify-right {
     width: 590px;
     .preview-mail-box{
+      &.verify-preview{
+        table{
+          zoom: 1;
+        }
+      }
       table{
         zoom:0.9;
       }

@@ -69,8 +69,8 @@ const CreateEmail = (props) => {
   let type=searchParams.get('type')
   const [getsearch, setSearch] = useState("");
   const PdfSelected = props.getEmailData ? dxr : props.getDraftData.pdf_id;
-  const surveyid = state_object?.survey_id ? state_object?.survey_id : props?.getDraftData?.campaign_data?.survey_id;
-  const surveySubLinkId = state_object?.sublink_id ? state_object?.sublink_id : props?.getDraftData?.campaign_data?.sublink_id;
+  const surveyid = state_object?.survey_id ? state_object?.survey_id : props?.getDraftData?.campaign_data?.survey_id ? props?.getDraftData?.campaign_data?.survey_id : 0;
+  const surveySubLinkId = state_object?.sublink_id ? state_object?.sublink_id : props?.getDraftData?.campaign_data?.sublink_id ? props?.getDraftData?.campaign_data?.sublink_id : 0;
   const [hcpsSelected, setHcpsSelected] = useState([]);
   const [manualReRender, setManualReRender] = useState(0);
   const campaign_id = props.getDraftData ? props.getDraftData.campaign_id : "";
@@ -1018,6 +1018,8 @@ const CreateEmail = (props) => {
           removedHcp : state_object?.removedHcp ? state_object?.removedHcp : [],
           addedHcp : state_object?.addedHcp ? state_object?.addedHcp : [],
           selectedHcp : state_object?.selectedHcp ? state_object?.selectedHcp : [],
+          sublink_id : surveySubLinkId,
+          survey_id : surveyid,
         };
         
         if(state_object?.startTraining == 1){
@@ -1060,8 +1062,11 @@ const CreateEmail = (props) => {
           removedHcp : state_object?.removedHcp ? state_object?.removedHcp : [],
           addedHcp : state_object?.addedHcp ? state_object?.addedHcp : [],
           selectedHcp : state_object?.selectedHcp ? state_object?.selectedHcp : [],
+          sublink_id : surveySubLinkId,
+          survey_id : surveyid,
         });
-        navigate("/SelectHCP");
+        const nextRouteName = routeTypeSurvey ? "/survey/email/select-hcp" : "/SelectHCP";
+        navigate(nextRouteName);
       }
     } else {
       validator.showMessages();
@@ -1099,7 +1104,7 @@ const CreateEmail = (props) => {
         ? emailCampaign
         : props.getDraftData.campaign,
       subject: props.getEmailData ? emailSubject : props.getDraftData.subject,
-      route_location: "CreateEmail",
+      route_location: routeTypeSurvey ? "survey/email/create-email" : "CreateEmail",
       tags: props.getEmailData ? tagss : props.getDraftData.tags,
       campaign_data: {
         template_id: props.getEmailData
@@ -1861,6 +1866,8 @@ const CreateEmail = (props) => {
           name: template_name,
           status: 1,
           language: 2,
+          type: routeTypeSurvey,
+          content_included: 1
         };
 
         axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;

@@ -45,11 +45,9 @@ const SublinkModal = ({
       await surveyAxiosInstance
         .get("survey/get-survey-tag" )
         .then((res) => {
-          console.log(res)
           setAllTags(res?.data?.data);
         })
         .catch((err) => {
-          
           toast.error("Something went wrong");
         });
     };

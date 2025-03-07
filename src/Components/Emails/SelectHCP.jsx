@@ -22,6 +22,10 @@ var draft_object;
 const SelectHCP = (props) => {
   const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","bWmUjqX7J011   WUTYn9g==","MXl8m36VZFYXpgFVz3Pg0g=="]
   const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
+  const routeTypeSurvey = props?.type == 'survey' ? 1 : 0;
+
+  const surveyid = old_object?.survey_id ? old_object?.survey_id : props?.getDraftData?.campaign_data?.survey_id ? props?.getDraftData?.campaign_data?.survey_id : 0;
+  const surveySubLinkId = old_object?.sublink_id ? old_object?.sublink_id : props?.getDraftData?.campaign_data?.sublink_id ? props?.getDraftData?.campaign_data?.sublink_id : 0;
  
   const navigate = useNavigate();
   let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -113,7 +117,9 @@ const SelectHCP = (props) => {
     let pdfSelectedId = props.getEmailData
       ? props.getEmailData.pdf_id
       : props.getDraftData.pdf_id;
-    navigate("/CreateEmail", {
+    
+    const backRoute = routeTypeSurvey ? "/survey/email/create-email" : "/CreateEmail";
+    navigate(backRoute, {
       state: { PdfSelected: pdfSelectedId },
     });
   };
@@ -141,13 +147,19 @@ const SelectHCP = (props) => {
       subject: old_object?.emailSubject
         ? old_object.emailSubject
         : props.getDraftData.subject,
-      route_location: "SelectHCP",
+      route_location: routeTypeSurvey ? "survey/email/select-hcp" :"SelectHCP",
       tags: old_object?.tags ? old_object.tags : props.getDraftData.tags,
       campaign_data: {
         template_id: old_object?.templateId
           ? old_object.templateId
           : props.getDraftData.campaign_data.template_id,
         list_selection: templateId,
+        sublink_id: old_object?.sublink_id
+            ? old_object.sublink_id
+            : surveySubLinkId,
+        survey_id: old_object?.survey_id
+        ? old_object.survey_id
+        : surveyid,
       },
       campaign_id: campaign_id_st,
       source_code: old_object?.template
@@ -163,12 +175,13 @@ const SelectHCP = (props) => {
       .then((res) => {
         loader("hide");
         if (res.data.status_code === 200) {
+          const redirectRoute = routeTypeSurvey ? "/survey/email" : "/EmailList";
           setCampaign_id(res.data.response.data.id);
           popup_alert({
             visible: "show",
             message: "Your changes has been saved <br />successfully !",
             type: "success",
-            redirect: "/EmailList",
+            redirect: redirectRoute,
           });
         } else {
           toast.warning(res.data.message);
@@ -185,17 +198,18 @@ const SelectHCP = (props) => {
     
     
     if (selected === 1) {
-      navigate("/SelectSmartList", {
+      const nextRoute = routeTypeSurvey ? "/survey/email/smart-list" : "/SelectSmartList"
+      navigate(nextRoute, {
         state: { UserSelected: selected },
       });
     } else if (selected === 2) {
-      navigate("/VerifyHCP", {
+      const nextRoute = routeTypeSurvey ? "/survey/email/verify-hcp" : "/VerifyHCP"
+      navigate(nextRoute, {
         state: { UserSelected: selected },
       });
     } 
     else if(selected === 3){
        fetchDataAndNavigate();
-       
     }
   };
 
@@ -279,7 +293,12 @@ const SelectHCP = (props) => {
                 <div className="col-12 col-md-8">
                   <ul className="tabnav-link">
                     <li className="active">
-                      <Link to="/EmailArticleSelect">Select Content</Link>
+                      { 
+                        routeTypeSurvey ? 
+                        <Link to="/survey/email/selectsurvey">Select Survey</Link>
+                        :
+                        <Link to="/EmailArticleSelect">Select Content</Link>
+                      }
                     </li>
                     <li className="active">
                       <Link to="/CreateEmail">Create Your Email</Link>

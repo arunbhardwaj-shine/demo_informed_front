@@ -9769,8 +9769,8 @@ section.search-hcp.smart-list-view .header-btn-left {
 }
 
 .smartlist-result-block .mail_trigger_right_dummy {
-  flex: 1 1;
-  padding-right: 20%;
+  /* flex: 1 1; */
+  padding-right: 0%;
 }
 
 .smartlist-result-block .mail_trigger_dummy_content {

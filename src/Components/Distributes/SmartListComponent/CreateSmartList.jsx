@@ -195,7 +195,8 @@ const CreateSmartList = (props) => {
     var x = localStorage.getItem("sd_i");
     if (x) {
       localStorage.removeItem("sd_i");
-      navigate("/SelectSmartList");
+      const RouteName= type === "survey" ? "/survey/email/smart-list" : "/SelectSmartList";
+      navigate(RouteName);
     } else {
       const RouteName= type === "survey" ? "/survey/smartlist" : "/SmartList";
       navigate(RouteName);

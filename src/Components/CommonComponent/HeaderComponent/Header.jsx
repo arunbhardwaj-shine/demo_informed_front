@@ -477,6 +477,12 @@ const Header = () => {
                   window.location.pathname == "/survey/EditList" ||
                   window.location.pathname == "/survey/AutoEmail" ||
                   window.location.pathname == "/survey/topics" ||
+                  window.location.pathname == "/survey/email/select-hcp" ||
+                  window.location.pathname == "/survey/email/smart-list" ||
+                  window.location.pathname == "/survey/email/select-smartlist-users" ||
+                  window.location.pathname == "/survey/email/verify-hcp" ||
+                  window.location.pathname == "/survey/email/verify-mail" ||
+                  window.location.pathname == "/survey/email/verify-hcp-mail" ||
                   window.location.pathname == "/survey/TemplateBuilder"
                   ? "nav-item active active-main"
                   : "nav-item"

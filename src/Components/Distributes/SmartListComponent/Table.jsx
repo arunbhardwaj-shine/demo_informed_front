@@ -904,7 +904,8 @@ const Table = (props, ref) => {
             var x = localStorage.getItem("sd_i");
             if (x) {
               localStorage.removeItem("sd_i");
-              path = "/SelectSmartList";
+              const RouteNameredirect = type === "survey" ? "/survey/email/smart-list" : "/SelectSmartList";
+              path = RouteNameredirect;
             } else {
               path = RouteName;
             }
