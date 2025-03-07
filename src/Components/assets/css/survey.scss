@@ -40,6 +40,13 @@ span {
     }
   }
 }
+.survey-builder {
+  .survey-listing {
+    .mail_trigger_right_dummy {
+      width: 100%;
+  }
+}
+}
 .survey-sublink{
   h5{
     color: #004A89;
@@ -52,6 +59,9 @@ span {
   .survey-builder {
     .survey-listing {
       padding: 0;
+      .mail_trigger_right_dummy {
+        width: 100%;
+    }
       .email_box_block{
         margin: 0 0 32px;
         .mail-box-content{
@@ -3570,7 +3580,7 @@ span {
     }
   }
   .mail_trigger_right_dummy {
-    width: 50%;
+    width: 100%;
     .mail_trigger_dummy_content {
       padding-top: 100px;
     }

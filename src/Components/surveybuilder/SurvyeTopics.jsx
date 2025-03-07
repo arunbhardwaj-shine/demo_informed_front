@@ -226,16 +226,20 @@ const submitHandler = (e) => {
         <Row>
           <div className="top-header">
             <div className="page-title d-flex">
-              
+                <h2>Topics</h2>
             </div>
-          </div>
-          <div className="create-change-content spc-content">
-            <div className="form_action sticky-view">
-            <h4>Topics</h4>
-
             <div className="top-right-action">
-
-            <div className="search-bar">
+              <Form className="product-unit d-flex justify-content-between align-items-center">
+                <Button
+                  className="btn-dashed"
+                  onClick={() => {
+                    setCommonModel("Add");
+                  }}
+                >
+                  Add New {content?.label?.trim()} +
+                </Button>
+              </Form>
+                <div className="search-bar">
                   <form className="d-flex"
                   onSubmit={(e) => submitHandler(e)}
                    >
@@ -264,50 +268,18 @@ const submitHandler = (e) => {
                   </form>
                 </div>
 
-                </div>
+            </div>
+          </div>
+          <div className="create-change-content spc-content">
+            <div className="form_action sticky-view">
+            <h4>Topics</h4>
+
+            
                 
               {/* {productData?.flag ? (
                 <h4>Please select the business unit to show the products</h4>
               ) : null} */}
-              <Form className="product-unit d-flex justify-content-between align-items-center">
-                {/* {productData?.flag ? (
-                  <Form.Group className="form-group full">
-                    <label htmlFor="">Business Unit</label>
-                    <Select
-                      options={BusinessUnitAll}
-                      defaultValue={BusinessUnitAll?.[0]}
-                      placeholder="Select business unit"
-                      onChange={(e) =>
-                        setNewValue({ ...newValue, category: e?.value })
-                      }
-                      className="dropdown-basic-button split-button-dropup"
-                      isClearable
-                    />
-                  </Form.Group>
-                ) : null} */}
-                {/* <Form.Group className="form-group">
-                  <label htmlFor="">Select Type</label>
-                  <Select
-                    options={SelectType}
-                    placeholder="Select type"
-                    defaultValue={SelectType?.[0]}
-                    onChange={(e) =>
-                      setContent({ label: e?.label, value: e?.value })
-                    }
-                    className="dropdown-basic-button split-button-dropup"
-                    isClearable
-                  />
-                </Form.Group> */}
-
-                <Button
-                  className="btn-bordered btn-voilet"
-                  onClick={() => {
-                    setCommonModel("Add");
-                  }}
-                >
-                  Add New {content?.label?.trim()} +
-                </Button>
-              </Form>
+              
             </div>
             <Row>
               <div className="col-12 selected-products-list product_show d-flex">
