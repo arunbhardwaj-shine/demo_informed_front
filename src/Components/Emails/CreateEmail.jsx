@@ -26,6 +26,7 @@ var trainingUser = {};
 var searchedUser = {};
 var stateListData = {};
 const CreateEmail = (props) => {
+  const routeTypeSurvey = props?.type == 'survey' ? 1 : 0;
   const accountMapping={"56Ek4feL/1A8mZgIKQWEqg==":2147501188,"bWmUjqX7J011   WUTYn9g==":298217,"MXl8m36VZFYXpgFVz3Pg0g==":2147537506}
 
   const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","bWmUjqX7J011   WUTYn9g==","MXl8m36VZFYXpgFVz3Pg0g=="]
@@ -68,6 +69,8 @@ const CreateEmail = (props) => {
   let type=searchParams.get('type')
   const [getsearch, setSearch] = useState("");
   const PdfSelected = props.getEmailData ? dxr : props.getDraftData.pdf_id;
+  const surveyid = state_object?.survey_id ? state_object?.survey_id : props?.getDraftData?.campaign_data?.survey_id;
+  const surveySubLinkId = state_object?.sublink_id ? state_object?.sublink_id : props?.getDraftData?.campaign_data?.sublink_id;
   const [hcpsSelected, setHcpsSelected] = useState([]);
   const [manualReRender, setManualReRender] = useState(0);
   const campaign_id = props.getDraftData ? props.getDraftData.campaign_id : "";
@@ -247,6 +250,7 @@ const CreateEmail = (props) => {
       user_id: localStorage.getItem("user_id"),
       search: getsearch,
       filter: "",
+      type : routeTypeSurvey
     };
     loader("show");
     axios
@@ -397,7 +401,8 @@ const CreateEmail = (props) => {
       ibu: "",
       content_included: content_included,
       siteContent: siteContent,
-      pdf: pdf_id
+      pdf: pdf_id,
+      is_survey: routeTypeSurvey
     };
     type = type || state_object?.type;
     if(type){
@@ -871,7 +876,7 @@ const CreateEmail = (props) => {
         up_temp = editorRef.current.getContent();
       }
 
-      let redirectPath = "/EmailList";
+      let redirectPath = routeTypeSurvey ? "/survey/email" :"/EmailList";
  
       if (irtRoleObj?.IRTFlag) {
         redirectPath = "/IRTRole";
@@ -890,14 +895,19 @@ const CreateEmail = (props) => {
           ? emailCampaign
           : props.getDraftData.campaign,
         subject: props.getEmailData ? emailSubject : props.getDraftData.subject,
-        route_location: "CreateEmail",
+        route_location: routeTypeSurvey ? "survey/email/create-email" : "CreateEmail",
         tags: props.getEmailData ? tagss : props.getDraftData.tags,
         campaign_data: {
           template_id: props.getEmailData
             ? templateId
             : props.getDraftData.template_id,
+          sublink_id: state_object?.sublink_id
+            ? state_object.sublink_id
+            : surveySubLinkId,
+          survey_id: state_object?.survey_id
+          ? state_object.survey_id
+          : surveyid,
         },
-
         campaign_id: campaign_id_st,
         source_code: up_temp,
         status: 2,
@@ -1095,6 +1105,12 @@ const CreateEmail = (props) => {
         template_id: props.getEmailData
           ? templateId
           : props.getDraftData.template_id,
+        sublink_id: state_object?.sublink_id
+          ? state_object.sublink_id
+          : surveySubLinkId,
+        survey_id: state_object?.survey_id
+        ? state_object.survey_id
+        : surveyid,
       },
 
       campaign_id: campaign_id_st,
@@ -2179,6 +2195,8 @@ const CreateEmail = (props) => {
       removedHcp : state_object?.removedHcp ? state_object?.removedHcp : [],
       addedHcp : state_object?.addedHcp ? state_object?.addedHcp : [],
       selectedHcp : state_object?.selectedHcp ? state_object?.selectedHcp : [],
+      sublink_id : surveySubLinkId,
+      survey_id : surveyid,
     };
 
     if(type){
@@ -2198,15 +2216,27 @@ const CreateEmail = (props) => {
       props.getSelected(trainingUser)
       props.getSearched(searchedUser)
       props.getSelectedSmartListData(stateListData)
-      navigate("/EmailArticleSelect", {
-        state: {IrtObj:irtRoleObj},
-      });
+      if(routeTypeSurvey){
+        navigate("/survey/email/selectsurvey", {
+          state: {IrtObj:irtRoleObj},
+        });
+      }else{
+        navigate("/EmailArticleSelect", {
+          state: {IrtObj:irtRoleObj},
+        });
+      }
   };
 
   const handleSelectUsers = () => {
-    navigate("/EmailArticleSelect", {
-      state: {IrtObj:irtRoleObj},
-    });
+    if(routeTypeSurvey){
+      navigate("/survey/email/selectsurvey", {
+        state: {IrtObj:irtRoleObj},
+      });
+    }else{
+      navigate("/EmailArticleSelect", {
+        state: {IrtObj:irtRoleObj},
+      });
+    }
   };
 
   return (
@@ -2226,8 +2256,9 @@ const CreateEmail = (props) => {
                 <div className="col-12 col-md-8">
                   <ul className="tabnav-link">
                     <li className="active" onClick={handleSelectUsers}>
-                       
-                      Select Content
+                      {
+                        routeTypeSurvey ? "Select Survey" : "Select Content"
+                      }
                     </li>
                     <li className="active active-main">
                       <a href="">Create Your Email</a>

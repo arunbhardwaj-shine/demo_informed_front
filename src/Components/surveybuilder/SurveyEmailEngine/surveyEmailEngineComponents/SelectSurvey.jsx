@@ -3,10 +3,12 @@ import { format } from "date-fns";
 import Select from "react-select";
 import SublinkModal from "../Modals/SublinkModal";
 
-const SelectSurvey = ({ SendListData, setSendListData, handlePdfSelection, setCurrentSelectedSublink }) => {
+const SelectSurvey = ({ SendListData, setSendListData, handlePdfSelection, setCurrentSelectedSublink,selectedSurvey, selectedSublink }) => {
   let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
-  const [selectedSublinkId, setSelectedSublinkId] = useState({});
-  const [PdfSelected, setPdfSelected] = useState(0);
+  const [selectedSublinkId, setSelectedSublinkId] = useState(
+    selectedSurvey ? {[selectedSurvey] : selectedSublink} :  {}
+  );
+  const [PdfSelected, setPdfSelected] = useState(selectedSurvey);
   const [createNewLink, setCreateNewLink] = useState(false);
   const [currentAddSublinkLid, setCurrentAddSublinkLid] = useState(null)
 
@@ -31,14 +33,12 @@ const SelectSurvey = ({ SendListData, setSendListData, handlePdfSelection, setCu
   // };
 
   const onSublinkChange = (surveyId, selectedOption) => {
-    console.log(PdfSelected)
-
     setSelectedSublinkId((prevState) => ({
       ...prevState,  // Keep previous selections
       [surveyId]: selectedOption ? selectedOption.value : null,
     }));
 
-    selectedOption()
+    // selectedOption()
 
     if (PdfSelected == surveyId) {
       setCurrentSelectedSublink(selectedOption?.value);

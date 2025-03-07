@@ -15,19 +15,26 @@ import { loader } from "../../../loader";
 import { toast } from "react-toastify";
 import { surveyEndpoints } from "../SurveyEndpoints/SurveyEndpoints";
 import SelectSurvey from "./surveyEmailEngineComponents/SelectSurvey";
-import { getEmailData } from "../../../actions";
+import { getEmailData,getSelected } from "../../../actions";
+import {  useNavigate, useLocation } from "react-router-dom";
 
+var state_object = {};
 const CreateSurveyEmail = (props) => {
   let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+  const { state } = useLocation();
   const { FETCH_SURVEY_DATA } = surveyEndpoints;
   const [SendListData, setSendListData] = useState([]);
-  const [isPdfSelected, setIsPdfSelected] = useState(0)
-  const [currentSelectedSublink,setCurrentSelectedSublink]=useState(0)
+  const [isPdfSelected, setIsPdfSelected] = useState(state_object?.survey_id ? state_object?.survey_id : 0)
+  const [currentSelectedSublink,setCurrentSelectedSublink]=useState(state_object?.sublink_id ? state_object?.sublink_id : 0)
   const [search, setSearch] = useState("");
   const [getoriginalSurveylistdata, setOriginalSurveyData] = useState([]);
- const [submiHandle, setSubmiHandle] = useState("");
- const [showfilter, setShowFilter] = useState(false);
+  const [submiHandle, setSubmiHandle] = useState("");
+  const [showfilter, setShowFilter] = useState(false);
   const [filter, setFilter] = useState({});
+  const [irtRoleObj,setIRTRoleObj] = useState(
+      typeof state?.IrtObj !== "undefined" ? state?.IrtObj : {}
+  );
+  const navigate = useNavigate();
  
  
      const [filterdata, setFilterData] = useState({
@@ -40,18 +47,13 @@ const CreateSurveyEmail = (props) => {
 
 
  const searchChange = (e) => {
-console.log(e.target.value)
   setSearch(e.target.value);
 };
 const submitHandler = (event) => {
-  
   event.preventDefault();
-
   setShowFilter(false);
-  // getFilterAppliedData();
   applyFilter();
   setSubmiHandle(1);
-
   return false;
 };
 
@@ -190,11 +192,7 @@ const submitHandler = (event) => {
   const applyFilter = (flag = "") => {
     setFilterApplyflag(1);
     setSendListData([]);
-    
     setFilterObject(appliedFilter);
-
-    console.log(otherFilter)
-
     const hasAllNonEmptyValues = Object.keys(otherFilter).every((key) => {
       const value = filter[key];
       if (Array.isArray(value)) {
@@ -287,9 +285,7 @@ const submitHandler = (event) => {
 
     try {
       loader("show");
-
       const response = await surveyAxiosInstance.post(FETCH_SURVEY_DATA, body);
-      console.log(response);
       if (response.data.status == "success") {
         setSendListData(response.data.data);
         setOriginalSurveyData(response.data.data)
@@ -316,8 +312,10 @@ const submitHandler = (event) => {
 
 
   const nextClicked=()=>{
-    console.log(currentSelectedSublink)
-    props.getEmailData({sublink_id:currentSelectedSublink?.value,survey_id:isPdfSelected});
+    props.getEmailData({sublink_id:currentSelectedSublink,survey_id:isPdfSelected,PdfSelected: 1});
+    navigate("/survey/email/create-email", {
+      state: { PdfSelected: 1,IrtObj:irtRoleObj }
+    })
   }
 
 
@@ -673,7 +671,7 @@ const submitHandler = (event) => {
             
             {/*Code for filters end*/}
 
-            <SelectSurvey SendListData={SendListData} setSendListData={setSendListData} handlePdfSelection={handlePdfSelection} setCurrentSelectedSublink={setCurrentSelectedSublink}/>
+            <SelectSurvey SendListData={SendListData} setSendListData={setSendListData} handlePdfSelection={handlePdfSelection} setCurrentSelectedSublink={setCurrentSelectedSublink} selectedSurvey={isPdfSelected} selectedSublink={currentSelectedSublink}/>
           </div>
           {/* {typeof SendListData !== "undefined" &&
               SendListData.length == 30 &&
@@ -696,6 +694,7 @@ const submitHandler = (event) => {
 
 
 const mapStateToProps = (state) => {
+  state_object = state.getEmailData;
   return state;
 };
 

@@ -241,7 +241,9 @@ const Sidebar = () => {
   const isActiveChatPage = location.pathname === '/webinar/live-stream/chat-link'
   const isActiveSurveyPage = location.pathname === '/webinar/analytics/question-data'
 
-  const isActiveSurveyEmail = location.pathname === '/survey/email'
+  const isActiveSurveyEmail = location.pathname === '/survey/email' ||
+  location.pathname === '/survey/email/selectsurvey' ||
+  location.pathname === '/survey/email/create-email'
 
   const isActiveEmail = location.pathname === '/webinar/email' ||
     location.pathname === '/webinar/email/create-new-email' ||
@@ -1319,6 +1321,8 @@ const Sidebar = () => {
                   window.location.pathname == "/survey/survey-sublink" ||
                   window.location.pathname == "/survey/survey-analytics" ||
                   window.location.pathname == "/survey/email" ||
+                  window.location.pathname == "/survey/email/selectsurvey" ||
+                  window.location.pathname == "/survey/email/create-email" ||
                   window.location.pathname == "/survey/auto-email" ||
                   window.location.pathname == "/survey/survey-analytics-detail"?
 
@@ -1401,7 +1405,9 @@ const Sidebar = () => {
                       </li>
 
                       <li className={
-                          location.pathname == "/survey/email"
+                          location.pathname == "/survey/email" ||
+                          location.pathname == "/survey/email/selectsurvey" ||
+                          location.pathname == "/survey/email/create-email" 
                            ? "active sub-links"
                         : "side_li sub-links"
                         }
