@@ -49,6 +49,7 @@ const SurveyList = (props) => {
   // const filterdata = [];
   const [showfilter, setShowFilter] = useState(false);
   const [deletestatus, setDeleteStatus] = useState(false);
+  const [editSurvey, setEditSurvey] = useState(false);
   const [updateflag, setUpdateFlag] = useState([]);
   const [filterapplied, setFilterApply] = useState(false);
   const [search, setSearch] = useState("");
@@ -132,6 +133,11 @@ const SurveyList = (props) => {
   const showDeleteButtons = () => {
     setDeleteStatus(!deletestatus);
   };
+
+  const showSurveyEditButtons = () => {
+    setEditSurvey(!editSurvey);
+  };
+
 
   const getFilterAppliedData = async () => {
     if (filter?.Survey?.length > 0) {
@@ -484,7 +490,7 @@ const SurveyList = (props) => {
         creator_name: data.creator_name,
         setUpData,
         formBuilderData,
-        surveyConfigData: surveyConfigData || "", // Use logical OR for default value
+        surveyConfigData: surveyConfigData || "",  
         thanksPageData,
       });
     }
@@ -664,6 +670,18 @@ const SurveyList = (props) => {
                 <h2>Surveys</h2>
               </div>
               <div className="top-right-action">
+              <div className="action-btn-add" style={{ margin: "0" }}>
+                                      <Button className="btn-dashed" onClick={createNewEmail}>
+                                        Create Survey
+                                        <img src={`${path_image}add-icon.png`} alt="" />
+                                      </Button>
+                                    </div>
+                <div className="action-btn-add" style={{ margin: "0" }}>
+                                      <Button className="btn-dashed" onClick={showSurveyEditButtons}>
+                                        Edit survey
+                                        <img src={`${path_image}edit.svg`} alt="" />
+                                      </Button>
+                                    </div>
                 <div className="search-bar">
                   <form className="d-flex" onSubmit={(e) => submitHandler(e)}>
                     <input
@@ -982,7 +1000,7 @@ const SurveyList = (props) => {
 
             <div className="email-result survey-listing">
               <div className="col email-result-block library-content-box-layout">
-                {!deletestatus && filterApplyflag > 0 && (
+                {/* {!deletestatus && filterApplyflag > 0 && (
                   <div className="email_box_block">
                     <div className="email-block-add">
                       <button onClick={createNewEmail}>
@@ -991,7 +1009,7 @@ const SurveyList = (props) => {
                       <p>Create New Survey</p>
                     </div>
                   </div>
-                )}
+                )} */}
                 {isData.length < 1 && (
                   <div className="mail_trigger_right_dummy">
                     <div className="mail_trigger_dummy_content d-flex justify-content-center">
@@ -1643,6 +1661,25 @@ const SurveyList = (props) => {
                                       />
                                     </button>
                                   </div>
+                                )}
+                                 {editSurvey && (
+                                  <div className="dlt_btn">
+                                    <button
+                                       onClick={(e) =>
+                                        editHandler(
+                                          e,
+                                          data?.current_route,
+                                          data
+                                        )
+                                      }
+                                    >
+                                      <img
+                                        src={path + "edit.svg"}
+                                        alt="edit Row"
+                                      />
+                                    </button>
+                                  </div>
+
                                 )}
                               </div>
                             </div>

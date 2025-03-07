@@ -230,7 +230,7 @@ const SelectSurvey = ({ SendListData, setSendListData, handlePdfSelection, setCu
 
                    
                             <div className="mail-content-footer">
-                              <a href={data.preview_link} target="_blank">
+                              <a href={`https://survey.docintel.app/survey?Utmde=${data?.unique_code}`} target="_blank">
                                 <button className="btn btn-primary btn-filled">
                                   Preview
                                 </button>
