@@ -656,10 +656,10 @@ const VerifyMAIL = (props) => {
                       }
                     </li>
                     <li className="active">
-                      <Link to="/CreateEmail">Create Your Email</Link>
+                      <Link to={routeTypeSurvey ? "/survey/email/create-email" : "/CreateEmail"}>Create Your Email</Link>
                     </li>
                     <li className="active">
-                      <Link to="/SelectSmartList">{isLikeRdAccount ? "Select Users" : "Select HCPs"}</Link>
+                      <Link to={routeTypeSurvey ? "/survey/email/smart-list" : "/SelectSmartList"}>{isLikeRdAccount ? "Select Users" : "Select HCPs"}</Link>
                     </li>
 
                    
@@ -667,7 +667,7 @@ const VerifyMAIL = (props) => {
                     {typeof getSmartListData !== "undefined" &&
                       getSmartListData.hasOwnProperty("id") ? (
                       <li className="active">
-                        <Link to="/SelectSmartListUsers">Verify Your List</Link>
+                        <Link to={routeTypeSurvey ? "/survey/email/select-smartlist-users" : "/SelectSmartListUsers"}>Verify Your List</Link>
                       </li>
                     ) : (
                       <li className="active">

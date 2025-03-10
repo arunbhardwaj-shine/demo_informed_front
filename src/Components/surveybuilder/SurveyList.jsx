@@ -280,17 +280,7 @@ const SurveyList = (props) => {
   };
 
   const downloadQRCode = (title="") => {
-    // // Generate download with use canvas and stream
-    // const canvas = document.getElementById("qr-gen");
-    // const pngUrl = canvas
-    //   .toDataURL("image/png")
-    //   .replace("image/png", "image/octet-stream");
-    // let downloadLink = document.createElement("a");
-    // downloadLink.href = pngUrl;
-    // downloadLink.download = `QR-code.png`;
-    // document.body.appendChild(downloadLink);
-    // downloadLink.click();
-    // document.body.removeChild(downloadLink);
+  
 
     const canvas = document.getElementById("qr-gen");
     if (canvas) {

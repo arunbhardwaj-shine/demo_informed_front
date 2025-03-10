@@ -1151,16 +1151,21 @@ const SelectSmartListUsers = (props) => {
                       }
                     </li>
                     <li className="active">
-                      <Link to="/CreateEmail">Create Your Email</Link>
+                      {
+                        routeTypeSurvey ?
+                        <Link to="/survey/email/create-email">Create Your Email</Link>
+                        :
+                        <Link to="/CreateEmail">Create Your Email</Link>
+                      }
                     </li>
                     <li className="active">
-                      <Link to="/SelectSmartList">
+                      <Link to={routeTypeSurvey ? "/survey/email/smart-list" : "/SelectSmartList"}>
                         {isLikeRdAccount ? "Select Users" : "Select HCPs"}
                       </Link>
                     </li>
 
                     <li className="active active-main">
-                      <Link to="/SelectSmartListUsers">Verify Your List</Link>
+                      <Link to={routeTypeSurvey ? "/survey/email/select-smartlist-users" : "/SelectSmartListUsers" }>Verify Your List</Link>
                     </li>
 
                     <li className="">

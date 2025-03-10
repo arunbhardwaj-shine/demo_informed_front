@@ -15,6 +15,7 @@ const SublinkModal = ({
   setCurrentAddSublinkLid,
   SendListData,
   currentAddSublinkLid,
+  type
 }) => {
   let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
     const {FETCH_ALL_TAGS,INSERT_SUBLINK_INFORMATION }=surveyEndpoints;
@@ -79,7 +80,7 @@ const SublinkModal = ({
     try {
       loader("show");
       let body = {
-        // survey_id: selectedSurveyId,
+    
         delivery: newLink.delivery,
         identifier: identifier,
         tags: finalTags,
@@ -91,39 +92,44 @@ const SublinkModal = ({
           body
         );
 
-     
+        if(type == true){
 
-        var myData = SendListData.map((data, index) => {
-          if (data.survey_id == currentAddSublinkLid) {
-            return { 
-              ...data,
-              subLinkData: [...data.subLinkData,res.data.data] // Merging existing and new data correctly
-            };
-          } else {
-            return data;
-          }
-        });
-
-        setSendListData(myData);
-
-        setSelectedSublinkId({
-          [currentAddSublinkLid]:res.data.data.sublink_id,  
-        });
-
-        
-
-
-        console.log(res)
-
+          setSendListData((prev) => [
+            ...prev,
+            res.data.data
+          ]);
           
 
-        setLink((prevLink) => ({
-          ...prevLink,
-          delivery: "",  
-        }));
+        }else{
+          var myData = SendListData.map((data, index) => {
+            if (data.survey_id == currentAddSublinkLid) {
+              return { 
+                ...data,
+                subLinkData: [...data.subLinkData,res.data.data] // Merging existing and new data correctly
+              };
+            } else {
+              return data;
+            }
+          });
+  
+          setSendListData(myData);
+  
+          setSelectedSublinkId({
+            [currentAddSublinkLid]:res.data.data.sublink_id,  
+          });
+  
+          setLink((prevLink) => ({
+            ...prevLink,
+            delivery: "",  
+          }));
+
+        }
+
+     
+
+       
         loader("hide");
-      //   setshowSubLinkList(true);
-      //   setLinkRenderCount((prevCount) => prevCount + 1); // Increment render count
+     
     } catch (err) {
       console.log("err", err);
       loader("hide");
@@ -211,63 +217,7 @@ const SublinkModal = ({
             </DropdownButton>
             </Form.Group>
           </Row>
-          {/* <div className="form-group">
-            <label htmlFor="">Delivery</label>
-            <DropdownButton
-              className={
-                "dropdown-basic-button split-button-dropup " +
-                (newLink?.delivery ? "addval" : "")
-              }
-              title={
-                newLink?.delivery ? newLink?.delivery : "Select delivery type"
-              }
-              name="delivery"
-              onSelect={(e) => handleChange("delivery", e)}
-            >
-              <div className="scroll_div delivery_popup">
-                <div className="scroll_div_inset">
-                  <Dropdown.Item
-                    eventKey="Email"
-                    className={newLink?.delivery == "Email" ? "active" : ""}
-                  >
-                    Email
-                  </Dropdown.Item>
-                  <Dropdown.Item
-                    eventKey="InforMedGO"
-                    className={
-                      newLink?.delivery == "InforMedGO" ? "active" : ""
-                    }
-                  >
-                    InforMedGO
-                  </Dropdown.Item>
-
-                  <Dropdown.Item
-                    eventKey="Social"
-                    className={newLink?.delivery == "Social" ? "active" : ""}
-                  >
-                    Social
-                  </Dropdown.Item>
-
-                  <Dropdown.Item
-                    eventKey="Website"
-                    className={newLink?.delivery == "Website" ? "active" : ""}
-                  >
-                    Website
-                  </Dropdown.Item>
-                </div>
-              </div>
-            </DropdownButton>
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="">Identifier</label>
-            <input
-              type="text"
-              className="form-control"
-              placeholder=""
-              onChange={(event) => onIdentifierChange(event)}
-            />
-          </div> */}
+ 
 
           <Form.Group className="input-group d-flex mb-2">
             

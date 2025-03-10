@@ -301,7 +301,12 @@ const SelectHCP = (props) => {
                       }
                     </li>
                     <li className="active">
-                      <Link to="/CreateEmail">Create Your Email</Link>
+                      {
+                        routeTypeSurvey ?
+                        <Link to="/survey/email/create-email">Create Your Email</Link>
+                        :
+                        <Link to="/CreateEmail">Create Your Email</Link>
+                      }
                     </li>
                     <li className="active active-main">
                       <a href="#">Select HCPs</a>
