@@ -722,6 +722,12 @@ const CreateEmail = (props) => {
         user_list: selected_ids,
         smartlist_id: "",
         source_code: template,
+        sublink_id: state_object?.sublink_id
+            ? state_object.sublink_id
+            : surveySubLinkId,
+        survey_id: state_object?.survey_id
+        ? state_object.survey_id
+        : surveyid,
       };
 
  
