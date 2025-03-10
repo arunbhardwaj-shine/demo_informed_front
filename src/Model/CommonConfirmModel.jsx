@@ -45,9 +45,7 @@ const CommonConfirmModel = ({
           <>
             <img src={path_image + "alert.png"} alt="" />
             <h4 dangerouslySetInnerHTML = {{__html: popupMessage?.message1 ? popupMessage?.message1 : ""}}></h4>
-            <h4>
-              <strong dangerouslySetInnerHTML = {{__html: popupMessage?.message2 ? popupMessage?.message2 : ""}}>
-              </strong>
+            <h4 dangerouslySetInnerHTML = {{__html: popupMessage?.message2 ? popupMessage?.message2 : ""}}>
             </h4>
             <h4 dangerouslySetInnerHTML = {{__html: popupMessage?.message3 ? popupMessage?.message3 : ""}}>
             </h4>
