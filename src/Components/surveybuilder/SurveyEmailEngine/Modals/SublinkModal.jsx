@@ -92,12 +92,13 @@ const SublinkModal = ({
           body
         );
 
+        const data = { ...res.data.data, delivery: newLink.delivery };
+
+
         if(type == true){
 
-          setSendListData((prev) => [
-            ...prev,
-            res.data.data
-          ]);
+          setSendListData((prev) => [data, ...prev]);
+
           
 
         }else{

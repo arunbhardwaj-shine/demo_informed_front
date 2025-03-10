@@ -38,6 +38,7 @@ const CreateSurveyEmail = (props) => {
  
  
      const [filterdata, setFilterData] = useState({
+
        
      });
      const [filterApplyflag, setFilterApplyflag] = useState(0);
@@ -49,6 +50,8 @@ const CreateSurveyEmail = (props) => {
  const searchChange = (e) => {
   setSearch(e.target.value);
 };
+
+
 const submitHandler = (event) => {
   event.preventDefault();
   setShowFilter(false);

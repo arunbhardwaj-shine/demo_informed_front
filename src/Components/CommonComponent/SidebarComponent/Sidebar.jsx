@@ -1343,6 +1343,7 @@ const Sidebar = () => {
                   window.location.pathname == "/survey/survey-list" ||
                   window.location.pathname == "/survey/survey-setup" ||
                   window.location.pathname == "/survey/survey-sublink" ||
+                  window.location.pathname == "/survey/survey-sublink-new" ||
                   window.location.pathname == "/survey/topics" ||
                   window.location.pathname == "/survey/survey-analytics" ||
                   window.location.pathname == "/survey/email" ||
@@ -1390,7 +1391,7 @@ const Sidebar = () => {
 
                       </li>
 
-                      <li
+                      {/* <li
 
                         className={
 
@@ -1413,7 +1414,34 @@ const Sidebar = () => {
 
                         </Link>
 
-                      </li>
+                      </li> */}
+                       
+
+
+                                      <li
+
+                                      className={
+
+                                        location.pathname == "/survey/survey-sublink-new"
+
+                                          ? "active"
+
+                                          : "side_li"
+
+                                      }
+
+                                      >
+
+                                      <Link to={"/survey/survey-sublink-new"}>
+
+                                      <img src= { sidebar_image_path +"survey-sublink.svg" } alt=""/>
+                                      {" "}
+
+                                        <p>SubLinks</p>
+
+                                      </Link>
+
+                                      </li>
 
                       <li
 
@@ -1532,7 +1560,7 @@ const Sidebar = () => {
                     </ul>
                 ):
 
-                window.location.pathname == "/survey/survey-list" || window.location.pathname == "/survey/topics" || window.location.pathname == "/survey/survey-sublink" || window.location.pathname == "/survey/survey-analytics" || window.location.pathname == "/survey/survey-analytics-detail"?
+                window.location.pathname == "/survey/survey-list" || window.location.pathname == "/survey/topics" || window.location.pathname == "/survey/survey-sublink-new" || window.location.pathname == "/survey/survey-sublink" || window.location.pathname == "/survey/survey-analytics" || window.location.pathname == "/survey/survey-analytics-detail"?
 
                 (
 
@@ -1563,18 +1591,12 @@ const Sidebar = () => {
 
                     </li>
 
-                    <li
-
+                    {/* <li
                       className={
-
                         location.pathname == "/survey/survey-sublink"
-
                           ? "active"
-
                           : "side_li"
-
                       }
-
                     >
 
                       <Link to={"/survey/survey-sublink"}>
@@ -1587,7 +1609,33 @@ const Sidebar = () => {
 
                       </Link>
 
+                    </li> */}
+
+
+
+                  <li
+                      className={
+                        location.pathname == "/survey/survey-sublink-new"
+                          ? "active"
+                          : "side_li"
+                      }
+                    >
+
+                      <Link to={"/survey/survey-sublink-new"}>
+
+                      <img src= { sidebar_image_path +"survey-sublink.svg" } alt=""/>
+                        {" "}
+
+
+                        <p>SubLinks</p>
+
+                      </Link>
+
                     </li>
+
+                    
+
+
 
                     
                       <li

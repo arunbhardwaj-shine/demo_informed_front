@@ -1480,67 +1480,80 @@ const SurveyList = (props) => {
                                             </div>
                                           )}
                                         </div>
-                                        <div className="mailbox-buttons">
+
+                                        
+                                           <div className="mailbox-buttons">
                                          
-                                          <div className="mailbox-buttons-list">
-                                          <div className="send_new">
-                                            {data?.is_draft == 0 ? (
-                                              <Button
-                                                className={
-                                                  "btn-bordered send-new disabled"
-                                                }
-                                              >
-                                                Analytics
-                                              </Button>
-                                            ) : (
-                                              <Button
-                                                className={
-                                                  "btn-bordered send-new"
-                                                }
-                                                onClick={() =>
-                                                  analyticButtonClicked(
-                                                    data,
-                                                    navigate
-                                                  )
-                                                }
-                                              >
-                                                Analytics
-                                              </Button>
-                                            )}
-                                          </div>
+                                         { !editSurvey &&   <div className="mailbox-buttons-list">
+                                        
+                                        
+                                        <div className="send_new">
+                                          {data?.is_draft == 0 ? (
                                             <Button
-                                              className="send btn-bordered"
-                                              onClick={(e) =>
-                                                editHandler(
-                                                  e,
-                                                  data?.current_route,
-                                                  data
+                                              className={
+                                                "btn-bordered send-new disabled"
+                                              }
+                                            >
+                                              Analytics
+                                            </Button>
+                                          ) : (
+                                            <Button
+                                              className={
+                                                "btn-bordered send-new"
+                                              }
+                                              onClick={() =>
+                                                analyticButtonClicked(
+                                                  data,
+                                                  navigate
                                                 )
                                               }
                                             >
-                                              Edit Topic
+                                              Analytics
                                             </Button>
-                                            <Button
-                                              className="edit btn-bordered">
-                                              Send in email
-                                            </Button>
-                                            <Button
-                                              className={
-                                                data?.is_draft
-                                                  ? "edit btn-filled"
-                                                  : "edit btn-filled disabled"
-                                              }
-                                              onClick={(e) => {
-                                                window.open(
-                                                  `https://survey.docintel.app/survey?Utmde=${data.unique_code}`,
-                                                  "_blank"
-                                                );
-                                              }}
-                                            >
-                                              Preview
-                                            </Button>
-                                          </div>
+                                          )}
                                         </div>
+                                          <Button
+                                            className="send btn-bordered"
+                                            onClick={(e) =>
+                                              editHandler(
+                                                e,
+                                                data?.current_route,
+                                                data
+                                              )
+                                            }
+                                          >
+                                            Edit Topic
+                                          </Button>
+                                          <Button
+                                            className="edit btn-bordered">
+                                            Send in email
+                                          </Button>
+                                          <Button
+                                            className={
+                                              data?.is_draft
+                                                ? "edit btn-filled"
+                                                : "edit btn-filled disabled"
+                                            }
+                                            onClick={(e) => {
+                                              window.open(
+                                                `https://survey.docintel.app/survey?Utmde=${data.unique_code}`,
+                                                "_blank"
+                                              );
+                                            }}
+                                          >
+                                            Preview
+                                          </Button>
+                                        </div>}
+                                         
+                                        
+                                       
+                                       
+                                        </div>
+                                         
+
+                                       
+
+
                                       </div>
                                     </Tab>
                                     <Tab
