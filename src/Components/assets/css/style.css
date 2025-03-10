@@ -7023,7 +7023,9 @@ h2 {
 .send-confirm .modal-body .modal-buttons button:first-child {
   margin-left: 0;
 }
-
+.send-confirm .modal-body .modal-buttons button.btn-filled {
+  box-shadow: 0px 1px 6px 0px rgba(0, 102, 190, 0.20);
+}
 .registration-popup .modal-body .modal-buttons button:first-child {
   margin: 0 auto 20px;
   font-size: 17px;

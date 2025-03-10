@@ -24,13 +24,7 @@ const SelectSurvey = ({ SendListData, setSendListData, handlePdfSelection, setCu
     setCreateNewLink(true);
   };
 
-  //   const handleSurveySelect = (surveyId) => {
-  //   setPdfSelected(surveyId); // Set the selected survey
-  // };
-
-  // const onSublinkChange = (selectedOption) => {
-  //   setSelectedSublinkId(selectedOption ? selectedOption.value : null);
-  // };
+ 
 
   const onSublinkChange = (surveyId, selectedOption) => {
     setSelectedSublinkId((prevState) => ({
@@ -42,12 +36,6 @@ const SelectSurvey = ({ SendListData, setSendListData, handlePdfSelection, setCu
       setCurrentSelectedSublink(selectedOption?.value);
     }
 
-    // if (PdfSelected == surveyId) {
-    //   setCurrentSelectedSublink(selectedOption)
-    //   setSelectedSublinkId({
-    //     [surveyId]: selectedOption ? selectedOption.value : null,  
-    //   });
-    // }
   };
 
 
@@ -258,6 +246,7 @@ const SelectSurvey = ({ SendListData, setSendListData, handlePdfSelection, setCu
           currentAddSublinkLid={currentAddSublinkLid}
           setSendListData={setSendListData}
           SendListData={SendListData}
+          type={false}
         />
       }
 

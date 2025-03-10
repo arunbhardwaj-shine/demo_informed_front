@@ -61,13 +61,14 @@ span {
       padding: 0;
       .mail_trigger_right_dummy {
         width: 100%;
-    }
+        }
       .email_box_block{
         margin: 0 0 32px;
         .mail-box-content{
           border-radius: 13px;
           box-shadow: 0px 2px 6px 0px rgba(0, 102, 190, 0.20);
           padding:12px 24px 8px 16px;
+          
           .mail-box-content-top{
             flex-direction: row;
           }
@@ -199,7 +200,7 @@ span {
                 }
               }
               .accordion-body{
-                padding:30px 24px 24px;
+                padding:24px 24px 24px;
                 .sublink-title{
                   h6{
                     color: #004A89;
@@ -1969,6 +1970,51 @@ span {
 }
 .sublink_left .survey-listing .tab-panel {
   padding: 0 0 15px;
+}
+.dlt_btn{
+  button{
+    background: vars.$voilet;
+    &:hover{
+      background: #7a348f;
+    }
+    img{
+      width:22px;
+    }
+  }
+}
+.right-sidebar{
+  .top-right-action{
+    .btn-dashed{
+      border:1px dashed vars.$primary-color;
+      background: transparent;
+      color: vars.$primary-color;
+      font-size: 14px;
+      gap: 10px;
+      padding: 9px 17px;
+      @include m.flex-center;
+      font-weight: 400;
+      text-transform: unset;
+      &:hover{
+        color: vars.$white;
+        background: vars.$primary-color;
+        img{
+          filter: brightness(0) invert(1);
+        }
+      }
+    }
+  }
+.spc-content{
+  &.create-change-content{
+    padding:7px 8px;
+  }
+ 
+  .selected-products-list{
+    padding:56px 12px 0;
+    &:before{
+      display: none;
+    }
+  }
+  } 
 }
 @media (max-width: 1550px) {
   .survey-builder {
