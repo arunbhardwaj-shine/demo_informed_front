@@ -23,7 +23,7 @@ const VerifyMAIL = (props) => {
   const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","bWmUjqX7J011   WUTYn9g==","MXl8m36VZFYXpgFVz3Pg0g=="]
   const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
   const groupId= localStorage.getItem("group_id")
-  const routeTypeSurvey = props?.type == "survey" ? "survey" : 0;
+  const routeTypeSurvey = props?.type == "survey" ? 1 : 0;
   const surveyid = props?.getEmailData?.survey_id ? props?.getEmailData?.survey_id : props?.getDraftData?.campaign_data?.survey_id ? props?.getDraftData?.campaign_data?.survey_id : 0;
   const surveySubLinkId = props?.getEmailData?.sublink_id ? props?.getEmailData?.sublink_id : props?.getDraftData?.campaign_data?.sublink_id ? props?.getDraftData?.campaign_data?.sublink_id : 0;
   const location = useLocation();

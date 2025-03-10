@@ -318,7 +318,7 @@ const TemplateBuilder = (props) => {
     }
 
     const body = {
-      type:type == "survey" ? 1 :type,
+      is_survey:type == "survey" ? 1 :type,
       user_id: localStorage.getItem("user_id"),
       language: check_lng_index,
       ibu: ibu,
