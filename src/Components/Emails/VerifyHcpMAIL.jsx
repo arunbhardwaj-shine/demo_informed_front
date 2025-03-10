@@ -440,7 +440,8 @@ const VerifyHcpMAIL = (props) => {
 
   const closeButtonClicked = () => {
     setIsOpen(false);
-    navigate("/EmailList");
+    const closeRoute = routeTypeSurvey ? "/survey/email" : "/EmailList"
+    navigate(closeRoute);
   };
 
   const backClicked = () => {
