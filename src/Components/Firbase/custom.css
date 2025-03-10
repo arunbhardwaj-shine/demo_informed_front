@@ -1069,6 +1069,13 @@ background-size: 288px;
   letter-spacing: 0.16px;
   margin: 0 0 20px;
 }
+.isth-single #form_upper .center-sided img {
+  margin-left: auto;
+  width: 100%;
+  max-width: 80px;
+  display: block;
+  margin-top: 12px;
+}
 .isth-single .consent-form .split-button-dropup > div:nth-child(3){
 
   background: #FFFFFF url("data:image/svg+xml,%3csvg%20width='16'%20height='10'%20viewBox='0%200%2016%2010'%20fill='none'%20xmlns='http://www.w3.org/2000/svg'%3e%3cpath%20d='M6.99996%209.56039C7.7132%209.56039%207.42649%209.4509%207.20786%209.23238L0.328226%202.35268C-0.109409%201.91504%20-0.109409%201.20549%200.328226%200.768035C0.765684%200.330577%201.47509%200.330577%201.91276%200.768035L7.99996%206.85558L14.0872%200.768247C14.5248%200.33079%2015.2342%200.33079%2015.6716%200.768247C16.1094%201.2057%2016.1094%201.91525%2015.6716%202.35289L8.79205%209.2326C8.57332%209.45115%208.2866%209.56039%207.99996%209.56039Z'%20fill='white' fill-opacity='0.4'/%3e%3c/svg%3e") no-repeat 93% center;
@@ -1191,7 +1198,13 @@ box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.20);
   .question-block .head-sec {
     min-height: 90px;
   }
-
+  .isth-single .consent-form-inner .center-sided h2 {
+    font-size: 22px;
+}
+.isth-single .consent-form-inner .center-sided h3 {
+  font-size: 14px;
+  line-height: 150%;
+}
   .register-popup-view .login-wrapper-mid-left .head-sec-title h2 {
     font-size: 20px;
     margin: 0 0 30px 0;
