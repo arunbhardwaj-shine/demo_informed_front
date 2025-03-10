@@ -676,12 +676,10 @@ const SurveySublink = () => {
                             <div className="email_box_block">
                               <div className="mail-box-acccordion">
                                 <Accordion>
-
                                   {data?.length > 0 ? (
-
                                     data?.map((item, index) => (
                                       <React.Fragment key={index}>
-                                         <div>
+                                         <div className="accordion-block">
                                     <div className="mail-box-content">
                                       <div className="mail-box-content-top d-flex justify-content-between">
                                         <div className="mail-box-content-top-left">

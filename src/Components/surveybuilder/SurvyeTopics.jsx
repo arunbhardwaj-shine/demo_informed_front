@@ -235,7 +235,7 @@ const submitHandler = (e) => {
                     setCommonModel("Add");
                   }}
                 >
-                  Add new {content?.label?.trim()}
+                  Add new topic
                   <img src={`${path_image}add-icon.png`} alt="" />
                 </Button>
                 <div className="search-bar">
