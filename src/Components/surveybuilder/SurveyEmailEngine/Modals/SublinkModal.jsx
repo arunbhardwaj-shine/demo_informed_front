@@ -98,7 +98,7 @@ const SublinkModal = ({
           body
         );
 
-        const data = { ...res.data.data, delivery: newLink.delivery };
+        const data = { ...res.data.data, delivery: newLink.delivery,tags: finalTags};
 
         if(type == true){ 
           setSendListData((prev) => [data, ...prev]);

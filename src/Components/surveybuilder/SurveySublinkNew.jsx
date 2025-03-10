@@ -1738,7 +1738,7 @@ const SurveySublink = () => {
                                                       );
                                                     }
                                                   )
-                                                ) : null}
+                                                ) : "Please create First sublink "}
                                               </Accordion.Body>
                                             </Accordion.Item>
                                           </div>
