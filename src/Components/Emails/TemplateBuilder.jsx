@@ -910,7 +910,6 @@ const TemplateBuilder = (props) => {
       toast.warning("Please enter name or email first");
     } else {
       const body = {
-        type:type == "survey" ? 1 :type,
         user_id: localStorage.getItem("user_id"),
         name: name,
         email: email,

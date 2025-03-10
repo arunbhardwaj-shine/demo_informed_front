@@ -339,7 +339,7 @@ const submitHandler = (event) => {
                 <div className="col-12 col-md-9">
                   <ul className="tabnav-link">
                     <li className="active active-main">
-                      <a href="#" onClick={(e) => e.preventDefault()}>Select Survey</a>
+                      <a href="" onClick={(e) => e.preventDefault()}>Select Survey</a>
                     </li>
                     <li className="">
                       <a href="">Create Your Email</a>
