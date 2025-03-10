@@ -554,13 +554,15 @@ const VerifyHcpMAIL = (props) => {
   };
  
   const handleCreateMail = () => {
-    navigate("/CreateEmail", {
+    const emailRoute = routeTypeSurvey ? "/survey/email/create-email" : "/CreateEmail";
+    navigate(emailRoute, {
       state: {IrtObj:irtRoleObj},
     });
   };
 
   const handleVerifyHCPClicked = () => {
-    navigate("/VerifyHCP", {
+    const verifyHcpRoute = routeTypeSurvey ? "/survey/email/verify-hcp" : "/VerifyHCP";
+    navigate(verifyHcpRoute, {
       state: {IrtObj:irtRoleObj},
     });
   };
@@ -596,7 +598,6 @@ const VerifyHcpMAIL = (props) => {
                     }
                     </li>
                     <li className="active" onClick={handleCreateMail}>
-                       
                       Create Your Email
                     </li>
                 

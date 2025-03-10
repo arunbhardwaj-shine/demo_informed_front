@@ -641,13 +641,18 @@ const SelectSmartList = (props) => {
                       }
                     </li>
                     <li className="active">
-                      <Link to="/CreateEmail">Create Your Email</Link>
+                      {
+                        routeTypeSurvey ?
+                        <Link to="/survey/email/create-email">Create Your Email</Link>
+                        :
+                        <Link to="/CreateEmail">Create Your Email</Link>
+                      }
                     </li>
                     <li className="active active-main">
-                      <Link to="/SelectSmartList">
+                      <Link to={routeTypeSurvey ? "/survey/email/smart-list" : "/SelectSmartList"}>
                         {localStorage.getItem("user_id") == userId || localStorage.getItem("user_id") == "bWmUjqX7J011   WUTYn9g=="
                           ? "Select Users"
-                          : "Select HCPs"}{" "}
+                          : "Select HCPs"}
                       </Link>
                     </li>
                     
