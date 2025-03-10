@@ -41,7 +41,7 @@ const template = {
   9: ["header"],
   10: ["logo", "header", "footer"],
   11: ["logo", "header", "footer"],
-  13: ["templateOne"],
+  13: ["templateOne", "templateTwo"],
 };
 const WebinarRegistration = () => {
   const { eventIdContext } = useSidebar();
