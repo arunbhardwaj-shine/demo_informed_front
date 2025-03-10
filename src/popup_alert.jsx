@@ -6,10 +6,11 @@ const popup_alert = (data) => {
     element_message.innerHTML = data.message;
     if (data.type === "success") {
       document.getElementById("img-replaced").src =
-        "componentAssets/images/success.svg";
+        "../componentAssets/images/success.svg";
     } else {
       document.getElementById("img-replaced").src =
-        "componentAssets/images/alert.png";
+      "../componentAssets/images/alert.png"
+        // "./componentAssets/images/alert.png";
     }
    
     if (

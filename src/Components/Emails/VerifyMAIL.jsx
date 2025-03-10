@@ -23,7 +23,7 @@ const VerifyMAIL = (props) => {
   const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","bWmUjqX7J011   WUTYn9g==","MXl8m36VZFYXpgFVz3Pg0g=="]
   const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
   const groupId= localStorage.getItem("group_id")
-  const routeTypeSurvey = props?.type == "survey" ? "survey" : 0;
+  const routeTypeSurvey = props?.type == "survey" ? 1 : 0;
   const surveyid = props?.getEmailData?.survey_id ? props?.getEmailData?.survey_id : props?.getDraftData?.campaign_data?.survey_id ? props?.getDraftData?.campaign_data?.survey_id : 0;
   const surveySubLinkId = props?.getEmailData?.sublink_id ? props?.getEmailData?.sublink_id : props?.getDraftData?.campaign_data?.sublink_id ? props?.getDraftData?.campaign_data?.sublink_id : 0;
   const location = useLocation();
@@ -52,8 +52,8 @@ const VerifyMAIL = (props) => {
   var var_template_source_code = template_source_code.replaceAll("800", "450");
   var_template_source_code = var_template_source_code.replaceAll("600", "450");
 
-  const selectedHcp = location.state
-    ? location.state.selectedHcp
+  const selectedHcp = location?.state?.selectedHcp
+    ? location?.state?.selectedHcp
     : props?.getDraftData?.campaign_data?.selectedHcp;
 
   const PdfSelected = location.state
@@ -275,10 +275,10 @@ const VerifyMAIL = (props) => {
 
   const createEmail = async () => {
     let i = 0;
-    const intervals_spend = (25 / 100) * selectedHcp.length;
+    const intervals_spend = (25 / 100) * selectedHcp?.length;
 
     var intervals_increment = 100 / intervals_spend;
-    var mails_increment = selectedHcp.length / intervals_spend;
+    var mails_increment = selectedHcp?.length / intervals_spend;
     let adr = 0;
     let incr_msg = 0;
     const timer = setInterval(() => {
@@ -290,8 +290,8 @@ const VerifyMAIL = (props) => {
         setUploadOrDownloadCount(parseInt(adr));
       }
 
-      if (incr_msg >= selectedHcp.length) {
-        setMailsIncrement(selectedHcp.length);
+      if (incr_msg >= selectedHcp?.length) {
+        setMailsIncrement(selectedHcp?.length);
       } else {
         setMailsIncrement(parseInt(incr_msg));
       }
@@ -314,8 +314,8 @@ const VerifyMAIL = (props) => {
         });
 
       let user_list =
-        props?.getEmailData?.selectedHcp || location.state
-          ? selectedHcp.map((userId) => {
+        props?.getEmailData?.selectedHcp || location?.state?.selectedHcp
+          ? selectedHcp?.map((userId) => {
             return userId.profile_user_id || userId.user_id;
           })
           : props?.getDraftData?.campaign_data.selectedHcp.map((userId) => {
@@ -414,7 +414,6 @@ const VerifyMAIL = (props) => {
             console.log(err);
           });
       } else {
-
         await axios
           .post(`emailapi/send_email`, body)
           .then((res) => {
@@ -1209,8 +1208,8 @@ const VerifyMAIL = (props) => {
                   <span>
                     |
                     {typeof selectedHcp !== "undefined" &&
-                      selectedHcp.length > 0 &&
-                      selectedHcp.length}
+                      selectedHcp?.length > 0 &&
+                      selectedHcp?.length}
                   </span>
                 </h4>
                 <div className="selected-hcp-table-action">

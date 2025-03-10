@@ -1527,6 +1527,14 @@ const Sidebar = () => {
                                     <p>Email</p>
                                   </Link>
                                 </li>
+                                <li className={isActiveSurveyAutomail ? 'active' : 'side_li'}
+                                >
+                                  <Link to="/survey/AutoEmail">
+                                  <img src= { sidebar_image_path +"auto-email.svg" } alt=""/>
+                                  {" "}
+                                    <p>Auto Emails</p>
+                                  </Link>
+                                </li>
                                 <li
                                   className={isActiveSurveyTemplate ? "active" : "side_li"}
                                 >
@@ -1536,14 +1544,6 @@ const Sidebar = () => {
                                       alt=""
                                     />{" "}
                                     <p>Template Builder</p>
-                                  </Link>
-                                </li>
-                                <li className={isActiveSurveyAutomail ? 'active' : 'side_li'}
-                                >
-                                  <Link to="/survey/AutoEmail">
-                                  <img src= { sidebar_image_path +"auto-email.svg" } alt=""/>
-                                  {" "}
-                                    <p>Auto Emails</p>
                                   </Link>
                                 </li>
 
