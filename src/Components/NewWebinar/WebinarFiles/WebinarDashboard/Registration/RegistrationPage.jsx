@@ -1251,7 +1251,7 @@ const RegistrationPage = ({ prevData,type }) => {
 
                 {formData?.content?.templateTwoImageUrl ?<div className="col-sm-3 col-md-3 center-sided">
                 <img  src={`${formData?.content?.templateTwoImageUrl?formData?.content?.templateTwoImageUrl:""}`}alt="" />
-                </div>:null}
+                </div>:null }
               </div>
               <div className="center-sided-inside">
                 <div className="row">
