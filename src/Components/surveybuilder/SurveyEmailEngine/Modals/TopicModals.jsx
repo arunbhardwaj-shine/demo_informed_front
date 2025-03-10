@@ -164,11 +164,7 @@ console.log(edit,subLinkData,editTopic)
                 )
             );
 
-               
-
-
-
-               console.log(res);
+         
 
 
                 loader("hide")
@@ -181,14 +177,6 @@ console.log(edit,subLinkData,editTopic)
 
 
             setFinalTags(uniqueTags);
-
-
-            
-
-
-
-
-
              
           } else {
             setFinalTags(tagClickedFirst);

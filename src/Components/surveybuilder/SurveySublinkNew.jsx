@@ -835,7 +835,7 @@ const SurveySublink = () => {
                   <Col md={12}>
                     <div className="survey-sublink">
                       <h5>
-                        Primary Links | <span>4</span>
+                        Primary Links | <span>{data.length}</span>
                       </h5>
                       <div className="survey-builder">
                         <div className="survey-listing">
@@ -1338,11 +1338,11 @@ const SurveySublink = () => {
                                                                 </p>
                                                                 <div className="mailbox-tags">
                                                                   <ul>
-                                                                    <li>{subLink.tags.length > 0 ? (
+                                                                     {subLink.tags.length > 0 ? (
                                                                       subLink?.tags.map((tag) => (
                                                                       <li key={tag}>{tag}</li>
 
-                                                                    ))):("N/A")}</li>
+                                                                    ))):(<li>N/A</li>)} 
                                                                   </ul>
                                                                 </div>
                                                                 <div className="mail-time">
