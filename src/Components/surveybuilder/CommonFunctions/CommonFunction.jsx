@@ -413,9 +413,9 @@ export const UpdateQuestion = async (questionId) => {
 };
 
 export const analyticButtonClicked = (data, navigate, addUniqueCode) => {
- 
+ console.log(data,addUniqueCode);
   let item = {
-    Title: data?.survey_title,
+    Title: addUniqueCode ? data?.identifier : data?.survey_title,
     survey_id: data?.survey_id,
     CreatedDate: data?.date,
   };

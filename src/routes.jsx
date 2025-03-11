@@ -913,7 +913,7 @@ const Routing = () => {
         /> */}
         <Route
           path="/get-details"
-          element={<LoginLayout component={GetDetailsLayout} />}
+          element={<LoginLayout component={GetDetailsLayout} type="general" />}
         />
         <Route
           path="/license-content"
@@ -1154,6 +1154,7 @@ const Routing = () => {
         <Route path="/survey/email/verify-hcp-mail" element={<LoginLayout component={VerifyHcpMAIL}  type="survey"/>} />
         <Route path="/survey/email/verify-mail" element={<LoginLayout component={VerifyMAIL}  type="survey"/>} />
         <Route path="/survey/email/analytics" element={<LoginLayout component={EmailStatss}  type="survey"/>} />
+        <Route path="/survey/email/get-details" element={<LoginLayout component={GetDetailsLayout}  type="survey"/>} />
 
         <Route path="/survey/auto-email" element={<LoginLayout component={AutoEmail}  type="survey"/>} />
         <Route path="/survey/smartlist" element={<LoginLayout component={SmartList}  type="survey"/>} />

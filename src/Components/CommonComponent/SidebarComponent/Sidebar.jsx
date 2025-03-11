@@ -1358,6 +1358,7 @@ const Sidebar = () => {
                   window.location.pathname == "/survey/email/verify-mail" ||
                   window.location.pathname == "/survey/email/verify-hcp-mail" ||
                   window.location.pathname == "/survey/email/analytics" ||
+                  window.location.pathname == "/survey/email/get-details" ||
                   window.location.pathname == "/survey/TemplateBuilder" ||
                   window.location.pathname == "/survey/ViewSmartList" ||
                   window.location.pathname == "/survey/smartlist/createlist" ||
@@ -1507,6 +1508,7 @@ const Sidebar = () => {
                           location.pathname == "/survey/smartlist" ||
                           location.pathname == "/survey/email/create-email" ||
                           location.pathname == "/survey/email/analytics" ||
+                          location.pathname == "/survey/email/get-details" ||
                           window.location.pathname == "/survey/ViewSmartList" ||
                           window.location.pathname == "/survey/smartlist/createlist" ||
                           window.location.pathname == "/survey/smartlist/UploadExcel" ||
@@ -1556,7 +1558,7 @@ const Sidebar = () => {
                                   </Link>
                                 </li>
 
-                                <li className={(location.pathname === "/survey/email/analytics") && c_id == 0 ? "active" : "side_li"}>
+                                <li className={(location.pathname === "/survey/email/analytics" || location.pathname == '/survey/email/get-details') && c_id == 0 ? "active" : "side_li"}>
                                   <Link to={"/survey/email/analytics"}>
                                   <img src= { sidebar_image_path + "analytics-email.svg" } alt=""/>
                                     <p>Email Results</p>

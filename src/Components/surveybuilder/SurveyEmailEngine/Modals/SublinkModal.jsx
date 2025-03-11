@@ -18,7 +18,7 @@ const SublinkModal = ({
   type
 }) => {
   let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
-    const {FETCH_ALL_TAGS,INSERT_SUBLINK_INFORMATION }=surveyEndpoints;
+    const {FETCH_ALL_TAGS,INSERT_SUBLINK_INFORMATION ,GET_SURVEY_SUBLINK_TAGS}=surveyEndpoints;
   const [show, setShow] = useState(false);
   const [modalCounter, setModalCounter] = useState(0);
   const [finalTags, setFinalTags] = useState([]);
@@ -44,7 +44,7 @@ const SublinkModal = ({
        
 
       await surveyAxiosInstance
-        .get("survey/get-survey-tag" )
+        .get(GET_SURVEY_SUBLINK_TAGS )
         .then((res) => {
           setAllTags(res?.data?.data);
         })
@@ -170,7 +170,7 @@ const SublinkModal = ({
           <Row>
             <Form.Group as={Col} xs={7} className="d-flex align-items-center mb-5">
               <Form.Label>Identifier</Form.Label>
-              <Form.Control type="text" placeholder="Title of the subLink" onChange={(event) => onIdentifierChange(event)}/>
+              <Form.Control type="text" placeholder="Title of the sublink" onChange={(event) => onIdentifierChange(event)}/>
             </Form.Group>
 
             <Form.Group as={Col} xs={5} className="d-flex align-items-center mb-5">
@@ -181,7 +181,7 @@ const SublinkModal = ({
                 (newLink?.delivery ? "addval" : "")
               }
               title={
-                newLink?.delivery ? newLink?.delivery : "Select delivery type"
+                newLink?.delivery ? newLink?.delivery : "Select delivery channel"
               }
               name="delivery"
               onSelect={(e) => handleChange("delivery", e)}
@@ -227,16 +227,23 @@ const SublinkModal = ({
             
             <div className="tags_added">
               <ul>
-                {finalTags.map((tags, index) => (
-                  <li className="list1" key={index}>
-                    {tags.innerHTML || tags}{" "}
-                    <img
-                      src={path_image + "filter-close.svg"}
-                      alt="Close-filter"
-                      onClick={() => removeTag(index)}
-                    />
-                  </li>
-                ))}
+              {finalTags.length > 0 ? (
+                    finalTags.map((tags, index) => (
+                      <li className="list1" key={index}>
+                        {tags.innerHTML || tags}{" "}
+                        <img
+                          src={`${path_image}filter-close.svg`}
+                          alt="Close-filter"
+                          onClick={() => removeTag(index)}
+                        />
+                      </li>
+                    ))
+                  ) : (
+                    <p>No topics added yet</p>
+                  )}
+
+
+               
               </ul>
             </div>
             <div className="input-group-prepend">

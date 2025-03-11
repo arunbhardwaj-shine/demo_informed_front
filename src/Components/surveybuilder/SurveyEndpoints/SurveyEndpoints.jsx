@@ -35,6 +35,9 @@ export const surveyEndpoints = {
     GET_DROPOFF_RESPONSES: "/survey/get-dropoff-responses",
     TAKERS_RESPONSES_DETAIL: "/survey/takers-responses-detail",
     DOWNLOAD_ALL_EXCEL_SHEET:"/survey/get-all-excel-data",
+    GET_SURVEY_SUBLINK_TAGS:"/survey/get-survey-sublink-tags",
+    ADD_SURVEY_SUBLINK_TAGS:"/survey/add-survey-sublink-tag",
+    UPDATE_SURVEY_SUBLINK_TAGS:"survey/update-sublink-tag",
 
     // Last Publish Page Endpoints
     INSERT_SURVEY_DATA: "/survey/insert-survey-data",
