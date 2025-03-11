@@ -55,7 +55,7 @@ const TopicModals = ({
           } else {
             try {
                 loader("show")
-                await surveyAxiosInstance.post("survey/add-survey-tag",{tags : newTag })
+                await surveyAxiosInstance.post("survey/add-survey-sublink-tag",{tags : newTag })
                 loader("hide")
             } catch (error) {
                 console.log(error);

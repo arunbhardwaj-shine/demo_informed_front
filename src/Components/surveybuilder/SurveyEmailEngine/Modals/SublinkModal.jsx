@@ -44,7 +44,7 @@ const SublinkModal = ({
        
 
       await surveyAxiosInstance
-        .get("survey/get-survey-tag" )
+        .get("survey/get-survey-sublink-tags" )
         .then((res) => {
           setAllTags(res?.data?.data);
         })
