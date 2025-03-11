@@ -318,7 +318,7 @@ useEffect(() => {
               <div className="d-flex flex-column align-items-start">
                 <input
                   type="text"
-                  className="form-control"
+                  className={`form-control ${error?.newTag ? "error" : ""}`}
                   id="new-tag"
                   value={newTag}
                   onChange={(e) => newTagChanged(e)}
