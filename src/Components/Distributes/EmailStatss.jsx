@@ -15,6 +15,7 @@ import {
 
 const EmailStats = (props) => {
   let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+  const routeTypeSurvey = props?.type == "survey" ? 1 : 0;
   const [sortingCount, setSortingCount] = useState(0);
   const [totalCount, setTotalCount] = useState([]);
   const [update, setUpdate] = useState(0);
@@ -68,6 +69,7 @@ const EmailStats = (props) => {
       page: page,
       search: search,
       ...(isLikeRdAccount && { filter: filter }),
+      type: routeTypeSurvey,
     };
     loader("show");
     await axios

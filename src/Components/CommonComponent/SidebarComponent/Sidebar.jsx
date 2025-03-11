@@ -1356,6 +1356,7 @@ const Sidebar = () => {
                   window.location.pathname == "/survey/email/verify-hcp" ||
                   window.location.pathname == "/survey/email/verify-mail" ||
                   window.location.pathname == "/survey/email/verify-hcp-mail" ||
+                  window.location.pathname == "/survey/email/analytics" ||
                   window.location.pathname == "/survey/TemplateBuilder" ||
                   window.location.pathname == "/survey/ViewSmartList" ||
                   window.location.pathname == "/survey/smartlist/createlist" ||
@@ -1477,6 +1478,7 @@ const Sidebar = () => {
                           location.pathname == "/survey/AutoEmail" ||
                           location.pathname == "/survey/smartlist" ||
                           location.pathname == "/survey/email/create-email" ||
+                          location.pathname == "/survey/email/analytics" ||
                           window.location.pathname == "/survey/ViewSmartList" ||
                           window.location.pathname == "/survey/smartlist/createlist" ||
                           window.location.pathname == "/survey/smartlist/UploadExcel" ||
@@ -1514,7 +1516,7 @@ const Sidebar = () => {
                                     <img
                                       src={sidebar_image_path + "template-builder.svg"}
                                       alt=""
-                                    />{" "}
+                                    />
                                     <p>Template Builder</p>
                                   </Link>
                                 </li>
@@ -1523,6 +1525,13 @@ const Sidebar = () => {
                                   <Link to="/survey/smartlist">
                                   <img src= { sidebar_image_path +"attendees.svg" } alt=""/>
                                     <p>Smart List</p>
+                                  </Link>
+                                </li>
+
+                                <li className={(location.pathname === "/survey/email/analytics") && c_id == 0 ? "active" : "side_li"}>
+                                  <Link to={"/survey/email/analytics"}>
+                                  <img src= { sidebar_image_path + "analytics-email.svg" } alt=""/>
+                                    <p>Email Results</p>
                                   </Link>
                                 </li>
                               </ul>
