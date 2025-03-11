@@ -665,9 +665,13 @@ const SurveyList = (props) => {
                                         Create Survey
                                         <img src={`${path_image}add-icon.png`} alt="" />
                                       </Button>
-                                      <Button className="btn-white" onClick={showSurveyEditButtons}>
-                                        Edit survey
-                                        <img src={`${path_image}edit-button.svg`} alt="" />
+                                      <Button className={`btn-white ${deletestatus ? "disabled" : ""}`} onClick={showSurveyEditButtons}>
+                                      {!editSurvey ? (
+                                              <>Edit survey <img src={`${path_image}edit-button.svg`} alt="" /></>
+                                            ) : (
+                                              "Cancel"
+                                            )}
+
                                       </Button>
                                     </div>
                 {/* <div className="action-btn-add" style={{ margin: "0" }}>
@@ -873,17 +877,17 @@ const SurveyList = (props) => {
                   )}
                 </div>
 
-                <div className="clear-search">
+                <div className={`clear-search`} >
                   {deletestatus ? (
                     <button
-                      className="btn btn-outline-primary cancel"
+                    className={`btn btn-outline-primary cancel`}
                       onClick={(e) => showDeleteButtons()}
                     >
                       Cancel
                     </button>
                   ) : (
                     <button
-                      className="btn btn-outline-primary rd"
+                      className={`btn btn-outline-primary rd ${editSurvey ? "disabled" : ""}`}
                       onClick={(e) => showDeleteButtons()}
                     >
                       <svg
@@ -1477,70 +1481,64 @@ const SurveyList = (props) => {
                                                   </span>
                                                 </li>
                                               </ul>
+                                              
+
                                             </div>
                                           )}
                                         </div>
-                                        <div className="mailbox-buttons">
+
+                                        
+                                           <div className="mailbox-buttons">
                                          
-                                          <div className="mailbox-buttons-list">
-                                          <div className="send_new">
-                                            {data?.is_draft == 0 ? (
-                                              <Button
-                                                className={
-                                                  "btn-bordered send-new disabled"
-                                                }
-                                              >
-                                                Analytics
-                                              </Button>
-                                            ) : (
-                                              <Button
-                                                className={
-                                                  "btn-bordered send-new"
-                                                }
-                                                onClick={() =>
-                                                  analyticButtonClicked(
-                                                    data,
-                                                    navigate
-                                                  )
-                                                }
-                                              >
-                                                Analytics
-                                              </Button>
-                                            )}
-                                          </div>
-                                            <Button
-                                              className="send btn-bordered"
-                                              onClick={(e) =>
-                                                editHandler(
-                                                  e,
-                                                  data?.current_route,
-                                                  data
-                                                )
-                                              }
-                                            >
-                                              Edit Topic
-                                            </Button>
-                                            <Button
-                                              className="edit btn-bordered">
-                                              Send in email
-                                            </Button>
-                                            <Button
-                                              className={
-                                                data?.is_draft
-                                                  ? "edit btn-filled"
-                                                  : "edit btn-filled disabled"
-                                              }
-                                              onClick={(e) => {
-                                                window.open(
-                                                  `https://survey.docintel.app/survey?Utmde=${data.unique_code}`,
-                                                  "_blank"
-                                                );
-                                              }}
-                                            >
-                                              Preview
-                                            </Button>
-                                          </div>
+                                           {!(editSurvey || deletestatus) && (
+                                                          <div className="mailbox-buttons-list">
+                                                            <div className="send_new">
+                                                              {data?.is_draft === 0 ? (
+                                                                <Button className="btn-bordered send-new disabled">Analytics</Button>
+                                                              ) : (
+                                                                <Button
+                                                                  className="btn-bordered send-new"
+                                                                  onClick={() => analyticButtonClicked(data, navigate)}
+                                                                >
+                                                                  Analytics
+                                                                </Button>
+                                                              )}
+                                                            </div>
+
+                                                            <Button
+                                                              className="send btn-bordered"
+                                                              onClick={(e) => editHandler(e, data?.current_route, data)}
+                                                            >
+                                                              Edit Topic
+                                                            </Button>
+
+                                                            <Button className="edit btn-bordered">Send in email</Button>
+
+                                                            <Button
+                                                              className={data?.is_draft ? "edit btn-filled" : "edit btn-filled disabled"}
+                                                              onClick={() => {
+                                                                window.open(
+                                                                  `https://survey.docintel.app/survey?Utmde=${data?.unique_code}`,
+                                                                  "_blank"
+                                                                );
+                                                              }}
+                                                            >
+                                                              Preview
+                                                            </Button>
+                                                          </div>
+                                                        )}
+
+
+                                         
+                                        
+                                       
+                                       
                                         </div>
+                                         
+
+                                       
+
+
                                       </div>
                                     </Tab>
                                     <Tab
@@ -1578,7 +1576,7 @@ const SurveyList = (props) => {
                                             />
 
                                             <div className="mailbox-buttons justify-content-end">
-                                              <div className="send_new">
+                                            {!(editSurvey || deletestatus) &&(<div className="send_new">
                                                 <Button
                                                   className="btn-bordered send-new"
                                                   onClick={() => {
@@ -1595,7 +1593,8 @@ const SurveyList = (props) => {
                                                 >
                                                   New Sublink
                                                 </Button>
-                                              </div>
+                                              </div>)}
+                                              
                                             </div>
                                           </>
                                         )}
@@ -1620,7 +1619,7 @@ const SurveyList = (props) => {
                                           )}
                                         </div>
                                         <div className="mailbox-buttons justify-content-end">
-                                          <div className="send_new">
+                                        {!(editSurvey || deletestatus) && (<div className="send_new">
                                             <Button
                                               className="btn-bordered send-new"
                                               onClick={(e) => {
@@ -1632,7 +1631,8 @@ const SurveyList = (props) => {
                                             >
                                               Duplicate Survey
                                             </Button>
-                                          </div>
+                                          </div>)}
+                                          
                                         </div>
                                       </div>
                                     </Tab>

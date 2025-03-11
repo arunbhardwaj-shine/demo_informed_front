@@ -38,6 +38,7 @@ const CreateSurveyEmail = (props) => {
  
  
      const [filterdata, setFilterData] = useState({
+
        
      });
      const [filterApplyflag, setFilterApplyflag] = useState(0);
@@ -49,6 +50,8 @@ const CreateSurveyEmail = (props) => {
  const searchChange = (e) => {
   setSearch(e.target.value);
 };
+
+
 const submitHandler = (event) => {
   event.preventDefault();
   setShowFilter(false);
@@ -330,7 +333,7 @@ const submitHandler = (event) => {
               <div className="row justify-content-end align-items-center">
                 <div className="col-12 col-md-1">
                   <div className="header-btn-left">
-                  <button className="btn btn-primary btn-bordered back">
+                  <button className="btn btn-primary btn-bordered back" >
                        Back
                     </button>
 

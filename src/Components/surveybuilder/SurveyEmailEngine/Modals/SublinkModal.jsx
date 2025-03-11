@@ -86,21 +86,25 @@ const SublinkModal = ({
         tags: finalTags,
         survey_id:currentAddSublinkLid
       };
+
+      console.log(body,"body")
+
+      console.log(setSendListData);
+
+
      
         const res = await surveyAxiosInstance.post(
           INSERT_SUBLINK_INFORMATION,
           body
         );
 
-        if(type == true){
+        const data = { ...res.data.data, delivery: newLink.delivery,tags: finalTags};
 
-          setSendListData((prev) => [
-            ...prev,
-            res.data.data
-          ]);
-          
-
+        if(type == true){ 
+          setSendListData((prev) => [data, ...prev]);
+         
         }else{
+          console.log("from else")
           var myData = SendListData.map((data, index) => {
             if (data.survey_id == currentAddSublinkLid) {
               return { 

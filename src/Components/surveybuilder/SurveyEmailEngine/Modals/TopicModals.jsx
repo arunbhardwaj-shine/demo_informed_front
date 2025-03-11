@@ -3,7 +3,9 @@ import { useState } from "react";
 import { Modal, DropdownButton, Dropdown, Button } from "react-bootstrap";
 import { loader } from '../../../../loader';
 import { toast } from 'react-toastify';
+ 
 import { surveyAxiosInstance } from '../../CommonFunctions/CommonFunction';
+import { useEffect } from 'react';
 
 const TopicModals = ({
         show ,
@@ -21,7 +23,13 @@ const TopicModals = ({
         tagsCounter ,
         setTagsCounter,
         error ,
-        setError 
+        setError,
+        edit,
+        editTopic,
+        setEditTopic ,
+        subLinkData,
+        setSubLinkData,
+
 }) => {
 
 
@@ -88,6 +96,25 @@ const TopicModals = ({
             setTagsCounter(tagsCounter + 1);
           }
         };
+
+
+        useEffect(()=>{
+console.log(edit,subLinkData,editTopic)
+          if(edit){
+            const tags=subLinkData.filter((data)=>{
+
+              return data.sublink_id == editTopic;
+
+            })
+            setAllTags(structuredClone(tags[0].tags))
+            setTagClickedFirst(structuredClone(tags[0].tags));
+            setFinalTags(structuredClone(tags[0].tags))
+          }
+
+        },[])
+
+
+
   
       function resetState(setfun) {
         setfun("");
@@ -114,7 +141,7 @@ const TopicModals = ({
       };
   
   
-        const saveButtonClicked = () => {
+        const saveButtonClicked = async () => {
           if (finalTags.length == 0 && tagClickedFirst.length == 0) {
             toast.error("No tags selected");
             return;
@@ -123,11 +150,34 @@ const TopicModals = ({
             let prev_tags = finalTags;
             let new_tags = prev_tags.concat(tagClickedFirst);
             const uniqueTags = new_tags.filter((x, i, a) => a.indexOf(x) === i);
+
+            if(edit){
+
+              try {
+                loader("show")
+                console.log(subLinkData)
+               const res= await surveyAxiosInstance.post("survey/update-sublink-tag",{tags : uniqueTags, sublink_id : editTopic })
+
+               setSubLinkData(prevData =>
+                prevData.map(item =>
+                    item.sublink_id === editTopic ? { ...item, tags: uniqueTags } : item
+                )
+            );
+
+         
+
+
+                loader("hide")
+              } catch (error) {
+                loader("hide")
+                console.log(error);
+
+            }
+          }
+
+
             setFinalTags(uniqueTags);
-            // setformData((prev) => ({
-            //   ...prev,
-            //   surveyFinalTags: uniqueTags,
-            // }));
+             
           } else {
             setFinalTags(tagClickedFirst);
             // setformData((prev) => ({
@@ -145,7 +195,6 @@ const TopicModals = ({
           tagsClickedFirst.splice(index, 1);
           setFinalTags(tags);
           setTagClickedFirst(tagsClickedFirst);
-      
           setTagsReRender(tagsReRender + 1);
         };
 

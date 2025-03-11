@@ -162,10 +162,15 @@ span {
           }
         }
         .mail-box-acccordion{
-          border-radius: 13px;
-          box-shadow: 0px 1px 6px 0px rgba(0, 102, 190, 0.20);
+          // border-radius: 13px;
+          // box-shadow: 0px 1px 6px 0px rgba(0, 102, 190, 0.20);
           .accordion{
             border:0;
+            .accordion-block{
+              margin:0 0 32px;
+              border-radius: 13px;
+              box-shadow: 0px 1px 6px 0px rgba(0, 102, 190, 0.20);
+            }
             .accordion-item{
               border: 0;
               background: rgba(0, 102, 190, 0.03);

@@ -14,7 +14,7 @@ const SelectSurvey = ({ SendListData, setSendListData, handlePdfSelection, setCu
 
   const handleSelect = (e) => {
     let pdfId = e?.target?.value === PdfSelected ? 0 : e?.target?.value;
-    setSelectedSublinkId({})
+   // setSelectedSublinkId({})
     handlePdfSelection(pdfId)
     setPdfSelected(pdfId);
   };
