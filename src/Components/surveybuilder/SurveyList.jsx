@@ -14,7 +14,7 @@ import { analyticButtonClicked } from "./CommonFunctions/CommonFunction";
 import { SublinkHandler } from "./CommonFunctions/CommonFunction";
 import { format } from "date-fns";
 import { connect } from "react-redux";
-import { getSurveyData } from "../../actions";
+import { getSurveyData, getEmailData } from "../../actions";
 import { SurveyLiveButton } from "./CommonFunctions/CommonFunction";
 import { loader } from "../../loader";
 import {  useNavigate } from "react-router-dom";
@@ -646,6 +646,13 @@ const SurveyList = (props) => {
     }
     setOtherFilter(otherObj);
     setAppliedFilter(newObj);
+  };
+
+  const nextClicked = async(id) => {
+    props.getEmailData({sublink_id:0,survey_id:id,PdfSelected: 1});
+    navigate("/survey/email/create-email", {
+      state: { PdfSelected: 1,IrtObj:{} }
+    })
   };
 
   return (
@@ -1512,7 +1519,9 @@ const SurveyList = (props) => {
                                                               Edit Topic
                                                             </Button>
 
-                                                            <Button className="edit btn-bordered">Send in email</Button>
+                                                            <Button className="edit btn-bordered" onClick={() => {nextClicked(data.survey_id)}}>
+                                                                Send in email
+                                                            </Button>
 
                                                             <Button
                                                               className={data?.is_draft ? "edit btn-filled" : "edit btn-filled disabled"}
@@ -1743,6 +1752,6 @@ const mapStateToProps = (state) => {
   return state;
 };
 
-export default connect(mapStateToProps, { getSurveyData: getSurveyData })(
+export default connect(mapStateToProps, { getSurveyData: getSurveyData, getEmailData: getEmailData })(
   SurveyList
 );
