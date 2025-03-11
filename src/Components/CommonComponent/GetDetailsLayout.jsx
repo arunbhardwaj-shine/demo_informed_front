@@ -2,7 +2,7 @@ import React from "react";
 import GetDetails from "../Distributes/GetDetails";
 import GetMedpakDetails from "../Distributes/GetMedpakDetails";
 
-const GetDetailsLayout = () => {
+const GetDetailsLayout = ({ type = ''}) => {
     const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","bWmUjqX7J011   WUTYn9g==","MXl8m36VZFYXpgFVz3Pg0g=="]
     const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
     return (
@@ -10,9 +10,9 @@ const GetDetailsLayout = () => {
             {(localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==" ||isLikeRdAccount)
             ? (<>
              
-                <GetMedpakDetails />
+                <GetMedpakDetails type={type} />
             </>) : (
-                <GetDetails />
+                <GetDetails type={type} />
             )}
         </>
     );

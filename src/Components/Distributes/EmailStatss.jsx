@@ -98,7 +98,8 @@ const EmailStats = (props) => {
   };
 
   const getDetails = (id) => {
-    navigate("/get-details", {
+    const getDetailsRoute = routeTypeSurvey ? "/survey/email/get-details" : "/get-details";
+    navigate(getDetailsRoute, {
       state: { distribute_id: id },
     });
   };
