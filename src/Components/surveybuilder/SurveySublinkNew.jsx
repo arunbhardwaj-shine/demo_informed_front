@@ -361,7 +361,7 @@ const SurveySublink = () => {
   };
 
   const applyFilter = (flag = "") => {
-   
+    setSubLinkData([]);
     setFilterApplyflag(1);
     setIsData([]);
     setFilterObject(appliedFilter);
@@ -1923,7 +1923,6 @@ const SurveySublink = () => {
           setEditTopic={setEditTopic}
           subLinkData={subLinkData}
           setSubLinkData={setSubLinkData}
-
         />
       )}
     </>

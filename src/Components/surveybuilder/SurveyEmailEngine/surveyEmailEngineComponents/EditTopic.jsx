@@ -2,40 +2,46 @@ import React from 'react'
 import { useState } from "react";
 import { Modal, DropdownButton, Dropdown, Button } from "react-bootstrap";
 import { loader } from '../../../../loader';
-import { toast } from 'react-toastify';
  
+import { toast } from 'react-toastify';
 import { surveyAxiosInstance } from '../../CommonFunctions/CommonFunction';
+ 
 import { useEffect } from 'react';
 import { surveyEndpoints } from '../../SurveyEndpoints/SurveyEndpoints';
+ 
 
 const TopicModals = ({
-        show ,
-        setShow ,
-        tagsReRender,
-        setTagsReRender ,
-        finalTags ,
-        setFinalTags ,
-        tagClickedFirst , 
-        setTagClickedFirst ,
-        newTag ,
-        setNewTag ,
-        allTags ,
-        setAllTags ,
-        tagsCounter ,
-        setTagsCounter,
-        error ,
-        setError,
-        edit,
-        editTopic,
-        setEditTopic ,
-        subLinkData,
-        setSubLinkData,
+        // edit,
+        // editTopic,
+        // subLinkData,
+        // setSubLinkData,
+        showEditTopicModal,
+        setShowEditTopicModal,
+        isData,
+        setIsData,
+        currentEditTopicId
+        
+
 
 }) => {
+    console.log("from edit topic")
 
   const {ADD_SURVEY_SUBLINK_TAGS,GET_SURVEY_SUBLINK_TAGS,UPDATE_SURVEY_SUBLINK_TAGS}=surveyEndpoints;
 
+    const [show, setShow] = useState(showEditTopicModal);
+    const [modalCounter, setModalCounter] = useState(0);
+    const [finalTags, setFinalTags] = useState([]);
+    const [tagsReRender, setTagsReRender] = useState(0);
+    const [newTag, setNewTag] = useState("");
+    const [allTags, setAllTags] = useState([]);
+    const [tagClickedFirst, setTagClickedFirst] = useState([]);
+    const [tagsCounter, setTagsCounter] = useState(0);
+    const [error, setError] = useState({});
+    const [newLink, setLink] = useState({
+      delivery: "",
+    });
   
+    const [identifier, setIdentifier] = useState("");
  
     let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
   
@@ -104,30 +110,38 @@ const TopicModals = ({
 useEffect(() => {
   const fetchTags = async () => {
     
-
-    if (edit) {
+ 
       try {
         const res = await surveyAxiosInstance.get(GET_SURVEY_SUBLINK_TAGS);
         setAllTags(res?.data?.data);
       } catch (err) {
         toast.error("Something went wrong");
       }
+      if (!Array.isArray(isData)) {
+        console.error("isData is not an array:", isData);
+        return;
+      }
+ 
+    // const tags = isData.filter((data) => currentEditTopicId == data.survey_id).[0].tags.parse() ;
 
-      const tags = subLinkData.filter((data) => data.sublink_id == editTopic);
+       const filteredData = isData.filter((data) => Number(currentEditTopicId) === Number(data.survey_id));
+      const tags = filteredData.length > 0 && filteredData[0].tags ? JSON.parse(filteredData[0].tags) : [];
 
-      if (tags.length > 0 && tags[0].tags) {
-        const clonedTags = structuredClone(tags[0].tags);
-        setTagClickedFirst(clonedTags);
-        setFinalTags(clonedTags);
+
+   
+
+      if (tags.length > 0  ) {
+        // const clonedTags = structuredClone(tags[0].tags);
+        setTagClickedFirst(tags);
+        setFinalTags(tags);
       } else {
-        console.warn("Tags not found for editTopic:", editTopic);
+        console.warn("Tags not found for editTopic:",  );
       }
     }
-  };
+ 
 
   fetchTags();
-}, [ ]); // Include dependencies
-
+}, [ ]); 
 
 
 
@@ -148,7 +162,7 @@ useEffect(() => {
   
       const handleClose = () => {
         resetState(setNewTag);
-        setShow(false);
+        setShowEditTopicModal(false);
         setError((prev)=>({
           ...prev,
           newTag:""
@@ -168,14 +182,14 @@ useEffect(() => {
 
               try {
                 loader("show")
-                console.log(subLinkData)
+              //  console.log(subLinkData)
                const res= await surveyAxiosInstance.post(UPDATE_SURVEY_SUBLINK_TAGS,{tags : uniqueTags, sublink_id : editTopic })
 
-               setSubLinkData(prevData =>
-                prevData.map(item =>
-                    item.sublink_id === editTopic ? { ...item, tags: uniqueTags } : item
-                )
-            );
+            //    setSubLinkData(prevData =>
+            //     prevData.map(item =>
+            //         item.sublink_id === editTopic ? { ...item, tags: uniqueTags } : item
+            //     )
+            // );
 
          
 
@@ -186,9 +200,6 @@ useEffect(() => {
                 console.log(error);
 
             }
-          
-
-
             setFinalTags(uniqueTags);
 
           }else{
