@@ -379,14 +379,12 @@ const SmartList = (props) => {
             <div className="top-header sticky">
               <div className="page-title">{/* <h2>Smart List</h2> */}</div>
               <div className="top-right-action">
-              {isLikeRdAccount ? (
-                <>
+              {/* {isLikeRdAccount ? ( */}
                   <div className="action-btn-add" style={{margin:"0"}}>
-                  <Link  to={ type == "survey" ? "/survey/smartlist/createlist" : "/CreateSmartList"}
-                  state={{ creator: getUserDetails?.name }} className="btn-dashed">Create List <img src={path_image + "add-icon.png"} alt="" /></Link>
+                    <Link  to={ type == "survey" ? "/survey/smartlist/createlist" : "/CreateSmartList"}
+                    state={{ creator: getUserDetails?.name }} className="btn-dashed">Create List <img src={path_image + "add-icon.png"} alt="" /></Link>
                   </div>
-                </>
-                ) : null}
+                {/* ) : null} */}
                 <div className="search-bar">
                   <form className="d-flex" onSubmit={(e) => submitHandler(e)}>
                     <input
@@ -659,7 +657,7 @@ const SmartList = (props) => {
                     </button>
                   ) : (
                     <button
-                      className={`btn btn-outline-primary ${isRDAccount?"rd":""}`}
+                      className={`btn btn-outline-primary ${isRDAccount?"rd":"rd"}`}
                       onClick={(e) => showDeleteButtons()}
                     >
                       <svg
@@ -829,13 +827,13 @@ const SmartList = (props) => {
 
             <div className="smart-list-result">
               <div
-               className={`col smartlist-result-block new-smartlist ${isRDAccount?"rd":""}`}
+               className={`col smartlist-result-block new-smartlist ${isRDAccount?"rd":"rd"}`}
               >
-                {
-                // getfiltername.length == 0 &&
-                //   getFilterCreator.length == 0 &&
-                //   getFilterIbu.length == 0 &&
-                //   filterdate.length == 0 &&
+                {/* {
+                  getfiltername.length == 0 &&
+                  getFilterCreator.length == 0 &&
+                  getFilterIbu.length == 0 &&
+                  filterdate.length == 0 &&
                   !deletestatus && (!isLikeRdAccount && (
                     <div className="smartlist_box_block">
                       <div className="smartlist-add smartlist-view">
@@ -850,7 +848,8 @@ const SmartList = (props) => {
                           </>
                       </div>
                     </div>)
-                  )}
+                  )
+                } */}
                 {typeof smartListData !== "undefined" &&
                 smartListData.length > 0 ? (
                   smartListData.map((data,index) => {
