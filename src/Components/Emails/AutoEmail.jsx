@@ -914,6 +914,7 @@ const AutoEmail = (props) => {
       user_id: localStorage.getItem("user_id"),
       search: getsearch,
       filter: "",
+      type: type == "survey" ? 1 : 0
     };
     loader("show");
 
@@ -1424,7 +1425,7 @@ const AutoEmail = (props) => {
                         </div>
                         <div className="form-inline row justify-content-end align-items-center">
                           <div className="form-buttons right-side col-12 col-md-5">
-                            {templateName == "Welcome mail" ||
+                            {/* {templateName == "Welcome mail" ||
                               templateName ==
                               "Reset password" ? null : approveClickedd ===
                                 true ? (
@@ -1446,7 +1447,7 @@ const AutoEmail = (props) => {
                               >
                                 Approve?{" "}
                               </button>
-                            )}
+                            )} */}
 
                             <button
                               onClick={sendSample}

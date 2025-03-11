@@ -14,7 +14,7 @@ import { analyticButtonClicked } from "./CommonFunctions/CommonFunction";
 import { SublinkHandler } from "./CommonFunctions/CommonFunction";
 import { format } from "date-fns";
 import { connect } from "react-redux";
-import { getSurveyData } from "../../actions";
+import { getSurveyData, getEmailData } from "../../actions";
 import { SurveyLiveButton } from "./CommonFunctions/CommonFunction";
 import { loader } from "../../loader";
 import {  useNavigate } from "react-router-dom";
@@ -29,6 +29,8 @@ import { Spinner } from "react-activity";
 import { surveyEndpoints } from "./SurveyEndpoints/SurveyEndpoints";
 import { updateCurrentStep } from "../../actions/surveyStepAction";
 import { setDefaultCurrentStep } from "../../actions/surveyStepAction";
+import TopicModals from "./SurveyEmailEngine/Modals/TopicModals";
+import EditTopic from "./SurveyEmailEngine/surveyEmailEngineComponents/EditTopic";
  
 
 const SurveyList = (props) => {
@@ -64,7 +66,7 @@ const SurveyList = (props) => {
   const [qrState, setQr] = useState({ value: "" });
   const [apiStatus, setApiStatus] = useState(false);
   const [sectionLoaderIndex, setSectionLoaderIndex] = useState();
-
+const [showEditTopicModal,setShowEditTopicModal]=useState(false)
   const [filterdata, setFilterData] = useState({
     Survey: ["Live", "Draft", "Completed"],
   });
@@ -72,6 +74,7 @@ const SurveyList = (props) => {
   const [filterObject, setFilterObject] = useState({});
   const [appliedFilter, setAppliedFilter] = useState({});
   const [otherFilter, setOtherFilter] = useState({});
+  const [currentEditTopicId, setCurrentEditTopicId] = useState(null);
 
   const navigate = useNavigate();
 
@@ -85,6 +88,11 @@ const SurveyList = (props) => {
 
     return false;
   };
+
+  const handleEditTopicModal=(id)=>{
+    setCurrentEditTopicId(id)
+    setShowEditTopicModal(!showEditTopicModal)
+  }
 
   const fetchSurveyListing = async () => {
     try {
@@ -505,6 +513,7 @@ const SurveyList = (props) => {
     setFilterApplyflag(1);
     setIsData([]);
     setFilterObject(appliedFilter);
+   
 
     const hasAllNonEmptyValues = Object.keys(otherFilter).every((key) => {
       const value = filter[key];
@@ -646,6 +655,13 @@ const SurveyList = (props) => {
     }
     setOtherFilter(otherObj);
     setAppliedFilter(newObj);
+  };
+
+  const nextClicked = async(id) => {
+    props.getEmailData({sublink_id:0,survey_id:id,PdfSelected: 1});
+    navigate("/survey/email/create-email", {
+      state: { PdfSelected: 1,IrtObj:{} }
+    })
   };
 
   return (
@@ -1206,7 +1222,7 @@ const SurveyList = (props) => {
                                                 Last email
                                               </h6>
                                               <h6>{
-                                                data?.createdDate
+                                                data?.lastEmailSent
                                               }</h6>
                                             </li>
                                           </ul>
@@ -1507,12 +1523,14 @@ const SurveyList = (props) => {
 
                                                             <Button
                                                               className="send btn-bordered"
-                                                              onClick={(e) => editHandler(e, data?.current_route, data)}
+                                                              onClick={(e) => handleEditTopicModal(data.survey_id)}
                                                             >
                                                               Edit Topic
                                                             </Button>
 
-                                                            <Button className="edit btn-bordered">Send in email</Button>
+                                                            <Button className="edit btn-bordered" onClick={() => {nextClicked(data.survey_id)}}>
+                                                                Send in email
+                                                            </Button>
 
                                                             <Button
                                                               className={data?.is_draft ? "edit btn-filled" : "edit btn-filled disabled"}
@@ -1735,6 +1753,10 @@ const SurveyList = (props) => {
         level={"H"}
         includeMargin={true}
       />
+
+      {showEditTopicModal && <EditTopic showEditTopicModal={showEditTopicModal} setShowEditTopicModal={setShowEditTopicModal} currentEditTopicId={currentEditTopicId} isData={isData} setIsData={isData} />}
+    
+
     </>
   );
 };
@@ -1743,6 +1765,6 @@ const mapStateToProps = (state) => {
   return state;
 };
 
-export default connect(mapStateToProps, { getSurveyData: getSurveyData })(
+export default connect(mapStateToProps, { getSurveyData: getSurveyData, getEmailData: getEmailData })(
   SurveyList
 );
