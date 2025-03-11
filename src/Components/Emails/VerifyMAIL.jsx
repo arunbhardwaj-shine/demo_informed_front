@@ -1050,7 +1050,7 @@ const VerifyMAIL = (props) => {
                                       <div className="mailbox-tags">
                                         {
                                           getSurveyData?.tags?.length == 0 ?
-                                            'N/A'
+                                            <ul><li>N/A</li></ul>
                                             :
                                             <ul>
                                               {

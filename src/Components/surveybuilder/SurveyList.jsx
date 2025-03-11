@@ -1206,7 +1206,7 @@ const SurveyList = (props) => {
                                                 Last email
                                               </h6>
                                               <h6>{
-                                                data?.createdDate
+                                                data?.lastEmailSent
                                               }</h6>
                                             </li>
                                           </ul>
