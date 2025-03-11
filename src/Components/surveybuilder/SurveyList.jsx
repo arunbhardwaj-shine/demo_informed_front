@@ -29,6 +29,8 @@ import { Spinner } from "react-activity";
 import { surveyEndpoints } from "./SurveyEndpoints/SurveyEndpoints";
 import { updateCurrentStep } from "../../actions/surveyStepAction";
 import { setDefaultCurrentStep } from "../../actions/surveyStepAction";
+import TopicModals from "./SurveyEmailEngine/Modals/TopicModals";
+import EditTopic from "./SurveyEmailEngine/surveyEmailEngineComponents/EditTopic";
  
 
 const SurveyList = (props) => {
@@ -64,7 +66,7 @@ const SurveyList = (props) => {
   const [qrState, setQr] = useState({ value: "" });
   const [apiStatus, setApiStatus] = useState(false);
   const [sectionLoaderIndex, setSectionLoaderIndex] = useState();
-
+const [showEditTopicModal,setShowEditTopicModal]=useState(false)
   const [filterdata, setFilterData] = useState({
     Survey: ["Live", "Draft", "Completed"],
   });
@@ -72,6 +74,7 @@ const SurveyList = (props) => {
   const [filterObject, setFilterObject] = useState({});
   const [appliedFilter, setAppliedFilter] = useState({});
   const [otherFilter, setOtherFilter] = useState({});
+  const [currentEditTopicId, setCurrentEditTopicId] = useState(null);
 
   const navigate = useNavigate();
 
@@ -85,6 +88,11 @@ const SurveyList = (props) => {
 
     return false;
   };
+
+  const handleEditTopicModal=(id)=>{
+    setCurrentEditTopicId(id)
+    setShowEditTopicModal(!showEditTopicModal)
+  }
 
   const fetchSurveyListing = async () => {
     try {
@@ -505,6 +513,7 @@ const SurveyList = (props) => {
     setFilterApplyflag(1);
     setIsData([]);
     setFilterObject(appliedFilter);
+   
 
     const hasAllNonEmptyValues = Object.keys(otherFilter).every((key) => {
       const value = filter[key];
@@ -1514,7 +1523,7 @@ const SurveyList = (props) => {
 
                                                             <Button
                                                               className="send btn-bordered"
-                                                              onClick={(e) => editHandler(e, data?.current_route, data)}
+                                                              onClick={(e) => handleEditTopicModal(data.survey_id)}
                                                             >
                                                               Edit Topic
                                                             </Button>
@@ -1744,6 +1753,10 @@ const SurveyList = (props) => {
         level={"H"}
         includeMargin={true}
       />
+
+      {showEditTopicModal && <EditTopic showEditTopicModal={showEditTopicModal} setShowEditTopicModal={setShowEditTopicModal} currentEditTopicId={currentEditTopicId} isData={isData} setIsData={isData} />}
+    
+
     </>
   );
 };
