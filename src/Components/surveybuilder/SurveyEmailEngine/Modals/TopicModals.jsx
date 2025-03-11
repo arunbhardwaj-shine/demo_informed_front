@@ -212,7 +212,7 @@ console.log(edit,subLinkData,editTopic)
       >
         <Modal.Header>
           <h5 className="modal-title" id="staticBackdropLabel">
-            Add Tags
+           Edit Topics
           </h5>
           <button
             type="button"
@@ -224,7 +224,7 @@ console.log(edit,subLinkData,editTopic)
         </Modal.Header>
         <Modal.Body>
           <div className="select-tags">
-            <h6>Select Tag :</h6>
+            <h6>Select topic :</h6>
             <div className="tag-lists">
               <div className="tag-lists-view">
                 {allTags
@@ -239,7 +239,7 @@ console.log(edit,subLinkData,editTopic)
           </div>
           <div className="selected-tags">
             <h6>
-              Selected Tag <span>| {tagClickedFirst.length}</span>
+              Selected topics <span>| {tagClickedFirst.length}</span>
             </h6>
 
             <div className="total-selected">
@@ -259,7 +259,7 @@ console.log(edit,subLinkData,editTopic)
         <Modal.Footer>
           <form>
             <div className="form-group">
-              <label htmlFor="new-tag">New Tag</label>
+              <label htmlFor="new-tag">New Topics</label>
               <div className="d-flex flex-column align-items-start">
                 <input
                   type="text"

@@ -535,6 +535,30 @@ const SurveySublink = () => {
 
   // };
 
+  const removeindividualfilter = (key, item) => {
+    let old_object = filterObject;
+    let otherFilterObj = otherFilter;
+    const index = old_object[key]?.indexOf(item);
+    if (index > -1) {
+      // if (old_object[key].includes("All")) {
+      //   const allIndex = old_object[key]?.indexOf("All");
+      //   old_object[key]?.splice(allIndex, 1);
+      //   delete otherFilterObj[key];
+      // }
+      old_object[key]?.splice(index, 1);
+      otherFilterObj[key]?.splice(index, 1);
+
+      if (old_object[key]?.length == 0) {
+        delete old_object[key];
+        delete otherFilterObj[key];
+      }
+    }
+    setAppliedFilter(old_object);
+    setOtherFilter(otherFilterObj);
+    setFilterObject(old_object);
+    applyFilter();
+  };
+
       useEffect(() => {
         if (search === "") {
           applyFilter();
@@ -1265,6 +1289,10 @@ const SurveySublink = () => {
 
                                             <Accordion.Item eventKey={index}>
                                               <Accordion.Header
+
+                                              className={sectionLoader ? "disabled" : undefined }
+                                              style={{ pointerEvents: sectionLoader ? "none" : "auto" }}
+
                                                 onClick={(e) =>
                                                   getSubLinkListingData(
                                                     e,
@@ -1278,12 +1306,12 @@ const SurveySublink = () => {
                                                 <div className="d-flex justify-content-between align-items-center">
                                                   <div className="sublink-title">
                                                     <h6>
-                                                      SubLinks: :{" "}
+                                                      SubLinks:{" "}
                                                       {subLinkData.length}
                                                     </h6>
                                                   </div>
                                                   <Button
-                                                    className="btn-dashed"
+                                                    className={`btn-dashed ${sectionLoader ? "disabled":""} `}
                                                     onClick={() => {
                                                       showSublinkModal(
                                                         item.survey_id
@@ -1744,7 +1772,7 @@ const SurveySublink = () => {
                                           </div>
                                         </React.Fragment>
                                       ))
-                                    : null}
+                                    : <div class="no_found"><p>No Data Found</p></div>}
                                 </Accordion>
                               </div>
                             </div>
@@ -1760,7 +1788,7 @@ const SurveySublink = () => {
         </div>
       </Col>
 
-      <Modal show={createNewLink} className="send-confirm" id="download-qr">
+      {/* <Modal show={createNewLink} className="send-confirm" id="download-qr">
         <Modal.Header>
           <h5 className="modal-title" id="staticBackdropLabel">
             Create New Link
@@ -1846,7 +1874,7 @@ const SurveySublink = () => {
             Apply
           </button>
         </div>
-      </Modal>
+      </Modal> */}
 
       <QRCodeCanvas
         style={{ display: "none" }}
