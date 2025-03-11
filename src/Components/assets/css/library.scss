@@ -6726,6 +6726,10 @@ section.verify_email.content_details {
         gap: 10px;
         background: transparent;
         font-weight: 500;
+        &.btn-filled{
+          background-color: vars.$primary-color;
+          color:vars.$white
+        }
 
         &.btn-dashed {
           border: 1px dashed vars.$primary-color;
@@ -13046,7 +13050,19 @@ svg.pencil_icon {
     width: auto;
     flex: 0 0 50%;
   }
-
+  .top-header .top-right-action .action-btn-add button,
+  .top-header .top-right-action .action-btn-add a {
+    height: 32px;
+    padding: 6px 8px;
+  }
+  .top-header .top-right-action .search-bar, .top-header .top-right-action .filter-by, .top-header .top-right-action .clear-search {
+    margin-left: 0px;
+}
+.top-right-action .filter-by .dropdown {
+  min-width: 111px;
+  padding: 6px 8px;
+  line-height: 1;
+}
   .custom-change.licence-renew .library-content-box-layuot .data-collected .data-main-box ul li h6.tab-content-title {
     flex: 0 0 auto;
     font-size: 13px;

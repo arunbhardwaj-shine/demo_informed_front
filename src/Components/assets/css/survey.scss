@@ -1952,30 +1952,45 @@ span {
               @media only screen and (max-width:1640px){
                 .mailbox-buttons-list{
                   gap: 8px;
-                  button{
-                    padding: 5px 7px;
-                    min-width: 72px;
-                    font-size: 13px;
-                    line-height: 19px;
-                  }
+                }
+                button{
+                  padding: 5px 7px;
+                  min-width: 72px;
+                  font-size: 13px;
+                  line-height: 19px;
                 }
               }
               @media only screen and (max-width:1400px){
                 .mailbox-buttons-list{
                   gap: 6px;
-                  button{
-                    min-width: 67px;
-                  }
+                }
+                button{
+                  min-width: 67px;
                 }
               }
                @media only screen and (max-width:1365px){
                 .mailbox-buttons-list{
                   gap: 4px;
-                  button{
-                  font-size: 12px;
-                  line-height: 15px;
-                  min-width: 65px;
-                  }
+                }
+                button{
+                font-size: 12px;
+                line-height: 15px;
+                min-width: 65px;
+                }
+              }
+              @media only screen and (max-width:1279px){
+                .mailbox-buttons-list{
+                  gap: 4px;
+                }
+                button{
+                font-size: 10px;
+                min-width: 60px;
+                }
+              }
+               @media only screen and (max-width:1199px){
+                button{
+                font-size: 14px;
+                min-width: 60px;
                 }
               }
             }
