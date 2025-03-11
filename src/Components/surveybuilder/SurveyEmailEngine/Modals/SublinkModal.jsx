@@ -226,25 +226,24 @@ const SublinkModal = ({
           <Form.Group className="input-group d-flex mb-2">
             
             <div className="tags_added">
-              <ul>
-              {finalTags.length > 0 ? (
-                    finalTags.map((tags, index) => (
-                      <li className="list1" key={index}>
-                        {tags.innerHTML || tags}{" "}
-                        <img
-                          src={`${path_image}filter-close.svg`}
-                          alt="Close-filter"
-                          onClick={() => removeTag(index)}
-                        />
-                      </li>
-                    ))
-                  ) : (
-                    <p>No topics added yet</p>
-                  )}
+            {finalTags.length > 0 ? (
+            <ul>
+              {finalTags.map((tag, index) => (
+                <li className="list1" key={index}>
+                  {tag.innerHTML || tag}{" "}
+                  <img
+                    src={`${path_image}filter-close.svg`}
+                    alt="Close-filter"
+                    onClick={() => removeTag(index)}
+                  />
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p>No topics added yet</p>
+          )}
 
-
-               
-              </ul>
+             
             </div>
             <div className="input-group-prepend">
               <Button className="btn-bordered" onClick={handleShow}>

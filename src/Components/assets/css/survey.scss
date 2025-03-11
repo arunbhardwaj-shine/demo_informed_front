@@ -230,6 +230,13 @@ span {
                   .mail-box-content{
                     margin-top: 16px;
                   }
+                  .not-found{
+                    height:180px;
+                    @include m.flex-middle;
+                    color:#97B6CF;
+                    font-size: 20px;
+                    font-weight: 300;
+                  }
                 }
               }
             }
