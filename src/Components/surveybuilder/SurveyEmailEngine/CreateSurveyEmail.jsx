@@ -321,6 +321,10 @@ const submitHandler = (event) => {
     })
   }
 
+  const handleBackClick = () => {
+    navigate("/survey/email");
+  }
+
 
 
 
@@ -333,7 +337,7 @@ const submitHandler = (event) => {
               <div className="row justify-content-end align-items-center">
                 <div className="col-12 col-md-1">
                   <div className="header-btn-left">
-                  <button className="btn btn-primary btn-bordered back" >
+                  <button className="btn btn-primary btn-bordered back" onClick={handleBackClick}>
                        Back
                     </button>
 
