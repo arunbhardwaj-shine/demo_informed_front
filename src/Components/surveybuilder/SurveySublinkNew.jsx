@@ -1336,7 +1336,7 @@ const SurveySublink = () => {
                                                       margin: "10 auto",
                                                       justifyContent: "center",
                                                       display: "flex",
-                                                      height: 386,
+                                                      height: 180,
                                                     }}
                                                   >
                                                     <Spinner
@@ -1766,7 +1766,7 @@ const SurveySublink = () => {
                                                       );
                                                     }
                                                   )
-                                                ) : "Please create First sublink "}
+                                                ) : <div className="not-found">Please create First sublink</div>}
                                               </Accordion.Body>
                                             </Accordion.Item>
                                           </div>

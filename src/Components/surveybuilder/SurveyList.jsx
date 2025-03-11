@@ -665,7 +665,7 @@ const SurveyList = (props) => {
                                         Create Survey
                                         <img src={`${path_image}add-icon.png`} alt="" />
                                       </Button>
-                                      <Button className={`btn-white ${deletestatus ? "disabled" : ""}`} onClick={showSurveyEditButtons}>
+                                      <Button className={`${!editSurvey ? "btn-white" : "btn-filled"} ${deletestatus ? "disabled" : ""}`} onClick={showSurveyEditButtons}>
                                       {!editSurvey ? (
                                               <>Edit survey <img src={`${path_image}edit-button.svg`} alt="" /></>
                                             ) : (
