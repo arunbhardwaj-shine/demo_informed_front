@@ -1101,7 +1101,7 @@ const VerifyHcpMAIL = (props) => {
                                       <div className="mailbox-tags">
                                         {
                                           getSurveyData?.tags?.length == 0 ? 
-                                          'N/A'
+                                            <ul><li>N/A</li></ul>
                                           : 
                                           <ul>
                                             {
@@ -1144,7 +1144,7 @@ const VerifyHcpMAIL = (props) => {
                                           </tr>
                                           <tr>
                                             <th>Last email</th>
-                                            <td>20 May.2025 | 2:00 PM</td>
+                                            <td>{getSurveyData?.lastEmailSent}</td>
                                           </tr>
                                           <tr>
                                             <th>Link  <img src={path_image + "info_circle_icon.svg"}  alt=""/></th>

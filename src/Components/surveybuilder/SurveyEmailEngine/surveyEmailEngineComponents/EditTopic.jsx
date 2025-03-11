@@ -24,7 +24,7 @@ const TopicModals = ({
 
 
 }) => {
-    console.log("from edit topic")
+ 
 
   const {ADD_SURVEY_SUBLINK_TAGS,GET_SURVEY_SUBLINK_TAGS,UPDATE_SURVEY_SUBLINK_TAGS}=surveyEndpoints;
 
@@ -117,10 +117,9 @@ useEffect(() => {
       } catch (err) {
         toast.error("Something went wrong");
       }
-      if (!Array.isArray(isData)) {
-        console.error("isData is not an array:", isData);
-        return;
-      }
+     
+
+   
  
     // const tags = isData.filter((data) => currentEditTopicId == data.survey_id).[0].tags.parse() ;
 
@@ -173,7 +172,7 @@ useEffect(() => {
   
         const saveButtonClicked = async () => {
 
-          if(edit){
+        //   if(edit){
             let prev_tags = finalTags;
             let new_tags = prev_tags.concat(tagClickedFirst);
             const uniqueTags = new_tags.filter((x, i, a) => a.indexOf(x) === i);
@@ -182,18 +181,22 @@ useEffect(() => {
 
               try {
                 loader("show")
-              //  console.log(subLinkData)
-               const res= await surveyAxiosInstance.post(UPDATE_SURVEY_SUBLINK_TAGS,{tags : uniqueTags, sublink_id : editTopic })
+          
+            //   const res= await surveyAxiosInstance.post(UPDATE_SURVEY_SUBLINK_TAGS,{tags : uniqueTags, sublink_id : editTopic })
 
-            //    setSubLinkData(prevData =>
+            //    setIsData(prevData =>
             //     prevData.map(item =>
-            //         item.sublink_id === editTopic ? { ...item, tags: uniqueTags } : item
+            //         item.survey_id === currentEditTopicId ? { ...item, tags: JSON.stringify(uniqueTags) } : item
             //     )
             // );
-
-         
-
-
+            setIsData(prevData =>
+                prevData.map(item =>
+                    Number(item.survey_id) === Number(currentEditTopicId)
+                        ? { ...item, tags: typeof uniqueTags === "string" ? uniqueTags : JSON.stringify(uniqueTags) }
+                        : item
+                )
+            );
+            
                 loader("hide")
               } catch (error) {
                 loader("hide")
@@ -202,28 +205,29 @@ useEffect(() => {
             }
             setFinalTags(uniqueTags);
 
-          }else{
+        //   }
+        // else{
 
-            if (finalTags.length == 0 && tagClickedFirst.length == 0) {
-              toast.error("No Topic selected");
-              return;
-            }
-            if (typeof finalTags != "undefined" && finalTags.length > 0) {
-              let prev_tags = finalTags;
-              let new_tags = prev_tags.concat(tagClickedFirst);
-              const uniqueTags = new_tags.filter((x, i, a) => a.indexOf(x) === i);
+        //     if (finalTags.length == 0 && tagClickedFirst.length == 0) {
+        //       toast.error("No Topic selected");
+        //       return;
+        //     }
+        //     if (typeof finalTags != "undefined" && finalTags.length > 0) {
+        //       let prev_tags = finalTags;
+        //       let new_tags = prev_tags.concat(tagClickedFirst);
+        //       const uniqueTags = new_tags.filter((x, i, a) => a.indexOf(x) === i);
   
             
   
   
-              setFinalTags(uniqueTags);
+        //       setFinalTags(uniqueTags);
                
-            } else {
-              setFinalTags(tagClickedFirst);
+        //     } else {
+        //       setFinalTags(tagClickedFirst);
              
-            }
+        //     }
 
-          }
+        //   }
          
           handleClose();
         };

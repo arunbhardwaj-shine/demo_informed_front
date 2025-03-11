@@ -1215,7 +1215,7 @@ const [showEditTopicModal,setShowEditTopicModal]=useState(false)
                                                 Last email
                                               </h6>
                                               <h6>{
-                                                data?.createdDate
+                                                data?.lastEmailSent
                                               }</h6>
                                             </li>
                                           </ul>
