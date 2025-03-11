@@ -18,7 +18,7 @@ const SublinkModal = ({
   type
 }) => {
   let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
-    const {FETCH_ALL_TAGS,INSERT_SUBLINK_INFORMATION }=surveyEndpoints;
+    const {FETCH_ALL_TAGS,INSERT_SUBLINK_INFORMATION ,GET_SURVEY_SUBLINK_TAGS}=surveyEndpoints;
   const [show, setShow] = useState(false);
   const [modalCounter, setModalCounter] = useState(0);
   const [finalTags, setFinalTags] = useState([]);
@@ -44,7 +44,7 @@ const SublinkModal = ({
        
 
       await surveyAxiosInstance
-        .get("survey/get-survey-sublink-tags" )
+        .get(GET_SURVEY_SUBLINK_TAGS )
         .then((res) => {
           setAllTags(res?.data?.data);
         })

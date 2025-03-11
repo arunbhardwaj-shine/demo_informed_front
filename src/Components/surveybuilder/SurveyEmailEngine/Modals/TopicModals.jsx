@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
  
 import { surveyAxiosInstance } from '../../CommonFunctions/CommonFunction';
 import { useEffect } from 'react';
+import { surveyEndpoints } from '../../SurveyEndpoints/SurveyEndpoints';
 
 const TopicModals = ({
         show ,
@@ -32,7 +33,8 @@ const TopicModals = ({
 
 }) => {
 
-
+  const {ADD_SURVEY_SUBLINK_TAGS,GET_SURVEY_SUBLINK_TAGS,UPDATE_SURVEY_SUBLINK_TAGS}=surveyEndpoints;
+ 
     let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
   
       const newTagChanged = (e) => {
@@ -50,18 +52,19 @@ const TopicModals = ({
           if (typeof newTag == "undefined" || newTag.trim().length === 0) {
             setError((prev) => ({
               ...prev,
-              newTag: "Please enter a tag",
+              newTag: "Please enter a topic",
             }));
           } else {
             try {
                 loader("show")
-                await surveyAxiosInstance.post("survey/add-survey-sublink-tag",{tags : newTag })
+                await surveyAxiosInstance.post(ADD_SURVEY_SUBLINK_TAGS,{tags : newTag })
                 loader("hide")
             } catch (error) {
                 console.log(error);
 
                 loader("hide")
                 toast.error("Failed to add tag.");
+
                 return ;
                 
             }
@@ -90,7 +93,7 @@ const TopicModals = ({
               setTagClickedFirst((oldArray) => [...oldArray, newTag]);
               setAllTags((oldArray) => [...oldArray, newTag]);
             } else {
-              toast.error("Tag already in list.");
+              toast.error("Topic already in list.");
             }
             setNewTag("");
             setTagsCounter(tagsCounter + 1);
@@ -98,20 +101,59 @@ const TopicModals = ({
         };
 
 
-        useEffect(()=>{
-console.log(edit,subLinkData,editTopic)
-          if(edit){
-            const tags=subLinkData.filter((data)=>{
+//         useEffect(async()=>{
+// console.log(edit,subLinkData,editTopic)
+//           if(edit){
 
-              return data.sublink_id == editTopic;
+//             await surveyAxiosInstance
+//                     .get(GET_SURVEY_SUBLINK_TAGS )
+//                     .then((res) => {
+//                       setAllTags(res?.data?.data);
+//                     })
+//                     .catch((err) => {
+//                       toast.error("Something went wrong");
+//                     });
 
-            })
-            setAllTags(structuredClone(tags[0].tags))
-            setTagClickedFirst(structuredClone(tags[0].tags));
-            setFinalTags(structuredClone(tags[0].tags))
-          }
 
-        },[])
+//             const tags=subLinkData.filter((data)=>{
+
+//               return data.sublink_id == editTopic;
+
+//             })
+//            // setAllTags(structuredClone(tags[0].tags))
+//             setTagClickedFirst(structuredClone(tags[0].tags));
+//             setFinalTags(structuredClone(tags[0].tags))
+//           }
+
+//         },[])
+
+useEffect(() => {
+  const fetchTags = async () => {
+    console.log(edit, subLinkData, editTopic);
+
+    if (edit) {
+      try {
+        const res = await surveyAxiosInstance.get(GET_SURVEY_SUBLINK_TAGS);
+        setAllTags(res?.data?.data);
+      } catch (err) {
+        toast.error("Something went wrong");
+      }
+
+      const tags = subLinkData.filter((data) => data.sublink_id === editTopic);
+
+      if (tags.length > 0 && tags[0].tags) {
+        const clonedTags = structuredClone(tags[0].tags);
+        setTagClickedFirst(clonedTags);
+        setFinalTags(clonedTags);
+      } else {
+        console.warn("Tags not found for editTopic:", editTopic);
+      }
+    }
+  };
+
+  fetchTags();
+}, [ ]); // Include dependencies
+
 
 
 
@@ -124,7 +166,7 @@ console.log(edit,subLinkData,editTopic)
           if (!tagClickedFirst.includes(dd)) {
             setTagClickedFirst((oldArray) => [...oldArray, dd]);
           } else {
-            toast.error("Tag already in list.");
+            toast.error("Topic already in list.");
           }
         };
   
@@ -142,21 +184,18 @@ console.log(edit,subLinkData,editTopic)
   
   
         const saveButtonClicked = async () => {
-          if (finalTags.length == 0 && tagClickedFirst.length == 0) {
-            toast.error("No tags selected");
-            return;
-          }
-          if (typeof finalTags != "undefined" && finalTags.length > 0) {
+
+          if(edit){
             let prev_tags = finalTags;
             let new_tags = prev_tags.concat(tagClickedFirst);
             const uniqueTags = new_tags.filter((x, i, a) => a.indexOf(x) === i);
 
-            if(edit){
+         
 
               try {
                 loader("show")
                 console.log(subLinkData)
-               const res= await surveyAxiosInstance.post("survey/update-sublink-tag",{tags : uniqueTags, sublink_id : editTopic })
+               const res= await surveyAxiosInstance.post(UPDATE_SURVEY_SUBLINK_TAGS,{tags : uniqueTags, sublink_id : editTopic })
 
                setSubLinkData(prevData =>
                 prevData.map(item =>
@@ -173,18 +212,34 @@ console.log(edit,subLinkData,editTopic)
                 console.log(error);
 
             }
-          }
+          
 
 
             setFinalTags(uniqueTags);
+
+          }else{
+
+            if (finalTags.length == 0 && tagClickedFirst.length == 0) {
+              toast.error("No Topic selected");
+              return;
+            }
+            if (typeof finalTags != "undefined" && finalTags.length > 0) {
+              let prev_tags = finalTags;
+              let new_tags = prev_tags.concat(tagClickedFirst);
+              const uniqueTags = new_tags.filter((x, i, a) => a.indexOf(x) === i);
+  
+            
+  
+  
+              setFinalTags(uniqueTags);
+               
+            } else {
+              setFinalTags(tagClickedFirst);
              
-          } else {
-            setFinalTags(tagClickedFirst);
-            // setformData((prev) => ({
-            //   ...prev,
-            //   surveyFinalTags: tagClickedFirst,
-            // }));
+            }
+
           }
+         
           handleClose();
         };
   
