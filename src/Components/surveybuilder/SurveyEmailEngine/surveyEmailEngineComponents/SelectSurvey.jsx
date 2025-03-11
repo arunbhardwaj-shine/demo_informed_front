@@ -132,7 +132,7 @@ const SelectSurvey = ({ SendListData, setSendListData, handlePdfSelection, setCu
                           </tr>
                           <tr>
                             <th>Last email</th>
-                            <td>20 May.2025 | 2:00 PM</td>
+                            <td>{data.lastEmailSent}</td>
                           </tr>
                         </tbody>
                       </table>
