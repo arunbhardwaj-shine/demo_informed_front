@@ -6788,12 +6788,21 @@ section.verify_email.content_details {
   @media (max-width:1365px) {
     .top-right-action {
       .action-btn-add {
+        gap: 0 10px;
         button {
-          padding: 6px 18px;
-          height: 36px;
+          padding: 6px 14px;
           font-size: 13px;
+          img{
+            width:16px;
+          }
         }
       }
+      .search-bar {
+        margin-left: 10px;
+      }
+      .filter-by, .clear-search {
+        margin-left: 10px;
+    }
     }
   }
 
@@ -12815,6 +12824,11 @@ svg.pencil_icon {
   .sublink_right_block .loader-view {
     width: 60px;
     height: 60px;
+  }
+  .top-header .top-right-action .action-btn-add button,
+  .top-header .top-right-action .action-btn-add a {
+    height: 35px;
+    padding: 8px 14px;
   }
   .preview_content .info_btn .btn.btn-bordered {
     min-width: 100px;
