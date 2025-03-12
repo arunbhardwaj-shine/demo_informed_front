@@ -11,13 +11,14 @@ import { toast } from "react-toastify";
 import { surveyAxiosInstance } from "./CommonFunctions/CommonFunction";
 import { surveyEndpoints } from "./SurveyEndpoints/SurveyEndpoints";
 import { useSelector } from "react-redux";
+import { ENDPOINT } from "../../axios/apiConfig";
 
 var surveySetupData = {};
 
 const SurveySetup = (props) => {
   const {currentStep}=useSelector((state)=>state.surveyStepReducer);
   let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
-  const {FETCH_ALL_TAGS,INSERT_SURVEY_CREATOR,GET_CREATOR}=surveyEndpoints;
+  const {FETCH_ALL_TOPICS,INSERT_SURVEY_CREATOR,GET_CREATOR}=surveyEndpoints;
   const [isSelected, setIsSelected] = useState(false);
   const [show, setShow] = useState(false);
   const [modalCounter, setModalCounter] = useState(0);
@@ -146,7 +147,7 @@ const SurveySetup = (props) => {
       loader("show");
 
       await surveyAxiosInstance
-        .post(FETCH_ALL_TAGS/*, body*/)
+        .post(FETCH_ALL_TOPICS)
         .then((res) => {
           setAllTags(res?.data?.data);
           loader("hide");
@@ -304,7 +305,7 @@ const SurveySetup = (props) => {
     if (!tagClickedFirst.includes(dd)) {
       setTagClickedFirst((oldArray) => [...oldArray, dd]);
     } else {
-      toast.error("Tag already in list.");
+      toast.error("Topic already in list.");
     }
   };
 
@@ -340,7 +341,7 @@ const SurveySetup = (props) => {
     if (typeof newTag == "undefined" || newTag.trim().length === 0) {
       setError((prev) => ({
         ...prev,
-        newTag: "Please enter a tag",
+        newTag: "Please enter a Topic",
       }));
     } else {
       let temp_tags = tagClickedFirst.map((data) => {
@@ -361,10 +362,27 @@ const SurveySetup = (props) => {
         !temp_tags.includes(newTag.toLowerCase()) &&
         !alltemp_tags.includes(newTag.toLowerCase())
       ) {
+
+          try {
+                loader("show");
+                await surveyAxiosInstance.post(ENDPOINT.ADD_SPC_PRODUCT, {
+                  user_id: localStorage.getItem("user_id"),
+                  product: newTag?.trim(),
+                  category: 0,
+                  type: 2,
+                });
+                loader("hide");
+               // initFun();
+              } catch (err) {
+                loader("hide");
+              }
+
+
+
         setTagClickedFirst((oldArray) => [...oldArray, newTag]);
         setAllTags((oldArray) => [...oldArray, newTag]);
       } else {
-        toast.error("Tag already in list.");
+        toast.error("Topic already in list.");
       }
       setNewTag("");
       setTagsCounter(tagsCounter + 1);
@@ -373,7 +391,7 @@ const SurveySetup = (props) => {
 
   const saveButtonClicked = () => {
     if (finalTags.length == 0 && tagClickedFirst.length == 0) {
-      toast.error("No tags selected");
+      toast.error("No topics selected");
       return;
     }
     if (typeof finalTags != "undefined" && finalTags.length > 0) {
@@ -507,7 +525,7 @@ const SurveySetup = (props) => {
                   <div className="input-group d-flex w-100">
                     <div className="input-group-prepend">
                       <Button className="btn-filled" onClick={handleShow}>
-                        Add Tag +
+                        Add Topics +
                       </Button>
                     </div>
                     <div className="tags_added">
@@ -590,7 +608,7 @@ const SurveySetup = (props) => {
       >
         <Modal.Header>
           <h5 className="modal-title" id="staticBackdropLabel">
-            Add Tags
+            Add Topics
           </h5>
           <button
             type="button"
@@ -602,7 +620,7 @@ const SurveySetup = (props) => {
         </Modal.Header>
         <Modal.Body>
           <div className="select-tags">
-            <h6>Select Tag :</h6>
+            <h6>Select Topics :</h6>
             <div className="tag-lists">
               <div className="tag-lists-view">
                 {allTags
@@ -617,7 +635,7 @@ const SurveySetup = (props) => {
           </div>
           <div className="selected-tags">
             <h6>
-              Selected Tag <span>| {tagClickedFirst.length}</span>
+              Selected Topics  <span>| {tagClickedFirst.length}</span>
             </h6>
 
             <div className="total-selected">
@@ -637,7 +655,7 @@ const SurveySetup = (props) => {
         <Modal.Footer>
           <form>
             <div className="form-group">
-              <label htmlFor="new-tag">New Tag</label>
+              <label htmlFor="new-tag">New Topic</label>
               <div className="d-flex flex-column align-items-start">
                 <input
                   type="text"
