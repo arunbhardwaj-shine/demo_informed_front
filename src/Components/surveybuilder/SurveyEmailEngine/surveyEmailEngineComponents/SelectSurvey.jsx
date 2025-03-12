@@ -17,6 +17,17 @@ const SelectSurvey = ({ SendListData, setSendListData, handlePdfSelection, setCu
    // setSelectedSublinkId({})
     handlePdfSelection(pdfId)
     setPdfSelected(pdfId);
+    console.log(selectedSublinkId,pdfId)
+ 
+       setCurrentSelectedSublink(selectedSublinkId[pdfId]);
+     
+     
+            // setSelectedSublinkId((prevState) => {
+            //     setCurrentSelectedSublink(prevState[surveyId]);
+            //     return prevState;
+            // });
+        
+    
   };
 
   const showSublinkModal = (id) => {
@@ -24,19 +35,46 @@ const SelectSurvey = ({ SendListData, setSendListData, handlePdfSelection, setCu
     setCreateNewLink(true);
   };
 
- 
+  
 
-  const onSublinkChange = (surveyId, selectedOption) => {
-    setSelectedSublinkId((prevState) => ({
-      ...prevState,  // Keep previous selections
-      [surveyId]: selectedOption ? selectedOption.value : null,
-    }));
+const onSublinkChange = (surveyId, selectedOption) => {
+    const updatedSublinkId = selectedOption ? selectedOption.value : null;
+
+    setSelectedSublinkId((prevState) => {
+        const newState = { ...prevState, [surveyId]: updatedSublinkId };
+        return newState;
+    });
 
     if (PdfSelected == surveyId) {
-      setCurrentSelectedSublink(selectedOption?.value);
+   
+     setCurrentSelectedSublink(selectedOption?.value);
     }
 
-  };
+    
+   
+};
+
+
+
+ 
+
+  // const onSublinkChange = (surveyId, selectedOption) => {
+  //   console.log(surveyId, selectedOption)
+
+  //   setSelectedSublinkId((prevState) => ({
+  //     ...prevState,   
+  //     [surveyId]: selectedOption ? selectedOption.value : null,
+  //   }));
+
+  //   console.log(selectedSublinkId)
+
+    // if (PdfSelected == surveyId) {
+    //   //console.log(selectedSublinkId)
+    //   //  setCurrentSelectedSublink(selectedSublinkId.surveyId);
+    //  setCurrentSelectedSublink(selectedOption?.value);
+    // }
+
+  // };
 
 
   return (
@@ -218,11 +256,37 @@ const SelectSurvey = ({ SendListData, setSendListData, handlePdfSelection, setCu
 
                    
                             <div className="mail-content-footer">
-                              <a href={`https://survey.docintel.app/survey?Utmde=${data?.unique_code}`} target="_blank">
+
+                            {selectedSublinkId[data.survey_id] ? (
+                                    <a 
+                                      href={`https://survey.docintel.app/survey?Utmde=${
+                                        data.subLinkData.find(item => item.sublink_id === selectedSublinkId[data.survey_id])?.unique_code  
+                                      }`} 
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                    >
+                                      <button className="btn btn-primary btn-filled">
+                                        Preview
+                                      </button>
+                                    </a>
+                                  ) : (
+                                    <a 
+                                      href={`https://survey.docintel.app/survey?Utmde=${data.unique_code}`}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                    >
+                                      <button className="btn btn-primary btn-filled">
+                                        Preview
+                                      </button>
+                                    </a>
+                                  )}
+
+                              
+                              {/* <a href={`https://survey.docintel.app/survey?Utmde=${data?.unique_code}`} target="_blank">
                                 <button className="btn btn-primary btn-filled">
                                   Preview
                                 </button>
-                              </a>
+                              </a> */}
                           </div>
                   </div>
                   </div>

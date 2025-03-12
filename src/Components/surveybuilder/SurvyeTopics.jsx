@@ -245,7 +245,7 @@ const submitHandler = (e) => {
                     <input
                       className="form-control me-2"
                       type="search"
-                      placeholder="Search by survey title"
+                      placeholder="Search by topic  "
                       aria-label="Search"
                       id="email_search"
                      onChange={(e) => searchChange(e)}
