@@ -162,15 +162,22 @@ const SmartListLayout = ({data,deletestatus,callLinkClickFun,iseditshow,isviewsh
                                         : null
                                     }
                                     {
-                                        isviewshow ? 
-                                        <button className="btn btn-primary btn-filled view" onClick={() => {
-                                            viewSmartList(data.id)
-                                        }}>
-                                            <a >
-                                                View
-                                            </a>
-                                        </button>
-                                        : null
+                                        isviewshow && (
+                                            layout !== '' ? (
+                                                <Link
+                                                    className="btn btn-primary btn-bordered edit_list"
+                                                    to={{
+                                                    pathname: webinarFlag == 1 ? "/webinar/email/smartlist/viewlist": (type == "survey" ? "/survey/ViewSmartList" : "/ViewSmartList"),
+                                                    search: "?listId=" + data.id,
+                                                    }}
+                                                    onClick={() => linkClicked(data.id)}
+                                                >View</Link>
+                                            ) : (
+                                                <button className="btn btn-primary btn-filled view" onClick={() => viewSmartList(data.id)}>
+                                                    <a>View</a>
+                                                </button>
+                                            )
+                                        )
                                     }
                                 </>
                                     )
