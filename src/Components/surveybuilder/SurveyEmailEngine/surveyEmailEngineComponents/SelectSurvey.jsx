@@ -14,18 +14,12 @@ const SelectSurvey = ({ SendListData, setSendListData, handlePdfSelection, setCu
 
   const handleSelect = (e) => {
     let pdfId = e?.target?.value === PdfSelected ? 0 : e?.target?.value;
-   // setSelectedSublinkId({})
+ 
     handlePdfSelection(pdfId)
     setPdfSelected(pdfId);
-    console.log(selectedSublinkId,pdfId)
+   setCurrentSelectedSublink(selectedSublinkId[pdfId]);
+     
  
-       setCurrentSelectedSublink(selectedSublinkId[pdfId]);
-     
-     
-            // setSelectedSublinkId((prevState) => {
-            //     setCurrentSelectedSublink(prevState[surveyId]);
-            //     return prevState;
-            // });
         
     
   };
@@ -58,23 +52,7 @@ const onSublinkChange = (surveyId, selectedOption) => {
 
  
 
-  // const onSublinkChange = (surveyId, selectedOption) => {
-  //   console.log(surveyId, selectedOption)
-
-  //   setSelectedSublinkId((prevState) => ({
-  //     ...prevState,   
-  //     [surveyId]: selectedOption ? selectedOption.value : null,
-  //   }));
-
-  //   console.log(selectedSublinkId)
-
-    // if (PdfSelected == surveyId) {
-    //   //console.log(selectedSublinkId)
-    //   //  setCurrentSelectedSublink(selectedSublinkId.surveyId);
-    //  setCurrentSelectedSublink(selectedOption?.value);
-    // }
-
-  // };
+ 
 
 
   return (

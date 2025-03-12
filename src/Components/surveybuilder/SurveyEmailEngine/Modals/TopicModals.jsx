@@ -173,7 +173,7 @@ useEffect(() => {
 
               try {
                 loader("show")
-                console.log(subLinkData)
+               
                const res= await surveyAxiosInstance.post(UPDATE_SURVEY_SUBLINK_TAGS,{tags : uniqueTags, sublink_id : editTopic })
 
                setSubLinkData(prevData =>
