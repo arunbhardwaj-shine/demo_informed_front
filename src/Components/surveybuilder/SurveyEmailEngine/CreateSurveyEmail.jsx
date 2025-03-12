@@ -369,7 +369,7 @@ const submitHandler = (event) => {
                   <div className="header-btn">
                     <button
                       className="btn btn-primary btn-bordered cancel"
-                      //   onClick={cancelClicked}
+                      onClick={handleBackClick}
                     >
                       Cancel
                     </button>
