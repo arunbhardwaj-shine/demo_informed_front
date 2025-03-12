@@ -162,7 +162,7 @@ const SmartListLayout = ({data,deletestatus,callLinkClickFun,iseditshow,isviewsh
                                         : null
                                     }
                                     {
-                                        isviewshow && (
+                                        isviewshow && !iseditshow && (
                                             layout !== '' ? (
                                                 <Link
                                                     className="btn btn-primary btn-bordered edit_list"
