@@ -1755,7 +1755,7 @@ const [showEditTopicModal,setShowEditTopicModal]=useState(false)
         includeMargin={true}
       />
 
-      {showEditTopicModal && <EditTopic showEditTopicModal={showEditTopicModal} setShowEditTopicModal={setShowEditTopicModal} currentEditTopicId={currentEditTopicId} isData={isData} setIsData={isData} />}
+      {showEditTopicModal && <EditTopic showEditTopicModal={showEditTopicModal} setShowEditTopicModal={setShowEditTopicModal} currentEditTopicId={currentEditTopicId} isData={isData}  setIsData={setIsData} />}
     
 
     </>
