@@ -41,7 +41,7 @@ const template = {
   9: ["header"],
   10: ["logo", "header", "footer"],
   11: ["logo", "header", "footer"],
-  13: ["templateOne"],
+  13: ["templateOne", "templateTwo"],
 };
 const WebinarRegistration = () => {
   const { eventIdContext } = useSidebar();
@@ -3313,7 +3313,7 @@ const WebinarRegistration = () => {
                           "templateOne"
                         ) ? (
                           <div className="form-group d-flex align-items-center less-spacer">
-                            <label>Upload First Template</label>
+                            <label>Upload First Logo</label>
                             <div
                               className="logo-section"
                             // onClick={(e) => handleFileSelect(e, "logoImageUrl")}
@@ -3388,7 +3388,7 @@ const WebinarRegistration = () => {
                           "templateTwo"
                         ) ? (
                           <div className="form-group d-flex align-items-center less-spacer">
-                            <label>Upload Second Template</label>
+                            <label>Upload Second Logo</label>
                             <div
                               className="logo-section"
                             // onClick={(e) => handleFileSelect(e, "logoImageUrl")}
