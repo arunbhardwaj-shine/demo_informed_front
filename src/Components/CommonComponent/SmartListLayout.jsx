@@ -134,7 +134,7 @@ const SmartListLayout = ({data,deletestatus,callLinkClickFun,iseditshow,isviewsh
                                         <>
                                             {data?.upload_by_filter == 1 ? (
                                             <Link
-                                                className="btn btn-primary btn-bordered edit_list"
+                                                className="btn btn-primary btn-filled edit_list"
                                                 to={{
                                                     pathname: webinarFlag == 1 
                                                     ? "/webinar/email/smartlist/editlist" 
@@ -148,7 +148,7 @@ const SmartListLayout = ({data,deletestatus,callLinkClickFun,iseditshow,isviewsh
                                             </Link>
                                             ) : (
                                             <Link
-                                                className="btn btn-primary btn-bordered edit_list"
+                                                className="btn btn-primary btn-filled edit_list"
                                                 to={{
                                                 pathname: webinarFlag == 1 ? "/webinar/email/smartlist/viewlist": (type == "survey" ? "/survey/ViewSmartList" : "/ViewSmartList"),
                                                 search: "?listId=" + data.id,
@@ -165,7 +165,7 @@ const SmartListLayout = ({data,deletestatus,callLinkClickFun,iseditshow,isviewsh
                                         isviewshow && !iseditshow && (
                                             layout !== '' ? (
                                                 <Link
-                                                    className="btn btn-primary btn-bordered edit_list"
+                                                    className="btn btn-primary btn-filled  edit_list"
                                                     to={{
                                                     pathname: webinarFlag == 1 ? "/webinar/email/smartlist/viewlist": (type == "survey" ? "/survey/ViewSmartList" : "/ViewSmartList"),
                                                     search: "?listId=" + data.id,
