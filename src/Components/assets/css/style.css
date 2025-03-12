@@ -9801,7 +9801,7 @@ section.search-hcp.smart-list-view .header-btn-left {
 }
 
 .smartlist-result-block .mail_trigger_right_dummy {
-  /* flex: 1 1; */
+  flex: 1 1;
   padding-right: 0%;
 }
 
