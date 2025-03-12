@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 import { surveyAxiosInstance } from '../../CommonFunctions/CommonFunction';
 import { useEffect } from 'react';
 import { surveyEndpoints } from '../../SurveyEndpoints/SurveyEndpoints';
+import { ENDPOINT } from '../../../../axios/apiConfig';
 
 const TopicModals = ({
         show ,
@@ -33,7 +34,7 @@ const TopicModals = ({
 
 }) => {
 
-  const {ADD_SURVEY_SUBLINK_TAGS,GET_SURVEY_SUBLINK_TAGS,UPDATE_SURVEY_SUBLINK_TAGS}=surveyEndpoints;
+  const {FETCH_ALL_TOPICS,UPDATE_SURVEY_SUBLINK_TAGS}=surveyEndpoints;
 
   
  
@@ -57,19 +58,7 @@ const TopicModals = ({
               newTag: "Please enter a topic",
             }));
           } else {
-            try {
-                loader("show")
-                await surveyAxiosInstance.post(ADD_SURVEY_SUBLINK_TAGS,{tags : newTag })
-                loader("hide")
-            } catch (error) {
-                console.log(error);
-
-                loader("hide")
-                toast.error("Failed to add tag.");
-
-                return ;
-                
-            }
+            
             let temp_tags = tagClickedFirst.map((data) => {
               return data.toLowerCase();
             });
@@ -88,6 +77,22 @@ const TopicModals = ({
               !temp_tags.includes(newTag.toLowerCase()) &&
               !alltemp_tags.includes(newTag.toLowerCase())
             ) {
+
+                try {
+                              loader("show");
+                              await surveyAxiosInstance.post(ENDPOINT.ADD_SPC_PRODUCT, {
+                                user_id: localStorage.getItem("user_id"),
+                                product: newTag?.trim(),
+                                category: 0,
+                                type: 2,
+                              });
+                              loader("hide");
+                             // initFun();
+                            } catch (err) {
+                              loader("hide");
+                            }
+
+
               setTagClickedFirst((oldArray) => [...oldArray, newTag]);
               setAllTags((oldArray) => [...oldArray, newTag]);
             } else {
@@ -107,7 +112,7 @@ useEffect(() => {
 
     if (edit) {
       try {
-        const res = await surveyAxiosInstance.get(GET_SURVEY_SUBLINK_TAGS);
+        const res = await surveyAxiosInstance.post(FETCH_ALL_TOPICS);
         setAllTags(res?.data?.data);
       } catch (err) {
         toast.error("Something went wrong");
@@ -168,7 +173,7 @@ useEffect(() => {
 
               try {
                 loader("show")
-                console.log(subLinkData)
+               
                const res= await surveyAxiosInstance.post(UPDATE_SURVEY_SUBLINK_TAGS,{tags : uniqueTags, sublink_id : editTopic })
 
                setSubLinkData(prevData =>

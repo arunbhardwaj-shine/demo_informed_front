@@ -221,7 +221,7 @@ const submitHandler = (event) => {
                       : 0;
                   return item["is_draft"] == filterValue;
                 } else {
-                  console.log("from else", key , value)
+           
                   return item[key] && item[key].includes(value);
                 }
               } else if (typeof value === "number") { 
@@ -266,19 +266,7 @@ const submitHandler = (event) => {
   };
 
   const getContentData = async (flag, page, value = "") => {
-    // let filterData = { ...filter };
-    // let data =  value?"":filterMandatory
-    // if (isLikeRdAccount&&
-    //   data
-    // ) {
-    //   let obj = {
-    //     Yes: 1,
-    //     No: 0,
-    //     no: 0,
-    //     yes: 1,
-    //   };
-    //   filterData["mandatory_training"] = obj[filterMandatory];
-    // }
+     
 
     const body = {
       survey_id: 0,
@@ -292,10 +280,7 @@ const submitHandler = (event) => {
       if (response.data.status == "success") {
         setSendListData(response.data.data);
         setOriginalSurveyData(response.data.data)
-        // if (flag == 0) {
-        //   setPreviousSendListData(response.data.response.data);
-        //   setFilterData(response.data.response.filter);
-        // }
+       
       }
 
       const filters=await surveyAxiosInstance.get("/survey/survey-filters")
@@ -712,4 +697,4 @@ export default connect(mapStateToProps, {
 })(CreateSurveyEmail);
 
 
-// export default CreateSurveyEmail;
+ 

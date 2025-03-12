@@ -8,7 +8,8 @@ export const surveyEndpoints = {
 
     // Setup Page Data
     GET_CREATOR: "/survey/get-creator",
-    FETCH_ALL_TAGS: "/survey/fetch-All-tags",
+    // FETCH_ALL_TAGS: "/survey/fetch-All-tags",
+    FETCH_ALL_TOPICS: "/library/get-topics",
     INSERT_SURVEY_CREATOR: "/survey/insert-survey-creator",
     FETCH_SAVED_TEMPLATE: "/survey/fetch-saved-template",
     IMAGE_UPLOAD_AWS: "/survey/image-uploadaws",
@@ -36,7 +37,7 @@ export const surveyEndpoints = {
     TAKERS_RESPONSES_DETAIL: "/survey/takers-responses-detail",
     DOWNLOAD_ALL_EXCEL_SHEET:"/survey/get-all-excel-data",
     GET_SURVEY_SUBLINK_TAGS:"/survey/get-survey-sublink-tags",
-    ADD_SURVEY_SUBLINK_TAGS:"/survey/add-survey-sublink-tag",
+   // ADD_SURVEY_SUBLINK_TAGS:"/survey/add-survey-sublink-tag",
     UPDATE_SURVEY_SUBLINK_TAGS:"/survey/update-sublink-tag",
     UPDATE_SURVEY_TOPICS:"/survey/update-survey-topics",
 
