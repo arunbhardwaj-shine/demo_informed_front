@@ -37,6 +37,7 @@ const SmartList = (props) => {
   const [filterapplied, setFilterApply] = useState(false);
   const [getloadmore, setloadmore] = useState(0);
   const [show,setShow] = useState(false)
+  const [editstatus, setEditStatus] = useState(false);
   const [addListOpen, setAddListOpen] = useState(false);
   const [selectedListId, setSelectedListId] = useState(0);
   const [userObj, setUserObj] = useState({
@@ -420,6 +421,26 @@ const SmartList = (props) => {
     setAddListOpen(true);
   }
 
+  const showEditButtons = () => {
+    if (editstatus) {
+      setEditStatus(false);
+    } else {
+      setEditStatus(true);
+    }
+  };
+
+  const EditList = async(data) => {
+    let redirectRoute = '';
+    if(data?.upload_by_filter == 1){
+      const redirectRouteType = "/webinar/email/smartlist/editlist"
+      redirectRoute = redirectRouteType+'?listId='+data?.id;
+    }else{
+      const redirectRouteType = "/webinar/email/smartlist/viewlist";
+      redirectRoute = redirectRouteType+'?listId='+data?.id;
+    }
+    navigate(redirectRoute);
+  }
+
   return (
     <>
       <Col className="right-sidebar custom-change">
@@ -428,14 +449,32 @@ const SmartList = (props) => {
             <div className="top-header sticky">
               <div className="page-title">{/* <h2>Smart List</h2> */}</div>
               <div className="top-right-action">
-              {isLikeRdAccount? (
+              {/* {isLikeRdAccount? ( */}
                 <>
                   <div className="action-btn-add" style={{margin:"0"}}>
-                  <Link  to="/webinar/email/smartlist/createsmartlist"
-                  state={{ creator: getUserDetails?.name }}  className="btn-dashed">Create List <img src={path_image + "add-icon.png"} alt="" /></Link>
+                    <Link  to="/webinar/email/smartlist/createsmartlist"
+                    state={{ creator: getUserDetails?.name }}  className="btn-dashed">Create List <img src={path_image + "add-icon.png"} alt="" /></Link>
                   </div>
+                  {
+                    smartListData?.length > 0 && (
+                      editstatus ? (
+                        <button
+                          className="btn btn-outline-primary cancel"
+                          onClick={(e) => showEditButtons()}
+                        >
+                          Cancel
+                        </button>
+                      ) : (
+                        <button type="button" className={`btn-white btn btn-primary ${deletestatus?"disabled":""}`} onClick={(e) => showEditButtons()}>
+                          Edit Smart List
+                          <img src={path_image + "edit-button.svg"} alt="Edit" />
+                        </button>
+                      )
+                    )
+                  }
                 </>
-                ) : null}
+                {/* ) : null
+              } */}
                 {smartListData !== "undefined" &&
                 smartListData?.length > 0&&(<>
                 <div className="search-bar">
@@ -711,7 +750,7 @@ const SmartList = (props) => {
                     </button>
                   ) : (
                     <button
-                      className={`btn btn-outline-primary ${isRDAccount?"rd":""}`}
+                      className={`btn btn-outline-primary rd ${editstatus?"disabled":""}`}
                       onClick={(e) => showDeleteButtons()}
                     >
                       <svg
@@ -881,12 +920,12 @@ const SmartList = (props) => {
               )}
 
             <div className="smart-list-result">
-              <div className={`col smartlist-result-block new-smartlist ${isRDAccount?"rd":""}`}>
-                {
-                // getfiltername.length == 0 &&
-                //   getFilterCreator.length == 0 &&
-                //   getFilterIbu.length == 0 &&
-                //   filterdate.length == 0 &&
+              <div className={`col smartlist-result-block new-smartlist rd`}>
+                {/* {
+                getfiltername.length == 0 &&
+                  getFilterCreator.length == 0 &&
+                  getFilterIbu.length == 0 &&
+                  filterdate.length == 0 &&
                   !deletestatus && (!isLikeRdAccount && (
                     <div className="smartlist_box_block">
                       <div className="smartlist-add smartlist-view">
@@ -901,7 +940,8 @@ const SmartList = (props) => {
                           </>
                       </div>
                     </div>)
-                  )}
+                  )
+                  } */}
                 {typeof smartListData !== "undefined" &&
                 smartListData.length > 0 ? (
                   smartListData.map((data,index) => {
@@ -913,7 +953,7 @@ const SmartList = (props) => {
                               <h5>{data.name}</h5>
                               <img className="edit-name" src={path_image + "edit-button.svg"} alt="Edit" onClick={()=>handleClick(data,index)} />
                             </div>
-                            <SmartListLayout data= {data} iseditshow={1} isviewshow={1} deletestatus={deletestatus} viewSmartListData = {viewSmartListData}  callLinkClickFun={linkClicked} webinarFlag={1}/>
+                            <SmartListLayout data= {data} iseditshow={editstatus} isviewshow={1} deletestatus={deletestatus} viewSmartListData = {viewSmartListData}  callLinkClickFun={linkClicked} webinarFlag={1} layout={'list'}/>
                             {deletestatus && (
                               <div className="dlt_btn">
                                 <button
@@ -924,6 +964,19 @@ const SmartList = (props) => {
                                   <img
                                     src={path_image + "delete.svg"}
                                     alt="Delete Row"
+                                  />
+                                </button>
+                              </div>
+                            )}
+
+                            {!deletestatus && editstatus && (
+                              <div className="edit_btn">
+                                <button
+                                  onClick={(e) => EditList(data)}
+                                >
+                                  <img
+                                    src={path_image + "edit-button.svg"}
+                                    alt="Edit Row"
                                   />
                                 </button>
                               </div>

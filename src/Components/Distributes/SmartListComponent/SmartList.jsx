@@ -8,6 +8,7 @@ import { getListId } from "../../../actions";
 import { toast } from "react-toastify";
 import { popup_alert } from "../../../popup_alert";
 import Accordion from "react-bootstrap/Accordion";
+import { useNavigate } from "react-router-dom";
 import CommonModel from "../../../Model/CommonModel";
 import SmartListLayout from "../../CommonComponent/SmartListLayout";
 import SmartListTableLayout from "../../CommonComponent/SmartListTableLayout";
@@ -16,7 +17,7 @@ const SmartList = (props) => {
   // const RouteName=
 
   const type= props?.type === "survey" ? "survey" : 0;
-
+  const navigate = useNavigate();
   const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","bWmUjqX7J011   WUTYn9g==","MXl8m36VZFYXpgFVz3Pg0g=="]
   const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
   const [smartListData, setSmartListData] = useState([]);
@@ -25,6 +26,7 @@ const SmartList = (props) => {
   const [search, setSearch] = useState("");
   const [isLoading, setLoading] = useState(true);
   const [deletestatus, setDeleteStatus] = useState(false);
+  const [editstatus, setEditStatus] = useState(false);
   const [confirmationpopup, setConfirmationPopup] = useState(false);
   const [deletecardid, setDeleteCardId] = useState();
   const [filterdata, setFilterData] = useState([]);
@@ -152,6 +154,14 @@ const SmartList = (props) => {
       setDeleteStatus(false);
     } else {
       setDeleteStatus(true);
+    }
+  };
+
+  const showEditButtons = () => {
+    if (editstatus) {
+      setEditStatus(false);
+    } else {
+      setEditStatus(true);
     }
   };
 
@@ -371,6 +381,18 @@ const SmartList = (props) => {
     setSelectedListId(0);
   }
 
+  const EditList = async(data) => {
+    let redirectRoute = '';
+    if(data?.upload_by_filter == 1){
+      const redirectRouteType = type == "survey" ? "/survey/EditList" : "/EditList"
+      redirectRoute = redirectRouteType+'?listId='+data?.id;
+    }else{
+      const redirectRouteType = type == "survey" ? "/survey/ViewSmartList" : "/ViewSmartList";
+      redirectRoute = redirectRouteType+'?listId='+data?.id;
+    }
+    navigate(redirectRoute);
+  }
+
   return (
     <>
       <Col className="right-sidebar custom-change">
@@ -382,8 +404,25 @@ const SmartList = (props) => {
               {/* {isLikeRdAccount ? ( */}
                   <div className="action-btn-add" style={{margin:"0"}}>
                     <Link  to={ type == "survey" ? "/survey/smartlist/createlist" : "/CreateSmartList"}
-                    state={{ creator: getUserDetails?.name }} className="btn-dashed">Create List <img src={path_image + "add-icon.png"} alt="" /></Link>
+                    state={{ creator: getUserDetails?.name }} className="btn-dashed">Create Smart List <img src={path_image + "add-icon.png"} alt="" /></Link>
                   </div>
+                  {
+                    smartListData?.length > 0 && (
+                      editstatus ? (
+                        <button
+                          className="btn btn-outline-primary cancel"
+                          onClick={(e) => showEditButtons()}
+                        >
+                          Cancel
+                        </button>
+                      ) : (
+                        <button type="button" className={`btn-white btn btn-primary ${deletestatus?"disabled":""}`} onClick={(e) => showEditButtons()}>
+                          Edit Smart List
+                          <img src={path_image + "edit-button.svg"} alt="Edit" />
+                        </button>
+                      )
+                    )
+                  }
                 {/* ) : null} */}
                 <div className="search-bar">
                   <form className="d-flex" onSubmit={(e) => submitHandler(e)}>
@@ -660,7 +699,7 @@ const SmartList = (props) => {
                       </button>
                     ) : (
                       <button
-                        className={`btn btn-outline-primary ${isRDAccount?"rd":"rd"}`}
+                        className={`btn btn-outline-primary rd ${editstatus?"disabled":""}`}
                         onClick={(e) => showDeleteButtons()}
                       >
                         <svg
@@ -832,7 +871,7 @@ const SmartList = (props) => {
 
             <div className="smart-list-result">
               <div
-               className={`col smartlist-result-block new-smartlist ${isRDAccount?"rd":"rd"}`}
+               className={`col smartlist-result-block new-smartlist rd`}
               >
                 {/* {
                   getfiltername.length == 0 &&
@@ -867,7 +906,7 @@ const SmartList = (props) => {
                                 <h5>{data.name}</h5>
                                 <img className="edit-name" src={path_image + "edit-button.svg"} alt="Edit" onClick={()=>handleClick(data,index)} />
                           </div>
-                            <SmartListLayout data= {data} deletestatus={deletestatus} callLinkClickFun={linkClicked} iseditshow={1} isviewshow={1} viewSmartListData = {viewSmartListData} type={type} />
+                            <SmartListLayout data= {data} deletestatus={deletestatus} callLinkClickFun={linkClicked} iseditshow={editstatus} isviewshow={1} viewSmartListData = {viewSmartListData} type={type} layout={'list'}/>
                             {deletestatus && (
                               <div className="dlt_btn">
                                 <button
@@ -878,6 +917,19 @@ const SmartList = (props) => {
                                   <img
                                     src={path_image + "delete.svg"}
                                     alt="Delete Row"
+                                  />
+                                </button>
+                              </div>
+                            )}
+
+                            {!deletestatus && editstatus && (
+                              <div className="edit_btn">
+                                <button
+                                  onClick={(e) => EditList(data)}
+                                >
+                                  <img
+                                    src={path_image + "edit-button.svg"}
+                                    alt="Edit Row"
                                   />
                                 </button>
                               </div>
