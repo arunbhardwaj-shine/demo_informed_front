@@ -6711,9 +6711,9 @@ section.verify_email.content_details {
 
   .top-right-action {
     .action-btn-add {
-      margin-right: 24px;
+      margin-right: 20px;
       @include m.flex-middle;
-      gap: 0 22px;
+      gap: 0 20px;
 
       button,
       a {
@@ -8026,7 +8026,7 @@ input.viewer-toolbar-current-page-input {
     .search-bar,
     .filter-by,
     .clear-search {
-      margin-left: 22px;
+      margin-left: 20px;
     }
 
   }
@@ -8035,7 +8035,7 @@ input.viewer-toolbar-current-page-input {
 
 .top-right-action {
   .search-bar {
-    margin-left: 22px;
+    margin-left: 20px;
   }
 }
 

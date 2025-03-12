@@ -602,7 +602,7 @@ nav #collapsibleNavbar .nav-item.user-login .dropdown .dropdown-menu a:hover {
 
 .filter-by,
 .clear-search {
-  margin-left: 24px;
+  margin-left: 20px;
 }
 
 .licence-renew .clear-search {
@@ -1691,7 +1691,7 @@ nav #collapsibleNavbar .nav-item.user-login .dropdown .dropdown-menu a:hover {
   border-top: 0.5px dashed var(--light-blue);
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   padding-top: 13px;
 }
 
