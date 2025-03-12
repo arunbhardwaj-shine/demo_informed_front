@@ -947,7 +947,9 @@ nav #collapsibleNavbar .nav-item.user-login .dropdown .dropdown-menu a:hover {
   text-align: center;
   border-radius: 50%;
 }
-
+.dlt_btn button img{
+  width: 20px;
+}
 .rd .dlt_btn button {
   background: var(--violet);
 }
@@ -963,11 +965,6 @@ nav #collapsibleNavbar .nav-item.user-login .dropdown .dropdown-menu a:hover {
 .rd .dlt_btn.edit button:hover {
   background: var(--dark-blue);
 }
-
-.dlt_btn button img {
-  width: 20px;
-}
-
 .email-result-block .email-block-add-box,
 .email-result-block .email_box_block {
   width: 33.3%;
@@ -7020,6 +7017,10 @@ h2 {
   background: transparent;
   color: var(--light-blue);
 }
+.smartlist-buttons .btn.btn-primary.btn-filled {
+  background: var(--light-blue);
+  color: var(--white);
+}
 
 .smartlist-buttons .btn.btn-primary:first-child:hover,
 .smartlist-buttons .btn.btn-primary.view:hover,
@@ -7029,7 +7030,10 @@ h2 {
   color: var(--white);
   border-color: var(--light-blue);
 }
-
+.smartlist-buttons .btn.btn-primary.btn-filled:hover {
+  background: var(--dark-blue);
+  color: var(--white);
+}
 .total-selected .tag-cross {
   margin-right: 18.2px;
   margin-bottom: 10px;
@@ -9458,10 +9462,12 @@ td.removed_td.centered {
   background: #ffbe2c;
   color: var(--black);
 }
-
-.email-form .form-inline .form-group {
-  display: block;
+.tox .tox-promotion+.tox-menubar {
+  grid-column: 1/-1;
 }
+/* .email-form .form-inline .form-group {
+  display: block;
+} */
 
 .email-form .form-inline .template_name {
   margin-right: 20px;

@@ -2270,8 +2270,14 @@ const CreateEmail = (props) => {
                   <ul className="tabnav-link">
                     <li className="active" onClick={handleSelectUsers}>
                       {
-                        routeTypeSurvey ? "Select Survey" : "Select Content"
+                        routeTypeSurvey ?
+                        <Link to="/survey/email/selectsurvey">Select Survey</Link>
+                        :
+                        <Link to="/EmailArticleSelect">Select Content</Link>
                       }
+                      {/* {
+                        routeTypeSurvey ? "Select Survey" : "Select Content"
+                      } */}
                     </li>
                     <li className="active active-main">
                       <a href="">Create Your Email</a>
