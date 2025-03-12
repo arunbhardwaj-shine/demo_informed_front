@@ -83,18 +83,7 @@ const TopicModals = ({
               !alltemp_tags.includes(newTag.toLowerCase())
             ) {
 
-            //   try {
-            //     loader("show")
-            //     await surveyAxiosInstance.post(ADD_SURVEY_SUBLINK_TAGS,{tags : newTag })
-            //     loader("hide")
-            // } catch (error) {
-            //     console.log(error);
-
-            //     loader("hide")
-            //     toast.error("Failed to add tag.");
-
-            //     return ;
-            // }
+            
 
               try {
                             loader("show");
@@ -193,7 +182,7 @@ useEffect(() => {
   
         const saveButtonClicked = async () => {
 
-        //   if(edit){
+  
             let prev_tags = finalTags;
             let new_tags = prev_tags.concat(tagClickedFirst);
             const uniqueTags = new_tags.filter((x, i, a) => a.indexOf(x) === i);
@@ -212,13 +201,7 @@ useEffect(() => {
                 return data;
               }
             );
-            // setIsData(prevData =>
-            //     prevData.map(item =>
-            //         Number(item.survey_id) === Number(currentEditTopicId)
-            //             ? { ...item, tags: typeof uniqueTags === "string" ? uniqueTags : JSON.stringify(uniqueTags) }
-            //             : item
-            //     )
-            // );
+           
             
                 loader("hide")
               } catch (error) {
@@ -228,29 +211,7 @@ useEffect(() => {
             }
             setFinalTags(uniqueTags);
 
-        //   }
-        // else{
-
-        //     if (finalTags.length == 0 && tagClickedFirst.length == 0) {
-        //       toast.error("No Topic selected");
-        //       return;
-        //     }
-        //     if (typeof finalTags != "undefined" && finalTags.length > 0) {
-        //       let prev_tags = finalTags;
-        //       let new_tags = prev_tags.concat(tagClickedFirst);
-        //       const uniqueTags = new_tags.filter((x, i, a) => a.indexOf(x) === i);
-  
-            
-  
-  
-        //       setFinalTags(uniqueTags);
-               
-        //     } else {
-        //       setFinalTags(tagClickedFirst);
-             
-        //     }
-
-        //   }
+        
          
           handleClose();
         };
@@ -271,44 +232,7 @@ useEffect(() => {
           setTagClickedFirst(tagsClickedFirst);
           setTagsReRender(tagsReRender + 1);
 
-
  
-            // console.log(index);
-          
-            // // Create a new copy of the arrays
-            // const updatedTags = [...finalTags];  
-            // const updatedTagsClickedFirst = [...tagClickedFirst];
-          
-            // console.log(updatedTags, "finalTags");
-            // console.log(updatedTagsClickedFirst, "tagClickedFirst");
-          
-            // // Remove the specific tag
-            // updatedTags.splice(index, 1);
-            // updatedTagsClickedFirst.splice(index, 1);
-          
-            // console.log(updatedTags);
-          
-            // // Update the state with new arrays
-            // setFinalTags(updatedTags);
-            // setTagClickedFirst(updatedTagsClickedFirst);
-            // setTagsReRender(tagsReRender + 1);
-          
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         };
 
  

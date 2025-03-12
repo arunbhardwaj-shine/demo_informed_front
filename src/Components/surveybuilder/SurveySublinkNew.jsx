@@ -231,40 +231,8 @@ const SurveySublink = () => {
         setFilterData(filters?.data?.data)
       }
 
-      console.log(res);
-
-      // let arr = [];
-      // let codearr = [];
-      // Object.entries(res?.data?.data).map(([index, item]) => {
-      //   arr.push({
-      //     value: item.id,
-      //     label: item.survey_title.replace(/(<([^>]+)>)/gi, ""),
-      //   });
-      //   codearr.push({
-      //     value: item.id,
-      //     label: item.unique_code,
-      //   });
-      //   setallContents(arr);
-      // });
-      // codearr.sort((a, b) => {
-      //   let x = a.label.toLowerCase();
-      //   let y = b.label.toLowerCase();
-      //   if (x < y) {
-      //     return -1;
-      //   }
-      //   if (x > y) {
-      //     return 1;
-      //   }
-      //   return 0;
-      // });
-      // setAllCodes(codearr);
-      // setLibraryData((oldArray) => [...oldArray, ...res?.data?.data]);
-
-      // if (typeof selectedSurveyId === "undefined") {
-      //   if (state?.survey_id) {
-      //     setSelectedSurveyId(state.survey_id);
-      //   }
-      // }
+ 
+ 
 
       loader("hide");
     } catch (err) {
@@ -325,7 +293,7 @@ const SurveySublink = () => {
       setshowSubLinkList(true);
       setLinkRenderCount((prevCount) => prevCount + 1); // Increment render count
     } catch (err) {
-      console.log("err", err);
+ 
       toast.error("Something went wrong");
     } finally {
       loader("hide");
@@ -432,38 +400,7 @@ const SurveySublink = () => {
     setIdentifier(event.target.value);
   };
 
-  // const surveyTakerShowData = async (e, index, status, userId, temp_token) => {
-  //   try {
-  //     if (status === "ignored") {
-  //       return;
-  //     }
-
-  //     let id = userId != 0 ? userId : temp_token;
-  //     setShowFilter(false);
-  //     if (surveyTakerShowQuestions == id) {
-  //       setSurveyTakerQuestionFold(!surveyTakerShowQuestionFold);
-  //       return;
-  //     } else {
-  //       setSurveyTakerQuestionFold(true);
-  //       setSurveyTakerShowQuestions(id);
-  //       setSectionApiStatus(true);
-  //       setLoaderIndex(id);
-  //       let Url =
-  //         status == "drop-off"
-  //           ? GET_DROPOFF_RESPONSES
-  //           : TAKERS_RESPONSES_DETAIL;
-  //       const res = await surveyAxiosInstance.post(Url, {
-  //         user_id: id,
-  //         survey_id: stateData?.survey_id,
-  //       });
-  //       setSurveyTakerShowQuestionsData(res?.data?.data);
-  //     }
-  //   } catch (err) {
-  //     console.log("--err", err);
-  //   } finally {
-  //     setSectionApiStatus(false);
-  //   }
-  // };
+ 
 
   const getSubLinkListingData = async (e, survey_id) => {
     e.preventDefault();
@@ -500,51 +437,13 @@ const SurveySublink = () => {
     setShow(!show)
   }
 
-  // const getSubLinkListingData = async (e,survey_id) => {
-  //   e.preventDefault();
-
-  //   if (typeof survey_id !== "undefined" && isAccordionOpening) {
-  //     setSectionLoader(true)
-  //     setSubLinkData([]);
-  //     try {
-  //       // setSectionLoader(true);
-  //       // loader('show');
-  //       const res = await surveyAxiosInstance.post(
-  //         FETCH_SURVEY_SUBLINK,
-  //         { survey_id }
-  //       );
-
-  //       console.log(res)
-
-  //       if (res.status === 200) {
-  //         setSubLinkData(res?.data?.data);
-  //       }
-
-  //       setSectionLoader(false);
-  //       setIsAccordionOpening(false)
-  //       // loader('hide')
-  //     } catch (err) {
-  //       console.log("--err", err);
-  //       setSectionLoader(false);
-
-  //     }
-  //   }else{
-  //     setIsAccordionOpening(true)
-  //     setSubLinkData([]);
-  //   }
-
-  // };
-
+ 
   const removeindividualfilter = (key, item) => {
     let old_object = filterObject;
     let otherFilterObj = otherFilter;
     const index = old_object[key]?.indexOf(item);
     if (index > -1) {
-      // if (old_object[key].includes("All")) {
-      //   const allIndex = old_object[key]?.indexOf("All");
-      //   old_object[key]?.splice(allIndex, 1);
-      //   delete otherFilterObj[key];
-      // }
+      
       old_object[key]?.splice(index, 1);
       otherFilterObj[key]?.splice(index, 1);
 
@@ -1350,7 +1249,8 @@ const SurveySublink = () => {
                                                   subLinkData.map(
                                                     (subLink, index) => {
                                                       return (
-                                                        <>
+
+                                                        <React.Fragment key={index}>
                                                           <div className="mail-box-content">
                                                             <div className="mail-box-content-top">
                                                               <div className="mail-box-content-top-left">
@@ -1574,34 +1474,7 @@ const SurveySublink = () => {
                                                                 ) : (
                                                                   <div className="mail-stats">
                                                                     <ul>
-                                                                      {/* <li>
-                                                  <div
-                                                    className="mail-status mail_send"
-                                                    title="Sublinks"
-                                                  >
-                                                    <svg
-                                                      width="16"
-                                                      height="16"
-                                                      viewBox="0 0 16 16"
-                                                      fill="none"
-                                                      xmlns="http://www.w3.org/2000/svg"
-                                                    >
-                                                      <path
-                                                        d="M9.59862 1.09837L6.34653 4.35044C6.34025 4.35669 6.33634 4.36428 6.33009 4.37059C7.13125 4.25391 7.95428 4.33391 8.71722 4.63141L10.9244 2.42422C11.6556 1.693 12.8448 1.693 13.5761 2.42422C14.3073 3.15537 14.3073 4.34466 13.5761 5.07581C13.4514 5.20056 10.136 8.51597 10.324 8.32787C9.587 9.06494 8.37787 9.03341 7.67234 8.32787C7.30694 7.96247 6.712 7.96247 6.34653 8.32787L5.77734 8.89706C5.93522 9.16531 6.11622 9.42344 6.34653 9.65375C7.73528 11.0425 10.1257 11.1534 11.6297 9.67019C11.636 9.66394 11.6435 9.66 11.6498 9.65375L14.9019 6.40169C16.3663 4.93719 16.3663 2.56287 14.9019 1.09837C13.4374 -0.366125 11.0631 -0.366125 9.59862 1.09837Z"
-                                                        fill="#8A4E9C"
-                                                        fillOpacity="1"
-                                                      ></path>
-                                                      <path
-                                                        d="M7.29013 11.3608L5.07582 13.5751C4.34466 14.3063 3.15538 14.3063 2.42423 13.5751C1.69301 12.8439 1.69301 11.6546 2.42423 10.9234C2.54891 10.7987 5.87141 7.47623 5.68338 7.66426C6.42038 6.92726 7.62951 6.95873 8.33504 7.66426C8.70044 8.02973 9.29541 8.02973 9.66085 7.66426L10.23 7.09507C10.0722 6.82682 9.89116 6.56869 9.66085 6.33844C8.27476 4.95229 5.88607 4.83435 4.3777 6.32198C4.37141 6.32823 4.36385 6.33216 4.35754 6.33844L1.09835 9.59763C-0.366086 11.0621 -0.366148 13.4364 1.09835 14.9009C2.56285 16.3654 4.93723 16.3654 6.40166 14.9009L9.66082 11.6417C9.6671 11.6355 9.67101 11.6279 9.67726 11.6216C8.8761 11.7383 8.0531 11.6583 7.29013 11.3608Z"
-                                                        fill="#8A4E9C"
-                                                        fillOpacity="1"
-                                                      ></path>
-                                                    </svg>
-                                                  </div>
-                                                  <span>
-                                                    {data.total_sublinks}
-                                                  </span>
-                                                </li> */}
+                                             
                                                                       <li>
                                                                         <div
                                                                           className="mail-status mail-hit"
@@ -1730,7 +1603,7 @@ const SurveySublink = () => {
                                                               </div>
                                                             </div>
                                                           </div>
-                                                        </>
+                                                        </React.Fragment>
                                                       );
                                                     }
                                                   )
@@ -1756,93 +1629,7 @@ const SurveySublink = () => {
         </div>
       </Col>
 
-      {/* <Modal show={createNewLink} className="send-confirm" id="download-qr">
-        <Modal.Header>
-          <h5 className="modal-title" id="staticBackdropLabel">
-            Create New Link
-          </h5>
-          <button
-            type="button"
-            className="btn-close"
-            data-bs-dismiss="modal"
-            onClick={() => {
-              setCreateNewLink(false);
-            }}
-          ></button>
-        </Modal.Header>
-        <Modal.Body>
-          <div className="form-group">
-            <label htmlFor="">Delivery</label>
-            <DropdownButton
-              className={
-                "dropdown-basic-button split-button-dropup " +
-                (newLink?.delivery ? "addval" : "")
-              }
-              title={
-                newLink?.delivery ? newLink?.delivery : "Select delivery type"
-              }
-              name="delivery"
-              onSelect={(e) => handleChange("delivery", e)}
-            >
-              <div className="scroll_div delivery_popup">
-                <div className="scroll_div_inset">
-                  <Dropdown.Item
-                    eventKey="Email"
-                    className={newLink?.delivery == "Email" ? "active" : ""}
-                  >
-                    Email
-                  </Dropdown.Item>
-                  <Dropdown.Item
-                    eventKey="InforMedGO"
-                    className={
-                      newLink?.delivery == "InforMedGO" ? "active" : ""
-                    }
-                  >
-                    InforMedGO
-                  </Dropdown.Item>
-                  <Dropdown.Item
-                    eventKey="Social"
-                    className={newLink?.delivery == "Social" ? "active" : ""}
-                  >
-                    Social
-                  </Dropdown.Item>
-
-                  <Dropdown.Item
-                    eventKey="Website"
-                    className={newLink?.delivery == "Website" ? "active" : ""}
-                  >
-                    Website
-                  </Dropdown.Item>
-                </div>
-              </div>
-            </DropdownButton>
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="">Identifier</label>
-            <input
-              type="text"
-              className="form-control"
-              placeholder=""
-              onChange={(event) => onIdentifierChange(event)}
-            />
-          </div>
-        </Modal.Body>
-
-        <div className="modal-footer">
-          <button
-            type="button"
-            className={
-              !(newLink?.delivery && identifier.trim().length > 0)
-                ? "btn btn-primary save btn-filled btn-disabled"
-                : "btn btn-primary save btn-filled"
-            }
-            onClick={() => handleSubmit()}
-          >
-            Apply
-          </button>
-        </div>
-      </Modal> */}
+     
 
       <QRCodeCanvas
         style={{ display: "none" }}

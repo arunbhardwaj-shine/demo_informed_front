@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Button, Col, Form, Row } from "react-bootstrap";
-import Select from "react-select";
+import { Button, Col, Row } from "react-bootstrap";
+ 
 import { ENDPOINT } from "../../axios/apiConfig";
 import { deleteMethod,postData } from "../../axios/apiHelper";
  
@@ -165,28 +165,13 @@ function SurveyTopics() {
   };
 
 
-//   const submitHandler=(e)=>{
-//     e.preventDefault();
-
-//     if (search?.trim()?.length > 0) {
  
-//         const data = originalTopicData?.filter((item) => {
-//           return (
-//             item?.product?.toLowerCase()?.includes(search?.toLowerCase())  
-//           );
-//         });
-//         setProductData(data);
-//       }else{
-//         setProductData(originalTopicData)
-//       }
-
-//   }
 
 
 const submitHandler = (e) => {
     e.preventDefault();
   
-    console.log(originalTopicData?.data);
+ 
   
     if (!originalTopicData?.data || !Array.isArray(originalTopicData.data)) {
       console.error("originalTopicData.data is not an array:", originalTopicData);
@@ -207,11 +192,11 @@ const submitHandler = (e) => {
     const trimmedSearch = e.target.value.trim().toLowerCase();
   
     if (trimmedSearch.length <= 0) {
-      console.log("from if");
+ 
       setProductData(originalTopicData);
       setSearch(""); // Reset search value
     } else {
-      console.log("from else");
+       
       setSearch(e.target.value);
     }
   };
@@ -320,16 +305,7 @@ const submitHandler = (e) => {
             </div>
           </div>
           <div className="create-change-content spc-content">
-            {/*<div className="form_action sticky-view">
-            <h4>Topics</h4>
-
-            
-                
-               {productData?.flag ? (
-                <h4>Please select the business unit to show the products</h4>
-              ) : null} 
-              
-            </div>*/}
+           
             <Row>
               <div className="col-12 selected-products-list product_show d-flex">
               

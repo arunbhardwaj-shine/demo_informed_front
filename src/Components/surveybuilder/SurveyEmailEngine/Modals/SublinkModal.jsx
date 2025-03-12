@@ -129,9 +129,9 @@ const SublinkModal = ({
     } catch (err) {
       console.log("err", err);
       loader("hide");
-      //   toast.error("Something went wrong");
+    
     } finally {
-      //   loader("hide");
+       
       loader("hide");
     }
     setCreateNewLink(false);
