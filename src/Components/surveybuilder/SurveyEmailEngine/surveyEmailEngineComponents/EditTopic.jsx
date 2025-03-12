@@ -26,7 +26,7 @@ const TopicModals = ({
 }) => {
  
 
-  const {ADD_SURVEY_SUBLINK_TAGS,GET_SURVEY_SUBLINK_TAGS,UPDATE_SURVEY_SUBLINK_TAGS}=surveyEndpoints;
+  const {ADD_SURVEY_SUBLINK_TAGS,GET_SURVEY_SUBLINK_TAGS,UPDATE_SURVEY_SUBLINK_TAGS,UPDATE_SURVEY_TOPICS}=surveyEndpoints;
 
     const [show, setShow] = useState(showEditTopicModal);
     const [modalCounter, setModalCounter] = useState(0);
@@ -182,20 +182,22 @@ useEffect(() => {
               try {
                 loader("show")
           
-            //   const res= await surveyAxiosInstance.post(UPDATE_SURVEY_SUBLINK_TAGS,{tags : uniqueTags, sublink_id : editTopic })
+              const res= await surveyAxiosInstance.post(UPDATE_SURVEY_TOPICS,{tags : uniqueTags, survey_id : currentEditTopicId })
 
-            //    setIsData(prevData =>
+               setIsData((prevData) =>{
+                const data=prevData.map(item =>
+                    item.survey_id == currentEditTopicId ? { ...item, tags: JSON.stringify(uniqueTags) } : item
+                )
+                return data;
+              }
+            );
+            // setIsData(prevData =>
             //     prevData.map(item =>
-            //         item.survey_id === currentEditTopicId ? { ...item, tags: JSON.stringify(uniqueTags) } : item
+            //         Number(item.survey_id) === Number(currentEditTopicId)
+            //             ? { ...item, tags: typeof uniqueTags === "string" ? uniqueTags : JSON.stringify(uniqueTags) }
+            //             : item
             //     )
             // );
-            setIsData(prevData =>
-                prevData.map(item =>
-                    Number(item.survey_id) === Number(currentEditTopicId)
-                        ? { ...item, tags: typeof uniqueTags === "string" ? uniqueTags : JSON.stringify(uniqueTags) }
-                        : item
-                )
-            );
             
                 loader("hide")
               } catch (error) {
@@ -232,14 +234,60 @@ useEffect(() => {
           handleClose();
         };
   
-        const removeTagFinal = (index) => {
-          const tags = finalTags;
-          const tagsClickedFirst = tagClickedFirst;
+        const removeTagFinal = (e,index) => {
+          e.preventDefault();
+      
+          const tags = [...finalTags];
+        
+          const tagsClickedFirst = [...tagClickedFirst];
+          
           tags.splice(index, 1);
           tagsClickedFirst.splice(index, 1);
+      
+
+          
           setFinalTags(tags);
           setTagClickedFirst(tagsClickedFirst);
           setTagsReRender(tagsReRender + 1);
+
+
+ 
+            // console.log(index);
+          
+            // // Create a new copy of the arrays
+            // const updatedTags = [...finalTags];  
+            // const updatedTagsClickedFirst = [...tagClickedFirst];
+          
+            // console.log(updatedTags, "finalTags");
+            // console.log(updatedTagsClickedFirst, "tagClickedFirst");
+          
+            // // Remove the specific tag
+            // updatedTags.splice(index, 1);
+            // updatedTagsClickedFirst.splice(index, 1);
+          
+            // console.log(updatedTags);
+          
+            // // Update the state with new arrays
+            // setFinalTags(updatedTags);
+            // setTagClickedFirst(updatedTagsClickedFirst);
+            // setTagsReRender(tagsReRender + 1);
+          
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         };
 
  
@@ -293,7 +341,7 @@ useEffect(() => {
                   <img
                     src={path_image + "filter-close.svg"}
                     alt="Close-filter"
-                    onClick={() => removeTagFinal(index)}
+                    onClick={(e) => removeTagFinal(e,index)}
                   />
                 </div>
               ))}

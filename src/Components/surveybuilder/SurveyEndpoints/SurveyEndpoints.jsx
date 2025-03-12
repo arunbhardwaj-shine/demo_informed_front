@@ -37,7 +37,8 @@ export const surveyEndpoints = {
     DOWNLOAD_ALL_EXCEL_SHEET:"/survey/get-all-excel-data",
     GET_SURVEY_SUBLINK_TAGS:"/survey/get-survey-sublink-tags",
     ADD_SURVEY_SUBLINK_TAGS:"/survey/add-survey-sublink-tag",
-    UPDATE_SURVEY_SUBLINK_TAGS:"survey/update-sublink-tag",
+    UPDATE_SURVEY_SUBLINK_TAGS:"/survey/update-sublink-tag",
+    UPDATE_SURVEY_TOPICS:"/survey/update-survey-topics",
 
     // Last Publish Page Endpoints
     INSERT_SURVEY_DATA: "/survey/insert-survey-data",
