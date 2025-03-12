@@ -1024,9 +1024,10 @@ const [showEditTopicModal,setShowEditTopicModal]=useState(false)
                   <div className="mail_trigger_right_dummy">
                     <div className="mail_trigger_dummy_content d-flex justify-content-center">
                       <h3>
-                        Create your first survey by clicking on{" "}
-                        <img src={path_image + "add_smartlist.svg"} alt="" />
+                        Let’s get you started on your first survey
+                        {/* <img src={path_image + "add_smartlist.svg"} alt="" /> */}
                       </h3>
+                        <Button className="btn-filled" onClick={createNewEmail}>Create Survey <img src={path_image + "add-icon.png"} alt="" /></Button>
                     </div>
                   </div>
                 )}
