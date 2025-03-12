@@ -1772,7 +1772,7 @@ const SurveySublink = () => {
                                           </div>
                                         </React.Fragment>
                                       ))
-                                    : <div class="no_found"><p>No Data Found</p></div>}
+                                    : <div className="no_found"><p>No Data Found</p></div>}
                                 </Accordion>
                               </div>
                             </div>
