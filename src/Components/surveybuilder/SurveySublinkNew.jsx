@@ -1373,14 +1373,7 @@ const SurveySublink = () => {
                                                                     ))):(<li>N/A</li>)} 
                                                                   </ul>
                                                                 </div>
-                                                                <div className="mail-time">
-                                                                  <span>
-                                                                    {/* {new Date().toLocaleDateString()} */}
-                                                                    {
-                                                                      subLink?.formatted_date
-                                                                    }
-                                                                  </span>
-                                                                </div>
+                                                                
                                                                 <div className="tab-content-links">
                                                                   <a>
                                                                     https://survey.docintel.app/survey?Utmde=
@@ -1388,7 +1381,6 @@ const SurveySublink = () => {
                                                                       subLink.unique_code
                                                                     }
                                                                   </a>
-                                                                  {/* {data?.is_draft ? ( */}
                                                                   <span
                                                                     className="copy-content"
                                                                     onClick={() =>
@@ -1405,19 +1397,6 @@ const SurveySublink = () => {
                                                                       alt="Copy"
                                                                     />
                                                                   </span>
-
-                                                                  {/* ) : (
-                                                  <span className="copy-content">
-                                                    <img
-                                                      src={
-                                                        path_image +
-                                                        "copy-content-disabled.svg"
-                                                      }
-                                                      alt="Copy"
-                                                    />
-                                                  </span>
-                                                )} */}
-                                                                  {/* {data?.is_draft ? ( */}
                                                                   <div
                                                                     className="tab-content-qr"
                                                                     onClick={() => {
@@ -1450,24 +1429,13 @@ const SurveySublink = () => {
                                                                       alt="Download"
                                                                     />
                                                                   </div>
-                                                                  {/* ) : (
-                                                  <div className="tab-content-qr">
-                                                    <img
-                                                      src={
-                                                        path_image +
-                                                        "qr-code-icon-disabled.svg"
-                                                      }
-                                                      alt="QR"
-                                                    />
-                                                    <img
-                                                      src={
-                                                        path_image +
-                                                        "download-icon-disabled.svg"
-                                                      }
-                                                      alt="Download"
-                                                    />
-                                                  </div>
-                                                )} */}
+                                                                </div>
+                                                                <div className="mail-time">
+                                                                  <span>
+                                                                    {
+                                                                      subLink?.formatted_date
+                                                                    }
+                                                                  </span>
                                                                 </div>
                                                               </div>
                                                               <div className="mail-box-content-top-right">
@@ -1772,7 +1740,7 @@ const SurveySublink = () => {
                                           </div>
                                         </React.Fragment>
                                       ))
-                                    : <div class="no_found"><p>No Data Found</p></div>}
+                                    : <div className="no_found"><p>No Data Found</p></div>}
                                 </Accordion>
                               </div>
                             </div>

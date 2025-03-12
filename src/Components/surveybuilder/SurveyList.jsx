@@ -1523,13 +1523,13 @@ const [showEditTopicModal,setShowEditTopicModal]=useState(false)
                                                             </div>
 
                                                             <Button
-                                                              className="send btn-bordered"
+                                                              className={data?.is_draft === 0 ? "send btn-bordered disabled" : "send btn-bordered"}
                                                               onClick={(e) => handleEditTopicModal(data.survey_id)}
                                                             >
                                                               Edit Topic
                                                             </Button>
 
-                                                            <Button className="edit btn-bordered" onClick={() => {nextClicked(data.survey_id)}}>
+                                                            <Button className={data?.is_draft === 0 ? "edit btn-bordered disabled" : "edit btn-bordered"} onClick={() => {nextClicked(data.survey_id)}}>
                                                                 Send in email
                                                             </Button>
 

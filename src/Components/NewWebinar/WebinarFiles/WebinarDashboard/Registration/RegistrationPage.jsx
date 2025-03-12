@@ -1211,7 +1211,11 @@ const RegistrationPage = ({ prevData,type }) => {
           >
             <form id="registration_form" onSubmit={handleSubmit}>
               <div className="row" id="form_upper">
-                <div className="col-sm-12 col-md-12 center-sided">
+                <div 
+                // className="col-sm-9 col-md-9 center-sided"
+                className={formData?.content?.templateTwoImageUrl ? "col-sm-9 col-md-9 center-sided" : "col-sm-12 col-md-12 center-sided"}
+                
+                >
 
                 <h2
                     style={{
@@ -1244,6 +1248,10 @@ const RegistrationPage = ({ prevData,type }) => {
                     {/* {formData?.content?.eventDetails?.bodyText?.value} */}
                   </h3>
                 </div>
+
+                {formData?.content?.templateTwoImageUrl ?<div className="col-sm-3 col-md-3 center-sided">
+                <img  src={`${formData?.content?.templateTwoImageUrl?formData?.content?.templateTwoImageUrl:""}`}alt="" />
+                </div>:null }
               </div>
               <div className="center-sided-inside">
                 <div className="row">

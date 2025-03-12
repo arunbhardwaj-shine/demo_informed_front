@@ -1470,30 +1470,7 @@ const Sidebar = () => {
 
                               </li>
 
-                      <li
-
-                        className={
-
-                          location.pathname == "/survey/survey-analytics" || window.location.pathname == "/survey/survey-analytics-detail"
-
-                            ? "active"
-
-                            : "side_li"
-
-                        }
-
-                      >
-
-                        <Link to={"/survey/survey-analytics"}>
-
-                        <img src= { sidebar_image_path +"analytics.svg" } alt=""/>
-                         {" "}
-
-                          <p>Analytics</p>
-
-                        </Link>
-
-                      </li>
+                      
 
                       <li className={
                           location.pathname == "/survey/email" ||
@@ -1567,6 +1544,15 @@ const Sidebar = () => {
                               </ul>
                             </div>
                           </div>
+                      </li>
+
+                      <li className={location.pathname == "/survey/survey-analytics" || window.location.pathname == "/survey/survey-analytics-detail"
+                            ? "active": "side_li"}
+                      >
+                        <Link to={"/survey/survey-analytics"}>
+                          <img src= { sidebar_image_path +"analytics.svg" } alt=""/>
+                          <p>Analytics</p>
+                        </Link>
                       </li>
                     </ul>
                 ):
