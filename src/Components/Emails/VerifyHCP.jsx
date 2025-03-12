@@ -1485,7 +1485,7 @@ const VerifyHCP = (props) => {
                           >
                             {isLikeRdAccount
                               ? "Add User +"
-                              : "Add HCP +"}
+                              : "Add New HCP +"}
                           </button>
                         </div>
                       </div>

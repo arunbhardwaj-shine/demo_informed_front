@@ -7,7 +7,7 @@ import { useSidebar } from "./LoginLayout";
 
 
 
-const SmartListLayout = ({data,deletestatus,callLinkClickFun,iseditshow,isviewshow,viewSmartListData,webinarFlag,type}) => {
+const SmartListLayout = ({data,deletestatus,callLinkClickFun,iseditshow,isviewshow,viewSmartListData,webinarFlag,type,layout = ''}) => {
     let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
     const [opening_details, setOpeningDetails] = useState([]);
     const [flag, setFlag] = useState(0);
@@ -130,7 +130,7 @@ const SmartListLayout = ({data,deletestatus,callLinkClickFun,iseditshow,isviewsh
                                     !deletestatus &&  (
                                 <>
                                     {
-                                        iseditshow ? 
+                                        iseditshow && layout == '' ?
                                         <>
                                             {data?.upload_by_filter == 1 ? (
                                             <Link
