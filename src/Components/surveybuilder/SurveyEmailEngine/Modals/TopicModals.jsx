@@ -113,7 +113,10 @@ useEffect(() => {
     if (edit) {
       try {
         const res = await surveyAxiosInstance.post(FETCH_ALL_TOPICS);
-        setAllTags(res?.data?.data);
+        if(res.status == 200){
+          setAllTags(res?.data?.data);
+        }
+    
       } catch (err) {
         toast.error("Something went wrong");
       }
@@ -174,17 +177,18 @@ useEffect(() => {
               try {
                 loader("show")
                
-               const res= await surveyAxiosInstance.post(UPDATE_SURVEY_SUBLINK_TAGS,{tags : uniqueTags, sublink_id : editTopic })
+             const res= await surveyAxiosInstance.post(UPDATE_SURVEY_SUBLINK_TAGS,{tags : uniqueTags, sublink_id : editTopic })
 
-               setSubLinkData(prevData =>
-                prevData.map(item =>
-                    item.sublink_id === editTopic ? { ...item, tags: uniqueTags } : item
-                )
-            );
-
-         
-
-
+              if(res.status == 201){
+                setSubLinkData(prevData =>
+                  prevData.map(item =>
+                      item.sublink_id === editTopic ? { ...item, tags: uniqueTags } : item
+                  )
+              );
+  
+              setFinalTags(uniqueTags);
+  
+              }
                 loader("hide")
               } catch (error) {
                 loader("hide")
@@ -192,10 +196,6 @@ useEffect(() => {
 
             }
           
-
-
-            setFinalTags(uniqueTags);
-
           }else{
 
             if (finalTags.length == 0 && tagClickedFirst.length == 0) {
@@ -206,12 +206,8 @@ useEffect(() => {
               let prev_tags = finalTags;
               let new_tags = prev_tags.concat(tagClickedFirst);
               const uniqueTags = new_tags.filter((x, i, a) => a.indexOf(x) === i);
-  
-            
-  
-  
+
               setFinalTags(uniqueTags);
-               
             } else {
               setFinalTags(tagClickedFirst);
              

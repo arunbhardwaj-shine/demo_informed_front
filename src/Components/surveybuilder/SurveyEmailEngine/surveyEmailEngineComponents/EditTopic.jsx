@@ -1,27 +1,20 @@
 import React from 'react'
 import { useState } from "react";
-import { Modal, DropdownButton, Dropdown, Button } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 import { loader } from '../../../../loader';
- 
 import { toast } from 'react-toastify';
 import { surveyAxiosInstance } from '../../CommonFunctions/CommonFunction';
- 
 import { useEffect } from 'react';
 import { surveyEndpoints } from '../../SurveyEndpoints/SurveyEndpoints';
 import { ENDPOINT } from '../../../../axios/apiConfig';
 
 const TopicModals = ({
-        // edit,
-        // editTopic,
-        // subLinkData,
-        // setSubLinkData,
+ 
         showEditTopicModal,
         setShowEditTopicModal,
         isData,
         setIsData,
         currentEditTopicId
-        
-
 
 }) => {
  
@@ -29,7 +22,6 @@ const TopicModals = ({
   const {FETCH_ALL_TOPICS,UPDATE_SURVEY_TOPICS}=surveyEndpoints;
 
     const [show, setShow] = useState(showEditTopicModal);
-    const [modalCounter, setModalCounter] = useState(0);
     const [finalTags, setFinalTags] = useState([]);
     const [tagsReRender, setTagsReRender] = useState(0);
     const [newTag, setNewTag] = useState("");
@@ -37,12 +29,6 @@ const TopicModals = ({
     const [tagClickedFirst, setTagClickedFirst] = useState([]);
     const [tagsCounter, setTagsCounter] = useState(0);
     const [error, setError] = useState({});
-    const [newLink, setLink] = useState({
-      delivery: "",
-    });
-  
-    const [identifier, setIdentifier] = useState("");
- 
     let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
   
       const newTagChanged = (e) => {
@@ -86,7 +72,7 @@ const TopicModals = ({
             
 
               try {
-                            loader("show");
+                 loader("show");
                             await surveyAxiosInstance.post(ENDPOINT.ADD_SPC_PRODUCT, {
                               user_id: localStorage.getItem("user_id"),
                               product: newTag?.trim(),
@@ -117,13 +103,13 @@ const TopicModals = ({
 useEffect(() => {
   const fetchTags = async () => {
 
-
-    
-    
- 
       try {
         const res = await surveyAxiosInstance.post(FETCH_ALL_TOPICS);
-        setAllTags(res?.data?.data);
+      
+        if(res.status == 200){
+          setAllTags(res?.data?.data);
+        }
+     
       } catch (err) {
         toast.error("Something went wrong");
       }
@@ -192,15 +178,22 @@ useEffect(() => {
               try {
                 loader("show")
           
-              const res= await surveyAxiosInstance.post(UPDATE_SURVEY_TOPICS,{tags : uniqueTags, survey_id : currentEditTopicId })
+                const res=await surveyAxiosInstance.post(UPDATE_SURVEY_TOPICS,{tags : uniqueTags, survey_id : currentEditTopicId })
 
-               setIsData((prevData) =>{
-                const data=prevData.map(item =>
-                    item.survey_id == currentEditTopicId ? { ...item, tags: JSON.stringify(uniqueTags) } : item
-                )
-                return data;
-              }
-            );
+              
+
+                if(res.status == 201){
+                  setIsData((prevData) =>{
+                    const data=prevData.map(item =>
+                        item.survey_id == currentEditTopicId ? { ...item, tags: JSON.stringify(uniqueTags) } : item
+                    )
+                    return data;
+                  }
+                );
+                setFinalTags(uniqueTags);
+                }
+
+               
            
             
                 loader("hide")
@@ -209,7 +202,7 @@ useEffect(() => {
                 console.log(error);
 
             }
-            setFinalTags(uniqueTags);
+        
 
         
          

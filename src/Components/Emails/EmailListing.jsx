@@ -2393,7 +2393,7 @@ const EmailList = (props) => {
                   </div>
                   {
                     routeTypeSurvey ?
-                    <p><a href={`https://survey.docintel.app/survey?Utmde=`+viewEmailData?.[0]?.surveyUniqueCode} class="doc-link " target="_blank">https://survey.docintel.app/survey?Utmde={viewEmailData?.[0]?.surveyUniqueCode}</a></p>
+                    <p><a href={`https://survey.docintel.app/survey?Utmde=`+viewEmailData?.[0]?.surveyUniqueCode} className="doc-link " target="_blank">https://survey.docintel.app/survey?Utmde={viewEmailData?.[0]?.surveyUniqueCode}</a></p>
                     : null
                   }
                   <div className="mail-time">

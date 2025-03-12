@@ -149,7 +149,9 @@ const SurveySetup = (props) => {
       await surveyAxiosInstance
         .post(FETCH_ALL_TOPICS)
         .then((res) => {
-          setAllTags(res?.data?.data);
+          if(res.status == 200){
+            setAllTags(res?.data?.data);
+          }
           loader("hide");
         })
         .catch((err) => {

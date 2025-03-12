@@ -17,6 +17,9 @@ import { Editor } from "@tinymce/tinymce-react";
 import SmartListLayout from "../CommonComponent/SmartListLayout";
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
+import { surveyEndpoints } from "../surveybuilder/SurveyEndpoints/SurveyEndpoints";
+import { surveyAxiosInstance } from "../surveybuilder/CommonFunctions/CommonFunction";
+import { ENDPOINT } from "../../axios/apiConfig";
  
 // import "bootstrap/dist/css/bootstrap.min.css";
 import SmartListTableLayout from "../CommonComponent/SmartListTableLayout";
@@ -28,7 +31,7 @@ var stateListData = {};
 const CreateEmail = (props) => {
   const routeTypeSurvey = props?.type == 'survey' ? 1 : 0;
   const accountMapping={"56Ek4feL/1A8mZgIKQWEqg==":2147501188,"bWmUjqX7J011   WUTYn9g==":298217,"MXl8m36VZFYXpgFVz3Pg0g==":2147537506}
-
+    const{FETCH_ALL_TOPICS}=surveyEndpoints;
   const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","bWmUjqX7J011   WUTYn9g==","MXl8m36VZFYXpgFVz3Pg0g=="]
   const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
   const groupId= localStorage.getItem("group_id")
@@ -470,10 +473,10 @@ const CreateEmail = (props) => {
 
     axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
     const getAllTags = async () => {
-      await axios
-        .post(`emailapi/get_tags`, body)
+      await surveyAxiosInstance
+        .post(FETCH_ALL_TOPICS, body)
         .then((res) => {
-          setAllTags(res?.data?.response?.data);
+          setAllTags(res?.data?.data);
            
         })
         .catch((err) => {
@@ -1299,7 +1302,7 @@ const CreateEmail = (props) => {
 
   const addTag = async () => {
     if (typeof newTag == "undefined" || newTag.trim().length == 0) {
-      toast.error("Please input a tag");
+      toast.error("Please enter a Topic");
     } else {
       let temp_tags = tagClickedFirst.map((data) => {
         return data.toLowerCase();
@@ -1320,27 +1323,48 @@ const CreateEmail = (props) => {
         !temp_tags.includes(newTag.toLowerCase()) &&
         !alltemp_tags.includes(newTag.toLowerCase())
       ) {
-        setTagClickedFirst((oldArray) => [...oldArray, newTag]);
+      
 
-        const body = {
-          user_id: localStorage.getItem("user_id"),
-          tags: newTag,
-        };
+        // const body = {
+        //   user_id: localStorage.getItem("user_id"),
+        //   tags: newTag,
+        // };
 
     
         axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
         loader("show");
-        await axios
-          .post(`emailapi/save_tags`, body)
-          .then((res) => {
-            loader("hide");
-          })
-          .catch((err) => {
-            loader("hide");
-            console.log(err);
-          });
-      } else {
-        toast.error("Tag already in list.");
+
+                       try {
+                                  loader("show");
+                                   await surveyAxiosInstance.post(ENDPOINT.ADD_SPC_PRODUCT, {
+                                     user_id: localStorage.getItem("user_id"),
+                                     product: newTag?.trim(),
+                                     category: 0,
+                                     type: 2,
+                                   });
+
+                                   setTagClickedFirst((oldArray) => [...oldArray, newTag]);
+                                   setAllTags((oldArray) => [...oldArray, newTag]);
+
+                                   loader("hide");
+                                
+                                 } catch (err) {
+                                   loader("hide");
+                                 }
+
+        
+        // await axios
+        //   .post(`emailapi/save_tags`, body)
+        //   .then((res) => {
+        //     loader("hide");
+        //   })
+        //   .catch((err) => {
+        //     loader("hide");
+        //     console.log(err);
+        //   });
+      } 
+      else {
+        toast.error("Topic already in list.");
       }
       setNewTag("");
       setTagsCounter(tagsCounter + 1);
@@ -1351,7 +1375,7 @@ const CreateEmail = (props) => {
     if (!tagClickedFirst.includes(dd)) {
       setTagClickedFirst((oldArray) => [...oldArray, dd]);
     } else {
-      toast.error("Tag already in list.");
+      toast.error("Topic already in list.");
     }
   };
 
@@ -2548,7 +2572,7 @@ const CreateEmail = (props) => {
                             data-bs-target="#tagsModal"
                             onClick={tagButtonClicked}
                           >
-                            + Add Tag
+                            + Add Topics
                           </button>
                         </div>
                         <div className="tags_added">
@@ -2820,7 +2844,7 @@ const CreateEmail = (props) => {
         <Modal id="tagsModal" show={isOpen}>
           <Modal.Header>
             <h5 className="modal-title" id="staticBackdropLabel">
-              Add Tags
+              Add Topics
             </h5>
             <button
               type="button"
@@ -2832,7 +2856,7 @@ const CreateEmail = (props) => {
           </Modal.Header>
           <Modal.Body>
             <div className="select-tags">
-              <h6>Select Tag :</h6>
+              <h6>Select Topics :</h6>
               <div className="tag-lists">
                 <div className="tag-lists-view">
                   {allTags
@@ -2851,7 +2875,7 @@ const CreateEmail = (props) => {
             </div>
             <div className="selected-tags">
               <h6>
-                Selected Tag <span>| {tagClickedFirst.length}</span>
+                Selected Topics <span>| {tagClickedFirst.length}</span>
               </h6>
 
               <div className="total-selected">
@@ -2875,7 +2899,7 @@ const CreateEmail = (props) => {
           <Modal.Footer>
             <form>
               <div className="form-group">
-                <label htmlFor="new-tag">New Tag</label>
+                <label htmlFor="new-tag">New Topic</label>
                 <input
                   type="text"
                   className="form-control"

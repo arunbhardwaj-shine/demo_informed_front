@@ -698,7 +698,7 @@ const VerifyHcpMAIL = (props) => {
                             : ""}
                         </h6>
                         <h6>
-                          <strong>Tags | </strong>
+                          <strong>Topics | </strong>
                           <ul>
                             {props?.getEmailData?.tags
                               ? props?.getEmailData?.tags.map((tags, i) => {
