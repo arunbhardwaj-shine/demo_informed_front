@@ -1600,7 +1600,7 @@ const [showEditTopicModal,setShowEditTopicModal]=useState(false)
                                                   className="btn-bordered send-new"
                                                   onClick={() => {
                                                     navigate(
-                                                      "/survey/survey-sublink",
+                                                      "/survey/survey-sublink-new",
                                                       {
                                                         state: {
                                                           survey_id:
