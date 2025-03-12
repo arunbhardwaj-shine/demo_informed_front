@@ -2325,28 +2325,54 @@ const EmailList = (props) => {
                           <td>{viewEmailData[0].campaign}</td>
                         </tr>
                         <tr>
+                          <th>Creator</th>
+                          <td>{viewEmailData[0].creator}</td>
+                        </tr>
+                        <tr>
                           <th>List</th>
                           <td>{viewEmailData[0].smart_list_name}</td>
                         </tr>
-                        <tr>
-                          <th>Content Title </th>
-                          <td>
-                            {viewEmailData?.[0]?.article_title
-                              ? viewEmailData?.[0]?.article_title
-                              : viewEmailData?.[0]?.pdf_title}
-                          </td>
-                        </tr>
-                        <tr>
-                          <th>Docintel Link </th>
-                          <td>
-                            <a
-                              href={viewEmailData[0].docintel_link}
-                              target="_blank"
-                            >
-                              {viewEmailData[0].docintel_link}
-                            </a>
-                          </td>
-                        </tr>
+                        {
+                          routeTypeSurvey ?
+                          <>
+                          <tr>
+                            <th>Survey Title </th>
+                            <td>
+                              {viewEmailData?.[0]?.surveyTile
+                                ? viewEmailData?.[0]?.surveyTile
+                                : viewEmailData?.[0]?.surveyTile}
+                            </td>
+                          </tr>
+                          <tr>
+                            <th>Link </th>
+                            <td>
+                                {viewEmailData?.[0]?.surveyLinkType}
+                            </td>
+                          </tr>
+                          </>
+                          :
+                          <>
+                            <tr>
+                              <th>Content Title </th>
+                              <td>
+                                {viewEmailData?.[0]?.article_title
+                                  ? viewEmailData?.[0]?.article_title
+                                  : viewEmailData?.[0]?.pdf_title}
+                              </td>
+                            </tr>
+                            <tr>
+                              <th>Docintel Link </th>
+                              <td>
+                                <a
+                                  href={viewEmailData[0].docintel_link}
+                                  target="_blank"
+                                >
+                                  {viewEmailData[0].docintel_link}
+                                </a>
+                              </td>
+                            </tr>
+                          </>
+                        }
                         {isLikeRdAccount ? (
                           <tr>
                             <th>IRTs </th>
@@ -2365,6 +2391,11 @@ const EmailList = (props) => {
                       </tbody>
                     </table>
                   </div>
+                  {
+                    routeTypeSurvey ?
+                    <p><a href={`https://survey.docintel.app/survey?Utmde=`+viewEmailData?.[0]?.surveyUniqueCode} class="doc-link " target="_blank">https://survey.docintel.app/survey?Utmde={viewEmailData?.[0]?.surveyUniqueCode}</a></p>
+                    : null
+                  }
                   <div className="mail-time">
                     <span>{viewEmailData[0].created_at}</span>
                   </div>
