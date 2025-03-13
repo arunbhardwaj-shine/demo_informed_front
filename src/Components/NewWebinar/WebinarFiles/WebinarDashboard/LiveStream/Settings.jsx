@@ -43,7 +43,7 @@ const Settings = () => {
       {
         label: "Thank you message with speaker image",
         value:
-          "https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/CP_Brand_thanks_banner_anna-min.jpg",
+          "https://onesourcedoc.s3.eu-west-1.amazonaws.com/events/Group3748.jpg",
       },
       {
         label: "Event delayed",
@@ -53,7 +53,7 @@ const Settings = () => {
       {
         label: "Stay tuned",
         value:
-          "https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/cp_brand_video_banner_anna-pavlova-min.jpg",
+          "https://onesourcedoc.s3.eu-west-1.amazonaws.com/events/Group3749.jpg",
       },
       {
         label: "Technical difficulties",
