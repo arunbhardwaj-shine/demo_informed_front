@@ -12822,6 +12822,10 @@ svg.pencil_icon {
     }
 
   }
+  .rd .dlt_btn button svg{
+    width:17px;
+    height: auto;
+}
 }
 
 @media only screen and (max-width: 1365px) {
@@ -12832,7 +12836,7 @@ svg.pencil_icon {
   .top-header .top-right-action .action-btn-add button,
   .top-header .top-right-action .action-btn-add a {
     height: 35px;
-    padding: 8px 14px;
+    padding: 8px 10px;
   }
   .preview_content .info_btn .btn.btn-bordered {
     min-width: 100px;
@@ -13623,6 +13627,17 @@ svg.pencil_icon {
   .filter-by button {
     padding: 9px 10px 9px 13px;
   }
+  .custom-change .top-header {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 10px 0;
+}
+.top-header .page-title {
+  margin-right: auto;
+}
+.smartlist-result-block .smartlist_box_block {
+  width: 50%;
+}
 }
 
 @media (max-width: vars.$layout-breakpoint-medium) {

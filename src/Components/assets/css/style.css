@@ -5904,6 +5904,9 @@ form#add_hcp_form .row:not(:first-child) {
   flex-direction: column;
   height: auto;
 }
+#mail-view .mail-box-content p a.doc-link {
+  color:var(--violet);
+}
 
 #mail-view .modal-body {
   padding-top: 9px;
