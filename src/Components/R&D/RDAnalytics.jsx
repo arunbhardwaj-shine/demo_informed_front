@@ -1822,7 +1822,7 @@ const RDAnalytics = () => {
                                         <img
                                           src={path_image + "certificate.png"}
                                           alt="Certificate"
-
+                                          style={{cursor:'pointer'}}
 
                                           onClick={(event) => {
                                             downloadCertificate(

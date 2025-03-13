@@ -40,7 +40,7 @@ const ContentDetail = (props) => {
     enable: "",
     reseller: "",
   });
-
+  const [qrTitle, setQrTitle] = useState("");
   const [reRender, setReRender] = useState(0);
   const navigate = useNavigate();
   const [articleId, setArticleId] = useState(
@@ -161,8 +161,9 @@ const ContentDetail = (props) => {
 
  
 
-  const commonModelFun = () => {
+  const commonModelFun = (title = null) => {
     setShow(true);
+    setQrTitle(title);
   };
 
   const downloadQRData = [
@@ -193,7 +194,7 @@ const ContentDetail = (props) => {
       .replace("image/png", "image/octet-stream");
     let downloadLink = document.createElement("a");
     downloadLink.href = pngUrl;
-    downloadLink.download = `${qrValue}.png`;
+    downloadLink.download = qrTitle ? `${qrTitle}.png` : `${qrValue}.png`;
     document.body.appendChild(downloadLink);
     downloadLink.click();
     document.body.removeChild(downloadLink);
@@ -460,7 +461,7 @@ const ContentDetail = (props) => {
                                         <Button
                                           className="btn btn-primary btn-bordered move-draft"
                                           onClick={() => {
-                                            commonModelFun();
+                                            commonModelFun(data?.title);
                                             setQr({
                                               ...qrState,
                                               value: data?.docintelLink+`~QRcode`,

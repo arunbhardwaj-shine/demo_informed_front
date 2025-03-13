@@ -73,7 +73,11 @@ const NewReaders = () => {
     "contact Type": ["HCP"],
   };
   if (localStorage.getItem("user_id") == "b3APser7L8OELDIG8ee2HQ==") {
-    staticFilter = {};
+    staticFilter = {
+      status: ["Registered"],
+      "contact Type": ["HCP"],
+      
+    };
   }
   if (localStorage.getItem("user_id") == "B7SHpAc XDXSH NXkN0rdQ==") {
     staticFilter = {
@@ -83,9 +87,10 @@ const NewReaders = () => {
     };
   }
   const [appliedFilter, setAppliedFilter] = useState(
-    localStorage.getItem("user_id") == "b3APser7L8OELDIG8ee2HQ=="
-      ? exceptionCase
-      : staticFilter
+    // localStorage.getItem("user_id") == "b3APser7L8OELDIG8ee2HQ=="
+    //   ? exceptionCase
+    //   :
+       staticFilter
   );
   // const [appliedFilter, setAppliedFilter] = useState();
   const [filterObject, setFilterObject] = useState(staticFilter);
@@ -201,7 +206,7 @@ const NewReaders = () => {
     else if (localStorage.getItem("user_id") == "b3APser7L8OELDIG8ee2HQ==") {
       setAppliedFilter({ "contact Type": ["HCP"] });
       setFilterObject({ "contact Type": ["HCP"] });
-      setApifilterObject({});
+      setApifilterObject({status: ["Registered"],"contact Type": ["HCP"]});
     }
     else if (localStorage.getItem("user_id") == "B7SHpAc XDXSH NXkN0rdQ==") {
       setAppliedFilter({ status: ["Registered"], "contact Type": ["HCP"], "Content Owners": ["All"] });
@@ -307,16 +312,18 @@ const NewReaders = () => {
           'IRT mandatory training': ["No"],
 
         };
-      } else if (
-        localStorage.getItem("user_id") == "b3APser7L8OELDIG8ee2HQ=="
-      ) {
-        payload = {
-          "contact Type": ["HCP"],
-          ...data,
-          ...obj,
-          status: ["Registered"],
-        };
-      } else {
+      } 
+      // else if (
+      //   localStorage.getItem("user_id") == "b3APser7L8OELDIG8ee2HQ=="
+      // ) {
+      //   payload = {
+      //     "contact Type": ["HCP"],
+      //     ...data,
+      //     ...obj,
+      //     status: ["Registered"],
+      //   };
+      // }
+       else {
         payload = { ...data, ...obj };
       }
 
@@ -419,10 +426,10 @@ const NewReaders = () => {
 
       if (localStorage.getItem("user_id") == "b3APser7L8OELDIG8ee2HQ==") {
         payload = {
-          "contact Type": ["HCP"],
+          // "contact Type": ["HCP"],
           ...data,
-          ...filterObject,
-          status: ["Registered"],
+          ...apifilterObject,
+          // status: ["Registered"],
         };
       }
       else if (isLikeRdAccount) {
@@ -2516,7 +2523,11 @@ const NewReaders = () => {
                                             <h6 className="tab-content-title">
                                               Contact Type
                                             </h6>
-                                            <h6>{data?.user_status.toUpperCase()}</h6>
+                                            <h6>
+                                              {
+                                                data?.user_status.includes('Hcp') ? data?.user_status.toUpperCase() : data?.user_status
+                                              }
+                                            </h6>
                                           </li>
                                         </>
                                       )}
