@@ -10730,6 +10730,10 @@ section.search-hcp.smart-list-view .header-btn-left {
   .mail-content-select .not_found {
     min-height: 35vh;
   }
+  .filter-by button svg {
+    margin-left: 18px;
+  }
+  
 }
 
 @media only screen and (max-width: 1365px) {

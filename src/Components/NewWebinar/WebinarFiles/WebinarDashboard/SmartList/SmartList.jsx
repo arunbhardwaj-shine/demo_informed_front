@@ -454,12 +454,11 @@ const SmartList = (props) => {
                   <div className="action-btn-add" style={{margin:"0"}}>
                     <Link  to="/webinar/email/smartlist/createsmartlist"
                     state={{ creator: getUserDetails?.name }}  className="btn-dashed">Create List <img src={path_image + "add-icon.png"} alt="" /></Link>
-                  </div>
                   {
                     smartListData?.length > 0 && (
                       editstatus ? (
                         <button
-                          className="btn btn-outline-primary cancel"
+                          className="btn btn-filled"
                           onClick={(e) => showEditButtons()}
                         >
                           Cancel
@@ -472,6 +471,7 @@ const SmartList = (props) => {
                       )
                     )
                   }
+                  </div>
                 </>
                 {/* ) : null
               } */}
