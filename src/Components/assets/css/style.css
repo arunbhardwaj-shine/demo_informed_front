@@ -604,7 +604,12 @@ nav #collapsibleNavbar .nav-item.user-login .dropdown .dropdown-menu a:hover {
 .clear-search {
   margin-left: 20px;
 }
-
+.clear-search .btn-filled{
+  background: var(--light-blue);
+}
+.clear-search .btn-filled svg path{
+  fill: var(--white);
+}
 .licence-renew .clear-search {
   gap: 12px;
   margin: 0;
@@ -953,7 +958,9 @@ nav #collapsibleNavbar .nav-item.user-login .dropdown .dropdown-menu a:hover {
 .rd .dlt_btn button {
   background: var(--violet);
 }
-
+.rd .dlt_btn button svg path{
+  fill: var(--white);
+}
 .rd .dlt_btn button:hover {
   background: #7a348f;
 }

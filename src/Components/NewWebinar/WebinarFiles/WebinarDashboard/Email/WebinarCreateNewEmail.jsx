@@ -2525,7 +2525,7 @@ const WebinarCreateNewEmail = (props) => {
                 <Modal id="tagsModal" show={isOpenTagModal}>
                     <Modal.Header>
                         <h5 className="modal-title" id="staticBackdropLabel">
-                            Add Tags
+                           Add Topics
                         </h5>
                         <button
                             type="button"

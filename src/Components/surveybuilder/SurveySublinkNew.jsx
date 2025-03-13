@@ -2,30 +2,20 @@ import { useState, useEffect, useRef } from "react";
 import {
   Button,
   Col,
-  Dropdown,
-  Modal,
-  DropdownButton,
-  Form,
   Row,
-  Tab,
-  Tabs,
   Accordion,
 } from "react-bootstrap";
 import { useLocation, useNavigate } from "react-router-dom";
-import Select from "react-select";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 import { QRCodeCanvas } from "qrcode.react";
 import { loader } from "../../loader";
 import { Spinner } from "react-activity";
-import SurveySublinkListing from "./SurveySublinkListing";
 import { surveyAxiosInstance } from "./CommonFunctions/CommonFunction";
 import { surveyEndpoints } from "./SurveyEndpoints/SurveyEndpoints";
 import { analyticButtonClicked } from "./CommonFunctions/CommonFunction";
 import SublinkModal from "./SurveyEmailEngine/Modals/SublinkModal";
 import TopicModals from "./SurveyEmailEngine/Modals/TopicModals";
-
-import { format } from "date-fns";
 let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const SurveySublink = () => {
@@ -72,6 +62,7 @@ const SurveySublink = () => {
   const [data, setIsData] = useState([]);
   const buttonRef = useRef(null);
   const filterRef = useRef(null);
+  
   useEffect(() => {
     function handleOutsideClick(event) {
       if (
@@ -765,7 +756,7 @@ const SurveySublink = () => {
                           <div className="library-content-box-layuot">
                             <div className="email_box_block">
                               <div className="mail-box-acccordion">
-                                <Accordion>
+                                <Accordion >
                                   {data?.length > 0
                                     ? data?.map((item, index) => (
                                         <React.Fragment key={index}>
