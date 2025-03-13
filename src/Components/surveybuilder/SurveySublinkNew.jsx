@@ -57,12 +57,16 @@ const SurveySublink = () => {
   const [error, setError] = useState({});
   const [submiHandle, setSubmiHandle] = useState("");
   const [flag, setFlag] = useState(0);
-
+  const [defaultAccordion,setDefaultOpenAccordion]=useState(0)
   const [identifier, setIdentifier] = useState("");
   const [data, setIsData] = useState([]);
   const buttonRef = useRef(null);
   const filterRef = useRef(null);
-  
+ const accordionRef = useRef(null);
+
+ 
+
+
   useEffect(() => {
     function handleOutsideClick(event) {
       if (
@@ -204,26 +208,55 @@ const SurveySublink = () => {
     }
   }, [selectedSurveyId]);
 
+  useEffect(() => {
+    const selectedSurveyIndex =  Array.isArray(data)
+    ?  data.findIndex((item) => item.survey_id === state?.survey_id)
+     : -1;
+
+     console.log(selectedSurveyIndex);
+     setDefaultOpenAccordion(selectedSurveyIndex);
+
+  }, [data]);
+
+  // useEffect(() => {
+  //   if (state?.survey_id) {
+  //        if (accordionRef.current) {
+  //          accordionRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+  //        }
+  //      }
+  // }, [defaultAccordion]);
+
+
+
+ 
+
   const getSurveyData = async () => {
     try {
       loader("show");
 
       const res = await surveyAxiosInstance.post(FETCH_SURVEY_DATA, {
         survey_id: 0,
+        is_live:1
       });
+
+   
+        //   if (state?.survey_id) {
+  //        if (accordionRef.current) {
+  //          accordionRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+  //        }
+  //      }
 
       setIsData(res.data.data);
       setOriginalSurveyData(res.data.data)
-
 
       const filters=await surveyAxiosInstance.get("/survey/survey-filters")
   
       if(filters.status == 201){
         setFilterData(filters?.data?.data)
       }
-
- 
- 
+      if (state?.survey_id) {
+        getSubLinkListingData(state?.survey_id)
+      }
 
       loader("hide");
     } catch (err) {
@@ -393,8 +426,8 @@ const SurveySublink = () => {
 
  
 
-  const getSubLinkListingData = async (e, survey_id) => {
-    e.preventDefault();
+  const getSubLinkListingData = async (survey_id) => {
+    // e.preventDefault();
 
     if (openAccordionId === survey_id) {
       // If the same accordion is clicked again, close it
@@ -756,7 +789,8 @@ const SurveySublink = () => {
                           <div className="library-content-box-layuot">
                             <div className="email_box_block">
                               <div className="mail-box-acccordion">
-                                <Accordion >
+                              <Accordion defaultActiveKey={defaultAccordion !== null ? String(defaultAccordion) : undefined}>
+
                                   {data?.length > 0
                                     ? data?.map((item, index) => (
                                         <React.Fragment key={index}>
@@ -1177,17 +1211,14 @@ const SurveySublink = () => {
                                               </div>
                                             </div>
 
-                                            <Accordion.Item eventKey={index}>
+                                            <Accordion.Item eventKey={String(index)}  ref={accordionRef}>
                                               <Accordion.Header
 
                                               className={sectionLoader ? "disabled" : undefined }
                                               style={{ pointerEvents: sectionLoader ? "none" : "auto" }}
 
                                                 onClick={(e) =>
-                                                  getSubLinkListingData(
-                                                    e,
-                                                    item.survey_id
-                                                  )
+                                                  getSubLinkListingData(item.survey_id)
                                                 }
                                               >
                                                 SubLinks
