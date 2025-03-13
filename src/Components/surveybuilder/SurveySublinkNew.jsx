@@ -208,6 +208,16 @@ const SurveySublink = () => {
     }
   }, [selectedSurveyId]);
 
+  useEffect(() => {
+    const selectedSurveyIndex =  Array.isArray(data)
+    ?  data.findIndex((item) => item.survey_id === state?.survey_id)
+     : -1;
+
+     console.log(selectedSurveyIndex);
+     setDefaultOpenAccordion(selectedSurveyIndex);
+
+  }, [data]);
+
   // useEffect(() => {
   //   if (state?.survey_id) {
   //        if (accordionRef.current) {
@@ -229,12 +239,7 @@ const SurveySublink = () => {
         is_live:1
       });
 
-      const selectedSurveyIndex =  Array.isArray(res.data.data)
-      ? await res.data.data.findIndex((item) => item.survey_id === state?.survey_id)
-       : -1;
-
-       console.log(selectedSurveyIndex);
-       setDefaultOpenAccordion(selectedSurveyIndex);
+   
         //   if (state?.survey_id) {
   //        if (accordionRef.current) {
   //          accordionRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
