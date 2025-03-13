@@ -40,6 +40,7 @@ export const surveyEndpoints = {
    // ADD_SURVEY_SUBLINK_TAGS:"/survey/add-survey-sublink-tag",
     UPDATE_SURVEY_SUBLINK_TAGS:"/survey/update-sublink-tag",
     UPDATE_SURVEY_TOPICS:"/survey/update-survey-topics",
+    DOWNLOAD_SMART_LIST : "distributes/download_smart_list_readers",
 
     // Last Publish Page Endpoints
     INSERT_SURVEY_DATA: "/survey/insert-survey-data",
