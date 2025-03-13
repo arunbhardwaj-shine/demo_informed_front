@@ -1332,7 +1332,7 @@ const CreateEmail = (props) => {
 
     
         axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
-        loader("show");
+         
 
                        try {
                                   loader("show");
