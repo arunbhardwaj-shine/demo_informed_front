@@ -57,7 +57,7 @@ const SurveySublink = () => {
   const [error, setError] = useState({});
   const [submiHandle, setSubmiHandle] = useState("");
   const [flag, setFlag] = useState(0);
-  const [defaultAccordion,setDefaultOpenAccordion]=useState(0)
+  const [defaultAccordion,setDefaultOpenAccordion]=useState('initial')
   const [identifier, setIdentifier] = useState("");
   const [data, setIsData] = useState([]);
   const buttonRef = useRef(null);
@@ -209,26 +209,36 @@ const SurveySublink = () => {
   }, [selectedSurveyId]);
 
   useEffect(() => {
-    const selectedSurveyIndex =  Array.isArray(data)
-    ?  data.findIndex((item) => item.survey_id === state?.survey_id)
-     : -1;
 
-     console.log(selectedSurveyIndex);
-     setDefaultOpenAccordion(selectedSurveyIndex);
-
+    if(data.length && state?.survey_id){
+      const selectedSurveyIndex =  Array.isArray(data)
+      ? data.findIndex((item) => item.survey_id === state?.survey_id)
+       : -1;
+   
+       setDefaultOpenAccordion(selectedSurveyIndex!=-1?selectedSurveyIndex:0);
+    }
+    else if (data.length){
+      setDefaultOpenAccordion(null)
+    }
+   
   }, [data]);
 
-  // useEffect(() => {
-  //   if (state?.survey_id) {
-  //        if (accordionRef.current) {
-  //          accordionRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
-  //        }
-  //      }
-  // }, [defaultAccordion]);
+   
 
 
-
+  
+  useEffect(() => {
+    const element=document.getElementById("defaultOpened")
+    if (element) {
  
+      element.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
+  }, [defaultAccordion]);
+  
+  
+  
+
+
 
   const getSurveyData = async () => {
     try {
@@ -239,7 +249,12 @@ const SurveySublink = () => {
         is_live:1
       });
 
-   
+      // const selectedSurveyIndex =  Array.isArray(res.data.data)
+      // ? await res.data.data.findIndex((item) => item.survey_id === state?.survey_id)
+      //  : -1;
+
+       
+
         //   if (state?.survey_id) {
   //        if (accordionRef.current) {
   //          accordionRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -789,7 +804,7 @@ const SurveySublink = () => {
                           <div className="library-content-box-layuot">
                             <div className="email_box_block">
                               <div className="mail-box-acccordion">
-                              <Accordion defaultActiveKey={defaultAccordion !== null ? String(defaultAccordion) : undefined}>
+                             { defaultAccordion !="initial" && <Accordion defaultActiveKey={defaultAccordion !== null ? String(defaultAccordion) : undefined}>
 
                                   {data?.length > 0
                                     ? data?.map((item, index) => (
@@ -1211,7 +1226,7 @@ const SurveySublink = () => {
                                               </div>
                                             </div>
 
-                                            <Accordion.Item eventKey={String(index)}  ref={accordionRef}>
+                                            <Accordion.Item eventKey={String(index)}  ref={accordionRef} id={defaultAccordion == index ? "defaultOpened" : "" }>
                                               <Accordion.Header
 
                                               className={sectionLoader ? "disabled" : undefined }
@@ -1273,7 +1288,7 @@ const SurveySublink = () => {
                                                       return (
 
                                                         <React.Fragment key={index}>
-                                                          <div className="mail-box-content">
+                                                          <div className="mail-box-content" >
                                                             <div className="mail-box-content-top">
                                                               <div className="mail-box-content-top-left">
                                                                 <h5>
@@ -1636,7 +1651,7 @@ const SurveySublink = () => {
                                         </React.Fragment>
                                       ))
                                     : <div className="no_found"><p>No Data Found</p></div>}
-                                </Accordion>
+                                </Accordion>}
                               </div>
                             </div>
                           </div>
