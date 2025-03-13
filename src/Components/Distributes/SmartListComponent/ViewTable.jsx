@@ -1987,6 +1987,7 @@ const ViewTable = (props) => {
                   <th scope="col" className="sort_option">
                     Bounced
                   </th>
+                
                   <th scope="col" className="sort_option">
                     <span onClick={() => handleSort('country')} >
                       Country
@@ -2093,7 +2094,7 @@ const ViewTable = (props) => {
                     </>
                   ) : (
                     <>
-                   {groupId !=2 &&   <th scope="col" className="sort_option">
+                   {groupId !=2 && <th scope="col" className="sort_option">
                         <span onClick={() => handleSort('ibu')} >
                           Business unit
                           <button
@@ -2327,8 +2328,11 @@ const ViewTable = (props) => {
                       )}
                     </td>
                     {(isLikeRdAccount) && (<><td id="field_site_number">{item?.site_number ? item?.site_number : "N/A"}</td></>)}
-                    <td id="field_business_unit">
+                    {/* <td id="field_business_unit"> */}
                       {/*item.ibu*/}
+
+
+                      { groupId !=2 && <td id="field_business_unit">
                       {(isLikeRdAccount)
                         ? item?.irt
                           ? "Yes"
@@ -2336,7 +2340,18 @@ const ViewTable = (props) => {
                         : item.ibu
                           ? item.ibu
                           : "N/A"}
-                    </td>
+                    </td>}
+
+
+
+                      {/* {(isLikeRdAccount)
+                        ? item?.irt
+                          ? "Yes"
+                          : "No"
+                        : item.ibu
+                          ? item.ibu
+                          : "N/A"} */}
+                    {/* </td> */}
 
                     <td id="field_interest">
                       {(isLikeRdAccount) ? (
