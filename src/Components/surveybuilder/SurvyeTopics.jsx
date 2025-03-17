@@ -235,7 +235,7 @@ const submitHandler = (e) => {
                       id="email_search"
                      onChange={(e) => searchChange(e)}
                     />
-                    <button className="btn btn-outline-success" type="submit">
+                    <button className="btn btn-outline" type="submit">
                       <svg
                         width="16"
                         height="16"
@@ -307,7 +307,7 @@ const submitHandler = (e) => {
           <div className="create-change-content spc-content">
            
             <Row>
-              <div className="col-12 selected-products-list product_show d-flex">
+              <div className="col-12 selected-products-list product_show d-flex survey-topics">
               
                 {productData?.data?.length > 0 ? (
                   productData?.data?.map((item,i) => {

@@ -2164,9 +2164,12 @@ span {
  
   .selected-products-list{
     padding:56px 12px 0;
-    &:before{
-      display: none;
+    &.survey-topics{
+      &:before{
+        display: none;
+      }
     }
+   
   }
   } 
 }

@@ -388,7 +388,7 @@ const EmailStats = (props) => {
                         />
                         {!search ? (
                           <button
-                            className="btn btn-outline-success"
+                            className="btn btn-outline"
                             type="submit"
                           >
                             <svg

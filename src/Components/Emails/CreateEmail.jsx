@@ -3179,7 +3179,7 @@ const CreateEmail = (props) => {
                     onChange={(e) => searchChange(e)}
                   />
                   <button
-                    className="btn btn-outline-success"
+                    className="btn btn-outline"
                     onClick={(e) => submitHandler(e)}
                   >
                     <svg
