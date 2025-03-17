@@ -222,13 +222,13 @@ const EditLicense = () => {
     if (!tagClickedFirst.includes(dd)) {
       setTagClickedFirst((oldArray) => [...oldArray, dd]);
     } else {
-      toast.error("Tag already in list.");
+      toast.error("Topic already in list.");
     }
   };
 
   const addTag = async () => {
     if (typeof newTag == "undefined" || newTag.trim().length == 0) {
-      toast.error("Please input a tag");
+      toast.error("Please input a topic");
     } else {
       loader("show");
       await postData(ENDPOINT.ADD_TAGS, {
@@ -258,7 +258,7 @@ const EditLicense = () => {
           tags: newTag,
         };
       } else {
-        toast.error("Tag already in list.");
+        toast.error("Topic already in list.");
       }
       setNewTag("");
       setTagsCounter(tagsCounter + 1);
@@ -1877,7 +1877,7 @@ const EditLicense = () => {
         <Modal.Footer>
           <form>
             <div className="form-group">
-              <label htmlFor="new-tag">New Tag</label>
+              <label htmlFor="new-tag">New Topic</label>
               <input
                 type="text"
                 className="form-control"

@@ -1196,7 +1196,7 @@ const EmailList = (props) => {
                           filterdata.tags.length > 0 && !isRND && (
                             <Accordion.Item className="card" eventKey="0">
                               <Accordion.Header className="card-header">
-                                Tags
+                                Topics
                               </Accordion.Header>
                               <Accordion.Body className="card-body">
                                 <ul>
@@ -1537,7 +1537,7 @@ const EmailList = (props) => {
                       {filtertags.length > 0 && (
                         <div className="filter-div">
                           <div className="filter-div-title">
-                            <span>Tags |</span>
+                            <span>Topics |</span>
                           </div>
                           <div className="filter-div-list">
                             {Object.entries(filtertags).map(([index, item]) => (
@@ -2400,7 +2400,7 @@ const EmailList = (props) => {
                     <span>{viewEmailData[0].created_at}</span>
                   </div>
                   <div className="mailbox-tags">
-                    <h6>Tags</h6>
+                    <h6>Topics</h6>
                     <ul>
                       {viewEmailData[0].tags != "" ? (
                         viewEmailData[0].tags.map((tag, index) => {

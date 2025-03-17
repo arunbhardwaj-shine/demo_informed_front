@@ -42,7 +42,7 @@ function SurveyTopics() {
       label:
         localStorage.getItem("user_id") === "B7SHpAc XDXSH NXkN0rdQ=="
           ? "Topics"
-          : "Tags",
+          : "Topics",
     },
   ]);
   const [BusinessUnitAll, setBusinessUnitAll] = useState([

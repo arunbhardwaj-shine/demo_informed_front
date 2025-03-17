@@ -487,7 +487,7 @@ const LicenseCreateUser = () => {
     if (!tagClickedFirst.includes(dd)) {
       setTagClickedFirst((oldArray) => [...oldArray, dd]);
     } else {
-      toast.error("Tag already in list.");
+      toast.error("Topic already in list.");
     }
   };
 
@@ -541,7 +541,7 @@ const LicenseCreateUser = () => {
         //   tags: newTag,
         // };
       } else {
-        toast.error("Tag already in list.");
+        toast.error("Topic already in list.");
       }
       setNewTag("");
       setTagsCounter(tagsCounter + 1);
@@ -911,14 +911,14 @@ const LicenseCreateUser = () => {
                           />
                         </li>
                         <li className="list1">
-                          New tag 3{" "}
+                          New topic 3{" "}
                           <img
                             src="componentAssets/images/filter-close.svg"
                             alt="Close-filter"
                           />
                         </li>
                         <li className="list1">
-                          New tag 6{" "}
+                          New topic 6{" "}
                           <img
                             src="componentAssets/images/filter-close.svg"
                             alt="Close-filter"
@@ -1839,7 +1839,7 @@ const LicenseCreateUser = () => {
         <Modal.Footer>
           <form>
             <div className="form-group">
-              <label htmlFor="new-tag">New Tag</label>
+              <label htmlFor="new-tag">New Topic</label>
               <input
                 type="text"
                 className="form-control"

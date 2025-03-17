@@ -167,7 +167,7 @@ const TrendingTopics = () => {
               </svg>
               <p>
                 Every content is tagged for what it is about. These show which
-                tags got views by HCPs.
+                topics got views by HCPs.
               </p>
             </div>
             <div className="create-change-content spc-content analytic-charts">

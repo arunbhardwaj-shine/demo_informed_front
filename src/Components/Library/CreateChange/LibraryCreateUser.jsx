@@ -832,7 +832,7 @@ const LibraryCreateUser = () => {
       setTagClickedFirst((oldArray) => [...oldArray, dd]);
     } else {
       {isLikeRdAccount ?
-        toast.error("Topic already in list."): toast.error("Tag already in list.");
+        toast.error("Topic already in list."): toast.error("Topic already in list.");
        } 
     }
   };
@@ -890,7 +890,7 @@ const LibraryCreateUser = () => {
   const addTag = async () => {
     if (typeof newTag == "undefined" || newTag.trim().length == 0) {
       {isLikeRdAccount ?
-        toast.error("Please input a topic"): toast.error("Please input a tag");
+        toast.error("Please input a topic"): toast.error("Please input a topic");
        } 
     } else {
       loader("show");
@@ -928,7 +928,7 @@ const LibraryCreateUser = () => {
           };
         } else {
           {isLikeRdAccount ?
-            toast.error("Topic already in list."): toast.error("Tag already in list.");
+            toast.error("Topic already in list."): toast.error("Topic already in list.");
            } 
         }
         setNewTag("");
@@ -2784,7 +2784,7 @@ const LibraryCreateUser = () => {
                 {" "}
                 {localStorage.getItem("user_id") === "B7SHpAc XDXSH NXkN0rdQ==" ||isLikeRdAccount
                   ? "New Topic"
-                  : "New Tag"}{" "}
+                  : "New Topic"}{" "}
               </label>
               <input
                 type="text"

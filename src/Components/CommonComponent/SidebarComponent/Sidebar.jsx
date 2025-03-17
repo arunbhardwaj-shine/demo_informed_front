@@ -172,7 +172,7 @@ const Sidebar = () => {
     video_url = "/componentAssets/images/new-sublink.mp4";
     video_poster = "/componentAssets/images/new-sublink.png";
   } else if (location.pathname == "/products") {
-    title = "Products and Tags";
+    title = "Products and Topics";
     video_url = "/componentAssets/images/products-tags.mp4";
     video_poster = "/componentAssets/images/products-tags.png";
   } else if (
@@ -711,7 +711,7 @@ const Sidebar = () => {
                             "B7SHpAc XDXSH NXkN0rdQ==" ? (
                             <p>Products & Topics</p>
                           ) : (
-                            <p>Products & Tags</p>
+                            <p>Products & Topics</p>
                           )
                       ) : null}
                     </Link>
@@ -2533,7 +2533,7 @@ const Sidebar = () => {
                       />
                       <p className="help-popup-title">
                         Each "Content box" will include the title of the
-                        content, subtitle, tag, upload date, language, if a SPC
+                        content, subtitle, topic, upload date, language, if a SPC
                         is included, and the date of the last email the content
                         was included in.
                       </p>
@@ -2687,13 +2687,13 @@ const Sidebar = () => {
     onClick={(e) => e.preventDefault()}
                           className="btn btn-primary btn-filled"
                         >
-                          + Add Tag
+                          + Add Topic
                         </a>
                       </div>
                       <p>
-                        We use #tags for both analytics and to sort and find
-                        emails.Click the "+Add Tags" button to select, remove or
-                        add new tags.
+                        We use #topics for both analytics and to sort and find
+                        emails.Click the "+Add Topics" button to select, remove or
+                        add new topics.
                       </p>
                     </div>
 
@@ -4268,7 +4268,7 @@ const Sidebar = () => {
                         <ul>
                           <li>Content</li>
                           <li>Create & Change</li>
-                          <li>Products and Tags</li>
+                          <li>Products and Topics</li>
                         </ul>
                       </div>
 
@@ -4284,7 +4284,7 @@ const Sidebar = () => {
                           <li>Title</li>
                           <li>Subtitle</li>
                           <li>Author name</li>
-                          <li>Selected tag</li>
+                          <li>Selected topic</li>
                         </ul>
                       </div>
                       <hr />
@@ -4442,12 +4442,12 @@ const Sidebar = () => {
                           </span>
                         </p>
                         <Button className="btn-bordered white">
-                          Add / remove tags
+                          Add / remove topics
                         </Button>
                         <p>
                           <span>
-                            Opens Tags pop-up where you can add new or remove
-                            tags from your content. Tags are useful for users to
+                            Opens Topics pop-up where you can add new or remove
+                            topics from your content. Topics are useful for users to
                             filter content by if they have a library, for
                             tracking usage, and for AI to learn from.{" "}
                           </span>
@@ -4769,12 +4769,12 @@ const Sidebar = () => {
                           </span>
                         </p>
                         <Button className="btn-bordered white">
-                          Add / remove tags
+                          Add / remove topics
                         </Button>
                         <p>
                           <span>
-                            Opens Tags pop-up where you can add new or remove
-                            tags from your content. Tags are useful for users to
+                            Opens Topics pop-up where you can add new or remove
+                            topics from your content. Topics are useful for users to
                             filter content by if they have a library, for
                             tracking usage, and for AI to learn from.{" "}
                           </span>
@@ -5067,14 +5067,14 @@ const Sidebar = () => {
                         </span>
                       </p>
                       <Button className="btn-bordered">
-                        Add / remove tags
+                        Add / remove topics
                       </Button>
                       <p>
                         <span>
-                          Opens Tags pop-up where you can add new or remove tags
-                          from your content. Tags are useful for users to filter
+                          Opens Topics pop-up where you can add new or remove topics
+                          from your content. Topics are useful for users to filter
                           content by if they have a library, for tracking usage,
-                          and for AI to learn from.{" "}
+                          and for AI to learn from.
                         </span>
                       </p>
                       <Button className="btn-bordered">New sublink</Button>
@@ -5665,7 +5665,7 @@ const Sidebar = () => {
                         <p></p>
                         <p>
                           <span>
-                            To add topic tags, click “Add Topic” and select one
+                            To add topic, click “Add Topic” and select one
                             or more from the predefined list or create your own.
                           </span>
                         </p>
@@ -6567,11 +6567,11 @@ const Sidebar = () => {
                         <strong>Selecting Type</strong>
                         <br />
                         At the top of the page, you'll find the “Select Type”
-                        bar. Click to select “Products” or “Tags”.
+                        bar. Click to select “Products” or “Topics”.
                       </p>
                       <p>
-                        If you’ve selected “Products or Tags” you’ll see a list
-                        of all your products or tags at the bottom of the page.
+                        If you’ve selected “Products or Topics” you’ll see a list
+                        of all your products or topics at the bottom of the page.
                       </p>
                     </div>
                     <hr />
@@ -6583,8 +6583,8 @@ const Sidebar = () => {
                       />
                       <p>
                         <span>
-                          To edit a product or tag, click the “Edit” button
-                          (Pictured as a pencil), next to that product or tag.{" "}
+                          To edit a product or topic, click the “Edit” button
+                          (Pictured as a pencil), next to that product or topic.{" "}
                         </span>
                       </p>
                     </div>
@@ -6612,8 +6612,8 @@ const Sidebar = () => {
                       />
                       <p>
                         <span>
-                          To edit a product or tag, click the “Edit” button
-                          (Pictured as a pencil), next to that product or tag.{" "}
+                          To edit a product or topic, click the “Edit” button
+                          (Pictured as a pencil), next to that product or topic.{" "}
                         </span>
                       </p>
                     </div>

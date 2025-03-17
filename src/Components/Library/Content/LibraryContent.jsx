@@ -882,7 +882,7 @@ const LibraryContent = (props) => {
       setTagClickedFirst((oldArray) => [...oldArray, dd]);
     } else {
       {isLikeRdAccount ?
-        toast.error("Topic already in list."): toast.error("Tag already in list.");
+        toast.error("Topic already in list."): toast.error("Topic already in list.");
        } 
       
     }
@@ -909,7 +909,7 @@ const LibraryContent = (props) => {
     try {
       if (typeof newTag == "undefined" || newTag.trim().length == 0) {
        {isLikeRdAccount ?
-        toast.error("Please input a topic"): toast.error("Please input a tag");
+        toast.error("Please input a topic"): toast.error("Please input a topic");
        } 
         
       } else {
@@ -947,7 +947,7 @@ const LibraryContent = (props) => {
           };
         } else {
           {isLikeRdAccount ?
-            toast.error("Topic already in list."): toast.error("Tag already in list.");
+            toast.error("Topic already in list."): toast.error("Topic already in list.");
            } 
         }
         setNewTag("");
@@ -2785,7 +2785,7 @@ const LibraryContent = (props) => {
                                           tagButtonClicked(data.id)
                                         }
                                       >
-                                        Tags
+                                        Topics
                                       </Button>
                                     ) : null}
 
@@ -3055,7 +3055,7 @@ const LibraryContent = (props) => {
       <Modal id="tagsModal" show={isOpen}>
         <Modal.Header>
           <h5 className="modal-title" id="staticBackdropLabel">
-        { isLikeRdAccount ? "Add Topics" : "Add Tags"}
+        { isLikeRdAccount ? "Add Topics" : "Add Topics"}
           </h5>
           <button
             type="button"
@@ -3068,7 +3068,7 @@ const LibraryContent = (props) => {
         <Modal.Body>
           <div className="select-tags">
             <h6>
-            {isLikeRdAccount ? "Select Topic :" : "Select Tag :"}
+            {isLikeRdAccount ? "Select Topic :" : "Select Topic :"}
             </h6>
             <div className="tag-lists">
               <div className="tag-lists-view">
@@ -3089,7 +3089,7 @@ const LibraryContent = (props) => {
           <div className="selected-tags">
             <h6>
              
-              {isLikeRdAccount ? "Selected Topics" : "Selected Tag"}
+              {isLikeRdAccount ? "Selected Topics" : "Selected Topic"}
                <span> | {tagClickedFirst.length}</span>
             </h6>
 
@@ -3115,7 +3115,7 @@ const LibraryContent = (props) => {
           <form>
             <div className="form-group">
               <label htmlFor="new-tag">
-              {isLikeRdAccount ? "New Topic" : "New Tag"}
+              {isLikeRdAccount ? "New Topic" : "New Topic"}
 
               </label>
               <input
