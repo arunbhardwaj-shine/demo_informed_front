@@ -307,7 +307,7 @@ const submitHandler = (e) => {
           <div className="create-change-content spc-content">
            
             <Row>
-              <div className="col-12 selected-products-list product_show d-flex">
+              <div className="col-12 selected-products-list product_show d-flex survey-topics">
               
                 {productData?.data?.length > 0 ? (
                   productData?.data?.map((item,i) => {
