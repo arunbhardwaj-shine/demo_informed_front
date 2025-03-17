@@ -1051,7 +1051,7 @@ const SelectSmartListUsers = (props) => {
           })
           .catch((err) => {
             loader("hide");
-            toast.error("Somwthing went wrong");
+            toast.error("Something went wrong");
           });
       } else {
         const filteredArray = status.filter((value) => value !== "true");

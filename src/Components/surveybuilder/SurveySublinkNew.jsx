@@ -1247,7 +1247,7 @@ const SurveySublink = () => {
                                                     </h6>
                                                   </div>
                                                   <Button
-                                                    className={`btn-dashed ${sectionLoader ? "disabled":""} `}
+                                                    className={`btn-dashed ${sectionLoader ? "disabled":""}`}
                                                     onClick={() => {
                                                       showSublinkModal(
                                                         item.survey_id
@@ -1644,7 +1644,7 @@ const SurveySublink = () => {
                                                       );
                                                     }
                                                   )
-                                                ) : <div className="not-found">Please create First sublink</div>}
+                                                ) : <div className="not-found">Please create sublink first</div>}
                                               </Accordion.Body>
                                             </Accordion.Item>
                                           </div>

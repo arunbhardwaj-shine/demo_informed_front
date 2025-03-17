@@ -487,7 +487,7 @@ nav #collapsibleNavbar .nav-item.user-login .dropdown .dropdown-menu a:hover {
   line-height: 16px;
   border: 0.5px solid transparent;
   position: relative;
-  z-index: 8;
+  z-index: 7;
 }
 
 .question-preview-block .filter-by button {

@@ -8090,7 +8090,7 @@ input.viewer-toolbar-current-page-input {
       padding: 20px 8px 15px;
       position: sticky;
       top: 84px;
-      z-index: 5;
+      z-index: 8;
       background: #fbfcfd;
       margin: 0 0 15px;
       transition: 0.3s linear;
@@ -8182,13 +8182,7 @@ input.viewer-toolbar-current-page-input {
 }
 
 header.-top-24~div .custom-change .top-header.sticky,
-header.-top-24~div .custom-change .page-top-nav.sticky {
-  top: 0px;
-  transition: 0.3s linear;
-}
-
-header.-top-24~div .custom-change .top-sticky,
-header.-top-24~div .custom-change .page-top-nav.sticky {
+header.-top-24~div .custom-change .page-top-nav.sticky, header.-top-24~div .custom-change .top-sticky {
   top: 0px;
   transition: 0.3s linear;
 }

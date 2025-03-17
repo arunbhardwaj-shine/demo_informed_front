@@ -778,7 +778,7 @@ const WebinarCreateNewEmail = (props) => {
                 }
             })
             .catch((err) => {
-                toast.error("Somwthing went wrong");
+                toast.error("Something went wrong");
             });
     };
 
