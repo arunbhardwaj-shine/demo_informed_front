@@ -1546,18 +1546,7 @@ const SurveyList = (props) => {
                                           </Button>
                                         </div>
                                       )}
-
-
-
-
-
-
                                     </div>
-
-
-
-
-
                                   </div>
                                 </Tab>
                                 <Tab
@@ -1597,7 +1586,7 @@ const SurveyList = (props) => {
                                         <div className="mailbox-buttons justify-content-end">
                                           {!(editSurvey || deletestatus) && (<div className="send_new">
                                             <Button
-                                              className="btn-bordered send-new"
+                                              className={data?.is_draft === 0 || data?.is_draft == "2" ? "btn-bordered send-new disabled" : "btn-bordered send-new"}
                                               onClick={() => {
                                                 navigate(
                                                   "/survey/survey-sublink-new",
