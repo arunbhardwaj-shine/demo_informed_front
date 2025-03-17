@@ -224,9 +224,6 @@ const SurveySublink = () => {
   }, [data]);
 
    
-
-
-  
   useEffect(() => {
     const element=document.getElementById("defaultOpened")
     if (element) {
@@ -243,36 +240,19 @@ const SurveySublink = () => {
   const getSurveyData = async () => {
     try {
       loader("show");
-
       const res = await surveyAxiosInstance.post(FETCH_SURVEY_DATA, {
         survey_id: 0,
         is_live:1
       });
-
-      // const selectedSurveyIndex =  Array.isArray(res.data.data)
-      // ? await res.data.data.findIndex((item) => item.survey_id === state?.survey_id)
-      //  : -1;
-
-       
-
-        //   if (state?.survey_id) {
-  //        if (accordionRef.current) {
-  //          accordionRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
-  //        }
-  //      }
-
       setIsData(res.data.data);
       setOriginalSurveyData(res.data.data)
-
       const filters=await surveyAxiosInstance.get("/survey/survey-filters")
-  
       if(filters.status == 201){
         setFilterData(filters?.data?.data)
       }
       if (state?.survey_id) {
         getSubLinkListingData(state?.survey_id)
       }
-
       loader("hide");
     } catch (err) {
       console.log("err");
@@ -282,8 +262,6 @@ const SurveySublink = () => {
     }
   };
 
-
-      
 
   const downloadQRCode = (title = "") => {
     const canvas = document.getElementById("qr-gen");
