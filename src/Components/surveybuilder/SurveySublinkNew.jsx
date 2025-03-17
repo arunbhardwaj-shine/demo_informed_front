@@ -782,6 +782,7 @@ const SurveySublink = () => {
                           <div className="library-content-box-layuot">
                             <div className="email_box_block">
                               <div className="mail-box-acccordion">
+
                              { defaultAccordion !="initial" && <Accordion defaultActiveKey={defaultAccordion !== null ? String(defaultAccordion) : undefined}>
 
                                   {data?.length > 0
@@ -1225,7 +1226,7 @@ const SurveySublink = () => {
                                                     </h6>
                                                   </div>
                                                   <Button
-                                                    className={`btn-dashed ${sectionLoader ? "disabled":""} `}
+                                                    className={`btn-dashed ${sectionLoader ? "disabled":""}`}
                                                     onClick={() => {
                                                       showSublinkModal(
                                                         item.survey_id
@@ -1622,7 +1623,7 @@ const SurveySublink = () => {
                                                       );
                                                     }
                                                   )
-                                                ) : <div className="not-found">Please create First sublink</div>}
+                                                ) : <div className="not-found">Please create sublink first</div>}
                                               </Accordion.Body>
                                             </Accordion.Item>
                                           </div>
@@ -1630,6 +1631,14 @@ const SurveySublink = () => {
                                       ))
                                     : <div className="no_found"><p>No Data Found</p></div>}
                                 </Accordion>}
+
+                                {
+                                  data?.length <= 0  && <div className="no_found"><p>No Data Found</p></div>
+                                }
+
+
+
+
                               </div>
                             </div>
                           </div>

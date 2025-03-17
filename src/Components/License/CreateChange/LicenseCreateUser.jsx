@@ -511,7 +511,7 @@ const LicenseCreateUser = () => {
 
   const addTag = async () => {
     if (typeof newTag == "undefined" || newTag.trim().length == 0) {
-      toast.error("Please input a tag");
+      toast.error("Please input a topic");
     } else {
       loader("show");
       const hadData = await postData(ENDPOINT.ADD_TAGS, {

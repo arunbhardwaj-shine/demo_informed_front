@@ -260,7 +260,7 @@ const CreateSunshineEmail = (props) => {
 
   const addTag = async() => {
     if (typeof newTag == "undefined" || newTag.trim().length == 0) {
-      toast.error("Please input a tag");
+      toast.error("Please input a topic");
     } else {
       let temp_tags = tagClickedFirst.map((data) => {
         return data.toLowerCase();

@@ -244,6 +244,9 @@
       padding-right: 6px;
       padding-left: 0px;
     }
+    .tox .tox-editor-container .tox-editor-header {
+      grid-template-columns: unset;
+  }
 }
 
 @media only screen and (max-width: 1650px) {
@@ -593,6 +596,7 @@
 
   .form-inline .form-group input#email-address {
     max-width: 315px;
+    flex: 1 1;
   }
 
   .mail-recipt-right .mail-content-select-box {
@@ -982,9 +986,12 @@
   }
 
   .input-group-prepend::after {
-    left: 142px;
+    left: 162px;
   }
-
+  .form-inline .form-group label {
+    width: 175px;
+    flex: 0 0 175px;
+}
   .sidebar-menu {
     background-size: 140px;
   }
@@ -1682,6 +1689,7 @@
 
   .search-hcp .selected-hcp-list table.table {
     padding-right: 18px;
+    width:1100px;
   }
 
   .table-title .selected-hcp-table-action .btn img {
@@ -1850,10 +1858,10 @@
     margin: 0 -10px;
   }
 
-  .form-inline .form-group label {
+  /* .form-inline .form-group label {
     width: 150px;
     flex: 0 0 150px;
-  }
+  } */
 
   .new-smartlist .smartlist-view .mail-box-content .tabs-data .tab-content .tab-mail-list h6.tab-content-title {
     flex: 0 0 130px;
@@ -2588,10 +2596,6 @@
     font-size: 22px;
   }
 
-  .input-group-prepend::after {
-    left: 142px;
-  }
-
   .mailbox-tags ul li {
     font-size: 10px;
     line-height: 11px;
@@ -2972,6 +2976,22 @@
   #smart_list_popup_id.modal-dialog {
     max-width: 95%;
   }
+  .mail-content-select .row {
+    margin: 0 -10px 0 -10px;
+  }
+  .mail-content-select [class*="col-"] {
+    padding: 0 10px;
+  }
+  .split-button-dropup > div:nth-child(3) {
+    padding: 2px 30px 2px 15px;
+  }
+  .survey-mail .split-button-dropup div:nth-child(3)>div div {
+    padding: 0 0px 0 0;
+}
+.page-top-nav ul.tabnav-link li.active-main a:after,
+.navbar-nav li.active-main a:after {
+  bottom: -9px;
+}
 }
 
 @media only screen and (max-width: 1199px) {
@@ -3223,10 +3243,14 @@
   }
 
   .sidebar-menu ul li a svg, .sidebar-menu ul li a img {
-    margin-right: 9px;
+    margin-right: 6px;
     flex: 0 0 20px;
     max-height: 20px;
   }
+  .survey-mail .sublink-add {
+    margin: 4px 19px 15px 0;
+}
+
   .sidebar-menu ul li a,
   .sidebar-menu ul li p {
     font-size: 14px;
@@ -3472,9 +3496,12 @@
   }
 
   .active.sub-links .left-sidebar-secondary .sidebar-menu-secondary ul {
-    margin: 10px 0 0;
+    margin: 35px 0 0;
   }
-
+  .survey_mail_engine.mail-content-select [class*="col-"] {
+    width: 50%;
+    margin-bottom: 30px;
+}
   .left-sidebar {
     height: calc(100vh - 49px);
   }

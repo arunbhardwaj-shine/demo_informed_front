@@ -164,7 +164,7 @@ const LicenseEditListing = () => {
       });
       if (res?.data?.data) {
         setFilterData(res?.data?.data);
-        setAllTags(res?.data?.data?.tags);
+        setAllTags(res?.data?.data?.topic);
       }
       // loader("hide");
     } catch (err) {

@@ -1151,7 +1151,7 @@ const CreateEmail = (props) => {
         }
       })
       .catch((err) => {
-        toast.error("Somwthing went wrong");
+        toast.error("Something went wrong");
       });
   };
 
@@ -2357,7 +2357,7 @@ const CreateEmail = (props) => {
                               }
                               
                               <button
-                                  className="btn btn-primary btn-bordered"  state={{IrtObj:irtRoleObj }}
+                                  className="btn btn-primary btn-bordered" state={{IrtObj:irtRoleObj }}
                                   onClick={saveAsDraft}
                                 >
                                   Save As Draft

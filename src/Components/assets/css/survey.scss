@@ -162,7 +162,7 @@ span {
                         border-color: #8A4E9C;
                     }
                     .mail-hit{
-                      border-color: #0066BE;
+                      border-color: vars.$primary-color;
                     }
                     .mail_view{
                       border-color: #FAC755;
@@ -260,15 +260,25 @@ span {
                     align-items: center;
                     justify-content: center;
                     font-size: 14px;
-                    color: #0066be;
+                    color: vars.$primary-color;
                     height: 40px;
                     gap: 10px;
                     background: transparent;
                     font-weight: 500;
-                    border: 1px dashed #0066BE;
+                    border: 1px dashed vars.$primary-color;
+                    &:hover{
+                      background-color: vars.$primary-color;
+                      color: vars.$white;
+                      img{
+                        filter: brightness(0) invert(1);
+                      }
+                    }
                   }
                   .mail-box-content{
-                    margin-top: 16px;
+                    margin-top: 24px;
+                    &:nth-of-type(2){
+                      margin-top: 16px;
+                    }
                   }
                   .not-found{
                     height:180px;
@@ -1698,7 +1708,13 @@ span {
           }
         }
       }
-
+      .accordion-block{
+        .mail-box-content-top{
+          p{
+            margin-bottom: 5px;
+          }
+        }
+      }
       .tabs-data {
         height: 100%;
 
@@ -4380,7 +4396,7 @@ body {
         .row {
           justify-content: space-between !important;
 
-          .col-md-8 {
+          .col-md-8, .col-md-9 {
             width: 100%;
             order: 3;
 
@@ -4399,6 +4415,9 @@ body {
             }
           }
           .col-md-3 {
+            order: 2;
+          }
+          .col-md-2 {
             order: 2;
           }
           .col-sm-1 {

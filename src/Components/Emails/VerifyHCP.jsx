@@ -916,7 +916,7 @@ const VerifyHCP = (props) => {
           })
           .catch((err) => {
             loader("hide");
-            toast.error("Somwthing went wrong");
+            toast.error("Something went wrong");
           });
       } else {
         const filteredArray = status.filter((value) => value !== "true");
@@ -1336,12 +1336,18 @@ const VerifyHCP = (props) => {
                 <div className="col-12 col-md-8">
                   <ul className="tabnav-link">
                   <li className="active" onClick={handleSelectUsers}>
-                    {
+                    {/* {
                       routeTypeSurvey ? "Select Survey" :"Select Content"
+                    } */}
+                    {
+                      routeTypeSurvey ?
+                      <Link to="/survey/email/selectsurvey">Select Survey</Link>
+                      :
+                      <Link to="/EmailArticleSelect">Select Content</Link>
                     }
                     </li>
                     <li className="active" onClick={handleCreateMail}>
-                      Create Your Email
+                    <a href="#">Create Your Email</a>
                     </li>
                     
                     <li className="active active-main">
