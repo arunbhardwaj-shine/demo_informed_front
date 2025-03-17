@@ -214,7 +214,7 @@ const LicenseContent = (props) => {
       });
       if (res?.data?.data) {
         setFilterData(res?.data?.data);
-        setAllTags(res?.data?.data?.tags);
+        setAllTags(res?.data?.data?.topic);
       }
       // loader("hide");
     } catch (err) {
@@ -758,7 +758,7 @@ const LicenseContent = (props) => {
     if (!tagClickedFirst.includes(dd)) {
       setTagClickedFirst((oldArray) => [...oldArray, dd]);
     } else {
-      toast.error("Tag already in list.");
+      toast.error("Topic already in list.");
     }
   };
 
@@ -782,7 +782,7 @@ const LicenseContent = (props) => {
 
   const addTag = async () => {
     if (typeof newTag == "undefined" || newTag.trim().length == 0) {
-      toast.error("Please input a tag");
+      toast.error("Please input a topic");
     } else {
       let temp_tags = tagClickedFirst.map((data) => {
         return data.toLowerCase();
@@ -808,7 +808,7 @@ const LicenseContent = (props) => {
         };
         //console.log(body);
       } else {
-        toast.error("Tag already in list.");
+        toast.error("Topic already in list.");
       }
       setNewTag("");
       setTagsCounter(tagsCounter + 1);
@@ -2544,7 +2544,7 @@ const LicenseContent = (props) => {
                                           tagButtonClicked(data.id)
                                         }
                                       >
-                                        Tags
+                                        Topics
                                       </Button>
                                     ) : null}
                                     <Link
@@ -2893,7 +2893,7 @@ const LicenseContent = (props) => {
       <Modal id="tagsModal" show={isOpen}>
         <Modal.Header>
           <h5 className="modal-title" id="staticBackdropLabel">
-            Add Tags
+            Add Topics
           </h5>
           <button
             type="button"
@@ -2905,7 +2905,7 @@ const LicenseContent = (props) => {
         </Modal.Header>
         <Modal.Body>
           <div className="select-tags">
-            <h6>Select Tag :</h6>
+            <h6>Select Topic :</h6>
             <div className="tag-lists">
               <div className="tag-lists-view">
                 {Object.values(allTags).map((data,index) => {
@@ -2920,7 +2920,7 @@ const LicenseContent = (props) => {
           </div>
           <div className="selected-tags">
             <h6>
-              Selected Tag <span>| {tagClickedFirst.length}</span>
+              Selected Topic <span>| {tagClickedFirst.length}</span>
             </h6>
 
             <div className="total-selected">
@@ -2944,7 +2944,7 @@ const LicenseContent = (props) => {
         <Modal.Footer>
           <form>
             <div className="form-group">
-              <label htmlFor="new-tag">New Tag</label>
+              <label htmlFor="new-tag">New Topic</label>
               <input
                 type="text"
                 className="form-control"
@@ -2975,7 +2975,7 @@ const LicenseContent = (props) => {
       <Modal id="tagsModal" show={isOpen}>
         <Modal.Header>
           <h5 className="modal-title" id="staticBackdropLabel">
-            Add Tags
+            Add Topics
           </h5>
           <button
             type="button"
@@ -2987,7 +2987,7 @@ const LicenseContent = (props) => {
         </Modal.Header>
         <Modal.Body>
           <div className="select-tags">
-            <h6>Select Tag :</h6>
+            <h6>Select Topic :</h6>
             <div className="tag-lists">
               <div className="tag-lists-view">
                 {Object.values(allTags).map((data,index) => {
@@ -3002,7 +3002,7 @@ const LicenseContent = (props) => {
           </div>
           <div className="selected-tags">
             <h6>
-              Selected Tag <span>| {tagClickedFirst.length}</span>
+              Selected Topic <span>| {tagClickedFirst.length}</span>
             </h6>
 
             <div className="total-selected">
@@ -3026,7 +3026,7 @@ const LicenseContent = (props) => {
         <Modal.Footer>
           <form>
             <div className="form-group">
-              <label htmlFor="new-tag">New Tag</label>
+              <label htmlFor="new-tag">New Topic</label>
               <input
                 type="text"
                 className="form-control"

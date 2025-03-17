@@ -757,7 +757,7 @@ const WebinarVerifyMAIL = (props) => {
                               : ""}
                         </h6>
                         <h6>
-                          <strong>Tags | </strong>
+                          <strong>Topics | </strong>
                           <ul>
                             {props.getWebinarEmailData?.tags
                               ? props.getWebinarEmailData?.tags?.map((tags, i) => {

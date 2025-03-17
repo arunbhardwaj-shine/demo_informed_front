@@ -130,7 +130,7 @@ useEffect(() => {
         setTagClickedFirst(tags);
         setFinalTags(tags);
       } else {
-        console.warn("Tags not found for editTopic:",  );
+        console.warn("Topics not found for editTopic:",  );
       }
     }
  

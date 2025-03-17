@@ -128,7 +128,7 @@ useEffect(() => {
         setTagClickedFirst(clonedTags);
         setFinalTags(clonedTags);
       } else {
-        console.warn("Tags not found for editTopic:", editTopic);
+        console.warn("Topics not found for editTopic:", editTopic);
       }
     }
   };
