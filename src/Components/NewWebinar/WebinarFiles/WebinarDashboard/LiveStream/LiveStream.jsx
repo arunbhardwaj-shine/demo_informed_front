@@ -2553,7 +2553,7 @@ const LiveStream = () => {
                                 onChange={(e) => searchChange(e)}
                               />
                               <button
-                                className="btn-outline-success"
+                                className="btn btn-outline"
                                 type="submit"
                               >
                                 <svg

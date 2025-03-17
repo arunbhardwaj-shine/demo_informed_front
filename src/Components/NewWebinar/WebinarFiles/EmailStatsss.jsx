@@ -95,7 +95,7 @@ const EmailStatsss = () => {
                           />
 
                           <button
-                            className="btn btn-outline-success"
+                            className="btn btn-outline"
                             type="submit"
                           >
                             <svg
