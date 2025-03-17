@@ -385,7 +385,7 @@ const submitHandler = (event) => {
                 <h4>Select your content</h4>
               </div>
               <div className="top-right-action">
-                <div className="search-bar">
+                <div className={`search-bar ${SendListData.length < 1 ? "disabled" : ""}`}>
                   <form className="d-flex"
                    onSubmit={(e) => submitHandler(e)}
                    >
@@ -418,7 +418,7 @@ const submitHandler = (event) => {
                   className={
                     showfilter
                       ? "filter-by nav-item dropdown highlight"
-                      : "filter-by nav-item dropdown"
+                      : `filter-by nav-item dropdown ${SendListData.length < 1 ? "disabled" : ""}`
                   }
                 >
                   <button

@@ -503,7 +503,7 @@ const SurveySublink = () => {
                 <h2>SubLinks</h2>
               </div>
               <div className="top-right-action">
-                <div className="search-bar">
+                <div className={`search-bar ${data.length < 1 ? "disabled" : ""}`}>
                   <form className="d-flex" onSubmit={(e) => submitHandler(e)}>
                     <input
                       className="form-control me-2"
@@ -534,7 +534,7 @@ const SurveySublink = () => {
                   className={
                     showfilter
                       ? "filter-by nav-item dropdown highlight"
-                      : "filter-by nav-item dropdown"
+                      : `filter-by nav-item dropdown ${data.length < 1 ? "disabled" : ""}`
                   }
                 >
                   <button

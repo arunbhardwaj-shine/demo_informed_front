@@ -152,7 +152,7 @@ const SurveyAnalytics = () => {
                 <h2>Analytics</h2>
               </div>
               <div className="top-right-action">
-                <div className="search-bar">
+                <div className={`search-bar ${data.length < 1 ? "disabled" : ""}`}>
                   <form
                     className="d-flex"
                     onSubmit={(e) => submitSearchHandler(e)}
