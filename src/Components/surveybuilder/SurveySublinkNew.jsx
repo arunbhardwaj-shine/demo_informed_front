@@ -1,10 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import {
-  Button,
-  Col,
-  Row,
-  Accordion,
-} from "react-bootstrap";
+import { Button, Col, Row, Accordion } from "react-bootstrap";
 import { useLocation, useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
@@ -43,29 +38,45 @@ const SurveySublink = () => {
   const navigate = useNavigate();
   const [showSubLinkList, setshowSubLinkList] = useState(false);
   const [linkRenderCount, setLinkRenderCount] = useState(0);
-  const [editTopic,setEditTopic] = useState();
+  const [editTopic, setEditTopic] = useState();
   const [show, setShow] = useState(false);
   const [modalCounter, setModalCounter] = useState(0);
   const [finalTags, setFinalTags] = useState([]);
   const [tagsReRender, setTagsReRender] = useState(0);
   const [newTag, setNewTag] = useState("");
   const [allTags, setAllTags] = useState([]);
-    const [search, setSearch] = useState("");
+  const [search, setSearch] = useState("");
   const [tagClickedFirst, setTagClickedFirst] = useState([]);
   const [tagsCounter, setTagsCounter] = useState(0);
   const [filter, setFilter] = useState({});
   const [error, setError] = useState({});
   const [submiHandle, setSubmiHandle] = useState("");
   const [flag, setFlag] = useState(0);
-  const [defaultAccordion,setDefaultOpenAccordion]=useState('initial')
+  const [defaultAccordion, setDefaultOpenAccordion] = useState("initial");
   const [identifier, setIdentifier] = useState("");
   const [data, setIsData] = useState([]);
   const buttonRef = useRef(null);
   const filterRef = useRef(null);
- const accordionRef = useRef(null);
+  const accordionRef = useRef(null);
 
  
 
+  const closeAllAccordions = () => {
+    if (accordionRef.current) {
+      const collapseElement = accordionRef.current.querySelector(".show");
+      const collapseElement2 =accordionRef.current.querySelector(".accordion-button");
+
+      if (collapseElement) {
+        collapseElement.classList.remove("show");
+      }
+
+      if (collapseElement2) {
+        collapseElement2.classList.add("collapsed");  
+        collapseElement2.setAttribute("aria-expanded", "false");
+
+      }
+    }
+  };
 
   useEffect(() => {
     function handleOutsideClick(event) {
@@ -111,7 +122,11 @@ const SurveySublink = () => {
 
     setIsData(getoriginalSurveylistdata);
     setShowFilter(false);
+    closeAllAccordions()
+    setSubLinkData([]);
   };
+
+
 
   const showSublinkModal = (id) => {
     setCurrentAddSublinkLid(id);
@@ -186,9 +201,6 @@ const SurveySublink = () => {
       });
   };
 
-
-
-
   useEffect(() => {
     if (localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==") {
       let linktype = types;
@@ -209,70 +221,42 @@ const SurveySublink = () => {
   }, [selectedSurveyId]);
 
   useEffect(() => {
+    if (data.length && state?.survey_id) {
+      const selectedSurveyIndex = Array.isArray(data)
+        ? data.findIndex((item) => item.survey_id === state?.survey_id)
+        : -1;
 
-    if(data.length && state?.survey_id){
-      const selectedSurveyIndex =  Array.isArray(data)
-      ? data.findIndex((item) => item.survey_id === state?.survey_id)
-       : -1;
-   
-       setDefaultOpenAccordion(selectedSurveyIndex!=-1?selectedSurveyIndex:0);
+      setDefaultOpenAccordion(
+        selectedSurveyIndex != -1 ? selectedSurveyIndex : 0
+      );
+    } else if (data.length) {
+      setDefaultOpenAccordion(null);
     }
-    else if (data.length){
-      setDefaultOpenAccordion(null)
-    }
-   
   }, [data]);
 
-   
-
-
-  
   useEffect(() => {
-    const element=document.getElementById("defaultOpened")
+    const element = document.getElementById("defaultOpened");
     if (element) {
- 
       element.scrollIntoView({ behavior: "smooth", block: "nearest" });
     }
   }, [defaultAccordion]);
-  
-  
-  
-
-
 
   const getSurveyData = async () => {
     try {
       loader("show");
-
       const res = await surveyAxiosInstance.post(FETCH_SURVEY_DATA, {
         survey_id: 0,
-        is_live:1
+        is_live: 1,
       });
-
-      // const selectedSurveyIndex =  Array.isArray(res.data.data)
-      // ? await res.data.data.findIndex((item) => item.survey_id === state?.survey_id)
-      //  : -1;
-
-       
-
-        //   if (state?.survey_id) {
-  //        if (accordionRef.current) {
-  //          accordionRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
-  //        }
-  //      }
-
       setIsData(res.data.data);
-      setOriginalSurveyData(res.data.data)
-
-      const filters=await surveyAxiosInstance.get("/survey/survey-filters")
-  
-      if(filters.status == 201){
-        setFilterData(filters?.data?.data)
+      setOriginalSurveyData(res.data.data);
+      const filters = await surveyAxiosInstance.get("/survey/survey-filters");
+      if (filters.status == 201) {
+        setFilterData(filters?.data?.data);
       }
       if (state?.survey_id) {
-        getSubLinkListingData(state?.survey_id)
+        getSubLinkListingData(state?.survey_id);
       }
-
       loader("hide");
     } catch (err) {
       console.log("err");
@@ -281,9 +265,6 @@ const SurveySublink = () => {
       loader("hide");
     }
   };
-
-
-      
 
   const downloadQRCode = (title = "") => {
     const canvas = document.getElementById("qr-gen");
@@ -332,7 +313,6 @@ const SurveySublink = () => {
       setshowSubLinkList(true);
       setLinkRenderCount((prevCount) => prevCount + 1); // Increment render count
     } catch (err) {
- 
       toast.error("Something went wrong");
     } finally {
       loader("hide");
@@ -368,7 +348,8 @@ const SurveySublink = () => {
   };
 
   const applyFilter = (flag = "") => {
-    setSubLinkData([]);
+     closeAllAccordions();
+     setSubLinkData([]);
     setFilterApplyflag(1);
     setIsData([]);
     setFilterObject(appliedFilter);
@@ -381,7 +362,6 @@ const SurveySublink = () => {
     });
 
     if (!hasAllNonEmptyValues) {
-      
       let data = getoriginalSurveylistdata?.filter((item) => {
         const matchesFilters = Object.keys(otherFilter).every((key) => {
           if (Array.isArray(otherFilter[key])) {
@@ -398,10 +378,9 @@ const SurveySublink = () => {
                       : 0;
                   return item["is_draft"] == filterValue;
                 } else {
-                 
                   return item[key] && item[key].includes(value);
                 }
-              } else if (typeof value === "number") { 
+              } else if (typeof value === "number") {
               }
               return false;
             });
@@ -419,17 +398,15 @@ const SurveySublink = () => {
       }
       setIsData(data);
     } else if (search?.trim()?.length > 0) {
-      
- 
       const data = getoriginalSurveylistdata?.filter((item) => {
         return (
           item?.survey_title?.toLowerCase()?.includes(search?.toLowerCase()) ||
           item?.creator_name?.toLowerCase()?.includes(search?.toLowerCase())
         );
       });
+     
       setIsData(data);
     } else {
-   
       setIsData(getoriginalSurveylistdata);
     }
     setShowFilter(false);
@@ -438,8 +415,6 @@ const SurveySublink = () => {
   const onIdentifierChange = (event) => {
     setIdentifier(event.target.value);
   };
-
- 
 
   const getSubLinkListingData = async (survey_id) => {
     // e.preventDefault();
@@ -471,18 +446,16 @@ const SurveySublink = () => {
     }
   };
 
-  const handleTopicModalShow =(id)=>{
-    setEditTopic(id)
-    setShow(!show)
-  }
+  const handleTopicModalShow = (id) => {
+    setEditTopic(id);
+    setShow(!show);
+  };
 
- 
   const removeindividualfilter = (key, item) => {
     let old_object = filterObject;
     let otherFilterObj = otherFilter;
     const index = old_object[key]?.indexOf(item);
     if (index > -1) {
-      
       old_object[key]?.splice(index, 1);
       otherFilterObj[key]?.splice(index, 1);
 
@@ -497,11 +470,11 @@ const SurveySublink = () => {
     applyFilter();
   };
 
-      useEffect(() => {
-        if (search === "") {
-          applyFilter();
-        }
-      }, [search]);
+  useEffect(() => {
+    if (search === "") {
+      applyFilter();
+    }
+  }, [search]);
 
   const searchChange = (e) => {
     setSearch(e.target.value);
@@ -525,7 +498,11 @@ const SurveySublink = () => {
                 <h2>SubLinks</h2>
               </div>
               <div className="top-right-action">
-                <div className="search-bar">
+                <div
+                  className={`search-bar ${
+                    getoriginalSurveylistdata.length < 1 ? "disabled" : ""
+                  }`}
+                >
                   <form className="d-flex" onSubmit={(e) => submitHandler(e)}>
                     <input
                       className="form-control me-2"
@@ -533,6 +510,7 @@ const SurveySublink = () => {
                       placeholder="Search by survey title"
                       aria-label="Search"
                       id="email_search"
+                      value={search}
                       onChange={(e) => searchChange(e)}
                     />
                     <button className="btn btn-outline" type="submit">
@@ -556,7 +534,9 @@ const SurveySublink = () => {
                   className={
                     showfilter
                       ? "filter-by nav-item dropdown highlight"
-                      : "filter-by nav-item dropdown"
+                      : `filter-by nav-item dropdown ${
+                          data.length < 1 ? "disabled" : ""
+                        }`
                   }
                 >
                   <button
@@ -644,6 +624,8 @@ const SurveySublink = () => {
                                       ? "Role"
                                       : key == "site_number"
                                       ? "Site"
+                                      : key == "creator_name"
+                                      ? "Creator"
                                       : key}
                                   </Accordion.Header>
                                   <Accordion.Body className="card-body">
@@ -724,8 +706,6 @@ const SurveySublink = () => {
                       </div>
                     </div>
                   )}
-
-
                 </div>
               </div>
             </div>
@@ -736,7 +716,7 @@ const SurveySublink = () => {
                   <div className="filter-block-left full">
                     {Object.keys(filterObject)?.map((key, index) => {
                       return (
-                        < React.Fragment key={index}>
+                        <React.Fragment key={index}>
                           {filterObject[key]?.length ? (
                             <div key={index} className="filter-div">
                               <div className="filter-div-title">
@@ -747,6 +727,8 @@ const SurveySublink = () => {
                                     ? "Role"
                                     : key == "site_number"
                                     ? "Site"
+                                    : key == "creator_name"
+                                    ? "Creator"
                                     : key}{" "}
                                   |
                                 </span>
@@ -804,10 +786,16 @@ const SurveySublink = () => {
                           <div className="library-content-box-layuot">
                             <div className="email_box_block">
                               <div className="mail-box-acccordion">
-                             { defaultAccordion !="initial" && <Accordion defaultActiveKey={defaultAccordion !== null ? String(defaultAccordion) : undefined}>
-
-                                  {data?.length > 0
-                                    ? data?.map((item, index) => (
+                                {defaultAccordion != "initial" && (
+                                  <Accordion
+                                    defaultActiveKey={
+                                      defaultAccordion !== null
+                                        ? String(defaultAccordion)
+                                        : undefined
+                                    }
+                                  >
+                                    {data?.length > 0 ? (
+                                      data?.map((item, index) => (
                                         <React.Fragment key={index}>
                                           <div className="accordion-block">
                                             <div className="mail-box-content">
@@ -1226,14 +1214,30 @@ const SurveySublink = () => {
                                               </div>
                                             </div>
 
-                                            <Accordion.Item eventKey={String(index)}  ref={accordionRef} id={defaultAccordion == index ? "defaultOpened" : "" }>
+                                            <Accordion.Item
+                                              eventKey={String(index)}
+                                              ref={accordionRef}
+                                              id={
+                                                defaultAccordion == index
+                                                  ? "defaultOpened"
+                                                  : ""
+                                              }
+                                            >
                                               <Accordion.Header
-
-                                              className={sectionLoader ? "disabled" : undefined }
-                                              style={{ pointerEvents: sectionLoader ? "none" : "auto" }}
-
+                                                className={
+                                                  sectionLoader
+                                                    ? "disabled"
+                                                    : undefined
+                                                }
+                                                style={{
+                                                  pointerEvents: sectionLoader
+                                                    ? "none"
+                                                    : "auto",
+                                                }}
                                                 onClick={(e) =>
-                                                  getSubLinkListingData(item.survey_id)
+                                                  getSubLinkListingData(
+                                                    item.survey_id
+                                                  )
                                                 }
                                               >
                                                 SubLinks
@@ -1247,7 +1251,11 @@ const SurveySublink = () => {
                                                     </h6>
                                                   </div>
                                                   <Button
-                                                    className={`btn-dashed ${sectionLoader ? "disabled":""}`}
+                                                    className={`btn-dashed ${
+                                                      sectionLoader
+                                                        ? "disabled"
+                                                        : ""
+                                                    }`}
                                                     onClick={() => {
                                                       showSublinkModal(
                                                         item.survey_id
@@ -1286,9 +1294,10 @@ const SurveySublink = () => {
                                                   subLinkData.map(
                                                     (subLink, index) => {
                                                       return (
-
-                                                        <React.Fragment key={index}>
-                                                          <div className="mail-box-content" >
+                                                        <React.Fragment
+                                                          key={index}
+                                                        >
+                                                          <div className="mail-box-content">
                                                             <div className="mail-box-content-top">
                                                               <div className="mail-box-content-top-left">
                                                                 <h5>
@@ -1303,14 +1312,33 @@ const SurveySublink = () => {
                                                                 </p>
                                                                 <div className="mailbox-tags">
                                                                   <ul>
-                                                                     {subLink.tags.length > 0 ? (
-                                                                      subLink?.tags.map((tag) => (
-                                                                      <li key={tag}>{tag}</li>
-
-                                                                    ))):(<li>N/A</li>)} 
+                                                                    {subLink
+                                                                      .tags
+                                                                      .length >
+                                                                    0 ? (
+                                                                      subLink?.tags.map(
+                                                                        (
+                                                                          tag
+                                                                        ) => (
+                                                                          <li
+                                                                            key={
+                                                                              tag
+                                                                            }
+                                                                          >
+                                                                            {
+                                                                              tag
+                                                                            }
+                                                                          </li>
+                                                                        )
+                                                                      )
+                                                                    ) : (
+                                                                      <li>
+                                                                        N/A
+                                                                      </li>
+                                                                    )}
                                                                   </ul>
                                                                 </div>
-                                                                
+
                                                                 <div className="tab-content-links">
                                                                   <a>
                                                                     https://survey.docintel.app/survey?Utmde=
@@ -1511,7 +1539,6 @@ const SurveySublink = () => {
                                                                 ) : (
                                                                   <div className="mail-stats">
                                                                     <ul>
-                                             
                                                                       <li>
                                                                         <div
                                                                           className="mail-status mail-hit"
@@ -1632,7 +1659,14 @@ const SurveySublink = () => {
                                                                     </Button>
                                                                   </div>
                                                                   <div className="mailbox-buttons-list">
-                                                                    <Button className="send btn-bordered" onClick={()=>handleTopicModalShow(subLink.sublink_id)} >
+                                                                    <Button
+                                                                      className="send btn-bordered"
+                                                                      onClick={() =>
+                                                                        handleTopicModalShow(
+                                                                          subLink.sublink_id
+                                                                        )
+                                                                      }
+                                                                    >
                                                                       Edit Topic
                                                                     </Button>
                                                                   </div>
@@ -1644,14 +1678,29 @@ const SurveySublink = () => {
                                                       );
                                                     }
                                                   )
-                                                ) : <div className="not-found">Please create sublink first</div>}
+                                                ) : (
+                                                  <div className="not-found">
+                                                    Please create sublink first
+                                                  </div>
+                                                )}
                                               </Accordion.Body>
                                             </Accordion.Item>
                                           </div>
                                         </React.Fragment>
                                       ))
-                                    : <div className="no_found"><p>No Data Found</p></div>}
-                                </Accordion>}
+                                    ) : (
+                                      <div className="no_found">
+                                        <p>No Data Found</p>
+                                      </div>
+                                    )}
+                                  </Accordion>
+                                )}
+
+                                {data?.length <= 0 && (
+                                  <div className="no_found">
+                                    <p>No Data Found</p>
+                                  </div>
+                                )}
                               </div>
                             </div>
                           </div>
@@ -1665,8 +1714,6 @@ const SurveySublink = () => {
           </Row>
         </div>
       </Col>
-
-     
 
       <QRCodeCanvas
         style={{ display: "none" }}

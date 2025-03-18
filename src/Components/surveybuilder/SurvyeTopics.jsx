@@ -86,6 +86,9 @@ function SurveyTopics() {
           category: newValue?.category,
           type: content?.value,
         });
+
+        setSearch("");
+
         loader("hide");
         initFun();
       } catch (err) {
@@ -223,7 +226,8 @@ const submitHandler = (e) => {
                   Add new topic
                   <img src={`${path_image}add-icon.png`} alt="" />
                 </Button>
-                <div className="search-bar">
+                <div className={`search-bar ${originalTopicData?.data?.length < 1 ? "disabled" : ""}`}>
+                  
                   <form className="d-flex"
                   onSubmit={(e) => submitHandler(e)}
                    >
@@ -233,7 +237,8 @@ const submitHandler = (e) => {
                       placeholder="Search by topic  "
                       aria-label="Search"
                       id="email_search"
-                     onChange={(e) => searchChange(e)}
+                      value={search}
+                      onChange={(e) => searchChange(e)}
                     />
                     <button className="btn btn-outline" type="submit">
                       <svg
@@ -262,13 +267,13 @@ const submitHandler = (e) => {
                     </button>
                   ) : (
                     <button
-                      className="btn btn-outline-primary rd"
+                      className={`btn btn-outline-primary rd ${productData?.data?.length < 1? "disabled" : ""}`}
                       onClick={() => setDelete(!isDelete)}
                       title="Delete"
                     >
                       <svg
                         width="24"
-                        height="24"
+                        height="24" 
                         viewBox="0 0 24 24"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
