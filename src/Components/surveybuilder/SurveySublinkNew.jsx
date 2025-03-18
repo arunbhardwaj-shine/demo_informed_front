@@ -122,29 +122,11 @@ const SurveySublink = () => {
 
     setIsData(getoriginalSurveylistdata);
     setShowFilter(false);
+    closeAllAccordions()
+    setSubLinkData([]);
   };
 
-  //   const closeAllAccordions = () => {
-  //     console.log("from close");
 
-  //     if (accordionRef.current) {
-  //         console.log(accordionRef.current);
-  //         console.log("inside");
-
-  //         const collapseElement = accordionRef.current.querySelector(".show");
-  //         const collapseElement2 = accordionRef.current.querySelector(".accordion-button");
-
-  //         if (collapseElement) {
-  //             console.log("inside2");
-  //             collapseElement.classList.remove("show");
-  //         }
-
-  //         if (collapseElement2) {
-  //             console.log(collapseElement2, "inside3");
-  //             collapseElement2.classList.add("collapsed"); // ✅ Corrected
-  //         }
-  //     }
-  // };
 
   const showSublinkModal = (id) => {
     setCurrentAddSublinkLid(id);
@@ -366,7 +348,7 @@ const SurveySublink = () => {
   };
 
   const applyFilter = (flag = "") => {
-   // closeAllAccordions();
+     closeAllAccordions();
      setSubLinkData([]);
     setFilterApplyflag(1);
     setIsData([]);
