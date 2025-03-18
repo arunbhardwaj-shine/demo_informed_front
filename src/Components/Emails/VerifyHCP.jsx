@@ -2160,7 +2160,7 @@ const VerifyHCP = (props) => {
                     <span>| {selectedHcp?.length}</span>
                   </h4>
                   <div className="selected-hcp-table-action">
-                    {editable == false ? (
+                    {editable == false && selectedHcp?.length > 0 ? (
                       <>
                         <div className="hcp-added">
                           <button
