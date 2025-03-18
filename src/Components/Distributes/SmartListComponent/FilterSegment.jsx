@@ -11,6 +11,7 @@ import { popup_alert } from "../../../popup_alert";
 import { Spinner } from "react-activity";
 
 const FilterSegment = (props) => {
+  const type=props?.type
   const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","bWmUjqX7J011   WUTYn9g==","MXl8m36VZFYXpgFVz3Pg0g=="]
   const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
   const tableCompRef = useRef();
@@ -952,6 +953,7 @@ const FilterSegment = (props) => {
     const payload = {
       user_id: localStorage.getItem("user_id"),
       page:pageno,
+      type:type
     };
     //For Contact Type
     if (
@@ -1363,9 +1365,11 @@ const FilterSegment = (props) => {
     var x = localStorage.getItem("sd_i");
     if (x) {
       localStorage.removeItem("sd_i");
-      Navigate("/SelectSmartList");
+       const routeType= type ? "/survey/email/select-hcp":"/SelectSmartList"
+      Navigate(routeType);
     } else {
-      Navigate("/SmartList");
+      const routeType= type ? "/survey/smartlist":"/SmartList"
+      Navigate(routeType);
     }
   };
 
@@ -1374,7 +1378,8 @@ const FilterSegment = (props) => {
       const body = {
         user_id: localStorage.getItem("user_id"),
         list_id: props?.listId,
-        page:2
+        page:2,
+        type:type
       };
       setLoadMoreFlag(true);
       setloadMorePage(false);
@@ -1442,7 +1447,7 @@ const FilterSegment = (props) => {
             <div className="col-12 col-md-1">
               <div className="header-btn-left">
                 <button className="btn btn-primary btn-bordered back">
-                  <NavLink to="/CreateSmartList" className="active">
+                  <NavLink to={ type ? "/survey/smartlist/createlist" : "/CreateSmartList"} className="active">
                     Back
                   </NavLink>
                 </button>
@@ -3447,6 +3452,7 @@ const FilterSegment = (props) => {
                 ibu={props.ibu}
                 sendDataToParent={sendDataToParent}
                 allUsers={allUserIds}
+                type="survey"
               />
               {
                 loadMorePage && totalLostCount > getfilterdata?.length ?
