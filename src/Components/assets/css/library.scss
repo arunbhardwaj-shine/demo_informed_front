@@ -18540,6 +18540,7 @@ table {
 }
 
 
+
 /*Responsive for R&D Analytics*/
 @media only screen and (max-width: 1599px) {
 
@@ -26187,6 +26188,12 @@ table {
   .verify-left {
     width: calc(100% - 590px);
   }
+  @media only screen and (max-width: 1279px) {
+    .verify-right, .verify-left {
+      width: 100%;
+    }
+
+  }
 }
 
 .sunshine-mail-recipt {
@@ -26234,6 +26241,16 @@ table {
           font-weight: 400;
         }
       }
+    }
+  }
+  @media only screen and (max-width: 1650px) {
+    .d-flex{
+      flex-direction: column;
+    }
+    .mail-recipt-right {
+      padding: 23px 0 0 0;
+      border-left: 0;
+      border-top: 1px dashed #0066BE;
     }
   }
 }
