@@ -9839,6 +9839,7 @@ section.search-hcp.smart-list-view .header-btn-left {
 .auto_mail_trigger_right form .form-inline .form-group {
   padding-bottom: 15px;
   position: relative;
+  display: block;
 }
 
 .auto_mail_trigger_right form .form-inline .form-group .login-validation {
