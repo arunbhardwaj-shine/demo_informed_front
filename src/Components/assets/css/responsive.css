@@ -411,6 +411,12 @@
     width: 28px;
     right: -14px;
 }
+.mail-recipt .smartlist-view {
+  width: 100%;
+  flex: 0 0 100%;
+  margin: 0 0 12px;
+}
+
 }
 
 @media only screen and (max-width: 1550px) {
@@ -2167,6 +2173,9 @@
 }
 
 @media only screen and (max-width: 1365px) {
+  section.search-hcp.smart-list-view {
+    padding: 0px 8px 0;
+  }
   .trigger_content_image {
     padding: 5px;
     width: 60px;
@@ -2992,13 +3001,53 @@
 .navbar-nav li.active-main a:after {
   bottom: -9px;
 }
+.template_builder-option {
+  margin: 20px 0 20px;
+}
+.mail_trigger_dummy_content h3 {
+  font-size: 32px;
+  line-height: 36px;
+}
+.mail_trigger_content {
+  margin-left: 16px;
+}
 }
 
 @media only screen and (max-width: 1199px) {
+  .email-form .form-inline .form-group.template_builder_div .dropdown-toggle {
+    padding: 10px 14px;
+}
+  .active-subLink .right-sidebar {
+    width: calc(100% - 220px);
+  }
+
+  .template_builder-option .template_language:first-child {
+    margin-right: 15px;
+  }
+  .template_builder-option .template_language {
+    margin-right: 0px;
+  }
+  .template_builder-option .template_language span {
+    font-size: 14px;
+    margin-right: 10px;
+  }
+  .form-buttons-template button.btn {
+    height: 35px;
+  }
+  .form-buttons-template button.btn.btn-delete {
+    width: 35px;
+    min-width: 35px;
+  }
+  .form-buttons-template button.btn.btn-delete svg {
+    width: 20px;
+  }
   .dropdown-menu.filter-options {
     width: 270px;
   }
-
+  .email-result-block .email-block-add-box,
+  .email-result-block .email_box_block {
+    width: 50%;
+  }
   .smartlist-view .mail-box-content .tabs-data .tab-content .tab-mail-list h6.list_creator {
     min-width: 75px;
   }
@@ -3161,10 +3210,12 @@
   .auto_mail_trigger_left {
     padding-right: 10px;
     width: 100%;
+    border-right: 0;
   }
 
   .auto_mail_trigger_right {
     width: 100%;
+    padding-left: 12px;
   }
 
   .mail_trigger_dummy_content h3 {
