@@ -204,37 +204,45 @@ const LicenseEditListing = () => {
     setPage(sp);
     loader("hide");
   };
-
   const submitHandler = (event) => {
-    event.preventDefault();
-    if(search==""){
-      setSearchTotalRecords([])
-      return
-    }
-    setIsLoaded(false);
     setLibraryData([]);
-    // getLibraryData(page, filterObject, search);
-    // return false;
-   
-    //
-    let data = totalLibraryRecord?.filter(item => item?.docintelLink?.includes(search));
-    setSearchTotalRecords(data)
-    let apiData = [];
-    if (data?.length) {
-      const totalData =
-      data?.length >= 24
-          ? 24
-          : data?.length;
-      apiData = data?.slice(0, totalData);
-
-      if (data?.length > 24) {
-        setLoadData({ ...loadData, nextLimit: 24 });
-        setIsLoaded(true);
-      }
-    }
-    setLibraryData(apiData);
+    
+    getLibraryData(page, filterObject, search);
+    event.preventDefault();
     return false;
   };
+
+  // const submitHandler = (event) => {
+  //   event.preventDefault();
+  //   if(search==""){
+  //     setSearchTotalRecords([])
+  //     return
+  //   }
+  //   setIsLoaded(false);
+  //   setLibraryData([]);
+  //   // getLibraryData(page, filterObject, search);
+  //   // return false;
+   
+  //   //
+  //   let data = totalLibraryRecord?.filter(item => item?.docintelLink?.includes(search));
+  //   setSearchTotalRecords(data)
+  //   let apiData = [];
+  //   if (data?.length) {
+  //     const totalData =
+  //     data?.length >= 24
+  //         ? 24
+  //         : data?.length;
+  //     apiData = data?.slice(0, totalData);
+
+  //     if (data?.length > 24) {
+  //       setLoadData({ ...loadData, nextLimit: 24 });
+  //       setIsLoaded(true);
+  //     }
+  //   }
+  //   setLibraryData(apiData);
+  //   console.log(libraryData,'jrtfjoi4jfoi4rf')
+  //   return false;
+  // };
 
   const handleOnFilterChange = (e, item, index, key) => {
     if (!filterObject[key]) {
@@ -329,7 +337,7 @@ const LicenseEditListing = () => {
     }
   };
 
-  const getLibraryData = async (page, obj, search, load = 0) => {
+  const getLibraryData = async (page, obj, search, load = 0,type="") => {
     try {
       setIsLoaded(false);
       if (load == 0) {
@@ -341,41 +349,31 @@ const LicenseEditListing = () => {
       let data = {
         user_id: localStorage.getItem("user_id"),
         page: page,
-        // search: search,
-        search:"",
+        search: search,
         type: type,
         limit: limit,
         license: 1,
       };
 
-      let body = { ...data, ...obj };
+      let body = { ...data, filter: obj };
 
-      const res = await postData(ENDPOINT.LIBRARY, body);
-      let finalData=[]
-      if(search){
-        finalData=res?.data?.data?.library?.filter((item)=>item?.docintelLink?.includes(search))
-        setSearchTotalRecords(finalData)
+      const res = await postData(ENDPOINT.LIBRARY_CONTENT, body);
+      let allData =[]
+      if(page==1){
+        allData =res?.data?.data?.library
+
       }else{
-        finalData=res?.data?.data?.library
-        setSearchTotalRecords([])
-      }       
-      setTotalLibraryRecord(res?.data?.data?.library);
+         allData = [...totalLibraryRecord, ...res?.data?.data?.library]
 
-      let apiData = [];
-      if (finalData?.length) {
-        const totalData =
-        finalData?.length >= 24
-            ? 24
-            : finalData?.length;
-        apiData = finalData?.slice(0, totalData);
+      }      setTotalLibraryRecord(allData);
 
-        if (finalData?.length > 24) {
+      if (res?.data?.data?.library?.length) {
+        if (res?.data?.data?.library?.length >= 24 && type!="rest") {
           setLoadData({ ...loadData, nextLimit: 24 });
           setIsLoaded(true);
         }
       }
-  
-      setLibraryData(apiData);
+      setLibraryData(allData);
 
       // if (totalCount != res?.data?.data?.total) {
       //   setCount(res?.data?.data?.total);
@@ -415,42 +413,52 @@ const LicenseEditListing = () => {
     } catch (err) {
       console.log("err");
       loader("hide");
-      setApiCallStatus(true);
     }
   };
-
   const searchChange = (e) => {
-    // setIsLoaded(false);
+    setIsLoaded(false);
     setNoData(false);
     setSearch(e?.target?.value);
-    // if (e?.target?.value === "") {
-    //   setLibraryData([]);
-    //   setPageAllClicked(false);
+    if (e?.target?.value === "") {
+      setLibraryData([]);
+      setPageAllClicked(false);
 
-    //   getLibraryData(page, filterObject, "");
-    // }
-    if(e?.target?.value===""){
-      let apiData = [];
-      setSearchTotalRecords([])
-      setApiCallStatus(false)
-      
-      if (totalLibraryRecord?.length) {
-        const totalData =
-        totalLibraryRecord?.length >= 24
-            ? 24
-            : totalLibraryRecord?.length;
-        apiData = totalLibraryRecord?.slice(0, totalData);
-
-        if (totalLibraryRecord?.length > 24) {
-          setLoadData({ ...loadData, nextLimit: 24 });
-          setIsLoaded(true);
-        }
-      }
-      setLibraryData(apiData);
-      setApiCallStatus(true);
-
+      getLibraryData(page, filterObject, "");
     }
   };
+
+  // const searchChange = (e) => {
+  //   // setIsLoaded(false);
+  //   setNoData(false);
+  //   setSearch(e?.target?.value);
+  //   // if (e?.target?.value === "") {
+  //   //   setLibraryData([]);
+  //   //   setPageAllClicked(false);
+
+  //   //   getLibraryData(page, filterObject, "");
+  //   // }
+  //   if(e?.target?.value===""){
+  //     let apiData = [];
+  //     setSearchTotalRecords([])
+  //     setApiCallStatus(false)
+      
+  //     if (totalLibraryRecord?.length) {
+  //       const totalData =
+  //       totalLibraryRecord?.length >= 24
+  //           ? 24
+  //           : totalLibraryRecord?.length;
+  //       apiData = totalLibraryRecord?.slice(0, totalData);
+
+  //       if (totalLibraryRecord?.length > 24) {
+  //         setLoadData({ ...loadData, nextLimit: 24 });
+  //         setIsLoaded(true);
+  //       }
+  //     }
+  //     setLibraryData(apiData);
+  //     setApiCallStatus(true);
+
+  //   }
+  // };
 
   const showConfirmationPopup = (stateMsg, e, id) => {
     if (stateMsg == "delete") {
@@ -839,14 +847,13 @@ const LicenseEditListing = () => {
               </div>
               <div className="top-right-action">
                 <div className="search-bar">
-                  <form className="d-flex" onSubmit={(e) => submitHandler(e)}>
+                <form className="d-flex" onSubmit={(e) => submitHandler(e)}>
                     <input
                       className="form-control me-2"
-                      type="text"
+                      type="search"
                       placeholder="Search"
                       aria-label="Search"
                       id="email_search"
-                      value={search?search:""}
                       onChange={(e) => searchChange(e)}
                     />
                     <button className="btn btn-outline-success" type="submit">
