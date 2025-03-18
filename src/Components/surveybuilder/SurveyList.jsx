@@ -221,7 +221,7 @@ const SurveyList = (props) => {
           res?.data?.data.forEach((item) => {
             codearr.push({
               value: item.sublink_id,
-              label: item.unique_code,
+              label: item.identifier,
             });
           });
           codearr.sort((a, b) =>
@@ -248,14 +248,13 @@ const SurveyList = (props) => {
     }
   };
 
-  const handleCopy = (survey_id, selectedSublinkId) => {
-    const selectedSublink = subLinkData?.[survey_id]?.find(
-      (option) => option.value === selectedSublinkId
-    );
+  const handleCopy = (currentSelectedSublink) => {
+
+    const selectedSublink = currentSelectedSublink?.unique_code
     if (selectedSublink) {
       navigator.clipboard
         .writeText(
-          `https://survey.docintel.app/survey?Utmde=${selectedSublink.label}`
+          `https://survey.docintel.app/survey?Utmde=${selectedSublink}`
         )
         .then(() => {
           toast.success("Sublink copied to clipboard!");
@@ -584,7 +583,6 @@ const SurveyList = (props) => {
       // }
       old_object[key]?.splice(index, 1);
       otherFilterObj[key]?.splice(index, 1);
-
       if (old_object[key]?.length == 0) {
         delete old_object[key];
         delete otherFilterObj[key];
@@ -1581,6 +1579,7 @@ const SurveyList = (props) => {
                                           handleCopy={handleCopy}
                                           setDownloadLink={setDownloadLink}
                                           sublinkoptions={sublinkoptions}
+                                          allSublinks={data.subLinkData}
                                           survey_id={data.survey_id}
                                         />
 

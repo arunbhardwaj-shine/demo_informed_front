@@ -486,6 +486,7 @@ const Header = () => {
                   window.location.pathname == "/survey/email/verify-hcp-mail" ||
                   window.location.pathname == "/survey/email/analytics" ||
                   window.location.pathname == "/survey/email/get-details" ||
+                  window.location.pathname == "/survey/smart-list-filter" || 
                   window.location.pathname == "/survey/TemplateBuilder"
                   ? "nav-item active active-main"
                   : "nav-item"

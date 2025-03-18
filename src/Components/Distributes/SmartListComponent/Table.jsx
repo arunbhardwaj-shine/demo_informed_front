@@ -21,9 +21,6 @@ import EditContactType from "../../CommonComponent/EditContactType";
 import Select, { createFilter } from "react-select";
 const Table = (props, ref) => {
  
-
-  
-  
   const type= props?.type === "survey" ? "survey" : 0;
 
 
@@ -119,7 +116,7 @@ const Table = (props, ref) => {
     }
     const getalCountry = async () => {
       let body = {
-       
+        type:type == "survey" ? 1 :type,
         user_id: localStorage.getItem("user_id"),
       };
       await axios
@@ -618,6 +615,7 @@ const Table = (props, ref) => {
     axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
     const getalCountry = async () => {
       const body = {
+        type:type == "survey" ? 1 :type,
         user_id: localStorage.getItem("user_id"),
       };
       await axios
@@ -734,6 +732,8 @@ const Table = (props, ref) => {
       formData.append("user_id", user_id);
       formData.append("smart_list_id", getlistid);
       formData.append("reader_file", selectedFile);
+      formData.append("type",type == "survey" ? 1 :type);
+       
 
       axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
       loader("show");
@@ -1564,6 +1564,7 @@ const Table = (props, ref) => {
       formData.append("user_id", user_id);
       formData.append("smart_list_id", getlistid);
       formData.append("reader_file", selectedFile);
+      formData.append("type",type == "survey" ? 1 :type);
 
       axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
       if (selectedFile) {
@@ -1719,6 +1720,7 @@ const Table = (props, ref) => {
       formData.append("user_id", user_id);
       formData.append("smart_list_id", getlistid);
       formData.append("reader_file", selectedFile);
+      formData.append("type",type == "survey" ? 1 :type);
 
       axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
       if (selectedFile) {

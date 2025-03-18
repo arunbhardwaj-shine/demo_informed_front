@@ -167,7 +167,8 @@ const CreateSmartList = (props) => {
       } else {
         element.classList.add("active");
       }
-      navigate("/SmartListFilter", {
+      const routeType= type == "survey" ? "/survey/smart-list-filter" :"/SmartListFilter"
+      navigate(routeType, {
         state: { smartListName: smartListName, creatorName: creatorName, ibu: customIbu },
       });
     }

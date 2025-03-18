@@ -251,7 +251,7 @@ const Sidebar = () => {
 		  location.pathname === '/survey/email/verify-mail' ||
 		  location.pathname === '/survey/email/create-email'
 
-  const isActiveSurveySmartList = location.pathname === '/survey/smartlist' || location.pathname === '/survey/ViewSmartList' || location.pathname === '/survey/smartlist/UploadExcel' || location.pathname ===  '/survey/smartlist/createlist'
+  const isActiveSurveySmartList = location.pathname === '/survey/smartlist' || location.pathname === '/survey/ViewSmartList' || location.pathname === '/survey/smartlist/UploadExcel' || location.pathname ===  '/survey/smartlist/createlist' || location.pathname ===  '/survey/smart-list-filter'
 
   const isActiveSurveyAutomail = location.pathname === '/survey/AutoEmail'
   const isActiveSurveyTemplate= location.pathname === '/survey/TemplateBuilder';
@@ -355,6 +355,7 @@ const Sidebar = () => {
             window.location.pathname === '/survey/auto-email' ||
             window.location.pathname === '/survey/smartlist' ||
             window.location.pathname === '/survey/smartlist/createlist' ||
+            window.location.pathname === '/survey/smart-list-filter' ||
             window.location.pathname === '/survey/smartlist/UploadExcel' ||
             window.location.pathname === '/survey/ViewSmartList' ||
             window.location.pathname === '/survey/EditList' ||
@@ -1362,7 +1363,8 @@ const Sidebar = () => {
                   window.location.pathname == "/survey/TemplateBuilder" ||
                   window.location.pathname == "/survey/ViewSmartList" ||
                   window.location.pathname == "/survey/smartlist/createlist" ||
-                  window.location.pathname == "/survey/smartlist/UploadExcel" ||
+                  window.location.pathname == "/survey/smartlist/UploadExcel" || 
+                  window.location.pathname == "/survey/smart-list-filter" || 
                   window.location.pathname == "/survey/survey-analytics-detail"?
 
                   (
@@ -1488,6 +1490,7 @@ const Sidebar = () => {
                           location.pathname == "/survey/email/get-details" ||
                           window.location.pathname == "/survey/ViewSmartList" ||
                           window.location.pathname == "/survey/smartlist/createlist" ||
+                          window.location.pathname == "/survey/smart-list-filter" ||
                           window.location.pathname == "/survey/smartlist/UploadExcel" ||
                           location.pathname == "/survey/TemplateBuilder" 
                            ? "active sub-links"
