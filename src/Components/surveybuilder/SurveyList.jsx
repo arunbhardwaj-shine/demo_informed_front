@@ -681,7 +681,7 @@ const SurveyList = (props) => {
                     Create Survey
                     <img src={`${path_image}add-icon.png`} alt="" />
                   </Button>
-                  <Button className={`${!editSurvey ? "btn-white" : "btn-filled"} ${deletestatus ? "disabled" : ""}`} onClick={showSurveyEditButtons}>
+                  <Button className={`${!editSurvey ? "btn-white" : "btn-filled"} ${(deletestatus || isData.length < 1 )? "disabled" : ""}`} onClick={showSurveyEditButtons}>
                     {!editSurvey ? (
                       <>Edit survey <img src={`${path_image}edit-button.svg`} alt="" /></>
                     ) : (
@@ -692,7 +692,7 @@ const SurveyList = (props) => {
                 </div>
                 {/* <div className="action-btn-add" style={{ margin: "0" }}>
                                     </div> */}
-                <div className="search-bar">
+                <div className={`search-bar ${getoriginalSurveylistdata.length < 1 ? "disabled" : ""}`}>
                   <form className="d-flex" onSubmit={(e) => submitHandler(e)}>
                     <input
                       className="form-control me-2"
@@ -700,6 +700,7 @@ const SurveyList = (props) => {
                       placeholder="Search by survey title"
                       aria-label="Search"
                       id="email_search"
+                      value={search}
                       onChange={(e) => searchChange(e)}
                     />
                     <button className="btn btn-outline" type="submit">
@@ -722,9 +723,9 @@ const SurveyList = (props) => {
                   className={
                     showfilter
                       ? "filter-by nav-item dropdown highlight"
-                      : "filter-by nav-item dropdown"
+                      : `filter-by nav-item dropdown ${isData.length < 1 ? "disabled" : ""}`
                   }
-                >
+                > 
                   <button
                     ref={buttonRef}
                     className="btn btn-secondary dropdown"
@@ -903,7 +904,7 @@ const SurveyList = (props) => {
                     </button>
                   ) : (
                     <button
-                      className={`btn btn-outline-primary rd ${editSurvey ? "disabled" : ""}`}
+                      className={`btn btn-outline-primary rd ${(editSurvey || isData.length < 1)? "disabled" : ""}`}
                       onClick={(e) => showDeleteButtons()}
                     >
                       <svg

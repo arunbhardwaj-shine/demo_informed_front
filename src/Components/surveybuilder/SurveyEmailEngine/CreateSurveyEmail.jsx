@@ -271,7 +271,6 @@ const submitHandler = (event) => {
     const body = {
       survey_id: 0,
       is_live:1
-      
     };
 
     try {
@@ -385,7 +384,7 @@ const submitHandler = (event) => {
                 <h4>Select your content</h4>
               </div>
               <div className="top-right-action">
-                <div className="search-bar">
+                <div className={`search-bar ${getoriginalSurveylistdata.length < 1 ? "disabled" : ""}`}>
                   <form className="d-flex"
                    onSubmit={(e) => submitHandler(e)}
                    >
@@ -395,6 +394,7 @@ const submitHandler = (event) => {
                       placeholder="Search by survey title"
                       aria-label="Search"
                       id="email_search"
+                      value={search}
                       onChange={(e) => searchChange(e)}
                     />
                     <button className="btn btn-outline" type="submit">
@@ -418,7 +418,7 @@ const submitHandler = (event) => {
                   className={
                     showfilter
                       ? "filter-by nav-item dropdown highlight"
-                      : "filter-by nav-item dropdown"
+                      : `filter-by nav-item dropdown ${SendListData.length < 1 ? "disabled" : ""}`
                   }
                 >
                   <button
@@ -507,7 +507,7 @@ const submitHandler = (event) => {
                                       ? "Role"
                                       : key == "site_number"
                                       ? "Site"
-                                      : key}
+                                      : key == "creator_name" ? "Creator" : key}
                                   </Accordion.Header>
                                   <Accordion.Body className="card-body">
                                     <ul>
@@ -619,7 +619,7 @@ const submitHandler = (event) => {
                                     ? "Role"
                                     : key == "site_number"
                                     ? "Site"
-                                    : key}{" "}
+                                    : key == "creator_name" ? "Creator" : key}{" "}
                                   |
                                 </span>
                               </div>

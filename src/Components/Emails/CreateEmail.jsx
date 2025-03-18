@@ -3174,7 +3174,7 @@ const CreateEmail = (props) => {
                 <form className="d-flex" onSubmit={(e) => submitHandler(e)}>
                   <input
                     className="form-control me-2"
-                    type="text"
+                    type="search"
                     placeholder="Search"
                     onChange={(e) => searchChange(e)}
                   />
