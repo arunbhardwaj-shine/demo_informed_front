@@ -86,6 +86,9 @@ function SurveyTopics() {
           category: newValue?.category,
           type: content?.value,
         });
+
+        setSearch("");
+
         loader("hide");
         initFun();
       } catch (err) {
@@ -223,7 +226,7 @@ const submitHandler = (e) => {
                   Add new topic
                   <img src={`${path_image}add-icon.png`} alt="" />
                 </Button>
-                <div className={`search-bar ${productData?.data?.length < 1 ? "disabled" : ""}`}>
+                <div className={`search-bar ${originalTopicData?.data?.length < 1 ? "disabled" : ""}`}>
                   
                   <form className="d-flex"
                   onSubmit={(e) => submitHandler(e)}
@@ -234,7 +237,8 @@ const submitHandler = (e) => {
                       placeholder="Search by topic  "
                       aria-label="Search"
                       id="email_search"
-                     onChange={(e) => searchChange(e)}
+                      value={search}
+                      onChange={(e) => searchChange(e)}
                     />
                     <button className="btn btn-outline" type="submit">
                       <svg

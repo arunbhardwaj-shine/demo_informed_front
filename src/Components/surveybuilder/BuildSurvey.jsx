@@ -43,7 +43,7 @@ const BuildSurvey = (props) => {
               }
               //clear alloftheabove label
                 if (item.type === "checkbox" && !(item.extra.addAllOfTheAbove)) {
-                  console.log("inside all of the above")
+               
                   item.extra.allOfTheAboveLabel = "";
               }
             }
