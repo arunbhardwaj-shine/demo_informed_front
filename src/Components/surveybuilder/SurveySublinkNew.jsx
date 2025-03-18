@@ -59,24 +59,8 @@ const SurveySublink = () => {
   const filterRef = useRef(null);
   const accordionRef = useRef(null);
 
- 
+  const [activeKey, setActiveKey] = useState(null); // Controls open items
 
-  const closeAllAccordions = () => {
-    if (accordionRef.current) {
-      const collapseElement = accordionRef.current.querySelector(".show");
-      const collapseElement2 =accordionRef.current.querySelector(".accordion-button");
-
-      if (collapseElement) {
-        collapseElement.classList.remove("show");
-      }
-
-      if (collapseElement2) {
-        collapseElement2.classList.add("collapsed");  
-        collapseElement2.setAttribute("aria-expanded", "false");
-
-      }
-    }
-  };
 
   useEffect(() => {
     function handleOutsideClick(event) {
@@ -122,7 +106,9 @@ const SurveySublink = () => {
 
     setIsData(getoriginalSurveylistdata);
     setShowFilter(false);
-    closeAllAccordions()
+
+    toggleAccordion(null)
+    setOpenAccordionId(null);
     setSubLinkData([]);
   };
 
@@ -221,18 +207,24 @@ const SurveySublink = () => {
   }, [selectedSurveyId]);
 
   useEffect(() => {
-    if (data.length && state?.survey_id) {
+    if (getoriginalSurveylistdata.length && state?.survey_id) {
+
       const selectedSurveyIndex = Array.isArray(data)
         ? data.findIndex((item) => item.survey_id === state?.survey_id)
         : -1;
 
+        toggleAccordion(selectedSurveyIndex)
+
       setDefaultOpenAccordion(
         selectedSurveyIndex != -1 ? selectedSurveyIndex : 0
       );
+
     } else if (data.length) {
+
+      toggleAccordion(null)
       setDefaultOpenAccordion(null);
     }
-  }, [data]);
+  }, [getoriginalSurveylistdata]);
 
   useEffect(() => {
     const element = document.getElementById("defaultOpened");
@@ -348,8 +340,9 @@ const SurveySublink = () => {
   };
 
   const applyFilter = (flag = "") => {
-     closeAllAccordions();
-     setSubLinkData([]);
+    toggleAccordion(null)
+    setOpenAccordionId(null);
+    setSubLinkData([]);
     setFilterApplyflag(1);
     setIsData([]);
     setFilterObject(appliedFilter);
@@ -404,7 +397,6 @@ const SurveySublink = () => {
           item?.creator_name?.toLowerCase()?.includes(search?.toLowerCase())
         );
       });
-     
       setIsData(data);
     } else {
       setIsData(getoriginalSurveylistdata);
@@ -468,6 +460,10 @@ const SurveySublink = () => {
     setOtherFilter(otherFilterObj);
     setFilterObject(old_object);
     applyFilter();
+  };
+
+  const toggleAccordion = (index) => {
+    setActiveKey((prevKey) => ((prevKey === String(index) || null) ? null : String(index)));
   };
 
   useEffect(() => {
@@ -788,11 +784,7 @@ const SurveySublink = () => {
                               <div className="mail-box-acccordion">
                                 {defaultAccordion != "initial" && (
                                   <Accordion
-                                    defaultActiveKey={
-                                      defaultAccordion !== null
-                                        ? String(defaultAccordion)
-                                        : undefined
-                                    }
+                                    activeKey={activeKey}
                                   >
                                     {data?.length > 0 ? (
                                       data?.map((item, index) => (
@@ -1234,10 +1226,12 @@ const SurveySublink = () => {
                                                     ? "none"
                                                     : "auto",
                                                 }}
-                                                onClick={(e) =>
+                                                onClick={(e) =>{
+                                                  e.stopPropagation();
+                                                  toggleAccordion(index);
                                                   getSubLinkListingData(
                                                     item.survey_id
-                                                  )
+                                                  )}
                                                 }
                                               >
                                                 SubLinks
