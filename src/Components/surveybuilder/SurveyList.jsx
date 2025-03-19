@@ -267,15 +267,14 @@ const SurveyList = (props) => {
     }
   };
 
-  const setDownloadLink = (survey_id, selectedSublinkId) => {
-    const selectedSublink = subLinkData?.[survey_id]?.find(
-      (option) => option.value === selectedSublinkId
-    );
-    if (selectedSublink) {
+  const setDownloadLink = (currentSelectedSublink) => {
+
+    const selectedSublink = currentSelectedSublink?.unique_code
+    if (selectedSublink != undefined && selectedSublink) {
       loader("show");
       setQr({
         ...qrState,
-        value: `https://survey.docintel.app/survey?Utmde=${selectedSublink.label}&dl=QR`,
+        value: `https://survey.docintel.app/survey?Utmde=${selectedSublink}&dl=QR`,
       });
       setTimeout(function () {
         downloadQRCode();

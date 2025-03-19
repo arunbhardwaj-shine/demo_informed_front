@@ -314,13 +314,11 @@ export const SublinkHandler = ({
   handleCopy,
   setDownloadLink,
   sublinkoptions,
-  survey_id,
   allSublinks
 }) => {
   const [selectedSublinkId, setSelectedSublinkId] = useState({});
   const onSublinkChange = (selectedOption) => {
     const selectedSublink = allSublinks.find(sublink => sublink.sublink_id === selectedOption.value)
-    console.log(selectedSublink)
     setSelectedSublinkId(selectedSublink);
   };
 
@@ -339,8 +337,8 @@ export const SublinkHandler = ({
                   placeholder="Select Sublink"
                   onChange={onSublinkChange}
                   options={sublinkoptions}
-                  value={allSublinks.find(
-                    (option) => option.sublink_id == selectedSublinkId
+                  value={sublinkoptions.find(
+                    (option) => option.value == selectedSublinkId.sublink_id
                   )}
                 />
                 <Button
@@ -363,11 +361,11 @@ export const SublinkHandler = ({
                   onChange={onSublinkChange}
                   options={sublinkoptions}
                   value={sublinkoptions.find(
-                    (option) => option.value === selectedSublinkId
+                    (option) => option.value == selectedSublinkId.sublink_id
                   )}
                 />
                 <Button
-                  onClick={(e) => setDownloadLink(survey_id, selectedSublinkId)}
+                  onClick={(e) => setDownloadLink(selectedSublinkId)}
                 >
                   download
                 </Button>
