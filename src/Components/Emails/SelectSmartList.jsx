@@ -195,7 +195,7 @@ const SelectSmartList = (props) => {
           : "",
       campaign_name: old_object?.emailCampaign
         ? old_object.emailCampaign
-        : draft_object.campaign,
+        : draft_object?.campaign ? draft_object?.campaign : draft_object?.campaign_name,
       subject: old_object?.emailSubject
         ? old_object.emailSubject
         : draft_object.subject,

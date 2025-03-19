@@ -3215,6 +3215,7 @@ const CreateEmail = (props) => {
                                   type="radio"
                                   name="radio"
                                   onClick={(e) => handleSelect(data, e)}
+                                  onChange={() => {}}
                                   checked={
                                     typeof getSmartListId !== "undefined" &&
                                       getSmartListId !== 0 &&
