@@ -2700,16 +2700,18 @@ const getExistingVideos=async ()=>{
                       </Col>
                     ) : null}
 
-                    {(ebookFile?.length &&
+                    {
+                    ((ebookFile?.length &&
                       userInputs.docintelFormat=="ebook") ||
                     (["ebook", "pdf", "pdfSpc"].includes(
                       userInputs.docintelFormat
                     ))||
-                    (ebookFile?.length &&userInputs.docintelFormat=="ebookVideo"&&chapter.some((element)=>element?.type=="pdf"))
-                     && (localStorage.getItem("user_id") ==
-                        "rjiGlqA9DXJVH7bDDTX0Lg==" || localStorage.getItem("user_id") ==
-                        "iSnEsKu5gB/DRlycxB6G4g==" || localStorage.getItem("user_id") ==
-                        isLikeRdAccount) ? (
+                    (ebookFile?.length &&userInputs.docintelFormat=="ebookVideo"&&chapter.some((element)=>element?.type=="pdf")))
+                    && (localStorage.getItem("user_id") ==
+                    "rjiGlqA9DXJVH7bDDTX0Lg==" || localStorage.getItem("user_id") ==
+                    "iSnEsKu5gB/DRlycxB6G4g==" || localStorage.getItem("user_id") ==
+                    "B7SHpAc XDXSH NXkN0rdQ==" || isLikeRdAccount)
+                    ? (
                       <>
                         <div className="form-group">
                           <label htmlFor="">Include video</label>
