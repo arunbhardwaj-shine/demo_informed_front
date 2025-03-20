@@ -137,13 +137,13 @@ const [apiCallStatus,setApiCallStatus]=useState(false)
         });
         setIsData(data);
         setApiData(data);
-        // if (
-        //   response?.data?.data?.totalPage > response?.data?.data?.data?.length
-        // ) {
-        //   setIsLoaded(true);
-        // } else {
-        //   setIsLoaded(false);
-        // }
+        if (
+          response?.data?.data?.totalPage > response?.data?.data?.data?.length
+        ) {
+          setIsLoaded(true);
+        } else {
+          setIsLoaded(false);
+        }
       } else {
         let newDataLength = isData?.length + response?.data?.data?.data?.length;
         let raw_description = response?.data?.data?.data.map((d) =>
@@ -171,11 +171,11 @@ const [apiCallStatus,setApiCallStatus]=useState(false)
         });
         setIsData([...isData, ...data]);
         setApiData([...apiData, ...data]);
-        // if (totalEvents > newDataLength) {
-        //   setIsLoaded(true);
-        // } else {
-        //   setIsLoaded(false);
-        // }
+        if (totalEvents > newDataLength) {
+          setIsLoaded(true);
+        } else {
+          setIsLoaded(false);
+        }
       }
      
       loader("hide");
@@ -809,7 +809,7 @@ const [apiCallStatus,setApiCallStatus]=useState(false)
                       id="email_search"
                       onChange={(e) => searchChange(e)}
                     />
-                    <button className="btn-outline-success" type="submit">
+                    <button className="btn btn-outline" type="submit">
                       <svg
                         width="16"
                         height="16"
@@ -1361,7 +1361,7 @@ const [apiCallStatus,setApiCallStatus]=useState(false)
                 )}
               </div>
                     <div className="load_more">
-                {isLoaded == true ? (
+                {isLoaded == true && !pageAll ? (
                   <Button
                     className="btn btn-primary btn-filled"
                     onClick={loadMoreClicked}
