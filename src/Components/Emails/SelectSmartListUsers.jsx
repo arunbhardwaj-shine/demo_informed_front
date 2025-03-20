@@ -384,6 +384,14 @@ const SelectSmartListUsers = (props) => {
 
   const nextClicked = () => {
     const nextRoute = routeTypeSurvey ? "/survey/email/verify-mail" : "/verifyMAIL"
+
+    props.getEmailData({
+      ...old_object,
+      newlyAdded:readersNewlyAdded,
+      removed:removedReaders
+    } );
+
+
     navigate(nextRoute, {
       state: {
         selectedHcp: [...readers, ...readersNewlyAdded],

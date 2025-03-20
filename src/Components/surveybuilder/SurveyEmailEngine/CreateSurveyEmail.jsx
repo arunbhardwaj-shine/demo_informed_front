@@ -22,7 +22,7 @@ var state_object = {};
 const CreateSurveyEmail = (props) => {
   let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
   const { state } = useLocation();
-  const { FETCH_SURVEY_DATA } = surveyEndpoints;
+  const { FETCH_SURVEY_DATA ,FETCH_SURVEY_EMAIL_ENGINE_FILTERS } = surveyEndpoints;
   const [SendListData, setSendListData] = useState([]);
   const [fromSurveyLandingData, setFromSurveyLandingData]=useState(state_object?.fromSurveyLanding ? state_object?.fromSurveyLanding : false)
 
@@ -260,7 +260,7 @@ const submitHandler = (event) => {
 
 
   useEffect(() => {
-    getContentData(0, 1);
+      getContentData(0, 1);
   }, []);
 
   const handlePdfSelection = (id) => {
@@ -277,6 +277,7 @@ const submitHandler = (event) => {
 
     try {
       loader("show");
+
       const response = await surveyAxiosInstance.post(FETCH_SURVEY_DATA, body);
       if (response.data.status == "success") {
         setSendListData(response.data.data);
@@ -284,14 +285,13 @@ const submitHandler = (event) => {
        
       }
 
-      const filters=await surveyAxiosInstance.get("/survey/survey-filters")
+      if(!fromSurveyLandingData){
+        const filters=await surveyAxiosInstance.get(FETCH_SURVEY_EMAIL_ENGINE_FILTERS)
 
-      if(filters.status == 201){
-        setFilterData(filters?.data?.data)
+        if(filters.status == 201){
+          setFilterData(filters?.data?.data)
+        }
       }
-
-       
-
       loader("hide");
     } catch (error) {
       loader("hide");
@@ -301,7 +301,7 @@ const submitHandler = (event) => {
 
 
   const nextClicked=()=>{
-    console.log(fromSurveyLandingData)
+    
     props.getEmailData({sublink_id:currentSelectedSublink,survey_id:isPdfSelected,PdfSelected: 1,fromSurveyLanding: fromSurveyLandingData});
     navigate("/survey/email/create-email", {
       state: { PdfSelected: 1,IrtObj:irtRoleObj }

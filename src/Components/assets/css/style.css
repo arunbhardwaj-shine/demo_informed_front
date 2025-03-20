@@ -2200,6 +2200,7 @@ ul.tabnav-link li {
   color: var(--dark-blue);
   margin:30px 0 35px;
   text-transform: unset;
+  text-align: center;
 }
 .mail-content-select .row {
   margin: 0 -12px 0 -22px;
