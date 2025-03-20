@@ -695,9 +695,10 @@ const submitHandler = (event) => {
             
             {/*Code for filters end*/}
 
-          {fromSurveyLandingData && <h6>Select link type:</h6> }  
+           
 
-            <SelectSurvey SendListData={SendListData} setSendListData={setSendListData} handlePdfSelection={handlePdfSelection} setCurrentSelectedSublink={setCurrentSelectedSublink} selectedSurvey={isPdfSelected} selectedSublink={currentSelectedSublink} fromSurveyLanding={!fromSurveyLandingData} SubSelected={ state_object?.sublink_id}/>
+            <SelectSurvey SendListData={SendListData} setSendListData={setSendListData} handlePdfSelection={handlePdfSelection} setCurrentSelectedSublink={setCurrentSelectedSublink} selectedSurvey={isPdfSelected} selectedSublink={currentSelectedSublink} fromSurveyLanding={!fromSurveyLandingData} SubSelected={ state_object?.sublink_id}   />
+            
           </div>
           {/* {typeof SendListData !== "undefined" &&
               SendListData.length == 30 &&

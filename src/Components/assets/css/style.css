@@ -2189,7 +2189,18 @@ ul.tabnav-link li {
 .mail-content-select {
   margin-top: 34px;
 }
+.mail-content-select .single-survey {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
 
+.mail-content-select .single-survey h4{
+  font-weight: 500;
+  color: var(--dark-blue);
+  margin:30px 0 35px;
+  text-transform: unset;
+}
 .mail-content-select .row {
   margin: 0 -12px 0 -22px;
 }

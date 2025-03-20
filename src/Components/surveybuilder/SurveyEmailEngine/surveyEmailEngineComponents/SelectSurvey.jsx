@@ -72,6 +72,8 @@ const onSublinkChange = (surveyId, selectedOption) => {
                 })),
               ];
               return (
+                <div className="single-survey ">
+                  {!fromSurveyLanding && <h4>Select link type:</h4> } 
                 <div className="col-12 col-md-4" key={index}>
                   <div className="email_box">
                   <div className="mail-content-select-box survey-mail">
@@ -275,6 +277,7 @@ const onSublinkChange = (surveyId, selectedOption) => {
                           </div>
                   </div>
                   </div>
+                </div>
                 </div>
               );
             })
