@@ -267,8 +267,7 @@ const SurveyList = (props) => {
     }
   };
 
-  const setDownloadLink = (currentSelectedSublink) => {
-
+  const setDownloadLink = (currentSelectedSublink,currentDownloadName) => {
     const selectedSublink = currentSelectedSublink?.unique_code
     if (selectedSublink != undefined && selectedSublink) {
       loader("show");
@@ -277,7 +276,8 @@ const SurveyList = (props) => {
         value: `https://survey.docintel.app/survey?Utmde=${selectedSublink}&dl=QR`,
       });
       setTimeout(function () {
-        downloadQRCode();
+        const name=currentDownloadName.label ? currentDownloadName.label : null
+        downloadQRCode(name);
       }, 500);
     } else {
       toast.error("No sublink Qrcode selected to download.");
