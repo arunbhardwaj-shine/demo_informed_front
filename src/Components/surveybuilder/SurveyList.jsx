@@ -655,9 +655,9 @@ const SurveyList = (props) => {
   };
 
   const nextClicked = async (id) => {
-    props.getEmailData({ sublink_id: 0, survey_id: id, PdfSelected: 1 });
-    navigate("/survey/email/create-email", {
-      state: { PdfSelected: 1, IrtObj: {} }
+   props.getEmailData({ sublink_id: null, survey_id: id, PdfSelected: 0 ,fromSurveyLanding:true });
+    navigate("/survey/email/selectsurvey", {
+      state: { PdfSelected: 0, IrtObj: {} }
     })
   };
 

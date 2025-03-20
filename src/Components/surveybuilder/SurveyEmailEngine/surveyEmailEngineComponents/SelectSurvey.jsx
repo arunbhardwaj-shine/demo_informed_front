@@ -2,8 +2,9 @@ import { useState } from "react";
 import { format } from "date-fns";
 import Select from "react-select";
 import SublinkModal from "../Modals/SublinkModal";
+import { connect } from "react-redux";
 
-const SelectSurvey = ({ SendListData, setSendListData, handlePdfSelection, setCurrentSelectedSublink,selectedSurvey, selectedSublink }) => {
+const SelectSurvey = ({ SendListData, setSendListData, handlePdfSelection, setCurrentSelectedSublink,selectedSurvey, selectedSublink,fromSurveyLanding ,SubSelected }) => {
   let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [selectedSublinkId, setSelectedSublinkId] = useState(
     selectedSurvey ? {[selectedSurvey] : selectedSublink} :  {}
@@ -11,6 +12,10 @@ const SelectSurvey = ({ SendListData, setSendListData, handlePdfSelection, setCu
   const [PdfSelected, setPdfSelected] = useState(selectedSurvey);
   const [createNewLink, setCreateNewLink] = useState(false);
   const [currentAddSublinkLid, setCurrentAddSublinkLid] = useState(null)
+  // const [isFirstRender, setIsFirstRender] =  useState(fromSurveyLanding);
+  const [render, setRender] =  useState(SubSelected);
+
+  console.log(selectedSublinkId)
 
   const handleSelect = (e) => {
     let pdfId = e?.target?.value === PdfSelected ? 0 : e?.target?.value;
@@ -18,10 +23,6 @@ const SelectSurvey = ({ SendListData, setSendListData, handlePdfSelection, setCu
     handlePdfSelection(pdfId)
     setPdfSelected(pdfId);
    setCurrentSelectedSublink(selectedSublinkId[pdfId]);
-     
- 
-        
-    
   };
 
   const showSublinkModal = (id) => {
@@ -32,8 +33,9 @@ const SelectSurvey = ({ SendListData, setSendListData, handlePdfSelection, setCu
   
 
 const onSublinkChange = (surveyId, selectedOption) => {
+  console.log(SubSelected)
     const updatedSublinkId = selectedOption ? selectedOption.value : null;
-
+    setRender(updatedSublinkId)
     setSelectedSublinkId((prevState) => {
         const newState = { ...prevState, [surveyId]: updatedSublinkId };
         return newState;
@@ -100,7 +102,7 @@ const onSublinkChange = (surveyId, selectedOption) => {
                           </ul>
                         </div>
                       </div>
-                      <div className="select-mail-option">
+                 {fromSurveyLanding &&  <div className="select-mail-option">
                         <input
                           //onChange={handleSelect}
                           onClick={handleSelect}
@@ -116,7 +118,7 @@ const onSublinkChange = (surveyId, selectedOption) => {
                           }
                         />
                         <span className="checkmark"></span>
-                      </div>
+                      </div>}     
                     </div>
                     <div>
                       <div className="mail-content-table">
@@ -175,13 +177,18 @@ const onSublinkChange = (surveyId, selectedOption) => {
                                   );
                                 }}
                                 options={sublinkOptions}
+                                value={
+                                  (  render != null)
+                                    ?sublinkOptions.find(
+                                      (option) =>
+                                        option.value === (selectedSublinkId[data.survey_id] ?? 0)
+                                    ) 
+                                    : null
+                                }
+
                                 // value={sublinkOptions.find(
-                                //   (option) =>
-                                //     option.value == selectedSublinkId
+                                //   (option) => option.value === (selectedSublinkId[data.survey_id] ?? 0)
                                 // )}
-                                value={sublinkOptions.find(
-                                  (option) => option.value === (selectedSublinkId[data.survey_id] ?? 0)
-                                )}
                               />
                             </div>
                           </div>

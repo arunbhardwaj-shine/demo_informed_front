@@ -1027,6 +1027,7 @@ const CreateEmail = (props) => {
           removedHcp : state_object?.removedHcp ? state_object?.removedHcp : [],
           addedHcp : state_object?.addedHcp ? state_object?.addedHcp : [],
           selectedHcp : state_object?.selectedHcp ? state_object?.selectedHcp : [],
+          fromSurveyLanding:state_object?.fromSurveyLanding ? state_object?.fromSurveyLanding : false,
           sublink_id : surveySubLinkId,
           survey_id : surveyid,
         };
@@ -1071,6 +1072,7 @@ const CreateEmail = (props) => {
           removedHcp : state_object?.removedHcp ? state_object?.removedHcp : [],
           addedHcp : state_object?.addedHcp ? state_object?.addedHcp : [],
           selectedHcp : state_object?.selectedHcp ? state_object?.selectedHcp : [],
+          fromSurveyLanding:state_object?.fromSurveyLanding ? state_object?.fromSurveyLanding : false,
           sublink_id : surveySubLinkId,
           survey_id : surveyid,
         });
@@ -2232,6 +2234,7 @@ const CreateEmail = (props) => {
       removedHcp : state_object?.removedHcp ? state_object?.removedHcp : [],
       addedHcp : state_object?.addedHcp ? state_object?.addedHcp : [],
       selectedHcp : state_object?.selectedHcp ? state_object?.selectedHcp : [],
+      fromSurveyLanding:state_object?.fromSurveyLanding ? state_object?.fromSurveyLanding : false,
       sublink_id : surveySubLinkId,
       survey_id : surveyid,
     };
