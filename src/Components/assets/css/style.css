@@ -960,6 +960,9 @@ nav #collapsibleNavbar .nav-item.user-login .dropdown .dropdown-menu a:hover {
 .rd .dlt_btn button {
   background: var(--violet);
 }
+.dlt_btn.edit_btn button, .dlt_btn.download_btn button {
+  background: var(--light-blue);
+}
 .rd .dlt_btn button svg path{
   fill: var(--white);
 }
@@ -971,7 +974,7 @@ nav #collapsibleNavbar .nav-item.user-login .dropdown .dropdown-menu a:hover {
   background: var(--light-blue);
 }
 
-.rd .dlt_btn.edit button:hover {
+.rd .dlt_btn.edit button:hover, .dlt_btn.edit_btn button:hover, .dlt_btn.download_btn button:hover {
   background: var(--dark-blue);
 }
 .email-result-block .email-block-add-box,
@@ -2160,16 +2163,16 @@ ul.tabnav-link li {
 .mail-content-table table th {
   font-size: 14px;
   line-height: 16px;
-  color: var(--dark-blue);
-  font-weight: 400;
+  color: rgba(0, 74, 137, 0.55);
+  font-weight: 500;
   padding: 4px 8px 3px 0;
 }
 
 .mail-content-table table td {
   font-size: 14px;
   line-height: 16px;
-  color: var(--light-gray);
-  font-weight: 300;
+  color: var(--dark-blue);
+  font-weight: 400;
 }
 
 .mail-content-table {
@@ -2522,6 +2525,7 @@ form .input-group {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  filter:none;
 }
 
 .form-buttons .approved-btn:hover {
@@ -4859,15 +4863,17 @@ form#add_hcp_form .row:not(:first-child) {
 }
 
 .verify-email-detail h6 {
-  font-weight: 300;
-  color: var(--dark-blue);
+  font-weight: 400;
+  color: #70899E;
   font-size: 18px;
   line-height: 21px;
   margin-bottom: 12px;
   display: flex;
   align-items: flex-start;
 }
-
+.verify-email-detail h6 strong{
+  color: var(--dark-blue);
+}
 .verify-email-detail h4 {
   margin-bottom: 16px;
 }
@@ -4928,6 +4934,7 @@ form#add_hcp_form .row:not(:first-child) {
   font-size: 14px;
   line-height: 16px;
   color: var(--dark-blue);
+  font-weight: 500;
 }
 
 .mail-recipt h6 {
@@ -4941,6 +4948,7 @@ form#add_hcp_form .row:not(:first-child) {
 .mail-recipt p span,
 .mail-recipt h6 span {
   font-weight: 300;
+  color: #70899E;
 }
 
 .mail-recipt .mail-recipt-right {
@@ -5932,9 +5940,11 @@ form#add_hcp_form .row:not(:first-child) {
 }
 
 #mail-view .mailbox-table th {
-  color: var(--dark-blue);
+  color: rgba(0, 74, 137, 0.55);
 }
-
+#mail-view .mailbox-table + p{
+  margin-top:5px;
+}
 #mail-view .mail-time span {
   font-size: 14px;
   line-height: 16px;

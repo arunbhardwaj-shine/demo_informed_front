@@ -802,8 +802,9 @@ const VerifyMAIL = (props) => {
                           <h6>
                             The recipients <span>| {selectedHcp?.length}</span>
                           </h6>
+                          <div class="d-flex align-items-center"><p>Single HCP added <span>| 1</span></p> <p>Single HCP removed <span>| 1</span></p></div>
                           {getSmartListData?.length !== 0 && (
-                            <div className="smartlist-view email_box_outer new-smartlist">
+                            <div className="smartlist-view email_box_outer new-smartlist mt-3">
                               <div className="smartlist-view email_box w-100" style={{flex: "0 0 100%"}}>
                                 <div className="mail-box-content">
                                   <div className="mail-box-conten-title">
