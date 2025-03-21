@@ -327,14 +327,14 @@ const submitHandler = (event) => {
           <div className="row">
             <div className="page-top-nav sticky">
               <div className="row justify-content-end align-items-center">
-             {!fromSurveyLandingData && <div className="col-12 col-md-1">
+             {/* {!fromSurveyLandingData && <div className="col-12 col-md-1">
                   <div className="header-btn-left">
                   <button className="btn btn-primary btn-bordered back" onClick={handleBackClick}>
                        Back
                     </button>
 
                   </div>
-                </div> }   
+                </div> }    */}
                 <div className="col-12 col-md-9">
                   <ul className="tabnav-link">
                     <li className="active active-main">
