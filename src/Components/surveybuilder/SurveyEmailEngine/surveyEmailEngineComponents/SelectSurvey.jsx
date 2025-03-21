@@ -15,7 +15,6 @@ const SelectSurvey = ({ SendListData, setSendListData, handlePdfSelection, setCu
   // const [isFirstRender, setIsFirstRender] =  useState(fromSurveyLanding);
   const [render, setRender] =  useState(SubSelected);
 
-  console.log(selectedSublinkId)
 
   const handleSelect = (e) => {
     let pdfId = e?.target?.value === PdfSelected ? 0 : e?.target?.value;
@@ -60,7 +59,7 @@ const onSublinkChange = (surveyId, selectedOption) => {
   return (
     <>
       <div className="mail-content-select survey_mail_engine">
-        <div className="row">
+        <div className={`${!fromSurveyLanding ? "single-survey row":"row"}`}>
           {typeof SendListData !== "undefined" &&
             SendListData.length > 0 ? (
             SendListData.map((data, index) => {
@@ -72,7 +71,7 @@ const onSublinkChange = (surveyId, selectedOption) => {
                 })),
               ];
               return (
-                <div className="single-survey ">
+                <>
                   {!fromSurveyLanding && <h4>Select link type:</h4> } 
                 <div className="col-12 col-md-4" key={index}>
                   <div className="email_box">
@@ -161,6 +160,7 @@ const onSublinkChange = (surveyId, selectedOption) => {
                           <h6 className="tab-content-title">
                             Link 
                             <img
+                            title="This is the link you’ll include in the email—either the primary survey link or one of the subLinks."
                               src={path_image + "info_circle_icon.svg"}
                               alt=""
                             />
@@ -171,7 +171,7 @@ const onSublinkChange = (surveyId, selectedOption) => {
                                 aria-label="SSelect Sublink"
                                 className="dropdown-basic-button split-button-dropup"
                                 name="surveyCreator"
-                                placeholder="Select Sublink"
+                                placeholder="Select link type"
                                 onChange={(selectedOption) => {
                                   onSublinkChange(
                                     data.survey_id,
@@ -180,12 +180,13 @@ const onSublinkChange = (surveyId, selectedOption) => {
                                 }}
                                 options={sublinkOptions}
                                 value={
-                                  (  render != null)
+                                  ( render !== null)
                                     ?sublinkOptions.find(
-                                      (option) =>
-                                        option.value === (selectedSublinkId[data.survey_id] ?? 0)
+                                      (option) =>{
+                                      return  option.value === (selectedSublinkId[data.survey_id] ?? 0)
+                                      }
                                     ) 
-                                    : null
+                                    :(null)
                                 }
 
                                 // value={sublinkOptions.find(
@@ -278,7 +279,7 @@ const onSublinkChange = (surveyId, selectedOption) => {
                   </div>
                   </div>
                 </div>
-                </div>
+                </>
               );
             })
           ) : (
@@ -286,7 +287,9 @@ const onSublinkChange = (surveyId, selectedOption) => {
               <p>No Data Found</p>
             </div>
           )}
-        </div>
+
+
+           </div>
       </div>
 
       {

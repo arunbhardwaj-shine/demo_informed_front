@@ -1660,7 +1660,7 @@ const SurveyList = (props) => {
                               </div>
                             )}
                             {editSurvey && (
-                              <div className="dlt_btn">
+                              <div className="dlt_btn edit_btn">
                                 <button
                                   onClick={(e) =>
                                     editHandler(

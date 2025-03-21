@@ -20,6 +20,7 @@ export const surveyEndpoints = {
     DELETE_SURVEY_QUESTION: "/survey/delete-survey-question",
     FETCH_QUESTION: "/survey/fetch-question",
     DELETE_OPTION: "/survey/delete-option",
+    FETCH_SURVEY_EMAIL_ENGINE_FILTERS:"/survey/survey-filters",
 
     // Sublink Listing Page 
     // FETCH_SURVEY_SUBLINK_2: "/survey/fetch-survey-sublink", // Duplicate

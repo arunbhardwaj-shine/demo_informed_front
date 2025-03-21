@@ -3126,7 +3126,7 @@ const EmailList = (props) => {
                                     ? moment(
                                         item?.recent_send?.[0]?.sent_date,
                                         "YYYY-MM-DD HH:mm:ss"
-                                      ).format("DD-MMM-YY | hh:mm a")
+                                      ).format("D MMMM. YYYY | hh:mm a")
                                     : null}
                                   {item?.recent_send?.length > 1 ? (
                                     <div
@@ -3200,7 +3200,7 @@ const EmailList = (props) => {
                                               ? moment(
                                                   subItem?.sent_date,
                                                   "YYYY-MM-DD HH:mm:ss"
-                                                ).format("DD-MMM-YY | hh:mm a")
+                                                ).format("D MMMM. YYYY | hh:mm a")
                                               : null}
                                             {item?.recent_send?.length -
                                               subIndex >
