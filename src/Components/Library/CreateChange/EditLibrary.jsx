@@ -584,6 +584,16 @@ const getExistingVideos=async ()=>{
               : JSON.stringify(false)
           );
         }
+
+        if(localStorage.getItem('user_id') == 'iRbx2CVT2fddhkNa9mlcBQ=='){
+          formData.append(
+            "sync_onesource",
+            userInputs?.sync_onesource
+              ? JSON.stringify(userInputs?.sync_onesource)
+              : JSON.stringify(false)
+          );
+        }
+
         formData.append(
           "multiplePublisher",
           reseller?.length ? JSON.stringify(reseller) : ""
@@ -1974,7 +1984,7 @@ const getExistingVideos=async ()=>{
                         </>
                       ) : null}
 
-                      {userDetail?.user?.[0]?.octaLach == 1 && userDetail?.user?.[0]?.group_id == 3
+                      {(userDetail?.user?.[0]?.octaLach == 1 && userDetail?.user?.[0]?.group_id == 3) || (localStorage.getItem('user_id') == 'iRbx2CVT2fddhkNa9mlcBQ==')
                          ? (
                         <>
                           <div className="form-group">

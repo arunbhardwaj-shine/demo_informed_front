@@ -2098,7 +2098,7 @@ const LibraryEditListing = () => {
                                     ) : null}
 
                                     {
-                                      localStorage.getItem('user_id') == 'iSnEsKu5gB/DRlycxB6G4g=='
+                                      localStorage.getItem('user_id') === 'iSnEsKu5gB/DRlycxB6G4g==' || localStorage.getItem('user_id') === 'iRbx2CVT2fddhkNa9mlcBQ=='
                                       ?
                                         <li>
                                           <h6 className="tab-content-title">
