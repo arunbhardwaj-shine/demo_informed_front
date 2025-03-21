@@ -1499,7 +1499,7 @@
     width: 160px;
     flex: 0 0 160px;
   }
-  .select-mail-template .form-group.col-md-5 .login-validation {
+  .select-mail-template .form-group.col-md-5 .login-validation, .select-mail-template .form-group.col-md-7 .srv-validation-message {
     padding-left: 170px;
 }
 
@@ -3016,12 +3016,12 @@
 }
 }
 @media only screen and (max-width: 1279px) {
-.select-mail-template .form-group.col-md-5 .login-validation {
+.select-mail-template .form-group.col-md-5 .login-validation, .select-mail-template .form-group.col-md-7 .srv-validation-message {
   padding-left: 162px;
 }
 }
 @media only screen and (max-width: 1199px) {
-  .select-mail-template .form-group.col-md-5 .login-validation {
+  .select-mail-template .form-group.col-md-5 .login-validation, .select-mail-template .form-group.col-md-7 .srv-validation-message {
     padding-left: 0px;
     flex: 0 0 100%;
 }

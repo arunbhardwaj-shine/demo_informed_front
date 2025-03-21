@@ -2185,7 +2185,7 @@ ul.tabnav-link li {
   display: flex;
   justify-content: end;
 }
-.select-mail-template .form-group.col-md-5 .login-validation {
+.select-mail-template .form-group.col-md-5 .login-validation, .select-mail-template .form-group.col-md-7 .srv-validation-message {
   padding-left: 190px;
 }
 .mail-content-select {
