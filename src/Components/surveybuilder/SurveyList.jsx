@@ -267,8 +267,7 @@ const SurveyList = (props) => {
     }
   };
 
-  const setDownloadLink = (currentSelectedSublink) => {
-
+  const setDownloadLink = (currentSelectedSublink,currentDownloadName) => {
     const selectedSublink = currentSelectedSublink?.unique_code
     if (selectedSublink != undefined && selectedSublink) {
       loader("show");
@@ -277,7 +276,8 @@ const SurveyList = (props) => {
         value: `https://survey.docintel.app/survey?Utmde=${selectedSublink}&dl=QR`,
       });
       setTimeout(function () {
-        downloadQRCode();
+        const name=currentDownloadName.label ? currentDownloadName.label : null
+        downloadQRCode(name);
       }, 500);
     } else {
       toast.error("No sublink Qrcode selected to download.");
@@ -655,9 +655,9 @@ const SurveyList = (props) => {
   };
 
   const nextClicked = async (id) => {
-    props.getEmailData({ sublink_id: 0, survey_id: id, PdfSelected: 1 });
-    navigate("/survey/email/create-email", {
-      state: { PdfSelected: 1, IrtObj: {} }
+   props.getEmailData({ sublink_id: null, survey_id: id, PdfSelected: 0 ,fromSurveyLanding:true });
+    navigate("/survey/email/selectsurvey", {
+      state: { PdfSelected: 0, IrtObj: {} }
     })
   };
 
@@ -1660,7 +1660,7 @@ const SurveyList = (props) => {
                               </div>
                             )}
                             {editSurvey && (
-                              <div className="dlt_btn">
+                              <div className="dlt_btn edit_btn">
                                 <button
                                   onClick={(e) =>
                                     editHandler(

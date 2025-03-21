@@ -14,7 +14,6 @@ const SmartListFilter = (props) => {
   const [filterList, setFilterList] = useState([]);
 
   useEffect(() => {
-    console.log(routeTypeSurvey)
     const body = {
       user_id: localStorage.getItem("user_id"),
       type:routeTypeSurvey

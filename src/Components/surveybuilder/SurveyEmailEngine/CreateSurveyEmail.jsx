@@ -22,10 +22,12 @@ var state_object = {};
 const CreateSurveyEmail = (props) => {
   let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
   const { state } = useLocation();
-  const { FETCH_SURVEY_DATA } = surveyEndpoints;
+  const { FETCH_SURVEY_DATA ,FETCH_SURVEY_EMAIL_ENGINE_FILTERS } = surveyEndpoints;
   const [SendListData, setSendListData] = useState([]);
+  const [fromSurveyLandingData, setFromSurveyLandingData]=useState(state_object?.fromSurveyLanding ? state_object?.fromSurveyLanding : false)
+
   const [isPdfSelected, setIsPdfSelected] = useState(state_object?.survey_id ? state_object?.survey_id : 0)
-  const [currentSelectedSublink,setCurrentSelectedSublink]=useState(state_object?.sublink_id ? state_object?.sublink_id : 0)
+  const [currentSelectedSublink,setCurrentSelectedSublink]=useState(state_object?.sublink_id != null ? state_object?.sublink_id : null)
   const [search, setSearch] = useState("");
   const [getoriginalSurveylistdata, setOriginalSurveyData] = useState([]);
   const [submiHandle, setSubmiHandle] = useState("");
@@ -258,7 +260,7 @@ const submitHandler = (event) => {
 
 
   useEffect(() => {
-    getContentData(0, 1);
+      getContentData(0, 1);
   }, []);
 
   const handlePdfSelection = (id) => {
@@ -269,12 +271,13 @@ const submitHandler = (event) => {
      
 
     const body = {
-      survey_id: 0,
+      survey_id: (isPdfSelected && fromSurveyLandingData) ? isPdfSelected : 0,
       is_live:1
     };
 
     try {
       loader("show");
+
       const response = await surveyAxiosInstance.post(FETCH_SURVEY_DATA, body);
       if (response.data.status == "success") {
         setSendListData(response.data.data);
@@ -282,14 +285,13 @@ const submitHandler = (event) => {
        
       }
 
-      const filters=await surveyAxiosInstance.get("/survey/survey-filters")
+      if(!fromSurveyLandingData){
+        const filters=await surveyAxiosInstance.get(FETCH_SURVEY_EMAIL_ENGINE_FILTERS)
 
-      if(filters.status == 201){
-        setFilterData(filters?.data?.data)
+        if(filters.status == 201){
+          setFilterData(filters?.data?.data)
+        }
       }
-
-       
-
       loader("hide");
     } catch (error) {
       loader("hide");
@@ -299,14 +301,20 @@ const submitHandler = (event) => {
 
 
   const nextClicked=()=>{
-    props.getEmailData({sublink_id:currentSelectedSublink,survey_id:isPdfSelected,PdfSelected: 1});
+    
+    props.getEmailData({sublink_id:currentSelectedSublink,survey_id:isPdfSelected,PdfSelected: 1,fromSurveyLanding: fromSurveyLandingData});
     navigate("/survey/email/create-email", {
       state: { PdfSelected: 1,IrtObj:irtRoleObj }
     })
   }
 
   const handleBackClick = () => {
-    navigate("/survey/email");
+    if(fromSurveyLandingData){
+      navigate("/survey/survey-list");
+    }else{
+      navigate("/survey/email");
+    }
+    
   }
 
 
@@ -319,14 +327,14 @@ const submitHandler = (event) => {
           <div className="row">
             <div className="page-top-nav sticky">
               <div className="row justify-content-end align-items-center">
-                <div className="col-12 col-md-1">
+             {!fromSurveyLandingData && <div className="col-12 col-md-1">
                   <div className="header-btn-left">
                   <button className="btn btn-primary btn-bordered back" onClick={handleBackClick}>
                        Back
                     </button>
 
                   </div>
-                </div>
+                </div> }   
                 <div className="col-12 col-md-9">
                   <ul className="tabnav-link">
                     <li className="active active-main">
@@ -358,7 +366,29 @@ const submitHandler = (event) => {
                       Cancel
                     </button>
 
-                    {isPdfSelected === 0 ? (
+                    {
+
+            fromSurveyLandingData ?    
+
+            currentSelectedSublink == null ? (
+                      <button
+                        // ref={inputElement}
+                        className="btn btn-primary btn-filled next disabled"
+                      >
+                        Next
+                      </button>
+                    ) : (
+                      <button
+                        // ref={inputElement}
+                        onClick={nextClicked}
+                        className="btn btn-primary btn-filled next"
+                      >
+                        Next
+                      </button>
+                    )
+
+
+                   : isPdfSelected === 0 ? (
                       <button
                         // ref={inputElement}
                         className="btn btn-primary btn-filled next disabled"
@@ -379,7 +409,7 @@ const submitHandler = (event) => {
               </div>
             </div>
 
-            <div className="top-header">
+          {!fromSurveyLandingData && <div className="top-header">
               <div className="page-title">
                 <h4>Select your content</h4>
               </div>
@@ -596,7 +626,7 @@ const submitHandler = (event) => {
 
               </div>
             
-            </div>
+            </div>}
 
             {/*Code for filters start*/}
 
@@ -665,7 +695,10 @@ const submitHandler = (event) => {
             
             {/*Code for filters end*/}
 
-            <SelectSurvey SendListData={SendListData} setSendListData={setSendListData} handlePdfSelection={handlePdfSelection} setCurrentSelectedSublink={setCurrentSelectedSublink} selectedSurvey={isPdfSelected} selectedSublink={currentSelectedSublink}/>
+           
+
+            <SelectSurvey SendListData={SendListData} setSendListData={setSendListData} handlePdfSelection={handlePdfSelection} setCurrentSelectedSublink={setCurrentSelectedSublink} selectedSurvey={isPdfSelected} selectedSublink={currentSelectedSublink} fromSurveyLanding={!fromSurveyLandingData} SubSelected={ state_object?.sublink_id}   />
+            
           </div>
           {/* {typeof SendListData !== "undefined" &&
               SendListData.length == 30 &&

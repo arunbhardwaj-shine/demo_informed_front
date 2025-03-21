@@ -1240,7 +1240,7 @@ const SurveySublink = () => {
                                                 <div className="d-flex justify-content-between align-items-center">
                                                   <div className="sublink-title">
                                                     <h6>
-                                                      SubLinks:{" "}
+                                                      SubLinks |{" "}
                                                       {subLinkData.length}
                                                     </h6>
                                                   </div>

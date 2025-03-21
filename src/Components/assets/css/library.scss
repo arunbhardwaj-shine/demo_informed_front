@@ -26225,7 +26225,10 @@ table {
 
   .mail-recipt-left {
     max-width: 360px;
-
+    .d-flex{
+      height:auto;
+    }
+ 
     .mail-content-table {
       table {
         width: 100%;

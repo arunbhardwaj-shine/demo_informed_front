@@ -445,6 +445,10 @@ const VerifyHcpMAIL = (props) => {
   };
 
   const backClicked = () => {
+
+
+
+        props.getEmailData( );
     const backRoute = routeTypeSurvey ? "/survey/email/verify-hcp" : "/VerifyHCP";
     if(irtRoleObj?.IRTFlag){
       navigate(backRoute,{state: {IrtObj:irtRoleObj}})

@@ -987,7 +987,7 @@ const SmartList = (props) => {
                             )}
 
                             {!deletestatus && editstatus && (
-                              <div className="dlt_btn">
+                              <div className="dlt_btn edit_btn">
                                 <button
                                   onClick={(e) => EditList(data)}
                                 >
@@ -1000,7 +1000,7 @@ const SmartList = (props) => {
                             )}
 
                           {!deletestatus && !editstatus && downloadStatus && (
-                              <div className="dlt_btn">
+                              <div className="dlt_btn download_btn">
                                 <button
                                   onClick={(e) =>
                                      handleDownload(data?.id,data?.name)

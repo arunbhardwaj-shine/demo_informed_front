@@ -317,8 +317,10 @@ export const SublinkHandler = ({
   allSublinks
 }) => {
   const [selectedSublinkId, setSelectedSublinkId] = useState({});
+  const [currentDownloadName, setCurrentDownloadName]=useState("")
   const onSublinkChange = (selectedOption) => {
     const selectedSublink = allSublinks.find(sublink => sublink.sublink_id === selectedOption.value)
+    setCurrentDownloadName(selectedOption);
     setSelectedSublinkId(selectedSublink);
   };
 
@@ -365,7 +367,7 @@ export const SublinkHandler = ({
                   )}
                 />
                 <Button
-                  onClick={(e) => setDownloadLink(selectedSublinkId)}
+                  onClick={(e) => setDownloadLink(selectedSublinkId,currentDownloadName)}
                 >
                   download
                 </Button>
@@ -395,7 +397,6 @@ export const UpdateQuestion = async (questionId) => {
 };
 
 export const analyticButtonClicked = (data, navigate, addUniqueCode) => {
-  console.log(data, addUniqueCode);
   let item = {
     Title: addUniqueCode ? data?.identifier : data?.survey_title,
     survey_id: data?.survey_id,

@@ -14,10 +14,11 @@ import { toast } from "react-toastify";
  
 import SmartListLayout from "../CommonComponent/SmartListLayout";
 import SmartListTableLayout from "../CommonComponent/SmartListTableLayout";
-
 import { CircularProgressbar } from "react-circular-progressbar";
- 
 import "react-circular-progressbar/dist/styles.css";
+ 
+var old_object = {};
+
 
 const VerifyMAIL = (props) => {
   const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","bWmUjqX7J011   WUTYn9g==","MXl8m36VZFYXpgFVz3Pg0g=="]
@@ -56,6 +57,8 @@ const VerifyMAIL = (props) => {
     ? location?.state?.selectedHcp
     : props?.getDraftData?.campaign_data?.selectedHcp;
 
+   
+
   const PdfSelected = location.state
     ? location.state.PdfSelected
     : props?.getDraftData?.PdfSelected;
@@ -75,6 +78,18 @@ const VerifyMAIL = (props) => {
         ? props?.getDraftData?.status
         : 0
   );
+
+ 
+
+ const [newlyAdded,setnewlyAdded]=useState(
+  props?.getEmailData?.addedHcp
+       ?props?.getEmailData?.addedHcp
+      : props?.getDraftData?.campaign_data?.addedHcp 
+        ? props?.getDraftData?.campaign_data?.addedHcp 
+        : []
+ )
+
+   
 
   useEffect(() => {
     let campaign_id =
@@ -183,6 +198,8 @@ const VerifyMAIL = (props) => {
     }
   };
 
+  
+
   const handleInputChange = (event, selected) => {
     const div = document.querySelector("div.active");
 
@@ -235,6 +252,7 @@ const VerifyMAIL = (props) => {
           ? props?.getEmailData?.selected
           : props?.getDraftData?.campaign_data.list_selection,
         removedHcp: getRemovedHcp,
+        addedHcp:newlyAdded,
         sublink_id: props?.getEmailData?.sublink_id
         ? props?.getEmailData.sublink_id
         : surveySubLinkId,
@@ -802,8 +820,21 @@ const VerifyMAIL = (props) => {
                           <h6>
                             The recipients <span>| {selectedHcp?.length}</span>
                           </h6>
+
+                          <div class="d-flex align-items-center">
+                            {
+                             newlyAdded?.length > 0 && <p>Single HCP added <span>| {newlyAdded?.length}</span></p> 
+                            }
+
+                            {
+                              getRemovedHcp.length > 0 && <p>Single HCP removed <span>| {getRemovedHcp.length}</span></p> 
+                            }
+
+                            </div>
+
+
                           {getSmartListData?.length !== 0 && (
-                            <div className="smartlist-view email_box_outer new-smartlist">
+                            <div className="smartlist-view email_box_outer new-smartlist mt-3">
                               <div className="smartlist-view email_box w-100" style={{flex: "0 0 100%"}}>
                                 <div className="mail-box-content">
                                   <div className="mail-box-conten-title">
@@ -1096,7 +1127,7 @@ const VerifyMAIL = (props) => {
                                             <td>{getSurveyData?.lastEmailSent}</td>
                                           </tr>
                                           <tr>
-                                            <th>Link  <img src={path_image + "info_circle_icon.svg"} alt="" /></th>
+                                            <th>Link  <img  title="This is the link you’ll include in the email—either the primary survey link or one of the subLinks." src={path_image + "info_circle_icon.svg"} alt="" /></th>
                                             <td> {getSurveyData?.linkType}</td>
                                           </tr>
                                         </tbody>
@@ -1448,8 +1479,11 @@ const VerifyMAIL = (props) => {
 
 const mapStateToProps = (state) => {
  
-
+ 
+    old_object = state.getEmailData ? state.getEmailData : {};
+    return state;
+ 
   //  let emailData = state.getEmailData;
-  return state;
+ 
 };
 export default connect(mapStateToProps)(VerifyMAIL);
