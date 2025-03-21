@@ -361,6 +361,8 @@ const Sidebar = () => {
             window.location.pathname === '/survey/EditList' ||
             window.location.pathname === '/survey/AutoEmail' ||
             window.location.pathname === '/survey/TemplateBuilder' ||
+            window.location.pathname === '/survey/email/get-details' ||
+            window.location.pathname === '/survey/email/analytics' ||
             window.location.pathname === '/webinar/email/selectSmartListUsers') && (
               <button className="toggle_btn" onClick={() => toggleClassToBody()}>
                 <img src={path_image + "arrow-left.svg"} alt="toggle-sidebar" />
