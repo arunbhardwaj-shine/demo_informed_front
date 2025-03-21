@@ -2185,7 +2185,9 @@ ul.tabnav-link li {
   display: flex;
   justify-content: end;
 }
-
+.select-mail-template .form-group.col-md-5 .login-validation {
+  padding-left: 190px;
+}
 .mail-content-select {
   margin-top: 34px;
 }
