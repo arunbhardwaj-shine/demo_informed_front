@@ -767,7 +767,7 @@ const SurveyAnalyticsDetail = () => {
                 <div className="flex-column">
                   <h2>{stateData?.Title} </h2>
                   <p>
-                    {moment(stateData?.CreatedDate).format("MMM. DD. YYYY")}
+                    {moment(stateData?.CreatedDate).format("DD MMMM. YYYY")}
                   </p>
                 </div>
               </div>
