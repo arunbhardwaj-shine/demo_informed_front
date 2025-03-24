@@ -18,7 +18,7 @@ const {
   SURVEY_DRAFT_INFORMATION,
   IMAGE_UPLOAD_AWS,
   UPDATE_LIVE_FLAG,
-  DELETE_SURVEY_QUESTION
+  DELETE_SURVEY_QUESTION,
 } = surveyEndpoints;
 
 const validExtensions = ["png", "jpeg", "jpg", "gif"];
@@ -27,21 +27,28 @@ export const surveyAxiosInstance = axios.create({
   baseURL: import.meta.env.VITE_APP_API_KEY_NEW_SURVEY,
 });
 
-
 surveyAxiosInstance.interceptors.request.use(
   (req) => {
     req.timeout = 600000;
-    const switch_account_detail=JSON.parse(localStorage.getItem("switch_account_detail"))
-    const token=switch_account_detail &&switch_account_detail !=null && switch_account_detail!="undefined"
-                ?switch_account_detail?.user_id
-                :localStorage.getItem("user_id");
+    const switch_account_detail = JSON.parse(
+      localStorage.getItem("switch_account_detail")
+    );
+    const token =
+      switch_account_detail &&
+      switch_account_detail != null &&
+      switch_account_detail != "undefined"
+        ? switch_account_detail?.user_id
+        : localStorage.getItem("user_id");
 
-    const jt=switch_account_detail &&switch_account_detail !=null && switch_account_detail!="undefined"
-              ?switch_account_detail?.decrypted_token
-              :localStorage.getItem("decrypted_token");
+    const jt =
+      switch_account_detail &&
+      switch_account_detail != null &&
+      switch_account_detail != "undefined"
+        ? switch_account_detail?.decrypted_token
+        : localStorage.getItem("decrypted_token");
 
     req.headers["token"] = token;
-    req.headers["auth"]  = jt;
+    req.headers["auth"] = jt;
     return req;
   },
   (err) => {
@@ -49,43 +56,36 @@ surveyAxiosInstance.interceptors.request.use(
   }
 );
 
-
 const clearLocalStorageExcept = () => {
-	const keysToKeep = ['uname', 'pass', 'acceptedCookies']; 
-	for (let i = localStorage.length - 1; i >= 0; i--) {
-	  const key = localStorage.key(i);
-	  if (!keysToKeep.includes(key)) {
-		localStorage.removeItem(key);
-	  }
-	}
-}
+  const keysToKeep = ["uname", "pass", "acceptedCookies"];
+  for (let i = localStorage.length - 1; i >= 0; i--) {
+    const key = localStorage.key(i);
+    if (!keysToKeep.includes(key)) {
+      localStorage.removeItem(key);
+    }
+  }
+};
 
 surveyAxiosInstance.interceptors.response.use(
- 
   (res) => {
     return res;
   },
   (err) => {
     switch (err?.response?.status) {
       case 401:
-       
         clearLocalStorageExcept();
         window.location.href = "/";
         break;
       case 500:
-        toast.warning(err?.response.data.message)
+        toast.warning(err?.response.data.message);
         break;
       default:
-        toast.error(err?.response.data.message)
+        toast.error(err?.response.data.message);
         break;
     }
     return Promise.reject(err);
   }
-
 );
-
-
-
 
 export const saveAsDraft = async (e, draft, pathname, navigate) => {
   e.preventDefault();
@@ -106,10 +106,7 @@ export const saveAsDraft = async (e, draft, pathname, navigate) => {
       };
 
       try {
-        const res = await surveyAxiosInstance.post(
-          INSERT_SURVEY_DATA,
-          body
-        );
+        const res = await surveyAxiosInstance.post(INSERT_SURVEY_DATA, body);
 
         if (res.status === 200) {
           unique_code = res?.data?.data?.unique_code;
@@ -234,10 +231,8 @@ export const saveAsDraft = async (e, draft, pathname, navigate) => {
 };
 
 export const uploadImageToServer = async (file, fileInputRef) => {
-
   if (file) {
     try {
-     
       const extension = file.name.split(".").pop().toLowerCase();
       if (!validExtensions.includes(extension)) {
         throw new Error(
@@ -246,22 +241,16 @@ export const uploadImageToServer = async (file, fileInputRef) => {
       }
       const formData = new FormData();
       formData.append("file", file);
-       
-      const res = await surveyAxiosInstance.post(
-        IMAGE_UPLOAD_AWS,
-        formData
-      );
+
+      const res = await surveyAxiosInstance.post(IMAGE_UPLOAD_AWS, formData);
       if (fileInputRef && fileInputRef.current) {
         fileInputRef.current.value = "";
       }
-      
+
       if (res.status === 200) {
-        
         return res.data.data;
       }
-   
     } catch (error) {
-       
       toast.error("Something went wrong");
     }
   }
@@ -270,16 +259,12 @@ export const uploadImageToServer = async (file, fileInputRef) => {
 export const updateLiveFlag = async (survey_id, flag) => {
   const body = { survey_id: survey_id, status: flag };
   try {
-    const response = await surveyAxiosInstance.post(
-      UPDATE_LIVE_FLAG,
-      body
-    );
-    if(response.status === 200){
+    const response = await surveyAxiosInstance.post(UPDATE_LIVE_FLAG, body);
+    if (response.status === 200) {
       loader("hide");
       return true;
     }
     loader("hide");
-
   } catch (error) {
     loader("hide");
     toast.error("Something went wrong");
@@ -329,12 +314,14 @@ export const SublinkHandler = ({
   handleCopy,
   setDownloadLink,
   sublinkoptions,
-  survey_id,
+  allSublinks
 }) => {
-  const [selectedSublinkId, setSelectedSublinkId] = useState();
-
+  const [selectedSublinkId, setSelectedSublinkId] = useState({});
+  const [currentDownloadName, setCurrentDownloadName]=useState("")
   const onSublinkChange = (selectedOption) => {
-    setSelectedSublinkId(selectedOption ? selectedOption.value : null);
+    const selectedSublink = allSublinks.find(sublink => sublink.sublink_id === selectedOption.value)
+    setCurrentDownloadName(selectedOption);
+    setSelectedSublinkId(selectedSublink);
   };
 
   return (
@@ -353,11 +340,11 @@ export const SublinkHandler = ({
                   onChange={onSublinkChange}
                   options={sublinkoptions}
                   value={sublinkoptions.find(
-                    (option) => option.value === selectedSublinkId
+                    (option) => option.value == selectedSublinkId.sublink_id
                   )}
                 />
                 <Button
-                  onClick={() => handleCopy(survey_id, selectedSublinkId)}
+                  onClick={() => handleCopy(selectedSublinkId)}
                 >
                   Copy
                 </Button>
@@ -376,11 +363,11 @@ export const SublinkHandler = ({
                   onChange={onSublinkChange}
                   options={sublinkoptions}
                   value={sublinkoptions.find(
-                    (option) => option.value === selectedSublinkId
+                    (option) => option.value == selectedSublinkId.sublink_id
                   )}
                 />
                 <Button
-                  onClick={(e) => setDownloadLink(survey_id, selectedSublinkId)}
+                  onClick={(e) => setDownloadLink(selectedSublinkId,currentDownloadName)}
                 >
                   download
                 </Button>
@@ -397,12 +384,9 @@ export const UpdateQuestion = async (questionId) => {
   try {
     loader("show");
     if (questionId != 0) {
-      const response = surveyAxiosInstance.post(
-        DELETE_SURVEY_QUESTION,
-        {
-          questionId,
-        }
-      );
+      const response = surveyAxiosInstance.post(DELETE_SURVEY_QUESTION, {
+        questionId,
+      });
     }
     // setConfirmationPopup(false)
     loader("hide");
@@ -413,9 +397,8 @@ export const UpdateQuestion = async (questionId) => {
 };
 
 export const analyticButtonClicked = (data, navigate, addUniqueCode) => {
- 
   let item = {
-    Title: data?.survey_title,
+    Title: addUniqueCode ? data?.identifier : data?.survey_title,
     survey_id: data?.survey_id,
     CreatedDate: data?.date,
   };

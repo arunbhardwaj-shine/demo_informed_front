@@ -4,7 +4,9 @@ import { loader } from "../../../loader";
 import FilterSegment from "./FilterSegment";
 import { useLocation } from "react-router-dom";
 
-const SmartListFilter = () => {
+const SmartListFilter = (props) => {
+
+  const routeTypeSurvey = props?.type == 'survey' ? 1 : 0;
   const location = useLocation();
   const { smartListName } = location.state;
   const { creatorName } = location.state;
@@ -14,6 +16,7 @@ const SmartListFilter = () => {
   useEffect(() => {
     const body = {
       user_id: localStorage.getItem("user_id"),
+      type:routeTypeSurvey
     };
 
     axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
@@ -45,6 +48,7 @@ const SmartListFilter = () => {
                     creator={creatorName}
                     ibu = {ibu}
                     action="create"
+                    type={routeTypeSurvey}
                   />
                 )}
             </div>

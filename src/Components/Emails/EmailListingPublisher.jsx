@@ -1110,7 +1110,7 @@ const getDownloadData = async (viewEmailData) => {
                       id="email_search"
                       onChange={(e) => searchChange(e)}
                     />
-                    <button className="btn btn-outline-success" type="submit">
+                    <button className="btn btn-outline" type="submit">
                       <svg
                         width="16"
                         height="16"
@@ -1363,7 +1363,7 @@ const getDownloadData = async (viewEmailData) => {
                       {filtertags.length > 0 && (
                         <div className="filter-div">
                           <div className="filter-div-title">
-                            <span>Tags |</span>
+                            <span>Topics |</span>
                           </div>
                           <div className="filter-div-list">
                             {Object.entries(filtertags).map(([index, item]) => (
@@ -1925,7 +1925,7 @@ const getDownloadData = async (viewEmailData) => {
                     <span>{viewEmailData[0].created_at}</span>
                   </div>
                   {/* <div className="mailbox-tags">
-                    <h6>Tags</h6>
+                    <h6>Topics</h6>
                     <ul>
                       {viewEmailData[0].tags != "" ? (
                         viewEmailData[0].tags.map((tag) => {

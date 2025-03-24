@@ -6,7 +6,8 @@ import { Link, useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import "@inovua/reactdatagrid-community/index.css";
 
-const GetDetails = () => {
+const GetDetails = (props) => {
+  const routeTypeSurvey = props?.type == "survey" ? 1 : 0;
   let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
   const navigate = useNavigate();
   const [data, setData] = useState([]);
@@ -337,7 +338,7 @@ const GetDetails = () => {
                 {true ? (
                   <Link
                     to={{
-                      pathname: "/EmailStatss",
+                      pathname: routeTypeSurvey ? "/survey/email/analytics" :"/EmailStatss",
                     }}
                   >
                     <button className="btn btn-primary btn-bordered back">
@@ -458,7 +459,7 @@ const GetDetails = () => {
 
                             {!search ? (
                               <button
-                                className="btn btn-outline-success"
+                                className="btn btn-outline"
                                 type="submit"
                               >
                                 <svg

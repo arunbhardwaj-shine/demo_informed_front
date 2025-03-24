@@ -902,7 +902,7 @@ const WebinarSelectSmartListUsers = (props) => {
           })
           .catch((err) => {
             loader("hide");
-            toast.error("Somwthing went wrong");
+            toast.error("Something went wrong");
           });
       } 
 

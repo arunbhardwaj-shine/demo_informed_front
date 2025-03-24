@@ -16,9 +16,11 @@ import SmartListTableLayout from "../CommonComponent/SmartListTableLayout";
  
 
 let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
-const AutoEmail = () => {
-  const accountMapping={"56Ek4feL/1A8mZgIKQWEqg==":2147501188,"bWmUjqX7J011   WUTYn9g==":298217,"MXl8m36VZFYXpgFVz3Pg0g==":2147537506}
+const AutoEmail = (props) => {
 
+  const type= props?.type === "survey" ? "survey" : 0;
+
+  const accountMapping={"56Ek4feL/1A8mZgIKQWEqg==":2147501188,"bWmUjqX7J011   WUTYn9g==":298217,"MXl8m36VZFYXpgFVz3Pg0g==":2147537506}
   const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","bWmUjqX7J011   WUTYn9g==","MXl8m36VZFYXpgFVz3Pg0g=="]
   const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
   const [getsearch, setSearch] = useState("");
@@ -231,6 +233,7 @@ const AutoEmail = () => {
   axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
   const getTemplateListData = async () => {
     const body = {
+      type:type == "survey" ? 1 :type,
       user_id: localStorage.getItem("user_id"),
       language: language,
       ibu: "",
@@ -325,6 +328,7 @@ const AutoEmail = () => {
       toast.warning("Please enter name or email first");
     } else {
       const body = {
+        type:type == "survey" ? 1 :type,
         user_id: localStorage.getItem("user_id"),
         name: name,
         email: email,
@@ -721,6 +725,7 @@ const AutoEmail = () => {
         if (isLikeRdAccount) {
 
           return {
+           
             first_name: data.firstname,
             last_name: data.lastname,
             email: data.email,
@@ -909,6 +914,7 @@ const AutoEmail = () => {
       user_id: localStorage.getItem("user_id"),
       search: getsearch,
       filter: "",
+      type: type == "survey" ? 1 : 0
     };
     loader("show");
 
@@ -1059,6 +1065,7 @@ const AutoEmail = () => {
     ) {
       if (editorRef.current) {
         const body = {
+          type:type == "survey" ? 1 :type,
           user_id: localStorage.getItem("user_id"),
           source_code: editorRef.current.getContent(),
           template_id: templateId,
@@ -1418,7 +1425,7 @@ const AutoEmail = () => {
                         </div>
                         <div className="form-inline row justify-content-end align-items-center">
                           <div className="form-buttons right-side col-12 col-md-5">
-                            {templateName == "Welcome mail" ||
+                            {/* {templateName == "Welcome mail" ||
                               templateName ==
                               "Reset password" ? null : approveClickedd ===
                                 true ? (
@@ -1440,7 +1447,7 @@ const AutoEmail = () => {
                               >
                                 Approve?{" "}
                               </button>
-                            )}
+                            )} */}
 
                             <button
                               onClick={sendSample}
@@ -2496,7 +2503,7 @@ const AutoEmail = () => {
                     onChange={(e) => searchChange(e)}
                   />
                   <button
-                    className="btn btn-outline-success"
+                    className="btn btn-outline"
                     onClick={(e) => submitHandler(e)}
                   >
                     <svg

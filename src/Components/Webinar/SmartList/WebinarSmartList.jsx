@@ -270,7 +270,7 @@ const WebinarSmartList = () => {
                   aria-label="Search"
                   onChange={(e) => searchChange(e)}
                 />
-                <button class="btn btn-outline-success" type="submit">
+                <button class="btn btn-outline" type="submit">
                   <svg
                     width="16"
                     height="16"

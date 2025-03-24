@@ -1,22 +1,20 @@
-import React, { useEffect, useState } from "react";
- 
-import { connect } from "react-redux";
 import axios from "axios";
-import { Link } from "react-router-dom";
-import { Modal,Tab,Tabs } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
-import { useLocation } from "react-router-dom";
- 
+import { connect } from "react-redux";
 import { loader } from "../../loader";
- 
-import { popup_alert } from "../../popup_alert";
 import { toast } from "react-toastify";
-
+import { Link } from "react-router-dom";
+import { popup_alert } from "../../popup_alert";
+import { Col, Modal,Tab,Tabs } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+ 
 const VerifyHcpMAIL = (props) => {
   const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","bWmUjqX7J011   WUTYn9g==","MXl8m36VZFYXpgFVz3Pg0g=="]
   const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
   const groupId= localStorage.getItem("group_id")
-
+  const routeTypeSurvey = props?.type == "survey" ? 1 : 0;
+  const surveyid = props?.getEmailData?.survey_id ? props?.getEmailData?.survey_id : props?.getDraftData?.campaign_data?.survey_id ? props?.getDraftData?.campaign_data?.survey_id : 0;
+  const surveySubLinkId = props?.getEmailData?.sublink_id ? props?.getEmailData?.sublink_id : props?.getDraftData?.campaign_data?.sublink_id ? props?.getDraftData?.campaign_data?.sublink_id : 0;
   const location = useLocation();
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
@@ -57,6 +55,7 @@ const VerifyHcpMAIL = (props) => {
     : props?.getDraftData?.PdfSelected;
 
   const [getpdfdata, setPdfData] = useState([]);
+  const [getSurveyData, setSurveyData] = useState([]);
 
   const [getReaderDetails, setReaderDetails] = useState({});
   const [getSmartListName, setSmartListName] = useState("");
@@ -139,7 +138,8 @@ const VerifyHcpMAIL = (props) => {
       pdf_id != 0 &&
       pdf_id != 13 &&
       pdf_id != 14 &&
-      pdf_id != 16
+      pdf_id != 16 &&
+      pdf_id != 1
     ) {
       axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
       const body = {
@@ -152,6 +152,29 @@ const VerifyHcpMAIL = (props) => {
         .then((res) => {
           if (res.data.status_code == 200) {
             setPdfData(res.data.response.data);
+          } else {
+            toast.error(res.data.message);
+          }
+          loader("hide");
+        })
+        .catch((err) => {
+          toast.error("Something went wrong");
+        });
+    }
+
+    if(pdf_id == 1){
+      axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+      const body = {
+        user_id: localStorage.getItem("user_id"),
+        surveyId: surveyid,
+        surveySubLinkId: surveySubLinkId
+      };
+      loader("show");
+      await axios
+        .post(`emailapi/get_survey_details`, body)
+        .then((res) => {
+          if (res.data.status_code == 200) {
+            setSurveyData(res.data.response.data);
           } else {
             toast.error(res.data.message);
           }
@@ -197,7 +220,7 @@ const VerifyHcpMAIL = (props) => {
       subject: props?.getEmailData?.emailSubject
         ? props?.getEmailData?.emailSubject
         : props?.getDraftData?.subject,
-      route_location: "VerifyHcpMAIL",
+      route_location: routeTypeSurvey ? "survey/email/verify-hcp-mail" : "VerifyHcpMAIL",
       tags: props?.getEmailData?.tags
         ? props?.getEmailData?.tags
         : props?.getDraftData?.tags,
@@ -213,6 +236,12 @@ const VerifyHcpMAIL = (props) => {
           ?props?.getDraftData?.campaign_data?.list_selection
           :[],
         removedHcp: getRemovedHcp,
+        sublink_id: props?.getEmailData?.sublink_id
+          ? props?.getEmailData.sublink_id
+          : surveySubLinkId,
+        survey_id: props?.getEmailData?.survey_id
+          ? props?.getEmailData.survey_id
+          : surveyid,
       },
       campaign_id: campaign_id_st,
       source_code: props?.getEmailData?.template
@@ -237,11 +266,12 @@ const VerifyHcpMAIL = (props) => {
               redirect: "/IRTRole",
             });
           }else{
+            const redirectRoute = routeTypeSurvey ? "/survey/email" : "/EmailList";
             popup_alert({
               visible: "show",
               message: "Your changes has been saved <br />successfully !",
               type: "success",
-              redirect: "/EmailList",
+              redirect: redirectRoute,
             });
           }
          
@@ -283,7 +313,7 @@ const VerifyHcpMAIL = (props) => {
 
       const body = {
         user_id: localStorage.getItem("user_id"),
-        route_location: "VerifyHcpMAIL",
+        route_location: routeTypeSurvey ? "survey/email/verify-hcp-mail" : "VerifyHcpMAIL",
         pdf_id: props?.getEmailData?.PdfSelected
           ? props?.getEmailData?.PdfSelected
           : props?.getDraftData?.pdf_id,
@@ -316,6 +346,12 @@ const VerifyHcpMAIL = (props) => {
           list_selection: props?.getEmailData?.selected
             ? props?.getEmailData?.selected
             : props?.getDraftData?.campaign_data?.list_selection,
+          sublink_id: props?.getEmailData?.sublink_id
+            ? props?.getEmailData.sublink_id
+            : surveySubLinkId,
+          survey_id: props?.getEmailData?.survey_id
+            ? props?.getEmailData.survey_id
+            : surveyid,
         },
       };
       axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
@@ -326,11 +362,12 @@ const VerifyHcpMAIL = (props) => {
           .then((res) => {
             loader("hide");
             if (res.data.status_code === 200) {
+              const redirectRoute = routeTypeSurvey ? "/survey/email" : "/EmailList";
               popup_alert({
                 visible: "show",
                 message: res?.data?.message ?res?.data?.message:"Mail sent successfully",
                 type: "success",
-                redirect: "/EmailList",
+                redirect: redirectRoute,
               });
             } else {
               popup_alert({
@@ -361,11 +398,13 @@ const VerifyHcpMAIL = (props) => {
                   redirect: "/IRTRole",
                 });
               }else
-            {  popup_alert({
+            {
+              const redirectRoute = routeTypeSurvey ? "/survey/email" : "/EmailList";
+                popup_alert({
                 visible: "show",
                 message: res?.data?.message ?res?.data?.message:"Mail sent successfully",
                 type: "success",
-                redirect: "/EmailList",
+                redirect: redirectRoute,
               });}
             } else {
               popup_alert({
@@ -401,18 +440,17 @@ const VerifyHcpMAIL = (props) => {
 
   const closeButtonClicked = () => {
     setIsOpen(false);
-    navigate("/EmailList");
+    const closeRoute = routeTypeSurvey ? "/survey/email" : "/EmailList"
+    navigate(closeRoute);
   };
 
   const backClicked = () => {
-    
+    const backRoute = routeTypeSurvey ? "/survey/email/verify-hcp" : "/VerifyHCP";
     if(irtRoleObj?.IRTFlag){
-      navigate("/VerifyHCP",{state: {IrtObj:irtRoleObj}})
+      navigate(backRoute,{state: {IrtObj:irtRoleObj}})
     }else{
-
-      navigate("/VerifyHCP");
+      navigate(backRoute);
     }
-    
   };
 
   
@@ -453,7 +491,7 @@ const VerifyHcpMAIL = (props) => {
       subject: props?.getEmailData?.emailSubject
         ? props?.getEmailData?.emailSubject
         : props?.getDraftData?.subject,
-      route_location: "VerifyHcpMAIL",
+      route_location: routeTypeSurvey ? "survey/email/verify-hcp-mail" : "VerifyHcpMAIL",
       tags: props?.getEmailData?.tags
         ? props?.getEmailData?.tags
         : props?.getDraftData?.tags,
@@ -466,6 +504,12 @@ const VerifyHcpMAIL = (props) => {
         list_selection: props?.getEmailData?.selected
           ? props?.getEmailData?.selected
           : props?.getDraftData?.campaign_data?.list_selection,
+        sublink_id: props?.getEmailData?.sublink_id
+          ? props?.getEmailData.sublink_id
+          : surveySubLinkId,
+        survey_id: props?.getEmailData?.survey_id
+          ? props?.getEmailData.survey_id
+          : surveyid,
       },
       campaign_id: campaign_id_st,
       source_code: props?.getEmailData?.template
@@ -504,19 +548,22 @@ const VerifyHcpMAIL = (props) => {
   };
 
   const handleSelectUsers = () => {
-    navigate("/EmailArticleSelect", {
+    const selectRoute = routeTypeSurvey ? "/survey/email/selectsurvey" : "/EmailArticleSelect";  
+    navigate(selectRoute, {
       state: {IrtObj:irtRoleObj},
     });
   };
  
   const handleCreateMail = () => {
-    navigate("/CreateEmail", {
+    const emailRoute = routeTypeSurvey ? "/survey/email/create-email" : "/CreateEmail";
+    navigate(emailRoute, {
       state: {IrtObj:irtRoleObj},
     });
   };
 
   const handleVerifyHCPClicked = () => {
-    navigate("/VerifyHCP", {
+    const verifyHcpRoute = routeTypeSurvey ? "/survey/email/verify-hcp" : "/VerifyHCP";
+    navigate(verifyHcpRoute, {
       state: {IrtObj:irtRoleObj},
     });
   };
@@ -547,11 +594,11 @@ const VerifyHcpMAIL = (props) => {
                 <div className="col-12 col-md-8">
                   <ul className="tabnav-link">
                   <li className="active" onClick={handleSelectUsers}>
-                      
-                      Select Content
+                    {
+                      routeTypeSurvey ? "Select Survey" :"Select Content"
+                    }
                     </li>
                     <li className="active" onClick={handleCreateMail}>
-                       
                       Create Your Email
                     </li>
                 
@@ -629,7 +676,7 @@ const VerifyHcpMAIL = (props) => {
               </div>
             </div>
 
-            <section className="verify_email">
+            <section className="verify_email sunshine_mail_verify">
               <div className="row">
                 <div className="col-12 verify-left">
                   <div className="verify-mail-box">
@@ -651,7 +698,7 @@ const VerifyHcpMAIL = (props) => {
                             : ""}
                         </h6>
                         <h6>
-                          <strong>Tags | </strong>
+                          <strong>Topics | </strong>
                           <ul>
                             {props?.getEmailData?.tags
                               ? props?.getEmailData?.tags.map((tags, i) => {
@@ -716,217 +763,16 @@ const VerifyHcpMAIL = (props) => {
                         : null
                       }
                     </div>
-                    <div className="mail-recipt">
-                      <div className="row">
-                        <div className="col-12 col-md-12 mail-recipt-right">
-                          <h6>Content that will be send</h6>
-                          <p>
-                            Content <span>| 1</span>
-                          </p>
-                          
-                          {typeof getpdfdata !== "undefined" && getpdfdata.hasOwnProperty('pdf_title') &&
-                            getSelectedPdfId != 13 &&
-                            getSelectedPdfId != 14 &&
-                            getSelectedPdfId != 16 && (
-                            <div className="library-content-box-layuot readerlist">
-                              <div className="doc-content-main-box" key={getSelectedPdfId}>
-                                
-                              <div className="doc-content-header">
-                                <div className="doc-content-header-logo">
-                                    <a href="#">
-                                      <img
-                                        alt="doc-logo"
-                                        src={getpdfdata?.pdf_cover_img}
-                                        onError={imageOnError}
-                                        style={{ width: "67px" }}
-                                      />
-                                    </a>
-                                  </div>
-                                <div className="doc-content">
-                                <h5
-                                      dangerouslySetInnerHTML={{
-                                        __html: getpdfdata?.pdf_title,
-                                      }}
-                                ></h5>
-                                <h6>
-                                      {getpdfdata?.pdf_sub_title
-                                        ? getpdfdata.pdf_sub_title
-                                        : getpdfdata?.folder_name}
-                                  </h6>
-                                  <p>{getpdfdata?.key_author}</p>
-                                    <div className="select-tags">
-                                      {getpdfdata?.tags?.length
-                                        ? JSON.parse(getpdfdata.tags)?.map((data,i) => {
-                                          return <div key={i}>{data}</div>;
-                                        })
-                                        : ""}
-                                    </div>
-                                </div>
-                              </div>
-                                
-                                <div className="tabs-data">
-                                  <Tabs
-                                    defaultActiveKey="docintel-link"
-                                    fill
-                                  >
-                                    <Tab
-                                      eventKey="docintel-link"
-                                      title="Link"
-                                      className="flex-column justify-content-between"
-                                    >
-                                      <div className="tab-panel d-flex flex-column justify-content-between">
-                                        <div className="tab-content-links">
-                                        <a href={getpdfdata?.docintel_link}
-                                          className="doc-link"
-                                          target="_blank"
-                                        >
-                                          {getpdfdata?.docintel_link}
-                                        </a>
-                                        {/* <span className="copy-content"><img src={path_image + "copy-content.svg"} alt="Copy"/> */}
-                                        {/* </span> */}
-                                        </div>
-                                        <ul className="tab-mail-list">
-                                          <li>
-                                            <h6 className="tab-content-title">
-                                              Upload date
-                                            </h6>
-                                            <h6>
-                                              {getpdfdata?.article_date}
-                                            </h6>
-                                          </li>
-
-                                          <li>
-                                            <h6 className="tab-content-title">
-                                              inforMedGO code
-                                            </h6>
-                                            <h6>
-                                              {getpdfdata?.informed_code}
-                                            </h6>
-                                          </li>
-
-                                          <li>
-                                            <h6 className="tab-content-title">
-                                              Docintel code
-                                            </h6>
-                                            <h6>
-                                              {getpdfdata?.docintel_code}
-                                            </h6>
-                                          </li>
-
-                                          <li>
-                                            <h6 className="tab-content-title">
-                                              Language
-                                            </h6>
-                                            <h6>
-                                              {getpdfdata?.pdf_language}
-                                            </h6>
-                                          </li>
-                                        </ul>
-                                      </div>
-                                      <div className="mail-content-footer">
-                                        {
-                                          getpdfdata?.pdf_spc_included ? 
-                                            <button className="btn btn-primary btn-filled" onClick={() =>
-                                              handleSpcFun(getpdfdata?.spc_url)
-                                            }>
-                                              Preview
-                                            </button>
-                                          : 
-                                          <a
-                                            href={getpdfdata.pdf_preview_link}
-                                            target="_blank"
-                                          >
-                                            <button className="btn btn-primary btn-filled">
-                                              Preview
-                                            </button>
-                                          </a>
-                                        }
-                                      </div>
-                                    </Tab>
-                                  </Tabs>
-                                </div>
-                              </div>
-                            </div>
-                            )}
-                          {getSelectedPdfId == 13 && (
-                            <>
-                              <div className="mail-content-select-box">
-                                <div className="mail-content-select-top">
-                                  <div className="mail-preview-img">
-                                    <img
-                                      src={path_image + "dummy-img.png"}
-                                      alt="Preview "
-                                    />
-                                  </div>
-                                  <div className="mail-box-content">
-                                    <h5>Placeholder</h5>
-                                    <p>Empty Content</p>
-                                    <div className="mailbox-tags">
-                                      <p>
-                                        Select this when you don't have your
-                                        content ready
-                                      </p>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </>
-                          )}
-
-                          {getSelectedPdfId == 16 && (
-                            <>
-                              <div className="mail-content-select-box">
-                                <div className="mail-content-select-top">
-                                  <div className="mail-preview-img">
-                                    <img
-                                      src={path_image + "dummy-img.png"}
-                                      alt="Preview "
-                                    />
-                                  </div>
-                                  <div className="mail-box-content">
-                                    <h5>Pure Text</h5>
-                                    <p>Empty Content</p>
-                                    <div className="mailbox-tags">
-                                      <p>
-                                        Select this when you don't want to
-                                        include a content to your email
-                                      </p>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </>
-                          )}
-
-                          {getSelectedPdfId == 14 && isLikeRdAccount && (
-                            <>
-                              <div className="mail-content-select-box">
-                                <div className="mail-content-select-top">
-                                  <div className="mail-preview-img">
-                                    <img
-                                      src={path_image + "dummy-img.png"}
-                                      alt="Preview "
-                                    />
-                                  </div>
-                                  <div className="mail-box-content">
-                                    <h5>Site user</h5>
-                                    <p>Empty Content</p>
-                                    <div className="mailbox-tags">
-                                      <p>
-                                        Select this when you want to send content to Site user
-                                      </p>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </>
-                          )}
-                        </div>
-
-                        <div className="col-12 col-md-12 mail-recipt-left">
+                    <div className="mail-recipt sunshine-mail-recipt">
+                      <div className="d-flex justify-content-between">
+                      <Col className="mail-recipt-left">
                           <h6>
                             The recipients <span>| {selectedHcp?.length}</span>
                           </h6>
+
+                          <p>
+                            Single HCP <span>| {selectedHcp?.length}</span>
+                          </p>
 
                           {
                             IRTTraining && selectedHcp?.length == 1 ?
@@ -1020,7 +866,307 @@ const VerifyHcpMAIL = (props) => {
                         
 
                       
-                        </div>
+                      </Col>
+                      <Col className="mail-recipt-right">
+                        {
+                          getSelectedPdfId != 1 ?
+                          <>
+                            <h6>Content that will be send</h6>
+                            <p>
+                              Content <span>| 1</span>
+                            </p>
+                            
+                            {typeof getpdfdata !== "undefined" && getpdfdata.hasOwnProperty('pdf_title') &&
+                              getSelectedPdfId != 13 &&
+                              getSelectedPdfId != 14 &&
+                              getSelectedPdfId != 16 && (
+                              <div className="library-content-box-layuot readerlist">
+                                <div className="doc-content-main-box" key={getSelectedPdfId}>
+                                  
+                                <div className="doc-content-header">
+                                  <div className="doc-content-header-logo">
+                                      <a href="#">
+                                        <img
+                                          alt="doc-logo"
+                                          src={getpdfdata?.pdf_cover_img}
+                                          onError={imageOnError}
+                                          style={{ width: "67px" }}
+                                        />
+                                      </a>
+                                    </div>
+                                  <div className="doc-content">
+                                  <h5
+                                        dangerouslySetInnerHTML={{
+                                          __html: getpdfdata?.pdf_title,
+                                        }}
+                                  ></h5>
+                                  <h6>
+                                        {getpdfdata?.pdf_sub_title
+                                          ? getpdfdata.pdf_sub_title
+                                          : getpdfdata?.folder_name}
+                                    </h6>
+                                    <p>{getpdfdata?.key_author}</p>
+                                      <div className="select-tags">
+                                        {getpdfdata?.tags?.length
+                                          ? JSON.parse(getpdfdata.tags)?.map((data,i) => {
+                                            return <div key={i}>{data}</div>;
+                                          })
+                                          : ""}
+                                      </div>
+                                  </div>
+                                </div>
+                                  
+                                  <div className="tabs-data">
+                                    <Tabs
+                                      defaultActiveKey="docintel-link"
+                                      fill
+                                    >
+                                      <Tab
+                                        eventKey="docintel-link"
+                                        title="Link"
+                                        className="flex-column justify-content-between"
+                                      >
+                                        <div className="tab-panel d-flex flex-column justify-content-between">
+                                          <div className="tab-content-links">
+                                          <a href={getpdfdata?.docintel_link}
+                                            className="doc-link"
+                                            target="_blank"
+                                          >
+                                            {getpdfdata?.docintel_link}
+                                          </a>
+                                          {/* <span className="copy-content"><img src={path_image + "copy-content.svg"} alt="Copy"/> */}
+                                          {/* </span> */}
+                                          </div>
+                                          <ul className="tab-mail-list">
+                                            <li>
+                                              <h6 className="tab-content-title">
+                                                Upload date
+                                              </h6>
+                                              <h6>
+                                                {getpdfdata?.article_date}
+                                              </h6>
+                                            </li>
+
+                                            <li>
+                                              <h6 className="tab-content-title">
+                                                inforMedGO code
+                                              </h6>
+                                              <h6>
+                                                {getpdfdata?.informed_code}
+                                              </h6>
+                                            </li>
+
+                                            <li>
+                                              <h6 className="tab-content-title">
+                                                Docintel code
+                                              </h6>
+                                              <h6>
+                                                {getpdfdata?.docintel_code}
+                                              </h6>
+                                            </li>
+
+                                            <li>
+                                              <h6 className="tab-content-title">
+                                                Language
+                                              </h6>
+                                              <h6>
+                                                {getpdfdata?.pdf_language}
+                                              </h6>
+                                            </li>
+                                            
+                                          </ul>
+                                        </div>
+                                        <div className="mail-content-footer">
+                                          {
+                                            getpdfdata?.pdf_spc_included ? 
+                                              <button className="btn btn-primary btn-filled" onClick={() =>
+                                                handleSpcFun(getpdfdata?.spc_url)
+                                              }>
+                                                Preview
+                                              </button>
+                                            : 
+                                            <a
+                                              href={getpdfdata.pdf_preview_link}
+                                              target="_blank"
+                                            >
+                                              <button className="btn btn-primary btn-filled">
+                                                Preview
+                                              </button>
+                                            </a>
+                                          }
+                                        </div>
+                                      </Tab>
+                                    </Tabs>
+                                  </div>
+                                </div>
+                              </div>
+                              )}
+                            {getSelectedPdfId == 13 && (
+                              <>
+                                <div className="mail-content-select-box">
+                                  <div className="mail-content-select-top">
+                                    <div className="mail-preview-img">
+                                      <img
+                                        src={path_image + "dummy-img.png"}
+                                        alt="Preview "
+                                      />
+                                    </div>
+                                    <div className="mail-box-content">
+                                      <h5>Placeholder</h5>
+                                      <p>Empty Content</p>
+                                      <div className="mailbox-tags">
+                                        <p>
+                                          Select this when you don't have your
+                                          content ready
+                                        </p>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </>
+                            )}
+
+                            {getSelectedPdfId == 16 && (
+                              <>
+                                <div className="mail-content-select-box">
+                                  <div className="mail-content-select-top">
+                                    <div className="mail-preview-img">
+                                      <img
+                                        src={path_image + "dummy-img.png"}
+                                        alt="Preview "
+                                      />
+                                    </div>
+                                    <div className="mail-box-content">
+                                      <h5>Pure Text</h5>
+                                      <p>Empty Content</p>
+                                      <div className="mailbox-tags">
+                                        <p>
+                                          Select this when you don't want to
+                                          include a content to your email
+                                        </p>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </>
+                            )}
+
+                            {getSelectedPdfId == 14 && isLikeRdAccount && (
+                              <>
+                                <div className="mail-content-select-box">
+                                  <div className="mail-content-select-top">
+                                    <div className="mail-preview-img">
+                                      <img
+                                        src={path_image + "dummy-img.png"}
+                                        alt="Preview "
+                                      />
+                                    </div>
+                                    <div className="mail-box-content">
+                                      <h5>Site user</h5>
+                                      <p>Empty Content</p>
+                                      <div className="mailbox-tags">
+                                        <p>
+                                          Select this when you want to send content to Site user
+                                        </p>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </>
+                            )}
+                          </>
+                          :
+                          <>
+                          <h6>Survey that will be send</h6>
+                          <p>
+                            Survey <span>| 1</span>
+                          </p>
+                              
+                                <div className="mail-content-select-box survey-mail mt-3">
+                                  <div className="mail-content-select-top">
+                                    <div className="mail-box-content">
+                                      {getSurveyData?.is_draft == "1" && (
+                                        <div className="survey_status">
+                                          <span>Live</span>
+                                        </div>
+                                      )}
+                                      {getSurveyData?.is_draft == "2" && (
+                                        <div className="survey_status completed">
+                                          <span>Completed</span>
+                                        </div>
+                                      )}
+                                      <h5>{getSurveyData.survey_title}</h5>
+                                      <p>{getSurveyData.subtitle}</p>
+                                      <span>{getSurveyData.creator_name}</span>
+                                      <div className="mailbox-tags">
+                                        {
+                                          getSurveyData?.tags?.length == 0 ? 
+                                            <ul><li>N/A</li></ul>
+                                          : 
+                                          <ul>
+                                            {
+                                              getSurveyData?.tags?.map((tag, index) =>(
+                                                <li key={index}>{tag}</li>
+                                              ))
+                                            }
+                                          </ul>
+                                        }
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div>
+                                    <div className="mail-content-table">
+                                      <table>
+                                        <tbody><tr>
+                                          <th>Consent</th>
+                                          <td>
+                                            {getSurveyData?.survey_consent != "" ? (
+                                              getSurveyData?.survey_consent ===
+                                                "Mandatory consent" ? (
+                                                <span>Mandatory</span>
+                                              ) : getSurveyData?.survey_consent ===
+                                                "Optional consent" ? (
+                                                <span>Optional</span>
+                                              ) : (
+                                                <span>Anonymous</span>
+                                              )
+                                            ) : (
+                                              <span>N/A</span>
+                                            )}
+                                          </td>
+                                        </tr>
+                                          <tr>
+                                            <th>Created date</th>
+                                            <td><span>
+                                              {getSurveyData?.formatted_date}
+                                            </span>
+                                            </td>
+                                          </tr>
+                                          <tr>
+                                            <th>Last email</th>
+                                            <td>{getSurveyData?.lastEmailSent}</td>
+                                          </tr>
+                                          <tr>
+                                            <th>Link  <img src={path_image + "info_circle_icon.svg"}  alt=""/></th>
+                                            <td> {getSurveyData?.linkType}</td>
+                                          </tr>
+                                        </tbody>
+                                      </table>
+                                    </div>
+                                    
+                                  </div>
+                                  <div className="mail-content-footer">
+                                    <a href={getSurveyData?.preview_link} target="_blank">
+                                      <button className="btn btn-primary btn-filled">
+                                        Preview
+                                      </button>
+                                    </a>
+                                  </div>
+                                </div>
+                              
+                          </>
+                        }
+                      </Col>
                       </div>
                     </div>
                   </div>
@@ -1035,7 +1181,7 @@ const VerifyHcpMAIL = (props) => {
                    
 
                     <div
-                      className="preview-mail-box"
+                      className="preview-mail-box verify-preview"
                       dangerouslySetInnerHTML={{
                         __html: var_template_source_code,
                       }}

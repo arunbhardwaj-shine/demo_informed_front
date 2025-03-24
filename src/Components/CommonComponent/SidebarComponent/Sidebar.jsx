@@ -172,7 +172,7 @@ const Sidebar = () => {
     video_url = "/componentAssets/images/new-sublink.mp4";
     video_poster = "/componentAssets/images/new-sublink.png";
   } else if (location.pathname == "/products") {
-    title = "Products and Tags";
+    title = "Products and Topics";
     video_url = "/componentAssets/images/products-tags.mp4";
     video_poster = "/componentAssets/images/products-tags.png";
   } else if (
@@ -241,6 +241,21 @@ const Sidebar = () => {
   const isActiveChatPage = location.pathname === '/webinar/live-stream/chat-link'
   const isActiveSurveyPage = location.pathname === '/webinar/analytics/question-data'
 
+  const isActiveSurveyEmail = location.pathname === '/survey/email' ||
+		  location.pathname === '/survey/email/selectsurvey' ||
+		  location.pathname === '/survey/email/select-hcp' ||
+		  location.pathname === '/survey/email/smart-list' ||
+		  location.pathname === '/survey/email/select-smartlist-users' ||
+		  location.pathname === '/survey/email/verify-hcp' ||
+		  location.pathname === '/survey/email/verify-hcp-mail' ||
+		  location.pathname === '/survey/email/verify-mail' ||
+		  location.pathname === '/survey/email/create-email'
+
+  const isActiveSurveySmartList = location.pathname === '/survey/smartlist' || location.pathname === '/survey/ViewSmartList' || location.pathname === '/survey/smartlist/UploadExcel' || location.pathname ===  '/survey/smartlist/createlist' || location.pathname ===  '/survey/smart-list-filter'
+
+  const isActiveSurveyAutomail = location.pathname === '/survey/AutoEmail'
+  const isActiveSurveyTemplate= location.pathname === '/survey/TemplateBuilder';
+
   const isActiveEmail = location.pathname === '/webinar/email' ||
     location.pathname === '/webinar/email/create-new-email' ||
     location.pathname === '/webinar/email/selectHCP' ||
@@ -254,8 +269,8 @@ const Sidebar = () => {
       location.pathname == "/webinar/email/smartlist/uploadsmartlist")
       && webinar_c_id != 0)
   const isActiveAutomail = location.pathname === '/webinar/email/auto-emails'
-  const isActiveSmartlist = location.pathname === '/webinar/email/smartlist' ||
 
+  const isActiveSmartlist = location.pathname === '/webinar/email/smartlist' ||
     location.pathname == "/webinar/email/smartlist/editlist" ||
     location.pathname == "/webinar/email/smartlist/filterSegment" ||
     location.pathname == "/webinar/email/smartlist/table" ||
@@ -278,7 +293,8 @@ const Sidebar = () => {
             window.location.pathname == "/webinar/live-stream/polls-layout" ||
             window.location.pathname == "/webinar/analytics/question-data" ||
             window.location.pathname == "/webinar/live-stream/chat-link" ||
-            window.location.pathname == "/webinar/analytics" || window.location.pathname == "/webinar/analytics/analytics-attendees" ||
+            window.location.pathname == "/webinar/analytics" || 
+            window.location.pathname == "/webinar/analytics/analytics-attendees" ||
             window.location.pathname == "/webinar/analytics/analytics-poll" ||
             window.location.pathname == "/webinar/analytics/analytics-questions" ||
             window.location.pathname == "/webinar/analytics/analytics-emails" ||
@@ -316,7 +332,8 @@ const Sidebar = () => {
             window.location.pathname == "/webinar/live-stream/polls-layout" ||
             window.location.pathname == "/webinar/analytics/question-data" ||
             window.location.pathname == "/webinar/live-stream/chat-link" ||
-            window.location.pathname === "/webinar/analytics" || window.location.pathname == "/webinar/analytics/analytics-attendees" ||
+            window.location.pathname === "/webinar/analytics" || 
+            window.location.pathname == "/webinar/analytics/analytics-attendees" ||
             window.location.pathname == "/webinar/analytics/analytics-poll" ||
             window.location.pathname == "/webinar/analytics/analytics-questions" ||
             window.location.pathname == "/webinar/analytics/analytics-emails" ||
@@ -332,6 +349,20 @@ const Sidebar = () => {
             window.location.pathname === '/webinar/email/verifyMAIL' ||
             window.location.pathname === '/webinar/email/verifyHCP' ||
             window.location.pathname === '/webinar/email/verifyHcpMAIL' ||
+            window.location.pathname === '/survey/email' ||
+            window.location.pathname === '/survey/email/selectsurvey' ||
+            window.location.pathname === '/survey/email/create-email' ||
+            window.location.pathname === '/survey/auto-email' ||
+            window.location.pathname === '/survey/smartlist' ||
+            window.location.pathname === '/survey/smartlist/createlist' ||
+            window.location.pathname === '/survey/smart-list-filter' ||
+            window.location.pathname === '/survey/smartlist/UploadExcel' ||
+            window.location.pathname === '/survey/ViewSmartList' ||
+            window.location.pathname === '/survey/EditList' ||
+            window.location.pathname === '/survey/AutoEmail' ||
+            window.location.pathname === '/survey/TemplateBuilder' ||
+            window.location.pathname === '/survey/email/get-details' ||
+            window.location.pathname === '/survey/email/analytics' ||
             window.location.pathname === '/webinar/email/selectSmartListUsers') && (
               <button className="toggle_btn" onClick={() => toggleClassToBody()}>
                 <img src={path_image + "arrow-left.svg"} alt="toggle-sidebar" />
@@ -683,7 +714,7 @@ const Sidebar = () => {
                             "B7SHpAc XDXSH NXkN0rdQ==" ? (
                             <p>Products & Topics</p>
                           ) : (
-                            <p>Products & Tags</p>
+                            <p>Products & Topics</p>
                           )
                       ) : null}
                     </Link>
@@ -1312,7 +1343,31 @@ const Sidebar = () => {
                   )
                   :
 
-                  window.location.pathname == "/survey/survey-list" || window.location.pathname == "/survey/survey-setup" || window.location.pathname == "/survey/survey-sublink" || window.location.pathname == "/survey/survey-analytics" || window.location.pathname == "/survey/survey-analytics-detail"?
+                  window.location.pathname == "/survey/survey-list" ||
+                  window.location.pathname == "/survey/survey-setup" ||
+                  window.location.pathname == "/survey/survey-sublink" ||
+                  window.location.pathname == "/survey/survey-sublink-new" ||
+                  window.location.pathname == "/survey/topics" ||
+                  window.location.pathname == "/survey/survey-analytics" ||
+                  window.location.pathname == "/survey/email" ||
+                  window.location.pathname == "/survey/email/selectsurvey" ||
+                  window.location.pathname == "/survey/email/create-email" ||
+                  window.location.pathname == "/survey/AutoEmail" ||
+                  window.location.pathname == "/survey/smartlist" ||
+                  window.location.pathname == "/survey/email/select-hcp" ||
+                  window.location.pathname == "/survey/email/smart-list" ||
+                  window.location.pathname == "/survey/email/select-smartlist-users" ||
+                  window.location.pathname == "/survey/email/verify-hcp" ||
+                  window.location.pathname == "/survey/email/verify-mail" ||
+                  window.location.pathname == "/survey/email/verify-hcp-mail" ||
+                  window.location.pathname == "/survey/email/analytics" ||
+                  window.location.pathname == "/survey/email/get-details" ||
+                  window.location.pathname == "/survey/TemplateBuilder" ||
+                  window.location.pathname == "/survey/ViewSmartList" ||
+                  window.location.pathname == "/survey/smartlist/createlist" ||
+                  window.location.pathname == "/survey/smartlist/UploadExcel" || 
+                  window.location.pathname == "/survey/smart-list-filter" || 
+                  window.location.pathname == "/survey/survey-analytics-detail"?
 
                   (
 
@@ -1342,7 +1397,7 @@ const Sidebar = () => {
 
                       </li>
 
-                      <li
+                      {/* <li
 
                         className={
 
@@ -1365,38 +1420,149 @@ const Sidebar = () => {
 
                         </Link>
 
-                      </li>
+                      </li> */}
+                       
+
+
+                                      <li
+
+                                      className={
+
+                                        location.pathname == "/survey/survey-sublink-new"
+
+                                          ? "active"
+
+                                          : "side_li"
+
+                                      }
+
+                                      >
+
+                                      <Link to={"/survey/survey-sublink-new"}>
+
+                                      <img src= { sidebar_image_path +"survey-sublink.svg" } alt=""/>
+                                      {" "}
+
+                                        <p>SubLinks</p>
+
+                                      </Link>
+
+                                      </li>
 
                       <li
 
-                        className={
+                              className={
 
-                          location.pathname == "/survey/survey-analytics" || window.location.pathname == "/survey/survey-analytics-detail"
+                                location.pathname == "/survey/topics"
 
-                            ? "active"
+                                  ? "active"
 
-                            : "side_li"
+                                  : "side_li"
 
+                              }
+
+                              >
+
+                              <Link to={"/survey/topics"}>
+
+                              <img src= { sidebar_image_path + "topics.svg" } alt=""/>
+                              {" "}
+
+                                <p>Topics</p>
+
+                              </Link>
+
+                              </li>
+
+                      
+
+                      <li className={
+                          location.pathname == "/survey/email" ||
+                          location.pathname == "/survey/email/selectsurvey" ||
+                          location.pathname == "/survey/email/select-hcp" ||
+                          location.pathname == "/survey/email/smart-list" ||
+                          location.pathname == "/survey/email/select-smartlist-users" ||
+                          location.pathname == "/survey/email/verify-hcp" ||
+                          location.pathname == "/survey/email/verify-mail" ||
+                          location.pathname == "/survey/email/verify-hcp-mail" ||
+                          location.pathname == "/survey/AutoEmail" ||
+                          location.pathname == "/survey/smartlist" ||
+                          location.pathname == "/survey/email/create-email" ||
+                          location.pathname == "/survey/email/analytics" ||
+                          location.pathname == "/survey/email/get-details" ||
+                          window.location.pathname == "/survey/ViewSmartList" ||
+                          window.location.pathname == "/survey/smartlist/createlist" ||
+                          window.location.pathname == "/survey/smart-list-filter" ||
+                          window.location.pathname == "/survey/smartlist/UploadExcel" ||
+                          location.pathname == "/survey/TemplateBuilder" 
+                           ? "active sub-links"
+                        : "side_li sub-links"
                         }
-
                       >
-
-                        <Link to={"/survey/survey-analytics"}>
-
-                        <img src= { sidebar_image_path +"analytics.svg" } alt=""/>
-                         {" "}
-
-                          <p>Analytics</p>
-
+                        <Link to={"/survey/email"}>
+                          <img src= { sidebar_image_path +"mail-icon.svg" } alt=""/>
+                          <p>Email</p>
                         </Link>
+                          <div className="left-sidebar-secondary">
+                            <div className="sidebar-menu-secondary">
+                              <ul>
+                                <li className={isActiveSurveyEmail ? 'active' : 'side_li'}
+                                >
+                                  <Link to="/survey/email">
+                                  <img src= { sidebar_image_path +"webinar-email.svg" } alt=""/>
+                                    <p>Email</p>
+                                  </Link>
+                                </li>
+                                <li className={isActiveSurveyAutomail ? 'active' : 'side_li'}
+                                >
+                                  <Link to="/survey/AutoEmail">
+                                  <img src= { sidebar_image_path +"auto-email.svg" } alt=""/>
+                                  {" "}
+                                    <p>Auto Emails</p>
+                                  </Link>
+                                </li>
+                                <li
+                                  className={isActiveSurveyTemplate ? "active" : "side_li"}
+                                >
+                                  <Link to={"/survey/TemplateBuilder"}>
+                                    <img
+                                      src={sidebar_image_path + "template-builder.svg"}
+                                      alt=""
+                                    />
+                                    <p>Template Builder</p>
+                                  </Link>
+                                </li>
 
+                                <li className={isActiveSurveySmartList ? 'active' : 'side_li'}>
+                                  <Link to="/survey/smartlist">
+                                  <img src= { sidebar_image_path +"attendees.svg" } alt=""/>
+                                    <p>Smart List</p>
+                                  </Link>
+                                </li>
+
+                                <li className={(location.pathname === "/survey/email/analytics" || location.pathname == '/survey/email/get-details') && c_id == 0 ? "active" : "side_li"}>
+                                  <Link to={"/survey/email/analytics"}>
+                                  <img src= { sidebar_image_path + "analytics-email.svg" } alt=""/>
+                                    <p>Email Results</p>
+                                  </Link>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
                       </li>
 
+                      <li className={location.pathname == "/survey/survey-analytics" || window.location.pathname == "/survey/survey-analytics-detail"
+                            ? "active": "side_li"}
+                      >
+                        <Link to={"/survey/survey-analytics"}>
+                          <img src= { sidebar_image_path +"analytics.svg" } alt=""/>
+                          <p>Analytics</p>
+                        </Link>
+                      </li>
                     </ul>
-
                 ):
 
-                window.location.pathname == "/survey/survey-list" || window.location.pathname == "/survey/survey-sublink" || window.location.pathname == "/survey/survey-analytics" || window.location.pathname == "/survey/survey-analytics-detail"?
+                window.location.pathname == "/survey/survey-list" || window.location.pathname == "/survey/topics" || window.location.pathname == "/survey/survey-sublink-new" || window.location.pathname == "/survey/survey-sublink" || window.location.pathname == "/survey/survey-analytics" || window.location.pathname == "/survey/survey-analytics-detail"?
 
                 (
 
@@ -1427,18 +1593,12 @@ const Sidebar = () => {
 
                     </li>
 
-                    <li
-
+                    {/* <li
                       className={
-
                         location.pathname == "/survey/survey-sublink"
-
                           ? "active"
-
                           : "side_li"
-
                       }
-
                     >
 
                       <Link to={"/survey/survey-sublink"}>
@@ -1451,7 +1611,59 @@ const Sidebar = () => {
 
                       </Link>
 
+                    </li> */}
+
+
+
+                  <li
+                      className={
+                        location.pathname == "/survey/survey-sublink-new"
+                          ? "active"
+                          : "side_li"
+                      }
+                    >
+
+                      <Link to={"/survey/survey-sublink-new"}>
+
+                      <img src= { sidebar_image_path +"survey-sublink.svg" } alt=""/>
+                        {" "}
+
+
+                        <p>SubLinks</p>
+
+                      </Link>
+
                     </li>
+
+                    
+
+
+
+                    
+                      <li
+
+                              className={
+
+                                location.pathname == "/survey/topics"
+
+                                  ? "active"
+
+                                  : "side_li"
+
+                              }
+
+                              >
+
+                              <Link to={"/survey/topics"}>
+
+                              <img src= { sidebar_image_path + "topics.svg" } alt=""/>
+                              {" "}
+
+                                <p>Topics</p>
+
+                              </Link>
+
+                          </li>
 
                     <li
 
@@ -2326,7 +2538,7 @@ const Sidebar = () => {
                       />
                       <p className="help-popup-title">
                         Each "Content box" will include the title of the
-                        content, subtitle, tag, upload date, language, if a SPC
+                        content, subtitle, topic, upload date, language, if a SPC
                         is included, and the date of the last email the content
                         was included in.
                       </p>
@@ -2480,13 +2692,13 @@ const Sidebar = () => {
     onClick={(e) => e.preventDefault()}
                           className="btn btn-primary btn-filled"
                         >
-                          + Add Tag
+                          + Add Topic
                         </a>
                       </div>
                       <p>
-                        We use #tags for both analytics and to sort and find
-                        emails.Click the "+Add Tags" button to select, remove or
-                        add new tags.
+                        We use #topics for both analytics and to sort and find
+                        emails.Click the "+Add Topics" button to select, remove or
+                        add new topics.
                       </p>
                     </div>
 
@@ -4061,7 +4273,7 @@ const Sidebar = () => {
                         <ul>
                           <li>Content</li>
                           <li>Create & Change</li>
-                          <li>Products and Tags</li>
+                          <li>Products and Topics</li>
                         </ul>
                       </div>
 
@@ -4077,7 +4289,7 @@ const Sidebar = () => {
                           <li>Title</li>
                           <li>Subtitle</li>
                           <li>Author name</li>
-                          <li>Selected tag</li>
+                          <li>Selected topic</li>
                         </ul>
                       </div>
                       <hr />
@@ -4235,12 +4447,12 @@ const Sidebar = () => {
                           </span>
                         </p>
                         <Button className="btn-bordered white">
-                          Add / remove tags
+                          Add / remove topics
                         </Button>
                         <p>
                           <span>
-                            Opens Tags pop-up where you can add new or remove
-                            tags from your content. Tags are useful for users to
+                            Opens Topics pop-up where you can add new or remove
+                            topics from your content. Topics are useful for users to
                             filter content by if they have a library, for
                             tracking usage, and for AI to learn from.{" "}
                           </span>
@@ -4562,12 +4774,12 @@ const Sidebar = () => {
                           </span>
                         </p>
                         <Button className="btn-bordered white">
-                          Add / remove tags
+                          Add / remove topics
                         </Button>
                         <p>
                           <span>
-                            Opens Tags pop-up where you can add new or remove
-                            tags from your content. Tags are useful for users to
+                            Opens Topics pop-up where you can add new or remove
+                            topics from your content. Topics are useful for users to
                             filter content by if they have a library, for
                             tracking usage, and for AI to learn from.{" "}
                           </span>
@@ -4860,14 +5072,14 @@ const Sidebar = () => {
                         </span>
                       </p>
                       <Button className="btn-bordered">
-                        Add / remove tags
+                        Add / remove topics
                       </Button>
                       <p>
                         <span>
-                          Opens Tags pop-up where you can add new or remove tags
-                          from your content. Tags are useful for users to filter
+                          Opens Topics pop-up where you can add new or remove topics
+                          from your content. Topics are useful for users to filter
                           content by if they have a library, for tracking usage,
-                          and for AI to learn from.{" "}
+                          and for AI to learn from.
                         </span>
                       </p>
                       <Button className="btn-bordered">New sublink</Button>
@@ -5458,7 +5670,7 @@ const Sidebar = () => {
                         <p></p>
                         <p>
                           <span>
-                            To add topic tags, click “Add Topic” and select one
+                            To add topic, click “Add Topic” and select one
                             or more from the predefined list or create your own.
                           </span>
                         </p>
@@ -6360,11 +6572,11 @@ const Sidebar = () => {
                         <strong>Selecting Type</strong>
                         <br />
                         At the top of the page, you'll find the “Select Type”
-                        bar. Click to select “Products” or “Tags”.
+                        bar. Click to select “Products” or “Topics”.
                       </p>
                       <p>
-                        If you’ve selected “Products or Tags” you’ll see a list
-                        of all your products or tags at the bottom of the page.
+                        If you’ve selected “Products or Topics” you’ll see a list
+                        of all your products or topics at the bottom of the page.
                       </p>
                     </div>
                     <hr />
@@ -6376,8 +6588,8 @@ const Sidebar = () => {
                       />
                       <p>
                         <span>
-                          To edit a product or tag, click the “Edit” button
-                          (Pictured as a pencil), next to that product or tag.{" "}
+                          To edit a product or topic, click the “Edit” button
+                          (Pictured as a pencil), next to that product or topic.{" "}
                         </span>
                       </p>
                     </div>
@@ -6405,8 +6617,8 @@ const Sidebar = () => {
                       />
                       <p>
                         <span>
-                          To edit a product or tag, click the “Edit” button
-                          (Pictured as a pencil), next to that product or tag.{" "}
+                          To edit a product or topic, click the “Edit” button
+                          (Pictured as a pencil), next to that product or topic.{" "}
                         </span>
                       </p>
                     </div>

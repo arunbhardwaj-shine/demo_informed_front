@@ -223,7 +223,7 @@ const CreateSunshineEmail = (props) => {
     if (!tagClickedFirst.includes(dd)) {
       setTagClickedFirst((oldArray) => [...oldArray, dd]);
     } else {
-      toast.error("Tag already in list.");
+      toast.error("Topic already in list.");
     }
   };
 
@@ -260,7 +260,7 @@ const CreateSunshineEmail = (props) => {
 
   const addTag = async() => {
     if (typeof newTag == "undefined" || newTag.trim().length == 0) {
-      toast.error("Please input a tag");
+      toast.error("Please input a topic");
     } else {
       let temp_tags = tagClickedFirst.map((data) => {
         return data.toLowerCase();
@@ -301,7 +301,7 @@ const CreateSunshineEmail = (props) => {
             console.log(err);
           });
       } else {
-        toast.error("Tag already in list.");
+        toast.error("Topic already in list.");
       }
       setNewTag("");
       setTagsCounter(tagsCounter + 1);
@@ -1138,7 +1138,7 @@ const CreateSunshineEmail = (props) => {
                         data-bs-target="#tagsModal"
                         onClick={tagButtonClicked}
                       >
-                        + Add Tag
+                        + Add Topic
                       </button>
                     </div>
                     <div className="tags_added">
@@ -1336,7 +1336,7 @@ const CreateSunshineEmail = (props) => {
        <Modal id="tagsModal" show={isOpen}>
         <Modal.Header>
           <h5 className="modal-title" id="staticBackdropLabel">
-            Add Tags
+            Add Topics
           </h5>
           <button
             type="button"
@@ -1348,7 +1348,7 @@ const CreateSunshineEmail = (props) => {
         </Modal.Header>
         <Modal.Body>
           <div className="select-tags">
-            <h6>Select Tag :</h6>
+            <h6>Select Topic :</h6>
             <div className="tag-lists">
               <div className="tag-lists-view">
               {allTags
@@ -1365,7 +1365,7 @@ const CreateSunshineEmail = (props) => {
           </div>
           <div className="selected-tags">
             <h6>
-              Selected Tag <span>| {tagClickedFirst.length}</span>
+              Selected Topic <span>| {tagClickedFirst.length}</span>
             </h6>
 
             <div className="total-selected">
@@ -1387,7 +1387,7 @@ const CreateSunshineEmail = (props) => {
         <Modal.Footer>
           <form>
             <div className="form-group">
-              <label htmlFor="new-tag">New Tag</label>
+              <label htmlFor="new-tag">New Topic</label>
               <input
                 type="text"
                 className="form-control"

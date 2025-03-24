@@ -7,13 +7,13 @@ import { useSidebar } from "./LoginLayout";
 
 
 
-const SmartListLayout = ({data,deletestatus,callLinkClickFun,iseditshow,isviewshow,viewSmartListData,webinarFlag}) => {
+const SmartListLayout = ({data,deletestatus,callLinkClickFun,iseditshow,isviewshow,viewSmartListData,webinarFlag,type,layout = '',isDownloadEnable}) => {
     let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
     const [opening_details, setOpeningDetails] = useState([]);
     const [flag, setFlag] = useState(0);
     
 
-    const { eventIdContext, handleEventId } = useSidebar()
+    const { eventIdContext, handleEventId } = useSidebar() ?? {};
     const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"))
     const [eventId, setEventId] = useState(
       eventIdContext?.eventId
@@ -130,13 +130,16 @@ const SmartListLayout = ({data,deletestatus,callLinkClickFun,iseditshow,isviewsh
                                     !deletestatus &&  (
                                 <>
                                     {
-                                        iseditshow ? 
+                                        iseditshow && layout == '' ?
                                         <>
                                             {data?.upload_by_filter == 1 ? (
                                             <Link
-                                                className="btn btn-primary btn-bordered edit_list"
+                                                className="btn btn-primary btn-filled edit_list"
                                                 to={{
-                                                pathname: webinarFlag == 1 ? "/webinar/email/smartlist/editlist": "/EditList",
+                                                    pathname: webinarFlag == 1 
+                                                    ? "/webinar/email/smartlist/editlist" 
+                                                    : (type == "survey" ? "/survey/EditList" : "/EditList")
+                                                    ,
                                                 search: "?listId=" + data.id,
                                                 }}
                                                 onClick={() => linkClicked(data.id)}
@@ -145,9 +148,9 @@ const SmartListLayout = ({data,deletestatus,callLinkClickFun,iseditshow,isviewsh
                                             </Link>
                                             ) : (
                                             <Link
-                                                className="btn btn-primary btn-bordered edit_list"
+                                                className="btn btn-primary btn-filled edit_list"
                                                 to={{
-                                                pathname: webinarFlag == 1 ? "/webinar/email/smartlist/viewlist": "/ViewSmartList",
+                                                pathname: webinarFlag == 1 ? "/webinar/email/smartlist/viewlist": (type == "survey" ? "/survey/ViewSmartList" : "/ViewSmartList"),
                                                 search: "?listId=" + data.id,
                                                 }}
                                                 onClick={() => linkClicked(data.id)}
@@ -159,15 +162,22 @@ const SmartListLayout = ({data,deletestatus,callLinkClickFun,iseditshow,isviewsh
                                         : null
                                     }
                                     {
-                                        isviewshow ? 
-                                        <button className="btn btn-primary btn-filled view" onClick={() => {
-                                            viewSmartList(data.id)
-                                        }}>
-                                            <a >
-                                                View
-                                            </a>
-                                        </button>
-                                        : null
+                                        isviewshow && !iseditshow && !isDownloadEnable && (
+                                            layout !== '' ? (
+                                                <Link
+                                                    className="btn btn-primary btn-filled  edit_list"
+                                                    to={{
+                                                    pathname: webinarFlag == 1 ? "/webinar/email/smartlist/viewlist": (type == "survey" ? "/survey/ViewSmartList" : "/ViewSmartList"),
+                                                    search: "?listId=" + data.id,
+                                                    }}
+                                                    onClick={() => linkClicked(data.id)}
+                                                >View</Link>
+                                            ) : (
+                                                <button className="btn btn-primary btn-filled view" onClick={() => viewSmartList(data.id)}>
+                                                    <a>View</a>
+                                                </button>
+                                            )
+                                        )
                                     }
                                 </>
                                     )

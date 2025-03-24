@@ -138,7 +138,7 @@ const EventCreate = () => {
                       // onChange={(e) => searchChange(e)}
                     />
 
-                    <button className="btn btn-outline-success" type="submit">
+                    <button className="btn btn-outline" type="submit">
                       <svg
                         width="16"
                         height="16"

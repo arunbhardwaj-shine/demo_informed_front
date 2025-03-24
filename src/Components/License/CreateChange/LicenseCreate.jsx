@@ -26,9 +26,9 @@ const data = [
     subtitle: "Update and add the Pop up text and design from here",
   },
   {
-    image: `${path_image}topics.png`,
-    title: "Topics",
-    subtitle: "Add new or delete an existing topic",
+    image: `${path_image}products.svg`,
+    title: "Products",
+    subtitle: "Add new or delete an existing product",
   },
   {
     image: `${path_image}link-icon.png`,

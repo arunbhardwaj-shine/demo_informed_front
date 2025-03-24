@@ -12,7 +12,8 @@ import Select from "react-select";
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 
-const CreateSmartList = () => {
+const CreateSmartList = (props) => {
+  const type = props?.type == "survey" ? "survey" : 0;
   const [uploadOrDownloadCount, setUploadOrDownloadCount] = React.useState(0);
   const [fileLength, setFileLength] = useState(0);
   const location = useLocation();
@@ -166,7 +167,8 @@ const CreateSmartList = () => {
       } else {
         element.classList.add("active");
       }
-      navigate("/SmartListFilter", {
+      const routeType= type == "survey" ? "/survey/smart-list-filter" :"/SmartListFilter"
+      navigate(routeType, {
         state: { smartListName: smartListName, creatorName: creatorName, ibu: customIbu },
       });
     }
@@ -194,9 +196,11 @@ const CreateSmartList = () => {
     var x = localStorage.getItem("sd_i");
     if (x) {
       localStorage.removeItem("sd_i");
-      navigate("/SelectSmartList");
+      const RouteName= type === "survey" ? "/survey/email/smart-list" : "/SelectSmartList";
+      navigate(RouteName);
     } else {
-      navigate("/SmartList");
+      const RouteName= type === "survey" ? "/survey/smartlist" : "/SmartList";
+      navigate(RouteName);
     }
   };
 
@@ -244,7 +248,11 @@ const CreateSmartList = () => {
           clearInterval(timer);
           setTimeout(() => {
             setData(res.data.response.data);
-            navigate("/UploadExcel", {
+
+            const RouteName= type == "survey" ? "/survey/smartlist/UploadExcel" : "/UploadExcel";
+
+
+            navigate( RouteName, {
               state: {
                 data: res.data.response.data,
                 smartListName: smartListName,

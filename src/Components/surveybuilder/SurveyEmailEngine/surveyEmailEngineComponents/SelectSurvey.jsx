@@ -1,0 +1,312 @@
+import { useState } from "react";
+import { format } from "date-fns";
+import Select from "react-select";
+import SublinkModal from "../Modals/SublinkModal";
+import { connect } from "react-redux";
+
+const SelectSurvey = ({ SendListData, setSendListData, handlePdfSelection, setCurrentSelectedSublink,selectedSurvey, selectedSublink,fromSurveyLanding ,SubSelected }) => {
+  let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+  const [selectedSublinkId, setSelectedSublinkId] = useState(
+    selectedSurvey ? {[selectedSurvey] : selectedSublink} :  {}
+  );
+  const [PdfSelected, setPdfSelected] = useState(selectedSurvey);
+  const [createNewLink, setCreateNewLink] = useState(false);
+  const [currentAddSublinkLid, setCurrentAddSublinkLid] = useState(null)
+  // const [isFirstRender, setIsFirstRender] =  useState(fromSurveyLanding);
+  const [render, setRender] =  useState(SubSelected);
+
+
+  const handleSelect = (e) => {
+    let pdfId = e?.target?.value === PdfSelected ? 0 : e?.target?.value;
+ 
+    handlePdfSelection(pdfId)
+    setPdfSelected(pdfId);
+   setCurrentSelectedSublink(selectedSublinkId[pdfId]);
+  };
+
+  const showSublinkModal = (id) => {
+    setCurrentAddSublinkLid(id)
+    setCreateNewLink(true);
+  };
+
+  
+
+const onSublinkChange = (surveyId, selectedOption) => {
+  console.log(SubSelected)
+    const updatedSublinkId = selectedOption ? selectedOption.value : null;
+    setRender(updatedSublinkId)
+    setSelectedSublinkId((prevState) => {
+        const newState = { ...prevState, [surveyId]: updatedSublinkId };
+        return newState;
+    });
+
+    if (PdfSelected == surveyId) {
+   
+     setCurrentSelectedSublink(selectedOption?.value);
+    }
+
+    
+   
+};
+
+
+
+ 
+
+ 
+
+
+  return (
+    <>
+      <div className="mail-content-select survey_mail_engine">
+        <div className={`${!fromSurveyLanding ? "single-survey row":"row"}`}>
+          {typeof SendListData !== "undefined" &&
+            SendListData.length > 0 ? (
+            SendListData.map((data, index) => {
+              const sublinkOptions = [
+                { value: 0, label: "Primary link" },  // Ensure Primary link is always present
+                ...data.subLinkData.map((item) => ({
+                  value: item.sublink_id,
+                  label: item.identifier,
+                })),
+              ];
+              return (
+                <>
+                  {!fromSurveyLanding && <h4>Select link type:</h4> } 
+                <div className="col-12 col-md-4" key={index}>
+                  <div className="email_box">
+                  <div className="mail-content-select-box survey-mail">
+                    <div className="mail-content-select-top">
+                      <div className="mail-box-content">
+                        {data?.is_draft == "1" && (
+                          <div className="survey_status">
+                            <span>Live</span>
+                          </div>
+                        )}
+                        {data?.is_draft == "2" && (
+                          <div className="survey_status completed">
+                            <span>Completed</span>
+                          </div>
+                        )}
+                        <h5>{data.survey_title}</h5>
+                        <p>{data.subtitle}</p>
+                        <span>{data.creator_name}</span>
+                        <div className="mailbox-tags">
+                          <ul>
+                            {JSON.parse(data?.tags)?.length > 0 ? (
+                              JSON.parse(data.tags).map((tag, index) => (
+                                <li key={index}>{tag}</li>
+                              ))
+                            ) : (
+                              <li>N/A</li>
+                            )}
+                          </ul>
+                        </div>
+                      </div>
+                 {fromSurveyLanding &&  <div className="select-mail-option">
+                        <input
+                          //onChange={handleSelect}
+                          onClick={handleSelect}
+                          onChange={handleSelect}
+                          type="radio"
+                          name="radio"
+                          value={data.survey_id}
+                          checked={
+                            typeof PdfSelected !== "undefined" &&
+                              PdfSelected == data.survey_id
+                              ? true
+                              : false
+                          }
+                        />
+                        <span className="checkmark"></span>
+                      </div>}     
+                    </div>
+                    <div>
+                      <div className="mail-content-table">
+                        <table>
+                          <tbody><tr>
+                            <th>Consent</th>
+                            <td>
+                            {data.survey_consent != "" ? (
+                              data.survey_consent ===
+                                "Mandatory consent" ? (
+                                <span>Mandatory</span>
+                              ) : data.survey_consent ===
+                                "Optional consent" ? (
+                                <span>Optional</span>
+                              ) : (
+                                <span>Anonymous</span>
+                              )
+                            ) : (
+                              <span>N/A</span>
+                            )}
+                            </td>
+                          </tr>
+                          <tr>
+                            <th>Created date</th>
+                            <td><span>
+                                   {data.createdDate}
+                                  </span>
+                              </td>
+                          </tr>
+                          <tr>
+                            <th>Last email</th>
+                            <td>{data.lastEmailSent}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <div className="d-flex justify-content-between align-items-center">
+                          <h6 className="tab-content-title">
+                            Link 
+                            <img
+                            title="This is the link you’ll include in the email—either the primary survey link or one of the subLinks."
+                              src={path_image + "info_circle_icon.svg"}
+                              alt=""
+                            />
+                          </h6>
+                          <div className="select-dropdown-wrapper">
+                            <div className="select">
+                              <Select
+                                aria-label="SSelect Sublink"
+                                className="dropdown-basic-button split-button-dropup"
+                                name="surveyCreator"
+                                placeholder="Select link type"
+                                onChange={(selectedOption) => {
+                                  onSublinkChange(
+                                    data.survey_id,
+                                    selectedOption
+                                  );
+                                }}
+                                options={sublinkOptions}
+                                value={
+                                  ( render !== null)
+                                    ?sublinkOptions.find(
+                                      (option) =>{
+                                      return  option.value === (selectedSublinkId[data.survey_id] ?? 0)
+                                      }
+                                    ) 
+                                    :(null)
+                                }
+
+                                // value={sublinkOptions.find(
+                                //   (option) => option.value === (selectedSublinkId[data.survey_id] ?? 0)
+                                // )}
+                              />
+                            </div>
+                          </div>
+                    </div>
+
+                    {
+                      <div className="d-flex justify-content-end sublink-add">
+                        <p onClick={() => { showSublinkModal(data.survey_id); }}>
+                          Create New SubLink{" "}
+                          <img
+                            src={path_image + "creator-add.png"}
+                            alt=""
+                          />
+                        </p>
+                      </div>
+                    }
+                    </div>
+
+                    {/* <ul className="survey-consent">
+                      <li className="d-flex align-items-center">
+                        <h6 className="tab-content-title">Consent</h6>
+
+                        {data.survey_consent != "" ? (
+                          data.survey_consent ===
+                            "Mandatory consent" ? (
+                            <h6 className="ms-3">Mandatory</h6>
+                          ) : data.survey_consent ===
+                            "Optional consent" ? (
+                            <h6 className="ms-3">Optional</h6>
+                          ) : (
+                            <h6 className="ms-3">Anonymous</h6>
+                          )
+                        ) : (
+                          <h6 className="ms-3">N/A</h6>
+                        )}
+                      </li>
+                    </ul> */}
+{/* 
+                    <div className="mail-time">
+                      Created date
+                      <span className="ms-2">
+                        {data.createdDate}
+                        {/* {format(
+                                new Date(),
+                                "MMMM d, yyyy '|' h:mm a"
+                              )} */}
+                     {/*</div> </span>
+                    </div> */}
+
+
+                   
+                            <div className="mail-content-footer">
+
+                            {selectedSublinkId[data.survey_id] ? (
+                                    <a 
+                                      href={`https://survey.docintel.app/survey?Utmde=${
+                                        data.subLinkData.find(item => item.sublink_id === selectedSublinkId[data.survey_id])?.unique_code  
+                                      }`} 
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                    >
+                                      <button className="btn btn-primary btn-filled">
+                                        Preview
+                                      </button>
+                                    </a>
+                                  ) : (
+                                    <a 
+                                      href={`https://survey.docintel.app/survey?Utmde=${data.unique_code}`}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                    >
+                                      <button className="btn btn-primary btn-filled">
+                                        Preview
+                                      </button>
+                                    </a>
+                                  )}
+
+                              
+                              {/* <a href={`https://survey.docintel.app/survey?Utmde=${data?.unique_code}`} target="_blank">
+                                <button className="btn btn-primary btn-filled">
+                                  Preview
+                                </button>
+                              </a> */}
+                          </div>
+                  </div>
+                  </div>
+                </div>
+                </>
+              );
+            })
+          ) : (
+            <div className="not_found">
+              <p>No Data Found</p>
+            </div>
+          )}
+
+
+           </div>
+      </div>
+
+      {
+        createNewLink && <SublinkModal
+          createNewLink={createNewLink}
+          setCreateNewLink={setCreateNewLink}
+          setCurrentAddSublinkLid={setCurrentAddSublinkLid}
+          setSelectedSublinkId={setSelectedSublinkId}
+          currentAddSublinkLid={currentAddSublinkLid}
+          setSendListData={setSendListData}
+          SendListData={SendListData}
+          type={false}
+        />
+      }
+
+    </>
+  );
+};
+
+export default SelectSurvey;

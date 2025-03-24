@@ -20,6 +20,10 @@ import EditCountry from "../../CommonComponent/EditCountry";
 import EditContactType from "../../CommonComponent/EditContactType";
 import Select, { createFilter } from "react-select";
 const Table = (props, ref) => {
+ 
+  const type= props?.type === "survey" ? "survey" : 0;
+
+
   const accountMapping={"56Ek4feL/1A8mZgIKQWEqg==":2147501188,"bWmUjqX7J011   WUTYn9g==":298217,"MXl8m36VZFYXpgFVz3Pg0g==":2147537506}
   const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","bWmUjqX7J011   WUTYn9g==","MXl8m36VZFYXpgFVz3Pg0g=="]
   const groupId= localStorage.getItem("group_id")
@@ -112,6 +116,7 @@ const Table = (props, ref) => {
     }
     const getalCountry = async () => {
       let body = {
+        type:type == "survey" ? 1 :type,
         user_id: localStorage.getItem("user_id"),
       };
       await axios
@@ -610,6 +615,7 @@ const Table = (props, ref) => {
     axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
     const getalCountry = async () => {
       const body = {
+        type:type == "survey" ? 1 :type,
         user_id: localStorage.getItem("user_id"),
       };
       await axios
@@ -726,6 +732,8 @@ const Table = (props, ref) => {
       formData.append("user_id", user_id);
       formData.append("smart_list_id", getlistid);
       formData.append("reader_file", selectedFile);
+      formData.append("type",type == "survey" ? 1 :type);
+       
 
       axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
       loader("show");
@@ -830,6 +838,7 @@ const Table = (props, ref) => {
       });
 
       body = {
+        type:type == "survey" ? 1 :type,
         user_list: profile_user_id_array,
         smart_list_id: typeof getlistid !== "undefined" ? getlistid : "",
         user_id: localStorage.getItem("user_id"),
@@ -856,6 +865,7 @@ const Table = (props, ref) => {
         return data.profile_user_id;
       });
       body = {
+        type:type == "survey" ? 1 :type,
         user_list: profile_user_id_array,
         smart_list_id:
           typeof queryParams.listId !== "undefined" ? queryParams.listId : "",
@@ -881,21 +891,23 @@ const Table = (props, ref) => {
       .then((res) => {
         loader("hide");
         if (res.data.status_code == 200) {
+          const RouteName= type == "survey" ? "/survey/smartlist" : "/SmartList";
           if (flag == "update") {
             popup_alert({
               visible: "show",
               message: "Your changes has been saved <br />successfully !",
               type: "success",
-              redirect: "/SmartList",
+              redirect: RouteName,
             });
           } else {
             var path = "";
             var x = localStorage.getItem("sd_i");
             if (x) {
               localStorage.removeItem("sd_i");
-              path = "/SelectSmartList";
+              const RouteNameredirect = type === "survey" ? "/survey/email/smart-list" : "/SelectSmartList";
+              path = RouteNameredirect;
             } else {
-              path = "/SmartList";
+              path = RouteName;
             }
             popup_alert({
               visible: "show",
@@ -1038,6 +1050,7 @@ const Table = (props, ref) => {
 
       const body = {
         user_id: localStorage.getItem("user_id"),
+        type:type == "survey" ? 1 :type,
         edit_list_array: editableData,
       };
 
@@ -1094,6 +1107,7 @@ const Table = (props, ref) => {
     profile_user_id,
   }) => {
     const body = {
+      type:type == "survey" ? 1 :type,
       user_id: localStorage.getItem("user_id"),
       profile_user_id: profile_user_id,
       profile_id: profile_id,
@@ -1411,6 +1425,7 @@ const Table = (props, ref) => {
         };
       });
       const body = {
+        type:type == "survey" ? 1 :type,
         data: body_data,
         user_id: localStorage.getItem("user_id"),
         smart_list_id: getlistid,
@@ -1549,6 +1564,7 @@ const Table = (props, ref) => {
       formData.append("user_id", user_id);
       formData.append("smart_list_id", getlistid);
       formData.append("reader_file", selectedFile);
+      formData.append("type",type == "survey" ? 1 :type);
 
       axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
       if (selectedFile) {
@@ -1608,6 +1624,7 @@ const Table = (props, ref) => {
       });
 
       const body = {
+        type:type == "survey" ? 1 :type,
         data: body_data,
         user_id: localStorage.getItem("user_id"),
         smart_list_id: getlistid,
@@ -1703,6 +1720,7 @@ const Table = (props, ref) => {
       formData.append("user_id", user_id);
       formData.append("smart_list_id", getlistid);
       formData.append("reader_file", selectedFile);
+      formData.append("type",type == "survey" ? 1 :type);
 
       axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
       if (selectedFile) {
@@ -1842,7 +1860,7 @@ const Table = (props, ref) => {
               <div className="col-12 col-md-1">
                 <div className="header-btn-left">
                   <button className="btn btn-primary btn-bordered back">
-                    <Link to={"/CreateSmartList"}>Back</Link>
+                    <Link to={type === "survey" ? "/survey/smartlist/createlist" : "/CreateSmartList"}>Back</Link>
                   </button>
                 </div>
               </div>
@@ -1859,7 +1877,7 @@ const Table = (props, ref) => {
               <div className="col-12 col-md-3">
                 <div className="header-btn">
                   <button className="btn btn-primary btn-bordered move-draft">
-                    <Link to={{ pathname: "/CreateSmartList" }}>Cancel</Link>
+                    <Link to={{ pathname: type === "survey" ? "/survey/smartlist/createlist" : "/CreateSmartList" }}>Cancel</Link>
                   </button>
                   <button
                     className="btn btn-primary btn-filled create"
@@ -2031,7 +2049,7 @@ const Table = (props, ref) => {
                         onClick={() => handleSort('first_name')}
                       >
                         <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
-                          <g clip-path="url(#clip0_3722_6611)">
+                          <g clipPath="url(#clip0_3722_6611)">
                             <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF" />
                           </g>
                           <defs>
@@ -2056,7 +2074,7 @@ const Table = (props, ref) => {
                         onClick={() => handleSort('email')}
                       >
                         <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
-                          <g clip-path="url(#clip0_3722_6611)">
+                          <g clipPath="url(#clip0_3722_6611)">
                             <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF" />
                           </g>
                           <defs>
@@ -2084,7 +2102,7 @@ const Table = (props, ref) => {
                         onClick={() => handleSort('country')}
                       >
                         <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
-                          <g clip-path="url(#clip0_3722_6611)">
+                          <g clipPath="url(#clip0_3722_6611)">
                             <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF" />
                           </g>
                           <defs>
@@ -2111,7 +2129,7 @@ const Table = (props, ref) => {
                             onClick={() => handleSort('site_number')}
                           >
                             <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
-                              <g clip-path="url(#clip0_3722_6611)">
+                              <g clipPath="url(#clip0_3722_6611)">
                                 <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF" />
                               </g>
                               <defs>
@@ -2136,7 +2154,7 @@ const Table = (props, ref) => {
                             onClick={() => handleSort('irt')}
                           >
                             <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
-                              <g clip-path="url(#clip0_3722_6611)">
+                              <g clipPath="url(#clip0_3722_6611)">
                                 <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF" />
                               </g>
                               <defs>
@@ -2161,7 +2179,7 @@ const Table = (props, ref) => {
                             onClick={() => handleSort('user_type')}
                           >
                             <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
-                              <g clip-path="url(#clip0_3722_6611)">
+                              <g clipPath="url(#clip0_3722_6611)">
                                 <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF" />
                               </g>
                               <defs>
@@ -2189,7 +2207,7 @@ const Table = (props, ref) => {
                             onClick={() => handleSort('ibu')}
                           >
                             <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
-                              <g clip-path="url(#clip0_3722_6611)">
+                              <g clipPath="url(#clip0_3722_6611)">
                                 <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF" />
                               </g>
                               <defs>
@@ -2214,7 +2232,7 @@ const Table = (props, ref) => {
                             onClick={() => handleSort('contact_type')}
                           >
                             <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8" fill="none">
-                              <g clip-path="url(#clip0_3722_6611)">
+                              <g clipPath="url(#clip0_3722_6611)">
                                 <path d="M7.00015 5.19137L4.3311 7.84461C4.28138 7.89413 4.22222 7.93328 4.15708 7.95976C4.02649 8.01341 3.87983 8.01341 3.74925 7.95976C3.6841 7.93328 3.62494 7.89413 3.57522 7.84461L0.90617 5.19137C0.806076 5.09173 0.7499 4.95664 0.75 4.81582C0.7501 4.67501 0.806468 4.54 0.906704 4.4405C1.00694 4.341 1.14283 4.28516 1.28449 4.28526C1.42614 4.28536 1.56195 4.34139 1.66205 4.44103L3.41988 6.18845L3.41357 0.530648C3.41357 0.389912 3.46981 0.254939 3.56992 0.155423C3.67003 0.0559068 3.8058 4.76837e-07 3.94738 4.76837e-07C4.08895 4.76837e-07 4.22473 0.0559068 4.32484 0.155423C4.42495 0.254939 4.48119 0.389912 4.48119 0.530648L4.48751 6.18845L6.24534 4.44103C6.34602 4.34437 6.48086 4.29088 6.62083 4.29209C6.76079 4.2933 6.89468 4.34911 6.99365 4.44749C7.09262 4.54588 7.14876 4.67897 7.14998 4.81811C7.1512 4.95724 7.09739 5.09129 7.00015 5.19137Z" fill="#97B6CF" />
                               </g>
                               <defs>

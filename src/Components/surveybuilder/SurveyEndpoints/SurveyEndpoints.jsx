@@ -8,7 +8,8 @@ export const surveyEndpoints = {
 
     // Setup Page Data
     GET_CREATOR: "/survey/get-creator",
-    FETCH_ALL_TAGS: "/survey/fetch-All-tags",
+    // FETCH_ALL_TAGS: "/survey/fetch-All-tags",
+    FETCH_ALL_TOPICS: "/library/get-topics",
     INSERT_SURVEY_CREATOR: "/survey/insert-survey-creator",
     FETCH_SAVED_TEMPLATE: "/survey/fetch-saved-template",
     IMAGE_UPLOAD_AWS: "/survey/image-uploadaws",
@@ -19,6 +20,7 @@ export const surveyEndpoints = {
     DELETE_SURVEY_QUESTION: "/survey/delete-survey-question",
     FETCH_QUESTION: "/survey/fetch-question",
     DELETE_OPTION: "/survey/delete-option",
+    FETCH_SURVEY_EMAIL_ENGINE_FILTERS:"/survey/survey-filters",
 
     // Sublink Listing Page 
     // FETCH_SURVEY_SUBLINK_2: "/survey/fetch-survey-sublink", // Duplicate
@@ -35,6 +37,11 @@ export const surveyEndpoints = {
     GET_DROPOFF_RESPONSES: "/survey/get-dropoff-responses",
     TAKERS_RESPONSES_DETAIL: "/survey/takers-responses-detail",
     DOWNLOAD_ALL_EXCEL_SHEET:"/survey/get-all-excel-data",
+    GET_SURVEY_SUBLINK_TAGS:"/survey/get-survey-sublink-tags",
+   // ADD_SURVEY_SUBLINK_TAGS:"/survey/add-survey-sublink-tag",
+    UPDATE_SURVEY_SUBLINK_TAGS:"/survey/update-sublink-tag",
+    UPDATE_SURVEY_TOPICS:"/survey/update-survey-topics",
+    DOWNLOAD_SMART_LIST : "distributes/download_smart_list_readers",
 
     // Last Publish Page Endpoints
     INSERT_SURVEY_DATA: "/survey/insert-survey-data",

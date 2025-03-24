@@ -2,13 +2,13 @@ import React from "react";
 import SelectSmartListUsers from "../Emails/SelectSmartListUsers";
 import SelectSmartListCountryUsers from "../Emails/SelectSmartListCountryUsers";
 
-const SelectSmartListUsersLayout = () => {
+const SelectSmartListUsersLayout = ({ type = ''}) => {
     return (
         <>
             {localStorage.getItem("user_id") == "m5JI5zEDY3xHFTZBnSGQZg==" ? (
-                <SelectSmartListCountryUsers />
+                <SelectSmartListCountryUsers type={type} />
             ) : (
-                <SelectSmartListUsers />
+                <SelectSmartListUsers type={type} />
             )}
         </>
     );

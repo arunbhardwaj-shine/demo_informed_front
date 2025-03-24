@@ -417,6 +417,15 @@ const LibraryCreateUser = () => {
           );
         }
 
+        if(localStorage.getItem('user_id') == 'iRbx2CVT2fddhkNa9mlcBQ=='){
+          formData.append(
+            "sync_onesource",
+            userInputs?.sync_onesource
+              ? JSON.stringify(userInputs?.sync_onesource)
+              : JSON.stringify(false)
+          );
+        }
+
         if (userDetail?.user?.[0]?.group_id == 3) {
           formData.append(
             "expDatetime",
@@ -832,7 +841,7 @@ const LibraryCreateUser = () => {
       setTagClickedFirst((oldArray) => [...oldArray, dd]);
     } else {
       {isLikeRdAccount ?
-        toast.error("Topic already in list."): toast.error("Tag already in list.");
+        toast.error("Topic already in list."): toast.error("Topic already in list.");
        } 
     }
   };
@@ -890,7 +899,7 @@ const LibraryCreateUser = () => {
   const addTag = async () => {
     if (typeof newTag == "undefined" || newTag.trim().length == 0) {
       {isLikeRdAccount ?
-        toast.error("Please input a topic"): toast.error("Please input a tag");
+        toast.error("Please input a topic"): toast.error("Please input a topic");
        } 
     } else {
       loader("show");
@@ -928,7 +937,7 @@ const LibraryCreateUser = () => {
           };
         } else {
           {isLikeRdAccount ?
-            toast.error("Topic already in list."): toast.error("Tag already in list.");
+            toast.error("Topic already in list."): toast.error("Topic already in list.");
            } 
         }
         setNewTag("");
@@ -1827,8 +1836,8 @@ const LibraryCreateUser = () => {
                       </>
                     ) : null}
 
-                    {userDetail?.user?.[0]?.octaLach == 1 &&
-                      userDetail?.user?.[0]?.group_id == 3 ? (
+                    {(userDetail?.user?.[0]?.octaLach == 1 &&
+                      userDetail?.user?.[0]?.group_id == 3) || (localStorage.getItem('user_id') == 'iRbx2CVT2fddhkNa9mlcBQ==') ? (
                       <>
                         <div className="form-group">
                           <label htmlFor="synconesource"><img src={path_image + "library_move.svg"} /></label>
@@ -2786,7 +2795,7 @@ const LibraryCreateUser = () => {
                 {" "}
                 {localStorage.getItem("user_id") === "B7SHpAc XDXSH NXkN0rdQ==" ||isLikeRdAccount
                   ? "New Topic"
-                  : "New Tag"}{" "}
+                  : "New Topic"}{" "}
               </label>
               <input
                 type="text"

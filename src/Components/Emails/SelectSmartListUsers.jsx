@@ -21,7 +21,7 @@ const SelectSmartListUsers = (props) => {
   ];
   const isLikeRdAccount = rdLikeArray.includes(localStorage.getItem("user_id"));
   const groupId = localStorage.getItem("group_id");
-
+  const routeTypeSurvey = props?.type == 'survey' ? 1 : 0;
   const [totalData, setTotalData] = useState({});
   const [siteNumberAll, setSiteNumberAll] = useState([]);
   const [siteNameAll, setSiteNameAll] = useState([]);
@@ -71,6 +71,10 @@ const SelectSmartListUsers = (props) => {
   const switch_account_detail = JSON.parse(
     localStorage.getItem("switch_account_detail")
   );
+
+  const surveyid = old_object?.survey_id ? old_object?.survey_id : props?.getDraftData?.campaign_data?.survey_id ? props?.getDraftData?.campaign_data?.survey_id : 0;
+  const surveySubLinkId = old_object?.sublink_id ? old_object?.sublink_id : props?.getDraftData?.campaign_data?.sublink_id ? props?.getDraftData?.campaign_data?.sublink_id : 0;
+
   const [localStorageUserId, setLocalStorageUserId] = useState(
     switch_account_detail != null &&
       switch_account_detail != "undefined" &&
@@ -214,9 +218,11 @@ const SelectSmartListUsers = (props) => {
       props?.getDraftData?.campaign_data?.list_selection === 3 ||
       typeOfHcp === 3
     ) {
-      navigate("/SelectHCP", {});
+      const backRoute = routeTypeSurvey ? "/survey/email/select-hcp" : "/SelectHCP";
+      navigate(backRoute, {});
     } else {
-      navigate("/SelectSmartList");
+      const backRoute = routeTypeSurvey ? "/survey/email/smart-list" : "/SelectSmartList";
+      navigate(backRoute);
     }
   };
 
@@ -318,7 +324,7 @@ const SelectSmartListUsers = (props) => {
       subject: old_object?.emailSubject
         ? old_object.emailSubject
         : props.getDraftData.subject,
-      route_location: "SelectSmartListUsers",
+      route_location: routeTypeSurvey ? "survey/email/select-smartlist-users" :"SelectSmartListUsers",
       tags: old_object?.tags ? old_object.tags : props.getDraftData.tags,
       campaign_data: {
         template_id: old_object?.templateId
@@ -336,6 +342,12 @@ const SelectSmartListUsers = (props) => {
           : 0,
         removedHcp: removedReaders,
         addedHcp: readersNewlyAdded,
+        sublink_id: old_object?.sublink_id
+            ? old_object.sublink_id
+            : surveySubLinkId,
+        survey_id: old_object?.survey_id
+          ? old_object.survey_id
+          : surveyid,
       },
       campaign_id: campaign_id_st,
       source_code: old_object?.template
@@ -351,11 +363,12 @@ const SelectSmartListUsers = (props) => {
       .then((res) => {
         if (res.data.status_code == 200) {
           setCampaign_id(res.data.response.data.id);
+          const redirectRoute = routeTypeSurvey ? "/survey/email" : "/EmailList";
           popup_alert({
             visible: "show",
             message: "Your changes has been saved <br />successfully !",
             type: "success",
-            redirect: "/EmailList",
+            redirect: redirectRoute,
           });
           loader("hide");
         } else {
@@ -370,7 +383,16 @@ const SelectSmartListUsers = (props) => {
   };
 
   const nextClicked = () => {
-    navigate("/verifyMAIL", {
+    const nextRoute = routeTypeSurvey ? "/survey/email/verify-mail" : "/verifyMAIL"
+
+    props.getEmailData({
+      ...old_object,
+      newlyAdded:readersNewlyAdded,
+      removed:removedReaders
+    } );
+
+
+    navigate(nextRoute, {
       state: {
         selectedHcp: [...readers, ...readersNewlyAdded],
         removedHcp: removedReaders,
@@ -1037,7 +1059,7 @@ const SelectSmartListUsers = (props) => {
           })
           .catch((err) => {
             loader("hide");
-            toast.error("Somwthing went wrong");
+            toast.error("Something went wrong");
           });
       } else {
         const filteredArray = status.filter((value) => value !== "true");
@@ -1129,19 +1151,29 @@ const SelectSmartListUsers = (props) => {
                 <div className="col-12 col-md-8">
                   <ul className="tabnav-link">
                     <li className="active">
-                      <Link to="/EmailArticleSelect">Select Content</Link>
+                      {
+                        routeTypeSurvey ?
+                        <Link to="/survey/email/selectsurvey">Select Survey</Link>
+                        :
+                        <Link to="/EmailArticleSelect">Select Content</Link>
+                      }
                     </li>
                     <li className="active">
-                      <Link to="/CreateEmail">Create Your Email</Link>
+                      {
+                        routeTypeSurvey ?
+                        <Link to="/survey/email/create-email">Create Your Email</Link>
+                        :
+                        <Link to="/CreateEmail">Create Your Email</Link>
+                      }
                     </li>
                     <li className="active">
-                      <Link to="/SelectSmartList">
+                      <Link to={routeTypeSurvey ? "/survey/email/smart-list" : "/SelectSmartList"}>
                         {isLikeRdAccount ? "Select Users" : "Select HCPs"}
                       </Link>
                     </li>
 
                     <li className="active active-main">
-                      <Link to="/SelectSmartListUsers">Verify Your List</Link>
+                      <Link to={routeTypeSurvey ? "/survey/email/select-smartlist-users" : "/SelectSmartListUsers" }>Verify Your List</Link>
                     </li>
 
                     <li className="">

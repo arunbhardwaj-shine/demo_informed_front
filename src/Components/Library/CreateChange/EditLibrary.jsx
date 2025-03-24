@@ -362,7 +362,7 @@ const getExistingVideos=async ()=>{
     if (!tagClickedFirst.includes(dd)) {
       setTagClickedFirst((oldArray) => [...oldArray, dd]);
     } else {
-      toast.error("Tag already in list.");
+      toast.error("Topic already in list.");
     }
   };
 
@@ -384,7 +384,7 @@ const getExistingVideos=async ()=>{
 
   const addTag = async () => {
     if (typeof newTag == "undefined" || newTag.trim().length == 0) {
-      toast.error("Please input a tag");
+      toast.error("Please input a topic");
     } else {
       loader("show");
       try {
@@ -416,7 +416,7 @@ const getExistingVideos=async ()=>{
             tags: newTag,
           };
         } else {
-          toast.error("Tag already in list.");
+          toast.error("Topic already in list.");
         }
         setNewTag("");
         setTagsCounter(tagsCounter + 1);
@@ -584,6 +584,16 @@ const getExistingVideos=async ()=>{
               : JSON.stringify(false)
           );
         }
+
+        if(localStorage.getItem('user_id') == 'iRbx2CVT2fddhkNa9mlcBQ=='){
+          formData.append(
+            "sync_onesource",
+            userInputs?.sync_onesource
+              ? JSON.stringify(userInputs?.sync_onesource)
+              : JSON.stringify(false)
+          );
+        }
+
         formData.append(
           "multiplePublisher",
           reseller?.length ? JSON.stringify(reseller) : ""
@@ -1974,7 +1984,7 @@ const getExistingVideos=async ()=>{
                         </>
                       ) : null}
 
-                      {userDetail?.user?.[0]?.octaLach == 1 && userDetail?.user?.[0]?.group_id == 3
+                      {(userDetail?.user?.[0]?.octaLach == 1 && userDetail?.user?.[0]?.group_id == 3) || (localStorage.getItem('user_id') == 'iRbx2CVT2fddhkNa9mlcBQ==')
                          ? (
                         <>
                           <div className="form-group">
@@ -2936,7 +2946,7 @@ const getExistingVideos=async ()=>{
         <Modal.Footer>
           <form>
             <div className="form-group">
-              <label htmlFor="new-tag">New Tag</label>
+              <label htmlFor="new-tag">New Topic</label>
               <input
                 type="text"
                 className="form-control"

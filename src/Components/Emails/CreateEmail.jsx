@@ -17,6 +17,9 @@ import { Editor } from "@tinymce/tinymce-react";
 import SmartListLayout from "../CommonComponent/SmartListLayout";
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
+import { surveyEndpoints } from "../surveybuilder/SurveyEndpoints/SurveyEndpoints";
+import { surveyAxiosInstance } from "../surveybuilder/CommonFunctions/CommonFunction";
+import { ENDPOINT } from "../../axios/apiConfig";
  
 // import "bootstrap/dist/css/bootstrap.min.css";
 import SmartListTableLayout from "../CommonComponent/SmartListTableLayout";
@@ -26,8 +29,9 @@ var trainingUser = {};
 var searchedUser = {};
 var stateListData = {};
 const CreateEmail = (props) => {
+  const routeTypeSurvey = props?.type == 'survey' ? 1 : 0;
   const accountMapping={"56Ek4feL/1A8mZgIKQWEqg==":2147501188,"bWmUjqX7J011   WUTYn9g==":298217,"MXl8m36VZFYXpgFVz3Pg0g==":2147537506}
-
+    const{FETCH_ALL_TOPICS}=surveyEndpoints;
   const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","bWmUjqX7J011   WUTYn9g==","MXl8m36VZFYXpgFVz3Pg0g=="]
   const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
   const groupId= localStorage.getItem("group_id")
@@ -68,6 +72,8 @@ const CreateEmail = (props) => {
   let type=searchParams.get('type')
   const [getsearch, setSearch] = useState("");
   const PdfSelected = props.getEmailData ? dxr : props.getDraftData.pdf_id;
+  const surveyid = state_object?.survey_id ? state_object?.survey_id : props?.getDraftData?.campaign_data?.survey_id ? props?.getDraftData?.campaign_data?.survey_id : 0;
+  const surveySubLinkId = state_object?.sublink_id ? state_object?.sublink_id : props?.getDraftData?.campaign_data?.sublink_id ? props?.getDraftData?.campaign_data?.sublink_id : 0;
   const [hcpsSelected, setHcpsSelected] = useState([]);
   const [manualReRender, setManualReRender] = useState(0);
   const campaign_id = props.getDraftData ? props.getDraftData.campaign_id : "";
@@ -247,6 +253,7 @@ const CreateEmail = (props) => {
       user_id: localStorage.getItem("user_id"),
       search: getsearch,
       filter: "",
+      type : routeTypeSurvey
     };
     loader("show");
     axios
@@ -397,7 +404,8 @@ const CreateEmail = (props) => {
       ibu: "",
       content_included: content_included,
       siteContent: siteContent,
-      pdf: pdf_id
+      pdf: pdf_id,
+      is_survey: routeTypeSurvey
     };
     type = type || state_object?.type;
     if(type){
@@ -465,10 +473,10 @@ const CreateEmail = (props) => {
 
     axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
     const getAllTags = async () => {
-      await axios
-        .post(`emailapi/get_tags`, body)
+      await surveyAxiosInstance
+        .post(FETCH_ALL_TOPICS, body)
         .then((res) => {
-          setAllTags(res?.data?.response?.data);
+          setAllTags(res?.data?.data);
            
         })
         .catch((err) => {
@@ -717,6 +725,12 @@ const CreateEmail = (props) => {
         user_list: selected_ids,
         smartlist_id: "",
         source_code: template,
+        sublink_id: state_object?.sublink_id
+            ? state_object.sublink_id
+            : surveySubLinkId,
+        survey_id: state_object?.survey_id
+        ? state_object.survey_id
+        : surveyid,
       };
 
  
@@ -871,7 +885,7 @@ const CreateEmail = (props) => {
         up_temp = editorRef.current.getContent();
       }
 
-      let redirectPath = "/EmailList";
+      let redirectPath = routeTypeSurvey ? "/survey/email" :"/EmailList";
  
       if (irtRoleObj?.IRTFlag) {
         redirectPath = "/IRTRole";
@@ -890,14 +904,19 @@ const CreateEmail = (props) => {
           ? emailCampaign
           : props.getDraftData.campaign,
         subject: props.getEmailData ? emailSubject : props.getDraftData.subject,
-        route_location: "CreateEmail",
+        route_location: routeTypeSurvey ? "survey/email/create-email" : "CreateEmail",
         tags: props.getEmailData ? tagss : props.getDraftData.tags,
         campaign_data: {
           template_id: props.getEmailData
             ? templateId
             : props.getDraftData.template_id,
+          sublink_id: state_object?.sublink_id
+            ? state_object.sublink_id
+            : surveySubLinkId,
+          survey_id: state_object?.survey_id
+          ? state_object.survey_id
+          : surveyid,
         },
-
         campaign_id: campaign_id_st,
         source_code: up_temp,
         status: 2,
@@ -1008,6 +1027,9 @@ const CreateEmail = (props) => {
           removedHcp : state_object?.removedHcp ? state_object?.removedHcp : [],
           addedHcp : state_object?.addedHcp ? state_object?.addedHcp : [],
           selectedHcp : state_object?.selectedHcp ? state_object?.selectedHcp : [],
+          fromSurveyLanding: false,
+          sublink_id : surveySubLinkId,
+          survey_id : surveyid,
         };
         
         if(state_object?.startTraining == 1){
@@ -1050,8 +1072,12 @@ const CreateEmail = (props) => {
           removedHcp : state_object?.removedHcp ? state_object?.removedHcp : [],
           addedHcp : state_object?.addedHcp ? state_object?.addedHcp : [],
           selectedHcp : state_object?.selectedHcp ? state_object?.selectedHcp : [],
+          fromSurveyLanding: false,
+          sublink_id : surveySubLinkId,
+          survey_id : surveyid,
         });
-        navigate("/SelectHCP");
+        const nextRouteName = routeTypeSurvey ? "/survey/email/select-hcp" : "/SelectHCP";
+        navigate(nextRouteName);
       }
     } else {
       validator.showMessages();
@@ -1089,12 +1115,18 @@ const CreateEmail = (props) => {
         ? emailCampaign
         : props.getDraftData.campaign,
       subject: props.getEmailData ? emailSubject : props.getDraftData.subject,
-      route_location: "CreateEmail",
+      route_location: routeTypeSurvey ? "survey/email/create-email" : "CreateEmail",
       tags: props.getEmailData ? tagss : props.getDraftData.tags,
       campaign_data: {
         template_id: props.getEmailData
           ? templateId
           : props.getDraftData.template_id,
+        sublink_id: state_object?.sublink_id
+          ? state_object.sublink_id
+          : surveySubLinkId,
+        survey_id: state_object?.survey_id
+        ? state_object.survey_id
+        : surveyid,
       },
 
       campaign_id: campaign_id_st,
@@ -1121,7 +1153,7 @@ const CreateEmail = (props) => {
         }
       })
       .catch((err) => {
-        toast.error("Somwthing went wrong");
+        toast.error("Something went wrong");
       });
   };
 
@@ -1272,7 +1304,7 @@ const CreateEmail = (props) => {
 
   const addTag = async () => {
     if (typeof newTag == "undefined" || newTag.trim().length == 0) {
-      toast.error("Please input a tag");
+      toast.error("Please enter a Topic");
     } else {
       let temp_tags = tagClickedFirst.map((data) => {
         return data.toLowerCase();
@@ -1293,27 +1325,48 @@ const CreateEmail = (props) => {
         !temp_tags.includes(newTag.toLowerCase()) &&
         !alltemp_tags.includes(newTag.toLowerCase())
       ) {
-        setTagClickedFirst((oldArray) => [...oldArray, newTag]);
+      
 
-        const body = {
-          user_id: localStorage.getItem("user_id"),
-          tags: newTag,
-        };
+        // const body = {
+        //   user_id: localStorage.getItem("user_id"),
+        //   tags: newTag,
+        // };
 
     
         axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
-        loader("show");
-        await axios
-          .post(`emailapi/save_tags`, body)
-          .then((res) => {
-            loader("hide");
-          })
-          .catch((err) => {
-            loader("hide");
-            console.log(err);
-          });
-      } else {
-        toast.error("Tag already in list.");
+         
+
+                       try {
+                                  loader("show");
+                                   await surveyAxiosInstance.post(ENDPOINT.ADD_SPC_PRODUCT, {
+                                     user_id: localStorage.getItem("user_id"),
+                                     product: newTag?.trim(),
+                                     category: 0,
+                                     type: 2,
+                                   });
+
+                                   setTagClickedFirst((oldArray) => [...oldArray, newTag]);
+                                   setAllTags((oldArray) => [...oldArray, newTag]);
+
+                                   loader("hide");
+                                
+                                 } catch (err) {
+                                   loader("hide");
+                                 }
+
+        
+        // await axios
+        //   .post(`emailapi/save_tags`, body)
+        //   .then((res) => {
+        //     loader("hide");
+        //   })
+        //   .catch((err) => {
+        //     loader("hide");
+        //     console.log(err);
+        //   });
+      } 
+      else {
+        toast.error("Topic already in list.");
       }
       setNewTag("");
       setTagsCounter(tagsCounter + 1);
@@ -1324,7 +1377,7 @@ const CreateEmail = (props) => {
     if (!tagClickedFirst.includes(dd)) {
       setTagClickedFirst((oldArray) => [...oldArray, dd]);
     } else {
-      toast.error("Tag already in list.");
+      toast.error("Topic already in list.");
     }
   };
 
@@ -1845,6 +1898,8 @@ const CreateEmail = (props) => {
           name: template_name,
           status: 1,
           language: 2,
+          type: routeTypeSurvey,
+          content_included: 1
         };
 
         axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
@@ -2179,6 +2234,9 @@ const CreateEmail = (props) => {
       removedHcp : state_object?.removedHcp ? state_object?.removedHcp : [],
       addedHcp : state_object?.addedHcp ? state_object?.addedHcp : [],
       selectedHcp : state_object?.selectedHcp ? state_object?.selectedHcp : [],
+      fromSurveyLanding:false,
+      sublink_id : surveySubLinkId,
+      survey_id : surveyid,
     };
 
     if(type){
@@ -2198,15 +2256,27 @@ const CreateEmail = (props) => {
       props.getSelected(trainingUser)
       props.getSearched(searchedUser)
       props.getSelectedSmartListData(stateListData)
-      navigate("/EmailArticleSelect", {
-        state: {IrtObj:irtRoleObj},
-      });
+      if(routeTypeSurvey){
+        navigate("/survey/email/selectsurvey", {
+          state: {IrtObj:irtRoleObj},
+        });
+      }else{
+        navigate("/EmailArticleSelect", {
+          state: {IrtObj:irtRoleObj},
+        });
+      }
   };
 
   const handleSelectUsers = () => {
-    navigate("/EmailArticleSelect", {
-      state: {IrtObj:irtRoleObj},
-    });
+    if(routeTypeSurvey){
+      navigate("/survey/email/selectsurvey", {
+        state: {IrtObj:irtRoleObj},
+      });
+    }else{
+      navigate("/EmailArticleSelect", {
+        state: {IrtObj:irtRoleObj},
+      });
+    }
   };
 
   return (
@@ -2226,8 +2296,15 @@ const CreateEmail = (props) => {
                 <div className="col-12 col-md-8">
                   <ul className="tabnav-link">
                     <li className="active" onClick={handleSelectUsers}>
-                       
-                      Select Content
+                      {
+                        routeTypeSurvey ?
+                        <Link to="/survey/email/selectsurvey">Select Survey</Link>
+                        :
+                        <Link to="/EmailArticleSelect">Select Content</Link>
+                      }
+                      {/* {
+                        routeTypeSurvey ? "Select Survey" : "Select Content"
+                      } */}
                     </li>
                     <li className="active active-main">
                       <a href="">Create Your Email</a>
@@ -2283,7 +2360,7 @@ const CreateEmail = (props) => {
                               }
                               
                               <button
-                                  className="btn btn-primary btn-bordered"  state={{IrtObj:irtRoleObj }}
+                                  className="btn btn-primary btn-bordered" state={{IrtObj:irtRoleObj }}
                                   onClick={saveAsDraft}
                                 >
                                   Save As Draft
@@ -2504,7 +2581,7 @@ const CreateEmail = (props) => {
                             data-bs-target="#tagsModal"
                             onClick={tagButtonClicked}
                           >
-                            + Add Tag
+                            + Add Topics
                           </button>
                         </div>
                         <div className="tags_added">
@@ -2776,7 +2853,7 @@ const CreateEmail = (props) => {
         <Modal id="tagsModal" show={isOpen}>
           <Modal.Header>
             <h5 className="modal-title" id="staticBackdropLabel">
-              Add Tags
+              Add Topics
             </h5>
             <button
               type="button"
@@ -2788,7 +2865,7 @@ const CreateEmail = (props) => {
           </Modal.Header>
           <Modal.Body>
             <div className="select-tags">
-              <h6>Select Tag :</h6>
+              <h6>Select Topics :</h6>
               <div className="tag-lists">
                 <div className="tag-lists-view">
                   {allTags
@@ -2807,7 +2884,7 @@ const CreateEmail = (props) => {
             </div>
             <div className="selected-tags">
               <h6>
-                Selected Tag <span>| {tagClickedFirst.length}</span>
+                Selected Topics <span>| {tagClickedFirst.length}</span>
               </h6>
 
               <div className="total-selected">
@@ -2831,7 +2908,7 @@ const CreateEmail = (props) => {
           <Modal.Footer>
             <form>
               <div className="form-group">
-                <label htmlFor="new-tag">New Tag</label>
+                <label htmlFor="new-tag">New Topic</label>
                 <input
                   type="text"
                   className="form-control"
@@ -3100,12 +3177,12 @@ const CreateEmail = (props) => {
                 <form className="d-flex" onSubmit={(e) => submitHandler(e)}>
                   <input
                     className="form-control me-2"
-                    type="text"
+                    type="search"
                     placeholder="Search"
                     onChange={(e) => searchChange(e)}
                   />
                   <button
-                    className="btn btn-outline-success"
+                    className="btn btn-outline"
                     onClick={(e) => submitHandler(e)}
                   >
                     <svg
@@ -3141,6 +3218,7 @@ const CreateEmail = (props) => {
                                   type="radio"
                                   name="radio"
                                   onClick={(e) => handleSelect(data, e)}
+                                  onChange={() => {}}
                                   checked={
                                     typeof getSmartListId !== "undefined" &&
                                       getSmartListId !== 0 &&

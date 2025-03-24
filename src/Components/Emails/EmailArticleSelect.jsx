@@ -381,7 +381,7 @@ const EmailArticleSelect = (props) => {
                         aria-label="Search"
                         onChange={(e) => searchChange(e)}
                       />
-                      <button className="btn btn-outline-success" type="submit">
+                      <button className="btn btn-outline" type="submit">
                         <svg
                           width="16"
                           height="16"
@@ -472,7 +472,7 @@ const EmailArticleSelect = (props) => {
                             filterdata.tags.length > 0 && (
                               <Accordion.Item className="card" eventKey="0">
                                 <Accordion.Header className="card-header">
-                                  Tags
+                                  Topics
                                 </Accordion.Header>
                                 <Accordion.Body className="card-body">
                                   <ul>
@@ -657,7 +657,7 @@ const EmailArticleSelect = (props) => {
                       {filtertags.length > 0 && (
                         <div className="filter-div">
                           <div className="filter-div-title">
-                            <span>Tags |</span>
+                            <span>Topics |</span>
                           </div>
                           <div className="filter-div-list">
                             {Object.entries(filtertags).map(([index, item]) => (

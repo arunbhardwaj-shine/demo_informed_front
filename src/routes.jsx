@@ -239,6 +239,7 @@ import NotFound from "./Components/surveybuilder/NotFound";
 import ThanksPage from "./Components/surveybuilder/ThanksPage";
 import SurveyList from "./Components/surveybuilder/SurveyList";
 import SurveySublink from "./Components/surveybuilder/SurveySublink";
+import SurveySublinkNew from "./Components/surveybuilder/SurveySublinkNew";
 import SurveyAnalytics from "./Components/surveybuilder/SurveyAnalytics";
 import SurveyAnalyticsDetail from "./Components/surveybuilder/SurveyAnalyticsDetail";
 import SurveyFinalPreview from "./Components/surveybuilder/SurveyFinalPreview";
@@ -246,7 +247,9 @@ import SetLayoutNew from "./Components/CommonComponent/SetLayoutNew";
 import SetLayoutNewTimeline from "./Components/CommonComponent/SetLayoutNewTimeline";
 import ClinetAccount from "./Components/Login/ClientAccount";
 import ResetPassword from "./Components/CommonComponent/ResetPassword";
+import CreateSurveyEmail from "./Components/surveybuilder/SurveyEmailEngine/CreateSurveyEmail";
 import Redirect from "./Auth/Redirect";
+import SurveyTopics from "./Components/surveybuilder/SurvyeTopics";
 
 //Aland activity route
 
@@ -870,7 +873,7 @@ const Routing = () => {
         /> */}
         <Route
           path="/SelectSmartListUsers"
-          element={<LoginLayout component={SelectSmartListUsersLayout} />}
+          element={<LoginLayout component={SelectSmartListUsersLayout} type="general" />}
         />
         <Route
           path="/VerifySmartList"
@@ -910,7 +913,7 @@ const Routing = () => {
         /> */}
         <Route
           path="/get-details"
-          element={<LoginLayout component={GetDetailsLayout} />}
+          element={<LoginLayout component={GetDetailsLayout} type="general" />}
         />
         <Route
           path="/license-content"
@@ -1129,6 +1132,50 @@ const Routing = () => {
           path="/survey/survey-sublink"
           element={<LoginLayout component={SurveySublink} />}
         />
+        <Route
+          path="/survey/survey-sublink-new"
+          element={<LoginLayout component={SurveySublinkNew} />}
+        />
+         <Route
+          path="/survey/emails-selectsurvey"
+          element={<LoginLayout component={CreateSurveyEmail} />}
+        />
+    <Route path="/survey/topics" element={<LoginLayout component={SurveyTopics}/>} />
+
+
+
+        <Route path="/survey/email" element={<LoginLayout component={EmailList}  type="survey" />}/>
+        <Route path="/survey/email/selectsurvey" element={<LoginLayout component={CreateSurveyEmail} type="survey" />} />
+        <Route path="/survey/email/create-email" element={<LoginLayout component={CreateEmail}  type="survey" />} />
+        <Route path="/survey/email/select-hcp" element={<LoginLayout component={SelectHCP}  type="survey" />} />
+        <Route path="/survey/email/smart-list" element={<LoginLayout component={SelectSmartList} type="survey" />}/>
+        <Route path="/survey/email/select-smartlist-users" element={<LoginLayout component={SelectSmartListUsersLayout}  type="survey"/>} />
+        <Route path="/survey/email/verify-hcp" element={<LoginLayout component={VerifyHCP}  type="survey"/>} />
+        <Route path="/survey/email/verify-hcp-mail" element={<LoginLayout component={VerifyHcpMAIL}  type="survey"/>} />
+        <Route path="/survey/email/verify-mail" element={<LoginLayout component={VerifyMAIL}  type="survey"/>} />
+        <Route path="/survey/email/analytics" element={<LoginLayout component={EmailStatss}  type="survey"/>} />
+        <Route path="/survey/email/get-details" element={<LoginLayout component={GetDetailsLayout}  type="survey"/>} />
+        <Route path="/survey/smart-list-filter" element={<LoginLayout component={SmartListFilter}  type="survey"/>} />
+
+        <Route path="/survey/auto-email" element={<LoginLayout component={AutoEmail}  type="survey"/>} />
+        <Route path="/survey/smartlist" element={<LoginLayout component={SmartList}  type="survey"/>} />
+        <Route path="/survey/smartlist/createlist" element={<LoginLayout component={CreateSmartList}  type="survey"/>} />
+        <Route path="/survey/smartlist/UploadExcel" element={<LoginLayout component={UploadExcel}  type="survey"/>} />
+        <Route path="/survey/ViewSmartList" element={<LoginLayout component={ViewList}  type="survey"/>} />
+        <Route path="/survey/EditList" element={<LoginLayout component={EditList}  type="survey"/>} />
+        <Route path="/survey/AutoEmail" element={<LoginLayout component={AutoEmail}  type="survey"/>} />
+        <Route path="/survey/TemplateBuilder" element={<LoginLayout component={TemplateBuilder}  type="survey"/>} />
+
+
+        {/* <Route path="/survey/email-article-select" element={<LoginLayout component={EmailArticleSelect}  type="survey"/>} />
+        <Route path="/survey/create-email" element={<LoginLayout component={CreateEmail}  type="survey"/>} />
+        <Route path="/survey/filter-segment" element={<LoginLayout component={FilterSegment} />}  type="survey" />
+        <Route path="/survey/select-hcp" element={<LoginLayout component={SelectHCP}  type="survey" />} />
+        <Route path="/survey/verify-hcp" element={<LoginLayout component={VerifyHCP}  type="survey"/>} />
+        <Route path="/survey/verify-mail" element={<LoginLayout component={VerifyMAIL}  type="survey"/>} />
+        <Route path="/survey/verify-hcp-mail" element={<LoginLayout component={VerifyHcpMAIL}  type="survey"/>} />
+        <Route path="/survey/verify-sunshine-mail" element={<LoginLayout component={VerifySunshineMAIL}   type="survey"/>} />
+        <Route path="/survey/select-smartlist-users" element={<LoginLayout component={SelectSmartListUsersLayout}  type="survey"/>} /> */}
         <Route
           path="/survey/survey-analytics"
           element={<LoginLayout component={SurveyAnalytics} />}

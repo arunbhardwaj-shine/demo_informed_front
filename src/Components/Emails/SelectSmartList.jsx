@@ -29,6 +29,9 @@ const SelectSmartList = (props) => {
   const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","bWmUjqX7J011   WUTYn9g==","MXl8m36VZFYXpgFVz3Pg0g=="]
   const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
   const groupId= localStorage.getItem("group_id")
+  const routeTypeSurvey = props?.type == 'survey' ? 1 : 0;
+  const surveyid = old_object?.survey_id ? old_object?.survey_id : props?.getDraftData?.campaign_data?.survey_id ? props?.getDraftData?.campaign_data?.survey_id : 0;
+  const surveySubLinkId = old_object?.sublink_id ? old_object?.sublink_id : props?.getDraftData?.campaign_data?.sublink_id ? props?.getDraftData?.campaign_data?.sublink_id : 0;
   let file_name = useRef("");
   let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [uploadOrDownloadCount, setUploadOrDownloadCount] = React.useState(0);
@@ -109,6 +112,7 @@ const SelectSmartList = (props) => {
       search: "",
       filter: filter,
       paging: "32",
+      type : routeTypeSurvey,
     };
     loader("show");
     axios
@@ -191,11 +195,11 @@ const SelectSmartList = (props) => {
           : "",
       campaign_name: old_object?.emailCampaign
         ? old_object.emailCampaign
-        : draft_object.campaign,
+        : draft_object?.campaign ? draft_object?.campaign : draft_object?.campaign_name,
       subject: old_object?.emailSubject
         ? old_object.emailSubject
         : draft_object.subject,
-      route_location: "SelectSmartList",
+      route_location: routeTypeSurvey ? "survey/email/smart-list" :"SelectSmartList",
       tags: old_object?.tags ? old_object.tags : draft_object.tags,
       campaign_data: {
         template_id: old_object?.templateId
@@ -207,8 +211,12 @@ const SelectSmartList = (props) => {
           : props.getDraftData?.campaign_data?.list_selection
             ? props.getDraftData.campaign_data.list_selection
             : 0,
-
-        
+        sublink_id: old_object?.sublink_id
+            ? old_object.sublink_id
+            : surveySubLinkId,
+        survey_id: old_object?.survey_id
+        ? old_object.survey_id
+        : surveyid,
       },
       source_code: old_object?.template
         ? old_object.template
@@ -227,17 +235,19 @@ const SelectSmartList = (props) => {
         if (res.data.status_code === 200) {
           setCampaign_id(res.data.response.data.id);
           if (flag == "draft") {
+            const redirectRoute = routeTypeSurvey ? "/survey/email" : "/EmailList";
             popup_alert({
               visible: "show",
               message: "Your changes has been saved <br />successfully !",
               type: "success",
-              redirect: "/EmailList",
+              redirect: redirectRoute,
             });
           } else {
             body.campaign_id = res.data.response.data.id;
             props.getDraftData(body);
             localStorage.setItem("sd_i", res.data.response.data.id);
-            navigate("/CreateSmartList");
+            const redirectRoute = routeTypeSurvey ? "/survey/smartlist/createlist" : "/CreateSmartList";
+            navigate(redirectRoute);
           }
         } else {
           toast.warning(res.data.message);
@@ -367,6 +377,7 @@ const SelectSmartList = (props) => {
     formData.append("creator_name", creatorName);
     formData.append("ibu", customIbu);
     formData.append("reader_file", selectedFile);
+    formData.append("type", routeTypeSurvey);
 
     axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
     setShowProgressBar(true);
@@ -570,14 +581,16 @@ const SelectSmartList = (props) => {
 
   const nextClicked = async() => {
     await commonNavigateFun()
-    navigate("/SelectSmartListUsers", {
+    const nextRoute = routeTypeSurvey ? "/survey/email/select-smartlist-users" : "/SelectSmartListUsers"
+    navigate(nextRoute, {
       state: { smartListSelected: PdfSelected ? PdfSelected : smartListSelected?.id, flag: 1 },
     });
   }
 
   const backClicked = async() => {
     await commonNavigateFun()
-    navigate("/SelectHCP");
+    const backRoute = routeTypeSurvey ? "/survey/email/select-hcp" : "/SelectHCP";
+    navigate(backRoute);
   };
 
   const commonNavigateFun = async() => {
@@ -620,16 +633,26 @@ const SelectSmartList = (props) => {
                 <div className="col-12 col-md-8">
                   <ul className="tabnav-link">
                     <li className="active">
-                      <Link to="/EmailArticleSelect">Select Content</Link>
+                      {
+                        routeTypeSurvey ?
+                        <Link to="/survey/email/selectsurvey">Select Survey</Link>
+                        :
+                        <Link to="/EmailArticleSelect">Select Content</Link>
+                      }
                     </li>
                     <li className="active">
-                      <Link to="/CreateEmail">Create Your Email</Link>
+                      {
+                        routeTypeSurvey ?
+                        <Link to="/survey/email/create-email">Create Your Email</Link>
+                        :
+                        <Link to="/CreateEmail">Create Your Email</Link>
+                      }
                     </li>
                     <li className="active active-main">
-                      <Link to="/SelectSmartList">
+                      <Link to={routeTypeSurvey ? "/survey/email/smart-list" : "/SelectSmartList"}>
                         {localStorage.getItem("user_id") == userId || localStorage.getItem("user_id") == "bWmUjqX7J011   WUTYn9g=="
                           ? "Select Users"
-                          : "Select HCPs"}{" "}
+                          : "Select HCPs"}
                       </Link>
                     </li>
                     
@@ -972,6 +995,7 @@ const SelectSmartList = (props) => {
                                   <div className="select-mail-option">
                                     <input
                                       onClick={() => handleSelect(template)}
+                                      onChange={() => {}}
                                       type="radio"
                                       name="radio"
                                       checked={

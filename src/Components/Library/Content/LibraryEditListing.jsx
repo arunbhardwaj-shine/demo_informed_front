@@ -641,7 +641,7 @@ const LibraryEditListing = () => {
                       id="email_search"
                       onChange={(e) => searchChange(e)}
                     />
-                    <button className="btn btn-outline-success" type="submit">
+                    <button className="btn btn-outline" type="submit">
                       <svg
                         width="16"
                         height="16"
@@ -2098,7 +2098,7 @@ const LibraryEditListing = () => {
                                     ) : null}
 
                                     {
-                                      localStorage.getItem('user_id') == 'iSnEsKu5gB/DRlycxB6G4g=='
+                                      localStorage.getItem('user_id') === 'iSnEsKu5gB/DRlycxB6G4g==' || localStorage.getItem('user_id') === 'iRbx2CVT2fddhkNa9mlcBQ=='
                                       ?
                                         <li>
                                           <h6 className="tab-content-title">

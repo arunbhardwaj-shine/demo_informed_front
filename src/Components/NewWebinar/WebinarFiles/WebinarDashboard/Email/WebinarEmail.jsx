@@ -1028,7 +1028,7 @@ const WebinarEmail = (props) => {
                       id="email_search"
                       onChange={(e) => searchChange(e)}
                     />
-                    <button className="btn btn-outline-success" type="submit">
+                    <button className="btn btn-outline" type="submit">
                       <svg
                         width="16"
                         height="16"
@@ -1923,7 +1923,7 @@ const WebinarEmail = (props) => {
                       <span>{viewEmailData?.created_at}</span>
                     </div>
                     <div className="mailbox-tags">
-                      <h6>Tags</h6>
+                      <h6>Topics</h6>
                       <ul>
                         {viewEmailData?.tags != "" ? (
                           viewEmailData?.tags?.map((tag, i) => {

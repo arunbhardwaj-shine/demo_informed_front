@@ -244,6 +244,9 @@
       padding-right: 6px;
       padding-left: 0px;
     }
+    .tox .tox-editor-container .tox-editor-header {
+      grid-template-columns: unset;
+  }
 }
 
 @media only screen and (max-width: 1650px) {
@@ -408,6 +411,12 @@
     width: 28px;
     right: -14px;
 }
+.mail-recipt .smartlist-view {
+  width: 100%;
+  flex: 0 0 100%;
+  margin: 0 0 12px;
+}
+
 }
 
 @media only screen and (max-width: 1550px) {
@@ -593,6 +602,7 @@
 
   .form-inline .form-group input#email-address {
     max-width: 315px;
+    flex: 1 1;
   }
 
   .mail-recipt-right .mail-content-select-box {
@@ -982,9 +992,12 @@
   }
 
   .input-group-prepend::after {
-    left: 142px;
+    left: 162px;
   }
-
+  .form-inline .form-group label {
+    width: 175px;
+    flex: 0 0 175px;
+}
   .sidebar-menu {
     background-size: 140px;
   }
@@ -1486,6 +1499,9 @@
     width: 160px;
     flex: 0 0 160px;
   }
+  .select-mail-template .form-group.col-md-5 .login-validation, .select-mail-template .form-group.col-md-7 .srv-validation-message {
+    padding-left: 170px;
+}
 
   .email-form .form-inline .form-group input[type="text"] {
     min-width: 280px;
@@ -1682,6 +1698,7 @@
 
   .search-hcp .selected-hcp-list table.table {
     padding-right: 18px;
+    width:1100px;
   }
 
   .table-title .selected-hcp-table-action .btn img {
@@ -1850,10 +1867,10 @@
     margin: 0 -10px;
   }
 
-  .form-inline .form-group label {
+  /* .form-inline .form-group label {
     width: 150px;
     flex: 0 0 150px;
-  }
+  } */
 
   .new-smartlist .smartlist-view .mail-box-content .tabs-data .tab-content .tab-mail-list h6.tab-content-title {
     flex: 0 0 130px;
@@ -2159,6 +2176,9 @@
 }
 
 @media only screen and (max-width: 1365px) {
+  section.search-hcp.smart-list-view {
+    padding: 0px 8px 0;
+  }
   .trigger_content_image {
     padding: 5px;
     width: 60px;
@@ -2545,7 +2565,7 @@
 
   .search-bar form.d-flex input,
   .filter-by button {
-    height: 36px;
+    height: 35px;
   }
 
   .filter-by button {
@@ -2586,10 +2606,6 @@
 
   .smartlist-result-block .not_found {
     font-size: 22px;
-  }
-
-  .input-group-prepend::after {
-    left: 142px;
   }
 
   .mailbox-tags ul li {
@@ -2972,13 +2988,77 @@
   #smart_list_popup_id.modal-dialog {
     max-width: 95%;
   }
+  .mail-content-select .row {
+    margin: 0 -10px 0 -10px;
+  }
+  .mail-content-select [class*="col-"] {
+    padding: 0 10px;
+  }
+  .split-button-dropup > div:nth-child(3) {
+    padding: 2px 30px 2px 15px;
+  }
+  .survey-mail .split-button-dropup div:nth-child(3)>div div {
+    padding: 0 0px 0 0;
 }
-
+.page-top-nav ul.tabnav-link li.active-main a:after,
+.navbar-nav li.active-main a:after {
+  bottom: -9px;
+}
+.template_builder-option {
+  margin: 20px 0 20px;
+}
+.mail_trigger_dummy_content h3 {
+  font-size: 32px;
+  line-height: 36px;
+}
+.mail_trigger_content {
+  margin-left: 16px;
+}
+}
+@media only screen and (max-width: 1279px) {
+.select-mail-template .form-group.col-md-5 .login-validation, .select-mail-template .form-group.col-md-7 .srv-validation-message {
+  padding-left: 162px;
+}
+}
 @media only screen and (max-width: 1199px) {
+  .select-mail-template .form-group.col-md-5 .login-validation, .select-mail-template .form-group.col-md-7 .srv-validation-message {
+    padding-left: 0px;
+    flex: 0 0 100%;
+}
+  .email-form .form-inline .form-group.template_builder_div .dropdown-toggle {
+    padding: 10px 14px;
+}
+  .active-subLink .right-sidebar {
+    width: calc(100% - 220px);
+  }
+
+  .template_builder-option .template_language:first-child {
+    margin-right: 15px;
+  }
+  .template_builder-option .template_language {
+    margin-right: 0px;
+  }
+  .template_builder-option .template_language span {
+    font-size: 14px;
+    margin-right: 10px;
+  }
+  .form-buttons-template button.btn {
+    height: 35px;
+  }
+  .form-buttons-template button.btn.btn-delete {
+    width: 35px;
+    min-width: 35px;
+  }
+  .form-buttons-template button.btn.btn-delete svg {
+    width: 20px;
+  }
   .dropdown-menu.filter-options {
     width: 270px;
   }
-
+  .email-result-block .email-block-add-box,
+  .email-result-block .email_box_block {
+    width: 50%;
+  }
   .smartlist-view .mail-box-content .tabs-data .tab-content .tab-mail-list h6.list_creator {
     min-width: 75px;
   }
@@ -3141,10 +3221,12 @@
   .auto_mail_trigger_left {
     padding-right: 10px;
     width: 100%;
+    border-right: 0;
   }
 
   .auto_mail_trigger_right {
     width: 100%;
+    padding-left: 12px;
   }
 
   .mail_trigger_dummy_content h3 {
@@ -3223,10 +3305,14 @@
   }
 
   .sidebar-menu ul li a svg, .sidebar-menu ul li a img {
-    margin-right: 9px;
+    margin-right: 6px;
     flex: 0 0 20px;
     max-height: 20px;
   }
+  .survey-mail .sublink-add {
+    margin: 4px 19px 15px 0;
+}
+
   .sidebar-menu ul li a,
   .sidebar-menu ul li p {
     font-size: 14px;
@@ -3472,9 +3558,12 @@
   }
 
   .active.sub-links .left-sidebar-secondary .sidebar-menu-secondary ul {
-    margin: 10px 0 0;
+    margin: 35px 0 0;
   }
-
+  .survey_mail_engine.mail-content-select [class*="col-"] {
+    width: 50%;
+    margin-bottom: 30px;
+}
   .left-sidebar {
     height: calc(100vh - 49px);
   }
