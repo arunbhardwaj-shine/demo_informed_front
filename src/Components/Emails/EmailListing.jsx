@@ -2035,7 +2035,7 @@ const EmailList = (props) => {
                                           draftNavigate(
                                             data.id,
                                             data.pdf_id,
-                                            "SelectHCP",
+                                            routeTypeSurvey ? "survey/email/select-hcp" :"SelectHCP",
                                             data.campaign,
                                             data.creator,
                                             data.discription,
