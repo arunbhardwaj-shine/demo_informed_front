@@ -1078,7 +1078,7 @@ const RDAnalytics = () => {
 
   const refresh = async () => {
     try {
-     setRefreshFlag(true);
+     
       setSortBy('site_number');
       setSortOrder('desc');
        let obj = {
@@ -1090,6 +1090,7 @@ const RDAnalytics = () => {
         initial:1
       }
       }else{
+      setRefreshFlag(true);
       obj={
         ...obj,
         "sync": 1,
