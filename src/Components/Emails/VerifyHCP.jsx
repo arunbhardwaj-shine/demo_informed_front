@@ -3147,7 +3147,7 @@ const VerifyHCP = (props) => {
                                     <div className="form-group">
                                       <label htmlFor="">Contact type</label>
                                       <DropdownButton
-                                        className="dropdown-basic-button split-button-dropup"
+                                        className="dropdown-basic-button edit-country-dropdown split-button-dropup"
                                         title={
                                           hpc[i].contact_type != "" &&
                                           hpc[i].contact_type != "undefined"
