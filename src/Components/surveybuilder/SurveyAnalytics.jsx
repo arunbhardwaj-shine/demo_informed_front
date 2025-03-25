@@ -572,14 +572,7 @@ const SurveyAnalytics = () => {
                                       <td>{item?.Creator}</td>
                                       {/* <td className="blue">{moment(item?.CreatedDate).utc()?.format('MMM DD.YYYY | h:mm A')}  </td> */}
                                       <td className="blue">
-                                        {moment(item?.CreatedDate)
-                                          .utc()
-                                          ?.format("MMM DD.YYYY")}
-                                        <span>
-                                          {moment(item?.CreatedDate)
-                                            .utc()
-                                            ?.format("h:mm A")}
-                                        </span>{" "}
+                                        { item?.createdDate} 
                                       </td>
                                       <td>
                                         <img
