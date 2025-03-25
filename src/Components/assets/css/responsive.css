@@ -1499,6 +1499,9 @@
     width: 160px;
     flex: 0 0 160px;
   }
+  .select-mail-template .form-group.col-md-5 .login-validation, .select-mail-template .form-group.col-md-7 .srv-validation-message {
+    padding-left: 170px;
+}
 
   .email-form .form-inline .form-group input[type="text"] {
     min-width: 280px;
@@ -3012,8 +3015,16 @@
   margin-left: 16px;
 }
 }
-
+@media only screen and (max-width: 1279px) {
+.select-mail-template .form-group.col-md-5 .login-validation, .select-mail-template .form-group.col-md-7 .srv-validation-message {
+  padding-left: 162px;
+}
+}
 @media only screen and (max-width: 1199px) {
+  .select-mail-template .form-group.col-md-5 .login-validation, .select-mail-template .form-group.col-md-7 .srv-validation-message {
+    padding-left: 0px;
+    flex: 0 0 100%;
+}
   .email-form .form-inline .form-group.template_builder_div .dropdown-toggle {
     padding: 10px 14px;
 }

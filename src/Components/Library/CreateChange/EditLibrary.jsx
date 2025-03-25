@@ -584,6 +584,16 @@ const getExistingVideos=async ()=>{
               : JSON.stringify(false)
           );
         }
+
+        if(localStorage.getItem('user_id') == 'iRbx2CVT2fddhkNa9mlcBQ=='){
+          formData.append(
+            "sync_onesource",
+            userInputs?.sync_onesource
+              ? JSON.stringify(userInputs?.sync_onesource)
+              : JSON.stringify(false)
+          );
+        }
+
         formData.append(
           "multiplePublisher",
           reseller?.length ? JSON.stringify(reseller) : ""
@@ -1974,7 +1984,7 @@ const getExistingVideos=async ()=>{
                         </>
                       ) : null}
 
-                      {userDetail?.user?.[0]?.octaLach == 1 && userDetail?.user?.[0]?.group_id == 3
+                      {(userDetail?.user?.[0]?.octaLach == 1 && userDetail?.user?.[0]?.group_id == 3) || (localStorage.getItem('user_id') == 'iRbx2CVT2fddhkNa9mlcBQ==')
                          ? (
                         <>
                           <div className="form-group">
@@ -2700,16 +2710,18 @@ const getExistingVideos=async ()=>{
                       </Col>
                     ) : null}
 
-                    {(ebookFile?.length &&
+                    {
+                    ((ebookFile?.length &&
                       userInputs.docintelFormat=="ebook") ||
                     (["ebook", "pdf", "pdfSpc"].includes(
                       userInputs.docintelFormat
                     ))||
-                    (ebookFile?.length &&userInputs.docintelFormat=="ebookVideo"&&chapter.some((element)=>element?.type=="pdf"))
-                     && (localStorage.getItem("user_id") ==
-                        "rjiGlqA9DXJVH7bDDTX0Lg==" || localStorage.getItem("user_id") ==
-                        "iSnEsKu5gB/DRlycxB6G4g==" || localStorage.getItem("user_id") ==
-                        isLikeRdAccount) ? (
+                    (ebookFile?.length &&userInputs.docintelFormat=="ebookVideo"&&chapter.some((element)=>element?.type=="pdf")))
+                    && (localStorage.getItem("user_id") ==
+                    "rjiGlqA9DXJVH7bDDTX0Lg==" || localStorage.getItem("user_id") ==
+                    "iSnEsKu5gB/DRlycxB6G4g==" || localStorage.getItem("user_id") ==
+                    "B7SHpAc XDXSH NXkN0rdQ==" || isLikeRdAccount)
+                    ? (
                       <>
                         <div className="form-group">
                           <label htmlFor="">Include video</label>

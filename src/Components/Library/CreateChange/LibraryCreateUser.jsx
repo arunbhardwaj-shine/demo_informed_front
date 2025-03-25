@@ -417,6 +417,15 @@ const LibraryCreateUser = () => {
           );
         }
 
+        if(localStorage.getItem('user_id') == 'iRbx2CVT2fddhkNa9mlcBQ=='){
+          formData.append(
+            "sync_onesource",
+            userInputs?.sync_onesource
+              ? JSON.stringify(userInputs?.sync_onesource)
+              : JSON.stringify(false)
+          );
+        }
+
         if (userDetail?.user?.[0]?.group_id == 3) {
           formData.append(
             "expDatetime",
@@ -1495,6 +1504,7 @@ const LibraryCreateUser = () => {
                     </li>
                     {(localStorage.getItem("user_id") ==
                       "iSnEsKu5gB/DRlycxB6G4g==" || localStorage.getItem("user_id") ==
+                      "B7SHpAc XDXSH NXkN0rdQ==" || localStorage.getItem("user_id") ==
                       isLikeRdAccount) && userInputs?.allowVideo ? (
                       <li className="">
                         <a href="">[Embedding Video]</a>
@@ -1826,8 +1836,8 @@ const LibraryCreateUser = () => {
                       </>
                     ) : null}
 
-                    {userDetail?.user?.[0]?.octaLach == 1 &&
-                      userDetail?.user?.[0]?.group_id == 3 ? (
+                    {(userDetail?.user?.[0]?.octaLach == 1 &&
+                      userDetail?.user?.[0]?.group_id == 3) || (localStorage.getItem('user_id') == 'iRbx2CVT2fddhkNa9mlcBQ==') ? (
                       <>
                         <div className="form-group">
                           <label htmlFor="synconesource"><img src={path_image + "library_move.svg"} /></label>
@@ -2505,7 +2515,8 @@ const LibraryCreateUser = () => {
                     (ebookFile?.length && userInputs.docintelFormat == "ebookVideo" && chapter.some((element) => element?.type == "pdf")))
                     && (localStorage.getItem("user_id") ==
                       "rjiGlqA9DXJVH7bDDTX0Lg==" || localStorage.getItem("user_id") ==
-                      "iSnEsKu5gB/DRlycxB6G4g==" || isLikeRdAccount) ? (
+                      "iSnEsKu5gB/DRlycxB6G4g==" || localStorage.getItem("user_id") ==
+                      "B7SHpAc XDXSH NXkN0rdQ==" || isLikeRdAccount) ? (
                     <>
                       <div className="form-group">
                         <label htmlFor="">Include video</label>

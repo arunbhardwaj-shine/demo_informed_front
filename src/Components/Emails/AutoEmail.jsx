@@ -443,7 +443,7 @@ const AutoEmail = (props) => {
         template_id: templateId,
         user_list: selected_ids,
         smartlist_id: "",
-        source_code: sourceCode,
+        source_code: editorRef?.current?.getContent() ? editorRef.current.getContent() : sourceCode,
       };
 
       axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
