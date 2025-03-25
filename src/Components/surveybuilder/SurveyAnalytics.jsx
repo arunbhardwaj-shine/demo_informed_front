@@ -569,8 +569,7 @@ const SurveyAnalytics = () => {
                                         
                                       </td>
                                       <td>{item?.Consent}</td>
-                                      <td>{item?.Creator}</td>
-                                      {/* <td className="blue">{moment(item?.CreatedDate).utc()?.format('MMM DD.YYYY | h:mm A')}  </td> */}
+                                      <td>{item?.Creator}</td> 
                                       <td className="blue">
                                         { item?.createdDate} 
                                       </td>

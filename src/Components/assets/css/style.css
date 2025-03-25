@@ -8409,11 +8409,11 @@ header.top-0~div .custom-change .invitee table#table-to-xls thead.sticky-header 
   font-size: 14px;
 }
 
-.modal #add_hcp_form .split-button-dropup.edit-country-dropdown>div:nth-child(3) div {
+.modal #add_hcp_form .split-button-dropup.edit-country-dropdown>div:nth-child(3) div, .modal-body .hcp-add-form form .form-group .dropdown.type-selected.edit-country-dropdown button {
   color: var(--light-blue);
 }
 
-.modal #add_hcp .split-button-dropup.edit-country-dropdown>div div[class*=-placeholder] {
+.modal #add_hcp .split-button-dropup.edit-country-dropdown>div div[class*=-placeholder], .modal-body .hcp-add-form form .form-group .dropdown.edit-country-dropdown button  {
   color: #97B6CF;
 }
 
