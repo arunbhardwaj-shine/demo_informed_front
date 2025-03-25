@@ -312,7 +312,6 @@ const RDAnalytics = () => {
     
       if (Object.keys(filterdata?.site_number)?.length == 0) {
         let body = {
-          
           user_id: createdBy
         }
         const response = await postData("https://webinar.docintel.app/lmn/api/distributes/filters_list", body)
@@ -1079,7 +1078,7 @@ const RDAnalytics = () => {
 
   const refresh = async () => {
     try {
-      setRefreshFlag(true);
+     setRefreshFlag(true);
       setSortBy('site_number');
       setSortOrder('desc');
        let obj = {
@@ -1099,9 +1098,11 @@ const RDAnalytics = () => {
       const response = await postData(ENDPOINT.INDIVIDUAL_TRAINING_COMPLETION_V2, obj);
       const hadData = response?.data?.data || [];
       const last=response?.data?.updated
-     setLastUpdated(last)
-      setIndividualCompletionTableData(hadData);
-      setIndividualCompletionTableDataBackup(hadData);
+        setLastUpdated(last)
+        if(syncData != 0){
+          setIndividualCompletionTableData(hadData);
+          setIndividualCompletionTableDataBackup(hadData);
+        }
       setSyncData(1)
       setRefreshFlag(false);
     } catch (err) {
