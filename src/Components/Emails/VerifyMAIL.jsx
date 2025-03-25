@@ -3,10 +3,10 @@ import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { Modal,Tab,Tabs,Col } from "react-bootstrap";
+import { Modal,Tab,Tabs,Col,Tooltip } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
- 
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import { loader } from "../../loader";
  
 import { popup_alert } from "../../popup_alert";
@@ -209,6 +209,19 @@ const VerifyMAIL = (props) => {
     event.target.classNameNameList.toggle("active");
     setTemplateId(selected);
   };
+
+  function LinkWithTooltip({ id, children, href, tooltip }) {
+    return (
+      <OverlayTrigger
+        overlay={<Tooltip id={id}>{tooltip}</Tooltip>}
+        placement="top"
+        delayShow={300}
+        delayHide={150}
+      >
+        <a href={href}>{children}</a>
+      </OverlayTrigger>
+    );
+}
 
   
 
@@ -1127,7 +1140,17 @@ const VerifyMAIL = (props) => {
                                             <td>{getSurveyData?.lastEmailSent}</td>
                                           </tr>
                                           <tr>
-                                            <th>Link  <img  title="This is the link you’ll include in the email—either the primary survey link or one of the subLinks." src={path_image + "info_circle_icon.svg"} alt="" /></th>
+                                            <th>Link
+                                              {" "}<LinkWithTooltip tooltip="This is the link you’ll include in the email—either the primary survey link or one of the subLinks.">
+                                                  <img
+                                                  src={
+                                                      path_image +
+                                                      "info_circle_icon.svg"
+                                                  }
+                                                  alt="Link"
+                                                  />
+                                              </LinkWithTooltip>
+                                            </th>
                                             <td> {getSurveyData?.linkType}</td>
                                           </tr>
                                         </tbody>

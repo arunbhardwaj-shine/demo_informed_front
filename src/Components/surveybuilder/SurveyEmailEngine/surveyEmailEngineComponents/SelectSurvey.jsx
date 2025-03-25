@@ -2,6 +2,8 @@ import { useState } from "react";
 import { format } from "date-fns";
 import Select from "react-select";
 import SublinkModal from "../Modals/SublinkModal";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import {  Tooltip } from "react-bootstrap";
 import { connect } from "react-redux";
 
 const SelectSurvey = ({ SendListData, setSendListData, handlePdfSelection, setCurrentSelectedSublink,selectedSurvey, selectedSublink,fromSurveyLanding ,SubSelected }) => {
@@ -29,10 +31,23 @@ const SelectSurvey = ({ SendListData, setSendListData, handlePdfSelection, setCu
     setCreateNewLink(true);
   };
 
+
+  function LinkWithTooltip({ id, children, href, tooltip }) {
+    return (
+      <OverlayTrigger
+        overlay={<Tooltip id={id}>{tooltip}</Tooltip>}
+        placement="top"
+        delayShow={300}
+        delayHide={150}
+      >
+        <a href={href}>{children}</a>
+      </OverlayTrigger>
+    );
+}
   
 
 const onSublinkChange = (surveyId, selectedOption) => {
-  console.log(SubSelected)
+ 
     const updatedSublinkId = selectedOption ? selectedOption.value : null;
     setRender(updatedSublinkId)
     setSelectedSublinkId((prevState) => {
@@ -64,7 +79,7 @@ const onSublinkChange = (surveyId, selectedOption) => {
             SendListData.length > 0 ? (
             SendListData.map((data, index) => {
               const sublinkOptions = [
-                { value: 0, label: "Primary link" },  // Ensure Primary link is always present
+                { value: 0, label: "Primary link" },
                 ...data.subLinkData.map((item) => ({
                   value: item.sublink_id,
                   label: item.identifier,
@@ -159,11 +174,16 @@ const onSublinkChange = (surveyId, selectedOption) => {
                     <div className="d-flex justify-content-between align-items-center">
                           <h6 className="tab-content-title">
                             Link 
+                            <LinkWithTooltip tooltip="This is the link you’ll include in the email—either the primary survey link or one of the subLinks.">
                             <img
-                            title="This is the link you’ll include in the email—either the primary survey link or one of the subLinks."
-                              src={path_image + "info_circle_icon.svg"}
-                              alt=""
+                            src={
+                                path_image +
+                                "info_circle_icon.svg"
+                            }
+                            alt="Link"
                             />
+                        </LinkWithTooltip>
+                            
                           </h6>
                           <div className="select-dropdown-wrapper">
                             <div className="select">

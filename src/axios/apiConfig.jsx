@@ -106,8 +106,9 @@ export const ENDPOINT = {
   EVENT_ID: `/auth/event-data`,
   SESSION_LIST: `/auth/session-listing`,
 
-  SITEREGISTER: "/site-registration",
-  SITEREGISTERSORT: "/site-registration-sort",
+  SITEREGISTER: "/v2/site-registration",
+  // SITEREGISTER: "/site-registration",
+  SITEREGISTERSORT: "/v2/site-registration-sort",
 
   IRT_COUNT_GRAPH: "/v2/find-irt-count",
   WEBINAR_QUESTION_LISTING: "/auth/webinar-question",
@@ -116,6 +117,8 @@ export const ENDPOINT = {
   // RD_SITE_ENGAGEMENT: "/rd_site_engagement",
   RD_SITE_ENGAGEMENT:"https://webinar.docintel.app/lmn/api/analytics/rd_site_engagement",
   SITE_REGISTRATION_LIST: "/site-registration-list",
+  SITE_REGISTRATION_LIST_V2: "v2/site-registration-list",
+
   INDIVIDUAL_TRAINING_COMPLETION: "/training-completion",
   INDIVIDUAL_TRAINING_COMPLETION_V2: "/v2/training-completion",
   TRAINING_COMPLETION_DROPDOWN: "/v2/training-completion-dropdown",

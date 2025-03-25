@@ -10140,7 +10140,8 @@ section.search-hcp.smart-list-view .header-btn-left {
 
 .page-title p {
   color: var(--light-blue);
-  font-size: 16px;
+  font-size: 12px;
+  padding: 5px;
 }
 
 .refresh-button {

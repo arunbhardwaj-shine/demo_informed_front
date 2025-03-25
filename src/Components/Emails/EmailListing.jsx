@@ -2156,7 +2156,7 @@ const EmailList = (props) => {
                                 )}
                               </div>
                             )}
-                            {deletestatus && (
+                            {(deletestatus && data?.status != 5) && (
                               <div className="dlt_btn">
                                 <button
                                   onClick={(e) =>
