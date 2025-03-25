@@ -2,7 +2,7 @@ import axios from 'axios';
 import { saveAs } from "file-saver";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Accordion,
   Button,
@@ -57,7 +57,7 @@ const RDAnalytics = () => {
   const [trainingAccordianShow, setTrainingAccordianShow] = useState();
   const [traingAccordianData, setTrainingAccordianData] = useState();
   const [trainingCertificate, setTrainingCertificate] = useState();
-
+  const [lastUpdated,setLastUpdated]=useState(null)
   const [siteCompletionTableData, setSiteCompletionTableData] = useState();
   const [mostPopularContentData, setMostPopularContentData] = useState([]);
   const [mostPopularContentPageData, setMostPopularContentPageData] = useState(
@@ -81,7 +81,7 @@ const RDAnalytics = () => {
   const [sortDirection, setSortDirection] = useState(0);
   const [isActive, setIsActive] = useState("");
   const [lastSortedPDFId, setLastSortedPDFId] = useState(null);
-
+  const [syncData,  setSyncData] = useState(0);
  
   const [filterdata, setFilterData] = useState({
     'training_status_code': [
@@ -285,6 +285,16 @@ const RDAnalytics = () => {
     }
   };
 
+
+  useEffect(()=>{
+     refresh()
+
+  },[])
+
+
+
+
+
   const individualCompletion = async () => {
     try {
       loader("show");
@@ -407,7 +417,10 @@ const RDAnalytics = () => {
         site_Completion: true,
       });
       if (!siteCompletionTableData) {
-        const result = await getDataRd(`${ENDPOINT.SITE_REGISTRATION_LIST}`);
+ 
+      //  const result = await getDataRd(`${ENDPOINT.SITE_REGISTRATION_LIST_V2}`);
+      const result = await postData(ENDPOINT.SITE_REGISTRATION_LIST_V2, { created_by: createdBy });
+         
         setSiteCompletionTableData(result?.data?.data);
 
         site_Completion?.current?.focus();
@@ -1062,19 +1075,34 @@ const RDAnalytics = () => {
 
  
 
+ 
+
   const refresh = async () => {
     try {
       setRefreshFlag(true);
       setSortBy('site_number');
       setSortOrder('desc');
-      let obj = {
-        "sync": 1,
+       let obj = {
         created_by: createdBy
       };
+      if(syncData == 0){
+      obj={
+        ...obj,
+        initial:1
+      }
+      }else{
+      obj={
+        ...obj,
+        "sync": 1,
+      }
+      }
       const response = await postData(ENDPOINT.INDIVIDUAL_TRAINING_COMPLETION_V2, obj);
       const hadData = response?.data?.data || [];
+      const last=response?.data?.updated
+     setLastUpdated(last)
       setIndividualCompletionTableData(hadData);
       setIndividualCompletionTableDataBackup(hadData);
+      setSyncData(1)
       setRefreshFlag(false);
     } catch (err) {
       console.log(err);
@@ -1147,8 +1175,23 @@ const RDAnalytics = () => {
                   {
                     location.pathname == '/LEX-210-analytics' ? "LEX-210" :localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" ?"Gena": "Trial Analytics"
                   }
-
                 </h2>
+              <div className="d-flex"> 
+
+             
+              <p className="d-flex align-items-center" style={{gap:"10px", paddingLeft:"20px"}}>
+                  {  <button className={refreshFlag ? "refresh-rotate" : "refresh"} title="Refresh" onClick={refresh} >
+                          <svg fill="#0066be" height="20px" width="20px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 383.748 383.748"><g><path d="M62.772,95.042C90.904,54.899,137.496,30,187.343,30c83.743,0,151.874,68.13,151.874,151.874h30
+                          C369.217,81.588,287.629,0,187.343,0c-35.038,0-69.061,9.989-98.391,28.888C70.368,40.862,54.245,56.032,41.221,73.593
+                          L2.081,34.641v113.365h113.91L62.772,95.042z"></path><path d="M381.667,235.742h-113.91l53.219,52.965c-28.132,40.142-74.724,65.042-124.571,65.042
+                          c-83.744,0-151.874-68.13-151.874-151.874h-30c0,100.286,81.588,181.874,181.874,181.874c35.038,0,69.062-9.989,98.391-28.888
+                          c18.584-11.975,34.707-27.145,47.731-44.706l39.139,38.952V235.742z"></path></g></svg>
+                      </button>}
+                    last_sync : {lastUpdated}
+                    {" "}
+                  </p>
+              </div>
+               
               </div>
               <Button onClick={allEngagement} title="Download Site Engagements" className="download">
                 <svg
@@ -1457,13 +1500,13 @@ const RDAnalytics = () => {
                               ></path>
                             </svg>
                           </Button>
-                          <button className={refreshFlag ? "refresh-rotate" : "refresh"} title="Refresh" onClick={refresh}>
+                          {/* <button className={refreshFlag ? "refresh-rotate" : "refresh"} title="Refresh" onClick={refresh}>
                               <svg fill="#0066be" height="20px" width="20px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 383.748 383.748"><g><path d="M62.772,95.042C90.904,54.899,137.496,30,187.343,30c83.743,0,151.874,68.13,151.874,151.874h30
                               C369.217,81.588,287.629,0,187.343,0c-35.038,0-69.061,9.989-98.391,28.888C70.368,40.862,54.245,56.032,41.221,73.593
                               L2.081,34.641v113.365h113.91L62.772,95.042z"></path><path d="M381.667,235.742h-113.91l53.219,52.965c-28.132,40.142-74.724,65.042-124.571,65.042
                               c-83.744,0-151.874-68.13-151.874-151.874h-30c0,100.286,81.588,181.874,181.874,181.874c35.038,0,69.062-9.989,98.391-28.888
                               c18.584-11.975,34.707-27.145,47.731-44.706l39.139,38.952V235.742z"></path></g></svg>
-                          </button>
+                          </button> */}
                           </>
                           : ""}
 
@@ -2351,13 +2394,13 @@ const RDAnalytics = () => {
                                                   <td
                                                     className={
                                                       data?.training_status_code ==
-                                                        "0"
+                                                        "2"
                                                         ? "complete"
                                                         : "not_yet"
                                                     }
                                                   >
                                                     {data?.training_status_code ==
-                                                      "0"
+                                                      "2"
                                                       ? "Completed"
                                                       : data?.training_status_code ==
                                                         "1"

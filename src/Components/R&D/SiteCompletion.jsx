@@ -18,6 +18,10 @@ const SiteCompletion = ({ siteCompletionfn,createdBy }) => {
     chart: {
       type: "column",
       height: 250,
+  scrollablePlotArea: {
+    minWidth: 800, // Chart width is larger than the container to allow scrolling
+    scrollPositionX: 1, // Start scrolled to the left
+  },
     },
     title: {
       text: "",
@@ -57,6 +61,59 @@ const SiteCompletion = ({ siteCompletionfn,createdBy }) => {
     },
     series: [],
   });
+
+
+  // const [columnOptions, setColumnOptions] = useState({
+  //   chart: {
+  //     type: "column",
+  //     height: 250,
+  //     scrollablePlotArea: {
+  //       minWidth: 800, // Set a width larger than the container
+  //       scrollPositionX: 1, // Start scrolled to the left
+  //     },
+  //   },
+  //   title: {
+  //     text: "",
+  //   },
+  //   xAxis: {
+  //     categories: [], // Add categories dynamically
+  //     title: {
+  //       text: "",
+  //     },
+  //   },
+  //   yAxis: {
+  //     min: 0,
+  //     title: {
+  //       text: "",
+  //     },
+  //   },
+  //   exporting: {
+  //     enabled: false,
+  //   },
+  //   tooltip: {
+  //     pointFormat:
+  //       '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.percentage:.0f}%)<br/>',
+  //     shared: true,
+  //   },
+  //   legend: {
+  //     verticalAlign: "bottom",
+  //     reversed: true,
+  //     symbolWidth: 20,
+  //     symbolHeight: 10,
+  //     symbolRadius: 0,
+  //   },
+  //   plotOptions: {
+  //     series: {
+  //       stacking: "normal",
+  //       pointWidth: 10, // Adjust column width
+  //     },
+  //   },
+  //   series: [], // Add series data dynamically
+  // });
+  
+  
+  
+
 
   useEffect(() => {
     initialFun();
