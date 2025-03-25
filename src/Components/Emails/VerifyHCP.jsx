@@ -38,6 +38,7 @@ const VerifyHCP = (props) => {
   const [siteNameAll, setSiteNameAll] = useState([]);
   const [role, setRole] = useState([]);
   const [irtRole, setIrtRole] = useState([]);
+  const [dropDownSelected, setDropDownSelected] = useState(false);
   
   const [irtInstitutionType, setIrtInstitutionType] = useState([]);
   const [nonIrtInstitutionType, setNonIrtInstitutionType] = useState([]);
@@ -610,6 +611,7 @@ const VerifyHCP = (props) => {
   };
 
   const onContactTypeChange = (e, i) => {
+    setDropDownSelected(true)
     const value = e;
     const list = [...hpc];
     const name = hpc[i].contact_type;
@@ -3147,7 +3149,7 @@ const VerifyHCP = (props) => {
                                     <div className="form-group">
                                       <label htmlFor="">Contact type</label>
                                       <DropdownButton
-                                        className="dropdown-basic-button edit-country-dropdown split-button-dropup"
+                                        className={`dropdown-basic-button edit-country-dropdown split-button-dropup ${dropDownSelected ? "type-selected": ""}`}
                                         title={
                                           hpc[i].contact_type != "" &&
                                           hpc[i].contact_type != "undefined"
