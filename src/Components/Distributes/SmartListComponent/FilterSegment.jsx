@@ -395,7 +395,8 @@ const FilterSegment = (props) => {
   };
 
   const closeClicked = () => {
-    Navigate("/SmartList");
+     const routeType = type ? "/survey/smartlist" : "/SmartList"
+    Navigate(routeType);
   };
 
   const handleOnContactTypeChange = (contact_type) => {

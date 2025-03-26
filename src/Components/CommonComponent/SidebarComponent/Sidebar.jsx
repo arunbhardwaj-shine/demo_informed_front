@@ -251,7 +251,7 @@ const Sidebar = () => {
 		  location.pathname === '/survey/email/verify-mail' ||
 		  location.pathname === '/survey/email/create-email'
 
-  const isActiveSurveySmartList = location.pathname === '/survey/smartlist' || location.pathname === '/survey/ViewSmartList' || location.pathname === '/survey/smartlist/UploadExcel' || location.pathname ===  '/survey/smartlist/createlist' || location.pathname ===  '/survey/smart-list-filter'
+  const isActiveSurveySmartList = location.pathname === '/survey/smartlist' || location.pathname === '/survey/ViewSmartList' || location.pathname === '/survey/smartlist/UploadExcel' || location.pathname ===  '/survey/smartlist/createlist' || location.pathname ===  '/survey/smart-list-filter' || location.pathname ===  '/survey/EditList'
 
   const isActiveSurveyAutomail = location.pathname === '/survey/AutoEmail'
   const isActiveSurveyTemplate= location.pathname === '/survey/TemplateBuilder';
@@ -362,6 +362,7 @@ const Sidebar = () => {
             window.location.pathname === '/survey/AutoEmail' ||
             window.location.pathname === '/survey/TemplateBuilder' ||
             window.location.pathname === '/survey/email/get-details' ||
+            window.location.pathname === '/survey/EditList' ||
             window.location.pathname === '/survey/email/analytics' ||
             window.location.pathname === '/webinar/email/selectSmartListUsers') && (
               <button className="toggle_btn" onClick={() => toggleClassToBody()}>
@@ -1364,6 +1365,7 @@ const Sidebar = () => {
                   window.location.pathname == "/survey/email/get-details" ||
                   window.location.pathname == "/survey/TemplateBuilder" ||
                   window.location.pathname == "/survey/ViewSmartList" ||
+                  window.location.pathname == "/survey/EditList" ||
                   window.location.pathname == "/survey/smartlist/createlist" ||
                   window.location.pathname == "/survey/smartlist/UploadExcel" || 
                   window.location.pathname == "/survey/smart-list-filter" || 
@@ -1491,6 +1493,7 @@ const Sidebar = () => {
                           location.pathname == "/survey/email/analytics" ||
                           location.pathname == "/survey/email/get-details" ||
                           window.location.pathname == "/survey/ViewSmartList" ||
+                          window.location.pathname == "/survey/EditList" ||
                           window.location.pathname == "/survey/smartlist/createlist" ||
                           window.location.pathname == "/survey/smart-list-filter" ||
                           window.location.pathname == "/survey/smartlist/UploadExcel" ||
