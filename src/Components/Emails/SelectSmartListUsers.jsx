@@ -42,7 +42,6 @@ const SelectSmartListUsers = (props) => {
   const location = useLocation();
   const [readers, setReaders] = useState([]);
   const [campaign_id_st, setCampaign_id] = useState();
-
   const [PdfSelected, setPdfSelected] = useState(0);
   const [showLessInfo, setShowLessInfo] = useState(true);
   const [apiStatus, setApiStatus] = useState(false);
@@ -3637,7 +3636,7 @@ const SelectSmartListUsers = (props) => {
                                     <div className="form-group">
                                       <label htmlFor="">Contact type</label>
                                       <DropdownButton
-                                        className="dropdown-basic-button split-button-dropup"
+                                         className={`dropdown-basic-button edit-country-dropdown split-button-dropup ${(hpc[i].contact_type != "" && hpc[i].contact_type != "undefined")? "type-selected": ""}`}
                                         title={
                                           hpc[i].contact_type != "" &&
                                           hpc[i].contact_type != "undefined"

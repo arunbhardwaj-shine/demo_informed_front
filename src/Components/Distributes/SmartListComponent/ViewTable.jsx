@@ -31,7 +31,6 @@ const ViewTable = (props) => {
   const [instituions, setInstituions] = useState([]);
   const [nonIrtInstitutionType, setNonIrtInstitutionType] = useState([])
   const [irtInstitutionType, setIrtInstitutionType] = useState([])
-
   const [editable, setEditable] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
   const [addFileReRender, setAddFileReRender] = useState(0);
@@ -1620,7 +1619,6 @@ const ViewTable = (props) => {
               combine_data_manual = [...new_data, ...old_data];
 
               setEditList(old_data);
-
               setIsOpen(false);
               setShowSaveReader(true);
               setIsOpenAdd(false);
@@ -2458,7 +2456,6 @@ const ViewTable = (props) => {
               onClick={() => {
                 deleteReader(profile_user_id);
                 setIsOpen(false);
-
                 setOpenDeleteConfirmation(true);
               }}
             >
@@ -2645,7 +2642,7 @@ const ViewTable = (props) => {
                                   <div className="form-group">
                                     <label for="">Contact type</label>
                                     <DropdownButton
-                                      className="dropdown-basic-button split-button-dropup"
+                                      className={`dropdown-basic-button edit-country-dropdown split-button-dropup ${(hpc[i].contact_type != "" && hpc[i].contact_type != "undefined")? "type-selected": ""}`}
                                       title={
                                         hpc[i].contact_type != "" &&
                                           hpc[i].contact_type != "undefined"

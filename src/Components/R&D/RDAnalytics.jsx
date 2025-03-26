@@ -49,8 +49,7 @@ const RDAnalytics = () => {
   });
  
   const [activeAccordionKey, setActiveAccordionKey] = useState(null);
-  const [indidualCompletionTableData, setIndividualCompletionTableData] =
-    useState();
+  const [indidualCompletionTableData, setIndividualCompletionTableData] = useState();
   const [indidualCompletionTableDataBackup, setIndividualCompletionTableDataBackup] = useState();
   const [individualCompletionShow, setIndividualCompletionShow] = useState();
   const [trainingDropdownData, setTrainingCompletionDropdownData] = useState();
@@ -1250,9 +1249,6 @@ const RDAnalytics = () => {
                   <div className="rd-section-title">
                     <h4>IRT Mandatory Training</h4>
                   </div>
-
-
-
                   <div
                     className="rd-training-block"
                     ref={individual_Completion}
@@ -1268,11 +1264,7 @@ const RDAnalytics = () => {
                       </div>
                       <div className="rd-training-block-right d-flex">
                         <div className="filter_btn_div d-flex align-items-center">
-
-
-                           
-
-                          <div className={`${showfilter ? "filter-by nav-item dropdown highlight" : "filter-by nav-item dropdown"}`} style={{ margin: '0' }}>
+                       <div className={`${showfilter ? "filter-by nav-item dropdown highlight" : "filter-by nav-item dropdown"}`} style={{ margin: '0' }}>
                             <button
                               ref={buttonRef}
                               className={
