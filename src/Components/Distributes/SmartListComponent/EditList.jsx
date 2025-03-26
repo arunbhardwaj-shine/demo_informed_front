@@ -4,7 +4,9 @@ import queryString from "query-string";
 import axios from "axios";
 import { loader } from "../../../loader";
 
-const EditList = () => {
+const EditList = (props) => {
+
+  const type = props.type == "survey" ? 1 : 0
 
   const [filterList, setFilterList] = useState([]);
   const [selectedFilter, setSelectedFilter] = useState([]);
@@ -84,6 +86,7 @@ const EditList = () => {
               listId = {queryParams.listId}
               action="edit"
               allIds = {allUserIds}
+              type={type}
               />
             }
         </div>
