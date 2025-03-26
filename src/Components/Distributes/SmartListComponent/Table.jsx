@@ -2850,7 +2850,7 @@ const Table = (props, ref) => {
                                     <div className="form-group">
                                       <label for="">Contact type</label>
                                       <DropdownButton
-                                        className="dropdown-basic-button split-button-dropup"
+                                         className={`dropdown-basic-button edit-country-dropdown split-button-dropup ${(hpc[i].contact_type != "" && hpc[i].contact_type != "undefined")? "type-selected": ""}`}
                                         title={
                                           hpc[i].contact_type != "" &&
                                             hpc[i].contact_type != "undefined"
@@ -3466,7 +3466,7 @@ const Table = (props, ref) => {
                                   <div className="form-group">
                                     <label htmlFor="">Contact type</label>
                                     <DropdownButton
-                                      className="dropdown-basic-button split-button-dropup"
+                                       className={`dropdown-basic-button edit-country-dropdown split-button-dropup ${(hpc[i].contact_type != "" && hpc[i].contact_type != "undefined")? "type-selected": ""}`}
                                       title={
                                         hpc[i].contact_type != "" &&
                                           hpc[i].contact_type != "undefined"
