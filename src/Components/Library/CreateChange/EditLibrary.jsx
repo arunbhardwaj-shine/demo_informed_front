@@ -2389,7 +2389,6 @@ const getExistingVideos=async ()=>{
                                     <div className="upload-file-box">
                                       <div className="box">
                                         
-                                        
                                         {
                                           val?.type == 'video' ? 
                                           <>
@@ -2453,7 +2452,7 @@ const getExistingVideos=async ()=>{
                                             }
                                           </>
                                           : 
-                                            val?.type == 'pdf' ? 
+                                           
                                             <>
                                               <input
                                                 type="file"
@@ -2483,7 +2482,7 @@ const getExistingVideos=async ()=>{
                                                 )}
                                               </p>
                                             </>
-                                          : null
+                                         
                                         }
                                       </div>
 
