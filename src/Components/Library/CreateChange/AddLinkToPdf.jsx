@@ -1562,7 +1562,7 @@ const AddLinkToPdf = () => {
                                 className="form-control input-xs"
                                 type="text"
                                 value={inputUrl}
-                                readOnly
+                              
                                 onChange={handleChange}
                               />
                               {selectedError?.fileError ? (

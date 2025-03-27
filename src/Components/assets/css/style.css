@@ -10375,6 +10375,10 @@ section.search-hcp.smart-list-view .header-btn-left {
   background: rgba(255, 255, 0, 0.2);
 }
 
+.linkAnnotation a[href*="https"],.linkAnnotation a[href*="http"]  {
+  background: rgba(255, 255, 0, 0.2);
+}
+
 .upload-file #download-qr .modal-body {
   padding-bottom: 7px;
 }
