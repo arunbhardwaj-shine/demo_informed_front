@@ -320,7 +320,6 @@ const Invitees = () => {
         responseType: "blob",
       });
 
-      // console.log("Response:", res);
       let eventName = localStorage.getItem('EventIdContext')
       if (eventName) {
         eventName = JSON.parse(eventName)
