@@ -290,7 +290,7 @@ const Header = () => {
                       window.location.pathname == "/analytics-events" ||
                       window.location.pathname ==
                       "/octalatch-deliveryregistration" ||
-                      window.location.pathname == "/LEX-210-analytics" ||
+                      window.location.pathname == "/Trial-analytics" ||
                       window.location.pathname == "/trial-analytics" ||
                       window.location.pathname == "/feedback" ||
                       window.location.pathname == "/content-analytics" || window.location.pathname == "/survey/survey-data"
@@ -319,7 +319,7 @@ const Header = () => {
                             ? "/octalatch-totalhcp"
                             : localStorage.getItem("user_id") ==
                               "56Ek4feL/1A8mZgIKQWEqg=="
-                              ? "/LEX-210-analytics"
+                              ? "/Trial-analytics"
                               :
                               localStorage.getItem("user_id") ==
                                 "MXl8m36VZFYXpgFVz3Pg0g=="

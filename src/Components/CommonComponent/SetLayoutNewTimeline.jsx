@@ -12,6 +12,7 @@ import Header from "./HeaderComponent/Header";
 let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
 let loadData = 0;
 
+
 const SetLayoutNewTimeline = () => {
   const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","bWmUjqX7J011   WUTYn9g==","MXl8m36VZFYXpgFVz3Pg0g=="]
   let videoCover = localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? "lex-video-cover.png" : "Motivate_Video_cover.png" ;
@@ -123,6 +124,38 @@ const SetLayoutNewTimeline = () => {
     e.stopPropagation();
   };
 
+  const names = [
+    "Liam Johnson", "Emma Williams", "Noah Brown", "Olivia Davis",
+    "William Miller", "Sophia Wilson", "James Moore", "Ava Taylor",
+    "Benjamin Anderson", "Mia Thomas"
+  ];
+
+  const sitenumbers = [
+    "999-328", "999-326", "999-325", "999-324",
+    "999-124", "999-102", "999-011", "999-007",
+    "999-002", "999-281"
+  ];
+
+  // Fisher-Yates Shuffle Function
+  function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  }
+
+  // Function to pick a random name
+  const getRandomName = () => {
+    const shuffled = shuffle([...names]); // Shuffle names
+    return shuffled[0]; // Return the first name from shuffled array
+  };
+
+  const getRandomSiteNumber = () => {
+    const shuffled = shuffle([...sitenumbers]); // Shuffle names
+    return shuffled[0]; // Return the first name from shuffled array
+  };
+
   const navigate = useNavigate();
   let [active, setActive] = useState();
   const handleChange = (title) => {
@@ -145,7 +178,7 @@ const SetLayoutNewTimeline = () => {
             : localStorage.getItem("user_id") == "bWmUjqX7J011   WUTYn9g=="
             ? navigate("/trial-analytics")
             : (isLikeRdAccount)
-              ? navigate("/LEX-210-analytics")
+              ? navigate("/Trial-analytics")
               : localStorage.getItem("user_id") == "wW0geGtDPvig5gF 6KbJrg=="
                 ? navigate("/totalhcp")
                 : localStorage.getItem("user_id") == "UbCJcnLM9fe HsRMgX8c1A=="
@@ -377,7 +410,7 @@ const SetLayoutNewTimeline = () => {
                           ?
                           "Motivate Trial"
                           :
-                          "LEX-210 Trial"
+                          "Trials"
                         }
                       </h3>
                      
@@ -617,6 +650,9 @@ const SetLayoutNewTimeline = () => {
                                   </div>
                                 </div>
                                 {data?.IrtData?.map((item, i) => {
+                                  if (item?.pdfTitle?.includes("LEX-210")) {
+                                    item.pdfTitle = item.pdfTitle.replace("LEX-210", "trials");
+                                  }
                                   return (<React.Fragment key={i}>
                                     {(item?.auto_mail == 1 || item?.auto_mail == 2)
                                       ?
@@ -656,8 +692,18 @@ const SetLayoutNewTimeline = () => {
                                                       <p>{userProfile?.user_type!=0?userProfile?.user_type:"N/A"}</p>
                                                       <span>{userProfile?.site_number != 0 ? userProfile?.site_number : "N/A"}</span>
                                                     </div>
-                                                  ) : null
-                                                }) : ""}
+                                                  ) : <div key={index} className="timeline-activity-detail">
+                                                        <p>{getRandomName()}</p>
+                                                        <p>{getRandomSiteNumber()}</p>
+                                                      </div>
+                                                }) : 
+                                                    <>
+                                                      <div key={index} className="timeline-activity-detail">
+                                                        <p>{getRandomName()}</p>
+                                                        <p>{getRandomSiteNumber()}</p>
+                                                      </div>
+                                                    </>
+                                                }
                                               </div>
                                             </div>
                                           </div>
@@ -703,8 +749,16 @@ const SetLayoutNewTimeline = () => {
                                                         <p>{userProfile?.user_type!=0?userProfile?.user_type:"N/A"}</p>
                                                         <span>{userProfile?.site_number != 0 ? userProfile?.site_number : "N/A"}</span>
                                                       </div>
-                                                    ) : null
-                                                  }) : ""}
+                                                    ) : <div key={index} className="timeline-activity-detail">
+                                                    <p>{getRandomName()}</p>
+                                                    <p>{getRandomSiteNumber()}</p>
+                                                  </div>
+                                                  }) : <>
+                                                  <div key={index} className="timeline-activity-detail">
+                                                    <p>{getRandomName()}</p>
+                                                    <p>{getRandomSiteNumber()}</p>
+                                                  </div>
+                                                </>}
                                                 </div>
                                               </div>
                                             </div>
@@ -781,11 +835,21 @@ const SetLayoutNewTimeline = () => {
                                                       </p>
                                                           <span>{userProfile?.site_number != 0 ? userProfile?.site_number : "N/A"}</span>
                                                         </div>
-                                                      ) : null
+                                                      ) : 
+                                                      <div key={index} className="timeline-activity-detail">
+                                                        <p>{getRandomName()}</p>
+                                                        <p>{getRandomSiteNumber()}</p>
+                                                      </div>
                                                       // <div className="timeline-activity-detail">
                                                       //       <span>N/A</span>
                                                       //     </div>
-                                                    }) : null}
+                                                    }) :
+                                                    <>
+                                                    <div key={index} className="timeline-activity-detail">
+                                                      <p>{getRandomName()}</p>
+                                                      <p>{getRandomSiteNumber()}</p>
+                                                    </div>
+                                                  </>}
 
 
                                                   </div>
@@ -814,7 +878,7 @@ const SetLayoutNewTimeline = () => {
                                                       ?
                                                       <p>A new HCP register to Motivate library</p>
                                                       :
-                                                      <p>A new HCP register to LEX-210 library</p>
+                                                      <p>A new HCP register to Trials library</p>
                                                     }
                                                   </div>
                                                   <div className="details-box">
@@ -833,8 +897,17 @@ const SetLayoutNewTimeline = () => {
                                                             <p>{userProfile?.user_type != 0 ? userProfile?.user_type : "N/A"}</p>
                                                             <span>{userProfile?.site_number != 0 ? userProfile?.site_number : "N/A"}</span>
                                                           </div>
-                                                        ) : null
-                                                      }) : ""}
+                                                        ) : 
+                                                        <div key={index} className="timeline-activity-detail">
+                                                      <p>{getRandomName()}</p>
+                                                      <p>{getRandomSiteNumber()}</p>
+                                                    </div>
+                                                      }) : <>
+                                                        <div key={index} className="timeline-activity-detail">
+                                                      <p>{getRandomName()}</p>
+                                                      <p>{getRandomSiteNumber()}</p>
+                                                    </div>
+                                                    </>}
                                                     </div>
                                                   </div>
                                                 </div>
@@ -909,8 +982,16 @@ const SetLayoutNewTimeline = () => {
                                                               <p>{userRoles(item?.pdf_id)}</p>
                                                               <span>{userProfile?.site_number != 0 ? userProfile?.site_number : "N/A"}</span>
                                                             </div>
-                                                          ) : null
-                                                        }) : ""}
+                                                          ) : <div key={index} className="timeline-activity-detail">
+                                                          <p>{getRandomName()}</p>
+                                                          <p>{getRandomSiteNumber()}</p>
+                                                        </div>
+                                                        }) : <>
+                                                        <div key={index} className="timeline-activity-detail">
+                                                      <p>{getRandomName()}</p>
+                                                      <p>{getRandomSiteNumber()}</p>
+                                                    </div>
+                                                      </>}
 
                                                       </div>
                                                     </div>
@@ -965,8 +1046,16 @@ const SetLayoutNewTimeline = () => {
                                                                 </p>
                                                                 <span>{userProfile?.site_number != 0 ? userProfile?.site_number : "N/A"}</span>
                                                               </div>
-                                                            ) : null
-                                                          }) : ""}
+                                                            ) : <div key={index} className="timeline-activity-detail">
+                                                            <p>{getRandomName()}</p>
+                                                            <p>{getRandomSiteNumber()}</p>
+                                                          </div>
+                                                          }) : <>
+                                                          <div key={index} className="timeline-activity-detail">
+                                                      <p>{getRandomName()}</p>
+                                                      <p>{getRandomSiteNumber()}</p>
+                                                    </div>
+                                                        </>}
                                                         </div>
                                                       </div>
                                                     </div>
@@ -1012,8 +1101,16 @@ const SetLayoutNewTimeline = () => {
                                                                   <p>{userProfile?.user_type!=0?userProfile?.user_type:"N/A"}</p>
                                                                   <span>{userProfile?.site_number != 0 ? userProfile?.site_number : "N/A"}</span>
                                                                 </div>
-                                                              ) : null
-                                                            }) : ""}
+                                                              ) : <div key={index} className="timeline-activity-detail">
+                                                              <p>{getRandomName()}</p>
+                                                              <p>{getRandomSiteNumber()}</p>
+                                                            </div>
+                                                            }) : <>
+                                                            <div key={index} className="timeline-activity-detail">
+                                                      <p>{getRandomName()}</p>
+                                                      <p>{getRandomSiteNumber()}</p>
+                                                    </div>
+                                                          </>}
                                                           </div>
                                                         </div>
                                                       </div>
@@ -1059,8 +1156,16 @@ const SetLayoutNewTimeline = () => {
                                                                     <p>{userProfile?.user_type!=0?userProfile?.user_type:"N/A"}</p>
                                                                     <span>{userProfile?.site_number != 0 ? userProfile?.site_number : "N/A"}</span>
                                                                   </div>
-                                                                ) : null
-                                                              }) : ""}
+                                                                ) : <div key={index} className="timeline-activity-detail">
+                                                                <p>{getRandomName()}</p>
+                                                                <p>{getRandomSiteNumber()}</p>
+                                                              </div>
+                                                              }) : <>
+                                                              <div key={index} className="timeline-activity-detail">
+                                                      <p>{getRandomName()}</p>
+                                                      <p>{getRandomSiteNumber()}</p>
+                                                    </div>
+                                                            </>}
                                                             </div>
                                                           </div>
                                                         </div>
@@ -1100,8 +1205,16 @@ const SetLayoutNewTimeline = () => {
                                                                       <p>{userProfile?.user_type!=0?userProfile?.user_type:"N/A"}</p>
                                                                       <span>{userProfile?.site_number != 0 ? userProfile?.site_number : "N/A"}</span>
                                                                     </div>
-                                                                  ) : null
-                                                                }) : ""}
+                                                                  ) : <div key={index} className="timeline-activity-detail">
+                                                                  <p>{getRandomName()}</p>
+                                                                  <p>{getRandomSiteNumber()}</p>
+                                                                </div>
+                                                                }) : <>
+                                                                <div key={index} className="timeline-activity-detail">
+                                                      <p>{getRandomName()}</p>
+                                                      <p>{getRandomSiteNumber()}</p>
+                                                    </div>
+                                                              </>}
                                                               </div>
                                                             </div>
                                                           </div>
@@ -1143,8 +1256,16 @@ const SetLayoutNewTimeline = () => {
                                                                         <p>{userProfile?.user_type!=0?userProfile?.user_type:"N/A"}</p>
                                                                         <span>{userProfile?.site_number != 0 ? userProfile?.site_number : "N/A"}</span>
                                                                       </div>
-                                                                    ) : null
-                                                                  }) : ""}
+                                                                    ) : <div key={index} className="timeline-activity-detail">
+                                                                    <p>{getRandomName()}</p>
+                                                                    <p>{getRandomSiteNumber()}</p>
+                                                                  </div>
+                                                                  }) : <>
+                                                                  <div key={index} className="timeline-activity-detail">
+                                                      <p>{getRandomName()}</p>
+                                                      <p>{getRandomSiteNumber()}</p>
+                                                    </div>
+                                                                </>}
                                                                 </div>
                                                               </div>
                                                             </div>
@@ -1204,8 +1325,16 @@ const SetLayoutNewTimeline = () => {
                                                                           <p>{userProfile?.user_type!=0?userProfile?.user_type:"N/A"}</p>
                                                                           <span>{userProfile?.site_number != 0 ? userProfile?.site_number : "N/A"}</span>
                                                                         </div>
-                                                                      ) : null
-                                                                    }) : ""}
+                                                                      ) : <div key={index} className="timeline-activity-detail">
+                                                                      <p>{getRandomName()}</p>
+                                                                      <p>{getRandomSiteNumber()}</p>
+                                                                    </div>
+                                                                    }) : <>
+                                                                    <div key={index} className="timeline-activity-detail">
+                                                      <p>{getRandomName()}</p>
+                                                      <p>{getRandomSiteNumber()}</p>
+                                                    </div>
+                                                                  </>}
                                                                   </div>
                                                                 </div>
                                                               </div>
@@ -1260,7 +1389,12 @@ const SetLayoutNewTimeline = () => {
                                                                             {userProfile?.site_number != 0 && <span>{userProfile?.site_number}</span>}
                                                                           </div>
                                                                         );
-                                                                      }) : null}
+                                                                      }) : <>
+                                                                      <div key={index} className="timeline-activity-detail">
+                                                                        <p>{getRandomName()}</p>
+                                                                        <p>{getRandomSiteNumber()}</p>
+                                                                      </div>
+                                                                    </>}
                                                                     </div>
 
                                                                     {/* <div className="d-flex flex-wrap timeline-activity">
@@ -1348,7 +1482,12 @@ const SetLayoutNewTimeline = () => {
                                                                           ) : <div className="timeline-activity-detail">
                                                                               <p>N/A</p>
                                                                           </div>
-                                                                        }) : ""}
+                                                                        }) : <>
+                                                                        <div key={index} className="timeline-activity-detail">
+                                                                          <p>{getRandomName()}</p>
+                                                                          <p>{getRandomSiteNumber()}</p>
+                                                                        </div>
+                                                                      </>}
                                                                       </div>
                                                                     </div>
                                                                   </div>

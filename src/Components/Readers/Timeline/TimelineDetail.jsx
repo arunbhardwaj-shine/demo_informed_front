@@ -642,7 +642,7 @@ const TimelineDetail = (props) => {
                                        "Gena Trial":
                                        localStorage.getItem("user_id") == "bWmUjqX7J011   WUTYn9g==" ?
                                        "Motivate Trial":
-                                        "LEX-210 Trial"}</h3>
+                                        "Trial"}</h3>
                                     <p>
                                       {timeLineData?.timeline[
                                         Object.keys(timeLineData?.timeline)[0]
@@ -1326,7 +1326,7 @@ const TimelineDetail = (props) => {
                                                             {
                                                               localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg=='
                                                               ?
-                                                              `A new HCP register to LEX-210 library`
+                                                              `A new HCP register to Trials library`
                                                               :
                                                               `A new HCP register to library`
                                                             }

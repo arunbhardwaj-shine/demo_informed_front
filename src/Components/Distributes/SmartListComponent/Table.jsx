@@ -21,7 +21,7 @@ import EditContactType from "../../CommonComponent/EditContactType";
 import Select, { createFilter } from "react-select";
 const Table = (props, ref) => {
  
-  const type= props?.type === "survey" ? "survey" : 0;
+  const type= (props?.type == 1 || props?.type == "survey")  ? "survey" : 0;
 
 
   const accountMapping={"56Ek4feL/1A8mZgIKQWEqg==":2147501188,"bWmUjqX7J011   WUTYn9g==":298217,"MXl8m36VZFYXpgFVz3Pg0g==":2147537506}
@@ -904,7 +904,7 @@ const Table = (props, ref) => {
             var x = localStorage.getItem("sd_i");
             if (x) {
               localStorage.removeItem("sd_i");
-              const RouteNameredirect = type === "survey" ? "/survey/email/smart-list" : "/SelectSmartList";
+              const RouteNameredirect = type =="survey" ? "/survey/email/smart-list" : "/SelectSmartList";
               path = RouteNameredirect;
             } else {
               path = RouteName;
@@ -1860,7 +1860,7 @@ const Table = (props, ref) => {
               <div className="col-12 col-md-1">
                 <div className="header-btn-left">
                   <button className="btn btn-primary btn-bordered back">
-                    <Link to={type === "survey" ? "/survey/smartlist/createlist" : "/CreateSmartList"}>Back</Link>
+                    <Link to={type == "survey" ? "/survey/smartlist/createlist" : "/CreateSmartList"}>Back</Link>
                   </button>
                 </div>
               </div>
@@ -1877,7 +1877,7 @@ const Table = (props, ref) => {
               <div className="col-12 col-md-3">
                 <div className="header-btn">
                   <button className="btn btn-primary btn-bordered move-draft">
-                    <Link to={{ pathname: type === "survey" ? "/survey/smartlist/createlist" : "/CreateSmartList" }}>Cancel</Link>
+                    <Link to={{ pathname: type == "survey" ? "/survey/smartlist/createlist" : "/CreateSmartList" }}>Cancel</Link>
                   </button>
                   <button
                     className="btn btn-primary btn-filled create"

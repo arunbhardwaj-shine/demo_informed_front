@@ -267,7 +267,7 @@ const onSublinkChange = (surveyId, selectedOption) => {
 
                             {selectedSublinkId[data.survey_id] ? (
                                     <a 
-                                      href={`https://survey.docintel.app/survey?Utmde=${
+                                      href={`https://survey.docintel.app/survey_demo?Utmde=${
                                         data.subLinkData.find(item => item.sublink_id === selectedSublinkId[data.survey_id])?.unique_code  
                                       }`} 
                                       target="_blank"
@@ -279,7 +279,7 @@ const onSublinkChange = (surveyId, selectedOption) => {
                                     </a>
                                   ) : (
                                     <a 
-                                      href={`https://survey.docintel.app/survey?Utmde=${data.unique_code}`}
+                                      href={`https://survey.docintel.app/survey_demo?Utmde=${data.unique_code}`}
                                       target="_blank"
                                       rel="noopener noreferrer"
                                     >
@@ -290,7 +290,7 @@ const onSublinkChange = (surveyId, selectedOption) => {
                                   )}
 
                               
-                              {/* <a href={`https://survey.docintel.app/survey?Utmde=${data?.unique_code}`} target="_blank">
+                              {/* <a href={`https://survey.docintel.app/survey_demo?Utmde=${data?.unique_code}`} target="_blank">
                                 <button className="btn btn-primary btn-filled">
                                   Preview
                                 </button>

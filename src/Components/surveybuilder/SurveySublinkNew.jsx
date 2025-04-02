@@ -814,7 +814,7 @@ const SurveySublink = () => {
 
                                                   <div className="tab-content-links">
                                                     <a>
-                                                      https://survey.docintel.app/survey?Utmde=
+                                                      https://survey.docintel.app/survey_demo?Utmde=
                                                       {item.unique_code}
                                                     </a>
                                                     {item?.is_draft ? (
@@ -822,7 +822,7 @@ const SurveySublink = () => {
                                                         className="copy-content"
                                                         onClick={() =>
                                                           copyHandler(
-                                                            `https://survey.docintel.app/survey?Utmde=${item.unique_code}`
+                                                            `https://survey.docintel.app/survey_demo?Utmde=${item.unique_code}`
                                                           )
                                                         }
                                                       >
@@ -852,7 +852,7 @@ const SurveySublink = () => {
                                                         onClick={() => {
                                                           setQr({
                                                             ...qrState,
-                                                            value: `https://survey.docintel.app/survey?Utmde=${item.unique_code}&dl=QR`,
+                                                            value: `https://survey.docintel.app/survey_demo?Utmde=${item.unique_code}&dl=QR`,
                                                           });
                                                           setTimeout(
                                                             function () {
@@ -1193,7 +1193,7 @@ const SurveySublink = () => {
                                                         }
                                                         onClick={(e) => {
                                                           window.open(
-                                                            `https://survey.docintel.app/survey?Utmde=${item.unique_code}`,
+                                                            `https://survey.docintel.app/survey_demo?Utmde=${item.unique_code}`,
                                                             "_blank"
                                                           );
                                                         }}
@@ -1335,7 +1335,7 @@ const SurveySublink = () => {
 
                                                                 <div className="tab-content-links">
                                                                   <a>
-                                                                    https://survey.docintel.app/survey?Utmde=
+                                                                    https://survey.docintel.app/survey_demo?Utmde=
                                                                     {
                                                                       subLink.unique_code
                                                                     }
@@ -1344,7 +1344,7 @@ const SurveySublink = () => {
                                                                     className="copy-content"
                                                                     onClick={() =>
                                                                       copyHandler(
-                                                                        `https://survey.docintel.app/survey?Utmde=${subLink.unique_code}`
+                                                                        `https://survey.docintel.app/survey_demo?Utmde=${subLink.unique_code}`
                                                                       )
                                                                     }
                                                                   >
@@ -1361,7 +1361,7 @@ const SurveySublink = () => {
                                                                     onClick={() => {
                                                                       setQr({
                                                                         ...qrState,
-                                                                        value: `https://survey.docintel.app/survey?Utmde=${subLink.unique_code}&dl=QR`,
+                                                                        value: `https://survey.docintel.app/survey_demo?Utmde=${subLink.unique_code}&dl=QR`,
                                                                       });
                                                                       setTimeout(
                                                                         function () {

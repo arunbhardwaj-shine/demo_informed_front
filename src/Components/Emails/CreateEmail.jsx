@@ -966,9 +966,9 @@ const CreateEmail = (props) => {
     setEmailDescription(manualEmailDescription ? manualEmailDescription : templateDescriptions[template?.name])
 
     const templateSubject = {
-      "E-Mail IRT: Site User": "LEX-210 Mandatory IRT training blinded site user",
-      "E-mail IRT: Investigator": "LEX-210 Mandatory IRT training blinded Investigator",
-      "E-Mail IRT: Site Pharmacist (Unblinded)": "LEX-210 Mandatory IRT training unblinded site pharmacist",
+      "E-Mail IRT: Site User": "Trials Mandatory IRT training blinded site user",
+      "E-mail IRT: Investigator": "Trials Mandatory IRT training blinded Investigator",
+      "E-Mail IRT: Site Pharmacist (Unblinded)": "Trials Mandatory IRT training unblinded site pharmacist",
     };
     setEmailSubject(manualEmailSubject ? manualEmailSubject : templateSubject[template?.name])
 

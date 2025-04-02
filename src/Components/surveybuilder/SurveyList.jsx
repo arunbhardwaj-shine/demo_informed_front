@@ -254,7 +254,7 @@ const SurveyList = (props) => {
     if (selectedSublink) {
       navigator.clipboard
         .writeText(
-          `https://survey.docintel.app/survey?Utmde=${selectedSublink}`
+          `https://survey.docintel.app/survey_demo?Utmde=${selectedSublink}`
         )
         .then(() => {
           toast.success("Sublink copied to clipboard!");
@@ -273,7 +273,7 @@ const SurveyList = (props) => {
       loader("show");
       setQr({
         ...qrState,
-        value: `https://survey.docintel.app/survey?Utmde=${selectedSublink}&dl=QR`,
+        value: `https://survey.docintel.app/survey_demo?Utmde=${selectedSublink}&dl=QR`,
       });
       setTimeout(function () {
         const name=currentDownloadName.label ? currentDownloadName.label : null
@@ -1096,7 +1096,7 @@ const SurveyList = (props) => {
                                     <div className="tab-panel">
                                       <div className="tab-content-links">
                                         <a
-                                          href={`https://survey.docintel.app/survey?Utmde=${data.unique_code}`}
+                                          href={`https://survey.docintel.app/survey_demo?Utmde=${data.unique_code}`}
                                           className={
                                             data?.is_draft != null &&
                                               data?.is_draft == "0"
@@ -1105,7 +1105,7 @@ const SurveyList = (props) => {
                                           }
                                           target="_blank"
                                         >
-                                          https://survey.docintel.app/survey?Utmde=
+                                          https://survey.docintel.app/survey_demo?Utmde=
                                           {data.unique_code}
                                         </a>
                                         {data.is_draft ? (
@@ -1113,7 +1113,7 @@ const SurveyList = (props) => {
                                             className="copy-content"
                                             onClick={() =>
                                               copyHandler(
-                                                `https://survey.docintel.app/survey?Utmde=${data.unique_code}`
+                                                `https://survey.docintel.app/survey_demo?Utmde=${data.unique_code}`
                                               )
                                             }
                                           >
@@ -1142,7 +1142,7 @@ const SurveyList = (props) => {
                                             onClick={() => {
                                               setQr({
                                                 ...qrState,
-                                                value: `https://survey.docintel.app/survey?Utmde=${data.unique_code}&dl=QR`,
+                                                value: `https://survey.docintel.app/survey_demo?Utmde=${data.unique_code}&dl=QR`,
                                               });
                                               setTimeout(function () {
                                                 downloadQRCode(data?.survey_link_title);
@@ -1535,7 +1535,7 @@ const SurveyList = (props) => {
                                             className={data?.is_draft ? "edit btn-filled" : "edit btn-filled disabled"}
                                             onClick={() => {
                                               window.open(
-                                                `https://survey.docintel.app/survey?Utmde=${data?.unique_code}`,
+                                                `https://survey.docintel.app/survey_demo?Utmde=${data?.unique_code}`,
                                                 "_blank"
                                               );
                                             }}

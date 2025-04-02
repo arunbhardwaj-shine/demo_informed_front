@@ -102,11 +102,11 @@ const navigate=useNavigate();
                         <h6>{data?.delivery}</h6>
                         <div className="sublink-list-link">
                           <a
-                            href={`https://survey.docintel.app/survey?Utmde=${data.unique_code}`}
+                            href={`https://survey.docintel.app/survey_demo?Utmde=${data.unique_code}`}
                             target="_blank" // Optional: Opens the link in a new tab
                             rel="noopener noreferrer" // Optional: Recommended for security reasons
                           >
-                            https://survey.docintel.app/survey?Utmde=
+                            https://survey.docintel.app/survey_demo?Utmde=
                             {data.unique_code}
                           </a>
                           <span
@@ -114,7 +114,7 @@ const navigate=useNavigate();
                             onClick={() => {
                               toast.success("content copied to the clipboard!");
                               window.navigator.clipboard.writeText(
-                                `https://survey.docintel.app/survey?Utmde=${data.unique_code}`
+                                `https://survey.docintel.app/survey_demo?Utmde=${data.unique_code}`
                               );
                             }}
                           >
@@ -129,7 +129,7 @@ const navigate=useNavigate();
                         className="sublink-qr"
                         onClick={(e) =>
                           setDownloadLink(
-                            `https://survey.docintel.app/survey?Utmde=${data.unique_code}&dl=QR`,
+                            `https://survey.docintel.app/survey_demo?Utmde=${data.unique_code}&dl=QR`,
                             data?.identifier
                           )
                         }

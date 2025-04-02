@@ -28,7 +28,7 @@ const OctaCountryRegestration = () => {
     try {
       axios
         .get(
-          "https://webinar.docintel.app/lmn/api/analytics/octalatch_country_stats"
+          "https://webinar.docintel.app/demoapi/cron_Setup/public/api/analytics/octalatch_country_stats"
         )
         .then((response) => {
           mapData.current = response.data || [];

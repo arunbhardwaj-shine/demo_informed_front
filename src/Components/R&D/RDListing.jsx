@@ -22,7 +22,7 @@ const [rdSiteData, setRdSiteData] = useState();
           <Row>
             <div className="top-header">
               <div className="page-title d-flex">
-                <h2>{localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" ?"Gena":"LEX-210"}</h2>
+                <h2>{localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" ?"Gena":"Trials"}</h2>
               </div>
               <Button title="Download Site Engagements" className="download">
                 <svg

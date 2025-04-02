@@ -114,7 +114,7 @@ const SpeakerZone = () => {
   }, [count])
 
   const copyToClipboard = () => {
-    let content = eventId?.id > 402 ? "https://events.docintel.app/Webinar/question-list?evnt=" + eventId?.eventCode : "https://informed.pro/Webinar/question-list?evnt=" + eventId?.eventCode
+    let content = eventId?.id > 1000 ? "https://events.docintel.app/Webinar/question-list?evnt=" + eventId?.eventCode : `${window.location.origin}/Webinar/question-list?evnt=` + eventId?.eventCode
     if (window.isSecureContext && navigator.clipboard) {
       navigator.clipboard.writeText(content);
       toast.success("content copied to the clipboard!");
@@ -203,7 +203,7 @@ const SpeakerZone = () => {
                                   <div className="d-flex justify-content-between align-items-center">
                                     <p className="user_name">{item?.send_by == 1 ?
                                       localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg=='
-                                        ? "LEX-210"
+                                        ? "Trials"
                                         : localStorage.getItem("user_id") == "bWmUjqX7J011   WUTYn9g=="
                                           ? "Motivate-study"
                                           : localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
@@ -219,7 +219,7 @@ const SpeakerZone = () => {
                                         <div className="speaker_reply">
                                           {
                                             localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg=='
-                                              ? <p dangerouslySetInnerHTML={{ __html: "Reply by LEX-210: " + item?.reply }}></p>
+                                              ? <p dangerouslySetInnerHTML={{ __html: "Reply by Trials: " + item?.reply }}></p>
                                               : localStorage.getItem("user_id") == "bWmUjqX7J011   WUTYn9g=="
                                                 ? <p dangerouslySetInnerHTML={{ __html: "Reply by Motivate-study: " + item?.reply }}></p>
                                                 :
@@ -290,7 +290,7 @@ const SpeakerZone = () => {
                                     <div className="d-flex justify-content-between align-items-center">
                                       <p className="user_name">{item?.send_by == 1 ?
                                         localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg=='
-                                          ? "LEX-210"
+                                          ? "Trials"
                                           : localStorage.getItem("user_id") == "bWmUjqX7J011   WUTYn9g=="
                                             ? "Motivate-study"
                                              : localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
@@ -307,7 +307,7 @@ const SpeakerZone = () => {
                                           <div className="speaker_reply">
                                             {
                                               localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg=='
-                                                ? <p dangerouslySetInnerHTML={{ __html: "Reply by LEX-210: " + item?.reply }}></p>
+                                                ? <p dangerouslySetInnerHTML={{ __html: "Reply by Trials: " + item?.reply }}></p>
                                                 : localStorage.getItem("user_id") == "bWmUjqX7J011   WUTYn9g=="
                                                   ? <p dangerouslySetInnerHTML={{ __html: "Reply by Motivate-study: " + item?.reply }}></p>
                                                   : localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
@@ -374,7 +374,7 @@ const SpeakerZone = () => {
                                     <div className="d-flex justify-content-between align-items-center">
                                       <p className="user_name">{item?.send_by == 1 ?
                                         localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg=='
-                                          ? "LEX-210"
+                                          ? "Trials"
                                           : localStorage.getItem("user_id") == "bWmUjqX7J011   WUTYn9g=="
                                             ? "Motivate-study":
                                              localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g=="
@@ -391,7 +391,7 @@ const SpeakerZone = () => {
                                           <div className="speaker_reply">
                                             {
                                               localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg=='
-                                                ? <p dangerouslySetInnerHTML={{ __html: "Reply by LEX-210: " + item?.reply }}></p>
+                                                ? <p dangerouslySetInnerHTML={{ __html: "Reply by Trials: " + item?.reply }}></p>
                                                 : localStorage.getItem("user_id") == "bWmUjqX7J011   WUTYn9g=="
                                                   ? <p dangerouslySetInnerHTML={{ __html: "Reply by Motivate-study: " + item?.reply }}></p>
                                                   :

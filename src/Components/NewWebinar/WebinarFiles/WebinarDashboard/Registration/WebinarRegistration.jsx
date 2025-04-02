@@ -979,7 +979,7 @@ const WebinarRegistration = () => {
       return;
     }
     let link = "";
-    if (eventData?.event_id > 402) {
+    if (eventData?.event_id > 1000) {
       link = `https://events.docintel.app/event-registration?event=${event_code}`;
     } else {
       link = `${window.location.origin}/event-registration?event=${event_code}`;
@@ -1278,7 +1278,7 @@ const WebinarRegistration = () => {
   const generateQRUrl = () => {
     // Generate the QR code URL based on your logic
     const url =
-      eventData?.event_id > 402
+      eventData?.event_id > 1000
         ? `https://events.docintel.app/event-registration?event=${event_code}&urtyhjd=qdhjjkr`
         : `${window.location.host}/event-registration?event=${event_code}&urtyhjd=qdhjjkr`;
     return url;
@@ -1481,7 +1481,7 @@ const WebinarRegistration = () => {
                     className={`copy_link btn-bordered ${!isDataSaved ? "disabled" : ""
                       }`}
                     href={
-                      eventData?.event_id > 402
+                      eventData?.event_id > 1000
                         ? `https://events.docintel.app/event-registration?event=${event_code}`
                         : `${window.location.host}/event-registration?event=${event_code}`
                     }

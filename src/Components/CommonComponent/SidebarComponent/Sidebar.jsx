@@ -1723,7 +1723,7 @@ const Sidebar = () => {
                     ? ( 
                       ''
                     ) : localStorage.getItem("group_id") == 2 ? (
-                      window.location.pathname == "/LEX-210-analytics" ||
+                      window.location.pathname == "/Trial-analytics" ||
                         window.location.pathname == "/trial-analytics" ||
                         window.location.pathname == "/registration-type" ||
                         window.location.pathname == "/top-sales" ||
@@ -1755,12 +1755,12 @@ const Sidebar = () => {
                                   {isRdAccount ?
                                       <li
                                         className={
-                                          location.pathname == "/LEX-210-analytics"
+                                          location.pathname == "/Trial-analytics"
                                             ? "active"
                                             : "side_li"
                                         }
                                       >
-                                        <Link to={"/LEX-210-analytics"}>
+                                        <Link to={"/Trial-analytics"}>
                                         <img src= { sidebar_image_path +"trails.svg" } alt=""/>
                                         {" "}
                                           <p>Trials</p>
@@ -2233,18 +2233,18 @@ const Sidebar = () => {
                           window.location.pathname == "/content-analytics" ||
                             window.location.pathname == "/feedback" ||
                             window.location.pathname == "/trial-analytics" ||
-                            window.location.pathname == "/LEX-210-analytics" ? (
+                            window.location.pathname == "/Trial-analytics" ? (
                             <ul>
                               {
                                isRdAccount ?
                                   <li
                                     className={
-                                      location.pathname == "/LEX-210-analytics"
+                                      location.pathname == "/Trial-analytics"
                                         ? "active"
                                         : "side_li"
                                     }
                                   >
-                                    <Link to={"/LEX-210-analytics"}>
+                                    <Link to={"/Trial-analytics"}>
                                     <img src= { sidebar_image_path +"trails.svg" } alt=""/>
                                     {" "}
                                     <p>Trials</p>
@@ -2278,7 +2278,7 @@ const Sidebar = () => {
                                   <p>Content Analytics</p>
                                 </Link>
                               </li>
-                              {
+                              {/* {
                                 localStorage.getItem('user_id') == '56Ek4feL/1A8mZgIKQWEqg==' ?
                                   <li
                                     className={
@@ -2294,7 +2294,7 @@ const Sidebar = () => {
                                     </Link>
                                   </li>
                                   : null
-                              }
+                              } */}
                             </ul>
                           ) : null
                         ) : localStorage.getItem("user_id") !==

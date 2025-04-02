@@ -275,7 +275,7 @@ if (
 } else if (
   window.location.pathname == "/webinar" ||
   window.location.pathname == "/rd-register" ||
-  window.location.pathname == "LEX-210-Registration"
+  window.location.pathname == "Trials-Registration"
 ) {
   import("./Components/assets/css/webinar.css");
   import("./Components/assets/css/webinar-responsive.css");
@@ -347,9 +347,9 @@ const Routing = () => {
           element={<DefaultLayout component={Webinar} />}
         />
         <Route path="rd-register" element={<RDRegister />} />
-        {/* <Route path="LEX-210-Registration" element={<RDRegister />} /> */}
+        {/* <Route path="Trials-Registration" element={<RDRegister />} /> */}
         <Route
-          path="/LEX-210-analytics"
+          path="/Trial-analytics"
           element={<LoginLayout component={RDAnalytics} />}
         />
 

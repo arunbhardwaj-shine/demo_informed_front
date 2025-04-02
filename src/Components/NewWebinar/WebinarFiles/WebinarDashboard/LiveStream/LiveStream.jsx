@@ -1042,7 +1042,7 @@ const LiveStream = () => {
                                                     );
                                                   switch (userId) {
                                                     case "56Ek4feL/1A8mZgIKQWEqg==":
-                                                      return "LEX-210";
+                                                      return "Trials";
                                                     case "bWmUjqX7J011   WUTYn9g==":
                                                       return "Motivate-study";
                                                     case "MXl8m36VZFYXpgFVz3Pg0g==":
@@ -1245,7 +1245,7 @@ const LiveStream = () => {
                                                     );
                                                   const userNames = {
                                                     "56Ek4feL/1A8mZgIKQWEqg==":
-                                                      "LEX-210",
+                                                      "Trials",
                                                     "bWmUjqX7J011   WUTYn9g==":
                                                       "Motivate-study",
                                                     "MXl8m36VZFYXpgFVz3Pg0g==":
@@ -1450,7 +1450,7 @@ const LiveStream = () => {
                                                     );
                                                   const userNames = {
                                                     "56Ek4feL/1A8mZgIKQWEqg==":
-                                                      "LEX-210",
+                                                      "Trials",
                                                     "bWmUjqX7J011   WUTYn9g==":
                                                       "Motivate-study",
                                                     "MXl8m36VZFYXpgFVz3Pg0g==":

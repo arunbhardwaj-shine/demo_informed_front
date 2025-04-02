@@ -19606,6 +19606,10 @@ table {
   font-weight: 400;
 }
 
+.speaker_zone_question.col-md-4 .no-found, .speaker_zone_question.col-md-4 .no-found::after {
+  background: transparent !important;
+}
+
 .reader_list_footer .reader_list_footer_btns {
   gap: 0 10px;
   display: flex;

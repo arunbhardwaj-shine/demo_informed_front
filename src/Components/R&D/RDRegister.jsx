@@ -307,7 +307,7 @@ const RDRegister = () => {
               <div className="header-left">
                 <span>Welcome to the</span>
                 <h1>
-                 { localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" ?"Gena": "LEX-210" }<span>Study</span>
+                 { localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" ?"Gena": "Trials" }<span>Study</span>
                 </h1>
               </div>
               <div className="header-right">
@@ -329,7 +329,7 @@ const RDRegister = () => {
               ) : null}
               <div className="form-head-sec">
                 <h3>
-                We provide here study-related training material and contents to healthcare professionals participating in the LEX-210 study.<br/><br/>
+                We provide here study-related training material and contents to healthcare professionals participating in the Trials study.<br/><br/>
                 Please provide your details to register and access the contents.<br/><br/>
                 Octapharma will <u>not</u> track potential engagement on the provided contents on an individual user basis. Please refer to the "Octapharma privacy statement" in the link below.
                 </h3>

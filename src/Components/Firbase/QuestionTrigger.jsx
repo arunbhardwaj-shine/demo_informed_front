@@ -107,8 +107,8 @@ const QuestionTrigger = () =>{
         <Container>
             <div className="webinar-question-results webinar_tabs_show">
         <Row>
-          <Col md={4}>
-            <div className="webinar-top-sec d-flex justify-content-between align-items-center">
+          <Col md={4} className="speaker_zone_question">
+            <div className="webinar-top-sec d-flex justify-content-between align-items-center speaker_zone">
                     <div className="top-heading">
                         <h4>Questions:</h4>
                     </div>
@@ -147,8 +147,8 @@ const QuestionTrigger = () =>{
                 }):<h6 className="no-found">No Records Found</h6>
             }
           </Col>
-          <Col md={4}>
-                <div className="webinar-top-sec d-flex justify-content-between align-center">
+          <Col md={4}  className="speaker_zone_question">
+                <div className="webinar-top-sec d-flex justify-content-between align-center speaker_zone">
                     <div className="top-heading">
                         <h4>Answered:</h4>
                     </div>
@@ -184,8 +184,8 @@ const QuestionTrigger = () =>{
                     )
                 }):<h6 className="no-found">No Records Found</h6>
             }</Col>
-          <Col md={4}>
-            <div className="webinar-top-sec d-flex justify-content-between align-center">
+          <Col md={4}  className="speaker_zone_question">
+            <div className="webinar-top-sec d-flex justify-content-between align-center speaker_zone">
                     <div className="top-heading">
                         <h4>Ignored:</h4>
                     </div>

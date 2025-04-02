@@ -82,7 +82,7 @@ const SetLayout = () => {
           ? navigate("/totalhcp")
           : localStorage.getItem("user_id") == "iSnEsKu5gB/DRlycxB6G4g=="
             ? navigate("/octalatch-totalhcp")
-            : localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? navigate("/LEX-210-analytics")
+            : localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? navigate("/Trial-analytics")
               :
               (localStorage.getItem("user_id") == "bWmUjqX7J011   WUTYn9g==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==")
                 ? navigate("/trial-analytics")

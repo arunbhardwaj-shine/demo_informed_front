@@ -59,9 +59,9 @@ export const ENDPOINT = {
   READERANALYTICS: "/analytics/reader-analytics",
   SUBLINK_READER_ANALYTICS: "library/sublink-reader",
   OCTALATCH_TOTAL_HCP:
-    "https://webinar.docintel.app/lmn/api/analytics/octo_lach_stats",
+    "https://webinar.docintel.app/demoapi/cron_Setup/public/api/analytics/octo_lach_stats",
   OCTALATCH_DELIVERY_REGISTRATION:
-    "https://webinar.docintel.app/lmn/api/analytics/octa_delivery_registration",
+    "https://webinar.docintel.app/demoapi/cron_Setup/public/api/analytics/octa_delivery_registration",
 
   DELIVERYTRENDS: "analytics/trend",
   //CAMPAINGSTAT: "analytics/campaign-stats",
@@ -86,7 +86,7 @@ export const ENDPOINT = {
   DOWNLOADARTICLEREADERS: `/analytics/download-analytics`,
   DELETEREADER: `/reader/delete-reader`,
   LOGIN: `auth/login`,
-  FILTERLIST: `https://webinar.docintel.app/lmn/api/distributes/filters_list`,
+  FILTERLIST: `https://webinar.docintel.app/demoapi/cron_Setup/public/api/distributes/filters_list`,
   READERLISTING: "reader/get-trail",
   REGISTERRD: `https://webinar.docintel.app/lmn/api/emailapi/RegisterRd`,
   EDITSITE: "reader/trailId",
@@ -115,7 +115,7 @@ export const ENDPOINT = {
   WEBINAR_All_QUESTION_LISTING: "/auth/webinar-all-question",
   WEBINAR_QUESTION_ONLY: "/auth/webinar-question-only",
   // RD_SITE_ENGAGEMENT: "/rd_site_engagement",
-  RD_SITE_ENGAGEMENT:"https://webinar.docintel.app/lmn/api/analytics/rd_site_engagement",
+  RD_SITE_ENGAGEMENT:"https://webinar.docintel.app/demoapi/cron_Setup/public/api/analytics/rd_site_engagement",
   SITE_REGISTRATION_LIST: "/site-registration-list",
   SITE_REGISTRATION_LIST_V2: "v2/site-registration-list",
 
@@ -218,7 +218,7 @@ export const ENDPOINT = {
   GET_ALL_EVENT_LIST:"auth/get-all-event-list",
   ADD_COMMENT_TO_EVENT:"auth/add-comment-to-event",
   MANDATORY_READERS:"/reader/mandatory-readers",
-  GET_RD_MANDATORY_READERS:"https://webinar.docintel.app/lmn/api/distributes/get_rd_mandatory_readers",
+  GET_RD_MANDATORY_READERS:"https://webinar.docintel.app/demoapi/cron_Setup/public/api/distributes/get_rd_mandatory_readers",
   EMAIL_COUNT_GRAPH: "/email-irt-count",
   IBU_USERS_LISTING:"/webinarEmail/ibu-users",
   OWN_USERS_LISTING:"/webinarEmail/own-internal-users",

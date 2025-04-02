@@ -3453,7 +3453,7 @@ const FilterSegment = (props) => {
                 ibu={props.ibu}
                 sendDataToParent={sendDataToParent}
                 allUsers={allUserIds}
-                type="survey"
+                type={type}
               />
               {
                 loadMorePage && totalLostCount > getfilterdata?.length ?

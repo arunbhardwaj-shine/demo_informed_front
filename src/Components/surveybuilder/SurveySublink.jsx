@@ -305,7 +305,7 @@ const SurveySublink = () => {
                                                 <div className="tab-panel">
                                                   <div className="tab-content-links">
                                                     <a>
-                                                      https://survey.docintel.app/survey?Utmde=
+                                                      https://survey.docintel.app/survey_demo?Utmde=
                                                       {data.unique_code}
                                                     </a>
                                                     {data?.is_draft ? (

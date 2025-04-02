@@ -313,7 +313,7 @@ const RDAnalytics = () => {
         let body = {
           user_id: createdBy
         }
-        const response = await postData("https://webinar.docintel.app/lmn/api/distributes/filters_list", body)
+        const response = await postData("https://webinar.docintel.app/demoapi/cron_Setup/public/api/distributes/filters_list", body)
 
         const site_number = response?.data?.response?.data?.site_number
         setFilterData((prevData) => {
@@ -864,7 +864,7 @@ const RDAnalytics = () => {
   const allEngagement = async () => {
     try {
       loader("show");
-      const response = await axios.get(`https://webinar.docintel.app/lmn/api/analytics/rd_all_site_engagement?uid=${accountMapping[localStorage.getItem("user_id")] ||  2147501188}`, {
+      const response = await axios.get(`https://webinar.docintel.app/demoapi/cron_Setup/public/api/analytics/rd_all_site_engagement?uid=${accountMapping[localStorage.getItem("user_id")] ||  2147501188}`, {
         responseType: 'blob',
       });
       // Create a blob and download the file
@@ -1174,7 +1174,7 @@ const RDAnalytics = () => {
               <div className="page-title d-flex">
                 <h2>
                   {
-                    location.pathname == '/LEX-210-analytics' ? "LEX-210" :localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" ?"Gena": "Trial Analytics"
+                    location.pathname == '/Trial-analytics' ? "Trials" :localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" ?"Gena": "Trial Analytics"
                   }
                 </h2>
               <div className="d-flex"> 
@@ -2055,12 +2055,13 @@ const RDAnalytics = () => {
                                                       <Accordion.Header>
                                                         <div className="d-flex align-items-start">
                                                           <div className="content-image">
-                                                            <img
+                                                            {/* <img
                                                               src={
                                                                 item?.certificateImage
                                                               }
                                                               alt=""
-                                                            />
+                                                            /> */}
+                                                            <img src={ path_image +"Trial_certificate_cover.png"} alt=""/>
                                                           </div>
                                                           <div className="content-detail">
                                                             <h6>{item?.type}</h6>
@@ -2749,7 +2750,7 @@ const RDAnalytics = () => {
                             >
                               <div className="d-flex align-items-start engagement-sec">
                                 <div className="content-image">
-                                  <img
+                                  {/* <img
                                     src={
                                       path_image +
                                       `${item?.pdf?.file_type == "video"
@@ -2757,6 +2758,10 @@ const RDAnalytics = () => {
                                         : "article-content.png"
                                       }`
                                     }
+                                    alt=""
+                                  /> */}
+                                  <img
+                                    src={item?.article_image}
                                     alt=""
                                   />
                                 </div>

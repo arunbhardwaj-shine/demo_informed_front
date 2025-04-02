@@ -6,6 +6,8 @@ import { Link } from "react-router-dom";
 import { popup_alert } from "../../popup_alert";
 import { Col, Modal,Tab,Tabs } from "react-bootstrap";
 import React, { useEffect, useState } from "react";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import {  Tooltip } from "react-bootstrap";
 import { useLocation, useNavigate } from "react-router-dom";
  
 const VerifyHcpMAIL = (props) => {
@@ -572,6 +574,19 @@ const VerifyHcpMAIL = (props) => {
     event.currentTarget.src = BrokenImage;
     event.currentTarget.className = "error";
   };
+
+  function LinkWithTooltip({ id, children, href, tooltip }) {
+    return (
+      <OverlayTrigger
+        overlay={<Tooltip id={id}>{tooltip}</Tooltip>}
+        placement="top"
+        delayShow={300}
+        delayHide={150}
+      >
+        <a href={href}>{children}</a>
+      </OverlayTrigger>
+    );
+}
   
 
   return (
@@ -1147,7 +1162,17 @@ const VerifyHcpMAIL = (props) => {
                                             <td>{getSurveyData?.lastEmailSent}</td>
                                           </tr>
                                           <tr>
-                                            <th>Link  <img src={path_image + "info_circle_icon.svg"}  alt=""/></th>
+                                            <th>Link   
+                                              <LinkWithTooltip tooltip="This is the link you’ll include in the email—either the primary survey link or one of the subLinks.">
+                                                  <img
+                                                  src={
+                                                      path_image +
+                                                      "info_circle_icon.svg"
+                                                  }
+                                                  alt="Link"
+                                                  />
+                                              </LinkWithTooltip>
+                                            </th>
                                             <td> {getSurveyData?.linkType}</td>
                                           </tr>
                                         </tbody>

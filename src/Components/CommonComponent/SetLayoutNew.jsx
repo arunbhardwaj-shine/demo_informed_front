@@ -84,7 +84,7 @@ const SetLayoutNew = () => {
           : localStorage.getItem("user_id") == "iSnEsKu5gB/DRlycxB6G4g=="
             ? navigate("/octalatch-totalhcp")
             : (isLikeRdAccount)
-              ? navigate("/LEX-210-analytics")
+              ? navigate("/Trial-analytics")
               : localStorage.getItem("user_id") == "wW0geGtDPvig5gF 6KbJrg=="
                 ? navigate("/totalhcp")
                 : localStorage.getItem("user_id") == "UbCJcnLM9fe HsRMgX8c1A=="
@@ -178,7 +178,7 @@ const SetLayoutNew = () => {
                       <img src={path_image + "informed-circle-icon.svg"} alt="" />
                     </div>
                     <div className="timeline-date">
-                      <h3>LEX-210 Trial</h3>
+                      <h3>Trial</h3>
                       <p>July. 29. 2024 <span>|</span> 3:00 PM  <sub>last update</sub></p>
                     </div>
                   </div>
@@ -325,7 +325,7 @@ const SetLayoutNew = () => {
                                           <div className="timeline-details">
                                             <div className="details-box">
                                               <p className="timeline-details-heading">What</p>
-                                              <p>A new HCP register to LEX-210 library</p>
+                                              <p>A new HCP register to Trials library</p>
                                             </div>
                                             <div className="details-box">
                                               <p className="timeline-details-heading">Who</p>

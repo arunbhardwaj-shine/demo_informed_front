@@ -484,7 +484,7 @@ const ChatLinkPage = () => {
 
     try {
       let link = "";
-      if (eventData?.eventId > 402) {
+      if (eventData?.eventId > 1000) {
         link = `https://events.docintel.app/events/index.html?evnt=${eventData?.eventCode}`;
       } else {
         link = `${window.location.protocol}//${window.location.host}/event?evnt=${eventData?.eventCode}`;
@@ -611,7 +611,7 @@ const ChatLinkPage = () => {
 
   const generateQRUrl = () => {
     // Generate the QR code URL based on your logic
-    const url = eventData?.eventId > 402
+    const url = eventData?.eventId > 1000
       ? `https://events.docintel.app/events/index.html?evnt=${eventData?.eventCode}`
       : `${window.location.host}/event?evnt=${eventData?.eventCode}`;
     return url;
@@ -697,7 +697,7 @@ const ChatLinkPage = () => {
                       }`}
 
                     href={
-                      eventData?.eventId > 402
+                      eventData?.eventId > 1000
                         ? `https://events.docintel.app/events/index.html?evnt=${eventData?.eventCode}`
                         : `${window.location.host}/event?evnt=${eventData?.eventCode}`
                     }
@@ -1094,14 +1094,14 @@ const ChatLinkPage = () => {
                 </div>
 
                 <div className="col-md-6 col-sm-6">
-                  {rerander ? <iframe
+                  {/* {rerander ? <iframe
                     src={iframeSrc}
                     width="100%"
                     height="100%"
                     title="Event Preview"
-                  ></iframe> : null}
+                  ></iframe> : null} */}
 
-                  {/* <div className="webinar-popup">
+                  <div className="webinar-popup">
                     <div className="loader" id="custom_loader">
                       <div className="loader_show">
                         <span className="loader-view"> </span>
@@ -1369,7 +1369,7 @@ const ChatLinkPage = () => {
                         </div>
                       </div>
                     </div>}
-                  </div> */}
+                  </div>
                 </div>
               </div>
             </div>
