@@ -70,7 +70,7 @@
         "logoImageUrl":{
             "title": "Logo",
             "type": "file",
-            "value": "https://onesourcedoc.s3.eu-west-1.amazonaws.com/images/qaNLabFpyOZPNrALNVJqWygYB13U7Npj0nSkaTdI.png"
+            "value": "https://albert.docintel.app/images/docintel-logo.svg"
         },
         "textColor": {
             "title": "Text Color",

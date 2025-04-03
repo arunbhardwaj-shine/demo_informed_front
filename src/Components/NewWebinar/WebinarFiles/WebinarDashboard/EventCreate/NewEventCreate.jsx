@@ -766,7 +766,7 @@ const [apiCallStatus,setApiCallStatus]=useState(false)
           <Row>
             <div className="top-header sticky">
               <div className="top-right-action full evnt-listing">
-                {(localStorage.getItem("user_id") === "iSnEsKu5gB/DRlycxB6G4g==") ? (<>
+                {/* {(localStorage.getItem("user_id") === "iSnEsKu5gB/DRlycxB6G4g==") ? (<>
                   <div className="congress-dropdown">
                     <Select
                       options={congressOptions}
@@ -783,7 +783,7 @@ const [apiCallStatus,setApiCallStatus]=useState(false)
                     />
                   </div>
                 </>)
-                  : null}
+                  : null} */}
                   {localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") =="bWmUjqX7J011   WUTYn9g==" ? (
                 <>
                   <div className="action-btn-add"  style={{margin:"0"}}>

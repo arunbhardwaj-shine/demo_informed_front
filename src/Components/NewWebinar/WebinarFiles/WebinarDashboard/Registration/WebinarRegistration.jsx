@@ -53,7 +53,7 @@ const WebinarRegistration = () => {
   const [thumbnails, setThumbnails] = useState({}); // Store thumbnails per template
 
   const templateUserIDs = {
-    "iSnEsKu5gB/DRlycxB6G4g==": [1, 2, 3, 4, 5, 6, 7,13],
+    "iSnEsKu5gB/DRlycxB6G4g==": [3,12],
     "B7SHpAc XDXSH NXkN0rdQ==": [1, 2, 3, 4, 5, 6, 7],
     "wW0geGtDPvig5gF 6KbJrg==": [1, 2, 3, 4, 5, 6, 7],
     "UbCJcnLM9fe HsRMgX8c1A==": [1, 2, 3, 4, 5, 6, 7],

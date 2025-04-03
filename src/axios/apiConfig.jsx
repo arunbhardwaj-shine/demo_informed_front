@@ -59,9 +59,9 @@ export const ENDPOINT = {
   READERANALYTICS: "/analytics/reader-analytics",
   SUBLINK_READER_ANALYTICS: "library/sublink-reader",
   OCTALATCH_TOTAL_HCP:
-    "https://webinar.docintel.app/demoapi/cron_Setup/public/api/analytics/octo_lach_stats",
+    "https://webinar.docintel.app/lmn/api/analytics/octo_lach_stats",
   OCTALATCH_DELIVERY_REGISTRATION:
-    "https://webinar.docintel.app/demoapi/cron_Setup/public/api/analytics/octa_delivery_registration",
+    "https://webinar.docintel.app/lmn/api/analytics/octa_delivery_registration",
 
   DELIVERYTRENDS: "analytics/trend",
   //CAMPAINGSTAT: "analytics/campaign-stats",
