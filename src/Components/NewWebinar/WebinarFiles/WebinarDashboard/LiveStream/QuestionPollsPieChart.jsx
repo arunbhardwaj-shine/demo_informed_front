@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 
-let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const QuestionPollsPieChart = ({ data,show,type }) => {
     const baseOptions = {
         chart: {

@@ -14,7 +14,7 @@ import { ENDPOINT } from "../../../axios/apiConfig";
 import { postData, postFormData } from "../../../axios/apiHelper";
 import { loader } from "../../../loader";
 import RenderPdf from "./RenderPdf";
-let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 //pdf id  3846
 //ebook 3899
 const newLanguage = {
@@ -524,7 +524,7 @@ const PreviewContent = () => {
                     >
                       {pdfData?.ebookData.map((template, index) => {
                         return (
-                          <React.Fragment key={index}>
+                          <>
                             <div
                               className={
                                 index === 0 || template.processed == 1
@@ -550,7 +550,7 @@ const PreviewContent = () => {
                               />
                               <p>{template.title}</p>
                             </div>
-                          </React.Fragment>
+                          </>
                         );
                       })}
                     </AliceCarousel>

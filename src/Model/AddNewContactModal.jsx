@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 
 const AddNewContactModal = ({ show, closeClicked, activeManual, hpc, setHpc,
   totalData, countryall, irtCountry, irtRole, role, irtInstitutionType, nonIrtInstitution, saveClicked, validationError }) => {
-  let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+  let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","bWmUjqX7J011   WUTYn9g==","MXl8m36VZFYXpgFVz3Pg0g=="]
   const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
   const [siteNameAll, setSiteNameAll] = useState([]);

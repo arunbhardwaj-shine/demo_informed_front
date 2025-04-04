@@ -17,7 +17,7 @@ import * as XLSX from "xlsx";
 import html2canvas from 'html2canvas';
  
 
-const path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const ContentAnalytics = () => {
   const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","bWmUjqX7J011   WUTYn9g==","MXl8m36VZFYXpgFVz3Pg0g=="]
@@ -851,7 +851,7 @@ const ReadersPerPageLayout = ({ data, refreshFun, flag,  fileType}) => {
 
                 {element?.data?.map((subelement, index) => {
                   return (
-                    <React.Fragment key={index}>
+                    <>
                       <div className="analytics-detail-view-box">
                         <div className="analytics-detil-image">
                           <div>Page {subelement?.page}</div>
@@ -895,7 +895,7 @@ const ReadersPerPageLayout = ({ data, refreshFun, flag,  fileType}) => {
                           </div>
                         </div>
                       </div>
-                    </React.Fragment>
+                    </>
                   );
                 })}
               </>
@@ -913,7 +913,7 @@ const ReadersPerPageLayout = ({ data, refreshFun, flag,  fileType}) => {
         </div>
         {data?.map((element, index) => {
           return (
-            <React.Fragment key={index}>
+            <>
               <div className="analytics-detail-view-box">
                 <div className="analytics-detil-image">
                   <div>
@@ -964,7 +964,7 @@ const ReadersPerPageLayout = ({ data, refreshFun, flag,  fileType}) => {
                   </div>
                 </div>
               </div>
-            </React.Fragment>
+            </>
           );
         })}
       </>
@@ -979,7 +979,7 @@ const ReadersPerPageLayout = ({ data, refreshFun, flag,  fileType}) => {
         </div>
         {data?.map((element, index) => {
           return (
-            <React.Fragment key={index}>
+            <>
               <div className="analytics-detail-view-box">
                 <div className="analytics-detil-image">
                   <div>Page {element?.page}</div>
@@ -1023,7 +1023,7 @@ const ReadersPerPageLayout = ({ data, refreshFun, flag,  fileType}) => {
                   </div>
                 </div>
               </div>
-            </React.Fragment>
+            </>
           );
         })}
       </>

@@ -7,7 +7,7 @@ import { ENDPOINT } from "../../../../../axios/apiConfig";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 const AnalyticsEmail = () => {
-  const path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+  const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const { eventIdContext, handleEventId } = useSidebar();
   const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"));
   const [eventId, setEventId] = useState(

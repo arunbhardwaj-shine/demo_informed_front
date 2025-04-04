@@ -8,7 +8,7 @@ import { loader } from "../../../loader";
 import { BaseUrlImage } from "../../../Api/BaseApi";
 
 const Registration = () => {
-  let path_image = import.meta.env.VITE_APP_ASSETS_PATH_WEBINAR;
+  let path_image = process.env.REACT_APP_ASSETS_PATH_WEBINAR;
   const [modalShow, setModalShow] = useState(false);
   const [registrationPageList, setRegistrationPageList] = useState();
   const [editdata, setEditdata] = useState();

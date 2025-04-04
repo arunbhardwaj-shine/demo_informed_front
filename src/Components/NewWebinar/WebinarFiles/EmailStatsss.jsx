@@ -4,7 +4,7 @@ import { Col, Row } from "react-bootstrap";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import { useState } from "react";
 import Select, { createFilter } from "react-select";
-let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const EmailStatsss = () => {
   const [eventSelected, setEventSelected] = useState(
     "1:1 meeting with IBU Haematology"

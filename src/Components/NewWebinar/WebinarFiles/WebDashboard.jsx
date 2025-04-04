@@ -371,8 +371,8 @@ const WebDashboard = () => {
     ],
   });
 
-  const path = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
-  const path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+  const path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+  const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [eventSelected, setEventSelected] = useState(
     "1:1 meeting with IBU Haematology"
   );

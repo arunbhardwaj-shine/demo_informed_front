@@ -16,7 +16,7 @@ import modelValidation from "../../../Model/ModelValidation";
 const MarketingTimeLineDetail = (props) => {
   const [logs, setLogs] = useState([]);
   const [mainLogs, setMainLogs] = useState([]);
-  let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+  let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const BrokenImage =
     "https://docintel.s3-eu-west-1.amazonaws.com/cover/default/default.png";
   const { state } = useLocation();
@@ -985,7 +985,7 @@ const MarketingTimeLineDetail = (props) => {
                               <div className="tabs-data">
                                 {logs.map((details, index) => {
                                   return (
-                                    <React.Fragment key={index}>
+                                    <>
                                       <div className="timeline-box">
                                         <div className="timeline_date">
                                           {details?.date ==
@@ -1043,7 +1043,7 @@ const MarketingTimeLineDetail = (props) => {
 
                                         </div>
                                       </div>
-                                    </React.Fragment>
+                                    </>
                                   );
                                 })}
                               </div>
@@ -1069,7 +1069,7 @@ const MarketingTimeLineDetail = (props) => {
                                     timeLineData?.timeline?.length ? <div className="timeline_tabs">
                                       {timeLineData?.timeline.map((details, index) => {
                                         return (
-                                          <React.Fragment key={index}>
+                                          <>
 
                                             {(details.action == "Article opened") && (
                                               <div className="timeline-box">
@@ -1793,7 +1793,7 @@ const MarketingTimeLineDetail = (props) => {
                                               </div>
                                             )}
 
-                                          </React.Fragment>
+                                          </>
                                         );
                                       })}
                                       {timeLineData?.loadMore?.length ? <div className="load_more">

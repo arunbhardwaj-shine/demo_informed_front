@@ -15,7 +15,7 @@ import SmartListLayout from "../CommonComponent/SmartListLayout";
 import SmartListTableLayout from "../CommonComponent/SmartListTableLayout";
  
 
-let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const AutoEmail = (props) => {
 
   const type= props?.type === "survey" ? "survey" : 0;
@@ -230,7 +230,7 @@ const AutoEmail = (props) => {
     }
   };
 
-  axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+  axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
   const getTemplateListData = async () => {
     const body = {
       type:type == "survey" ? 1 :type,
@@ -334,7 +334,7 @@ const AutoEmail = (props) => {
         email: email,
       };
 
-      axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       loader("show");
       await axios
         .post(`emailapi/search_hcp`, body)
@@ -446,7 +446,7 @@ const AutoEmail = (props) => {
         source_code: editorRef?.current?.getContent() ? editorRef.current.getContent() : sourceCode,
       };
 
-      axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       axios
         .post(`emailapi/send_sample_email`, body)
         .then((res) => {
@@ -861,7 +861,7 @@ const AutoEmail = (props) => {
       status.sort();
       if (status.every((element) => element == "true")) {
         loader("show");
-        axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+        axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
         await axios
           .post(`distributes/add_new_readers_in_list`, body)
           .then((res) => {
@@ -909,7 +909,7 @@ const AutoEmail = (props) => {
   };
 
   const getSmartListData = async (flag) => {
-    axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     const body = {
       user_id: localStorage.getItem("user_id"),
       search: getsearch,
@@ -1073,7 +1073,7 @@ const AutoEmail = (props) => {
           status: status === 0 ? 2 : status === 1 ? 3 : 4,
           language: tempLang,
         };
-        axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+        axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
         loader("show");
         await axios
           .post(`emailapi/add_update_template`, body)
@@ -1835,7 +1835,7 @@ const AutoEmail = (props) => {
                   <>
                     {selectedHcp.map((data, index2) => {
                       return (
-                        <React.Fragment key={index2}>
+                        <>
                           <div className="search-hcp-box" key={data}>
                             <p className="send-hcp-box-title">
                               Name | <span>{data.name || data.first_name}</span>
@@ -1854,7 +1854,7 @@ const AutoEmail = (props) => {
                               />
                             </div>
                           </div>
-                        </React.Fragment>
+                        </>
                       );
                     })}
                   </>
@@ -2527,7 +2527,7 @@ const AutoEmail = (props) => {
                 smartListData.length > 0 ? (
                 smartListData.map((data,index) => {
                   return (
-                    <React.Fragment key={index}>
+                    <>
                       <div className="smartlist_box_block">
                         <div className="smartlist-view email_box">
                           <div className="mail-box-content">
@@ -2554,7 +2554,7 @@ const AutoEmail = (props) => {
                           </div>
                         </div>
                       </div>
-                    </React.Fragment>
+                    </>
                   );
                 })
               ) : (

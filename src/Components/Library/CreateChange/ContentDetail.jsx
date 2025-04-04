@@ -26,7 +26,7 @@ var pdf_id = 0;
 const ContentDetail = (props) => {
   const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","bWmUjqX7J011   WUTYn9g==","MXl8m36VZFYXpgFVz3Pg0g=="]
   const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
-  let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+  let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [open, setOpen] = useState(false);
   const [openProduction, setOpenProduction] = useState(false);
   const { state } = useLocation();
@@ -299,7 +299,7 @@ const ContentDetail = (props) => {
         pdf_id: irtObj?.pdfId,
         role: irtObj?.siteRole
       };
-      axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       loader("show");
       await axios
         .post(`emailapi/get_rd_campaign_data`, body)
@@ -372,7 +372,7 @@ const ContentDetail = (props) => {
               {libraryData?.length
                 ? libraryData.map((data, index) => {
                     return (
-                      <React.Fragment key={index}>
+                      <>
                         <div className="row"  >
                           <div className="col-12">
                             <div className="verify-mail-box">
@@ -419,12 +419,12 @@ const ContentDetail = (props) => {
                                               ? JSON?.parse(data?.tags)?.map(
                                                   (topic, id) => {
                                                     return (
-                                                      <React.Fragment key={id}>
+                                                      <>
                                                         <li className="list1">
                                                           {topic.innerHTML ||
                                                             topic}{" "}
                                                         </li>
-                                                      </React.Fragment>
+                                                      </>
                                                     );
                                                   }
                                                 )
@@ -901,7 +901,7 @@ const ContentDetail = (props) => {
                             </div>
                           </div>
                         </div>
-                      </React.Fragment>
+                      </>
                     );
                   })
                 : null}

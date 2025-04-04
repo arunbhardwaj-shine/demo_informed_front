@@ -45,7 +45,7 @@ const VerifyHCP = (props) => {
     { value: "no", label: "No" },
   ]);
   
-  let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+  let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const filterConfig = {
     matchFrom: "start",
   };
@@ -200,7 +200,7 @@ const VerifyHCP = (props) => {
     }
   }, []);
 
-  axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+  axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
 
   
 
@@ -896,7 +896,7 @@ const VerifyHCP = (props) => {
       if (status.every((element) => element == "true")) {
         loader("show");
 
-        axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+        axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
         await axios
           .post(`distributes/add_new_readers_in_list`, body)
           .then((res) => {
@@ -929,7 +929,7 @@ const VerifyHCP = (props) => {
       formData.append("user_id", user_id);
       formData.append("smart_list_id", "");
       formData.append("reader_file", selectedFile);
-      axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       if (selectedFile) {
         loader("show");
         await axios
@@ -1115,7 +1115,7 @@ const VerifyHCP = (props) => {
         email: email,
       };
 
-      axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       loader("show");
       await axios
         .post(`emailapi/search_hcp`, body)
@@ -1176,7 +1176,7 @@ const VerifyHCP = (props) => {
         edit_list_array: editableData,
       };
       setSaveOpen(false);
-      axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       loader("show");
       await axios
         .post(`distributes/update_reders_details`, body)
@@ -1266,7 +1266,7 @@ const VerifyHCP = (props) => {
       status: 2,
     };
  
-    axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     loader("show");
     await axios
       .post(`emailapi/save_draft`, body)
@@ -2066,7 +2066,7 @@ const VerifyHCP = (props) => {
                             {/* {searchedUsers?.map((users, index) => { */}
                             {sortData(searchedUsers, sortBy, sortOrder).map((users, index) => {
                               return (
-                                <React.Fragment key={index}>
+                                <>
                                   <tr>
                                     <td>{users?.name?users?.name:users?.first_name}</td>
                                     <td>{users?.email ? users?.email : "N/A"}</td>
@@ -2135,7 +2135,7 @@ const VerifyHCP = (props) => {
                                       />
                                     </td>
                                   </tr>
-                                </React.Fragment>
+                                </>
                               );
                             })}
 
@@ -2719,7 +2719,7 @@ const VerifyHCP = (props) => {
                         {/* {selectedHcp?.map((data, index) => { */}
                         {sortData(selectedHcp, sortBy, sortOrder)?.map((data, index) => {
                           return (
-                            <React.Fragment key={index}>
+                            <>
                               <tr
                                 id={`row-selected` + index}
                                 onClick={(e) =>
@@ -2807,7 +2807,7 @@ const VerifyHCP = (props) => {
                                   </td>
                                 ) : null}
                               </tr>
-                            </React.Fragment>
+                            </>
 
                           );
                         })}
@@ -2858,7 +2858,7 @@ const VerifyHCP = (props) => {
                   {hpc.map((val, i) => {
                     const fieldName = `hpc[${i}]`;
                     return (
-                      <React.Fragment key={fieldName}>
+                      <>
                         <div className="add_hcp_boxes">
                           <div className="form_action">
                             <div className="row">
@@ -3412,7 +3412,7 @@ const VerifyHCP = (props) => {
                             </div>
                           </div>
                         </div>
-                      </React.Fragment>
+                      </>
                     );
                   })}
                 </form>

@@ -17,7 +17,7 @@ const SublinkModal = ({
   currentAddSublinkLid,
   type
 }) => {
-  let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+  let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
     const {INSERT_SUBLINK_INFORMATION,FETCH_ALL_TOPICS}=surveyEndpoints;
   const [show, setShow] = useState(false);
   const [modalCounter, setModalCounter] = useState(0);

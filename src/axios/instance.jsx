@@ -4,7 +4,7 @@ import { Navigate } from "react-router-dom";
 
 // For GET requests
 const instanceAxios = axios.create({
-  baseURL: import.meta.env.VITE_APP_API_KEY_NEW,
+  baseURL: process.env.REACT_APP_API_KEY_NEW,
   headers: {
     "Content-Type": "application/json",
   },

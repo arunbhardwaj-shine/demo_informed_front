@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 const TableOnly = (props) => {
-  let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+  let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [UserData, setUserData] = useState([props.all_data]);
   
 
@@ -9,7 +9,7 @@ const TableOnly = (props) => {
     <>
      	{UserData.map((template,index) => {
                   return (
-						<React.Fragment key={index}>
+						<>
 						<tr>
 						<td>{template.name}</td>
 						<td>{template.email}</td>
@@ -31,7 +31,7 @@ const TableOnly = (props) => {
 							/>
 						</td>
 						</tr>
-					</React.Fragment>
+					</>
 
 					);
                 })}

@@ -34,7 +34,7 @@ import axios from "axios";
 import moment from "moment";
 import CommonPreviewReader from "./CommonPreviewReader";
 
-let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const MarketingReadersList = () => {
   const accountMapping={"56Ek4feL/1A8mZgIKQWEqg==":2147501188,"bWmUjqX7J011   WUTYn9g==":298217,"MXl8m36VZFYXpgFVz3Pg0g==":2147537506}
@@ -896,7 +896,7 @@ const MarketingReadersList = () => {
 
   const axiosFun = async () => {
     try {
-      axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       const result = await axios.get(`emailapi/get_site?uid=${accountMapping[localStorage.getItem("user_id")] || 2147501188}`);
       let country = result?.data?.response?.data?.site_country_data;
       let arr = [];
@@ -1199,7 +1199,7 @@ const MarketingReadersList = () => {
                         <Accordion defaultActiveKey="0" flush>
                           {Object.keys(filterdata)?.map(function (key, index) {
                             return (
-                              <React.Fragment key={index}>
+                              <>
                                 {filterdata[key]?.length > 0 ? (
                                   <Accordion.Item
                                     className={
@@ -1276,7 +1276,7 @@ const MarketingReadersList = () => {
                                     </Accordion.Body>
                                   </Accordion.Item>
                                 ) : null}
-                              </React.Fragment>
+                              </>
                             );
                           })}
                         </Accordion>
@@ -1385,7 +1385,7 @@ const MarketingReadersList = () => {
                     <div className="filter-block-left full">
                       {Object.keys(filterObject)?.map((key, index) => {
                         return (
-                          <React.Fragment key={index}>
+                          <>
                             {filterObject[key]?.length ? (
                               <div className="filter-div">
                                 <div className="filter-div-title">
@@ -1445,7 +1445,7 @@ const MarketingReadersList = () => {
                                 </div>
                               </div>
                             ) : null}
-                          </React.Fragment>
+                          </>
                         );
                       })}
                     </div>
@@ -1467,7 +1467,7 @@ const MarketingReadersList = () => {
                 readerDataList.map((data, index) => {
               
                   return (
-                    <React.Fragment key={index}>
+                    <>
                       <div className="doc-content-main-box col"  >
                         <div className="doc-content-header">
                           <div className="doc-content">
@@ -1995,7 +1995,7 @@ const MarketingReadersList = () => {
                           </Tabs>
                         </div>
                       </div>
-                    </React.Fragment>
+                    </>
                   );
                 })
               ) : apiCallStatus ? (

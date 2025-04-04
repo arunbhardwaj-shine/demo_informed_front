@@ -1,5 +1,5 @@
 import consentCountries from "../Components/surveybuilder/SurveyComponents/Modals/consentCountries";
-let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 export const menuType = {
   multiple: {

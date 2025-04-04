@@ -9,7 +9,7 @@ import CommonConfirmModel from "../../../Model/CommonConfirmModel";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 
-let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const SiteListing = () => {
     const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","bWmUjqX7J011   WUTYn9g==","MXl8m36VZFYXpgFVz3Pg0g=="]
     const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
@@ -540,7 +540,7 @@ const SiteListing = () => {
                                 <Accordion defaultActiveKey="0" flush>
                                 {Object.keys(filterdata)?.map(function (key, index) {
                                     return (
-                                    <React.Fragment key={index}>
+                                    <>
                                         {filterdata[key]?.length ? (
                                         <Accordion.Item
                                             className="card"
@@ -591,7 +591,7 @@ const SiteListing = () => {
                                             </Accordion.Body>
                                         </Accordion.Item>
                                         ) : null}
-                                    </React.Fragment>
+                                    </>
                                     );
                                 })}
                                 </Accordion>
@@ -685,7 +685,7 @@ const SiteListing = () => {
                               <div className="filter-block-left full">
                                 {Object.keys(filterObject)?.map((key, index) => {
                                   return (
-                                    <React.Fragment key={index}>
+                                    <>
                                       {filterObject[key]?.length ? (
                                         <div className="filter-div">
                                           <div className="filter-div-title">
@@ -715,7 +715,7 @@ const SiteListing = () => {
                                           </div>
                                         </div>
                                       ) : null}
-                                    </React.Fragment>
+                                    </>
                                   );
                                 })}
                               </div>
@@ -886,7 +886,7 @@ const SiteListing = () => {
                                     {
                                         listingDataSite.length > 0 ? (
                                                 sortData(listingDataSite, sortBy, sortOrder)?.map((item, index) => (
-                                                <React.Fragment key={index}>
+                                                <>
                                                     <tr key={item.id}>
                                                         {
                                                           /*<td> {index + 1}</td>*/
@@ -916,7 +916,7 @@ const SiteListing = () => {
                                                             </td> 
                                                     
                                                     </tr>
-                                                </React.Fragment>
+                                                </>
                                             ))
                                         ) :  (
 

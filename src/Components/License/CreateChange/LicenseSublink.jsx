@@ -21,7 +21,7 @@ import { ENDPOINT } from "../../../axios/apiConfig";
 import { postData, getData } from "../../../axios/apiHelper";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import SubLinkListing from "./SubLinkListing";
-let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const LicenseSublink = () => {
   const { state } = useLocation();
   const [allContents, setallContents] = useState([]);
@@ -661,7 +661,7 @@ const LicenseSublink = () => {
                                                     articleData?.id
                                                   ) {
                                                     return (
-                                                      <React.Fragment key={i}>
+                                                      <>
                                                         <div className="data-progress success-progress">
                                                           <ProgressBar
                                                             variant={
@@ -681,7 +681,7 @@ const LicenseSublink = () => {
                                                             }
                                                           />
                                                         </div>
-                                                      </React.Fragment>
+                                                      </>
                                                     );
                                                   }
                                                 }
@@ -724,7 +724,7 @@ const LicenseSublink = () => {
                                                             articleData?.id
                                                           ) {
                                                             return (
-                                                              <React.Fragment key={idx}>
+                                                              <>
                                                                 <div className="data-progress limited">
                                                                   <ProgressBar
                                                                     variant={
@@ -748,7 +748,7 @@ const LicenseSublink = () => {
                                                                     }
                                                                   />
                                                                 </div>
-                                                              </React.Fragment>
+                                                              </>
                                                             );
                                                           }
                                                         }
@@ -789,7 +789,7 @@ const LicenseSublink = () => {
                                                                 articleData?.id
                                                               ) {
                                                                 return (
-                                                                  <React.Fragment key={index}>
+                                                                  <>
                                                                     <div className="data-progress limited">
                                                                       <ProgressBar
                                                                         variant={
@@ -845,7 +845,7 @@ const LicenseSublink = () => {
                                                                         </>
                                                                       )}
                                                                     </span>
-                                                                  </React.Fragment>
+                                                                  </>
                                                                 );
                                                               }
                                                             }
@@ -887,7 +887,7 @@ const LicenseSublink = () => {
                                                         articleData?.id
                                                       ) {
                                                         return (
-                                                          <React.Fragment key={idx}>
+                                                          <>
                                                             <div className="data-progress limited">
                                                               <ProgressBar
                                                                 variant={
@@ -943,7 +943,7 @@ const LicenseSublink = () => {
                                                                 </>
                                                               )}
                                                             </span>
-                                                          </React.Fragment>
+                                                          </>
                                                         );
                                                       }
                                                     }
@@ -985,7 +985,7 @@ const LicenseSublink = () => {
                                                       articleData.id
                                                     ) {
                                                       return (
-                                                        <React.Fragment key={index}>
+                                                        <>
                                                           <div className="data-progress">
                                                             {/* <span>{details.registeredReader}</span> */}
                                                             <ProgressBar
@@ -1052,7 +1052,7 @@ const LicenseSublink = () => {
                                                               </span>
                                                               : null
                                                           }
-                                                        </React.Fragment>
+                                                        </>
                                                       );
                                                     }
                                                   }
@@ -1092,7 +1092,7 @@ const LicenseSublink = () => {
                                                       articleData?.id
                                                     ) {
                                                       return (
-                                                        <React.Fragment key={index}>
+                                                        <>
                                                           <div className="data-progress">
                                                             <ProgressBar
                                                               variant={
@@ -1118,7 +1118,7 @@ const LicenseSublink = () => {
                                                               }
                                                             />
                                                           </div>
-                                                        </React.Fragment>
+                                                        </>
                                                       );
                                                     }
                                                   }
@@ -1158,7 +1158,7 @@ const LicenseSublink = () => {
                                                       articleData?.id
                                                     ) {
                                                       return (
-                                                        <React.Fragment key={index}>
+                                                        <>
                                                           <div className="data-progress">
                                                             <ProgressBar
                                                               variant={
@@ -1182,7 +1182,7 @@ const LicenseSublink = () => {
                                                               }
                                                             />
                                                           </div>
-                                                        </React.Fragment>
+                                                        </>
                                                       );
                                                     }
                                                   }
@@ -1222,7 +1222,7 @@ const LicenseSublink = () => {
                                                       articleData?.id
                                                     ) {
                                                       return (
-                                                        <React.Fragment key={idx}>
+                                                        <>
                                                           <div className="data-progress">
                                                             <ProgressBar
                                                               variant={
@@ -1246,7 +1246,7 @@ const LicenseSublink = () => {
                                                               }
                                                             />
                                                           </div>
-                                                        </React.Fragment>
+                                                        </>
                                                       );
                                                     }
                                                   }

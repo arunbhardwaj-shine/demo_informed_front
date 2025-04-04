@@ -29,7 +29,7 @@ const colors = [
   ];
   
 const AnalyticsPoll = () => {
-  const path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+  const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [flag, setFlag] = useState(1);
   const { eventIdContext, handleEventId } = useSidebar();
   const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"));
@@ -297,7 +297,7 @@ const AnalyticsPoll = () => {
                       
                      {   question?.map((item, index) => {
                           return (
-                            <React.Fragment key={index}>
+                            <>
                               <div className="d-flex w-100">
                                 <div className="slider-space" key={item?.questionId}>
                                   <div className="question-boxed">
@@ -353,7 +353,7 @@ const AnalyticsPoll = () => {
                                                 item?.totalSubquestion?.map(
                                                   (answer, i) => {
                                                     return (
-                                                      <React.Fragment key={i}>
+                                                      <>
                                                         <div
                                                           className="answer sub-question"
                                                            
@@ -373,7 +373,7 @@ const AnalyticsPoll = () => {
                                                             }}
                                                           ></div>
                                                         </div>
-                                                      </React.Fragment>
+                                                      </>
                                                     );
                                                   }
                                                 )
@@ -405,7 +405,7 @@ const AnalyticsPoll = () => {
                                                     ? item?.allUserAnswers?.map(
                                                         (answer, i) => {
                                                           return (
-                                                            <React.Fragment key={i}>
+                                                            <>
                                                               <div
                                                                 className="answer"
                                                              
@@ -434,7 +434,7 @@ const AnalyticsPoll = () => {
                                                                   }}
                                                                 />
                                                               </div>
-                                                            </React.Fragment>
+                                                            </>
                                                           );
                                                         }
                                                       )
@@ -491,7 +491,7 @@ const AnalyticsPoll = () => {
                                   />
                                 </div>
                               </div>
-                            </React.Fragment>
+                            </>
                           );
                         })}
                        { 

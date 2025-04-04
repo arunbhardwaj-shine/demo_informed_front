@@ -156,13 +156,13 @@ const CommonModel = ({
           <Form>
             {data?.map((item, index) => {
               return (
-                <React.Fragment key={index}>
+                <>
                   {item?.type == "dropdown"
                     ? modelDropdown(item)
                     : item?.type == "input"
                     ? modelInput(item)
                     : null}
-                </React.Fragment>
+                </>
               );
             })}
           </Form>

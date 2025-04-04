@@ -5,7 +5,7 @@ import { ENDPOINT } from "../../../axios/apiConfig";
 import {getData} from "../../../axios/apiHelper";
 import { toast } from "react-toastify";
 import {QRCodeCanvas} from "qrcode.react";
-let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const SubLinkListing = ({
   pdfid,render,count
@@ -70,7 +70,7 @@ const SubLinkListing = ({
         {
             subLinkData?.map((data, index) => {
               return (
-                <React.Fragment key={index}>
+                <>
                 <div className="sublink-list">
                   <div className="sublink-listed-view d-flex align-items-center">
                     <div className="sublink-listed-view-block">
@@ -122,7 +122,7 @@ const SubLinkListing = ({
                   level={'H'}
                   includeMargin={true}
                 />
-                </React.Fragment>
+                </>
               )
             })
         }

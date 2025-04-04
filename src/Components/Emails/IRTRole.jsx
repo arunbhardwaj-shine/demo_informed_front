@@ -8,7 +8,7 @@ import { getDataRd } from "../../axios/apiInstanceHelper";
 import { ENDPOINT } from "../../axios/apiConfig";
 
 const IRTRole = ()  => {
-    const path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+    const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
     const colors = ["#8A4E9C","#0066be",'#FAC755', "#39CABC", "#FF9534",'#F58289','#97b6cf33' ,"#97B6CF"];
     const navigate = useNavigate();
     const [apiCallStatus, setApiCallStatus] = useState(false);
@@ -167,7 +167,7 @@ const IRTRole = ()  => {
           localStorage.setItem("IRTFlag", 1);
           navigate("/RD-EmailList", { state: { IrtObj: IRTData } });
         };
-    const pathToImage = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+    const pathToImage = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
     return (
      <>
     <Col className="right-sidebar custom-change">

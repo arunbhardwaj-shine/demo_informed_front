@@ -42,7 +42,7 @@ const CreateSmartList = () => {
   const [showAlertPopup, setShowAlertPopup] = useState(false);
   const [validator] = React.useState(new SimpleReactValidator());
   const [validationError, setValidationError] = useState({});
-  let path = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+  let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [ibu, setIbu] = useState([
     {
       label: "All",
@@ -230,7 +230,7 @@ const CreateSmartList = () => {
     formData.append("smart_list_name", smartListName);
     formData.append("reader_file", selectedFile);
 
-    axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     setShowProgressBar(true);
     await axios
       .post(`distributes/create_smart_list_with_excel`, formData)

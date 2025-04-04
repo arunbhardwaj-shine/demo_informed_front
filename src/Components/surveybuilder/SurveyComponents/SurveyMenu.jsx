@@ -63,7 +63,7 @@ const SurveyMenu = ({ menuRef, consentOption }) => {
     consent: "Consent",
   };
 
-  let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+  let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
   const questionElemnts = JSON.parse(localStorage.getItem("getSurveyData"));
   let defaultColor = "";

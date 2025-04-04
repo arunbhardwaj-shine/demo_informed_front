@@ -11,7 +11,7 @@ import { loader } from "../../loader";
 const IndividualCompletion = ({ individualCompletionfn }) => {
   const [pieData, setPieData] = useState({});
 
-  const path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+  const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [isHighlightNotLoaded, setIsHighlightNotLoaded] = useState(true);
   const colors = ["#39CABC", "#FFCACD", "#DECBE3", "#986CA5", "#004A89"];
   const [pieOptions, setPieOptions] = useState({

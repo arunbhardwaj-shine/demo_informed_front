@@ -28,7 +28,7 @@ const SelectHCP = (props) => {
   const surveySubLinkId = old_object?.sublink_id ? old_object?.sublink_id : props?.getDraftData?.campaign_data?.sublink_id ? props?.getDraftData?.campaign_data?.sublink_id : 0;
  
   const navigate = useNavigate();
-  let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+  let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   
   const [selection, setSelection] = useState(0);
   const [isContentMandatory, setIsContentMandatory] = useState(0);
@@ -42,7 +42,7 @@ const SelectHCP = (props) => {
       : 0
   );
 
-  axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+  axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
   const campaign_id = old_object
     ? old_object.campaign_id
     : props.getDraftData
@@ -168,7 +168,7 @@ const SelectHCP = (props) => {
       status: 2,
     };
 
-    axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     loader("show");
     await axios
       .post(`emailapi/save_draft`, body)
@@ -221,7 +221,7 @@ const SelectHCP = (props) => {
 
   const checkMandatoryContent = async() => {
     try{
-      axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
         const body = {
           user_id: localStorage.getItem("user_id"),
           pdf_id: old_object?.PdfSelected

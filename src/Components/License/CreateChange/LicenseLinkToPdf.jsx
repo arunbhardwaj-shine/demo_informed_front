@@ -97,7 +97,7 @@ const LicenseLinkToPdf = () => {
 
   let multiply_factor = 0;
 
-  let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+  let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [mouseLastup, setMouseLastup] = useState(0);
 
   const fitToWidth = () => {
@@ -966,7 +966,7 @@ const LicenseLinkToPdf = () => {
         setSelectedError({});
       }
       loader("show");
-      axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       const findIndex = file.lastIndexOf("/");
       const res = await axios.post(`libraries/addLinkToPdf`, {
         link: embed_url,

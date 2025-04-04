@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { ENDPOINT } from "../../../axios/apiConfig";
 import { getData } from "../../../axios/apiHelper";
-let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const SubLinkListing = ({ pdfid, render, count }) => {
   const [sectionLoader, setSectionLoader] = useState(false);
@@ -77,7 +77,7 @@ const SubLinkListing = ({ pdfid, render, count }) => {
           <>
             {subLinkData?.map((data, index) => {
               return (
-                <React.Fragment key={index}>
+                <>
                   <div className="sublink-list">
                     <div className="sublink-listed-view d-flex align-items-center">
                       <div className="sublink-listed-view-block">
@@ -128,7 +128,7 @@ const SubLinkListing = ({ pdfid, render, count }) => {
                     level={"H"}
                     includeMargin={true}
                   />
-                </React.Fragment>
+                </>
               );
             })}
           </>

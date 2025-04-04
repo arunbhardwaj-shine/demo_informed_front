@@ -3,7 +3,7 @@ import { Button, Modal } from "react-bootstrap";
 import Select from "react-select";
 import { toast } from "react-toastify";
 import RegistrationValidation from "./AddQuestionValidation";
-let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const CommonExtensionModal = ({
   show,
   onClose,

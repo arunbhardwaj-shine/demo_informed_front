@@ -638,7 +638,7 @@ p#totalCountText {
 }
 
 .isth .login-wrapper-mid-sec {
-  background: rgba(252, 252, 252, 0.02) url(/componentAssets/images/isth-bg.png) no-repeat;
+  /* background: rgba(252, 252, 252, 0.02) url(../assets/images/isth-bg.png) no-repeat; */
   background-position: bottom right;
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.44);
   background-size: 189px;

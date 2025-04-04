@@ -61,8 +61,8 @@ const SmartList = (props) => {
    const deletButtonColor = isLikeRdAccount ? '#8A4E9C' : '#0066be'
    const isRDAccount = isLikeRdAccount
 
-  let path = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED;
-  let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+  let path = process.env.REACT_APP_ASSETS_PATH_INFORMED;
+  let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
   const buttonRef = useRef(null);
   const filterRef = useRef(null);
@@ -75,7 +75,7 @@ const SmartList = (props) => {
     filter: filter,
     paging: "31",
   };
-  axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+  axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
   const getSmartListData = async (flag, page = 1) => {
     loader("show");
     await axios
@@ -188,7 +188,7 @@ const SmartList = (props) => {
       smart_list_id: deletecardid,
       type:type == "survey" ? 1 :type,
     };
-    axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     loader("show");
 
     axios
@@ -220,7 +220,7 @@ const SmartList = (props) => {
 
   const handleDownload = async (list_id,name) => {
     
-    axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
    
     const requestData = {
       user_id: localStorage.getItem("user_id"),

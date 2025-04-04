@@ -31,7 +31,7 @@ const WebinarVerifyMAIL = (props) => {
   );
   const [isOpen, setIsOpen] = useState(false);
   const [campaign_id_st, setCampaign_id] = useState();
-  let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+  let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [SendListData, setSendListData] = useState([]);
   const [UserData, setUserData] = useState([]);
   const [templateId, setTemplateId] = useState(0);
@@ -149,7 +149,7 @@ const WebinarVerifyMAIL = (props) => {
     getpdfData();
   }, []);
 
-  axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+  axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
   const getpdfData = async () => {
     let pdf_id = props.getWebinarEmailData?.PdfSelected
       ? props.getWebinarEmailData?.PdfSelected
@@ -162,7 +162,7 @@ const WebinarVerifyMAIL = (props) => {
       pdf_id != 14 &&
       pdf_id != 16
     ) {
-      axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       const body = {
         user_id: localStorageUserId,
         pdf_id: pdf_id,
@@ -255,7 +255,7 @@ const WebinarVerifyMAIL = (props) => {
 
     };
 
-    axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     loader("show");
     await axios
       .post(`emailapi/save_draft`, body)
@@ -382,7 +382,7 @@ const WebinarVerifyMAIL = (props) => {
       };
 
 
-      axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       //loader("show");
       setShowProgressBar(true);
       if (localStorageUserId == 'rjiGlqA9DXJVH7bDDTX0Lg==' || localStorageUserId == 'm5JI5zEDY3xHFTZBnSGQZg==') {
@@ -504,7 +504,7 @@ const WebinarVerifyMAIL = (props) => {
 
   const openSmartListPopup = async (smart_list_id) => {
     setShowLessInfo(true);
-    axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     const body = {
       user_id: localStorageUserId,
       list_id: smart_list_id,
@@ -604,7 +604,7 @@ const WebinarVerifyMAIL = (props) => {
         : props.getWebinarDraftData?.campaign_data?.template_id,
 
     };
-    axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     loader("show");
     await axios
       .post(`emailapi/save_draft`, body)
@@ -762,7 +762,7 @@ const WebinarVerifyMAIL = (props) => {
                             {props.getWebinarEmailData?.tags
                               ? props.getWebinarEmailData?.tags?.map((tags, i) => {
                                 return (
-                                  <React.Fragment key={i}>
+                                  <>
                                     <li className="list1">
                                       {tags?.innerHTML || tags}{" "}
                                       <img
@@ -771,12 +771,12 @@ const WebinarVerifyMAIL = (props) => {
                                         onClick={() => removeTag(i)}
                                       />
                                     </li>
-                                  </React.Fragment>
+                                  </>
                                 );
                               })
                               : props.getWebinarDraftData?.tags?.map((tags, i) => {
                                 return (
-                                  <React.Fragment key={i}>
+                                  <>
                                     <li className="list1">
                                       {tags?.innerHTML || tags}{" "}
                                       <img
@@ -785,7 +785,7 @@ const WebinarVerifyMAIL = (props) => {
                                         onClick={() => removeTag(i)}
                                       />
                                     </li>
-                                  </React.Fragment>
+                                  </>
                                 );
                               })}
                           </ul>
@@ -991,7 +991,7 @@ const WebinarVerifyMAIL = (props) => {
                       selectedHcp?.length > 0 &&
                       selectedHcp?.map((rr, i) => {
                         return (
-                          <React.Fragment key={i}>
+                          <>
                             <tr>
                               <td>{rr?.first_name}</td>
                               <td>{rr?.email}</td>
@@ -1040,7 +1040,7 @@ const WebinarVerifyMAIL = (props) => {
                               ) : null}
                               <td className="add-new-hcp" colspan="12"></td>
                             </tr>
-                          </React.Fragment>
+                          </>
                         );
                       })}
                   </tbody>

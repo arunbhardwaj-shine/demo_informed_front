@@ -26,7 +26,7 @@ const SmartListTableLayout = ({ id, closeSmartListPopup }) => {
 
     const openSmartListPopup = async (id) => {
         setShowLessInfo(true);
-        axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+        axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
         const body = {
             user_id: localStorage.getItem("user_id"),
             list_id: id,
@@ -366,7 +366,7 @@ const SmartListTableLayout = ({ id, closeSmartListPopup }) => {
                                             getReaderDetails.length > 0 &&
                                             sortData(getReaderDetails, sortBy, sortOrder).map((rr, i) => {
                                                 return (
-                                                    <React.Fragment key={i}>
+                                                    <>
                                                         <tr  >
                                                             <td>{rr?.first_name ? rr?.first_name : "N/A"}</td>
                                                             <td>{rr?.email ? rr?.email : "N/A"}</td>
@@ -430,7 +430,7 @@ const SmartListTableLayout = ({ id, closeSmartListPopup }) => {
                                                             ) : null}
                                                             <td className="add-new-hcp" colspan="12"></td>
                                                         </tr>
-                                                    </React.Fragment>
+                                                    </>
                                                 );
                                             })}
                                     </tbody>

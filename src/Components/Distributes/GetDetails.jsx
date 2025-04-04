@@ -8,7 +8,7 @@ import "@inovua/reactdatagrid-community/index.css";
 
 const GetDetails = (props) => {
   const routeTypeSurvey = props?.type == "survey" ? 1 : 0;
-  let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+  let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const navigate = useNavigate();
   const [data, setData] = useState([]);
   const [heading, setHeading] = useState([]);
@@ -31,7 +31,7 @@ const GetDetails = (props) => {
   }, []);
 
   const getCampaignReaderDetails = async (flag = 0) => {
-    axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     const body = {
       user_id: localStorage.getItem("user_id"),
       distribute_id: distribute_id,
@@ -583,10 +583,10 @@ const GetDetails = (props) => {
                                 data[0].all_read_info != ""
                                   ? Object.keys(data[0].all_read_info).map(
                                       (key, index) => (
-                                        <React.Fragment key={index+1}>
+                                        <>
                                           <th>Link Open {index + 1}</th>
                                           <th>Registered {index + 1}</th>
-                                        </React.Fragment>
+                                        </>
                                       )
                                     )
                                   : ""}
@@ -624,7 +624,7 @@ const GetDetails = (props) => {
                                   item.all_read_info != ""
                                     ? Object.keys(item.all_read_info).map(
                                         (key,index) => (
-                                          <React.Fragment key={index}>
+                                          <>
                                             <td>
                                               {
                                                 item.all_read_info[key]
@@ -637,7 +637,7 @@ const GetDetails = (props) => {
                                                   .article_registered
                                               }
                                             </td>
-                                          </React.Fragment>
+                                          </>
                                         )
                                       )
                                     : ""}

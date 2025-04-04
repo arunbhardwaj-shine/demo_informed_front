@@ -30,7 +30,7 @@ const WebinarCreateNewEmail = (props) => {
     const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
     const groupId= localStorage.getItem("group_id")
      const {FETCH_ALL_TOPICS}=surveyEndpoints;
-    let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+    let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
     const navigate = useNavigate();
     const location = useLocation();
     const dispatch = useDispatch();
@@ -224,7 +224,7 @@ const WebinarCreateNewEmail = (props) => {
     }, []);
 
     const getSmartListData = (flag) => {
-        axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+        axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
         const body = {
             user_id: localStorageUserId,
             search: getsearch,
@@ -332,7 +332,7 @@ const WebinarCreateNewEmail = (props) => {
             user_id: localStorageUserId
         };
 
-        axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+        axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
         const getAllTags = async () => {
             await surveyAxiosInstance
               .post(FETCH_ALL_TOPICS, body)
@@ -510,7 +510,7 @@ const WebinarCreateNewEmail = (props) => {
     const openSmartListPopup = async (smart_list_id) => {
         console.log("in open smartlist pop up")
         setShowLessInfo(true);
-        axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+        axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
         const body = {
             user_id: localStorageUserId,
             list_id: smart_list_id,
@@ -581,7 +581,7 @@ const WebinarCreateNewEmail = (props) => {
                 ? templateId
                 : props?.getWebinarDraftData?.template_id
         };
-        axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+        axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
         loader("show");
         await axios
             .post(`emailapi/save_draft`, body)
@@ -756,7 +756,7 @@ const WebinarCreateNewEmail = (props) => {
                 : props?.getWebinarDraftData?.template_id
         };
 
-        axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+        axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
         loader("show");
         await axios
             .post(`emailapi/save_draft`, body)
@@ -1004,7 +1004,7 @@ const WebinarCreateNewEmail = (props) => {
                 name: name,
                 email: email,
             };
-            axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+            axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
             loader("show");
             await axios
                 .post(`emailapi/search_hcp`, body)
@@ -1135,7 +1135,7 @@ const WebinarCreateNewEmail = (props) => {
             };
 
 
-            axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+            axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
 
             axios
                 .post(`webinar/send_sample_email`, body)
@@ -1349,7 +1349,7 @@ const WebinarCreateNewEmail = (props) => {
             status.sort();
             if (status.every((element) => element == "true")) {
                 loader("show");
-                axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+                axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
                 await axios
                     .post(`distributes/add_new_readers_in_list`, body)
                     .then((res) => {
@@ -1388,7 +1388,7 @@ const WebinarCreateNewEmail = (props) => {
 
 
             if (selectedFile) {
-                axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+                axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
                 loader("show");
                 // await axios
                 //     .post(`distributes/update_reader_list`, formData)
@@ -1447,7 +1447,7 @@ const WebinarCreateNewEmail = (props) => {
                 event_id: eventId
             };
 
-            axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+            axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
             loader("show");
             await axios
                 .post(`webinar/add_update_template`, body)
@@ -1511,7 +1511,7 @@ const WebinarCreateNewEmail = (props) => {
                     event_id: eventId
                 };
 
-                axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+                axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
                 loader("show");
                 await axios
                     .post(`webinar/add_update_template`, body)
@@ -1613,7 +1613,7 @@ const WebinarCreateNewEmail = (props) => {
                 };
 
                 //console.log(body);
-                axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+                axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
                 try {
                     loader("show");
                      await surveyAxiosInstance.post(ENDPOINT.ADD_SPC_PRODUCT, {
@@ -1788,7 +1788,7 @@ const WebinarCreateNewEmail = (props) => {
                                     >
                                         {templateList?.map((template, index) => {
                                             return (
-                                                <React.Fragment key={index}>
+                                                <>
                                                     <div
                                                          
                                                         className="item"
@@ -1808,7 +1808,7 @@ const WebinarCreateNewEmail = (props) => {
 
                                                         <p>{template?.subject}</p>
                                                     </div>
-                                                </React.Fragment>
+                                                </>
                                             );
                                         })}
                                     </AliceCarousel>
@@ -2543,11 +2543,11 @@ const WebinarCreateNewEmail = (props) => {
                                     {allTags
                                         ? Object.values(allTags)?.map((data, index) => {
                                             return (
-                                                <React.Fragment key={index}>
+                                                <>
                                                     <div   onClick={() => tagClicked(data)}>
                                                         {data}{" "}
                                                     </div>
-                                                </React.Fragment>
+                                                </>
                                             );
                                         })
                                         : ""}
@@ -2657,7 +2657,7 @@ const WebinarCreateNewEmail = (props) => {
                                 smartListData.length > 0 ? (
                                 smartListData?.map((data, index) => {
                                     return (
-                                        <React.Fragment key={index}>
+                                        <>
                                             <div className="smartlist_box_block new-smartlist" >
                                                 <div className="smartlist-view email_box">
                                                     <div className="mail-box-content">
@@ -2684,7 +2684,7 @@ const WebinarCreateNewEmail = (props) => {
                                                     </div>
                                                 </div>
                                             </div>
-                                        </React.Fragment>
+                                        </>
                                     );
                                 })
                             ) : (
@@ -2794,7 +2794,7 @@ const WebinarCreateNewEmail = (props) => {
                                                 getReaderDetails.length > 0 &&
                                                 getReaderDetails.map((rr, i) => {
                                                     return (
-                                                        <React.Fragment key={i}>
+                                                        <>
                                                             <tr  >
                                                                 <td>{rr?.first_name ? rr?.first_name : "N/A"}</td>
                                                                 <td>{rr?.email ? rr?.email : "N/A"}</td>
@@ -2865,7 +2865,7 @@ const WebinarCreateNewEmail = (props) => {
                                                                 ) : null}
                                                                 <td className="add-new-hcp" colspan="12"></td>
                                                             </tr>
-                                                        </React.Fragment>
+                                                        </>
                                                     );
                                                 })}
                                         </tbody>

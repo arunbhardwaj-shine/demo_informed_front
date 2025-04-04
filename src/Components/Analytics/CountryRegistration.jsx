@@ -14,7 +14,7 @@ import highchartsMap from "highcharts/modules/map";
 import MapModule from "highcharts/modules/map";
 
  
-let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const CountryRegistration = () => {
   const [isDataFound, setIsDataFound] = useState(false);
   const [newData, setNewData] = useState([]);

@@ -24,7 +24,7 @@ var dxr = 0;
 var pdf_id = 0;
 
 const LicenseContentDetail = (props) => {
-  let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+  let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [open, setOpen] = useState(false);
   const [openProduction, setOpenProduction] = useState(false);
   const { state } = useLocation();
@@ -307,7 +307,7 @@ Let me know if you’d like any further adjustments!`;
               {libraryData?.length
                 ? libraryData.map((data, index) => {
                     return (
-                      <React.Fragment key={index}>
+                      <>
                         <div className="row" >
                           <div className="col-12">
                             <div className="verify-mail-box">
@@ -345,12 +345,12 @@ Let me know if you’d like any further adjustments!`;
                                               ? JSON?.parse(data?.tags)?.map(
                                                   (topic, id) => {
                                                     return (
-                                                      <React.Fragment key={id}>
+                                                      <>
                                                         <li className="list1">
                                                           {topic.innerHTML ||
                                                             topic}{" "}
                                                         </li>
-                                                      </React.Fragment>
+                                                      </>
                                                     );
                                                   }
                                                 )
@@ -751,7 +751,7 @@ Let me know if you’d like any further adjustments!`;
                             </div>
                           </div>
                         </div>
-                      </React.Fragment>
+                      </>
                     );
                   })
                 : null}

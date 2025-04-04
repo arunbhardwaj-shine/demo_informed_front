@@ -38,8 +38,8 @@ const EmailList = (props) => {
   const navigate = useNavigate();
   const { state } = useLocation();
   const isRND = isLikeRdAccount;
-  let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
-  let path = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+  let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+  let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const colorArray = [
     "#0E9B8E",
     "#00003C",
@@ -281,7 +281,7 @@ const EmailList = (props) => {
     setIsOpen(false);
   };
 
-  axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+  axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
 
   const getCampaignFiltereData = async () => {
     try {
@@ -342,7 +342,7 @@ const EmailList = (props) => {
 
   const resendemail = () => {
     hideModal();
-    axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     const body = {
       user_id: localStorage.getItem("user_id"),
       campaign_id: campaign_id,
@@ -397,7 +397,7 @@ const EmailList = (props) => {
       user_id: localStorage.getItem("user_id"),
       campaign_id: campaign_id,
     };
-    axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     loader("show");
     await axios
       .post(`emailapi/get_campaign_details`, body)
@@ -483,7 +483,7 @@ const EmailList = (props) => {
       user_id: localStorage.getItem("user_id"),
       campaign_id: deletecardid,
     };
-    axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     loader("show");
     axios
       .post(`emailapi/delete_campaign`, body)
@@ -743,7 +743,7 @@ const EmailList = (props) => {
       user_id: localStorage.getItem("user_id"),
       campaign_id: getDraftCamapignId,
     };
-    axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     loader("show");
     await axios
       .post(`emailapi/get_campaign_details`, body)
@@ -779,7 +779,7 @@ const EmailList = (props) => {
               template_id: draft_campaign.campaign_data.template_id,
             },
           };
-          axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+          axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
           axios
             .post(`emailapi/send_email`, body)
             .then((res) => {
@@ -848,7 +848,7 @@ const EmailList = (props) => {
 
     setPopupHeadingColor(color_code);
     loader("show");
-    axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     await axios
       .post(`emailapi/get_article_readers`, body)
       .then((res) => {
@@ -915,7 +915,7 @@ const EmailList = (props) => {
         pdf_id: irtObj?.pdfId,
         role: irtObj?.siteRole,
       };
-      axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       loader("show");
       await axios
         .post(`emailapi/get_rd_campaign_data`, body)
@@ -3159,7 +3159,7 @@ const EmailList = (props) => {
                                 <>
                                   {item?.recent_send?.map((subItem, subIndex) =>
                                     subIndex !== 0 ? (
-                                      <React.Fragment key={subIndex}>
+                                      <>
                                         <tr>
                                           <td>
                                             {item?.first_name +
@@ -3233,7 +3233,7 @@ const EmailList = (props) => {
                                             ) : null}
                                           </td>
                                         </tr>
-                                      </React.Fragment>
+                                      </>
                                     ) : null
                                   )}
                                 </>

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { getCurrentYear } from '../CommonComponent/CurrentYear';
 
 const LandingFooter = () => {
-    const path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+    const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
     const [privacyshow, setPrivacyshow] = useState(false);
     const [termshow, setTermshow] = useState(false);
     const [cookieshow, setCookieshow] = useState(false);

@@ -9,7 +9,7 @@ import { ENDPOINT } from "../../axios/apiConfig";
 import { postData } from "../../axios/apiHelper";
 import Header from "./HeaderComponent/Header";
 
-let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 let loadData = 0;
 
 
@@ -639,7 +639,7 @@ const SetLayoutNewTimeline = () => {
                         (<>
                           <div className="timeline-listed">
                             {timelineData?.map((data, index) => {
-                              return (<React.Fragment key={index}>
+                              return (<>
                                 <div className="timeline-sticky">
 
                                   <div className="timeline-indicator">
@@ -653,7 +653,7 @@ const SetLayoutNewTimeline = () => {
                                   if (item?.pdfTitle?.includes("LEX-210")) {
                                     item.pdfTitle = item.pdfTitle.replace("LEX-210", "trials");
                                   }
-                                  return (<React.Fragment key={i}>
+                                  return (<>
                                     {(item?.auto_mail == 1 || item?.auto_mail == 2)
                                       ?
                                       <div className="timeline-box-inset" key={i}>
@@ -1495,9 +1495,9 @@ const SetLayoutNewTimeline = () => {
                                                               </div>
                                                               : ""
                                     }
-                                  </React.Fragment>)
+                                  </>)
                                 })}
-                              </React.Fragment>)
+                              </>)
                             })
                             }
                           </div>

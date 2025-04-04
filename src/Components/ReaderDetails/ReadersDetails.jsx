@@ -8,7 +8,7 @@ import StaticExample from "./SucessfullModal";
 import { toast } from "react-toastify";
 
 const ReadersDetails = () => {
-  let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+  let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [show, setShow] = useState(false);
   const routeParams = useParams();
   const url_id = routeParams.id;

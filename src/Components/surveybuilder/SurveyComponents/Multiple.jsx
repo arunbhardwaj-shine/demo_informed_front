@@ -3,7 +3,7 @@ import { Button, Form, Tooltip } from "react-bootstrap";
 import LoadChoicesModal from "./Modals/LoadChoicesModal";
 import DeleteAdd from "./DeleteAdd";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
-let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 
 

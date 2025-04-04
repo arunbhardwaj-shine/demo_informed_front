@@ -1257,7 +1257,7 @@ const PharmaRd = () => {
     return () => clearInterval(interval);
   }, [currentModuleIndex]);
 
-  const path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+  const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
   const [show, setShow] = useState(false);
   const [readStatus, setReadStatus] = useState(false);

@@ -325,7 +325,7 @@ const colourStyles = {
   const companyRef = useRef(null);
   const phoneRef = useRef(null);
   const countryRef = useRef(null);
-  axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+  axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
 
   const handleContactFormChange = (e, isSelectedName) => {
     setAddClass(false);

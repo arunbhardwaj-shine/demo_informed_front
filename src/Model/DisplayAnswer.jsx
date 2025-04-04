@@ -5,7 +5,7 @@ import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import { useLocation, useParams, useSearchParams } from 'react-router-dom';
 let  colors= ["#ff5366","#0053a0","#ff8649","#89A550","#4098B7","#DB843D","#FFBE3C","#3cff79","#b58cca","#8c95ca"] 
-let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 function DisplayAnswer({ show, data, onClose, readerCount, customAnswer, designData, graphType }) {
   const [searchParams] = useSearchParams();
   let parms=searchParams.get('evnt');

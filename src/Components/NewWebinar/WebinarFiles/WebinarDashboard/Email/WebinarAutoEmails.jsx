@@ -17,7 +17,7 @@ import html2canvas from "html2canvas";
 import SmartListTableLayout from "../../../../CommonComponent/SmartListTableLayout";
 import SmartListLayout from "../../../../CommonComponent/SmartListLayout";
 
-let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const WebinarAutoEmail = () => {
   const accountMapping={"56Ek4feL/1A8mZgIKQWEqg==":2147501188,"bWmUjqX7J011   WUTYn9g==":298217,"MXl8m36VZFYXpgFVz3Pg0g==":2147537506}
   const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","bWmUjqX7J011   WUTYn9g==","MXl8m36VZFYXpgFVz3Pg0g=="]
@@ -236,7 +236,7 @@ const WebinarAutoEmail = () => {
     }
   };
 
-  axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+  axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
   const getTemplateListData = async () => {
     try {
       loader("show");
@@ -331,7 +331,7 @@ const WebinarAutoEmail = () => {
         email: email,
       };
 
-      axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       loader("show");
       await axios
         .post(`emailapi/search_hcp`, body)
@@ -443,7 +443,7 @@ const WebinarAutoEmail = () => {
         source_code: editorRef?.current?.getContent() ? editorRef?.current?.getContent() : sourceCode,
       };
 
-      axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       axios
         .post(`webinar/send_sample_email`, body)
         .then((res) => {
@@ -651,7 +651,7 @@ const WebinarAutoEmail = () => {
       status.sort();
       if (status.every((element) => element == "true")) {
         loader("show");
-        axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+        axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
         await axios
           .post(`distributes/add_new_readers_in_list`, body)
           .then((res) => {
@@ -699,7 +699,7 @@ const WebinarAutoEmail = () => {
   };
 
   const getSmartListData = async (flag) => {
-    axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     const body = {
       user_id: localStorageUserId,
       search: getsearch,
@@ -813,7 +813,7 @@ const WebinarAutoEmail = () => {
           status: status === 0 ? 2 : status === 1 ? 3 : 4,
           event_id: eventId,
         };
-        axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+        axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
         loader("show");
         await axios
           .post(`webinar/add_update_template`, body)
@@ -1014,7 +1014,7 @@ const WebinarAutoEmail = () => {
           status: 1,
           event_id: eventId,
         };
-        axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+        axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
         loader("show");
         await axios
           .post(`webinar/add_update_template`, body)
@@ -2056,7 +2056,7 @@ const WebinarAutoEmail = () => {
                   <>
                     {selectedHcp?.map((data, index2) => {
                       return (
-                        <React.Fragment key={index2}>
+                        <>
                           <div className="search-hcp-box" key={data}>
                             <p className="send-hcp-box-title">
                               Name | <span>{data.name || data.first_name}</span>
@@ -2075,7 +2075,7 @@ const WebinarAutoEmail = () => {
                               />
                             </div>
                           </div>
-                        </React.Fragment>
+                        </>
                       );
                     })}
                   </>
@@ -2157,7 +2157,7 @@ const WebinarAutoEmail = () => {
                 smartListData.length > 0 ? (
                 smartListData.map((data,i) => {
                   return (
-                    <React.Fragment key={i}>
+                    <>
                       <div className="smartlist_box_block new-smartlist">
                         <div className="smartlist-view email_box">
                           <div className="mail-box-content">
@@ -2189,7 +2189,7 @@ const WebinarAutoEmail = () => {
                           </div>
                         </div>
                       </div>
-                    </React.Fragment>
+                    </>
                   );
                 })
               ) : (

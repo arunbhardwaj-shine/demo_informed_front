@@ -18,7 +18,7 @@ var dxr = 0;
 var state_object = {};
 var searched_Data = {};
 var selected_Data = [];
-let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const CreateSunshineEmail = (props) => {
   const navigate = useNavigate();
   const [validator] = React.useState(new SimpleReactValidator());
@@ -204,7 +204,7 @@ const CreateSunshineEmail = (props) => {
   };
 
   const getAllTags = async () => {
-    axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     const body = {
       user_id: localStorage.getItem("user_id"),
     };
@@ -289,7 +289,7 @@ const CreateSunshineEmail = (props) => {
         };
 
     
-        axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+        axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
         loader("show");
         await axios
           .post(`emailapi/save_tags`, body)
@@ -383,7 +383,7 @@ const CreateSunshineEmail = (props) => {
     try{
       e.preventDefault();
       if (validate()) {
-        axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+        axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
         loader("show");
         formData.user_id = localStorage.getItem('user_id');
         console.log(formData,'formData');
@@ -466,7 +466,7 @@ const CreateSunshineEmail = (props) => {
           email: searchEmail,
         };
 
-        axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+        axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
         loader("show");
         await axios
           .post(`emailapi/search_pharma`, body)
@@ -630,7 +630,7 @@ const CreateSunshineEmail = (props) => {
         source_code: template,
       };
       console.log(body)
-      axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
 
       axios
         .post(`emailapi/send_sample_email`, body)
@@ -1250,17 +1250,17 @@ const CreateSunshineEmail = (props) => {
                           let uploadedImageUrl;
 
                           try {
-                            if (meta && meta.width && meta.height) {
-                              uploadedImageUrl = await uploadImageToServer(
-                                file,
-                                meta.width,
-                                meta.height
-                              );
-                            } else {
-                              uploadedImageUrl = await uploadImageToServer(
-                                file
-                              );
-                            }
+                            // if (meta && meta.width && meta.height) {
+                            //   uploadedImageUrl = await uploadImageToServer(
+                            //     file,
+                            //     meta.width,
+                            //     meta.height
+                            //   );
+                            // } else {
+                            //   uploadedImageUrl = await uploadImageToServer(
+                            //     file
+                            //   );
+                            // }
 
                             if (uploadedImageUrl) {
                               callback(uploadedImageUrl, {
@@ -1292,17 +1292,17 @@ const CreateSunshineEmail = (props) => {
                           let uploadedImageUrl;
 
                           try {
-                            if (meta && meta.width && meta.height) {
-                              uploadedImageUrl = await uploadImageToServer(
-                                file,
-                                meta.width,
-                                meta.height
-                              );
-                            } else {
-                              uploadedImageUrl = await uploadImageToServer(
-                                file
-                              );
-                            }
+                            // if (meta && meta.width && meta.height) {
+                            //   uploadedImageUrl = await uploadImageToServer(
+                            //     file,
+                            //     meta.width,
+                            //     meta.height
+                            //   );
+                            // } else {
+                            //   uploadedImageUrl = await uploadImageToServer(
+                            //     file
+                            //   );
+                            // }
 
                             if (uploadedImageUrl) {
                               callback(uploadedImageUrl, {

@@ -41,7 +41,7 @@ const WebinarSelectSmartList = (props) => {
       : localStorageEvent?.eventId
   );
   let file_name = useRef("");
-  let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+  let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [uploadOrDownloadCount, setUploadOrDownloadCount] = React.useState(0);
   const [showPreogressBar, setShowProgressBar] = useState(false);
   const [SendListData, setSendListData] = useState([]);
@@ -107,7 +107,7 @@ const WebinarSelectSmartList = (props) => {
   )
 
   const inputElement = useRef();
-  axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+  axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
   const buttonRef = useRef(null);
   const filterRef = useRef(null);
   const [selectedListId, setSelectedListId] = useState(0);
@@ -332,7 +332,7 @@ const WebinarSelectSmartList = (props) => {
         : props?.getWebinarDraftData?.campaign_data?.template_id
     };
 
-    axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     loader("show");
     await axios
       .post(`emailapi/save_draft`, body)
@@ -380,7 +380,7 @@ const WebinarSelectSmartList = (props) => {
 
   const openSmartListPopup = async (smart_list_id) => {
     setShowLessInfo(true);
-    axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     const body = {
       user_id: localStorageUserId,
       list_id: smart_list_id,
@@ -484,7 +484,7 @@ const WebinarSelectSmartList = (props) => {
     formData.append("reader_file", selectedFile);
     formData.append("event_id", eventId);
 
-    axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     setShowProgressBar(true);
 
     await axios
@@ -1183,7 +1183,7 @@ const WebinarSelectSmartList = (props) => {
                       getReaderDetails?.length > 0 &&
                       getReaderDetails?.map((rr, i) => {
                         return (
-                          <React.Fragment key={i}>
+                          <>
                             <tr>
                               <td>{rr?.first_name}</td>
                               <td>{rr?.email}</td>
@@ -1247,7 +1247,7 @@ const WebinarSelectSmartList = (props) => {
                               ) : null}
                               <td></td>
                             </tr>
-                          </React.Fragment>
+                          </>
                         );
                       })}
                   </tbody>

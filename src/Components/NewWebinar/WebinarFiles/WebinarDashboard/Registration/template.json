@@ -2353,7 +2353,7 @@
 
     {
         "templateId": 12,
-        "templateName": "Default Template",
+        "templateName": "Registeration Template",
         "pageTitle": "To register please select and fill in all your details below.",
         "bodyText": "This meeting is for healthcare professionals only.",
         "logoImageUrl": "https://webinar.docintel.app/FVIIIrelevance2024/register/assets/images/factor-logo-europe.png",

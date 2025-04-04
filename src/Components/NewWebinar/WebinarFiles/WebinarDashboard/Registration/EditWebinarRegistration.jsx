@@ -8,7 +8,7 @@ import { getData, postData } from "../../../../../axios/apiHelper";
 import { ENDPOINT } from "../../../../../axios/apiConfig";
 import WebinarRegistrationValidation from "./WebinarRegistrationValidation";
 import { useParams, useLocation } from "react-router-dom";
-let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const EditWebinarRegistration = () => {
   let params = useParams();

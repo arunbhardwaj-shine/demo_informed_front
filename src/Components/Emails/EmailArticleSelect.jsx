@@ -16,7 +16,7 @@ const EmailArticleSelect = (props) => {
   const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","bWmUjqX7J011   WUTYn9g==","MXl8m36VZFYXpgFVz3Pg0g=="]
   const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
   
-  let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+  let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [SendListData, setSendListData] = useState([]);
   const [previousSendListData, setPreviousSendListData] = useState([]);
   const [filterdata, setFilterData] = useState([]);
@@ -48,7 +48,7 @@ const EmailArticleSelect = (props) => {
   const [irtRoleObj,setIRTRoleObj] = useState(
     typeof state?.IrtObj !== "undefined" ? state?.IrtObj : {}
   );
-  axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+  axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
   useEffect(() => {
     getContentData(0, 1);
   }, [props]);

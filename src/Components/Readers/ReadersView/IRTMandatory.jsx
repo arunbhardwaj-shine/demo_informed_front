@@ -9,7 +9,7 @@ import { getDataRd } from "../../../axios/apiInstanceHelper";
 import { ENDPOINT } from "../../../axios/apiConfig";
 
 const IRTMandatory = ()  => {
-    const path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+    const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
     const colors = ["#8A4E9C","#0066be",'#FAC755', "#39CABC", "#FF9534",'#F58289',"#97B6CF" ];
     const navigate = useNavigate();
     const [apiCallStatus, setApiCallStatus] = useState(false);
@@ -167,7 +167,7 @@ const IRTMandatory = ()  => {
       navigate("/new-readers-reviews", { state: {siteRole: role,pdfId: pdf_id} });
     };
 
-    const pathToImage = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+    const pathToImage = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
     return (
      <>
     <Col className="right-sidebar custom-change">

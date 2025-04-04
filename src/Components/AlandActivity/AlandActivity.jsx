@@ -239,7 +239,7 @@ const AlandActivity = () => {
                   {sortData(AllUserData, sortBy, sortOrder)?.map(
                     (item, index) => {
                       return (
-                        <React.Fragment key={index}>
+                        <>
                           <tr
                             key={index}
                             className={`view ${
@@ -321,7 +321,7 @@ const AlandActivity = () => {
                               &nbsp;
                             </td>
                           </tr>
-                        </React.Fragment>
+                        </>
                       );
                     }
                   )}

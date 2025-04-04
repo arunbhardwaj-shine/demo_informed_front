@@ -12,7 +12,7 @@ const SiteCompletion = ({ siteCompletionfn,createdBy }) => {
   const [totalSiteNumber, setTotalSiteNumber] = useState();
   const [sortSite, setSortSite] = useState(false);
   const [isHighlightNotLoaded, setIsHighlightNotLoaded] = useState(true);
-  const path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+  const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
   const [columnOptions, setColumnOptions] = useState({
     chart: {

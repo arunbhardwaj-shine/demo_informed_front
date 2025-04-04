@@ -6,7 +6,7 @@ import { ValidateIPaddress } from "./CommonFunctions/CommonFunction";
 
 
 const SurveyAnalyticsFreeTextView = ({ index, item }) => {
-    let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+    let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
     const freeTextRef = useRef(null)
 
     const DownloadDropdown = ({
@@ -158,7 +158,7 @@ const SurveyAnalyticsFreeTextView = ({ index, item }) => {
                     </div>
                     <div className="free-text-section" ref={freeTextRef} >
                         {item?.answer?.length ? item?.answer?.map((data, index) => {
-                            return (<React.Fragment key={index}>
+                            return (<>
                                 <div key={index} className="free-text-block">
                                     
                                     {
@@ -168,7 +168,7 @@ const SurveyAnalyticsFreeTextView = ({ index, item }) => {
                                         <p dangerouslySetInnerHTML={{ __html: data?.value }}></p>
                                     </div>
                                 </div>
-                            </React.Fragment>)
+                            </>)
 
                         }) : <div className='no_found'><p>No Data Found</p></div>}
 

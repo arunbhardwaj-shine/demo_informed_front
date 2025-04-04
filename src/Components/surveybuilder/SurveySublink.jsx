@@ -19,7 +19,7 @@ import SurveySublinkListing from "./SurveySublinkListing";
 import { surveyAxiosInstance } from "./CommonFunctions/CommonFunction";
 import { surveyEndpoints } from "./SurveyEndpoints/SurveyEndpoints";
 import { format } from "date-fns";
-let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const SurveySublink = () => {
   const {

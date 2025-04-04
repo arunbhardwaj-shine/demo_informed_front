@@ -19,7 +19,7 @@ import {
 } from "react-bootstrap";
 import Select from "react-select";
 import { useSidebar } from "../../CommonComponent/LoginLayout";
-let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const SetPopup = (props) => {
   const { state } = useLocation();
@@ -768,7 +768,7 @@ const SetPopup = (props) => {
                         >
                           {templateList.map((template,index) => {
                             return (
-                              <React.Fragment key={index}>
+                              <>
                                 <div
                                   className="item"
                                   onClick={(e) => templateClicked(template, e)}
@@ -776,7 +776,7 @@ const SetPopup = (props) => {
                                   <img
                                     id={"template_dyn" + template.popupNo}
                                     src={
-                                      import.meta.env.VITE_APP_API_KEY_NEW_DESIGN +
+                                      process.env.REACT_APP_API_KEY_NEW_DESIGN +
                                       "/" +
                                       template.template_img
                                     }
@@ -790,7 +790,7 @@ const SetPopup = (props) => {
                                   />
                                   <p>{template.name}</p>
                                 </div>
-                              </React.Fragment>
+                              </>
                             );
                           })}
                         </AliceCarousel>

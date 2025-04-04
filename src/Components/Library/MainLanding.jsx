@@ -5,7 +5,7 @@ import LandingFooter from './LandingFooter';
 import LandingHeader from './LandingHeader';
 
 const MainLanding = () => {
-const path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   return (
     <>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />

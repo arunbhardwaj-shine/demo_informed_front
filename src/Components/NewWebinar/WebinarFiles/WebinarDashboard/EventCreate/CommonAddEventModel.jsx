@@ -19,7 +19,7 @@ const CommonAddEventModel = ({
   apiData,
   handleSubmit,
 }) => {
-  const path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+  const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
   const timeHours = Array.from({ length: 24 }, (_, i) => ({
     label: i < 10 ? `0${i} ` : `${i} `,

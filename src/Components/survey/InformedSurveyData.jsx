@@ -233,7 +233,7 @@ const InformedSurveyData = () => {
                   </div>
 
                   {data?.map((item, index) => {
-                    return (<React.Fragment key={index}>
+                    return (<>
                       <Accordion
                       
                         activeKey={openAccordionIndex === index ? '0' : null}                        
@@ -291,7 +291,7 @@ const InformedSurveyData = () => {
                           </Accordion.Body>
                         </Accordion.Item>
                       </Accordion>
-                    </React.Fragment>)
+                    </>)
                   })}
 
 

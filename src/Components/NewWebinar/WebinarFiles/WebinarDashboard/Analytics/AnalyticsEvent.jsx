@@ -6,7 +6,7 @@ import { useSidebar } from "../../../../CommonComponent/LoginLayout";
 import { useNavigate } from "react-router-dom";
 
 const AnalyticsEvent = () => {
-    const path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+    const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
     const { selectedItem, eventIdContext, handleEventId } = useSidebar();
     let navigate = useNavigate();
     const [search, setSearch] = useState("")

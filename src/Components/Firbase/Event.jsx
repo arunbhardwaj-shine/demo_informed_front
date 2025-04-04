@@ -14,8 +14,8 @@ import { db } from "../../config/firebaseConfig";
 import { Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import CommonPageLinkNotFound from "../CommonComponent/CommonPageLinkNotFound";
-let path = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
-let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const Event = () => {
   const location = useLocation();
   const [searchParams] = useSearchParams();

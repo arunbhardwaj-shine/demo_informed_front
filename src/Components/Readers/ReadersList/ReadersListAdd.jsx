@@ -21,8 +21,8 @@ import MessageModel from "../../../Model/MessageModel";
 import { toast } from "react-toastify";
 import { popup_alert } from "../../../popup_alert";
 
-let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
-axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
 
 const ReadersListAdd = () => {
   const tableRef = useRef(null);
@@ -1337,7 +1337,7 @@ const ReadersListAdd = () => {
       formData.append("reader_file", selectedFile);
 
       if (selectedFile) {
-        axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+        axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
         loader("show");
         await axios
           .post(`distributes/update_reader_list`, formData)
@@ -2112,7 +2112,7 @@ const ReadersListAdd = () => {
                   {hpc.map((val, i) => {
                     const fieldName = `hpc[${i}]`;
                     return (
-                      <React.Fragment key={fieldName}>
+                      <>
                         <div className="add_hcp_boxes">
                           <div className="form_action">
                             <div className="row">
@@ -2614,11 +2614,11 @@ const ReadersListAdd = () => {
 
                                   {val?.siteDetails?.map((data, index) => {
                                     return (
-                                      <React.Fragment key={index}>
+                                      <>
                                         <div className="add-content-form">
                                           <div className="row"></div>
                                         </div>
-                                      </React.Fragment>
+                                      </>
                                     );
                                   })}
                                 </>
@@ -2677,7 +2677,7 @@ const ReadersListAdd = () => {
                             </div>
                           </div>
                         </div>
-                      </React.Fragment>
+                      </>
                     );
                   })}
                 </form>
@@ -2745,7 +2745,7 @@ const ReadersListAdd = () => {
                   {hpc.map((val, i) => {
                     const fieldName = `hpc[${i}]`;
                     return (
-                      <React.Fragment key={fieldName}>
+                      <>
                         <div className="add_hcp_boxes">
                           <div className="form_action">
                             <div className="row">
@@ -2904,7 +2904,7 @@ const ReadersListAdd = () => {
                             </div>
                           </div>
                         </div>
-                      </React.Fragment>
+                      </>
                     );
                   })}
                 </form>

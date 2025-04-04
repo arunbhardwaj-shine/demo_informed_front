@@ -36,7 +36,7 @@ const EditList = () => {
     page:pageNo
   };
 
-  axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+  axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
   const getSmartListData = async () => {
     loader("show");
     await axios

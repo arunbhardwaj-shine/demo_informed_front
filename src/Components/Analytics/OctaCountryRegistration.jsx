@@ -12,7 +12,7 @@ import drilldown from "highcharts/modules/drilldown.js";
  
 
 //set image path
-let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const OctaCountryRegestration = () => {
   const [isDataFound, setIsDataFound] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);

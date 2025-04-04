@@ -33,7 +33,7 @@ const SurveyQuestionFormDataOthers = () => {
   const [sort, setSort] = useState(0);
   const [isActiveSort, setIsActiveSort] = useState({});
 
-  const path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+  const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
   const [data, setData] = useState([]);
   const [userData, setUserData] = useState([]);
@@ -1329,7 +1329,7 @@ const SurveyQuestionFormDataOthers = () => {
                     
                   {data?.map((item, index) => {
                     return (
-                      <React.Fragment key={index}>
+                      <>
                         <tr className={showDetails[index] ? 'view show' : 'view'}  onClick={() => toggleDetails(index)}>
                         <td>{item?.name ? item?.name : "N/A"}</td>
                         <td>{item?.email ? item?.email : "N/A"}</td>
@@ -1543,7 +1543,7 @@ const SurveyQuestionFormDataOthers = () => {
                             </Accordion.Body>
                           </Accordion.Item>
                         </Accordion> */}
-                      </React.Fragment>
+                      </>
                     );
                   })}
                   </tbody>
@@ -1903,7 +1903,7 @@ const SurveyQuestionFormDataOthers = () => {
                         </thead>
                           <tbody>
                             {userData?.map((item, index) => (
-                              <React.Fragment key={index}>
+                              <>
                                 <tr key={index} onClick={quesKey === 'suggestion' ? () => toggleAnswerDetails(index) : undefined} className={quesKey === 'suggestion' ? showAnswerDetails[index] ? 'view show' : 'view' : ''}>
                                   <td>{item?.name ? item?.name : "N/A"}</td>
                                   <td>{item?.email ? item?.email : "N/A"}</td>
@@ -1971,7 +1971,7 @@ const SurveyQuestionFormDataOthers = () => {
                                 <tr key={`blank-${index}`} className="blank">
                                   <td colSpan="6" style={{ height: "8px" }}>&nbsp;</td>
                                 </tr>
-                              </React.Fragment>
+                              </>
                             ))}
                           </tbody>
                       </table>

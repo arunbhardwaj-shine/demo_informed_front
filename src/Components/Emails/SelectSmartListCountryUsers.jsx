@@ -18,7 +18,7 @@ const SelectSmartListCountryUsers = (props) => {
     const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
     const [totalData, setTotalData] = useState({});
     const navigate = useNavigate();
-    let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+    let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
     const location = useLocation();
     const [selectedHcp, setSelectedHcp] = useState(location.state?.selectedHcp
         ? location.state?.selectedHcp : location.state?.flag != 1 ?
@@ -108,7 +108,7 @@ const SelectSmartListCountryUsers = (props) => {
     }, []);
 
    
-    axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
 
     const getDataByCountryWise = () => {
         const body = {
@@ -307,7 +307,7 @@ const SelectSmartListCountryUsers = (props) => {
             status: 2,
         };
 
-        axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+        axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
         loader("show");
         await axios
             .post(`emailapi/save_draft`, body)
@@ -737,7 +737,7 @@ const SelectSmartListCountryUsers = (props) => {
             if (status.every((element) => element == "true")) {
                 loader("show");
 
-                axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+                axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
                 await axios
                     .post(`distributes/add_new_readers_in_list`, body)
                     .then((res) => {
@@ -805,7 +805,7 @@ const SelectSmartListCountryUsers = (props) => {
             };
 
             setSaveOpen(false);
-            axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+            axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
             loader("show");
             await axios
                 .post(`distributes/update_reders_details`, body)
@@ -1095,7 +1095,7 @@ const SelectSmartListCountryUsers = (props) => {
                                         <Accordion className="deleted">
                                             {Object.keys(countryWiseData?.discardCountryData)?.length ? Object.keys(countryWiseData?.discardCountryData)?.map((country, index) => {
                                                 return (
-                                                    <React.Fragment key={index}>
+                                                    <>
                                                         <Accordion.Item eventKey={index}>
                                                             <Accordion.Header>
                                                                 {`${country} (${countryWiseData?.discardCountryData?.[country]?.length + (newlyAddedCountryWiseData?.[country]?.length ? newlyAddedCountryWiseData?.[country]?.length : 0)})`}
@@ -1188,7 +1188,7 @@ const SelectSmartListCountryUsers = (props) => {
                                                                 </div>
                                                             </Accordion.Body>
                                                         </Accordion.Item>
-                                                    </React.Fragment>
+                                                    </>
                                                 )
                                             }) : ""}
                                         </Accordion>
@@ -1219,7 +1219,7 @@ const SelectSmartListCountryUsers = (props) => {
                                         <tbody>
                                             {removedReaders?.map((rr, i) => {
                                                 return (
-                                                    <React.Fragment key={i}>
+                                                    <>
 
                                                         {/* {rr["country"]?.toUpperCase() == country ? */}
                                                         <tr className="hcps-deleted">
@@ -1303,7 +1303,7 @@ const SelectSmartListCountryUsers = (props) => {
                                                             </td>
                                                         </tr>
                                                         {/* : ""} */}
-                                                    </React.Fragment>
+                                                    </>
                                                 );
                                             })}
                                             <tr className="seprator-add">
@@ -1316,7 +1316,7 @@ const SelectSmartListCountryUsers = (props) => {
                                 <Accordion>
                                     {Object.keys(countryWiseData?.allCountryData)?.length ? Object.keys(countryWiseData?.allCountryData)?.filter(country => countryWiseData?.allCountryData[country].length > 0)?.map((country, index) => {
                                         return (
-                                            <React.Fragment key={index+1}>
+                                            <>
                                                 <Accordion.Item eventKey={index}>
                                                     <Accordion.Header>
                                                         {`${country} (${countryWiseData?.allCountryData?.[country]?.length})`}
@@ -1462,7 +1462,7 @@ const SelectSmartListCountryUsers = (props) => {
                                                         </div>
                                                     </Accordion.Body>
                                                 </Accordion.Item>
-                                            </React.Fragment>
+                                            </>
                                         )
                                     }) : ""}
                                 </Accordion>
@@ -1521,7 +1521,7 @@ const SelectSmartListCountryUsers = (props) => {
                                     {hpc.map((val, i) => {
                                         const fieldName = `hpc[${i}]`;
                                         return (
-                                            <React.Fragment key={fieldName}>
+                                            <>
                                                 <div className="add_hcp_boxes">
                                                     <div className="form_action">
                                                         <div className="row">
@@ -1745,7 +1745,7 @@ const SelectSmartListCountryUsers = (props) => {
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </React.Fragment>
+                                            </>
                                         );
                                     })}
                                 </form>

@@ -26,8 +26,8 @@ import Countries from "./Countries.json";
 import domtoimage from "dom-to-image-more";
 
 import axios from "axios";
-let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
-let path = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 let dynamicFieldNo = 0;
 const template = {
   1: ["logo", "header"],

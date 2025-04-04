@@ -11,7 +11,7 @@ import { loader } from "../../loader";
 
 const LandingHeader = () => {
   const navigate = useNavigate();
-  const path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+  const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [show, setShow] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [email, setEmail] = useState("");

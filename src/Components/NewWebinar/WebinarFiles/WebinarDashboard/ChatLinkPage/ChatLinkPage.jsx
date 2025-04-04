@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, React } from "react";
 import { useLocation, useSearchParams } from "react-router-dom";
 import { postData, getData, postFormData } from "../../../../../axios/apiHelper";
 import { ENDPOINT } from "../../../../../axios/apiConfig";
@@ -12,8 +12,8 @@ import CommonConfirmModel from "../../../../../Model/CommonConfirmModel";
 import QRCode from 'qrcode';
 
 const validExtensions = ["png", "jpeg", "jpg", "gif"];
-let path = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
-let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const ChatLinkPage = () => {
   const { eventIdContext, handleEventId } = useSidebar();
@@ -743,7 +743,8 @@ const ChatLinkPage = () => {
               >
                 {dynamicEventData.map((template, index) => {
                   return (
-                    <React.Fragment key={index}>
+                    
+                    <>
                       <div
                         className="item"
                         onClick={(e) => templateClicked(template, e, index)}
@@ -762,7 +763,7 @@ const ChatLinkPage = () => {
                         />
                         <p>{template?.templateName}</p>
                       </div>
-                    </React.Fragment>
+                    </>
                   );
                 })}
               </AliceCarousel>}

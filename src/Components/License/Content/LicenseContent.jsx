@@ -42,7 +42,7 @@ import {
   getSelected,
   getSearched,
 } from "../../../actions";
-const path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const LicenseContent = (props) => {
   // const [userInputs, setCreateLibraryInputs] = useState({
@@ -1102,7 +1102,7 @@ const LicenseContent = (props) => {
                         <Accordion defaultActiveKey="0" flush>
                           {Object.keys(filterdata)?.map(function (key, index) {
                             return (
-                              <React.Fragment key={index}>
+                              <>
                                 {filterdata[key]?.length > 0 ? (
                                   <Accordion.Item
                                     className="card"
@@ -1177,7 +1177,7 @@ const LicenseContent = (props) => {
                                     </Accordion.Body>
                                   </Accordion.Item>
                                 ) : null}
-                              </React.Fragment>
+                              </>
                             );
                           })}
                         </Accordion>
@@ -1272,7 +1272,7 @@ const LicenseContent = (props) => {
                     <div className="filter-block-left full">
                       {Object.keys(filterObject)?.map((key, index) => {
                         return (
-                          <React.Fragment key={index}>
+                          <>
                             {filterObject[key]?.length > 0 ? (
                               <div className="filter-div">
                                 <div className="filter-div-title">
@@ -1324,7 +1324,7 @@ const LicenseContent = (props) => {
                                 </div>
                               </div>
                             ) : null}
-                          </React.Fragment>
+                          </>
                         );
                       })}
                     </div>
@@ -2926,7 +2926,7 @@ const LicenseContent = (props) => {
             <div className="total-selected">
               {tagClickedFirst.map((data, index) => {
                 return (
-                  <React.Fragment key={index}>
+                  <>
                     <div className="tag-cross">
                       {data.innerHTML || data}
                       <img
@@ -2935,7 +2935,7 @@ const LicenseContent = (props) => {
                         onClick={() => removeTagFinal(index)}
                       />
                     </div>
-                  </React.Fragment>
+                  </>
                 );
               })}
             </div>
@@ -3008,7 +3008,7 @@ const LicenseContent = (props) => {
             <div className="total-selected">
               {tagClickedFirst.map((data, index) => {
                 return (
-                  <React.Fragment key={index}>
+                  <>
                     <div className="tag-cross">
                       {data.innerHTML || data}
                       <img
@@ -3017,7 +3017,7 @@ const LicenseContent = (props) => {
                         onClick={() => removeTagFinal(index)}
                       />
                     </div>
-                  </React.Fragment>
+                  </>
                 );
               })}
             </div>

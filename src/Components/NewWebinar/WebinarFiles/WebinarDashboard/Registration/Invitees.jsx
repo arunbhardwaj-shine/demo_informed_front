@@ -18,7 +18,7 @@ import qs from 'qs';
 // const qs = require('qs');
 
 const Invitees = () => {
-  let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+  let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const { state } = useLocation()
   const [userTypeOptions, setUserTypeOptions] = useState([])
   const [userData, setUserData] = useState()
@@ -618,7 +618,7 @@ const Invitees = () => {
                         <Accordion defaultActiveKey="0" flush>
                           {Object.keys(filterdata)?.map(function (key, index) {
                             return (
-                              <React.Fragment key={index}>
+                              <>
                                 {filterdata[key]?.length ? (
                                   <Accordion.Item
                                     className={
@@ -667,7 +667,7 @@ const Invitees = () => {
                                     </Accordion.Body>
                                   </Accordion.Item>
                                 ) : null}
-                              </React.Fragment>
+                              </>
                             );
                           })}
                         </Accordion>
@@ -730,7 +730,7 @@ const Invitees = () => {
                   <div className="filter-block">
                     <div className="filter-block-left full">
                       {Object.keys(appliedFilter)?.map((key, index) => {
-                        return (<React.Fragment key={index}>
+                        return (<>
                           {appliedFilter[key]?.length ? (
                             <div className="filter-div">
                               <div className="filter-div-title">
@@ -758,7 +758,7 @@ const Invitees = () => {
                               </div>
                             </div>
                           ) : ""}
-                        </React.Fragment>)
+                        </>)
                       })}
                     </div>
                     <div className="clear-filter">

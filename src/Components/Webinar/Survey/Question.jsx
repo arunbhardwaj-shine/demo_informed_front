@@ -5,7 +5,7 @@ import CommonConfirmModel from "../../../Model/CommonConfirmModel";
 import PreviewGraphModal from "./PreviewGraphModal";
 import { toast } from "react-toastify";
 
-let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 let dropdownData = {
   INPUT: "User Input",
@@ -200,7 +200,7 @@ function Question(props) {
                 <div className="answer-option">
 
                   {answerOption.map((choice, index) => (
-                    <React.Fragment key={index}>
+                    <>
                       <div className="options" key={index}>
                         <Form.Group as={Row} className="mb-3">
                           <Form.Label>Free Text</Form.Label>
@@ -225,7 +225,7 @@ function Question(props) {
                             ?.answerError
                         }
                       </div>
-                    </React.Fragment>
+                    </>
                   ))}
                 </div>
               )}
@@ -238,7 +238,7 @@ function Question(props) {
                     <div className="answer-option">
 
                       {answerOption.map((choice, index) => (
-                        <React.Fragment key={index}>
+                        <>
                           <div className="options question-answer-option" key={index}>
                             <Form.Group as={Row} className="mb-3">
                               <Form.Label>Choice {index + 1}</Form.Label>
@@ -354,7 +354,7 @@ function Question(props) {
                                 ?.answerError
                             }
                           </div>
-                        </React.Fragment>
+                        </>
                       ))}
 
                       {/* {answerType != "YesNo" && ( */}

@@ -37,8 +37,8 @@ let colors = [
   "#BCA9F5",
   "#ACB5F5",
 ];
-// let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
-let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+// let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const settings = {
   infinite: false,
   slidesToShow: 1,
@@ -885,7 +885,7 @@ export default function PollListing({ eventIdContext }) {
               afterChange={handleAfterChange}
             >
               {questions.map((questionObj, index) => (
-                <React.Fragment key={index}>
+                <>
                   {questionObj?.questionData?.pollSubQuestions &&
                   questionObj?.questionData?.pollSubQuestions?.length > 0 ? (
                     <>
@@ -895,7 +895,7 @@ export default function PollListing({ eventIdContext }) {
                           <div className="polls-preview-lists poll-question-create">
                             {questionObj?.questionData?.pollSubQuestions.map(
                               (question, index) => (
-                                < React.Fragment key={index}>
+                                <>
                                   {index == 0 && (
                                  <>   
                                   <div className="polls-preview-header">
@@ -974,7 +974,7 @@ export default function PollListing({ eventIdContext }) {
                                       </div>
                                     </div>
                                   </div>
-                                </React.Fragment>
+                                </>
                               )
                             )}
                           </div>
@@ -1033,7 +1033,7 @@ export default function PollListing({ eventIdContext }) {
                       
                     />
                   )}
-                </React.Fragment>
+                </>
               ))}
             </Slider>
             {apiStatus && (

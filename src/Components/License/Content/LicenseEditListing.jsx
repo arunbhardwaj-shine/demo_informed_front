@@ -35,7 +35,7 @@ import { toast } from "react-toastify";
 import moment from "moment";
 import {QRCodeCanvas} from "qrcode.react";
 
-const path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const LicenseEditListing = () => {
   const limit = 24;
@@ -872,7 +872,7 @@ const LicenseEditListing = () => {
                       <Accordion defaultActiveKey="0" flush>
                         {Object.keys(filterdata)?.map(function (key, index) {
                           return (
-                            <React.Fragment key={index}>
+                            <>
                               {filterdata[key]?.length > 0 ? (
                                 <Accordion.Item
                                   className="card"
@@ -933,7 +933,7 @@ const LicenseEditListing = () => {
                                   </Accordion.Body>
                                 </Accordion.Item>
                               ) : null}
-                            </React.Fragment>
+                            </>
                           );
                         })}
                       </Accordion>
@@ -1034,7 +1034,7 @@ const LicenseEditListing = () => {
                   <div className="filter-block-left full">
                     {Object.keys(filterObject)?.map((key, index) => {
                       return (
-                        <React.Fragment key={index}>
+                        <>
                           {filterObject[key]?.length > 0 ? (
                             <div className="filter-div">
                               <div className="filter-div-title">
@@ -1063,7 +1063,7 @@ const LicenseEditListing = () => {
                               </div>
                             </div>
                           ) : null}
-                        </React.Fragment>
+                        </>
                       );
                     })}
                   </div>
@@ -2286,7 +2286,7 @@ const LicenseEditListing = () => {
             <div className="total-selected">
               {tagClickedFirst.map((data, index) => {
                 return (
-                  <React.Fragment key={index}>
+                  <>
                     <div className="tag-cross">
                       {data.innerHTML || data}
                       <img
@@ -2295,7 +2295,7 @@ const LicenseEditListing = () => {
                         onClick={() => removeTagFinal(index)}
                       />
                     </div>
-                  </React.Fragment>
+                  </>
                 );
               })}
             </div>

@@ -4,7 +4,7 @@ import { Link, useLocation } from "react-router-dom";
 const AnalyticsSidebar = () => {
   let c_id = 0;
   const location = useLocation();
-  let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+  let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
   const toggleClassToBody = () => {
     document.body.classList.toggle("toggle_sidebar");

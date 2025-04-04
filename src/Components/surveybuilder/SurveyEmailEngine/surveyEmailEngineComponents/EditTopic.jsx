@@ -29,7 +29,7 @@ const TopicModals = ({
     const [tagClickedFirst, setTagClickedFirst] = useState([]);
     const [tagsCounter, setTagsCounter] = useState(0);
     const [error, setError] = useState({});
-    let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+    let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   
       const newTagChanged = (e) => {
         setNewTag(e.target.value);

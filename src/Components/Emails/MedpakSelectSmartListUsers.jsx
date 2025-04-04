@@ -42,7 +42,7 @@ const MedpakSelectSmartListUsers = (props) => {
     matchFrom: "start",
   };
   const navigate = useNavigate();
-  let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+  let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const location = useLocation();
   const [readers, setReaders] = useState([]);
   const [campaign_id_st, setCampaign_id] = useState();
@@ -127,7 +127,7 @@ const MedpakSelectSmartListUsers = (props) => {
     }
   }, []);
 
-  axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+  axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
   useEffect(() => {
     getDataByCountryWise();
   }, []);
@@ -333,7 +333,7 @@ const MedpakSelectSmartListUsers = (props) => {
       status: 2,
     };
 
-    axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     loader("show");
     await axios
       .post(`emailapi/save_draft`, body)
@@ -848,7 +848,7 @@ const MedpakSelectSmartListUsers = (props) => {
       };
 
       setSaveOpen(false);
-      axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       loader("show");
 
       await axios
@@ -1006,7 +1006,7 @@ const MedpakSelectSmartListUsers = (props) => {
       if (status.every((element) => element == "true")) {
         loader("show");
 
-        axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+        axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
         await axios
           .post(`distributes/add_new_readers_in_list`, body)
           .then((res) => {
@@ -1059,7 +1059,7 @@ const MedpakSelectSmartListUsers = (props) => {
       formData.append("smart_list_id", "");
       formData.append("reader_file", selectedFile);
 
-      axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       if (selectedFile) {
         loader("show");
         await axios
@@ -1353,7 +1353,7 @@ const MedpakSelectSmartListUsers = (props) => {
                             {Object.keys(newlyAddedCountryWiseData)?.map(
                               (country, index) => {
                                 return (
-                                  <React.Fragment key={index}>
+                                  <>
                                     <li>
                                       <div className="form-group">
                                         <label htmlFor="">{country}</label>
@@ -1381,7 +1381,7 @@ const MedpakSelectSmartListUsers = (props) => {
                                         </div>
                                       </div>
                                     </li>
-                                  </React.Fragment>
+                                  </>
                                 );
                               }
                             )}
@@ -1391,7 +1391,7 @@ const MedpakSelectSmartListUsers = (props) => {
                             {Object.keys(countryWiseData)?.map(
                               (country, index) => {
                                 return (
-                                  <React.Fragment key={index}>
+                                  <>
                                     <li>
                                       {}
                                       <div className="form-group">
@@ -1423,7 +1423,7 @@ const MedpakSelectSmartListUsers = (props) => {
                                         </div>
                                       </div>
                                     </li>
-                                  </React.Fragment>
+                                  </>
                                 );
                               }
                             )}
@@ -1439,7 +1439,7 @@ const MedpakSelectSmartListUsers = (props) => {
                     ? Object.keys(newlyAddedCountryWiseData)?.map(
                         (country, index) => {
                           return (
-                            <React.Fragment key={index}>
+                            <>
                               {!newlyAddedExcludeCountry?.includes(country) ? (
                                 <>
                                   {!countryWiseData?.[country]?.length ? (
@@ -1679,7 +1679,7 @@ const MedpakSelectSmartListUsers = (props) => {
                               ) : (
                                 ""
                               )}
-                            </React.Fragment>
+                            </>
                           );
                         }
                       )
@@ -1690,7 +1690,7 @@ const MedpakSelectSmartListUsers = (props) => {
                   {Object.keys(countryWiseData)?.length
                     ? Object.keys(countryWiseData)?.map((country, index) => {
                         return (
-                          <React.Fragment key={index}>
+                          <>
                             {excludeCountry?.includes(country) ? (
                               <>
                                 <Accordion.Item eventKey={index}>
@@ -1804,7 +1804,7 @@ const MedpakSelectSmartListUsers = (props) => {
                                         <tbody>
                                           {removedReaders?.map((rr, i) => {
                                             return (
-                                              <React.Fragment key={i}>
+                                              <>
                                                 <tr className="hcps-deleted">
                                                   <td>
                                                     <span>
@@ -1918,7 +1918,7 @@ const MedpakSelectSmartListUsers = (props) => {
                                                     />
                                                   </td>
                                                 </tr>
-                                              </React.Fragment>
+                                              </>
                                             );
                                           })}
 
@@ -2264,7 +2264,7 @@ const MedpakSelectSmartListUsers = (props) => {
                             ) : (
                               ""
                             )}
-                          </React.Fragment>
+                          </>
                         );
                       })
                     : ""}
@@ -2324,7 +2324,7 @@ const MedpakSelectSmartListUsers = (props) => {
                   {hpc.map((val, i) => {
                     const fieldName = `hpc[${i}]`;
                     return (
-                      <React.Fragment key={fieldName}>
+                      <>
                         <div className="add_hcp_boxes">
                           <div className="form_action">
                             <div className="row">
@@ -2767,7 +2767,7 @@ const MedpakSelectSmartListUsers = (props) => {
                             </div>
                           </div>
                         </div>
-                      </React.Fragment>
+                      </>
                     );
                   })}
                 </form>

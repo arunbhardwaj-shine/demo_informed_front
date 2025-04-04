@@ -14,7 +14,7 @@ const RenderOptions = ({
   const getTextStyle = ({ style }) => ({
     color: style.color,
   });
-  let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+  let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [selectedIndex, setSelectedIndex] = useState(null);
   // const [selectedIndex, setSelectedIndex] = useState(null); // For radio buttons
   const [checkedIndices, setCheckedIndices] = useState([]); // For checkboxes
@@ -387,7 +387,7 @@ const RenderOptions = ({
                   );
 
                   return (
-                    <React.Fragment key={numberIndex}>
+                    <>
                       <input
                         type="radio"
                         id={inputId}
@@ -399,7 +399,7 @@ const RenderOptions = ({
                         {labelContent}
                       </label>
                       <span style={{background:inputColor}}className="rating-number"></span>
-                    </React.Fragment>
+                    </>
                   );
                 }
               )}

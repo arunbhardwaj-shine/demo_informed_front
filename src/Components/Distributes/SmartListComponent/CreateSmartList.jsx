@@ -38,7 +38,7 @@ const CreateSmartList = (props) => {
   const [validationError, setValidationError] = useState({});
   const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","bWmUjqX7J011   WUTYn9g==","MXl8m36VZFYXpgFVz3Pg0g=="]
     const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
-  let path = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+  let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [ibu, setIbu] = useState([
     {
       label: "All",
@@ -237,7 +237,7 @@ const CreateSmartList = (props) => {
     formData.append("smart_list_name", smartListName);
     formData.append("reader_file", selectedFile);
 
-    axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     setShowProgressBar(true);
     await axios
       .post(`distributes/create_smart_list_with_excel`, formData)

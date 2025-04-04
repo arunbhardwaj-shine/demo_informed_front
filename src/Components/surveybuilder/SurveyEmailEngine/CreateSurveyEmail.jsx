@@ -9,7 +9,7 @@ import {
   Form,
   Modal,
 } from "react-bootstrap";
-import { useState, useEffect,useRef } from "react";
+import { useState, useEffect,useRef, React } from "react";
 import { connect } from "react-redux";
 import { loader } from "../../../loader";
 import { toast } from "react-toastify";
@@ -20,7 +20,7 @@ import {  useNavigate, useLocation } from "react-router-dom";
 
 var state_object = {};
 const CreateSurveyEmail = (props) => {
-  let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+  let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const { state } = useLocation();
   const { FETCH_SURVEY_DATA ,FETCH_SURVEY_EMAIL_ENGINE_FILTERS } = surveyEndpoints;
   const [SendListData, setSendListData] = useState([]);
@@ -521,7 +521,7 @@ const submitHandler = (event) => {
                       <Accordion defaultActiveKey="0" flush>
                         {Object.keys(filterdata)?.map(function (key, index) {
                           return (
-                            < React.Fragment key={index}>
+                            <>
                               {filterdata[key]?.length > 0 ? (
                                 <Accordion.Item
                                   key={index}
@@ -596,7 +596,7 @@ const submitHandler = (event) => {
                                   </Accordion.Body>
                                 </Accordion.Item>
                               ) : null}
-                            </React.Fragment>
+                            </>
                           );
                         })}
                       </Accordion>
@@ -638,7 +638,7 @@ const submitHandler = (event) => {
                   <div className="filter-block-left full">
                     {Object.keys(filterObject)?.map((key, index) => {
                       return (
-                        < React.Fragment key={index}>
+                        <>
                           {filterObject[key]?.length ? (
                             <div key={index} className="filter-div">
                               <div className="filter-div-title">
@@ -677,7 +677,7 @@ const submitHandler = (event) => {
                               </div>
                             </div>
                           ) : null}
-                        </React.Fragment>
+                        </>
                       );
                     })}
                   </div>

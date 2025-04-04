@@ -44,8 +44,8 @@ let hoveredIndex = null;
 const SurveyPreview = (props) => {
   const { currentStep } = useSelector((state) => state.surveyStepReducer);
   const { FETCH_QUESTION, DELETE_SURVEY_QUESTION } = surveyEndpoints;
-  let path = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
-  let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+  let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+  let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const { currentElementIndex, elements, isAddClicked } = useSelector(
     (state) => state.surveyData
   );

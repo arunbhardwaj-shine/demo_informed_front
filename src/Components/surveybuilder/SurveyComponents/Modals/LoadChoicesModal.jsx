@@ -9,7 +9,7 @@ const LoadChoicesModal = ({
   handleAddBulkElements,
   fromMultiple,
 }) => {
-  const pathImage = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+  const pathImage = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [error, setError] = useState({});
   const [addYourOwn, setAddYourOwn] = useState(false);
   const [selectedValue, setSelectedValue] = useState(null);

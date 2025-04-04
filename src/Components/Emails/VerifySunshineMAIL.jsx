@@ -18,11 +18,13 @@ const VerifySunshineMAIL = (props) => {
   const location = useLocation();
   const navigate = useNavigate();
   const [campaign_id_st, setCampaign_id] = useState();
-  let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+  let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [templateId, setTemplateId] = useState(0);
   const [isOpenaddNewClient, setIsOpenAddNewClient] = useState(false);
   const [validationError, setValidationError] = useState({});
   const [countryall, setCountryall] = useState([]);
+  const [getRemovedHcp, setRemovedHcp] = useState([]);
+  const [getSmartListData, setSmartListData] = useState([]);
   const contactOptions = [
     {value :"Client", label :"Client"}
   ];
@@ -124,7 +126,7 @@ const VerifySunshineMAIL = (props) => {
 
   }, []);
 
-  axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+  axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
   const getpdfData = async () => {
     let pdf_id = props?.getEmailData?.PdfSelected
       ? props?.getEmailData?.PdfSelected
@@ -137,7 +139,7 @@ const VerifySunshineMAIL = (props) => {
       pdf_id != 14 &&
       pdf_id != 16
     ) {
-      axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       const body = {
         user_id: localStorage.getItem("user_id"),
         pdf_id: pdf_id,
@@ -239,7 +241,7 @@ const VerifySunshineMAIL = (props) => {
         },
         contact_type : 1
       };
-      axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       loader("show");
       await axios
         .post(`emailapi/send_email_new`, body)
@@ -319,7 +321,7 @@ const VerifySunshineMAIL = (props) => {
     try{
       e.preventDefault();
       if (validate()) {
-        axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+        axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
         loader("show");
         formData.user_id = localStorage.getItem('user_id');
         console.log(formData,'formData');
@@ -434,7 +436,7 @@ const VerifySunshineMAIL = (props) => {
                             {props?.getEmailData?.tags
                               ? props?.getEmailData?.tags.map((tags, i) => {
                                   return (
-                                    <React.Fragment key={i+1}>
+                                    <>
                                       <li className="list1">
                                         {tags.innerHTML || tags}{" "}
                                         <img
@@ -443,12 +445,12 @@ const VerifySunshineMAIL = (props) => {
                                           onClick={() => removeTag(i)}
                                         />
                                       </li>
-                                    </React.Fragment>
+                                    </>
                                   );
                                 })
                               : props?.getDraftData?.tags.map((tags, i) => {
                                   return (
-                                    <React.Fragment key={i}>
+                                    <>
                                       <li className="list1">
                                         {tags?.innerHTML || tags}{" "}
                                         <img
@@ -457,7 +459,7 @@ const VerifySunshineMAIL = (props) => {
                                           onClick={() => removeTag(i)}
                                         />
                                       </li>
-                                    </React.Fragment>
+                                    </>
                                   );
                                 })}
                           </ul>
@@ -545,11 +547,11 @@ const VerifySunshineMAIL = (props) => {
                                                 {
                                                     props?.getEmailData?.tags.map((tags, i) => {
                                                         return (
-                                                            <React.Fragment key={i+1}>
+                                                            <>
                                                             <li className="list1">
                                                                 {tags.innerHTML || tags}
                                                             </li>
-                                                            </React.Fragment>
+                                                            </>
                                                         );
                                                     })
                                                 }

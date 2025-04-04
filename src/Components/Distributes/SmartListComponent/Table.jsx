@@ -35,9 +35,9 @@ const Table = (props, ref) => {
   const filterConfig = {
     matchFrom: "start",
   };
-  let path = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+  let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   //let validator = new SimpleReactValidator();
-  let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+  let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const queryParams = queryString.parse(window.location.search);
   const [validator] = React.useState(new SimpleReactValidator());
   const [validator2] = React.useState(new SimpleReactValidator());
@@ -612,7 +612,7 @@ const Table = (props, ref) => {
   }, [props.data]);
 
   useEffect(() => {
-    axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     const getalCountry = async () => {
       const body = {
         type:type == "survey" ? 1 :type,
@@ -735,7 +735,7 @@ const Table = (props, ref) => {
       formData.append("type",type == "survey" ? 1 :type);
        
 
-      axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       loader("show");
       await axios
         .post(`distributes/update_reader_list`, formData)
@@ -884,7 +884,7 @@ const Table = (props, ref) => {
       }
     }
     // console.log(body);
-    axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     loader("show");
     await axios
       .post(`distributes/add_update_list`, body)
@@ -1054,7 +1054,7 @@ const Table = (props, ref) => {
         edit_list_array: editableData,
       };
 
-      axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       loader("show");
       await axios
         .post(`distributes/update_reders_details`, body)
@@ -1118,7 +1118,7 @@ const Table = (props, ref) => {
       username: name,
     };
     loader("show");
-    axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     await axios
       .post(`distributes/update_reders_details`, body)
       .then((res) => {
@@ -1519,7 +1519,7 @@ const Table = (props, ref) => {
 
       if (status.every((element) => element == "true")) {
         loader("show");
-        axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+        axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
 
         await axios
           .post(`distributes/add_new_readers_in_list`, body)
@@ -1566,7 +1566,7 @@ const Table = (props, ref) => {
       formData.append("reader_file", selectedFile);
       formData.append("type",type == "survey" ? 1 :type);
 
-      axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       if (selectedFile) {
         loader("show");
         await axios
@@ -1676,7 +1676,7 @@ const Table = (props, ref) => {
 
       if (status.every((element) => element == "true")) {
         loader("show");
-        axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+        axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
         await axios
           .post(`distributes/add_new_readers_in_list`, body)
           .then((res) => {
@@ -1722,7 +1722,7 @@ const Table = (props, ref) => {
       formData.append("reader_file", selectedFile);
       formData.append("type",type == "survey" ? 1 :type);
 
-      axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       if (selectedFile) {
         loader("show");
         await axios

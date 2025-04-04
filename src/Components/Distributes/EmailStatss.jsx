@@ -14,7 +14,7 @@ import {
 
 
 const EmailStats = (props) => {
-  let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+  let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const routeTypeSurvey = props?.type == "survey" ? 1 : 0;
   const [sortingCount, setSortingCount] = useState(0);
   const [totalCount, setTotalCount] = useState([]);
@@ -63,7 +63,7 @@ const EmailStats = (props) => {
   }, []);
 
   const getCampaignList = async (page, search,filter) => {
-    axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     const body = {
       user_id: localStorage.getItem("user_id"),
       page: page,
@@ -105,7 +105,7 @@ const EmailStats = (props) => {
   };
 
   const sendCampaign = (dist_id, type) => {
-    axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     loader("show");
     const body = {
       user_id: localStorage.getItem("user_id"),
@@ -134,7 +134,7 @@ const EmailStats = (props) => {
       user_id: localStorage.getItem("user_id"),
       campaign_id: campaign_id,
     };
-    axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     loader("show");
     await axios
       .post(`emailapi/get_campaign_details`, body)
@@ -685,7 +685,7 @@ const EmailStats = (props) => {
                   typeof campaignData !== "undefined" && campaignData.length > 0 ?
                   campaignData.map((campaignItem, index) => {
                     return(
-                      <React.Fragment key={index}>
+                      <>
                           <Accordion.Item eventKey={index}>
                             <Accordion.Header>
                                 <table>
@@ -922,7 +922,7 @@ const EmailStats = (props) => {
                               </>
                             </Accordion.Body>
                           </Accordion.Item>
-                      </ React.Fragment>
+                      </>
                     )
                   })
                   : <div className="no_found"><p>No Data Found</p></div>

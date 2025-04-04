@@ -7,7 +7,7 @@ import ReactSelect from "react-select";
 
 const LibraryPopupSet = () => {
   const [show, setShow] = useState(false);
-  let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+  let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   

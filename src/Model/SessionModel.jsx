@@ -8,7 +8,7 @@ import { ENDPOINT } from "../axios/apiConfig";
 import { loader } from "../loader";
 import { useLocation, useParams, useSearchParams } from 'react-router-dom';
 
-let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const SessionModel = ({ show, onClose, data, eventData, designData }) => {
   const [searchParams] = useSearchParams();
   let parms = searchParams.get('evnt');
@@ -241,7 +241,7 @@ const [comment,setComment]=useState("")
       <Modal.Body>
         <div className="popup-content">
           {user?.map((item, index) => (
-            <React.Fragment key={index}>
+            <>
               
               {
                item?.parentId != 1660 ?
@@ -281,7 +281,7 @@ const [comment,setComment]=useState("")
 
               {item?.childData?.map((value, index) => {
                 return (
-                  <React.Fragment key={index}>
+                  <>
                     {value?.answerData?.length > 0 &&
                       (index == 0 ||
                         item?.childData?.[index]?.answerData?.[0].answer !=
@@ -292,14 +292,14 @@ const [comment,setComment]=useState("")
                         <div className="check-group">
                           {value?.answerData?.map((newitem, index) => {
                             return (
-                              <React.Fragment key={index}>
+                              <>
                                 <span
                                   style={{ color: item?.questionColor }}
                                   dangerouslySetInnerHTML={{
                                     __html: newitem?.answer
                                   }}
                                 ></span>
-                              </React.Fragment>
+                              </>
                             );
                           })}
                         </div>
@@ -320,7 +320,7 @@ const [comment,setComment]=useState("")
                         {value?.answerData?.length ? (
                           value?.answerData?.map((childValue, index) => {
                             return (
-                              <React.Fragment key={index}>
+                              <>
                                 {value?.groupId == 0 &&
                                   value?.canCustomAnswer == 1 ? (
                                   <textarea
@@ -388,7 +388,7 @@ const [comment,setComment]=useState("")
                                   </div>
 
                                 )}
-                              </React.Fragment>
+                              </>
                             );
                           })
                         ) : value?.groupId == 0 &&
@@ -416,7 +416,7 @@ const [comment,setComment]=useState("")
                           : null
                       }
                     </div>
-                  </React.Fragment>
+                  </>
                 );
               })}
                {item?.addComment == 1 ? (
@@ -433,7 +433,7 @@ const [comment,setComment]=useState("")
                   cols="50"
                 />
               ) : ""}
-            </React.Fragment>
+            </>
           ))}
         </div>
       </Modal.Body>

@@ -3,7 +3,7 @@ import React from "react";
 
 
 const CommonPageLinkNotFound = () => {
-  const path_image = import.meta.env.VITE_APP_ONESOURCE;
+  const path_image = process.env.REACT_APP_ONESOURCE;
   return (
     <>
     <meta

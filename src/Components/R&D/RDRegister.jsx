@@ -15,7 +15,7 @@ import { loader } from "../../loader";
 import { rdregistration } from "../Validations/RegisterValidation/Rdregistration";
 
 const RDRegister = () => {
-  const path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+  const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [show, setShow] = useState(false);
   const [siteCountry, setSiteCountry] = useState([]);
   const [siteNumber, setSiteNumber] = useState([]);

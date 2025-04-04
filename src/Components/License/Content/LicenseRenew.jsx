@@ -19,7 +19,7 @@ import DatePicker from "react-datepicker";
 import { popup_alert } from "../../../popup_alert";
 import CommonConfirmModel from "../../../Model/CommonConfirmModel";
 import axios from "axios";
-const path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const LicenseRenew = () => {  
   const navigate = useNavigate();

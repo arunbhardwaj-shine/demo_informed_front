@@ -24,7 +24,7 @@ import {
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 
-let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const LiveStream = () => {
   const rdLikeArray = [
@@ -33,7 +33,7 @@ const LiveStream = () => {
     "MXl8m36VZFYXpgFVz3Pg0g==",
   ];
   const isLikeRdAccount = rdLikeArray.includes(localStorage.getItem("user_id"));
-  axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+  axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
   const { eventIdContext, handleEventId } = useSidebar();
   const switch_account_detail = JSON.parse(
     localStorage.getItem("switch_account_detail")

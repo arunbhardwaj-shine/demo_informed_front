@@ -13,7 +13,7 @@ import { useSidebar } from "../../../../CommonComponent/LoginLayout";
 import Select from 'react-select'
 
 
-let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const NewEventCreate = () => {
   const switch_account_detail = JSON.parse(localStorage.getItem("switch_account_detail"))
   const {  handleEventId } = useSidebar();
@@ -891,7 +891,7 @@ const [apiCallStatus,setApiCallStatus]=useState(false)
                       <Accordion defaultActiveKey="0" flush>
                         {Object.keys(filterdata)?.map(function (key, index) {
                           return (
-                            <React.Fragment key={index}>
+                            <>
                               {filterdata[key]?.length ? (
                                 <Accordion.Item
                                   className={
@@ -951,7 +951,7 @@ const [apiCallStatus,setApiCallStatus]=useState(false)
                                   </Accordion.Body>
                                 </Accordion.Item>
                               ) : null}
-                            </React.Fragment>
+                            </>
                           );
                         })}
                       </Accordion>
@@ -1077,7 +1077,7 @@ const [apiCallStatus,setApiCallStatus]=useState(false)
                     <div className="filter-block">
                       <div className="filter-block-left full">
                         {Object.keys(appliedFilter)?.map((key, index) => {
-                          return (<React.Fragment key={index}>
+                          return (<>
                             {appliedFilter[key]?.length ? (
                               <div className="filter-div">
                                 <div className="filter-div-title">
@@ -1104,7 +1104,7 @@ const [apiCallStatus,setApiCallStatus]=useState(false)
                                 </div>
                               </div>
                             ) : ""}
-                          </React.Fragment>)
+                          </>)
                         })}
                       </div>
                       <div className="clear-filter">

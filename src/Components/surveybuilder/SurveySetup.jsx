@@ -17,7 +17,7 @@ var surveySetupData = {};
 
 const SurveySetup = (props) => {
   const {currentStep}=useSelector((state)=>state.surveyStepReducer);
-  let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+  let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const {FETCH_ALL_TOPICS,INSERT_SURVEY_CREATOR,GET_CREATOR}=surveyEndpoints;
   const [isSelected, setIsSelected] = useState(false);
   const [show, setShow] = useState(false);

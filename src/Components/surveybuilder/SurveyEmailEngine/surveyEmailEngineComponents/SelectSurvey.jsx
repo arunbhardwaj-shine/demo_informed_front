@@ -7,7 +7,7 @@ import {  Tooltip } from "react-bootstrap";
 import { connect } from "react-redux";
 
 const SelectSurvey = ({ SendListData, setSendListData, handlePdfSelection, setCurrentSelectedSublink,selectedSurvey, selectedSublink,fromSurveyLanding ,SubSelected }) => {
-  let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+  let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [selectedSublinkId, setSelectedSublinkId] = useState(
     selectedSurvey ? {[selectedSurvey] : selectedSublink} :  {}
   );

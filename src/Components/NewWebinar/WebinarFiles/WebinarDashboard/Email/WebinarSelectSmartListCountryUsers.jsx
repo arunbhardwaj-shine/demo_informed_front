@@ -25,7 +25,7 @@ const WebinarSelectSmartListCountryUsers = (props) => {
             ? eventIdContext?.eventId
             : localStorageEvent?.eventId
     );
-    let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+    let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
     const location = useLocation();
     const [selectedHcp, setSelectedHcp] = useState(location.state?.selectedHcp
         ? location.state?.selectedHcp : location.state?.flag != 1 ?
@@ -128,7 +128,7 @@ const WebinarSelectSmartListCountryUsers = (props) => {
     }, []);
 
     const inputElement = useRef();
-    axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
 
     const getDataByCountryWise = () => {
         const body = {
@@ -349,7 +349,7 @@ const WebinarSelectSmartListCountryUsers = (props) => {
                 : props.getWebinarDraftData?.campaign_data?.template_id,
         };
 
-        axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+        axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
         loader("show");
         await axios
             .post(`emailapi/save_draft`, body)
@@ -833,7 +833,7 @@ const WebinarSelectSmartListCountryUsers = (props) => {
             if (status.every((element) => element == "true")) {
                 loader("show");
 
-                axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+                axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
                 await axios
                     .post(`distributes/add_new_readers_in_list`, body)
                     .then((res) => {
@@ -918,7 +918,7 @@ const WebinarSelectSmartListCountryUsers = (props) => {
             };
 
             setSaveOpen(false);
-            axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+            axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
             loader("show");
             await axios
                 .post(`distributes/update_reders_details`, body)
@@ -1220,7 +1220,7 @@ const WebinarSelectSmartListCountryUsers = (props) => {
                                         <Accordion className="deleted">
                                             {Object.keys(countryWiseData?.discardCountryData)?.length ? Object.keys(countryWiseData?.discardCountryData)?.map((country, index) => {
                                                 return (
-                                                    <React.Fragment key={index}>
+                                                    <>
                                                         <Accordion.Item eventKey={index}>
                                                             <Accordion.Header>
                                                                 {`${country} (${countryWiseData?.discardCountryData?.[country]?.length + (newlyAddedCountryWiseData?.[country]?.length ? newlyAddedCountryWiseData?.[country]?.length : 0)})`}
@@ -1313,7 +1313,7 @@ const WebinarSelectSmartListCountryUsers = (props) => {
                                                                 </div>
                                                             </Accordion.Body>
                                                         </Accordion.Item>
-                                                    </React.Fragment>
+                                                    </>
                                                 )
                                             }) : ""}
                                         </Accordion>
@@ -1344,7 +1344,7 @@ const WebinarSelectSmartListCountryUsers = (props) => {
                                         <tbody>
                                             {removedReaders?.map((rr, i) => {
                                                 return (
-                                                    <React.Fragment key={i}>
+                                                    <>
 
                                                         {/* {rr["country"]?.toUpperCase() == country ? */}
                                                         <tr className="hcps-deleted">
@@ -1427,7 +1427,7 @@ const WebinarSelectSmartListCountryUsers = (props) => {
                                                             </td>
                                                         </tr>
                                                         {/* : ""} */}
-                                                    </React.Fragment>
+                                                    </>
                                                 );
                                             })}
                                             <tr className="seprator-add">
@@ -1440,7 +1440,7 @@ const WebinarSelectSmartListCountryUsers = (props) => {
                                 <Accordion>
                                     {Object.keys(countryWiseData?.allCountryData)?.length ? Object.keys(countryWiseData?.allCountryData)?.filter(country => countryWiseData?.allCountryData[country].length > 0)?.map((country, index) => {
                                         return (
-                                            <React.Fragment key={index}>
+                                            <>
                                                 <Accordion.Item eventKey={index} >
                                                     <Accordion.Header>
                                                         {`${country} (${countryWiseData?.allCountryData?.[country]?.length})`}
@@ -1581,7 +1581,7 @@ const WebinarSelectSmartListCountryUsers = (props) => {
                                                         </div>
                                                     </Accordion.Body>
                                                 </Accordion.Item>
-                                            </React.Fragment>
+                                            </>
                                         )
                                     }) : ""}
                                 </Accordion>

@@ -4,7 +4,7 @@ import 'react-tabs/style/react-tabs.css';
 import { useLocation,useNavigate,useSearchParams  } from 'react-router-dom';
 import { Col, Container } from 'react-bootstrap';
 const CommanPage = () =>{
-  const path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+  const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const navigation = useNavigate();
   const [index,setIndex] = useState(0)
   const[queryData,setQueryData] = useState("")

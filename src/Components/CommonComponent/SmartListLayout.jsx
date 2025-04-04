@@ -8,7 +8,7 @@ import { useSidebar } from "./LoginLayout";
 
 
 const SmartListLayout = ({data,deletestatus,callLinkClickFun,iseditshow,isviewshow,viewSmartListData,webinarFlag,type,layout = '',isDownloadEnable}) => {
-    let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+    let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
     const [opening_details, setOpeningDetails] = useState([]);
     const [flag, setFlag] = useState(0);
     

@@ -10,7 +10,7 @@ import CommonModel from "../../Model/CommonModel";
 import { popup_alert } from "../../popup_alert";
  
 
-let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 let downloadData = [];
 function SurveyTopics() {
@@ -317,7 +317,7 @@ const submitHandler = (e) => {
                 {productData?.data?.length > 0 ? (
                   productData?.data?.map((item,i) => {
                     return (
-                      <React.Fragment key={i}>
+                      <>
                         <Col xxl={3} xl={4} md={6}>
                           <div className="products-listing rd">
                             {item?.product}
@@ -357,7 +357,7 @@ const submitHandler = (e) => {
                             )}
                           </div>
                         </Col>
-                      </React.Fragment>
+                      </>
                     );
                   })
                 ) : (

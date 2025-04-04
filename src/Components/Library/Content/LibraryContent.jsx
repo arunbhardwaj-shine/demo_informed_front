@@ -142,7 +142,7 @@ const LibraryContent = (props) => {
   const BrokenImage =
     "https://docintel.s3-eu-west-1.amazonaws.com/cover/default/default.png";
 
-  const path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+  const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
   let obj = {};
   const limit = 24;
@@ -1091,7 +1091,7 @@ const LibraryContent = (props) => {
         pdf_id: irtObj?.pdfId,
         role: irtObj?.siteRole
       };
-      axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       loader("show");
       await axios
         .post(`emailapi/get_rd_campaign_data`, body)
@@ -1300,7 +1300,7 @@ const LibraryContent = (props) => {
                         <Accordion defaultActiveKey="0" flush>
                           {Object.keys(filterdata)?.map(function (key, index) {
                             return (
-                              <React.Fragment key={index}>
+                              <>
                                 {filterdata[key]?.length ? (
                                   <Accordion.Item
                                     className={
@@ -1380,7 +1380,7 @@ const LibraryContent = (props) => {
                                     </Accordion.Body>
                                   </Accordion.Item>
                                 ) : null}
-                              </React.Fragment>
+                              </>
                             );
                           })}
                         </Accordion>
@@ -1478,7 +1478,7 @@ const LibraryContent = (props) => {
                     <div className="filter-block-left full">
                       {Object.keys(filterObject)?.map((key, index) => {
                         return (
-                          <React.Fragment key={index}>
+                          <>
                             {filterObject[key]?.length ? (
                               <div className="filter-div">
                                 <div className="filter-div-title">
@@ -1512,7 +1512,7 @@ const LibraryContent = (props) => {
                                 </div>
                               </div>
                             ) : null}
-                          </React.Fragment>
+                          </>
                         );
                       })}
                     </div>
@@ -3096,7 +3096,7 @@ const LibraryContent = (props) => {
             <div className="total-selected">
               {tagClickedFirst.map((data, index) => {
                 return (
-                  <React.Fragment key={index}>
+                  <>
                     <div className="tag-cross">
                       {data.innerHTML || data}
                       <img
@@ -3105,7 +3105,7 @@ const LibraryContent = (props) => {
                         onClick={() => removeTagFinal(index)}
                       />
                     </div>
-                  </React.Fragment>
+                  </>
                 );
               })}
             </div>

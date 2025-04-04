@@ -14,7 +14,7 @@ import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
 import CommonConfirmModel from "../../../Model/CommonConfirmModel";
 import MessageModelLog from "../../../Model/MessageModelLog";
-let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const MarketingAddReader = () => {
   const [confirmationpopup, setConfirmationPopup] = useState(false);
   const [resetDataId, setResetDataId] = useState();
@@ -900,7 +900,7 @@ const MarketingAddReader = () => {
                     {typeOfContact?.length
                       ? typeOfContact?.map((item, index) => {
                           return (
-                            <React.Fragment key={index}>
+                            <>
                               <input
                                 type="checkbox"
                                 value="value1"
@@ -917,7 +917,7 @@ const MarketingAddReader = () => {
                               <Form.Label htmlFor={`limitagreed${index}`}>
                                 {item?.label}
                               </Form.Label>
-                            </React.Fragment>
+                            </>
                           );
                         })
                       : ""}

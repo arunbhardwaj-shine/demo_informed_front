@@ -26,7 +26,7 @@ import { Spinner } from "react-activity";
 import { popup_alert } from "../../../popup_alert";
 import CommonConfirmModel from "../../../Model/CommonConfirmModel";
 import axios from "axios";
-let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const NewReaders = () => {
   const accountMapping={"56Ek4feL/1A8mZgIKQWEqg==":2147501188,"bWmUjqX7J011   WUTYn9g==":298217,"MXl8m36VZFYXpgFVz3Pg0g==":2147537506}
@@ -1651,7 +1651,7 @@ const NewReaders = () => {
 
   const axiosFun = async () => {
     try {
-      axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       const result = await axios.get(`emailapi/get_site?uid=${accountMapping[localStorage.getItem("user_id")] ||  2147501188}`);
       let country = result?.data?.response?.data?.site_country_data;
       let arr = [];
@@ -2009,7 +2009,7 @@ const NewReaders = () => {
                                 :
                                 filterdata[key];
                             return (
-                              <React.Fragment key={index}>
+                              <>
                                 {filteredRoles?.length > 0 ? (
                                   <Accordion.Item
                                  
@@ -2127,7 +2127,7 @@ const NewReaders = () => {
                                     </Accordion.Body>
                                   </Accordion.Item>
                                 ) : null}
-                              </React.Fragment>
+                              </>
                             );
                           })}
                         </Accordion>
@@ -2247,7 +2247,7 @@ const NewReaders = () => {
                           : key
                         : key;
                         return (
-                          <React.Fragment key={index}>
+                          <>
                             {filterObject[key]?.length ? (
                               
                               <div key={index} className="filter-div">
@@ -2315,7 +2315,7 @@ const NewReaders = () => {
                                 </div>
                               </div>
                             ) : null}
-                          </React.Fragment>
+                          </>
                         );
                       })}
                     </div>

@@ -12,7 +12,7 @@ import { surveyEndpoints } from "./SurveyEndpoints/SurveyEndpoints";
 
 const SurveyAnalytics = () => {
   const { SURVEY_ANALYTIC_DETAILS } = surveyEndpoints;
-  let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+  let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const { state } = useLocation();
   const [filterdata, setFilterData] = useState([]);
   const [showfilter, setShowFilter] = useState(false);
@@ -536,7 +536,7 @@ const SurveyAnalytics = () => {
                             {sortData(data, sortBy, sortOrder)?.map(
                               (item, index) => {
                                 return (
-                                  <React.Fragment key={index}>
+                                  <>
                                     <tr className="view">
                                       <td
                                         className={`status ${
@@ -630,7 +630,7 @@ const SurveyAnalytics = () => {
                                         &nbsp;
                                       </td>
                                     </tr>
-                                  </React.Fragment>
+                                  </>
                                 );
                               }
                             )}

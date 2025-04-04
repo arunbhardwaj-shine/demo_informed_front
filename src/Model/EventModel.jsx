@@ -123,7 +123,7 @@ const EventModel = ({ show, onClose, data ,eventId}) => {
         {data?.length && ["MULTIPLE", "CHECKBOX"].includes(data[0]?.type)
           ? data[0]?.pollAnswers?.map((item,index) => {
               return (
-                <React.Fragment key={index}>
+                <>
                   <div className="form-check form-check-inline">
                     <input
                       type={data[0]?.type == "MULTIPLE" ? "radio" : "checkbox"}
@@ -135,7 +135,7 @@ const EventModel = ({ show, onClose, data ,eventId}) => {
                     <label for={item?.answer}>{item?.answer}</label>
                     <br />
                   </div>
-                </React.Fragment>
+                </>
               );
             })
           : ""}

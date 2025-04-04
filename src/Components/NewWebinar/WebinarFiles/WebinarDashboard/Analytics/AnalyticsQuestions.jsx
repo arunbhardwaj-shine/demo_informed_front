@@ -9,7 +9,7 @@ import { saveAs } from "file-saver";
 import { toast } from "react-toastify";
 
 const AnalyticsQuestions = () => {
-  const path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+  const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const { eventIdContext, handleEventId } = useSidebar();
   const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"));
   const [eventId, setEventId] = useState(eventIdContext || localStorageEvent);

@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 export const WebinarHeader = () => {
   const navigate = useNavigate();
 
-  let path = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+  let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const removed_pop = () => {
     var element = document.getElementById("resend-confirm");
     element.classList.remove("custom_model_show");

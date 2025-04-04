@@ -36,8 +36,8 @@ const SurveyFormBuilder = (props) => {
 
   const dispatch = useDispatch();
   const [elements, setElements] = useState([]);
-  // let path = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED;
-  let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+  // let path = process.env.REACT_APP_ASSETS_PATH_INFORMED;
+  let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [currentTemplate, setCurrentTemplate] = useState(null);
   const [templateDefaultValues, setTemplateDefaultValues] = useState({});
   const [index, setIndex] = useState({});

@@ -10,7 +10,7 @@ import { loader } from "../../loader";
 const Check8 = () => {
   const formRef = useRef(null);
   const pageRef=useRef(null);
-  let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+  let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [formInputs, setFormInputs] = useState({});
   const [error, setError] = useState("");
   const location = useLocation();

@@ -28,7 +28,7 @@ const Webinar = () => {
     AOS.init();
   }, []);
   const navigate = useNavigate();
-  const path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+  const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [userInputs, setUserInputs] = useState({});
   const [userSignInInputs, setUserSignInInputs] = useState({});
   const [activeSection, setActiveSection] = useState("banner-section");

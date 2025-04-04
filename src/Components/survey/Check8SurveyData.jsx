@@ -351,7 +351,7 @@ const Check8SurveyData = () => {
                   </div>
 
                   {data?.map((item, index) => {
-                    return (<React.Fragment key={index}>
+                    return (<>
                    
                       <Accordion
                     
@@ -466,7 +466,7 @@ const Check8SurveyData = () => {
                           </Accordion.Body>
                         </Accordion.Item>
                       </Accordion>
-                    </React.Fragment>)
+                    </>)
                   })}
 
 

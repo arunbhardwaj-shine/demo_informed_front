@@ -48,7 +48,7 @@ const WebinarVerifyHCP = (props) => {
         { value: "yes", label: "Yes" },
         { value: "no", label: "No" },
     ]);
-    let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+    let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
     const filterConfig = {
         matchFrom: "start",
     };
@@ -208,7 +208,7 @@ const WebinarVerifyHCP = (props) => {
         }
     }, []);
 
-    axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
 
     const handleInputChange = (event, selected) => {
         const div = document.querySelector("div.active");
@@ -783,7 +783,7 @@ const WebinarVerifyHCP = (props) => {
             if (status.every((element) => element == "true")) {
                 loader("show");
 
-                axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+                axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
                 await axios
                     .post(`distributes/add_new_readers_in_list`, body)
                     .then((res) => {
@@ -817,7 +817,7 @@ const WebinarVerifyHCP = (props) => {
             formData.append("user_id", user_id);
             formData.append("smart_list_id", "");
             formData.append("reader_file", selectedFile);
-            axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+            axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
             if (selectedFile) {
                 loader("show");
                 await axios
@@ -969,7 +969,7 @@ const WebinarVerifyHCP = (props) => {
                 email: email,
             };
 
-            axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+            axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
             loader("show");
             await axios
                 .post(`emailapi/search_hcp`, body)
@@ -1030,7 +1030,7 @@ const WebinarVerifyHCP = (props) => {
                 edit_list_array: editableData,
             };
             setSaveOpen(false);
-            axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+            axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
             loader("show");
             await axios
                 .post(`distributes/update_reders_details`, body)
@@ -1132,7 +1132,7 @@ const WebinarVerifyHCP = (props) => {
                 : props?.getWebinarDraftData?.campaign_data?.template_id
         };
 
-        axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+        axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
         loader("show");
         await axios
             .post(`emailapi/save_draft`, body)
@@ -1753,7 +1753,7 @@ const WebinarVerifyHCP = (props) => {
                                                 {/* {searchedUsers?.map((users, index) => { */}
                                                 {sortData(searchedUsers, sortBy, sortOrder)?.map((users, index) => {
                                                     return (
-                                                        <React.Fragment key={index}>
+                                                        <>
                                                             <tr>
                                                                 <td>{users?.name}</td>
                                                                 <td>{users?.email ? users?.email : "N/A"}</td>
@@ -1824,7 +1824,7 @@ const WebinarVerifyHCP = (props) => {
                                                                     />
                                                                 </td>
                                                             </tr>
-                                                        </React.Fragment>
+                                                        </>
                                                     );
                                                 })}
                                             </tbody>

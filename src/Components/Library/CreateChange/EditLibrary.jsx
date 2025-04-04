@@ -24,7 +24,7 @@ import { loader } from "../../../loader";
 import CommonModel from "../../../Model/CommonModel";
 import optimizeImage from "../../../Utils/optimizeImage";
 import { LibraryEditValidation } from "../../Validations/LibraryValidation/LibraryEditValidation";
-let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const EditLibrary = () => {
   const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","bWmUjqX7J011   WUTYn9g==","MXl8m36VZFYXpgFVz3Pg0g=="]
@@ -2133,7 +2133,7 @@ const getExistingVideos=async ()=>{
                                   <ul className="after-tag-selected">
                                     {hcpClickedFirst.map((item, index) => {
                                       return (
-                                        <React.Fragment key={index}>
+                                        <>
                                           {userDetail?.hcp?.includes(item) ? (
                                             <li className="list1">
                                               {item}
@@ -2144,7 +2144,7 @@ const getExistingVideos=async ()=>{
                                               />
                                             </li>
                                           ) : null}
-                                        </React.Fragment>
+                                        </>
                                       );
                                     })}
                                   </ul>
@@ -2184,7 +2184,7 @@ const getExistingVideos=async ()=>{
                                   <ul className="after-tag-selected">
                                     {hcpIrtClickedFirst.map((item, index) => {
                                       return (
-                                        <React.Fragment key={index}>
+                                        <>
                                           {mandatoryRole.includes(item) ? (
                                             <li className="list1">
                                               {item}
@@ -2197,7 +2197,7 @@ const getExistingVideos=async ()=>{
                                               />
                                             </li>
                                           ) : null}
-                                        </React.Fragment>
+                                        </>
                                       );
                                     })}
                                   </ul>
@@ -2311,7 +2311,7 @@ const getExistingVideos=async ()=>{
                       userInputs.docintelFormat == "ebook" || userInputs.docintelFormat == "ebookVideo" ? (
                         chapter.map((val, i) => {
                           return (
-                            <React.Fragment key={i}>
+                            <>
                               <div className="form-group val chapter-title">
                                 <div className="ebook-format">
 
@@ -2577,13 +2577,13 @@ const getExistingVideos=async ()=>{
                                   </div>
                                 ) : null}
                               </div>
-                            </React.Fragment>
+                            </>
                           );
                         })
                       ) : userInputs.docintelFormat == "pdfSpc" ? (
                         pdfSpcData.map((val, i) => {
                           return (
-                            <React.Fragment key={i}>
+                            <>
                               <div className="form-group val chapter-title pdf-spc">
                                 <div className="ebook-format">
                                   <label htmlFor="">
@@ -2637,7 +2637,7 @@ const getExistingVideos=async ()=>{
                                   </div>
                                 ) : null}
                               </div>
-                            </React.Fragment>
+                            </>
                           );
                         })
                       ) :  
@@ -2911,9 +2911,9 @@ const getExistingVideos=async ()=>{
               <div className="tag-lists-view">
                 {Object.values(allTags).map((data,index) => {
                   return (
-                    <React.Fragment key={index}>
+                    <>
                       <div onClick={(event) => tagClicked(data)}>{data} </div>
-                    </React.Fragment>
+                    </>
                   );
                 })}
               </div>
@@ -2927,7 +2927,7 @@ const getExistingVideos=async ()=>{
             <div className="total-selected">
               {tagClickedFirst.map((data, index) => {
                 return (
-                  <React.Fragment key={index}>
+                  <>
                     <div className="tag-cross">
                       {data.innerHTML || data}
                       <img
@@ -2936,7 +2936,7 @@ const getExistingVideos=async ()=>{
                         onClick={() => removeTagFinal(index, "remove")}
                       />
                     </div>
-                  </React.Fragment>
+                  </>
                 );
               })}
             </div>

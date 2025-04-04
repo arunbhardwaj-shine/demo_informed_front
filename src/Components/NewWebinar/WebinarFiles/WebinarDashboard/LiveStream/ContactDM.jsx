@@ -4,7 +4,7 @@ import { loader } from '../../../../../loader'
 import { postData } from '../../../../../axios/apiHelper'
 import { useSidebar } from '../../../../CommonComponent/LoginLayout'
 
-let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const ContactDM = () => {
 
@@ -292,7 +292,7 @@ const ContactDM = () => {
                                                 <Accordion defaultActiveKey="0" flush>
                                                     {Object.keys(filterData)?.map(function (key, index) {
                                                         return (
-                                                            <React.Fragment key={index}>
+                                                            <>
                                                                 {filterData[key]?.length ? (
                                                                     <Accordion.Item
                                                                         className={
@@ -342,7 +342,7 @@ const ContactDM = () => {
                                                                         </Accordion.Body>
                                                                     </Accordion.Item>
                                                                 ) : null}
-                                                            </React.Fragment>
+                                                            </>
                                                         );
                                                     })}
                                                 </Accordion>
@@ -416,7 +416,7 @@ const ContactDM = () => {
                                     <div className="filter-block">
                                         <div className="filter-block-left full">
                                             {Object.keys(appliedFilter)?.map((key, index) => {
-                                                return (<React.Fragment key={index}>
+                                                return (<>
                                                     {appliedFilter[key]?.length ? (
                                                         <div className="filter-div">
                                                             <div className="filter-div-title">
@@ -443,7 +443,7 @@ const ContactDM = () => {
                                                             </div>
                                                         </div>
                                                     ) : ""}
-                                                </React.Fragment>)
+                                                </>)
                                             })}
                                         </div>
                                         <div className="clear-filter">

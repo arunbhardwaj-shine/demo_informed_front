@@ -36,7 +36,7 @@ const SurveyQuestionForm = () => {
     EventDataFun()
   },[])
   const formRef = useRef(null);
-  let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+  let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [formInputs, setFormInputs] = useState({});
   const [error, setError] = useState("");
 

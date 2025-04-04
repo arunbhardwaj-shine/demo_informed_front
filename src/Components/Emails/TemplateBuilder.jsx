@@ -29,7 +29,7 @@ const TemplateBuilder = (props) => {
   const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
   const editorRef = useRef(null);
   const ref = useRef(null);
-  let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+  let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [percent, setPercent] = useState(0);
   const [showProgress, setShowProgress] = useState(false);
   const [isFilterApiCalled, setIsFilterApiCalled] = useState(false);
@@ -149,7 +149,7 @@ const TemplateBuilder = (props) => {
     }
   }, [addListOpen]);
 
-  axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+  axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
 
   useEffect(() => {
     getTemplateListData(0, "All", "", userTemplateType);
@@ -159,7 +159,7 @@ const TemplateBuilder = (props) => {
     matchFrom: "start",
   };
   const getSmartListData = async (flag) => {
-    axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     const body = {
       type:type == "survey" ? 1 :type,
       user_id: localStorage.getItem("user_id"),
@@ -300,7 +300,7 @@ const TemplateBuilder = (props) => {
     }
   };
 
-  axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+  axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
   const getTemplateListData = async (flag, lng, ibu, userTemplateType) => {
     let check_lng_index = 10;
     if (lng == "All") {
@@ -702,7 +702,7 @@ const TemplateBuilder = (props) => {
       };
 
      
-      axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
 
       axios
         .post(`emailapi/send_sample_email`, body)
@@ -810,7 +810,7 @@ const TemplateBuilder = (props) => {
     setEditClicked(true);
     e.preventDefault();
     if (newTemplateName != "") {
-      axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       const body = {
         user_id: localStorage.getItem("user_id"),
         template_id: templateId,
@@ -916,7 +916,7 @@ const TemplateBuilder = (props) => {
         type:type == "survey" ? 1 :type,
       };
 
-      axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       loader("show");
       await axios
         .post(`emailapi/search_hcp`, body)
@@ -1219,7 +1219,7 @@ const TemplateBuilder = (props) => {
       status.sort();
       if (status.every((element) => element == "true")) {
         loader("show");
-        axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+        axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
         await axios
           .post(`distributes/add_new_readers_in_list`, body)
           .then((res) => {
@@ -1251,7 +1251,7 @@ const TemplateBuilder = (props) => {
       formData.append("reader_file", selectedFile);
 
       if (selectedFile) {
-        axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+        axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
         loader("show");
         await axios
           .post(`distributes/update_reader_list`, formData)
@@ -1364,7 +1364,7 @@ const TemplateBuilder = (props) => {
         language: lang,
       };
 
-      axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       loader("show");
       await axios
         .post(`emailapi/add_update_template`, body)
@@ -1422,7 +1422,7 @@ const TemplateBuilder = (props) => {
         content_included: templateType,
       };
 
-      axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       loader("show");
       await axios
         .post(`emailapi/add_update_template`, body)
@@ -1497,7 +1497,7 @@ const TemplateBuilder = (props) => {
     html2canvas(ref.current,{ useCORS: true, proxy: 'https://docintel.s3-eu-west-1.amazonaws.com' })
       .then((canvasurl) => {
         const dataUrl = canvasurl.toDataURL('image/png');
-        axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+        axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
         if (dataUrl) {
           const body = {
             type:type == "survey" ? 1 :type,
@@ -1557,7 +1557,7 @@ const TemplateBuilder = (props) => {
           content_included: saveTemplateType,
           type:type == "survey" ? 1 :type,
         };
-        axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+        axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
         loader("show");
         await axios
           .post(`emailapi/add_update_template`, body)
@@ -1598,7 +1598,7 @@ const TemplateBuilder = (props) => {
         user_id: localStorage.getItem("user_id"),
         template_id: templateId,
       };
-      axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       loader("show");
       await axios
         .post(`emailapi/delete_template`, body)
@@ -2850,7 +2850,7 @@ const TemplateBuilder = (props) => {
                   <>
                     {selectedHcp.map((data, index2) => {
                       return (
-                        <React.Fragment key={index2}>
+                        <>
                           <div className="search-hcp-box">
                             <p className="send-hcp-box-title">
                               Name | <span>{data.name || data.first_name}</span>
@@ -2869,7 +2869,7 @@ const TemplateBuilder = (props) => {
                               />
                             </div>
                           </div>
-                        </React.Fragment>
+                        </>
                       );
                     })}
                   </>
@@ -3548,7 +3548,7 @@ const TemplateBuilder = (props) => {
                 smartListData.length > 0 ? (
                 smartListData.map((data,index) => {
                   return (
-                    <React.Fragment key={index}>
+                    <>
                       <div className="smartlist_box_block">
                         <div className="smartlist-view email_box">
                           <div className="mail-box-content">
@@ -3575,7 +3575,7 @@ const TemplateBuilder = (props) => {
                           </div>
                         </div>
                       </div>
-                    </React.Fragment>
+                    </>
                   );
                 })
               ) : (

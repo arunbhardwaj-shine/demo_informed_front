@@ -15,7 +15,7 @@ import { toPng } from "html-to-image";
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 
-let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 var dxr = 0;
 var state_object = {};
 const AutoMail = (props) => {
@@ -44,7 +44,7 @@ const AutoMail = (props) => {
   };
 
   let file_name = useRef("");
-  let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+  let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const navigate = useNavigate();
   const [SendListData, setSendListData] = useState([]);
   const [userId,setUserId] = useState("56Ek4feL/1A8mZgIKQWEqg==")
@@ -142,7 +142,7 @@ const AutoMail = (props) => {
     }
   }, [addListOpen]);
 
-  axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+  axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
 
   useEffect(() => {
     getTemplateListData(0, "All", "");
@@ -150,7 +150,7 @@ const AutoMail = (props) => {
   }, []);
 
   const getSmartListData = (flag) => {
-    axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     const body = {
       user_id: localStorage.getItem("user_id"),
       search: getsearch,
@@ -198,7 +198,7 @@ const AutoMail = (props) => {
     getalCountry();
   }, []);
 
-  axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+  axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
   const getTemplateListData = async (flag, lng, ibu) => {
     let check_lng_index = 10;
     if (lng == "All") {
@@ -296,7 +296,7 @@ const AutoMail = (props) => {
       user_id: localStorage.getItem("user_id"),
     };
 
-    axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     const getAllTags = async () => {
       await axios
         .post(`emailapi/get_tags`, body)
@@ -478,7 +478,7 @@ const AutoMail = (props) => {
       };
 
       //console.log(body);
-      axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
 
       axios
         .post(`emailapi/send_sample_email`, body)
@@ -585,7 +585,7 @@ const AutoMail = (props) => {
     setEditClicked(true);
     e.preventDefault();
     if (newTemplateName != "") {
-      axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       const body = {
         user_id: localStorage.getItem("user_id"),
         template_id: templateId,
@@ -676,7 +676,7 @@ const AutoMail = (props) => {
       };
 
       //console.log(body);
-      axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       //   loader("show");
       await axios
         .post(`emailapi/search_hcp`, body)
@@ -839,7 +839,7 @@ const AutoMail = (props) => {
       status.sort();
       if (status.every((element) => element == "true")) {
         //   loader("show");
-        axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+        axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
         await axios
           .post(`distributes/add_new_readers_in_list`, body)
           .then((res) => {
@@ -875,7 +875,7 @@ const AutoMail = (props) => {
       // console.log(formData);
 
       if (selectedFile) {
-        axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+        axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
         //    loader("show");
         await axios
           .post(`distributes/update_reader_list`, formData)
@@ -988,7 +988,7 @@ const AutoMail = (props) => {
         language: lang,
       };
 
-      axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       //   loader("show");
       await axios
         .post(`emailapi/add_update_template`, body)
@@ -1029,7 +1029,7 @@ const AutoMail = (props) => {
   };
   const openSmartListPopup = async (smart_list_id) => {
     setShowLessInfo(true);
-    axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     const body = {
       user_id: localStorage.getItem("user_id"),
       list_id: smart_list_id,
@@ -1098,7 +1098,7 @@ const AutoMail = (props) => {
     // loader("show");
     toPng(ref.current, { pixelRatio: 1 })
       .then((dataUrl) => {
-        axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+        axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
         if (dataUrl) {
           const body = {
             user_id: localStorage.getItem("user_id"),
@@ -1150,7 +1150,7 @@ const AutoMail = (props) => {
           status: 2,
           language: 2,
         };
-        axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+        axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
         //  loader("show");
         await axios
           .post(`emailapi/add_update_template`, body)
@@ -1185,7 +1185,7 @@ const AutoMail = (props) => {
         user_id: localStorage.getItem("user_id"),
         template_id: templateId,
       };
-      axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       //  loader("show");
       await axios
         .post(`emailapi/delete_template`, body)
@@ -1456,7 +1456,7 @@ const AutoMail = (props) => {
                   >
                     {templateList.map((template,index) => {
                       return (
-                        <React.Fragment key={index}>
+                        <>
                           <div
                             className="item"
                             onClick={(e) => templateClicked(template, e)}
@@ -1474,7 +1474,7 @@ const AutoMail = (props) => {
                             />
                             <p>{template.name}</p>
                           </div>
-                        </React.Fragment>
+                        </>
                       );
                     })}
                   </AliceCarousel>
@@ -1901,7 +1901,7 @@ const AutoMail = (props) => {
                   <>
                     {selectedHcp.map((data, index2) => {
                       return (
-                        <React.Fragment key={index2}>
+                        <>
                           <div className="search-hcp-box">
                             <p className="send-hcp-box-title">
                               Name | <span>{data.name || data.first_name}</span>
@@ -1920,7 +1920,7 @@ const AutoMail = (props) => {
                               />
                             </div>
                           </div>
-                        </React.Fragment>
+                        </>
                       );
                     })}
                   </>
@@ -1998,7 +1998,7 @@ const AutoMail = (props) => {
                   {hpc.map((val, i) => {
                     const fieldName = `hpc[${i}]`;
                     return (
-                      <React.Fragment key={fieldName}>
+                      <>
                         <div className="add_hcp_boxes">
                           <div className="form_action">
                             <div className="row">
@@ -2114,7 +2114,7 @@ const AutoMail = (props) => {
                                         : Object.entries(countryall).map(
                                             ([index, item]) => {
                                               return (
-                                                <React.Fragment key={index}>
+                                                <>
                                                   <Dropdown.Item
                                                     eventKey={index}
                                                     className={
@@ -2127,7 +2127,7 @@ const AutoMail = (props) => {
                                                       ? "Bosnia and Herzegovina"
                                                       : item}
                                                   </Dropdown.Item>
-                                                </React.Fragment>
+                                                </>
                                               );
                                             }
                                           )}
@@ -2174,7 +2174,7 @@ const AutoMail = (props) => {
                             </div>
                           </div>
                         </div>
-                      </React.Fragment>
+                      </>
                     );
                   })}
                 </form>
@@ -2244,7 +2244,7 @@ const AutoMail = (props) => {
               smartListData.length > 0 ? (
                 smartListData.map((data,index) => {
                   return (
-                    <React.Fragment key={index}>
+                    <>
                       <div className="smartlist_box_block">
                         <div className="smartlist-view email_box">
                           <div className="mail-box-content">
@@ -2325,7 +2325,7 @@ const AutoMail = (props) => {
                           </div>
                         </div>
                       </div>
-                    </React.Fragment>
+                    </>
                   );
                 })
               ) : (

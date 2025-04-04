@@ -22,7 +22,7 @@ import { postData } from "../../../axios/apiHelper";
 import { loader } from "../../../loader";
 import { popup_alert } from "../../../popup_alert";
 import SubLinkListing from "./SubLinkListing";
-let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const LibrarySublink = () => {
   const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","bWmUjqX7J011   WUTYn9g==","MXl8m36VZFYXpgFVz3Pg0g=="]
   const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
@@ -686,7 +686,7 @@ const LibrarySublink = () => {
                                                     articleData?.id
                                                   ) {
                                                     return (
-                                                      <React.Fragment key={i}>
+                                                      <>
                                                         <div className="data-progress success-progress">
                                                           <ProgressBar
                                                             variant={
@@ -706,7 +706,7 @@ const LibrarySublink = () => {
                                                             }
                                                           />
                                                         </div>
-                                                      </React.Fragment>
+                                                      </>
                                                     );
                                                   }
                                                 }
@@ -749,7 +749,7 @@ const LibrarySublink = () => {
                                                             articleData?.id
                                                           ) {
                                                             return (
-                                                              <React.Fragment key={index}>
+                                                              <>
                                                                 <div className="data-progress limited">
                                                                   <ProgressBar
                                                                     variant={
@@ -773,7 +773,7 @@ const LibrarySublink = () => {
                                                                     }
                                                                   />
                                                                 </div>
-                                                              </React.Fragment>
+                                                              </>
                                                             );
                                                           }
                                                         }
@@ -814,7 +814,7 @@ const LibrarySublink = () => {
                                                                 articleData?.id
                                                               ) {
                                                                 return (
-                                                                  <React.Fragment key={idx}>
+                                                                  <>
                                                                     <div className="data-progress limited">
                                                                       <ProgressBar
                                                                         variant={
@@ -870,7 +870,7 @@ const LibrarySublink = () => {
                                                                         </>
                                                                       )}
                                                                     </span>
-                                                                  </React.Fragment>
+                                                                  </>
                                                                 );
                                                               }
                                                             }
@@ -912,7 +912,7 @@ const LibrarySublink = () => {
                                                         articleData?.id
                                                       ) {
                                                         return (
-                                                          <React.Fragment key={i}>
+                                                          <>
                                                             <div className="data-progress limited">
                                                               <ProgressBar
                                                                 variant={
@@ -968,7 +968,7 @@ const LibrarySublink = () => {
                                                                 </>
                                                               )}
                                                             </span>
-                                                          </React.Fragment>
+                                                          </>
                                                         );
                                                       }
                                                     }
@@ -1009,7 +1009,7 @@ const LibrarySublink = () => {
                                                       articleData.id
                                                     ) {
                                                       return (
-                                                        <React.Fragment key={index}>
+                                                        <>
                                                           <div className="data-progress">
                                                              
                                                             <ProgressBar
@@ -1076,7 +1076,7 @@ const LibrarySublink = () => {
                                                               </span>
                                                               : null
                                                           }
-                                                        </React.Fragment>
+                                                        </>
                                                       );
                                                     }
                                                   }
@@ -1116,7 +1116,7 @@ const LibrarySublink = () => {
                                                       articleData?.id
                                                     ) {
                                                       return (
-                                                        <React.Fragment key={index}>
+                                                        <>
                                                           <div className="data-progress">
                                                             <ProgressBar
                                                               variant={
@@ -1142,7 +1142,7 @@ const LibrarySublink = () => {
                                                               }
                                                             />
                                                           </div>
-                                                        </React.Fragment>
+                                                        </>
                                                       );
                                                     }
                                                   }
@@ -1182,7 +1182,7 @@ const LibrarySublink = () => {
                                                       articleData?.id
                                                     ) {
                                                       return (
-                                                        <React.Fragment key={i}>
+                                                        <>
                                                           <div className="data-progress">
                                                             <ProgressBar
                                                               variant={
@@ -1206,7 +1206,7 @@ const LibrarySublink = () => {
                                                               }
                                                             />
                                                           </div>
-                                                        </React.Fragment>
+                                                        </>
                                                       );
                                                     }
                                                   }
@@ -1246,7 +1246,7 @@ const LibrarySublink = () => {
                                                       articleData?.id
                                                     ) {
                                                       return (
-                                                        <React.Fragment key={idx}>
+                                                        <>
                                                           <div className="data-progress">
                                                             <ProgressBar
                                                               variant={
@@ -1270,7 +1270,7 @@ const LibrarySublink = () => {
                                                               }
                                                             />
                                                           </div>
-                                                        </React.Fragment>
+                                                        </>
                                                       );
                                                     }
                                                   }

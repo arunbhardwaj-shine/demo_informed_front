@@ -1,7 +1,7 @@
 import { Col, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
-let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const data = [
   {

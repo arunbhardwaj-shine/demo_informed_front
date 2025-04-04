@@ -20,7 +20,7 @@ const ThanksPage = (props) => {
   const {currentStep}=useSelector((state)=>state.surveyStepReducer);
   const navigate = useNavigate();
   const location = useLocation();
-  let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+  let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [thanksPageData, setThanksPageData] = useState({
     thanksImgPath: surveyValues?.thanksPageData?.thanku_image_path || "",
     imageWidth: surveyValues?.thanksPageData?.thanku_image_width || 20,

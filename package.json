@@ -11,13 +11,13 @@
 		"@highcharts/map-collection": "^2.3.0",
 		"@inovua/reactdatagrid-community": "^5.10.2",
 		"@tinymce/tinymce-react": "^5.1.1",
-		"@vitejs/plugin-react": "^4.3.4",
 		"aos": "^3.0.0-beta.6",
 		"apisauce": "^3.1.0",
 		"axios": "^1.7.9",
 		"bootstrap": "^5.3.3",
 		"dom-to-image": "^2.6.0",
 		"dom-to-image-more": "^3.5.0",
+		"dotenv": "^16.4.7",
 		"file-saver": "^2.0.5",
 		"firebase": "^11.1.0",
 		"formik": "^2.4.6",
@@ -53,6 +53,8 @@
 		"react-player": "^2.16.0",
 		"react-redux": "^9.2.0",
 		"react-router-dom": "^7.1.1",
+		"react-script": "^2.0.5",
+		"react-scripts": "^5.0.1",
 		"react-select": "^5.9.0",
 		"react-slick": "^0.30.3",
 		"react-tabs": "^6.1.0",
@@ -68,12 +70,10 @@
 		"yup": "^1.6.1"
 	},
 	"scripts": {
-		"start": "vite",
-		"dev": "vite",
-		"build": "vite build",
-		"lint": "eslint .",
-		"preview": "vite preview",
-		"live": "serve -l 3003 -s dist"
+		"start": "react-scripts start",
+		"build": "react-scripts build",
+		"test": "react-scripts test",
+		"eject": "react-scripts eject"
 	},
 	"eslintConfig": {
 		"extends": [
@@ -99,6 +99,11 @@
 	"devDependencies": {
 		"@ckeditor/ckeditor5-alignment": "^44.1.0",
 		"@types/react-google-recaptcha": "^2.1.9",
-		"vite": "^6.0.6"
+		"babel-loader": "^10.0.0",
+		"dotenv-webpack": "^8.1.0",
+		"html-webpack-plugin": "^5.6.3",
+		"webpack": "^5.98.0",
+		"webpack-cli": "^6.0.1",
+		"webpack-dev-server": "^5.2.1"
 	}
 }

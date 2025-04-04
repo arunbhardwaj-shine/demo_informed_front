@@ -6,7 +6,7 @@ import html2canvas from "html2canvas";
 import { loader } from "../../loader";
 
 const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
-    let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+    let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
     const [whichTypeGraph, setWhichTypeGraph] = useState({ [index]: "pie" })
     const [whichTypeMatrixGraph, setWhichTypeMatrixGraph] = useState({})
     const [apiStatus, setApiStatus] = useState(false)
@@ -230,7 +230,7 @@ const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
                     //     item.percentage = totalCount > 0 ? JSON.parse(((item.count / totalCount).toFixed(2)) * 100) : 0
                     // })
 
-                    return (<React.Fragment key={index}>
+                    return (<>
                         <div key={index} className="question-preview-block matrix"  >
                             <div className="question-preview">
                                 <span dangerouslySetInnerHTML={{
@@ -247,7 +247,7 @@ const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
                                 <div className="answer-options">
                                     {data?.answers?.map((ans, i) => {
 
-                                        return (<React.Fragment key={i}>
+                                        return (<>
                                             <div key={i} className="answer">
                                                 <div className="choices">
                                                     <span className="bullet-color" style={{ background: colors[i] }}>&nbsp;</span>
@@ -262,7 +262,7 @@ const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
                                                 </div>
                                             </div>
 
-                                        </React.Fragment>)
+                                        </>)
                                     })}
                                 </div>
                                 <div className="avg-view">
@@ -356,7 +356,7 @@ const SurveyAnalyticsQuestionView = memo(({ index, item, colors, type }) => {
                             </div>
                         </div>
 
-                    </React.Fragment>)
+                    </>)
                 })
 
                 :

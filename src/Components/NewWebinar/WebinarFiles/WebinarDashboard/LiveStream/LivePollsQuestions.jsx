@@ -10,7 +10,7 @@ import { loader } from "../../../../../loader";
 import { collection, query, where, onSnapshot } from "firebase/firestore";
 import { get, off, onValue, orderByChild, ref } from "firebase/database";
 import { database } from "../../../../../config/firebaseConfigOnesource";
-let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const settings = {
   infinite: false,
@@ -888,7 +888,7 @@ if(currentQuestion.current && (currentIndexRef.current?.showQuestionToUser!=2 ||
                 ? <tr><td colSpan={3}><p>No Data Found</p></td></tr>
                 :comments?.map((item,index)=>{
                     return(
-                      <React.Fragment key={index}>
+                      <>
                       {item?.comments?
                       <tr>
                         <td>{item?.name?item?.name:"N/A"}</td>
@@ -904,7 +904,7 @@ if(currentQuestion.current && (currentIndexRef.current?.showQuestionToUser!=2 ||
                         {/* <td>{item?.comments}</td> */}
                       </tr>
                       :""} 
-                      </ React.Fragment>
+                      </>
                     ) 
                     })                        
                 }	
@@ -928,7 +928,7 @@ if(currentQuestion.current && (currentIndexRef.current?.showQuestionToUser!=2 ||
                 ) : (
                   comments?.map((item, index) => {
                     return (
-                      < React.Fragment key={index}>
+                      <>
                         {item?.comments ? (
                           <tr>
                             <td>{item?.name ? item?.name : "N/A"}</td>
@@ -937,7 +937,7 @@ if(currentQuestion.current && (currentIndexRef.current?.showQuestionToUser!=2 ||
                         ) : (
                           ""
                         )}
-                      </React.Fragment>
+                      </>
                     );
                   })
                 )}
@@ -982,7 +982,7 @@ if(currentQuestion.current && (currentIndexRef.current?.showQuestionToUser!=2 ||
                 ) : (
                   optionComments?.map((item, index) => {
                     return (
-                      < React.Fragment key={index}>
+                      <>
                         {item?.comments ? (
                           <tr>
                             <td>{item?.name ? item?.name : "N/A"}</td>
@@ -991,7 +991,7 @@ if(currentQuestion.current && (currentIndexRef.current?.showQuestionToUser!=2 ||
                         ) : (
                           ""
                         )}
-                      </React.Fragment>
+                      </>
                     );
                   })
                 )}

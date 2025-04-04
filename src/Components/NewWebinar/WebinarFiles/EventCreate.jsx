@@ -9,8 +9,8 @@ import DropdownButton from "react-bootstrap/DropdownButton";
 import { toast } from "react-toastify";
 import { popup_alert } from "../../../popup_alert";
 const EventCreate = () => {
-  const path = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
-  const path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+  const path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+  const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [descriptionEdit, setDesciptionEdit] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [editEvent, setEditEvent] = useState(false);

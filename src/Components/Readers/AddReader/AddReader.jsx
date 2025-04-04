@@ -11,7 +11,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import MarketingAddReader from "./MarketingAddReader";
 import axios from "axios";
 import PhoneInput from "react-phone-number-input";
-let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const ReaderLayout = () => {
   return (
     <>
@@ -231,7 +231,7 @@ const ReaderAdd = () => {
   };
   const axiosFun = async () => {
     try {
-      axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       const result = await axios.get(`emailapi/get_site?uid=${accountMapping[localStorage.getItem("user_id")] || 2147501188}`);
       let country = result?.data?.response?.data?.site_country_data;
       let arr = [];

@@ -624,7 +624,7 @@ const PollQuestion = () => {
             <tbody>
               {data?.map((item, index) => {
                 return (
-                  <React.Fragment key={index}>
+                  <>
                     <tr>
                       <td>{index + 1}</td>
                       <td dangerouslySetInnerHTML={{
@@ -714,7 +714,7 @@ const PollQuestion = () => {
                         </div>
                       </td>
                     </tr>
-                  </React.Fragment>
+                  </>
                 );
               })}
             </tbody>

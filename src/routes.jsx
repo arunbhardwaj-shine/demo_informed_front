@@ -353,10 +353,10 @@ const Routing = () => {
           element={<LoginLayout component={RDAnalytics} />}
         />
 
-        <Route
+        {/* <Route
           path="/trial-analytics"
           element={<LoginLayout component={RDAnalytics} />}
-        />
+        /> */}
         <Route
           path="/user-listing"
           element={<LoginLayout component={RDListing} />}

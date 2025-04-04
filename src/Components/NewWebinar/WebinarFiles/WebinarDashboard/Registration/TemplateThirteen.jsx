@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 
 
 const TemplateThirteen = ({ children, formData }) => {
-  let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+  let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const eventData = formData?.raw_description;
   let eventDataSample = formData?.content?.eventDetails;
   let formattedDateRange = "";

@@ -4,7 +4,7 @@ import html2canvas from 'html2canvas';
 import { loader } from '../../loader';
 
 const SurveyAnalyticsRatingView = ({ index, item, colors }) => {
-    let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+    let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
     const progressBarRef = useRef(null)
     const DownloadDropdown = ({
@@ -160,9 +160,9 @@ const SurveyAnalyticsRatingView = ({ index, item, colors }) => {
                                             ? <img src={`${path_image}star-rating-${JSON.parse(data?.value)}.svg`} alt="" />
                                             : [...Array(parseInt(data?.value))].map((_, i) => {
                                                 // return ` ${i + 1}`
-                                                return (<React.Fragment key={i}>
+                                                return (<>
                                                 <div  className='number_rating'>{i+1}</div>
-                                                </React.Fragment>) 
+                                                </>) 
                                             })
                                         }
                                     </div>

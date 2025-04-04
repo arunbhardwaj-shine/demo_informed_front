@@ -22,10 +22,10 @@ const Sidebar = () => {
   const location = useLocation();
  
 
-  let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
-  let sidebar_image_path= import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN_SIDEBAR;
+  let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+  let sidebar_image_path= process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN_SIDEBAR;
    
-  let path = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+  let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [getHideShowSideContent, setHideShowSideContent] = useState(false);
   const [getOpenVideoPopup, setOpenVideoPopup] = useState(false);
   const [get_user_id, set_user_id] = useState();

@@ -10,7 +10,7 @@ import { countryList } from "../../data/countryData";
 import { loader } from "../../loader";
 import { getCurrentYear } from '../CommonComponent/CurrentYear';
 
-let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const SECRET_KEY = 'XkhZG4fW2t2W';
 const ClinetAccount = () => {
   const { token } = useParams();
@@ -99,7 +99,7 @@ const ClinetAccount = () => {
   const getUserDetails = async(getUserAccount) => {
     try{
       setAccountId(getUserAccount);
-      const baseUrl = import.meta.env.VITE_APP_API_KEY;
+      const baseUrl = process.env.REACT_APP_API_KEY;
       const result = await getData(baseUrl + 'get-user-details/'+getUserAccount);
       setPharmaFormData(prevState => ({
         ...prevState,

@@ -8,7 +8,7 @@ import CommonModel from "../../../Model/CommonModel";
 import CommonConfirmModel from "../../../Model/CommonConfirmModel";
 import { Link } from "react-router-dom";
 import { popup_alert } from "../../../popup_alert";
-let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 let downloadData = [];
 

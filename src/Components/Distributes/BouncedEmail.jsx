@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import CommonModel from "../../Model/CommonModel";
 import moment from "moment";
 
-let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const BouncedEmail = () => {
   const [bounceData, setBounceData] = useState([]);
   const [mainBounceData, setMainBounceData] = useState([]);
@@ -34,7 +34,7 @@ const BouncedEmail = () => {
   const getBouncedData = async () => {
     loader("show");
     try {
-      axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       const body = {
         user_id: localStorage.getItem("user_id"),
       };
@@ -110,7 +110,7 @@ const BouncedEmail = () => {
     if (updatedEmail) {
       loader("show");
       try {
-        axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+        axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
         let bounced_data =
           mainBounceData?.[
             mainBounceData.findIndex((el) => el.user_id == selectedReader)

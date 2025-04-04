@@ -538,7 +538,7 @@ const AnalyticsLiveStream = ({ handleAttendedUserCountryWise }) => {
     const intervalId = setInterval(updateFlag, 60000);
     return () => clearInterval(intervalId);
   }, []);
-  const path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+  const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   return (
     <>
       <div className="rd-analytics-box">

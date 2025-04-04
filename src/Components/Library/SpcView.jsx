@@ -33,7 +33,7 @@ const SpcView = () => {
   });
   const [filterObject, setFilterObject] = useState({});
 
-  const path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+  const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const buttonRef = useRef(null);
   const filterRef = useRef(null);
 
@@ -393,7 +393,7 @@ const SpcView = () => {
                       <Accordion defaultActiveKey="0" flush>
                         {Object.keys(filterdata)?.map(function (key, index) {
                           return (
-                            <React.Fragment key={index}>
+                            <>
                               {filterdata[key]?.length > 0 ? (
                                 <Accordion.Item
                                   className="card"
@@ -461,7 +461,7 @@ const SpcView = () => {
                                   </Accordion.Body>
                                 </Accordion.Item>
                               ) : null}
-                            </React.Fragment>
+                            </>
                           );
                         })}
                       </Accordion>
@@ -493,7 +493,7 @@ const SpcView = () => {
                   <div className="filter-block-left full">
                     {Object.keys(filterObject)?.map((key, index) => {
                       return (
-                        <React.Fragment key={index}>
+                        <>
                           {filterObject[key]?.length > 0 ? (
                             <div className="filter-div">
                               <div className="filter-div-title">
@@ -522,7 +522,7 @@ const SpcView = () => {
                               </div>
                             </div>
                           ) : null}
-                        </React.Fragment>
+                        </>
                       );
                     })}
                   </div>
@@ -542,7 +542,7 @@ const SpcView = () => {
                 {typeof spcData !== "undefined" && spcData.length > 0 ? (
                   spcData.map((data,index) => {
                     return (
-                      <React.Fragment key={index}>
+                      <>
                         <div className="smartlist_box_block">
                           <div className="smartlist-view email_box">
                             <div className="mail-box-content">
@@ -648,7 +648,7 @@ const SpcView = () => {
                             </div>
                           </div>
                         </div>
-                      </React.Fragment>
+                      </>
                     );
                   })
                 ) : apiCallStatus ? (

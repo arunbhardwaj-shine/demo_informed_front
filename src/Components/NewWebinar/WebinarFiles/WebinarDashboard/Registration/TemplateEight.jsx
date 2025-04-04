@@ -1,6 +1,6 @@
 import React from "react";
 import moment from "moment";
-let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 export default function TemplateEight({ children, formData }) {
   const eventData = formData?.raw_description;

@@ -130,7 +130,7 @@ const Header = () => {
       navigate("/home")
     }
   }
-  let path = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+  let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
   return (
     <>

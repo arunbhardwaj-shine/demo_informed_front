@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState,React } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { loader } from "../../loader";
@@ -9,7 +9,7 @@ import "@inovua/reactdatagrid-community/index.css";
 
 
 const GetMedpakDetails = () => {
-    let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+    let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
     const navigate = useNavigate();
     const [data, setData] = useState([]);
     const [heading, setHeading] = useState([]);
@@ -36,7 +36,7 @@ const GetMedpakDetails = () => {
     }, []);
 
     const getCampaignReaderDetails = async (flag = 0) => {
-        axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+        axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
         const body = {
             user_id: localStorage.getItem("user_id"),
             distribute_id: distribute_id,
@@ -698,7 +698,7 @@ const GetMedpakDetails = () => {
                                             <tbody>
                                                 {typeof data != "undefined" && data.length > 0 ? (
                                                     data.map((item, index) => (
-                                                        <React.Fragment key={index}>
+                                                        <>
                                                             {item.email != "" ? (
                                                                 <tr
                                                                     key={index}
@@ -722,7 +722,7 @@ const GetMedpakDetails = () => {
                                                                         item.all_read_info != ""
                                                                         ? Object.keys(item.all_read_info).map(
                                                                             (key,index) => (
-                                                                                <React.Fragment key={index}>
+                                                                                <>
                                                                                     <td>
                                                                                         {
                                                                                             item.all_read_info[key]
@@ -735,7 +735,7 @@ const GetMedpakDetails = () => {
                                                                                                 .article_registered
                                                                                         }
                                                                                     </td>
-                                                                                </React.Fragment>
+                                                                                </>
                                                                             )
                                                                         )
                                                                         : ""}
@@ -773,7 +773,7 @@ const GetMedpakDetails = () => {
                                                                     <td></td>
                                                                 </tr>
                                                             )}
-                                                        </React.Fragment>
+                                                        </>
                                                     ))
                                                 ) : (
                                                     <tr className="data-not-found">

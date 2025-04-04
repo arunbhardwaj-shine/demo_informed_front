@@ -7,7 +7,7 @@ import { loader } from "../../loader";
 import CommanModel from "../../Model/CommonModel"
 import CommonConfirmModel from "../../Model/CommonConfirmModel"
 import { popup_alert } from "../../popup_alert";
-let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const downloadData = [
   {
@@ -148,7 +148,7 @@ function Products() {
                   <div className="col-12 selected-products-list d-flex">
                     {productData?.length? productData?.data?.map((item,i) => {
                       return (
-                        <React.Fragment key={i}>
+                        <>
                           <Col xxl={3} xl={4} md={6}>
                             <div className="products-listing">
                               {item?.product}
@@ -167,7 +167,7 @@ function Products() {
                               </button>
                             </div>
                           </Col>
-                        </React.Fragment>
+                        </>
                       );
                     }):<div className="no_found"><p>No Data Found</p></div>  }
                   </div>

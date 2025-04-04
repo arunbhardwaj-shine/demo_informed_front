@@ -1,6 +1,6 @@
 import React,{useState} from 'react'
 import { Col, Row } from 'react-bootstrap';
-let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const data = [
   {

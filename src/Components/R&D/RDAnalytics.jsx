@@ -117,7 +117,7 @@ const RDAnalytics = () => {
   const buttonRef = useRef(null);
   const filterRef = useRef(null);
   let createdBy = localStorage.getItem("user_id")
-  const path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+  const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const handleClick = (event) => {
     setIsActive((current) => !current);
   };
@@ -1337,7 +1337,7 @@ const RDAnalytics = () => {
                                 <Accordion defaultActiveKey="0" flush>
                                   {Object.keys(filterdata)?.map(function (key, index) {
                                     return (
-                                      <React.Fragment key={index}>
+                                      <>
                                         {filterdata[key]?.length > 0 ? (
                                           <Accordion.Item
                                             className={
@@ -1414,7 +1414,7 @@ const RDAnalytics = () => {
                                             </Accordion.Body>
                                           </Accordion.Item>
                                         ) : null}
-                                      </React.Fragment>
+                                      </>
                                     );
                                   })}
                                 </Accordion>
@@ -1515,7 +1515,7 @@ const RDAnalytics = () => {
                           <div className="filter-block-left full">
                             {Object.keys(filterObject)?.map((key, index) => {
                               return (
-                                <React.Fragment key={index}>
+                                <>
                                   {filterObject[key]?.length ? (
                                     <div className="filter-div">
                                       <div className="filter-div-title">
@@ -1547,7 +1547,7 @@ const RDAnalytics = () => {
                                       </div>
                                     </div>
                                   ) : null}
-                                </React.Fragment>
+                                </>
                               );
                             })}
                           </div>
@@ -1760,7 +1760,7 @@ const RDAnalytics = () => {
                         {typeof indidualCompletionTableData !== "undefined" &&
                           indidualCompletionTableData?.length > 0 ? (<> {sortData(indidualCompletionTableData, sortBy, sortOrder)?.map((item, index) => {
                             return (
-                              <React.Fragment key={index}>
+                              <>
                                 <tr
                                   className={`view ${individualCompletionShow == index
                                     ? "show"
@@ -1893,7 +1893,7 @@ const RDAnalytics = () => {
                                           {trainingDropdownData?.map(
                                             (data, i) => {
                                               return (
-                                                <React.Fragment key={i}>
+                                                <>
                                                   <Accordion.Item
                                                     eventKey={i}
                                                     onClick={(e) =>
@@ -1988,7 +1988,7 @@ const RDAnalytics = () => {
                                                             traingAccordianData?.map(
                                                               (pageData, e) => {
                                                                 return (
-                                                                  <React.Fragment key={e}>
+                                                                  <>
                                                                     <div className="article-page-show">
                                                                       <div className="article-cover-img">
                                                                         <img
@@ -2017,7 +2017,7 @@ const RDAnalytics = () => {
                                                                         </div>
                                                                       </div>
                                                                     </div>
-                                                                  </React.Fragment>
+                                                                  </>
                                                                 );
                                                               }
                                                             )
@@ -2037,7 +2037,7 @@ const RDAnalytics = () => {
                                                       // )
                                                       null}
                                                   </Accordion.Item>
-                                                </React.Fragment>
+                                                </>
                                               );
                                             }
                                           )}
@@ -2048,7 +2048,7 @@ const RDAnalytics = () => {
                                             {trainingCertificate?.map(
                                               (item, index) => {
                                                 return (
-                                                  <React.Fragment key={index}>
+                                                  <>
                                                     <Accordion.Item
                                                       eventKey={index}
                                                     >
@@ -2124,7 +2124,7 @@ const RDAnalytics = () => {
                                                       </Accordion.Header>
                                                 
                                                     </Accordion.Item>
-                                                  </React.Fragment>
+                                                  </>
                                                 );
                                               }
                                             )}
@@ -2139,7 +2139,7 @@ const RDAnalytics = () => {
                                     &nbsp;
                                   </td>
                                 </tr>
-                              </React.Fragment>
+                              </>
                             )
                           })}
                           </>)
@@ -2334,7 +2334,7 @@ const RDAnalytics = () => {
                           siteCompletionTableData.length > 0 &&
                           sortData(siteCompletionTableData, sortBy, sortOrder).map((item, index) => {
                             return (
-                              <React.Fragment key={index}>
+                              <>
                                 <tr
                                   className={`view ${siteCompletionShow == index ? "show" : ""
                                     }`}
@@ -2421,7 +2421,7 @@ const RDAnalytics = () => {
                                     &nbsp;
                                   </td>
                                 </tr>
-                              </React.Fragment>
+                              </>
                             );
                           })}
                       </tbody>
@@ -2598,7 +2598,7 @@ const RDAnalytics = () => {
                             rdSiteData.length > 0 &&
                             sortData(rdSiteData, sortBy, sortOrder).map((item, index) => {
                               return (
-                                <React.Fragment key={index}>
+                                <>
                                   {item?.site_users != 0 && (
                                     <tr
                                       key={index}
@@ -2627,7 +2627,7 @@ const RDAnalytics = () => {
 
                                             {item?.pdf_data?.map((data, i) => {
                                               return (
-                                                <React.Fragment key={i}>
+                                                <>
                                                   <div className="d-flex align-items-start engagement-sec">
                                                     <div className="content-image">
                                                       <img
@@ -2677,7 +2677,7 @@ const RDAnalytics = () => {
                                                       </div>
                                                     </div>
                                                   </div>
-                                                </React.Fragment>
+                                                </>
                                               );
                                             })}
                                           </div>
@@ -2699,7 +2699,7 @@ const RDAnalytics = () => {
                                       </td>
                                     </tr>
                                   )}
-                                </React.Fragment>
+                                </>
                               );
                             })}
                         </tbody>
@@ -2961,7 +2961,7 @@ const RDAnalytics = () => {
                                             item.pdf?.id
                                           ]?.device_names?.map(
                                             (item, index) => (
-                                              <React.Fragment key={index}>
+                                              <>
                                                 <p  >
                                                   <span
                                                     style={{
@@ -2974,7 +2974,7 @@ const RDAnalytics = () => {
                                                   ></span>
                                                   {item}
                                                 </p>
-                                              </React.Fragment>
+                                              </>
                                             )
                                           )}
                                         </div>

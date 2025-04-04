@@ -187,7 +187,7 @@ const ReaderEdit = () => {
 
   const axiosFun = async () => {
     try {
-      axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       const result = await axios.get(`emailapi/get_site?uid=${accountMapping[localStorage.getItem("user_id")] ||  2147501188}`);
       let country = result?.data?.response?.data?.site_country_data;
       let arr = [];

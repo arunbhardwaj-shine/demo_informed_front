@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, React } from "react"; 
 import { Button, Col, Row, Accordion } from "react-bootstrap";
 import { useLocation, useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
@@ -11,7 +11,7 @@ import { surveyEndpoints } from "./SurveyEndpoints/SurveyEndpoints";
 import { analyticButtonClicked } from "./CommonFunctions/CommonFunction";
 import SublinkModal from "./SurveyEmailEngine/Modals/SublinkModal";
 import TopicModals from "./SurveyEmailEngine/Modals/TopicModals";
-let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const SurveySublink = () => {
   const {
@@ -604,7 +604,7 @@ const SurveySublink = () => {
                       <Accordion defaultActiveKey="0" flush>
                         {Object.keys(filterdata)?.map(function (key, index) {
                           return (
-                            <React.Fragment key={index}>
+                            <>
                               {filterdata[key]?.length > 0 ? (
                                 <Accordion.Item
                                   key={index}
@@ -681,7 +681,7 @@ const SurveySublink = () => {
                                   </Accordion.Body>
                                 </Accordion.Item>
                               ) : null}
-                            </React.Fragment>
+                            </>
                           );
                         })}
                       </Accordion>
@@ -712,7 +712,7 @@ const SurveySublink = () => {
                   <div className="filter-block-left full">
                     {Object.keys(filterObject)?.map((key, index) => {
                       return (
-                        <React.Fragment key={index}>
+                        <>
                           {filterObject[key]?.length ? (
                             <div key={index} className="filter-div">
                               <div className="filter-div-title">
@@ -753,7 +753,7 @@ const SurveySublink = () => {
                               </div>
                             </div>
                           ) : null}
-                        </React.Fragment>
+                        </>
                       );
                     })}
                   </div>
@@ -788,7 +788,7 @@ const SurveySublink = () => {
                                   >
                                     {data?.length > 0 ? (
                                       data?.map((item, index) => (
-                                        <React.Fragment key={index}>
+                                        <>
                                           <div className="accordion-block">
                                             <div className="mail-box-content">
                                               <div className="mail-box-content-top d-flex justify-content-between">
@@ -1288,9 +1288,7 @@ const SurveySublink = () => {
                                                   subLinkData.map(
                                                     (subLink, index) => {
                                                       return (
-                                                        <React.Fragment
-                                                          key={index}
-                                                        >
+                                                        <>
                                                           <div className="mail-box-content">
                                                             <div className="mail-box-content-top">
                                                               <div className="mail-box-content-top-left">
@@ -1668,7 +1666,7 @@ const SurveySublink = () => {
                                                               </div>
                                                             </div>
                                                           </div>
-                                                        </React.Fragment>
+                                                        </>
                                                       );
                                                     }
                                                   )
@@ -1680,7 +1678,7 @@ const SurveySublink = () => {
                                               </Accordion.Body>
                                             </Accordion.Item>
                                           </div>
-                                        </React.Fragment>
+                                        </>
                                       ))
                                     ) : (
                                       <div className="no_found">

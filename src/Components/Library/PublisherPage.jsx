@@ -35,7 +35,7 @@ const PublisherPage = () => {
   const [contactError, setContactError] = useState(false);
   const [contactFormInputs, setContactFormInputs] = useState({});
   const [forceRender, setForceRender] = useState(false);
-  const path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+  const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
   const handleChange = (e, isSelectedName) => {
     setUserInputs({

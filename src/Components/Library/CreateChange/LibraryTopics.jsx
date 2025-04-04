@@ -8,7 +8,7 @@ import { loader } from "../../../loader";
 import CommonConfirmModel from "../../../Model/CommonConfirmModel";
 import CommanModel from "../../../Model/CommonModel";
 import { popup_alert } from "../../../popup_alert";
-let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 let downloadData = [];
 
@@ -268,7 +268,7 @@ function LibraryTopics() {
                 </div>
                 {productData?.data?.map((item,index) => {
                   return (
-                    <React.Fragment key={index}>
+                    <>
                       <Col xxl={3} xl={4} md={6}>
                         <div className="products-listing">
                           {item?.product}
@@ -308,7 +308,7 @@ function LibraryTopics() {
                           )}
                         </div>
                       </Col>
-                    </React.Fragment>
+                    </>
                   );
                 })}
               </Col>

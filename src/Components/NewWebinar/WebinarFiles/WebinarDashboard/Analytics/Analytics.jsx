@@ -30,7 +30,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import HighchartsMap from "highcharts/modules/map";
 import drilldown from "highcharts/modules/drilldown.js";
-const path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const customLoader = (functionName, e = null) => {
   if (e != null) {
@@ -668,7 +668,7 @@ const Analytics = (props) => {
         search: "",
         filter: filter,
       };
-      axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       let response = [];
       await axios
         .post(`/webinar/get_webinar_campaign`, body)
@@ -1492,7 +1492,7 @@ const Analytics = (props) => {
                               // usersData.map((user, index) => (
                               sortData(usersData, sortBy, sortOrder).map(
                                 (user, index) => (
-                                  <React.Fragment key={index}>
+                                  <>
                                     <tr  >
                                       <td>{user.name}</td>
                                       <td>{user.email}</td>
@@ -1507,7 +1507,7 @@ const Analytics = (props) => {
                                     <tr className="blank">
                                       <td colSpan="7">&nbsp;</td>
                                     </tr>
-                                  </React.Fragment>
+                                  </>
                                 )
                               )
                             ) : (
@@ -2208,7 +2208,7 @@ const Analytics = (props) => {
                               // overViewData.map((user, index) => (
                               sortData(overViewData, sortBy, sortOrder).map(
                                 (user, index) => (
-                                  <React.Fragment key={index}>
+                                  <>
                                     <tr  >
                                       <td>{user.name}</td>
                                       <td>{user.email}</td>
@@ -2223,7 +2223,7 @@ const Analytics = (props) => {
                                     <tr className="blank">
                                       <td colSpan="7">&nbsp;</td>
                                     </tr>
-                                  </React.Fragment>
+                                  </>
                                 )
                               )
                             ) : (

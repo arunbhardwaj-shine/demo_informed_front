@@ -21,7 +21,7 @@ const WebinarSelectHCP = (props) => {
   const [localStorageUserId,setLocalStorageUserId]=useState(switch_account_detail != null && switch_account_detail != "undefined" && switch_account_detail
   ? switch_account_detail?.user_id
   : localStorage.getItem("user_id"))
-  let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+  let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [userId, setUserId] = useState(localStorage.getItem("user_id") === "bWmUjqX7J011   WUTYn9g=="?"bWmUjqX7J011   WUTYn9g==":"56Ek4feL/1A8mZgIKQWEqg==");
   const { eventIdContext, handleEventId } = useSidebar()
   const localStorageEvent = JSON.parse(localStorage.getItem("EventIdContext"))
@@ -148,7 +148,7 @@ const WebinarSelectHCP = (props) => {
         ? old_object?.templateId
         : props?.getWebinarDraftData?.campaign_data?.template_id
     };
-    axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     loader("show");
     await axios
       .post(`emailapi/save_draft`, body)

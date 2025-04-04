@@ -86,7 +86,7 @@ const LibraryEditListing = () => {
   const BrokenImage =
     "https://docintel.s3-eu-west-1.amazonaws.com/cover/default/default.png";
 
-  const path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+  const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
  
 
@@ -734,7 +734,7 @@ const LibraryEditListing = () => {
                       <Accordion defaultActiveKey="0" flush>
                         {Object.keys(filterdata)?.map(function (key, index) {
                           return (
-                            <React.Fragment key={index}>
+                            <>
                               {filterdata[key]?.length > 0 ? (
                                 <Accordion.Item
                                 className= {key == "Role" ? "card upper" : "card"}
@@ -805,7 +805,7 @@ const LibraryEditListing = () => {
                                   </Accordion.Body>
                                 </Accordion.Item>
                               ) : null}
-                            </React.Fragment>
+                            </>
                           );
                         })}
                       </Accordion>
@@ -906,7 +906,7 @@ const LibraryEditListing = () => {
                   <div className="filter-block-left full">
                     {Object.keys(filterObject)?.map((key, index) => {
                       return (
-                        <React.Fragment key={index+1}>
+                        <>
                           {filterObject[key]?.length > 0 ? (
                             <div className="filter-div">
                               <div className="filter-div-title">
@@ -935,7 +935,7 @@ const LibraryEditListing = () => {
                               </div>
                             </div>
                           ) : null}
-                        </React.Fragment>
+                        </>
                       );
                     })}
                   </div>
@@ -955,7 +955,7 @@ const LibraryEditListing = () => {
                 {libraryData?.length || updateflag ? (
                   libraryData?.map((data, index) => {
                     return (
-                      <React.Fragment key={index}>
+                      <>
                         <div className="doc-content-main-box col" >
                         <div className="doc-content-header">
                             <div className="doc-content-header-logo">
@@ -2144,7 +2144,7 @@ const LibraryEditListing = () => {
                             </Tabs>
                           </div>
                         </div>
-                      </React.Fragment>
+                      </>
                     );
                   })
                 ) : apiCallStatus ? (

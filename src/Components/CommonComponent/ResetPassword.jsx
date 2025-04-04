@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { Form, FormGroup, Container, Row, Col } from "react-bootstrap";
 import { getCurrentYear } from './CurrentYear';
 
-let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const ResetPassword = () => {
     const navigate = useNavigate();
     const [resetErrors, setResetErrors] = useState({});

@@ -30,7 +30,7 @@ import CommonConfirmModel from "../../../Model/CommonConfirmModel";
 import axios from "axios";
 import { connect } from "react-redux";
 import { getEmailData, getDraftData, getSelectedSmartListData,getSelected } from "../../../actions";
-let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const NewReadersReview = (props) => {
   const accountMapping={"56Ek4feL/1A8mZgIKQWEqg==":2147501188,"bWmUjqX7J011   WUTYn9g==":298217,"MXl8m36VZFYXpgFVz3Pg0g==":2147537506}
@@ -1663,7 +1663,7 @@ const NewReadersReview = (props) => {
 
   const axiosFun = async () => {
     try {
-      axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       const result = await axios.get(`emailapi/get_site?uid=${accountMapping[localStorage.getItem("user_id")] || 2147501188}`);
       let country = result?.data?.response?.data?.site_country_data;
       let arr = [];
@@ -1804,7 +1804,7 @@ const NewReadersReview = (props) => {
           pdf_id: pdfid,
           role: irtRoleObj?.siteRole
         };
-        axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+        axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
         
         await axios
           .post(`emailapi/get_rd_campaign_data`, body)
@@ -2052,7 +2052,7 @@ const NewReadersReview = (props) => {
                                 : filterdata[key];
                             return (
 
-                              <React.Fragment key={index}>
+                              <>
 
                                 {filteredRoles?.length > 0 ? (
                                   <Accordion.Item
@@ -2153,7 +2153,7 @@ const NewReadersReview = (props) => {
                                     </Accordion.Body>
                                   </Accordion.Item>
                                 ) : null}
-                              </React.Fragment>
+                              </>
                             );
                           })}
                         </Accordion>
@@ -2241,7 +2241,7 @@ const NewReadersReview = (props) => {
                     <div className="filter-block-left full">
                       {Object.keys(filterObject)?.map((key, index) => {
                         return (
-                          <React.Fragment key={index}>
+                          <>
                             {filterObject[key]?.length ? (
                               <div className="filter-div">
                                 <div className="filter-div-title">
@@ -2308,7 +2308,7 @@ const NewReadersReview = (props) => {
                                 </div>
                               </div>
                             ) : null}
-                          </React.Fragment>
+                          </>
                         );
                       })}
                     </div>
@@ -2414,7 +2414,7 @@ const NewReadersReview = (props) => {
                 readerDataList.map((data, index) => {
 
                   return (
-                    <React.Fragment key={index}>
+                    <>
                       <div className="doc-content-main-box col" >
                         <div className="doc-content-header">
                           <div className="doc-content d-flex justify-content-between w-100">
@@ -3453,7 +3453,7 @@ const NewReadersReview = (props) => {
                           </Tabs>
                         </div>
                       </div>
-                    </React.Fragment>
+                    </>
                   );
                 })
               ) : apiCallStatus ? (

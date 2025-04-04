@@ -61,7 +61,7 @@ const FilterSegment = (props) => {
   const [loadMorePage, setloadMorePage] = useState(true);
   const [totalLostCount, setTotalLostCount] = useState(props?.listcount);
   const [dataFromComp, setDataFromComp] = useState(props?.action);
-  let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+  let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
   useEffect(() => {
     var x = localStorage.getItem("sd_i");
@@ -1228,7 +1228,7 @@ const FilterSegment = (props) => {
         setLoadMoreFlag(true);
       }
       // console.log(payload);
-      axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       await axios
         .post(`distributes/get_smart_list_with_filter_data`, payload)
         .then((res) => {

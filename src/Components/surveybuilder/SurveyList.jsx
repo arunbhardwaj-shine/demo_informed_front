@@ -46,8 +46,8 @@ const SurveyList = (props) => {
     DELETE_ALL_DETAILS,
   } = surveyEndpoints;
   const isLikeRdAccount = rdLikeArray.includes(localStorage.getItem("user_id"));
-  let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
-  let path = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+  let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+  let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   // const filterdata = [];
   const [showfilter, setShowFilter] = useState(false);
   const [deletestatus, setDeleteStatus] = useState(false);
@@ -793,7 +793,7 @@ const SurveyList = (props) => {
                       <Accordion defaultActiveKey="0" flush>
                         {Object.keys(filterdata)?.map(function (key, index) {
                           return (
-                            < React.Fragment key={index}>
+                            <>
                               {filterdata[key]?.length > 0 ? (
                                 <Accordion.Item
                                   key={index}
@@ -868,7 +868,7 @@ const SurveyList = (props) => {
                                   </Accordion.Body>
                                 </Accordion.Item>
                               ) : null}
-                            </React.Fragment>
+                            </>
                           );
                         })}
                       </Accordion>
@@ -950,7 +950,7 @@ const SurveyList = (props) => {
                   <div className="filter-block-left full">
                     {Object.keys(filterObject)?.map((key, index) => {
                       return (
-                        < React.Fragment key={index}>
+                        <>
                           {filterObject[key]?.length ? (
                             <div key={index} className="filter-div">
                               <div className="filter-div-title">
@@ -989,7 +989,7 @@ const SurveyList = (props) => {
                               </div>
                             </div>
                           ) : null}
-                        </React.Fragment>
+                        </>
                       );
                     })}
                   </div>

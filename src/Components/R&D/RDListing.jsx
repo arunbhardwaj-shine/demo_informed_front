@@ -14,7 +14,7 @@ const tooltip = (
  
 const [rdSiteData, setRdSiteData] = useState();
  const [isActive, setIsActive] = useState("");
-   const path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+   const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   return (
     <>
     <Col className="right-sidebar">

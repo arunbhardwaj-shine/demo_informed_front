@@ -15,7 +15,7 @@ import { Button, Col, Form, Row } from "react-bootstrap";
 import Select from "react-select";
 import { useSidebar } from "../../CommonComponent/LoginLayout";
 
-let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const CreateSetPopup = (props) => {
   const { state } = useLocation();
@@ -600,7 +600,7 @@ const CreateSetPopup = (props) => {
                                   <img
                                     id={"template_dyn" + template?.popupNo}
                                     src={
-                                      import.meta.env.VITE_APP_API_KEY_NEW_DESIGN +
+                                      process.env.REACT_APP_API_KEY_NEW_DESIGN +
                                       "/" +
                                       template?.template_img
                                     }

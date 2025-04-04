@@ -4,7 +4,7 @@ import Slider from "react-slick";
 const LandingConsentSection = () => {
   const sliderRef = useRef();
   const parentRef = useRef("");
-  const path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+  const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   useEffect(() => {
     if (!parentRef.current) {
       return;

@@ -9,7 +9,7 @@ import { surveyEndpoints } from "./SurveyEndpoints/SurveyEndpoints";
  
 
 const SurveySublinkListing = ({ survey_id, render, count }) => {
-  let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+  let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const {FETCH_SURVEY_SUBLINK}=surveyEndpoints
 const navigate=useNavigate();
   const [sectionLoader, setSectionLoader] = useState(false);
@@ -94,7 +94,7 @@ const navigate=useNavigate();
           <>
             {subLinkData?.map((data, index) => {
               return (
-                <React.Fragment key={index}>
+                <>
                   <div className="sublink-list">
                     <div className="sublink-listed-view d-flex align-items-center">
                       <div className="sublink-listed-view-block">
@@ -159,7 +159,7 @@ const navigate=useNavigate();
                     level={"H"}
                     includeMargin={true}
                   />
-                </React.Fragment>
+                </>
               );
             })}
           </>

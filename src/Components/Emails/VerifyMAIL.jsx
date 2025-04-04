@@ -31,7 +31,7 @@ const VerifyMAIL = (props) => {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [campaign_id_st, setCampaign_id] = useState();
-  let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+  let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
  
   const [templateId, setTemplateId] = useState(0);
   const [tags, setTags] = useState([]);
@@ -139,7 +139,7 @@ const VerifyMAIL = (props) => {
   const BrokenImage =
     "https://docintel.s3-eu-west-1.amazonaws.com/cover/default/default.png";
 
-  axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+  axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
   const getpdfData = async () => {
     let pdf_id = props?.getEmailData?.PdfSelected
       ? props?.getEmailData?.PdfSelected
@@ -153,7 +153,7 @@ const VerifyMAIL = (props) => {
       pdf_id != 16 &&
       pdf_id != 1
     ) {
-      axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       const body = {
         user_id: localStorage.getItem("user_id"),
         pdf_id: pdf_id,
@@ -175,7 +175,7 @@ const VerifyMAIL = (props) => {
     }
 
     if(pdf_id == 1){
-      axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       const body = {
         user_id: localStorage.getItem("user_id"),
         surveyId: surveyid,
@@ -280,7 +280,7 @@ const VerifyMAIL = (props) => {
       status: 2,
     };
      
-    axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     loader("show");
     await axios
       .post(`emailapi/save_draft`, body)
@@ -401,7 +401,7 @@ const VerifyMAIL = (props) => {
             : surveyid,
         },
       };
-      axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       //loader("show");
       setShowProgressBar(true);
       if (localStorage.getItem('user_id') == 'rjiGlqA9DXJVH7bDDTX0Lg==' || localStorage.getItem('user_id') == 'm5JI5zEDY3xHFTZBnSGQZg==') {
@@ -595,7 +595,7 @@ const VerifyMAIL = (props) => {
       status: status,
       approved_page: 1,
     };
-    axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     loader("show");
     await axios
       .post(`emailapi/save_draft`, body)
@@ -768,7 +768,7 @@ const VerifyMAIL = (props) => {
                             {props?.getEmailData?.tags
                               ? props?.getEmailData?.tags.map((tags, i) => {
                                 return (
-                                  <React.Fragment key={"tags_" + i}>
+                                  <>
                                     <li className="list1"  >
                                       {tags.innerHTML || tags}{" "}
                                       <img
@@ -778,12 +778,12 @@ const VerifyMAIL = (props) => {
                                         onClick={() => removeTag(i)}
                                       />
                                     </li>
-                                  </React.Fragment>
+                                  </>
                                 );
                               })
                               : props?.getDraftData?.tags.map((tags, i) => {
                                 return (
-                                  < React.Fragment key={i}>
+                                  <>
                                     <li className="list1">
                                       {tags.innerHTML || tags}{" "}
                                       <img
@@ -792,7 +792,7 @@ const VerifyMAIL = (props) => {
                                         onClick={() => removeTag(i)}
                                       />
                                     </li>
-                                  </React.Fragment>
+                                  </>
                                 );
                               })}
                           </ul>
@@ -1403,7 +1403,7 @@ const VerifyMAIL = (props) => {
                       selectedHcp.length > 0 &&
                       sortData(selectedHcp, sortBy, sortOrder)?.map((rr, i) => {
                         return (
-                          <React.Fragment key={i}>
+                          <>
                             <tr>
                               <td>{rr.first_name}</td>
                               <td>{rr.email}</td>
@@ -1452,7 +1452,7 @@ const VerifyMAIL = (props) => {
                               ) : null}
                               <td className="add-new-hcp" colspan="12"></td>
                             </tr>
-                          </React.Fragment>
+                          </>
                         );
                       })}
                   </tbody>

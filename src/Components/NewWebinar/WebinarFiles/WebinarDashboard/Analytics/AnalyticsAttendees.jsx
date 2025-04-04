@@ -9,7 +9,7 @@ import { saveAs } from "file-saver";
 import { toast } from "react-toastify";
 
 const AnalyticsAttendees = () => {
-  const path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+  const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [search, setSearch] = useState("");
   const buttonRef = useRef(null);
   const filterRef = useRef(null);
@@ -431,7 +431,7 @@ const AnalyticsAttendees = () => {
                       <Accordion defaultActiveKey="0" flush>
                         {Object.keys(filterData)?.map(function (key, index) {
                           return (
-                            <React.Fragment key={index}>
+                            <>
                               {filterData[key]?.length > 0 ? (
                                 <Accordion.Item
                                   className={
@@ -503,7 +503,7 @@ const AnalyticsAttendees = () => {
                                   </Accordion.Body>
                                 </Accordion.Item>
                               ) : null}
-                            </React.Fragment>
+                            </>
                           );
                         })}
                       </Accordion>
@@ -561,7 +561,7 @@ const AnalyticsAttendees = () => {
                     <div className="filter-block">
                       <div className="filter-block-left full">
                         {Object.keys(appliedFilter)?.map((key, index) => {
-                          return (<React.Fragment key={index}>
+                          return (<>
                             {appliedFilter[key]?.length ? (
                               <div className="filter-div">
                                 <div className="filter-div-title">
@@ -589,7 +589,7 @@ const AnalyticsAttendees = () => {
                                 </div>
                               </div>
                             ) : ""}
-                          </React.Fragment>)
+                          </>)
                         })}
                       </div>
                       <div className="clear-filter">

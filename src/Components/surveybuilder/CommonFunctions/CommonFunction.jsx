@@ -24,7 +24,7 @@ const {
 const validExtensions = ["png", "jpeg", "jpg", "gif"];
 
 export const surveyAxiosInstance = axios.create({
-  baseURL: import.meta.env.VITE_APP_API_KEY_NEW_SURVEY,
+  baseURL: process.env.REACT_APP_API_KEY_NEW_SURVEY,
 });
 
 surveyAxiosInstance.interceptors.request.use(
@@ -278,7 +278,7 @@ export const SurveyLiveButton = ({
   updateLiveFlag,
   fetchSurveyListing,
 }) => {
-  let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+  let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [isChecked, setIsChecked] = useState(liveFlagValue === 1);
 
   const handleLiveToogle = async (e, survey_id) => {

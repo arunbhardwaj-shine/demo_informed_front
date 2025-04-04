@@ -12,7 +12,7 @@ import { loader } from "../../loader";
 
 highchartsMap(Highcharts);
 MapModule(Highcharts);
-let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const CanadaCountryRegistration = () => {
   const [isDataFound, setIsDataFound] = useState(false);
   const [newData, setNewData] = useState([]);

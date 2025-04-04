@@ -18,7 +18,7 @@ import { postData } from "../../../axios/apiHelper";
 import { loader } from "../../../loader";
 import { useSidebar } from "../../CommonComponent/LoginLayout";
 
-let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const SetPopup = (props) => {
   const { state } = useLocation();
@@ -807,7 +807,7 @@ templateIdRef.current=res?.data?.data?.popupTempId
                         >
                           {templateList.map((template,index) => {
                             return (
-                              <React.Fragment key={index}>
+                              <>
                                 <div
                                   className="item"
                                   onClick={(e) => templateClicked(template, e)}
@@ -815,7 +815,7 @@ templateIdRef.current=res?.data?.data?.popupTempId
                                   <img
                                     id={"template_dyn" + template?.popupNo}
                                     src={
-                                      import.meta.env.VITE_APP_API_KEY_NEW_DESIGN +
+                                      process.env.REACT_APP_API_KEY_NEW_DESIGN +
                                       "/" +
                                       template?.template_img
                                     }
@@ -829,7 +829,7 @@ templateIdRef.current=res?.data?.data?.popupTempId
                                   />
                                   <p>{template?.name}</p>
                                 </div>
-                              </React.Fragment>
+                              </>
                             );
                           })}
                         </AliceCarousel>

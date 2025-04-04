@@ -5,6 +5,7 @@ import { loader } from "../../../../../loader";
 import { connect } from "react-redux";
 import { Col, Modal, Row } from "react-bootstrap";
 import { getListId } from "../../../../../actions";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { popup_alert } from "../../../../../popup_alert";
 import Accordion from "react-bootstrap/Accordion";
@@ -16,6 +17,7 @@ import { surveyAxiosInstance } from "../../../../surveybuilder/CommonFunctions/C
 import { surveyEndpoints } from "../../../../surveybuilder/SurveyEndpoints/SurveyEndpoints";
 
 const SmartList = (props) => {
+  const navigate = useNavigate();
   const {DOWNLOAD_SMART_LIST}=surveyEndpoints;
   const switch_account_detail = JSON.parse(localStorage.getItem("switch_account_detail"))
   const [localStorageUserId,setLocalStorageUserId]=useState(switch_account_detail != null && switch_account_detail != "undefined" && switch_account_detail
@@ -67,8 +69,8 @@ const SmartList = (props) => {
       : localStorageEvent?.eventId
   );
 
-  let path = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED;
-  let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+  let path = process.env.REACT_APP_ASSETS_PATH_INFORMED;
+  let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
   const buttonRef = useRef(null);
   const filterRef = useRef(null);
@@ -80,7 +82,7 @@ const SmartList = (props) => {
     paging: "31",
     event_id:eventId
   };
-  axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+  axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
   const getSmartListData = async (flag, page = 1) => {
     loader("show");
     await axios
@@ -206,7 +208,7 @@ const SmartList = (props) => {
       user_id: localStorageUserId,
       smart_list_id: deletecardid,
     };
-    axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     loader("show");
 
     axios
@@ -447,7 +449,7 @@ const SmartList = (props) => {
 
   const handleDownload = async (list_id,name) => {
     
-    axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
    
     const requestData = {
       user_id: localStorage.getItem("user_id"),

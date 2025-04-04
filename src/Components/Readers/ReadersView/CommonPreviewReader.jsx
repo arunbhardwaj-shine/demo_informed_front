@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import moment from "moment";
 
-let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const CommonPreviewReader = ({ show, onClose, previewUser, address ,logActivity}) => {
  
   const [commonPreview, setCommonPreview] = useState([]);

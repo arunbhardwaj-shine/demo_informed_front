@@ -33,8 +33,8 @@ const WebinarEmail = (props) => {
       ? switch_account_detail?.user_id
       : localStorage.getItem("user_id")
   );
-  let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
-  let path = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+  let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+  let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   // const colorArray = ['#0E9B8E', '#00003C', '#FFBE2C', '#FFBE2C', '#F58289', '#D61975', '#0066BE'];
   const colorArray = [
     "#349b8e",
@@ -228,7 +228,7 @@ const WebinarEmail = (props) => {
         search: "",
         filter: filter,
       };
-      axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       let response = [];
       await axios
         .post(`/webinar/get_webinar_campaign`, body)
@@ -302,7 +302,7 @@ const WebinarEmail = (props) => {
       user_id: localStorageUserId,
       campaign_id: campaign_id,
     };
-    axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     loader("show");
     await axios
       .post(`emailapi/get_campaign_details`, body)
@@ -591,7 +591,7 @@ const WebinarEmail = (props) => {
           user_id: localStorageUserId,
           campaign_id: item?.id,
         };
-        axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+        axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
         loader("show");
         axios
           .post(`emailapi/delete_campaign`, body)
@@ -770,7 +770,7 @@ const WebinarEmail = (props) => {
 
   const resendemail = () => {
     hideModal();
-    axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     const body = {
       user_id: localStorageUserId,
       campaign_id: campaignId?.id,
@@ -806,7 +806,7 @@ const WebinarEmail = (props) => {
       user_id: localStorageUserId,
       campaign_id: getDraftCamapignId,
     };
-    axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     loader("show");
     await axios
       .post(`emailapi/get_campaign_details`, body)
@@ -849,7 +849,7 @@ const WebinarEmail = (props) => {
             },
             auto_responder_id: draft_campaign?.campaign_data?.template_id,
           };
-          axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+          axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
           axios
             .post(`webinar/send_webinar_email_new`, body)
             .then((res) => {
@@ -1115,7 +1115,7 @@ const WebinarEmail = (props) => {
                       <Accordion defaultActiveKey="0" flush>
                         {Object.keys(filterdata)?.map(function (key, index) {
                           return (
-                            <React.Fragment key={index}>
+                            <>
                               {filterdata[key]?.length > 0 ? (
                                 <Accordion.Item
                                   className={
@@ -1183,7 +1183,7 @@ const WebinarEmail = (props) => {
                                   </Accordion.Body>
                                 </Accordion.Item>
                               ) : null}
-                            </React.Fragment>
+                            </>
                           );
                         })}
                       </Accordion>
@@ -1268,7 +1268,7 @@ const WebinarEmail = (props) => {
                   <div className="filter-block-left full">
                     {Object.keys(filterObject)?.map((key, index) => {
                       return (
-                        <React.Fragment key={index}>
+                        <>
                           {filterObject[key]?.length ? (
                             <div className="filter-div">
                               <div className="filter-div-title">
@@ -1300,7 +1300,7 @@ const WebinarEmail = (props) => {
                               </div>
                             </div>
                           ) : null}
-                        </React.Fragment>
+                        </>
                       );
                     })}
                   </div>

@@ -33,7 +33,7 @@ const SelectSmartList = (props) => {
   const surveyid = old_object?.survey_id ? old_object?.survey_id : props?.getDraftData?.campaign_data?.survey_id ? props?.getDraftData?.campaign_data?.survey_id : 0;
   const surveySubLinkId = old_object?.sublink_id ? old_object?.sublink_id : props?.getDraftData?.campaign_data?.sublink_id ? props?.getDraftData?.campaign_data?.sublink_id : 0;
   let file_name = useRef("");
-  let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+  let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [uploadOrDownloadCount, setUploadOrDownloadCount] = React.useState(0);
   const [showPreogressBar, setShowProgressBar] = useState(false);
   const [SendListData, setSendListData] = useState([]);
@@ -78,7 +78,7 @@ const SelectSmartList = (props) => {
   const [sortBy, setSortBy] = useState('first_name'); // Initial sort key
   const [sortOrder, setSortOrder] = useState('asc');
   const inputElement = useRef();
-  axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+  axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
   const buttonRef = useRef(null);
   const filterRef = useRef(null);
   const [ibu, setIbu] = useState([
@@ -227,7 +227,7 @@ const SelectSmartList = (props) => {
       status: 2,
     };
 
-    axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     loader("show");
     await axios
       .post(`emailapi/save_draft`, body)
@@ -277,7 +277,7 @@ const SelectSmartList = (props) => {
 
   const openSmartListPopup = async (smart_list_id) => {
     setShowLessInfo(true);
-    axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     const body = {
       user_id: localStorage.getItem("user_id"),
       list_id: smart_list_id,
@@ -379,7 +379,7 @@ const SelectSmartList = (props) => {
     formData.append("reader_file", selectedFile);
     formData.append("type", routeTypeSurvey);
 
-    axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     setShowProgressBar(true);
     
     await axios
@@ -1365,7 +1365,7 @@ const SelectSmartList = (props) => {
                       getReaderDetails.length > 0 &&
                       sortData(getReaderDetails, sortBy, sortOrder).map((rr, i) => {
                         return (
-                          <React.Fragment key={i}>
+                          <>
                             <tr>
                               <td>{rr.first_name}</td>
                               <td>{rr.email}</td>
@@ -1430,7 +1430,7 @@ const SelectSmartList = (props) => {
                               ) : null}
                               <td></td>
                             </tr>
-                          </React.Fragment>
+                          </>
                         );
                       })}
                   </tbody>

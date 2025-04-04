@@ -8,7 +8,7 @@ import { loader } from "../../../loader";
 import { BaseApi } from "../../../Api/BaseApi";
 
 const WebinarSmartList = () => {
-  let path_image = import.meta.env.VITE_APP_ASSETS_PATH_WEBINAR;
+  let path_image = process.env.REACT_APP_ASSETS_PATH_WEBINAR;
   const [smartListData, setSmartListData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [getUserDetails, setUserDetails] = useState([]);
@@ -27,9 +27,9 @@ const WebinarSmartList = () => {
   const [showfilter, setShowFilter] = useState(false);
   const [filterapplied, setFilterApply] = useState(false);
 
-  let path = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED;
+  let path = process.env.REACT_APP_ASSETS_PATH_INFORMED;
 
-  axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+  axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
 
   const getSmartListData = async (flag) => {
     // console.log(localStorage.getItem("Token"));
@@ -117,7 +117,7 @@ const WebinarSmartList = () => {
     const body = {
       smart_list_id: deletecardid,
     };
-    axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
 
     loader("show");
     axios

@@ -19,7 +19,7 @@ import CommonModel from "../../../Model/CommonModel";
 import moment from "moment";
 import optimizeImage from "../../../Utils/optimizeImage";
 
-let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 
 const EditLicense = () => {
@@ -1546,7 +1546,7 @@ const EditLicense = () => {
                       userInputs.docintelFormat == "ebook" ? (
                         chapter.map((val, i) => {
                           return (
-                            <React.Fragment key={i}>
+                            <>
                               <div className="form-group val chapter-title">
                                 <div className="ebook-format">
                                   <label htmlFor="">
@@ -1618,7 +1618,7 @@ const EditLicense = () => {
                                   </div>
                                 ) : null}
                               </div>
-                            </React.Fragment>
+                            </>
                           );
                         })
                       ) : 
@@ -1843,9 +1843,9 @@ const EditLicense = () => {
               <div className="tag-lists-view">
                 {Object.values(allTags).map((data,index) => {
                   return (
-                    <React.Fragment key={index}>
+                    <>
                       <div onClick={(event) => tagClicked(data)}>{data} </div>
-                    </React.Fragment>
+                    </>
                   );
                 })}
               </div>
@@ -1859,7 +1859,7 @@ const EditLicense = () => {
             <div className="total-selected">
               {tagClickedFirst.map((data, index) => {
                 return (
-                  <React.Fragment key={index}>
+                  <>
                     <div className="tag-cross">
                       {data.innerHTML || data}
                       <img
@@ -1868,7 +1868,7 @@ const EditLicense = () => {
                         onClick={() => removeTagFinal(index)}
                       />
                     </div>
-                  </React.Fragment>
+                  </>
                 );
               })}
             </div>

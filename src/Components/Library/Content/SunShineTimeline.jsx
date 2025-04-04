@@ -20,7 +20,7 @@ import { postData, getData } from "../../../axios/apiHelper";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import { Spinner } from "react-activity";
  
-let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const SunShineTimeline = () => {
   const rdLikeArray = [
     "56Ek4feL/1A8mZgIKQWEqg==",
@@ -701,7 +701,7 @@ const SunShineTimeline = () => {
                                                     articleData?.id
                                                   ) {
                                                     return (
-                                                      <React.Fragment key={index}>
+                                                      <>
                                                         <div className="data-progress success-progress">
                                                           <ProgressBar
                                                             variant={
@@ -721,7 +721,7 @@ const SunShineTimeline = () => {
                                                             }
                                                           />
                                                         </div>
-                                                      </React.Fragment>
+                                                      </>
                                                     );
                                                   }
                                                 }
@@ -764,7 +764,7 @@ const SunShineTimeline = () => {
                                                             articleData?.id
                                                           ) {
                                                             return (
-                                                              <React.Fragment key={i}>
+                                                              <>
                                                                 <div className="data-progress limited">
                                                                   <ProgressBar
                                                                     variant={
@@ -788,7 +788,7 @@ const SunShineTimeline = () => {
                                                                     }
                                                                   />
                                                                 </div>
-                                                              </React.Fragment>
+                                                              </>
                                                             );
                                                           }
                                                         }
@@ -829,7 +829,7 @@ const SunShineTimeline = () => {
                                                                 articleData?.id
                                                               ) {
                                                                 return (
-                                                                  <React.Fragment key={idx}>
+                                                                  <>
                                                                     <div className="data-progress limited">
                                                                       <ProgressBar
                                                                         variant={
@@ -885,7 +885,7 @@ const SunShineTimeline = () => {
                                                                         </>
                                                                       )}
                                                                     </span>
-                                                                  </React.Fragment>
+                                                                  </>
                                                                 );
                                                               }
                                                             }
@@ -927,7 +927,7 @@ const SunShineTimeline = () => {
                                                         articleData?.id
                                                       ) {
                                                         return (
-                                                          <React.Fragment key={index}>
+                                                          <>
                                                             <div className="data-progress limited">
                                                               <ProgressBar
                                                                 variant={
@@ -983,7 +983,7 @@ const SunShineTimeline = () => {
                                                                 </>
                                                               )}
                                                             </span>
-                                                          </React.Fragment>
+                                                          </>
                                                         );
                                                       }
                                                     }
@@ -1025,7 +1025,7 @@ const SunShineTimeline = () => {
                                                       articleData.id
                                                     ) {
                                                       return (
-                                                        <React.Fragment key={idx}>
+                                                        <>
                                                           <div className="data-progress">
                                                           
                                                             <ProgressBar
@@ -1092,7 +1092,7 @@ const SunShineTimeline = () => {
                                                               </span>
                                                               : null
                                                           }
-                                                        </React.Fragment>
+                                                        </>
                                                       );
                                                     }
                                                   }
@@ -1132,7 +1132,7 @@ const SunShineTimeline = () => {
                                                       articleData?.id
                                                     ) {
                                                       return (
-                                                        <React.Fragment key={i}>
+                                                        <>
                                                           <div className="data-progress">
                                                             <ProgressBar
                                                               variant={
@@ -1158,7 +1158,7 @@ const SunShineTimeline = () => {
                                                               }
                                                             />
                                                           </div>
-                                                        </React.Fragment>
+                                                        </>
                                                       );
                                                     }
                                                   }
@@ -1198,7 +1198,7 @@ const SunShineTimeline = () => {
                                                       articleData?.id
                                                     ) {
                                                       return (
-                                                        <React.Fragment key={index}>
+                                                        <>
                                                           <div className="data-progress">
                                                             <ProgressBar
                                                               variant={
@@ -1222,7 +1222,7 @@ const SunShineTimeline = () => {
                                                               }
                                                             />
                                                           </div>
-                                                        </React.Fragment>
+                                                        </>
                                                       );
                                                     }
                                                   }
@@ -1262,7 +1262,7 @@ const SunShineTimeline = () => {
                                                       articleData?.id
                                                     ) {
                                                       return (
-                                                        <React.Fragment key={idx}>
+                                                        <>
                                                           <div className="data-progress">
                                                             <ProgressBar
                                                               variant={
@@ -1286,7 +1286,7 @@ const SunShineTimeline = () => {
                                                               }
                                                             />
                                                           </div>
-                                                        </React.Fragment>
+                                                        </>
                                                       );
                                                     }
                                                   }
@@ -1638,7 +1638,7 @@ const SunShineTimeline = () => {
                                       moment(a, "DD MMM YYYY").toDate()
                                   )
                                   .map((date) => (
-                                    <React.Fragment key={date}>
+                                    <>
                                       <div className="timeline-sticky">
                                         <div className="timeline-indicator">
                                           <span>&nbsp;</span>
@@ -2022,7 +2022,7 @@ const SunShineTimeline = () => {
                                           </div>
                                         )
                                       )}
-                                    </React.Fragment>
+                                    </>
                                   ))}
                               </div>
                             </div>

@@ -2,7 +2,7 @@ import React, { useEffect,  useState, memo } from "react";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 
-let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const SurveyAnalyticsQuestionPieChart = memo(({  data, show, type,colors,chartRef }) => {   
     const baseOptions = {
         chart: {

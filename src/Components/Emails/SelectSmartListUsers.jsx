@@ -38,7 +38,7 @@ const SelectSmartListUsers = (props) => {
     matchFrom: "start",
   };
   const navigate = useNavigate();
-  let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+  let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const location = useLocation();
   const [readers, setReaders] = useState([]);
   const [campaign_id_st, setCampaign_id] = useState();
@@ -116,7 +116,7 @@ const SelectSmartListUsers = (props) => {
     setCampaign_id(campaign_id);
   }, []);
 
-  axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+  axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
   useEffect(() => {
     let oldRemovedHcp = old_object?.removedHcp || [];
     oldRemovedHcp =
@@ -355,7 +355,7 @@ const SelectSmartListUsers = (props) => {
       status: 2,
     };
 
-    axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     loader("show");
     await axios
       .post(`emailapi/save_draft`, body)
@@ -852,7 +852,7 @@ const SelectSmartListUsers = (props) => {
         edit_list_array: editableData,
       };
       setSaveOpen(false);
-      axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       loader("show");
 
       await axios
@@ -1039,7 +1039,7 @@ const SelectSmartListUsers = (props) => {
       if (status.every((element) => element == "true")) {
         loader("show");
 
-        axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+        axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
         await axios
           .post(`distributes/add_new_readers_in_list`, body)
           .then((res) => {
@@ -1071,7 +1071,7 @@ const SelectSmartListUsers = (props) => {
       formData.append("smart_list_id", "");
       formData.append("reader_file", selectedFile);
 
-      axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       if (selectedFile) {
         loader("show");
         await axios
@@ -1639,7 +1639,7 @@ const SelectSmartListUsers = (props) => {
                                     sortOrder
                                   )?.map((user, index) => {
                                     return (
-                                      <React.Fragment key={index}>
+                                      <>
                                         <tr
                                           className={` ${
                                             user?.subscriber == 0
@@ -1755,7 +1755,7 @@ const SelectSmartListUsers = (props) => {
                                             </td>
                                           )}
                                         </tr>
-                                      </React.Fragment>
+                                      </>
                                     );
                                   })}
                                   {unSubscribedUsers?.length < 1 && (
@@ -2627,7 +2627,7 @@ const SelectSmartListUsers = (props) => {
                                     sortOrder
                                   )?.map((user, index) => {
                                     return (
-                                      <React.Fragment key={index}>
+                                      <>
                                         <tr
                                           className={` ${
                                             user?.subscriber == 0
@@ -2743,7 +2743,7 @@ const SelectSmartListUsers = (props) => {
                                             </td>
                                           )}
                                         </tr>
-                                      </React.Fragment>
+                                      </>
                                     );
                                   })}
                                   {removedReaders?.length < 1 && (
@@ -3103,7 +3103,7 @@ const SelectSmartListUsers = (props) => {
                                 {sortData(readers, sortBy, sortOrder)?.map(
                                   (reader, index) => {
                                     return (
-                                      <React.Fragment key={index}>
+                                      <>
                                         <tr
                                           id={`row-selected` + index}
                                           onClick={() =>
@@ -3280,7 +3280,7 @@ const SelectSmartListUsers = (props) => {
                                             />
                                           </td>
                                         </tr>
-                                      </React.Fragment>
+                                      </>
                                     );
                                   }
                                 )}
@@ -3357,7 +3357,7 @@ const SelectSmartListUsers = (props) => {
                   {hpc.map((val, i) => {
                     const fieldName = `hpc[${i}]`;
                     return (
-                      <React.Fragment key={fieldName}>
+                      <>
                         <div className="add_hcp_boxes">
                           <div className="form_action">
                             <div className="row">
@@ -3890,7 +3890,7 @@ const SelectSmartListUsers = (props) => {
                             </div>
                           </div>
                         </div>
-                      </React.Fragment>
+                      </>
                     );
                   })}
                 </form>

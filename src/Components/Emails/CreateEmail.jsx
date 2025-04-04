@@ -62,7 +62,7 @@ const CreateEmail = (props) => {
   const filterConfig = {
     matchFrom: "start",
   };
-  let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+  let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const navigate = useNavigate();
   const [showPreogressBar, setShowProgressBar] = useState(false);
   const [uploadOrDownloadCount, setUploadOrDownloadCount] = React.useState(0);
@@ -240,7 +240,7 @@ const CreateEmail = (props) => {
     }
   }, [addListOpen]);
 
-  axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+  axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
 
   useEffect(() => {
     getTemplateListData(0);
@@ -248,7 +248,7 @@ const CreateEmail = (props) => {
   }, []);
 
   const getSmartListData = (flag) => {
-    axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     const body = {
       user_id: localStorage.getItem("user_id"),
       search: getsearch,
@@ -379,7 +379,7 @@ const CreateEmail = (props) => {
     getalCountry();
   }, []);
 
-  axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+  axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
   const getTemplateListData = async (flag) => {    
     let pdf_id = state_object?.PdfSelected
       ? state_object?.PdfSelected
@@ -471,7 +471,7 @@ const CreateEmail = (props) => {
       user_id: localStorage.getItem("user_id"),
     };
 
-    axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     const getAllTags = async () => {
       await surveyAxiosInstance
         .post(FETCH_ALL_TOPICS, body)
@@ -734,7 +734,7 @@ const CreateEmail = (props) => {
       };
 
  
-      axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
 
       axios
         .post(`emailapi/send_sample_email`, body)
@@ -819,7 +819,7 @@ const CreateEmail = (props) => {
         language: 2,
       };
 
-      axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       loader("show");
       await axios
         .post(`emailapi/add_update_template`, body)
@@ -922,7 +922,7 @@ const CreateEmail = (props) => {
         status: 2,
       };
 
-      axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       loader("show");
       await axios
         .post(`emailapi/save_draft`, body)
@@ -1134,7 +1134,7 @@ const CreateEmail = (props) => {
       approved_page: 1,
     };
 
-    axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     loader("show");
     await axios
       .post(`emailapi/save_draft`, body)
@@ -1333,7 +1333,7 @@ const CreateEmail = (props) => {
         // };
 
     
-        axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+        axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
          
 
                        try {
@@ -1469,7 +1469,7 @@ const CreateEmail = (props) => {
         email: email,
       };
      
-      axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       loader("show");
       await axios
         .post(`emailapi/search_hcp`, body)
@@ -1779,7 +1779,7 @@ const CreateEmail = (props) => {
       status.sort();
       if (status.every((element) => element == "true")) {
         loader("show");
-        axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+        axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
         await axios
           .post(`distributes/add_new_readers_in_list`, body)
           .then((res) => {
@@ -1813,7 +1813,7 @@ const CreateEmail = (props) => {
  
  
       if (selectedFile) {
-        axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+        axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
         loader("show");
         await axios
           .post(`distributes/update_reader_list`, formData)
@@ -1902,7 +1902,7 @@ const CreateEmail = (props) => {
           content_included: 1
         };
 
-        axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+        axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
         loader("show");
         await axios
           .post(`emailapi/add_update_template`, body)
@@ -2417,7 +2417,7 @@ const CreateEmail = (props) => {
                   >
                     {templateList.map((template, index) => {
                       return (
-                        <React.Fragment key={index}>
+                        <>
                           <div
                            
                             className="item"
@@ -2438,7 +2438,7 @@ const CreateEmail = (props) => {
                             />
                             <p>{template.name}</p>
                           </div>
-                        </React.Fragment>
+                        </>
                       );
                     })}
                   </AliceCarousel>
@@ -2588,7 +2588,7 @@ const CreateEmail = (props) => {
                           <ul>
                             {finalTags.map((tags, index) => {
                               return (
-                                <React.Fragment key={index}>
+                                <>
                                   <li className="list1" >
                                     {tags.innerHTML || tags}{" "}
                                     <img
@@ -2597,7 +2597,7 @@ const CreateEmail = (props) => {
                                       onClick={() => removeTag(index)}
                                     />
                                   </li>
-                                </React.Fragment>
+                                </>
                               );
                             })}
                           </ul>
@@ -2871,11 +2871,11 @@ const CreateEmail = (props) => {
                   {allTags
                     ? Object.values(allTags)?.map((data, index) => {
                       return (
-                        <React.Fragment key={index}>
+                        <>
                           <div  onClick={() => tagClicked(data)}>
                             {data}{" "}
                           </div>
-                        </React.Fragment>
+                        </>
                       );
                     })
                     : ""}
@@ -2890,7 +2890,7 @@ const CreateEmail = (props) => {
               <div className="total-selected">
                 {tagClickedFirst.map((data, index) => {
                   return (
-                    <React.Fragment key={index}>
+                    <>
                       <div className="tag-cross" >
                         {data.innerHTML || data}
                         <img
@@ -2899,7 +2899,7 @@ const CreateEmail = (props) => {
                           onClick={() => removeTagFinal(index)}
                         />
                       </div>
-                    </React.Fragment>
+                    </>
                   );
                 })}
               </div>
@@ -3081,7 +3081,7 @@ const CreateEmail = (props) => {
                     <>
                       {selectedHcp.map((data, index2) => {
                         return (
-                          <React.Fragment key={index2}>
+                          <>
                             <div className="search-hcp-box" key={index2}>
                               <p className="send-hcp-box-title">
                                 Name |{" "}
@@ -3122,7 +3122,7 @@ const CreateEmail = (props) => {
                                 />
                               </div>
                             </div>
-                          </React.Fragment>
+                          </>
                         );
                       })}
                     </>
@@ -3207,7 +3207,7 @@ const CreateEmail = (props) => {
                 smartListData.length > 0 ? (
                 smartListData.map((data, index) => {
                   return (
-                    <React.Fragment key={index}>
+                    <>
                       <div className="smartlist_box_block"  >
                         <div className="smartlist-view email_box">
                           <div className="mail-box-content">
@@ -3236,7 +3236,7 @@ const CreateEmail = (props) => {
                           </div>
                         </div>
                       </div>
-                    </React.Fragment>
+                    </>
                   );
                 })
               ) : (
@@ -3322,7 +3322,7 @@ const CreateEmail = (props) => {
                   {hpc.map((val, i) => {
                     const fieldName = `hpc[${i}]`;
                     return (
-                      <React.Fragment key={fieldName}>
+                      <>
                         <div className="add_hcp_boxes" key={i}>
                           <div className="form_action">
                             <div className="row">
@@ -3860,7 +3860,7 @@ const CreateEmail = (props) => {
                             </div>
                           </div>
                         </div>
-                      </React.Fragment>
+                      </>
                     );
                   })}
                 </form>
@@ -4141,7 +4141,7 @@ const CreateEmail = (props) => {
                       getReaderDetails.length > 0 &&
                       sortData(getReaderDetails, sortBy, sortOrder).map((rr, i) => {
                         return (
-                          <React.Fragment key={i}>
+                          <>
                             <tr>
                               <td>{rr?.first_name ? rr?.first_name : "N/A"}</td>
                               <td>{rr?.email ? rr?.email : "N/A"}</td>
@@ -4210,7 +4210,7 @@ const CreateEmail = (props) => {
                               ) : null}
                               <td className="add-new-hcp" colspan="12"></td>
                             </tr>
-                          </React.Fragment>
+                          </>
                         );
                       })}
                   </tbody>

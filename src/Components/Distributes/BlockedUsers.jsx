@@ -7,7 +7,7 @@ import { ENDPOINT } from "../../axios/apiConfig";
 import { Accordion, Button, Modal } from "react-bootstrap";
 
 const BlockedUsers = () => {
-  const path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+  const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [data, setData] = useState([]);
   const [originalData, setOriginalData] = useState(null);
   const [showModal, setShowModal] = useState(false);

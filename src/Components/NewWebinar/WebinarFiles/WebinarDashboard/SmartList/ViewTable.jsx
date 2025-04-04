@@ -31,8 +31,8 @@ const ViewTable = (props) => {
   const filterConfig = {
     matchFrom: "start",
   };
-  let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
-  //let path = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+  let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
+  //let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   //let validator = new SimpleReactValidator();
   const [instituions, setInstituions] = useState([]);
 
@@ -331,7 +331,7 @@ const ViewTable = (props) => {
   const [change, setChanges] = useState(null);
   const [irtRole, setIrtRole] = useState([]);
 
-  let path = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+  let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [show, setShow] = useState(false);
   const [hpc, setHpc] = useState([
     {
@@ -519,7 +519,7 @@ const ViewTable = (props) => {
         }
       }
 
-      axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       loader("show");
       await axios
         .post(`distributes/add_update_list`, body)
@@ -797,7 +797,7 @@ const ViewTable = (props) => {
         edit_list_array: editableData,
       };
 
-      axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       loader("show");
       await axios
         .post(`distributes/update_reders_details`, body)
@@ -846,7 +846,7 @@ const ViewTable = (props) => {
     };
 
     loader("show");
-    axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     await axios
       .post(`distributes/update_reders_details`, body)
       .then((res) => {
@@ -915,7 +915,7 @@ const ViewTable = (props) => {
       profile_user_id: profile_user_id,
     };
 
-    axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     loader("show");
     await axios
       .post(`distributes/delete_reader`, body)
@@ -1025,7 +1025,7 @@ const ViewTable = (props) => {
     //       username: name_edit,
     //     };
 
-    //     axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+    //     axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     //     await axios
     //       .post(`distributes/update_reders_details`, body)
     //       .then((res) => {
@@ -1514,7 +1514,7 @@ const ViewTable = (props) => {
       status.sort();
       if (status.every((element) => element == "true")) {
         loader("show");
-        axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+        axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
         await axios
           .post(`distributes/add_new_readers_in_list`, body)
           .then((res) => {
@@ -1555,7 +1555,7 @@ const ViewTable = (props) => {
       formData.append("reader_file", selectedFile);
 
       if (selectedFile) {
-        axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+        axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
         loader("show");
         await axios
           .post(`distributes/update_reader_list`, formData)
@@ -1602,7 +1602,7 @@ const ViewTable = (props) => {
       formData.append("smart_list_id", getlistid);
       formData.append("reader_file", selectedFile);
 
-      axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       loader("show");
       await axios
         .post(`distributes/update_reader_list`, formData)
@@ -2441,7 +2441,7 @@ const ViewTable = (props) => {
                   {hpc.map((val, i) => {
                     const fieldName = `hpc[${i}]`;
                     return (
-                      <React.Fragment key={fieldName}>
+                      <>
                         <div className="add_hcp_boxes">
                           <div className="form_action">
                             <div className="row">
@@ -2940,7 +2940,7 @@ const ViewTable = (props) => {
 
                                   {val?.siteDetails?.map((data, index) => {
                                     return (
-                                         <React.Fragment key={index}>
+                                         <>
                                       
                                         <>
                                           <div className="add-content-form">
@@ -2948,7 +2948,7 @@ const ViewTable = (props) => {
                                           </div>
                                         </>
                                         {/* )} */}
-                                      </React.Fragment>
+                                      </>
                                     );
                                   })}
                                 </>
@@ -2996,7 +2996,7 @@ const ViewTable = (props) => {
                             </div>
                           </div>
                         </div>
-                      </React.Fragment>
+                      </>
                     );
                   })}
                 </form>

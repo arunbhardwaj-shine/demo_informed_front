@@ -22,7 +22,7 @@ import { createContent } from "../../CommonComponent/Validations";
 
 
 
-let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const LibraryCreateUser = () => {
   const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","bWmUjqX7J011   WUTYn9g==","MXl8m36VZFYXpgFVz3Pg0g=="]
   const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
@@ -2000,7 +2000,7 @@ const LibraryCreateUser = () => {
                                 <ul className="after-tag-selected">
                                   {hcpIrtClickedFirst.map((item, index) => {
                                     return (
-                                      <React.Fragment key={index}>
+                                      <>
                                         {mandatoryRole?.includes(item) ? (
                                           <li className="list1">
                                             {item}
@@ -2013,7 +2013,7 @@ const LibraryCreateUser = () => {
                                             />
                                           </li>
                                         ) : null}
-                                      </React.Fragment>
+                                      </>
                                     );
                                   })}
                                 </ul>
@@ -2117,7 +2117,7 @@ const LibraryCreateUser = () => {
                     ) : userInputs.docintelFormat == "ebook" || userInputs.docintelFormat == "ebookVideo" ? (
                       chapter.map((val, i) => {
                         return (
-                          <React.Fragment key={i}>
+                          <>
                             <div className="form-group val chapter-title">
                               <div className="ebook-format">
                                 {userInputs.docintelFormat == "ebookVideo" ? (<>
@@ -2383,13 +2383,13 @@ const LibraryCreateUser = () => {
                                 </div>
                               ) : null}
                             </div>
-                          </React.Fragment>
+                          </>
                         );
                       })
                     ) : userInputs.docintelFormat == "pdfSpc" ? (
                       pdfSpcData.map((val, i) => {
                         return (
-                          <React.Fragment key={i}>
+                          <>
                             <div className="form-group val chapter-title pdf-spc">
                               <div className="ebook-format">
                                 <label htmlFor="">
@@ -2442,7 +2442,7 @@ const LibraryCreateUser = () => {
                                 </div>
                               ) : null}
                             </div>
-                          </React.Fragment>
+                          </>
                         );
                       })
                     ) : null}

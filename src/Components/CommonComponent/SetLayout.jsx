@@ -3,7 +3,7 @@ import { Row } from "react-bootstrap";
 import { Navigate, useNavigate } from "react-router-dom";
 import Header from "./HeaderComponent/Header";
 
-let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 
 const SetLayout = () => {
   const rdLikeArray = ["56Ek4feL/1A8mZgIKQWEqg==", "bWmUjqX7J011   WUTYn9g==", "MXl8m36VZFYXpgFVz3Pg0g=="]

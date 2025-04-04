@@ -367,7 +367,7 @@ const AllEvents = () => {
                         <tbody className="form-group">
                           {data?.map((item, index) => {
                             return (
-                              <React.Fragment key={index}>
+                              <>
                                 <tr>
                                   <td>{item?.title}</td>
                                   <td className="registered"> <span>{formatDate(item?.dateStart)}</span> |{" "}
@@ -388,7 +388,7 @@ const AllEvents = () => {
                                     &nbsp;
                                   </td>
                                 </tr>
-                              </ React.Fragment>
+                              </>
                             );
                           })}
                         </tbody>

@@ -41,7 +41,7 @@ const WebinarSelectSmartListUsers = (props) => {
     matchFrom: "start",
   };
   const navigate = useNavigate();
-  let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+  let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const location = useLocation();
   const [readers, setReaders] = useState([]);
   const [campaign_id_st, setCampaign_id] = useState();
@@ -101,7 +101,7 @@ const WebinarSelectSmartListUsers = (props) => {
   const [isOpen, setIsOpen] = useState(false);
   const [validationError, setValidationError] = useState({});
   const inputElement = useRef();
-  axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+  axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
   // const smartListSelected = location.state
   //   ? location.state.smartListSelected
   //   : props.getDraftData.smart_list_data;
@@ -378,7 +378,7 @@ const WebinarSelectSmartListUsers = (props) => {
           : 2,
     };
 
-    axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+    axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
     loader("show");
     await axios
       .post(`emailapi/save_draft`, body)
@@ -670,7 +670,7 @@ const WebinarSelectSmartListUsers = (props) => {
         edit_list_array: editableData,
       };
       setSaveOpen(false);
-      axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       loader("show");
 
       await axios
@@ -881,7 +881,7 @@ const WebinarSelectSmartListUsers = (props) => {
       if (status.every((element) => element == "true")) {
         loader("show");
 
-        axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+        axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
         await axios
           .post(`distributes/add_new_readers_in_list`, body)
           .then((res) => {
@@ -914,7 +914,7 @@ const WebinarSelectSmartListUsers = (props) => {
       formData.append("smart_list_id", "");
       formData.append("reader_file", selectedFile);
 
-      axios.defaults.baseURL = import.meta.env.VITE_APP_API_KEY;
+      axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
       if (selectedFile) {
         loader("show");
         await axios
@@ -1439,7 +1439,7 @@ const WebinarSelectSmartListUsers = (props) => {
                                   sortOrder
                                 )?.map((user, index) => {
                                   return (
-                                    <React.Fragment key={index}>
+                                    <>
                                       <tr
                                         className={` ${user?.subscriber == 0
                                           ? "hcps-unsubscriber"
@@ -1547,7 +1547,7 @@ const WebinarSelectSmartListUsers = (props) => {
                                           </td>
                                         )}
                                       </tr>
-                                    </React.Fragment>
+                                    </>
                                   );
                                 })}
                                 {unSubscribedUsers?.length < 1 && (
@@ -2300,7 +2300,7 @@ const WebinarSelectSmartListUsers = (props) => {
                                   sortOrder
                                 )?.map((user, index) => {
                                   return (
-                                    <React.Fragment key={index}>
+                                    <>
                                       <tr
                                         className={` ${user?.subscriber == 0
                                           ? "hcps-unsubscriber"
@@ -2408,7 +2408,7 @@ const WebinarSelectSmartListUsers = (props) => {
                                           </td>
                                         )}
                                       </tr>
-                                    </React.Fragment>
+                                    </>
                                   );
                                 })}
                                 {removedReaders?.length < 1 && (
@@ -2714,7 +2714,7 @@ const WebinarSelectSmartListUsers = (props) => {
                                 {sortData(readers, sortBy, sortOrder)?.map(
                                   (reader, index) => {
                                     return (
-                                      <React.Fragment key={index}>
+                                      <>
                                         <tr
                                           id={`row-selected` + index}
                                           onClick={() =>
@@ -2884,7 +2884,7 @@ const WebinarSelectSmartListUsers = (props) => {
                                             />
                                           </td>
                                         </tr>
-                                      </React.Fragment>
+                                      </>
                                     );
                                   }
                                 )}

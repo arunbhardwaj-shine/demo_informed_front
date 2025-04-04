@@ -12,7 +12,7 @@ import { Inertia } from "@amcharts/amcharts4/core";
 const TimelineDetail = (props) => {
   const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","bWmUjqX7J011   WUTYn9g==","MXl8m36VZFYXpgFVz3Pg0g=="]
   const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
-  let path_image = import.meta.env.VITE_APP_ASSETS_PATH_INFORMED_DESIGN;
+  let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   let videoCover = localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? "lex-video-cover.png" : "Motivate_Video_cover.png" ;
   let bookCover = localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? "lex-book-cover.png" : "Motivate_Book_cover.png" ;
   let articleCover = localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? "lex-article-cover.png" : "Motivate_Article_cover.png" ;
@@ -673,7 +673,7 @@ const TimelineDetail = (props) => {
                                 <div className="timeline-box">
                                   {Object.keys(timeLineData?.timeline).map(
                                     (date,index) => (
-                                      <React.Fragment key={index}>
+                                      <>
                                         <div
                                           className="timeline-sticky"
                                           key={date}
@@ -697,7 +697,7 @@ const TimelineDetail = (props) => {
 
                                         {timeLineData?.timeline?.[date].map(
                                           (details, index) => (
-                                            <React.Fragment key={index}>
+                                            <>
                                               {details?.auto_mail === 0 &&
                                                 details.action.includes(
                                                   "New mail received"
@@ -2493,10 +2493,10 @@ const TimelineDetail = (props) => {
                                                       </div>
                                                     </div>
                                                   ))}
-                                            </React.Fragment>
+                                            </>
                                           )
                                         )}
-                                      </React.Fragment>
+                                      </>
                                     )
                                   )}
                                 </div>
@@ -2520,7 +2520,7 @@ const TimelineDetail = (props) => {
                           <div className="timeline-right-list-view">
                             {timeLineData?.timeline.map((details, index) => {
                               return (
-                                <React.Fragment key={index}>
+                                <>
                                   {(details.action == "Article opened" || details.action == "Article browsed") && (
                                     <div className="timeline-box">
                                       <div className="timeline_date">
@@ -3786,7 +3786,7 @@ const TimelineDetail = (props) => {
                                       </div>
                                     </div>
                                   ) : null}
-                                </React.Fragment>
+                                </>
                               );
                             })}
                             {timeLineData?.loadMore?.length ? (
