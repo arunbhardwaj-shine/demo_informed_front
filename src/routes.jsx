@@ -256,6 +256,7 @@ import SurveyTopics from "./Components/surveybuilder/SurvyeTopics";
 import AlandActivity from "./Components/AlandActivity/AlandActivity";
 import CreateSunshineEmail from "./Components/Emails/CreateSunshineEmail";
 import VerifySunshineMAIL from "./Components/Emails/VerifySunshineMAIL";
+import ReaderProfile from "./Components/Readers/ReadersView/ReaderProfile";
 
 let platform = 0;
 let show = 0;
@@ -1192,6 +1193,11 @@ const Routing = () => {
         <Route
           path="/aland-activity"
           element={<LoginLayout component={AlandActivity} />}
+        />
+
+         <Route
+          path="/reader-profile"
+          element={<LoginLayout component={ReaderProfile} />}
         />
       </Routes>
     </Router>

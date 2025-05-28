@@ -2607,13 +2607,20 @@ const NewReaders = () => {
                                   </div>
                                 ) : !data?.ipFlag ? (
                                   <div className="data-main-footer-sec-inner invest">
-                                    <div className="footer-btn d-flex justify-content-end">
+                                    <div className="footer-btn d-flex justify-content-between">
                                       <Link
                                         to="/reader-edit"
                                         className="btn btn-primary btn-bordered"
                                         state={{ id: data?.id }}
                                       >
                                         Edit
+                                      </Link>
+                                       <Link
+                                        to="/reader-profile"
+                                        className="btn btn-primary btn-bordered profile-view"
+                                        state={{ id: data?.id }}
+                                      >
+                                       View profile
                                       </Link>
                                     </div>
                                   </div>
