@@ -27032,12 +27032,16 @@ table {
     max-width: 20%;
     width:100%;
   }
-@media only screen and (max-width: 1500px) {
+  @media only screen and (max-width: 1600px) {
 
-    .hcp-info, .emails, .overview, .topics {
-      max-width: 50%;
-    }
-}
+      .hcp-info, .emails, .overview, .topics {
+        max-width: 50%;
+        flex: 0 0 auto;
+      }
+      .emails, .topics {
+        margin-top: 30px;
+      }
+  }
   .general-info {
     @include flex-column;
     height: 100%;
@@ -27093,6 +27097,13 @@ table {
         font-size: 14px;
         font-weight: 500;
         color: $dark-blue;
+      }
+    }
+    @media only screen and (max-width: 1600px) {
+      table{
+        th{
+          width: 120px;
+        }
       }
     }
   }
@@ -27326,6 +27337,7 @@ table {
             .topics {
               @include flex-align-center;
               max-width: initial;
+              margin:0;
 
               span {
                 color: $dark-blue;
@@ -27390,6 +27402,37 @@ table {
       }
 
     }
+  }
+  @media only screen and (max-width:1400px){
+    .profile-engagement-block {
+      background: transparent;
+      box-shadow: none;
+      border-radius: 0;
+    .col{
+      width:50%;
+      flex: 0 0 auto;
+      margin-bottom: 25px;
+      padding-right:12px;
+          padding-left:12px;
+      .general-info{
+        border-radius: 12px;
+        background: $white;
+        box-shadow: 0px 1px 6px 0px rgba(0, 102, 190, 0.2);
+      }
+      // &:nth-child(2) {
+        .hcp-profile-view{
+          padding-right:0px;
+          padding-left:0px;
+          border: 0;
+        }
+      // }
+      // &:nth-child(3) {
+      //   .hcp-profile-view{
+      //     padding-left:12px;
+      //   }
+      // }
+    }
+  }
   }
 }
 

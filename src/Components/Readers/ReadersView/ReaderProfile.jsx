@@ -153,7 +153,7 @@ const ReaderProfile = () => {
       };
       element.style.boxShadow = "none"; // Disable box-shadow for cleaner capture
       element.style.padding = "0"; // Reset padding if needed
-      // element.style.backgroundColor = 'transparent'; // Make background transparent
+      element.style.backgroundColor = 'transparent'; // Make background transparent
 
       // Use html2canvas to capture the element as a canvas
       const canvas = await html2canvas(element, {
@@ -213,7 +213,7 @@ const ReaderProfile = () => {
 
   // Fetch data
   const getData = async () => {
-    console.log(state);
+
     try {
       loader("show");
 
@@ -327,7 +327,7 @@ const ReaderProfile = () => {
         lineWidth: 2,
       },
       color: colors[identifier],
-      data: Object.values(sectionData?.[identifier])?.reverse(),
+      data: Object?.values(sectionData?.[identifier])?.reverse(),
     }));
 
     setOption((prev) => ({
@@ -387,28 +387,32 @@ const ReaderProfile = () => {
         {Object.keys(userProfileData).length > 0 ? (
           <div className="custom-container">
             <div className="top-header profile_header sticky">
-              <div className="page-title d-flex flex-column align-items-start">
-                <h2 className="d-flex align-items-center gap-2">
+              <div className="page-title d-flex align-items-start">
+                <div className="back-link">
                   <Link
-                    to="/readers-view"
-                    className="btn btn-primary btn-bordered back-btn me-2"
-                  >
-                    <svg
-                      width="14"
-                      height="24"
-                      viewBox="0 0 14 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
+                      to="/readers-view"
+                      className="btn btn-primary btn-bordered back-btn me-2"
                     >
-                      <path
-                        d="M0.159662 12.0019C0.159662 11.5718 0.323895 11.1417 0.65167 10.8138L10.9712 0.494292C11.6277 -0.16216 12.692 -0.16216 13.3482 0.494292C14.0044 1.15048 14.0044 2.21459 13.3482 2.8711L4.21687 12.0019L13.3479 21.1327C14.0041 21.7892 14.0041 22.8532 13.3479 23.5093C12.6917 24.1661 11.6274 24.1661 10.9709 23.5093L0.65135 13.19C0.323523 12.8619 0.159662 12.4319 0.159662 12.0019Z"
-                        fill="#97B6CF"
-                      />
-                    </svg>
-                  </Link>
+                      <svg
+                        width="14"
+                        height="24"
+                        viewBox="0 0 14 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M0.159662 12.0019C0.159662 11.5718 0.323895 11.1417 0.65167 10.8138L10.9712 0.494292C11.6277 -0.16216 12.692 -0.16216 13.3482 0.494292C14.0044 1.15048 14.0044 2.21459 13.3482 2.8711L4.21687 12.0019L13.3479 21.1327C14.0041 21.7892 14.0041 22.8532 13.3479 23.5093C12.6917 24.1661 11.6274 24.1661 10.9709 23.5093L0.65135 13.19C0.323523 12.8619 0.159662 12.4319 0.159662 12.0019Z"
+                          fill="#97B6CF"
+                        />
+                      </svg>
+                    </Link>
+                </div>
+                <div className="d-flex flex-column">
+                  <h2 className="d-flex align-items-center gap-2">
                   Profile
                 </h2>
-                <p>{userProfileData?.user_detail?.joiningDate || "N/A"}</p>
+                <p style={{paddingLeft:"0"}}>{userProfileData?.user_detail?.joiningDate || "N/A"}</p>
+                </div>
               </div>
 
               <Button
