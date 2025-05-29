@@ -705,32 +705,6 @@ const ReaderProfile = () => {
                                     </tr>
                                   ))
                                 : null}
-
-                              {/* <tr>
-                              <td><div className="topics"><span>1.</span><div className="topics-name">Wilate</div></div></td>
-                              <td className="freq">30</td>
-                              <td>7</td>
-                            </tr>
-                            <tr>
-                              <td><div className="topics"><span>2.</span><div className="topics-name">Wilate</div></div></td>
-                              <td className="freq">22</td>
-                              <td>5</td>
-                            </tr>
-                            <tr>
-                              <td><div className="topics"><span>3.</span><div className="topics-name">Wilate</div></div></td>
-                              <td className="freq">20</td>
-                              <td>3</td>
-                            </tr>
-                            <tr>
-                              <td><div className="topics"><span>4.</span><div className="topics-name">Wilate</div></div></td>
-                              <td className="freq">17</td>
-                              <td>3</td>
-                            </tr>
-                            <tr>
-                              <td><div className="topics"><span>5.</span><div className="topics-name">ISTH2024</div></div></td>
-                              <td className="freq">13</td>
-                              <td>2</td>
-                            </tr> */}
                             </tbody>
                           </Table>
                         </div>
