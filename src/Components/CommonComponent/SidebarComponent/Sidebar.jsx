@@ -824,6 +824,7 @@ const Sidebar = () => {
             window.location.pathname == "/new-readers-reviews" ||
             window.location.pathname == "/IRT-Mandatory" ||
             window.location.pathname == "/mandatory-reader-edit" ||
+            window.location.pathname == "/reader-profile" ||
             window.location.pathname == "/timeline-detail" ? (
             <ul>
 
@@ -849,7 +850,7 @@ const Sidebar = () => {
                 : null}
               <li
                 className={
-                  (location.pathname == "/readers-view"
+                  ((location.pathname == "/readers-view" || location.pathname == "/reader-profile")
                     || (location.pathname == "/reader-edit" &&isLikeRdAccount) ||
                     ((location.pathname == "/timeline-detail" || location.pathname == "/reader-review" ) && (localStorage.getItem('irt_sec') != 1 && localStorage.getItem('irt_sec') != null)))
                     ? "active"

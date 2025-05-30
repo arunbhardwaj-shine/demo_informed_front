@@ -248,6 +248,7 @@ const Header = () => {
                       window.location.pathname == "/site-listing" ||
                       window.location.pathname == "/edit-site" ||
                       window.location.pathname == "/site" ||
+                      window.location.pathname == "/reader-profile" ||
                       window.location.pathname == "/article_type_registration"
                       ? "nav-item active active-main"
                       : "nav-item"
