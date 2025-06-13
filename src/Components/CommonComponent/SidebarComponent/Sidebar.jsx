@@ -161,19 +161,19 @@ const Sidebar = () => {
       "https://docintel.s3.eu-west-1.amazonaws.com/react_help/poster/email_page_2.png";
   } else if (location.pathname == "/library-content") {
     title = "Library overview";
-    video_url = "/componentAssets/images/library.mp4";
+    video_url = "https://docintel.app/img/octa/e-templates/informed-video/library.mp4";
     video_poster = "/componentAssets/images/library-page-poster.png";
   } else if (location.pathname == "/set-popup") {
     title = "Set Pop-up";
-    video_url = "/componentAssets/images/set-popup.mp4";
+    video_url = "https://docintel.app/img/octa/e-templates/informed-video/set-popup.mp4";
     video_poster = "/componentAssets/images/popup-screenshot.png";
   } else if (location.pathname == "/library-sublink") {
     title = "New SubLink";
-    video_url = "/componentAssets/images/new-sublink.mp4";
+    video_url = "https://docintel.app/img/octa/e-templates/informed-video/new-sublink.mp4";
     video_poster = "/componentAssets/images/new-sublink.png";
   } else if (location.pathname == "/products") {
     title = "Products and Topics";
-    video_url = "/componentAssets/images/products-tags.mp4";
+    video_url = "https://docintel.app/img/octa/e-templates/informed-video/products-tags.mp4";
     video_poster = "/componentAssets/images/products-tags.png";
   } else if (
     location.pathname == "/library-create-user" ||
@@ -181,7 +181,7 @@ const Sidebar = () => {
     location.pathname == "/content-detail"
   ) {
     title = "Create content";
-    video_url = "/componentAssets/images/create_content.mp4";
+    video_url = "https://docintel.app/img/octa/e-templates/informed-video/create_content.mp4";
     video_poster = "/componentAssets/images/create-content.png";
   }
 
@@ -850,7 +850,7 @@ const Sidebar = () => {
                 : null}
               <li
                 className={
-                  ((location.pathname == "/readers-view" || location.pathname == "/reader-profile")
+                  (location.pathname == "/readers-view" || location.pathname == "/reader-profile"
                     || (location.pathname == "/reader-edit" &&isLikeRdAccount) ||
                     ((location.pathname == "/timeline-detail" || location.pathname == "/reader-review" ) && (localStorage.getItem('irt_sec') != 1 && localStorage.getItem('irt_sec') != null)))
                     ? "active"
