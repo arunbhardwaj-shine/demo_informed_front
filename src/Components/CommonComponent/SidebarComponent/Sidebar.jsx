@@ -863,7 +863,7 @@ const Sidebar = () => {
                   <p>
                     {isLikeRdAccount
                         ? "HCPs"
-                        : "CRM"
+                        : "Profiles"
                     }</p>
                 </Link>
               </li>

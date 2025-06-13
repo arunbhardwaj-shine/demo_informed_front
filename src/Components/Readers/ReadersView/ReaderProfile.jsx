@@ -35,7 +35,7 @@ const ReaderProfile = () => {
   const getChartOptions = (categories, type) => ({
     chart: {
       type: type,
-      height: 240,
+      height: 215,
     },
     title: {
       text: null,
@@ -47,17 +47,31 @@ const ReaderProfile = () => {
         enabled: true,
         style: {
           color: "#004a89",
-          fontWeight: "450",
+          fontWeight: "400",
           fontSize: "13px",
         },
       },
     },
     legend: {
+      layout: 'horizontal',
       reversed: true,
       itemStyle: {
         color: "#70899E",
+        fontSize: '11px'
+        
       },
       symbolRadius: 5,
+
+      labelFormatter() {
+      if (this.chart.plotWidth < 230) {
+        return ''
+      }
+      if (this.chart.plotWidth < 300) {
+        return [...this.name].splice(0, 5).join('') + '...'
+      }
+
+      return this.name
+    },
     },
     yAxis: [
       {
@@ -94,8 +108,10 @@ const ReaderProfile = () => {
         dataLabels: {
           enabled: false,
         },
-        groupPadding: 0.1,
-        pointPadding: 0.1,
+        groupPadding:0.1,
+        pointPadding: 0,
+        borderWidth:0
+
       },
     },
     tooltip: {

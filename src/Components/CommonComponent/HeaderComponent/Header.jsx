@@ -259,7 +259,7 @@ const Header = () => {
                       ? "/IRT-Mandatory" : "/readers-view"}
        
                   >
-                    CRM
+                    PROFILES
                   </Link>
                 </li>
                 <li
@@ -312,6 +312,12 @@ const Header = () => {
                           "wW0geGtDPvig5gF 6KbJrg==" ||
                           localStorage.getItem("user_id") ==
                           "z2TunmZQf3QwCsICFTLGGQ==" ||
+
+
+
+
+
+                          
                           (localStorage.getItem("user_id") ==
                             "qDgwPdToP05Kgzc g2VjIQ==" || localStorage.getItem("account_type") == "USA_PHARMA")
                           ? "/totalhcp"
