@@ -2617,7 +2617,7 @@ const NewReaders = () => {
                                       </Link>
                                       <Link
                                         to="/reader-profile"
-                                        className="btn btn-primary btn-bordered profile-view"
+                                        className="btn btn-primary btn-filled profile-view"
                                         state={{ id: data?.id }}
                                       >
                                        View profile
