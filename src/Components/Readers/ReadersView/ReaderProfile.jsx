@@ -32,10 +32,10 @@ const ReaderProfile = () => {
     },
   };
 
-  const getChartOptions = (categories, type) => ({
+  const getChartOptions = (categories, type,barWidth,groupPadding) => ({
     chart: {
       type: type,
-      height: 215,
+      height: 220,
     },
     title: {
       text: null,
@@ -108,10 +108,10 @@ const ReaderProfile = () => {
         dataLabels: {
           enabled: false,
         },
-        groupPadding:0.1,
+        groupPadding:groupPadding,
         pointPadding: 0,
-        borderWidth:0
-
+        borderWidth:0,
+        pointWidth : barWidth, 
       },
     },
     tooltip: {
@@ -209,7 +209,7 @@ const ReaderProfile = () => {
         "Most-popular-content",
         "Library",
       ],
-      "bar"
+      "bar",6,0.26
     )
   );
 
@@ -218,13 +218,13 @@ const ReaderProfile = () => {
   );
 
   const [docintelLineOption, setDocintelLineOption] = useState(
-    getChartOptions(["Symposia", "Article", "eBrochure"], "bar")
+    getChartOptions(["Symposia", "Article", "eBrochure"], "bar",12,0.23)
   );
   const [liveEventsOption, setLiveEventsOption] = useState(
-    getChartOptions(["Symposium", "Webinar", "Conference"], "bar")
+    getChartOptions(["Symposium", "Webinar", "Conference"], "bar",12,0.23)
   );
   const [surveyOption, setSurveyOption] = useState(
-    getChartOptions(["Portal", "Webinar", "Email", "Poll"], "bar")
+    getChartOptions(["Portal", "Webinar", "Email", "Poll"], "bar",6,0.23)
   );
 
   // Fetch data
@@ -276,6 +276,7 @@ const ReaderProfile = () => {
       if (sectionKey === "survey") {
         setOption((prev) => ({
           ...prev,
+          
           series: [
             {
               ...prev.series[1],

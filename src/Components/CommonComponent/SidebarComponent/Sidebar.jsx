@@ -881,7 +881,7 @@ const Sidebar = () => {
                   <Link to={"/reader-add"}>
                   <img src= { sidebar_image_path + "readers-add.svg" } alt=""/>
                   {" "}
-                    <p>Add Contact</p>
+                    <p>Contact</p>
                   </Link>
                 </li> : null}
 

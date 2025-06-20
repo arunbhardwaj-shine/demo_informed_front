@@ -16,7 +16,7 @@ const SetLayout = () => {
     },
     {
       image: `${path_image}crm-icon.svg`,
-      title: "CRM",
+      title: "Profiles",
       subtitle: "See who read what, their RTR-activity and their habits",
     },
 
