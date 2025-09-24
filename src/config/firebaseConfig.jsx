@@ -2,13 +2,23 @@ import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyA88FEGjFrDuqHFZghzDIChHu3xk7tcv2Y",
-  authDomain: "docintelpolls.firebaseapp.com",
-  projectId: "docintelpolls",
-  storageBucket: "docintelpolls.appspot.com",
-  messagingSenderId: "82125078924",
-  appId: "1:82125078924:web:6bdcc63abcd2b88baf96a9"
-  };
+  apiKey: "AIzaSyDWM1M3NeGDMl48EtRaBMVNB5BpmR_Pc90",
+  authDomain: "informedpro-12308.firebaseapp.com",
+  projectId: "informedpro-12308",
+  storageBucket: "informedpro-12308.firebasestorage.app",
+  messagingSenderId: "523302405438",
+  appId: "1:523302405438:web:45360c3d76b316fd32586f",
+  measurementId: "G-N5L5LXHELS"
+};
+
+// const firebaseConfig = {
+//   apiKey: "AIzaSyA88FEGjFrDuqHFZghzDIChHu3xk7tcv2Y",
+//   authDomain: "docintelpolls.firebaseapp.com",
+//   projectId: "docintelpolls",
+//   storageBucket: "docintelpolls.appspot.com",
+//   messagingSenderId: "82125078924",
+//   appId: "1:82125078924:web:6bdcc63abcd2b88baf96a9"
+//   };
 
 // const firebaseConfig = {
 //   apiKey: "AIzaSyC2_IAe4G4Y8U9D-27X3atKhUGWs1M1RuM",
