@@ -31,6 +31,7 @@ const LiveStream = () => {
     "56Ek4feL/1A8mZgIKQWEqg==",
     "bWmUjqX7J011   WUTYn9g==",
     "MXl8m36VZFYXpgFVz3Pg0g==",
+    "HPW6EwQy6v8VrfnMsjz8tg==",
   ];
   const isLikeRdAccount = rdLikeArray.includes(localStorage.getItem("user_id"));
   axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
@@ -1043,6 +1044,8 @@ const LiveStream = () => {
                                                   switch (userId) {
                                                     case "56Ek4feL/1A8mZgIKQWEqg==":
                                                       return "Trials";
+                                                    case "HPW6EwQy6v8VrfnMsjz8tg==":
+                                                      return "Trials";
                                                     case "bWmUjqX7J011   WUTYn9g==":
                                                       return "Motivate-study";
                                                     case "MXl8m36VZFYXpgFVz3Pg0g==":
@@ -1245,6 +1248,8 @@ const LiveStream = () => {
                                                     );
                                                   const userNames = {
                                                     "56Ek4feL/1A8mZgIKQWEqg==":
+                                                      "Trials",
+                                                    "HPW6EwQy6v8VrfnMsjz8tg==":
                                                       "Trials",
                                                     "bWmUjqX7J011   WUTYn9g==":
                                                       "Motivate-study",
@@ -1450,6 +1455,8 @@ const LiveStream = () => {
                                                     );
                                                   const userNames = {
                                                     "56Ek4feL/1A8mZgIKQWEqg==":
+                                                      "Trials",
+                                                    "HPW6EwQy6v8VrfnMsjz8tg==":
                                                       "Trials",
                                                     "bWmUjqX7J011   WUTYn9g==":
                                                       "Motivate-study",

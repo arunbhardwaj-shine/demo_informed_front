@@ -188,7 +188,7 @@ const SurveySublink = () => {
   };
 
   useEffect(() => {
-    if (localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg==") {
+    if (localStorage.getItem("user_id") != "56Ek4feL/1A8mZgIKQWEqg=="  &&  localStorage.getItem("user_id") != "HPW6EwQy6v8VrfnMsjz8tg==") {
       let linktype = types;
       linktype.push(
         { value: "Offline Offer", label: "Offline Offer" },

@@ -10,12 +10,12 @@ import { Inertia } from "@amcharts/amcharts4/core";
 
 
 const TimelineDetail = (props) => {
-  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","bWmUjqX7J011   WUTYn9g==","MXl8m36VZFYXpgFVz3Pg0g=="]
+  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","bWmUjqX7J011   WUTYn9g==","MXl8m36VZFYXpgFVz3Pg0g==","HPW6EwQy6v8VrfnMsjz8tg=="]
   const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
   let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
-  let videoCover = localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? "lex-video-cover.png" : "Motivate_Video_cover.png" ;
-  let bookCover = localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? "lex-book-cover.png" : "Motivate_Book_cover.png" ;
-  let articleCover = localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? "lex-article-cover.png" : "Motivate_Article_cover.png" ;
+  let videoCover = localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "HPW6EwQy6v8VrfnMsjz8tg==" ? "lex-video-cover.png" : "Motivate_Video_cover.png" ;
+  let bookCover = localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "HPW6EwQy6v8VrfnMsjz8tg=="  ? "lex-book-cover.png" : "Motivate_Book_cover.png" ;
+  let articleCover = localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "HPW6EwQy6v8VrfnMsjz8tg==" ? "lex-article-cover.png" : "Motivate_Article_cover.png" ;
   const BrokenImage =
     "https://docintel.s3-eu-west-1.amazonaws.com/cover/default/default.png";
   const { state } = useLocation();

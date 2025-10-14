@@ -11,8 +11,8 @@ let video_url = "";
 let video_poster = "";
 const Sidebar = () => {
    
-  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","bWmUjqX7J011   WUTYn9g==","MXl8m36VZFYXpgFVz3Pg0g=="]
-  const isRdAccount=localStorage.getItem("user_id")=="56Ek4feL/1A8mZgIKQWEqg=="
+  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","bWmUjqX7J011   WUTYn9g==","MXl8m36VZFYXpgFVz3Pg0g==","HPW6EwQy6v8VrfnMsjz8tg=="]
+  const isRdAccount=localStorage.getItem("user_id")=="56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") =="HPW6EwQy6v8VrfnMsjz8tg=="
   const isNorgineAccount=localStorage.getItem("user_id")=="bWmUjqX7J011   WUTYn9g=="
   const isGenaAccount=localStorage.getItem("user_id")=="MXl8m36VZFYXpgFVz3Pg0g=="
   const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))

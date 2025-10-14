@@ -30,7 +30,7 @@ function useScrollDirection() {
 }
 
 const Header = () => {
-  const rdLikeArray = ["56Ek4feL/1A8mZgIKQWEqg==", "bWmUjqX7J011   WUTYn9g==", "MXl8m36VZFYXpgFVz3Pg0g=="]
+  const rdLikeArray = ["56Ek4feL/1A8mZgIKQWEqg==", "bWmUjqX7J011   WUTYn9g==", "MXl8m36VZFYXpgFVz3Pg0g==","HPW6EwQy6v8VrfnMsjz8tg=="]
   const isLikeRdAccount = rdLikeArray.includes(localStorage.getItem("user_id"))
   const queryParams = queryString.parse(window.location.search);
   const scrollDirection = useScrollDirection();
@@ -124,7 +124,7 @@ const Header = () => {
   const homeClicked = (e) => {
     e.preventDefault();
     localStorage.removeItem("switch_account_detail")
-    if (localStorage.getItem('user_id') === "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem('user_id') === "bWmUjqX7J011   WUTYn9g==") {
+    if (localStorage.getItem('user_id') === "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem('user_id') == "HPW6EwQy6v8VrfnMsjz8tg==" || localStorage.getItem('user_id') === "bWmUjqX7J011   WUTYn9g==") {
       navigate("/home-timeline")
     } else {
       navigate("/home")
@@ -325,7 +325,7 @@ const Header = () => {
                             "iSnEsKu5gB/DRlycxB6G4g=="
                             ? "/octalatch-totalhcp"
                             : localStorage.getItem("user_id") ==
-                              "56Ek4feL/1A8mZgIKQWEqg=="
+                              "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "HPW6EwQy6v8VrfnMsjz8tg=="
                               ? "/Trial-analytics"
                               :
                               localStorage.getItem("user_id") ==
@@ -472,7 +472,7 @@ const Header = () => {
                   ) : (
                     ""
                   )}
-                {(localStorage.getItem("user_id") == "rjiGlqA9DXJVH7bDDTX0Lg==" || localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "bWmUjqX7J011   WUTYn9g==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" || localStorage.getItem("user_id") == "B7SHpAc XDXSH NXkN0rdQ==" || localStorage.getItem("user_id") == "iSnEsKu5gB/DRlycxB6G4g==")
+                {(localStorage.getItem("user_id") == "rjiGlqA9DXJVH7bDDTX0Lg==" || localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "HPW6EwQy6v8VrfnMsjz8tg==" || localStorage.getItem("user_id") == "bWmUjqX7J011   WUTYn9g==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" || localStorage.getItem("user_id") == "B7SHpAc XDXSH NXkN0rdQ==" || localStorage.getItem("user_id") == "iSnEsKu5gB/DRlycxB6G4g==")
                  && (<li className={window.location.pathname == "/survey/survey-list" || window.location.pathname == "/survey/survey-sublink" || window.location.pathname == "/survey/survey-analytics" || window.location.pathname == "/survey/survey-analytics-detail" || window.location.pathname == "/survey/survey-setup" || window.location.pathname == "/survey/survey-builder" || window.location.pathname == "/survey/survey-configure" || window.location.pathname == "/survey/form-builder" || window.location.pathname == "/survey/thank-you" || window.location.pathname == "/survey/survey-preview" || window.location.pathname == "/survey/email" || 
                   window.location.pathname == "/survey/email/selectsurvey" ||
                   window.location.pathname == "/survey/survey-sublink-new" ||

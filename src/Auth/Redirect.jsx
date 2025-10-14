@@ -78,7 +78,7 @@ const Redirect = () => {
           });
         }
       }else{
-        if (isLogin?.data?.data?.userToken === "56Ek4feL/1A8mZgIKQWEqg==" || isLogin?.data?.data?.userToken === "bWmUjqX7J011   WUTYn9g==") {
+        if (isLogin?.data?.data?.userToken === "56Ek4feL/1A8mZgIKQWEqg==" || isLogin?.data?.data?.userToken === "HPW6EwQy6v8VrfnMsjz8tg==" || isLogin?.data?.data?.userToken === "bWmUjqX7J011   WUTYn9g==") {
           navigate("/home-timeline")
         } else {
           navigate("/home");

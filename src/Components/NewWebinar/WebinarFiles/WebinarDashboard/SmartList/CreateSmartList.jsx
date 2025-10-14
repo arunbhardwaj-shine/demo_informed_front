@@ -13,7 +13,7 @@ import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 
 const CreateSmartList = () => {
-  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","bWmUjqX7J011   WUTYn9g==","MXl8m36VZFYXpgFVz3Pg0g=="]
+  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","bWmUjqX7J011   WUTYn9g==","MXl8m36VZFYXpgFVz3Pg0g==","HPW6EwQy6v8VrfnMsjz8tg=="]
   const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
   const percentage = 98;
   const [uploadOrDownloadCount, setUploadOrDownloadCount] = React.useState(0);
@@ -292,7 +292,8 @@ const CreateSmartList = () => {
       "bWmUjqX7J011   WUTYn9g==": "https://webinar.docintel.app/lmn/excel/Norgine_sample.xlsx",
       "MXl8m36VZFYXpgFVz3Pg0g==": "https://webinar.docintel.app/lmn/excel/gena_sample.xlsx",
       "UbCJcnLM9fe HsRMgX8c1A==": "https://webinar.docintel.app/lmn/excel/sample_st.xlsx",
-      "56Ek4feL/1A8mZgIKQWEqg==": "https://webinar.docintel.app/lmn/excel/R_Dsample.xlsx"
+      "56Ek4feL/1A8mZgIKQWEqg==": "https://webinar.docintel.app/lmn/excel/R_Dsample.xlsx",
+      "HPW6EwQy6v8VrfnMsjz8tg==": "https://webinar.docintel.app/lmn/excel/R_Dsample.xlsx",
     };
   
     const defaultFileUrl = "https://webinar.docintel.app/lmn/excel/sample.xlsx";

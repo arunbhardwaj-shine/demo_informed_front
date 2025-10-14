@@ -36,7 +36,7 @@ const CreateSmartList = (props) => {
   const [showAlertPopup, setShowAlertPopup] = useState(false);
   const [validator] = React.useState(new SimpleReactValidator());
   const [validationError, setValidationError] = useState({});
-  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","bWmUjqX7J011   WUTYn9g==","MXl8m36VZFYXpgFVz3Pg0g=="]
+  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","bWmUjqX7J011   WUTYn9g==","MXl8m36VZFYXpgFVz3Pg0g==","HPW6EwQy6v8VrfnMsjz8tg=="]
     const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
   let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
   const [ibu, setIbu] = useState([
@@ -303,7 +303,8 @@ const CreateSmartList = (props) => {
       "bWmUjqX7J011   WUTYn9g==": "https://webinar.docintel.app/lmn/excel/Norgine_sample.xlsx",
       "MXl8m36VZFYXpgFVz3Pg0g==": "https://webinar.docintel.app/lmn/excel/gena_sample.xlsx",
       "UbCJcnLM9fe HsRMgX8c1A==": "https://webinar.docintel.app/lmn/excel/sample_st.xlsx",
-      "56Ek4feL/1A8mZgIKQWEqg==": "https://webinar.docintel.app/lmn/excel/R_Dsample.xlsx"
+      "56Ek4feL/1A8mZgIKQWEqg==": "https://webinar.docintel.app/lmn/excel/R_Dsample.xlsx",
+      "HPW6EwQy6v8VrfnMsjz8tg==": "https://webinar.docintel.app/lmn/excel/R_Dsample.xlsx",
     };
   
     const defaultFileUrl = "https://webinar.docintel.app/lmn/excel/sample.xlsx";

@@ -14,10 +14,10 @@ let loadData = 0;
 
 
 const SetLayoutNewTimeline = () => {
-  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","bWmUjqX7J011   WUTYn9g==","MXl8m36VZFYXpgFVz3Pg0g=="]
-  let videoCover = localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? "lex-video-cover.png" : "Motivate_Video_cover.png" ;
-  let bookCover = localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? "lex-book-cover.png" : "Motivate_Book_cover.png" ;
-  let articleCover = localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" ? "lex-article-cover.png" : "Motivate_Article_cover.png" ;
+  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","bWmUjqX7J011   WUTYn9g==","MXl8m36VZFYXpgFVz3Pg0g==","HPW6EwQy6v8VrfnMsjz8tg=="]
+  let videoCover = localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "HPW6EwQy6v8VrfnMsjz8tg==" ? "lex-video-cover.png" : "Motivate_Video_cover.png" ;
+  let bookCover = localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "HPW6EwQy6v8VrfnMsjz8tg==" ? "lex-book-cover.png" : "Motivate_Book_cover.png" ;
+  let articleCover = localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "HPW6EwQy6v8VrfnMsjz8tg==" ? "lex-article-cover.png" : "Motivate_Article_cover.png" ;
   const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
   let dummyData = [
     {
@@ -91,7 +91,7 @@ const SetLayoutNewTimeline = () => {
       });
     }
 
-    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "bWmUjqX7J011   WUTYn9g=="  ){
+    if (localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="|| localStorage.getItem("user_id") == "HPW6EwQy6v8VrfnMsjz8tg==" || localStorage.getItem("user_id") == "bWmUjqX7J011   WUTYn9g=="  ){
       newdata.push({
         image: `${path_image}Survey_home_icon.svg`,
         title: "Survey",

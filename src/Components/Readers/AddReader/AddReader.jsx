@@ -24,9 +24,9 @@ const ReaderLayout = () => {
   );
 };
 const ReaderAdd = () => {
-  const accountMapping={"56Ek4feL/1A8mZgIKQWEqg==":2147501188,"bWmUjqX7J011   WUTYn9g==":298217,"MXl8m36VZFYXpgFVz3Pg0g==":2147537506}
+  const accountMapping={"56Ek4feL/1A8mZgIKQWEqg==":2147501188,"bWmUjqX7J011   WUTYn9g==":298217,"MXl8m36VZFYXpgFVz3Pg0g==":2147537506,"HPW6EwQy6v8VrfnMsjz8tg==":2147634806}
 
-  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","bWmUjqX7J011   WUTYn9g==","MXl8m36VZFYXpgFVz3Pg0g=="]
+  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","bWmUjqX7J011   WUTYn9g==","MXl8m36VZFYXpgFVz3Pg0g==","HPW6EwQy6v8VrfnMsjz8tg=="]
   const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
 
   const nameRef = useRef(null);
@@ -724,18 +724,21 @@ const ReaderAdd = () => {
     const roleBasedUrls = {
         'Site User-Blinded': {
             '56Ek4feL/1A8mZgIKQWEqg==': "https://webinar.docintel.app/lmn/excel/Site_User.xlsx",
+            'HPW6EwQy6v8VrfnMsjz8tg==': "https://webinar.docintel.app/lmn/excel/Site_User.xlsx",
             'MXl8m36VZFYXpgFVz3Pg0g==': "https://webinar.docintel.app/lmn/excel/Gena_Site_User.xlsx",
             'bWmUjqX7J011   WUTYn9g==': "https://webinar.docintel.app/lmn/excel/Motivate_Site_User.xlsx",
             'default': "https://webinar.docintel.app/lmn/excel/Norgine_Site_User.xlsx"
         },
         'Investigator-Blinded': {
             '56Ek4feL/1A8mZgIKQWEqg==': "https://webinar.docintel.app/lmn/excel/Investigator.xlsx",
+            'HPW6EwQy6v8VrfnMsjz8tg==': "https://webinar.docintel.app/lmn/excel/Investigator.xlsx",
             'MXl8m36VZFYXpgFVz3Pg0g==': "https://webinar.docintel.app/lmn/excel/Gena_Investigator.xlsx",
             'bWmUjqX7J011   WUTYn9g==': "https://webinar.docintel.app/lmn/excel/Motivate_Investigator.xlsx",
             'default': "https://webinar.docintel.app/lmn/excel/Norgine_Investigator.xlsx"
         },
         'Site unblinded pharmacist': {
             '56Ek4feL/1A8mZgIKQWEqg==': "https://webinar.docintel.app/lmn/excel/Pharmacist.xlsx",
+            'HPW6EwQy6v8VrfnMsjz8tg==': "https://webinar.docintel.app/lmn/excel/Pharmacist.xlsx",
             'MXl8m36VZFYXpgFVz3Pg0g==': "https://webinar.docintel.app/lmn/excel/Gena_Pharmacist.xlsx",
             'bWmUjqX7J011   WUTYn9g==': "https://webinar.docintel.app/lmn/excel/Motivate_Pharmacist.xlsx",
             'default': "https://webinar.docintel.app/lmn/excel/Norgine_Pharmacist.xlsx"

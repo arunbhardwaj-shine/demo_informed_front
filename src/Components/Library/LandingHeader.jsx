@@ -134,7 +134,7 @@ const LandingHeader = () => {
         if (res?.data?.data?.loginCounter == 0) {
           navigate("/change-password");
         } else {
-          if (res?.data?.data?.userToken === "56Ek4feL/1A8mZgIKQWEqg==" || res?.data?.data?.userToken === "bWmUjqX7J011   WUTYn9g==") {
+          if (res?.data?.data?.userToken === "56Ek4feL/1A8mZgIKQWEqg==" || res?.data?.data?.userToken === "HPW6EwQy6v8VrfnMsjz8tg==" || res?.data?.data?.userToken === "bWmUjqX7J011   WUTYn9g==") {
             navigate("/home-timeline")
           } else {
             navigate("/home");

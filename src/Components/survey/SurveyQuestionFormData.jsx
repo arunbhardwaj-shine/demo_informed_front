@@ -1994,7 +1994,7 @@ const SurveyQuestionFormDataOthers = () => {
 
 
 const SurveyQuestionFormData=()=>{
-  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g=="]
+  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","sNl1hra39QmFk9HwvXETJA==","MXl8m36VZFYXpgFVz3Pg0g==","HPW6EwQy6v8VrfnMsjz8tg=="]
   const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
 
 return (isLikeRdAccount ? <SurveyQuestionFormDataLex/> : <SurveyQuestionFormDataOthers/>)

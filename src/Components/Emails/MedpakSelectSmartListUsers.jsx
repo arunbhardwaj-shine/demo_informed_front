@@ -18,12 +18,14 @@ const MedpakSelectSmartListUsers = (props) => {
     "56Ek4feL/1A8mZgIKQWEqg==": 2147501188,
     "bWmUjqX7J011   WUTYn9g==": 298217,
     "MXl8m36VZFYXpgFVz3Pg0g==": 2147537506,
+    "HPW6EwQy6v8VrfnMsjz8tg==": 2147634806,
   };
 
   const rdLikeArray = [
     "56Ek4feL/1A8mZgIKQWEqg==",
     "bWmUjqX7J011   WUTYn9g==",
     "MXl8m36VZFYXpgFVz3Pg0g==",
+    "HPW6EwQy6v8VrfnMsjz8tg==",
   ];
   const groupId = localStorage.getItem("group_id");
 

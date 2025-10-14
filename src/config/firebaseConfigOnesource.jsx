@@ -20,7 +20,22 @@ const firebaseConfig = {
   appId: "1:318428279694:web:3510333a27cb1771c5aadf"
 }
 
+let app1 = null;
+let db = null;
+let database = null;
 
-const app1 = initializeApp(firebaseConfig,"second");
-export const db = getFirestore(app1);
-export const database = getDatabase(app1);
+try {
+  app1 = initializeApp(firebaseConfig, "second");
+  db = getFirestore(app1);
+  database = getDatabase(app1);
+} catch (error) {
+  console.error(" Firebase connection failed:", error.message);
+  db = null;
+  database = null;
+}
+
+export { db, database };
+
+// const app1 = initializeApp(firebaseConfig,"second");
+// export const db = getFirestore(app1);
+// export const database = getDatabase(app1);

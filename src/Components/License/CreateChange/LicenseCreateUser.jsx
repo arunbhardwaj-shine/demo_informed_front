@@ -25,7 +25,7 @@ import optimizeImage from "../../../Utils/optimizeImage";
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const LicenseCreateUser = () => {
   const resellerDefaultValue = localStorage.getItem('user_id') == ' kCeCVRyC5/qwI7BcPJqDQ==' || localStorage.getItem('user_id') == 'kCeCVRyC5/qwI7BcPJqDQ==' ? [2147491346] : [];
-  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","bWmUjqX7J011   WUTYn9g==","MXl8m36VZFYXpgFVz3Pg0g=="]
+  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","bWmUjqX7J011   WUTYn9g==","MXl8m36VZFYXpgFVz3Pg0g==","HPW6EwQy6v8VrfnMsjz8tg=="]
   const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
   const newdate = new Date();
   const titleFieldRef = useRef(null);

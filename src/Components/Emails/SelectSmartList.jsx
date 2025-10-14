@@ -26,7 +26,7 @@ var new_object;
 var draft_object;
 var old_object = {};
 const SelectSmartList = (props) => {
-  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","bWmUjqX7J011   WUTYn9g==","MXl8m36VZFYXpgFVz3Pg0g=="]
+  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","bWmUjqX7J011   WUTYn9g==","MXl8m36VZFYXpgFVz3Pg0g==","HPW6EwQy6v8VrfnMsjz8tg=="]
   const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
   const groupId= localStorage.getItem("group_id")
   const routeTypeSurvey = props?.type == 'survey' ? 1 : 0;
@@ -650,7 +650,7 @@ const SelectSmartList = (props) => {
                     </li>
                     <li className="active active-main">
                       <Link to={routeTypeSurvey ? "/survey/email/smart-list" : "/SelectSmartList"}>
-                        {localStorage.getItem("user_id") == userId || localStorage.getItem("user_id") == "bWmUjqX7J011   WUTYn9g=="
+                        {localStorage.getItem("user_id") == userId || localStorage.getItem("user_id") == "HPW6EwQy6v8VrfnMsjz8tg==" || localStorage.getItem("user_id") == "bWmUjqX7J011   WUTYn9g=="
                           ? "Select Users"
                           : "Select HCPs"}
                       </Link>
@@ -711,7 +711,7 @@ const SelectSmartList = (props) => {
 
                   <div className="create-smart-list">
                     <p>
-                      {localStorage.getItem("user_id") == userId || localStorage.getItem("user_id") == "bWmUjqX7J011   WUTYn9g=="
+                      {localStorage.getItem("user_id") == userId || localStorage.getItem("user_id") == "HPW6EwQy6v8VrfnMsjz8tg==" || localStorage.getItem("user_id") == "bWmUjqX7J011   WUTYn9g=="
                         ? `If you do not have a smart list for the Users group, you
                       can :`
                         : `If you do not have a smart list for the HCPs group, you

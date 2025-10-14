@@ -25,9 +25,9 @@ var old_object = {};
 var selected_Data = [];
 var searched_Data=[]
 const VerifyHCP = (props) => {
-  const accountMapping={"56Ek4feL/1A8mZgIKQWEqg==":2147501188,"bWmUjqX7J011   WUTYn9g==":298217,"MXl8m36VZFYXpgFVz3Pg0g==":2147537506}
+  const accountMapping={"56Ek4feL/1A8mZgIKQWEqg==":2147501188,"bWmUjqX7J011   WUTYn9g==":298217,"MXl8m36VZFYXpgFVz3Pg0g==":2147537506,"HPW6EwQy6v8VrfnMsjz8tg==":2147634806}
   const routeTypeSurvey = props?.type == 'survey' ? 1 : 0;
-  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","bWmUjqX7J011   WUTYn9g==","MXl8m36VZFYXpgFVz3Pg0g=="]
+  const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","bWmUjqX7J011   WUTYn9g==","MXl8m36VZFYXpgFVz3Pg0g==","HPW6EwQy6v8VrfnMsjz8tg=="]
   const surveyid = old_object?.survey_id ? old_object?.survey_id : props?.getDraftData?.campaign_data?.survey_id ? props?.getDraftData?.campaign_data?.survey_id : 0;
   const surveySubLinkId = old_object?.sublink_id ? old_object?.sublink_id : props?.getDraftData?.campaign_data?.sublink_id ? props?.getDraftData?.campaign_data?.sublink_id : 0;
   const groupId= localStorage.getItem("group_id")
@@ -713,7 +713,7 @@ const VerifyHCP = (props) => {
   };
 
   const saveClicked = async () => {
-      const  isRdAndNorgianAcount=localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg=="||localStorage.getItem("user_id") === "bWmUjqX7J011   WUTYn9g=="
+      const  isRdAndNorgianAcount=localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "HPW6EwQy6v8VrfnMsjz8tg=="||localStorage.getItem("user_id") === "bWmUjqX7J011   WUTYn9g=="
     if (activeManual == "active") {
       const body_data = hpc.map((data) => {
         if (isRdAndNorgianAcount) {
