@@ -194,6 +194,10 @@ const LiveStream = () => {
   }, [attendeesTab]);
 
   useEffect(() => {
+      if (!database) {
+          console.warn("Firebase database not initialized — skipping getLiveCount()");
+          return () => {}; // return a no-op cleanup function
+        }
     const usersRef = ref(database, "users");
     const onlineUsersQuery = query(usersRef, orderByChild("status"));
 

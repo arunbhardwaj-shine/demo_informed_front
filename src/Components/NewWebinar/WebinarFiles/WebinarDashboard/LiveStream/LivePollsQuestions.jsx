@@ -75,6 +75,13 @@ const LivePollsQuestion = ({ questionData, eventData, getQuestions,firstTimeTab 
 
   const [closedIndex, setClosedIndex] = useState();
   const getLiveCount =  () => {
+
+        // Check if Firebase Realtime Database is initialized
+    if (!database) {
+      console.warn("Firebase database not initialized — skipping getLiveCount()");
+      return () => {}; // return a no-op cleanup function
+    }
+
     const usersRef = ref(database, "users");
     const onlineUsersQuery = query(usersRef, orderByChild("status"));
 
