@@ -651,7 +651,7 @@ const EmailStats = (props) => {
                 <table>
                   <thead>
                     <tr>
-                   {isLikeRdAccount ?<th>
+                   {isLikeRdAccount || localStorage.getItem("user_id") == "HPW6EwQy6v8VrfnMsjz8tg==" ?<th>
                       Site No.
                       </th> : null}
                       <th>
@@ -742,7 +742,7 @@ const EmailStats = (props) => {
                                 <table className="table">
                                   <thead>
                                     <tr>
-                                    {isLikeRdAccount ?<th scope="col">Site No.</th> : null}
+                                    {isLikeRdAccount || localStorage.getItem("user_id") == "HPW6EwQy6v8VrfnMsjz8tg==" ?<th scope="col">Site No.</th> : null}
                                       <th scope="col">Campaign ID</th>
                                       <th scope="col">
                                         Date{" "}

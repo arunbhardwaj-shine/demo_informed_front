@@ -1030,12 +1030,12 @@ const SmartList = (props) => {
                             )}
 
                             {!deletestatus && editstatus && (
-                              <div className="edit_btn">
+                              <div className="dlt_btn edit_btn">
                                 <button
                                   onClick={(e) => EditList(data)}
                                 >
                                   <img
-                                    src={path_image + "edit-button.svg"}
+                                    src={path_image + "edit-white.svg"}
                                     alt="Edit Row"
                                   />
                                 </button>
