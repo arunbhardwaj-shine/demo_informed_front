@@ -193,6 +193,33 @@ const Header = () => {
               <ul className="navbar-nav">
                 <li
                   className={
+                    window.location.pathname == "/readers-view" || window.location.pathname == "/new-readers-reviews" || window.location.pathname == "/IRT-Mandatory" ||
+                      window.location.pathname == "/readers-list" ||
+                      window.location.pathname == "/reader-add" ||
+                      window.location.pathname == "/reader-edit" ||
+                      window.location.pathname == "/smart-list-add" ||
+                      window.location.pathname == "/reader-review" ||
+                      window.location.pathname == "/timeline-detail" ||
+                      window.location.pathname == "/add-site" ||
+                      window.location.pathname == "/site-listing" ||
+                      window.location.pathname == "/edit-site" ||
+                      window.location.pathname == "/site" ||
+                      window.location.pathname == "/reader-profile" ||
+                      window.location.pathname == "/article_type_registration"
+                      ? "nav-item active active-main"
+                      : "nav-item"
+                  } onClick={handleMenuItemClick}
+                >
+                  <Link className="nav-link"
+                    to={isLikeRdAccount
+                      ? "/IRT-Mandatory" : "/readers-view"}
+       
+                  >
+                    TRIALS
+                  </Link>
+                </li>
+                <li
+                  className={
                     window.location.pathname == "/library-create-pharma" ||
                       window.location.pathname == "/library-delete" ||
                       window.location.pathname == "/library-campaign" ||
@@ -234,34 +261,17 @@ const Header = () => {
                   </Link>
                 </li>
 
-
                 <li
-                  className={
-                    window.location.pathname == "/readers-view" || window.location.pathname == "/new-readers-reviews" || window.location.pathname == "/IRT-Mandatory" ||
-                      window.location.pathname == "/readers-list" ||
-                      window.location.pathname == "/reader-add" ||
-                      window.location.pathname == "/reader-edit" ||
-                      window.location.pathname == "/smart-list-add" ||
-                      window.location.pathname == "/reader-review" ||
-                      window.location.pathname == "/timeline-detail" ||
-                      window.location.pathname == "/add-site" ||
-                      window.location.pathname == "/site-listing" ||
-                      window.location.pathname == "/edit-site" ||
-                      window.location.pathname == "/site" ||
-                      window.location.pathname == "/reader-profile" ||
-                      window.location.pathname == "/article_type_registration"
-                      ? "nav-item active active-main"
-                      : "nav-item"
-                  } onClick={handleMenuItemClick}
+                  className="nav-item"
                 >
                   <Link className="nav-link"
-                    to={isLikeRdAccount
-                      ? "/IRT-Mandatory" : "/readers-view"}
-       
+                    to="#"
                   >
-                    PROFILES
+                    TRAINING & Compliances
                   </Link>
                 </li>
+
+
                 <li
                   className={
                     window.location.pathname == "/registration-type" ||
@@ -379,13 +389,13 @@ const Header = () => {
                       <Link className="nav-link"
                         to={"/Emaillist-publisher"}
                       >
-                        EMAIL
+                        EMAILS & Notifications
                       </Link>
                     :
                       <Link className="nav-link"
-                        to={"/EmailList"}
+                        to={"/EmailStatss"}
                       >
-                        EMAIL
+                        EMAILS & Notifications
                       </Link>
                   }
                 </li>
@@ -464,7 +474,7 @@ const Header = () => {
                         : "nav-item"
                     }>
                       <Link className="nav-link" to={"/webinar/event-listing"} onClick={handleMenuItemClick}>
-                        WEBINAR
+                        WEBINARS/MEETINGS
                       </Link>
                        
                     </li>

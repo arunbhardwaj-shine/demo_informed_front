@@ -368,7 +368,7 @@ const Routing = () => {
         />
         //LoginLayout for pages after login
         <Route path="/home-new" element={<SetLayoutNew component={SetLayoutNew} />} />
-        <Route path="/home-timeline" element={<SetLayoutNewTimeline component={SetLayoutNewTimeline} />} />
+        <Route path="/home-timeline" element={<SetLayoutNew component={SetLayoutNew} />} />
         <Route path="/home" element={<SetLayout component={SetLayout} />} />
         <Route path="/users" element={<SetLayout component={SetLayout} />} />
         <Route

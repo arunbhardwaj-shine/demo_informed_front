@@ -73,7 +73,7 @@ const EmailStats = (props) => {
     };
     loader("show");
     await axios
-      .post(`distributes/get_send_campaign_list_new`, body)
+      .post(`https://webinar.docintel.app/demoapi/cron_Setup/public/api/distributes/get_send_campaign_list_new`, body)
       .then((res) => {
         if (res.data.status_code == 200) {
           // console.log(res);
@@ -267,7 +267,7 @@ const EmailStats = (props) => {
         user_id: localStorage.getItem("user_id"),
       };
       await axios
-        .post(`emailapi/get_campaign_list_filter`, body)
+        .post(`https://webinar.docintel.app/demoapi/cron_Setup/public/api/emailapi/get_campaign_list_filter`, body)
         .then((res) => {
           setFilterData(res?.data?.response?.filter ? res?.data?.response?.filter : {});
 

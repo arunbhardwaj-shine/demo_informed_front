@@ -15,6 +15,7 @@
 		"apisauce": "^3.1.0",
 		"axios": "^1.7.9",
 		"bootstrap": "^5.3.3",
+		"date-fns": "^4.1.0",
 		"dom-to-image": "^2.6.0",
 		"dom-to-image-more": "^3.5.0",
 		"dotenv": "^16.4.7",

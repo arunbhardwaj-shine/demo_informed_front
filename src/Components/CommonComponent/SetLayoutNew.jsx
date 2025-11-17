@@ -1,7 +1,25 @@
-import React, { useEffect, useState } from "react";
-import { Row } from "react-bootstrap";
+import React, { useEffect, useRef, useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import Header from "./HeaderComponent/Header";
+import { getDataRd, postData } from "../../axios/apiInstanceHelper";
+import { ENDPOINT } from "../../axios/apiConfig";
+import {
+  Accordion,
+  Button,
+  Col,
+  OverlayTrigger,
+  Row,
+  Table,
+  Tooltip,
+} from "react-bootstrap";
+import { loader } from "../../loader";
+import "../assets/css/library.scss";
+import TrialCompletionTable from "./TrialCompletionTable";
+const defaultPdfRole = {
+  3968:"Site User-Blinded",
+  3970:"Site unblinded pharmacist",
+  4521: "Investigator-Blinded"
+};
 
 
 let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -36,9 +54,249 @@ const SetLayoutNew = () => {
       subtitle: "Send and resend an email, and work with your lists",
     },
   ];
+
   const [data, setData] = useState([]);
-  const [timelineData, setTimelineData] = useState([])
-  useEffect(() => {
+  const [sortBy, setSortBy] = useState('site_number'); // Initial sort key
+  const [sortOrder, setSortOrder] = useState('desc');
+  const [indidualCompletionTableData, setIndividualCompletionTableData] = useState();
+  const [indidualCompletionTableDataBackup, setIndividualCompletionTableDataBackup] = useState();
+  const [individualCompletionShow, setIndividualCompletionShow] = useState();
+  const [trainingDropdownData, setTrainingCompletionDropdownData] = useState();
+  const [trainingCertificate, setTrainingCertificate] = useState();
+  const [isApiStatus, setIsApiStatus] = useState(false);
+  const individual_Completion = useRef(null);
+  const [isActive, setIsActive] = useState("");
+  const [trainingAccordianShow, setTrainingAccordianShow] = useState();
+  const [traingAccordianData, setTrainingAccordianData] = useState();
+  const [flag, setFlag] = useState({
+    individual_Completion: false,
+    site_Completion: false,
+    site_Engagement: false,
+    content: false,
+    top_content: false,
+  });
+
+  const getStatusColor = (code) => {
+    switch (code) {
+      case 1:
+        return "#8A4E9C";       // Color for "New"
+      case 2:
+        return "#39CABC";      // Color for "Completed"
+      case 3:
+        return "#0066BE";     // Color for "Invited"
+      case 4:
+        return "#f58289";        // Color for "Ignored"
+      case 5:
+        return "#FAC755";     // Color for "Started"
+      case 6:
+        return "#FF9534";      // Color for "Not Completed"
+      case 7:
+        return "#97B6CF";     // Color for "Blocked"
+      default:
+        return "#f58289";       // Default color
+    }
+  };
+
+  const getStatusText = (code) => {
+    switch (code) {
+      case 1:
+        return "New";
+      case 2:
+        return "Completed";
+      case 3:
+        return "Invited";
+      case 4:
+        return "Ignored";
+      case 5:
+        return "Started";
+      case 6:
+        return "Not Completed";
+      case 7:
+        return "Blocked";
+      default:
+        return "Ignored";
+    }
+  };
+
+  const [filterdata, setFilterData] = useState({
+    'training_status_code': [
+      { "id": 1, 'title': 'New' },
+      { "id": 3, 'title': 'Invited' },
+      { "id": 5, 'title': 'Started' },
+      { "id": 2, 'title': 'Completed' },
+      { "id": 6, 'title': 'Not Completed' },
+      { "id": 4, 'title': 'Ignored' },
+      { "id": 7, 'title': 'Blocked' },
+    ],
+    'user_type': ['Site User-Blinded', 'Investigator-Blinded', 'Site unblinded pharmacist'],
+    'site_number': []
+
+  });
+  let createdBy = localStorage.getItem("user_id")
+  
+
+  const handleSort = (key) => {
+    setSortBy(key);
+    setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+  };
+
+  const sortData = (data, key, order) => {
+    return data.sort((a, b) => {
+      const valueA = a[key];
+      const valueB = b[key];
+
+      // Check if the values are datetime strings in the format "YYYY-MM-DD HH:MM:SS"
+      const isDateTimeString = (val) =>
+        typeof val === 'string' && /\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}/.test(val);
+
+      // Convert datetime strings to Date objects for comparison
+      const convertToDate = (val) => new Date(val);
+
+      if (isDateTimeString(valueA) && isDateTimeString(valueB)) {
+        const dateA = convertToDate(valueA);
+        const dateB = convertToDate(valueB);
+        return order === 'asc' ? dateA - dateB : dateB - dateA;
+      }
+
+
+      // Handle different data types (numbers, strings)
+      if (typeof valueA === 'number' && typeof valueB === 'number') {
+        return order === 'asc' ? valueA - valueB : valueB - valueA;
+      } else {
+        return order === 'asc'
+          ? valueA?.localeCompare(valueB) // Handle string sorting with locale awareness
+          : valueB?.localeCompare(valueA);
+      }
+    });
+  };
+
+
+  const individualCompletion = async () => {
+    try {
+      loader("show");
+      setIsActive("");
+      setIndividualCompletionShow();
+      setSortBy('site_number');
+      setSortOrder('desc');
+      setFlag({
+        site_Completion: false,
+        site_Engagement: false,
+        content: false,
+        top_content: false,
+        individual_Completion: true,
+      });
+    
+      if (Object.keys(filterdata?.site_number)?.length == 0) {
+        let body = {
+          user_id: createdBy
+        }
+        const response = await postData("https://webinar.docintel.app/demoapi/cron_Setup/public/api/distributes/filters_list", body)
+
+        const site_number = response?.data?.response?.data?.site_number
+        setFilterData((prevData) => {
+          return {
+            ...prevData,
+            site_number: site_number
+          };
+        });
+      }
+      if (!indidualCompletionTableData) {
+        const result = await postData(ENDPOINT.INDIVIDUAL_TRAINING_COMPLETION_V2, { created_by: createdBy });
+        setIndividualCompletionTableData(result?.data?.data);
+        setIndividualCompletionTableDataBackup(result?.data?.data);
+        individual_Completion?.current?.focus();
+        loader("hide");
+      } else {
+        setTimeout(() => {
+          individual_Completion?.current?.focus();
+          loader("hide");
+        }, 500);
+      }
+    } catch (err) {
+      loader("hide");
+      console.log("-err", err);
+    }
+  };
+
+  const individualCompletionShowData = async (e, index, id, statusCode) => {
+      if (individualCompletionShow == index) {
+        setIndividualCompletionShow();
+      } else {
+        try {
+          loader("show");
+          let body = {
+            user_id: id,
+            training_status_code: statusCode,
+            created_by: createdBy
+          };
+          const result = await postData(
+            ENDPOINT.TRAINING_COMPLETION_DROPDOWN,
+            body
+          );
+  
+          setTrainingCompletionDropdownData(result?.data?.data?.data);
+          setTrainingCertificate(result?.data?.data?.certificate);
+  
+          loader("hide");
+        } catch (err) {
+          loader("hide");
+          console.log("-err", err);
+        }
+        setIndividualCompletionShow(index);
+      }
+  };
+  const individualTrainingDropdown = async (e, i, userId, pdfId, fileType) => {
+      try {
+        setIsApiStatus(false);
+        if (fileType != "video") {
+          loader("show");
+          if (trainingAccordianShow == i) {
+            setTrainingAccordianShow();
+          } else {
+            let body = {
+              user_id: userId,
+              pdf_id: pdfId,
+              file_type: fileType,
+              created_by: createdBy
+            };
+            const result = await postData(
+              ENDPOINT.TRAINING_COMPLETION_PAGE_CLICK,
+              body
+            );
+  
+            setTrainingAccordianData(result?.data?.data?.time_spend_on_pdf);
+            setTrainingAccordianShow(i);
+            setIsApiStatus(true);
+          }
+          loader("hide");
+        }
+      } catch (err) {
+        loader("hide");
+        console.log("-err", err);
+      }
+    };
+
+  function downloadCertificate(certificate_link, event) {
+    fetch(certificate_link)
+      .then((response) => response.blob())
+      .then((blob) => {
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = "certificate_.pdf";
+        link.click();
+        window.URL.revokeObjectURL(url);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+    event.stopPropagation();
+  }
+
+
+  
+  
+  useEffect( async () => {
     let newdata = [...dummyData];
     if (localStorage.getItem("group_id") == 2) {
       newdata.push({
@@ -58,9 +316,9 @@ const SetLayoutNew = () => {
         subtitle: "See Webinar Event users",
       });
     }
-
+    
     setData(newdata);
-    setTimelineData()
+    
     
   }, []);
 
@@ -182,384 +440,9 @@ const SetLayoutNew = () => {
                       <p>July. 29. 2024 <span>|</span> 3:00 PM  <sub>last update</sub></p>
                     </div>
                   </div>
-                  {timelineData?.length ?
-                    timelineData?.map((data, index) => {
-                      return (<>
-                        <div className="timeline-box">
-                          <div className="timeline-sticky">
-                            <div className="timeline-indicator">
-                              <span>&nbsp;</span>
-                            </div>
-                            <div className="timeline-date">
-                              <p>{data?.date}</p>
-                            </div>
-                          </div>
-                          {data?.IrtData?.map((item, i) => {
-
-                            return (<>
-                              {item?.heading == "Auto Email sent"
-                                ?
-                                <div className="timeline-box-inset">
-                                  <div className="timeline-indicator">
-                                    <div className="indicator-box">
-                                      <img src={path_image + "automail.svg"} alt="" />
-                                    </div>
-                                  </div>
-                                  <div className="timeline-block">
-                                    <div className="timeline-status">
-                                      <p>{item?.heading}</p>
-                                      <span>{formatTime(item?.time)} </span>
-                                    </div>
-                                    <div className="timeline-details">
-                                      <div className="details-box">
-                                        <p className="timeline-details-heading">Type</p>
-                                        <p>Open email reminder</p>
-                                      </div>
-                                      <div className="details-box">
-                                        <p className="timeline-details-heading">Title</p>
-                                        <p>{item?.pdfTitle}</p>
-                                      </div>
-                                      <div className="details-box">
-                                        <p className="timeline-details-heading">To</p>
-                                        <div className="d-flex flex-wrap timeline-activity">
-                                          <div className="timeline-activity-detail">
-                                            <p>{`${item?.first_name} ${item?.last_name}`}</p>
-                                            <p>{item?.user_type}</p>
-                                            <span>{item?.site_number}</span>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                                : item?.heading == "IRT Started Training"
-                                  ?
-                                  <div className="timeline-box-inset">
-                                    <div className="timeline-indicator">
-                                      <div className="indicator-box">
-                                        <img src={path_image + "irt-training-start.svg"} alt="" />
-                                      </div>
-                                    </div>
-                                    <div className="timeline-block">
-                                      <div className="timeline-status start">
-                                        <p>{item?.heading}</p>
-                                        <span>{formatTime(item?.time)} </span>
-                                      </div>
-                                      <div className="timeline-details">
-                                        <div className="details-box">
-                                          <p className="timeline-details-heading">What</p>
-                                          <p>IRT has started the training but is not finished yet</p>
-                                        </div>
-                                        <div className="details-box">
-                                          <p className="timeline-details-heading">Who</p>
-                                          <div className="d-flex flex-wrap timeline-activity">
-                                            <div className="timeline-activity-detail">
-                                              <p>{`${item?.first_name} ${item?.last_name}`} </p>
-                                              <p>{item?.user_type}</p>
-                                              <span>{item?.site_number}</span>
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-
-                                  </div>
-                                  : item?.heading == "Content Opened"
-                                    ?
-                                    <div className="timeline-box-inset">
-                                      <div className="timeline-indicator">
-                                        <div className="indicator-box">
-                                          <img src={path_image + "content-open.svg"} alt="" />
-                                        </div>
-                                      </div>
-                                      <div className="timeline-block">
-                                        <div className="timeline-status">
-                                          <p>{item?.heading}</p>
-                                          <span>{formatTime(item?.time)} </span>
-                                        </div>
-                                        <div className="timeline-details">
-                                          <div className="timeline-article d-flex">
-                                            <div className="timeline-article-image">
-                                              <img src={path_image + "article-open-cover.png"} alt="" />
-                                            </div>
-                                            <div className="timeline-article-detail">
-                                              <div className="timeline-title">
-                                                <p>{item?.pdfTitle}</p>
-                                              </div>
-                                              <div className="timeline-subtitle">
-                                                <p>{item?.subTitle}</p>
-                                                {item?.allow_video==1?
-                                                <div className="d-flex align-items-center include-links">
-                                                  <img src={path_image + "video-img.png"} alt="" />
-                                                  <p>Include videos </p>
-                                                </div>
-                                                :""}
-                                              </div>
-                                            </div>
-                                          </div>
-                                          <div className="details-box">
-                                            <p className="timeline-details-heading">Who</p>
-                                            <div className="d-flex flex-wrap timeline-activity">
-                                              <div className="timeline-activity-detail">
-                                                <p>{item?.site_number}</p>
-                                              </div>
-
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    : item?.heading == "New HCP Registered"
-                                      ?
-                                      <div className="timeline-box-inset">
-                                        <div className="timeline-indicator">
-                                          <div className="indicator-box">
-                                            <img src={path_image + "new-hcp.svg"} alt="" />
-                                          </div>
-                                        </div>
-                                        <div className="timeline-block">
-                                          <div className="timeline-status">
-                                            <p>{item?.heading}</p>
-                                            <span>{formatTime(item?.time)} </span>
-                                          </div>
-                                          <div className="timeline-details">
-                                            <div className="details-box">
-                                              <p className="timeline-details-heading">What</p>
-                                              <p>A new HCP register to Trials library</p>
-                                            </div>
-                                            <div className="details-box">
-                                              <p className="timeline-details-heading">Who</p>
-                                              <div className="d-flex flex-wrap timeline-activity">
-                                                <div className="timeline-activity-detail">
-                                                  <p>{`${item?.first_name} ${item?.last_name}`}</p>
-                                                  <p>{item?.user_type}</p>
-                                                  <span>{item?.site_number}</span>
-                                                </div>
-                                              </div>
-                                            </div>
-                                          </div>
-                                        </div>
-
-                                      </div>
-
-                                      : item?.heading == "IRT Completed Training"
-                                        ?
-                                        <div className="timeline-box-inset">
-                                          <div className="timeline-indicator">
-                                            <div className="indicator-box">
-                                              <img src={path_image + "irt-traning-complete.svg"} alt="" />
-                                            </div>
-                                          </div>
-                                          <div className="timeline-block">
-                                            <div className="timeline-status complete">
-                                              <p>{item?.heading}</p>
-                                              <span>{formatTime(item?.time)} </span>
-                                            </div>
-                                            <div className="timeline-details">
-                                              <div className="details-box">
-                                                <p className="timeline-details-heading">What</p>
-                                                <div className="d-flex justify-content-between">
-                                                  <p>IRT has completed the training and received the certificate</p>
-                                                  <img src={path_image + "certificate.png"} alt="" />
-                                                </div>
-                                              </div>
-                                              <div className="details-box">
-                                                <p className="timeline-details-heading">Who</p>
-                                                <div className="d-flex flex-wrap timeline-activity">
-                                                  <div className="timeline-activity-detail">
-                                                    <p>{`${item?.first_name} ${item?.last_name}`}</p>
-                                                    <p>{item?.user_type}</p>
-                                                    <span>{item?.site_number}</span>
-                                                  </div>
-
-                                                </div>
-                                              </div>
-                                            </div>
-                                          </div>
-                                        </div>
-                                        : item?.heading == "Content Shared"
-                                          ?
-                                          <div className="timeline-box-inset">
-                                            <div className="timeline-indicator">
-                                              <div className="indicator-box">
-                                                <img src={path_image + "share-materials-icon.svg"} alt="" />
-                                              </div>
-                                            </div>
-                                            <div className="timeline-block">
-                                              <div className="timeline-status">
-                                                <p>{item?.heading}</p>
-                                                <span>{formatTime(item?.time)} </span>
-                                              </div>
-                                              <div className="timeline-details">
-                                                <div className="timeline-article d-flex">
-                                                  <div className="timeline-article-image">
-                                                    <img src={path_image + "article-open-cover.png"} alt="" />
-                                                  </div>
-                                                  <div className="timeline-article-detail">
-                                                    <div className="timeline-title">
-                                                      <p>{item?.pdfTitle}</p>
-                                                    </div>
-                                                    <div className="timeline-subtitle">
-                                                      <p>{item?.subTitle}</p>
-                                                      {item?.allow_video==1?
-                                                      <div className="d-flex align-items-center include-links">
-                                                        <img src={path_image + "video-img.png"} alt="" />
-                                                        <p>Include videos </p>
-                                                      </div>
-                                                      :""}
-                                                    </div>
-                                                  </div>
-                                                </div>
-                                                <div className="details-box">
-                                                  <p className="timeline-details-heading">Who</p>
-                                                  <div className="d-flex flex-wrap timeline-activity">
-                                                    <div className="timeline-activity-detail">
-                                                      <p>{item?.site_number}</p>
-                                                    </div>
-                                                  </div>
-                                                </div>
-                                              </div>
-                                            </div>
-                                          </div>
-                                          : item?.heading == "IRT Ignored Training"
-                                            ?
-                                            <div className="timeline-box-inset">
-                                              <div className="timeline-indicator">
-                                                <div className="indicator-box">
-                                                  <img src={path_image + "irt-training-start.svg"} alt="" />
-                                                </div>
-                                              </div>
-                                              <div className="timeline-block">
-                                                <div className="timeline-status start">
-                                                  <p>{item?.heading}</p>
-                                                  <span>{formatTime(item?.time)} </span>
-                                                </div>
-                                                <div className="timeline-details">
-                                                  <div className="details-box">
-                                                    <p className="timeline-details-heading">What</p>
-                                                    <p>IRT ignored the training</p>
-                                                  </div>
-                                                  <div className="details-box">
-                                                    <p className="timeline-details-heading">Who</p>
-                                                    <div className="d-flex flex-wrap timeline-activity">
-                                                      <div className="timeline-activity-detail">
-                                                        <p>{`${item?.first_name} ${item?.last_name}`} </p>
-                                                        <p>{item?.user_type}</p>
-                                                        <span>{item?.site_number}</span>
-                                                      </div>
-                                                    </div>
-                                                  </div>
-                                                </div>
-                                              </div>
-                                            </div>
-                                            : item?.heading == "IRT Not Completed Training"
-                                              ?
-                                              <div className="timeline-box-inset">
-                                                <div className="timeline-indicator">
-                                                  <div className="indicator-box">
-                                                    <img src={path_image + "irt-training-start.svg"} alt="" />
-                                                  </div>
-                                                </div>
-                                                <div className="timeline-block">
-                                                  <div className="timeline-status start">
-                                                    <p>{item?.heading}</p>
-                                                    <span>{formatTime(item?.time)} </span>
-                                                  </div>
-                                                  <div className="timeline-details">
-                                                    <div className="details-box">
-                                                      <p className="timeline-details-heading">What</p>
-                                                      <p>IRT started the training and didn't complete it even after all the email reminders</p>
-                                                    </div>
-                                                    <div className="details-box">
-                                                      <p className="timeline-details-heading">Who</p>
-                                                      <div className="d-flex flex-wrap timeline-activity">
-                                                        <div className="timeline-activity-detail">
-                                                          <p>{`${item?.first_name} ${item?.last_name}`} </p>
-                                                          <p>{item?.user_type}</p>
-                                                          <span>{item?.site_number}</span>
-                                                        </div>
-                                                      </div>
-                                                    </div>
-                                                  </div>
-                                                </div>
-                                              </div>
-                                              : item?.heading == "IRT Blocked"
-                                                ?
-                                                <div className="timeline-box-inset">
-                                                  <div className="timeline-indicator">
-                                                    <div className="indicator-box">
-                                                      <img src={path_image + "irt-training-start.svg"} alt="" />
-                                                    </div>
-                                                  </div>
-                                                  <div className="timeline-block">
-                                                    <div className="timeline-status start">
-                                                      <p>{item?.heading}</p>
-                                                      <span>{formatTime(item?.time)} </span>
-                                                    </div>
-                                                    <div className="timeline-details">
-                                                      <div className="details-box">
-                                                        <p className="timeline-details-heading">What</p>
-                                                        <p>IRT have been blocked from participating in training</p>
-                                                      </div>
-                                                      <div className="details-box">
-                                                        <p className="timeline-details-heading">Who</p>
-                                                        <div className="d-flex flex-wrap timeline-activity">
-                                                          <div className="timeline-activity-detail">
-                                                            <p>{`${item?.first_name} ${item?.last_name}`} </p>
-                                                            <p>{item?.user_type}</p>
-                                                            <span>{item?.site_number}</span>
-                                                          </div>
-                                                        </div>
-                                                      </div>
-                                                    </div>
-                                                  </div>
-                                                </div>
-                                                :
-                                                item?.heading == "IRT Invited to the Training"
-                                                  ?
-                                                  <div className="timeline-box-inset">
-                                                    <div className="timeline-indicator">
-                                                      <div className="indicator-box">
-                                                        <img src={path_image + "irt-training-start.svg"} alt="" />
-                                                      </div>
-                                                    </div>
-                                                    <div className="timeline-block">
-                                                      <div className="timeline-status start">
-                                                        <p>{item?.heading}</p>
-                                                        <span>{formatTime(item?.time)} </span>
-                                                      </div>
-                                                      <div className="timeline-details">
-                                                        <div className="details-box">
-                                                          <p className="timeline-details-heading">What</p>
-                                                          <p>IRT has received the training email</p>
-                                                        </div>
-                                                        <div className="details-box">
-                                                          <p className="timeline-details-heading">Who</p>
-                                                          <div className="d-flex flex-wrap timeline-activity">
-                                                            <div className="timeline-activity-detail">
-                                                              <p>{`${item?.first_name} ${item?.last_name}`} </p>
-                                                              <p>{item?.user_type}</p>
-                                                              <span>{item?.site_number}</span>
-                                                            </div>
-                                                          </div>
-                                                        </div>
-                                                      </div>
-                                                    </div>
-                                                  </div>
-                                                  : ""
-                              }
-                            </>)
-                          })}
-                        </div>
-                      </>)
-                    })
-                    :
-                    <div className="no_found">
-                      <p>No Data Found</p>
-                    </div>
-                  }
-
-                </div>
+                  <div className="timeline-right-body">
+                    <TrialCompletionTable createdBy={createdBy} pathImage={path_image} />
+                  </div>                </div>
               </div>
             </div>
           </div>

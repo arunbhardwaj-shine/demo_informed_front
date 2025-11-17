@@ -402,7 +402,7 @@ const Sidebar = () => {
 
               <li
                 className={
-                  (location.pathname == "/EmailList" ||
+                  (location.pathname == "/EmailStatss" ||
                     location.pathname === "/EmailArticleSelect" ||
                     location.pathname === "/CreateEmail" ||
                     location.pathname === "/SelectHCP" ||
@@ -421,17 +421,17 @@ const Sidebar = () => {
                     : "side_li"
                 }
               >
-                <Link to={"/EmailList"}>
+                <Link to={"/EmailStatss"}>
                   <img src= { sidebar_image_path + "mail-icon.svg" } alt=""/>
                    {" "}
-                  <p>Email</p>
+                  <p>All Emails Sent</p>
                 </Link>
               </li>
 
               {(isLikeRdAccount) ?
                 <li
                   className={
-                    location.pathname == "/IRTRole" ||
+                    location.pathname == "/EmailList" ||
                       ((location.pathname == "/EmailList" ||
                         location.pathname == "/RD-EmailList" ||
                         location.pathname === "/EmailArticleSelect" ||
@@ -453,11 +453,11 @@ const Sidebar = () => {
                       : "side_li"
                   }
                 >
-                  <Link to={"/IRTRole"}>
+                  <Link to={"/EmailList"}>
 
                   <img src= { sidebar_image_path + "irt-role.svg" } alt=""/>
                   {" "}
-                    <p>Email IRT</p>
+                    <p>Email Training <br/>& Compliance</p>
                   </Link>
                 </li>
                 : null}
@@ -511,17 +511,17 @@ const Sidebar = () => {
               </li>
               <li
                 className={
-                  (location.pathname === "/EmailStatss" ||
+                  (location.pathname === "/EmailsDBAnalytics" ||
                     location.pathname === "/get-details") &&
                     c_id == 0
                     ? "active"
                     : "side_li"
                 }
               >
-                <Link to={"/EmailStatss"}>
+                <Link to={"#"}>
                 <img src= { sidebar_image_path + "analytics-email.svg" } alt=""/>
                 {" "}
-                  <p>Email Results</p>
+                  <p>Emails Database<br/>& Analytics</p>
                 </Link>
               </li>
              
@@ -600,7 +600,7 @@ const Sidebar = () => {
                 >
                    <img src= { sidebar_image_path + "library-content.svg" } alt=""/>
                    {" "}
-                  <p>{isLikeRdAccount ? 'Non Mandatory' : 'Content'}</p>
+                  <p>{isLikeRdAccount ? 'Contents Database' : 'Content'}</p>
                 </Link>
               </li>
 
@@ -614,7 +614,22 @@ const Sidebar = () => {
                   <Link to={"/library-mandatory"}> 
                   <img src= { sidebar_image_path + "library-mandatory.svg" } alt=""/>
                    {" "}
-                    <p>Mandatory Content</p>
+                    <p>Contents Training</p>
+                  </Link>
+                </li> : ''
+              }
+
+              {isLikeRdAccount ?
+                <li
+                  // className={
+                  //   location.pathname == "/library-mandatory" || location.pathname == "/library-mandatory-content" || (location?.state?.flag === "mandatory" ? location.pathname == "/library-edit-listing" || location.pathname == "/library-edit" || location.pathname == "/library-create-user" || location.pathname == "/preview-content" || location.pathname == "/content-detail" || location.pathname == "/library-sublink" || location.pathname == "/library-add-link" : '') ? "active" : "side_li"
+                  // }
+                  className="side_li"
+                >
+                  <Link to={""}>
+                  <img src= { sidebar_image_path + "library-mandatory.svg" } alt=""/>
+                   {" "}
+                    <p>Contents<br/>Compliances</p>
                   </Link>
                 </li> : ''
               }
@@ -751,7 +766,7 @@ const Sidebar = () => {
                   <Link to={"/library-content"}>
                   <img src= { sidebar_image_path + "license-content.svg" } alt=""/>
                   {" "} 
-                    <p>Non Mandatory</p>
+                    <p>Contents Database</p>
                   </Link>
                 </li> : ''
               }
@@ -843,7 +858,7 @@ const Sidebar = () => {
                       
                     <img src= { sidebar_image_path + "irt-mandatory.svg" } alt=""/>
                     {" "}
-                      <p>IRTs</p>
+                      <p>All Users</p>
                     </Link>
                   </li>
                 )
@@ -857,12 +872,12 @@ const Sidebar = () => {
                     : "side_li"
                 }
               >
-                <Link to={"/readers-view"}>
+                <Link to={"/IRT-Mandatory"}>
                 <img src= { sidebar_image_path + "attendees.svg" } alt=""/>
                 {" "}
                   <p>
                     {isLikeRdAccount
-                        ? "HCPs"
+                        ? "User Roles"
                         : "Profiles"
                     }</p>
                 </Link>
@@ -900,7 +915,20 @@ const Sidebar = () => {
                     <Link to={"/site-listing"}>
                     <img src= { sidebar_image_path + "site-listing.svg" } alt=""/>
                     {" "}
-                      <p>Sites</p>
+                      <p>Centers/Sites</p>
+                    </Link>
+                  </li>
+                ) : null}
+
+                {isLikeRdAccount
+                ? (
+                  <li
+                    className="side_li"
+                  >
+                    <Link to={"#"}>
+                    <img src= { sidebar_image_path + "site-listing.svg" } alt=""/>
+                    {" "}
+                      <p>Countries/Regions</p>
                     </Link>
                   </li>
                 ) : null}
@@ -2973,7 +3001,7 @@ const Sidebar = () => {
                       <div className="btn-form">
                         <a
                             href="#"
-    onClick={(e) => e.preventDefault()}
+                            onClick={(e) => e.preventDefault()}
                           className="btn btn-primary btn-filled"
                         >
                           View

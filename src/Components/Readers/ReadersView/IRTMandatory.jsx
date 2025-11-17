@@ -70,13 +70,26 @@ const IRTMandatory = ()  => {
   
     const fetchPieChartData = async () => {
       try {
-        let response = await getDataRd(`${ENDPOINT.IRT_COUNT_BY_CATEGORY}`);   
+        // let response = await getDataRd(`${ENDPOINT.IRT_COUNT_BY_CATEGORY}`);
+        let response = await getDataRd("https://onesource.informed.pro/api/demo/irt-count-by-category");
         let result = response?.data?.data;
+
         let finalRoleData = {};  
-        Object.keys(result).forEach((roleKey,index) => {
+
+        // Sort keys so "all" comes first
+        const sortedKeys = [
+          "All IRTs",
+          ...Object.keys(result).filter(k => k.toLowerCase() !== "all irts")
+        ];
+
+        console.log("Keys", sortedKeys);
+
+
+        sortedKeys.forEach((roleKey, index) => {
           const roleInfo = result[roleKey];
-          let pieChartData=[]
-          if(roleInfo?.all!=0){
+          let pieChartData = [];
+
+          if (roleInfo?.all != 0) {
             pieChartData = [
               {
                 name: "",
@@ -94,7 +107,7 @@ const IRTMandatory = ()  => {
                 innerSize: "60%",
               },
             ];
-          }else{
+          } else {
             pieChartData = [
               {
                 name: "",
@@ -102,9 +115,10 @@ const IRTMandatory = ()  => {
                 data: [
                   { 
                     name: "No user", 
-                    y:1, 
-                    color: 'rgba(151, 182, 207, 0.2)' ,
-                    isPlaceholder: true},
+                    y: 1, 
+                    color: "rgba(151, 182, 207, 0.2)",
+                    isPlaceholder: true 
+                  },
                 ],
                 size: "110%",
                 innerSize: "60%",
@@ -112,32 +126,33 @@ const IRTMandatory = ()  => {
             ];
           }
 
-          const events= updatingChartImage(index)
-  
+          const events = updatingChartImage(index);
+
           const newPieOptions = {
             ...pieOptions,
-            chart:{
+            chart: {
               ...pieOptions.chart,
-              events:events
+              events,
             },
             series: pieChartData,
           };
-  
+
           finalRoleData[roleKey] = {
             ...roleInfo,
             pieChartOptions: newPieOptions,
           };
         });
-  
-        setRoleData(finalRoleData);        
+
+        setRoleData(finalRoleData);
+
       } catch (error) {
         console.error("Error fetching pie chart data:", error);
-      }
-      finally{
-        setApiCallStatus(true)
-        loader("hide")  
+      } finally {
+        setApiCallStatus(true);
+        loader("hide");
       }
     };
+
 
     function updatingChartImage(index){
      const events= {
@@ -175,7 +190,7 @@ const IRTMandatory = ()  => {
         <Row>
           <div className="top-header sticky">
             <div className="page-title">
-              <h2>IRTs</h2>
+              <h2>Users</h2>
             </div>
           </div>
           <div className="irt_mandatory irt_create_role d-flex flex-wrap">          

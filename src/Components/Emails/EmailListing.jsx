@@ -294,7 +294,7 @@ const EmailList = (props) => {
         type: props?.type,
       };
       await axios
-        .post(`emailapi/get_campaign_list_filter`, body)
+        .post(`https://webinar.docintel.app/demoapi/cron_Setup/public/api/emailapi/get_campaign_list_filter`, body)
         .then((res) => {
           setFilterData(
             res?.data?.response?.filter ? res?.data?.response?.filter : {}
@@ -322,7 +322,7 @@ const EmailList = (props) => {
     };
     page = page == 3 ? 1 : page;
     axios
-      .post(`emailapi/getlist?page=` + page, body)
+      .post(`https://webinar.docintel.app/demoapi/cron_Setup/public/api/emailapi/getlist?page=` + page, body)
       .then((res) => {
         if (res.data.status_code == 200) {
           setSendListData(res.data.response.data.emails);

@@ -175,7 +175,7 @@ const IRTRole = ()  => {
         <Row>
           <div className="top-header sticky">
             <div className="page-title">
-              <h2>Email IRT</h2>
+              <h2>Email Training & Compliance</h2>
             </div>
           </div>
           <div className="irt_mandatory irt_create_role">          
