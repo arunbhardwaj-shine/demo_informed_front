@@ -98,7 +98,7 @@ const PopularContent = ({ mostPopularContentFn, createdBy }) => {
 
   const getMostPopularData = async () => {
     try {
-      const result = await postData(ENDPOINT.MOST_POPULAR_CONTENT,{created_by:createdBy});
+      const result = await postData("https://onesource.informed.pro/api/demo/most-popular-content",{created_by:createdBy});
       const data = result?.data?.data;
 
     

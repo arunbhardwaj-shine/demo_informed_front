@@ -91,7 +91,7 @@ const entering = (e) => {
 
   const getPieChartData = async () => {
     try {
-      const result = await getDataRd(`${ENDPOINT.IRT_COUNT_GRAPH}`);
+      const result = await getDataRd("https://onesource.informed.pro/api/demo/v2/find-irt-count");
       setPieData({
         completed: result?.data?.data?.completed,
         notcompleted: result?.data?.data?.notcompleted,

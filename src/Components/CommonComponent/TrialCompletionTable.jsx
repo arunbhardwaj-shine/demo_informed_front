@@ -57,12 +57,17 @@ const TrialCompletionTable = ({ createdBy, pathImage }) => {
       loader("hide");
       console.log("-err", err);
     }
-  }, [createdBy]);
+  }, [createdBy, indidualCompletionTableData]);
 
   // Auto-fetch training data on component mount
   useEffect(() => {
-    individualCompletion();
-  }, [individualCompletion]);
+    if (createdBy) {
+      const fetchData = async () => {
+        await individualCompletion();
+      };
+      fetchData();
+    }
+  }, [createdBy]);
 
   const individualCompletionShowData = async (e, index, id, statusCode) => {
     if (individualCompletionShow == index) {

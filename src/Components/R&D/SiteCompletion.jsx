@@ -134,7 +134,7 @@ const SiteCompletion = ({ siteCompletionfn,createdBy }) => {
 
   const initialFun = async () => {
     try {
-      const result = await getDataRd(`${ENDPOINT.SITEREGISTER}`);
+      const result = await getDataRd("https://onesource.informed.pro/api/demo/v2/site-registration");
       const data = result?.data?.data?.registered_irt;
       setTotalSiteNumber(result?.data?.total_sites);
 

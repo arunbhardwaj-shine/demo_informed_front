@@ -13,7 +13,7 @@ import {
   Tooltip,
 } from "react-bootstrap";
 import { loader } from "../../loader";
-import "../assets/css/library.scss";
+import "../assets/css/trial-completion-table.scss";
 import TrialCompletionTable from "./TrialCompletionTable";
 const defaultPdfRole = {
   3968:"Site User-Blinded",

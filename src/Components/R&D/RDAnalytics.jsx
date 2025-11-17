@@ -170,7 +170,7 @@ const RDAnalytics = () => {
         !isContentSiteAccordionOpen[pdf_id] ||
         isContentSiteAccordionOpen[pdf_id] == undefined
       ) {
-        const result = await postData(ENDPOINT.MOST_POPULAR_SITE_CONTENT, {
+        const result = await postData("https://onesource.informed.pro/api/demo/most-popular-content_site_wise", {
           pdf_id: pdf_id,
           created_by: createdBy
         });
@@ -418,7 +418,7 @@ const RDAnalytics = () => {
       if (!siteCompletionTableData) {
  
       //  const result = await getDataRd(`${ENDPOINT.SITE_REGISTRATION_LIST_V2}`);
-      const result = await postData(ENDPOINT.SITE_REGISTRATION_LIST_V2, { created_by: createdBy });
+      const result = await postData("https://onesource.informed.pro/api/demo/v2/site-registration-list", { created_by: createdBy });
          
         setSiteCompletionTableData(result?.data?.data);
 
@@ -453,7 +453,7 @@ const RDAnalytics = () => {
 
       setIsContentSiteAccordionOpen([]);
       setIsContentPageAccordionOpen([]);
-      const result = await postData(ENDPOINT.MOST_POPULAR_CONTENT_DROPDOWN, { created_by: createdBy });
+      const result = await postData("https://onesource.informed.pro/api/demo/most-popular-content-dropdown", { created_by: createdBy });
       const data = result?.data?.data;
       setMostPopularContentData(data.pdf_data);
       setTimeout(() => {
