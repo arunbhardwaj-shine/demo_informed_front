@@ -272,85 +272,7 @@ const Header = () => {
                 </li>
 
 
-                <li
-                  className={
-                    window.location.pathname == "/registration-type" ||
-                      window.location.pathname == "/octa-country-registration" ||
-                      window.location.pathname == "/top-sales" ||
-                      window.location.pathname == "/top-reseller" ||
-                      window.location.pathname == "/top-clients" ||
-                      window.location.pathname == "/sales-by-country" ||
-                      window.location.pathname == "/openings-by-country" ||
-                      window.location.pathname == "/totalhcp" ||
-                      window.location.pathname == "/country-registration" ||
-                      window.location.pathname == "/delivery-stats" ||
-                      window.location.pathname == "/trending-topics" ||
-                      window.location.pathname == "/campaign-stats" ||
-                      window.location.pathname == "/trending-content" || 
-                      window.location.pathname == "/sunshine-trending-content" ||
-                      window.location.pathname == "/octa-trending-content" ||
-                      window.location.pathname == "/content-type" ||
-                      window.location.pathname == "/octalatch-totalhcp" ||
-                      window.location.pathname == "/analytic-trending-topics" ||
-                      window.location.pathname ==
-                      "/analytic-delivery-registration" ||
-                      window.location.pathname == "/analytic-delivery-trends" ||
-                      window.location.pathname == "/analytic-trending-content" ||
-                      window.location.pathname == "/analytic-content-type" ||
-                      window.location.pathname == "/octa-country" ||
-                      window.location.pathname == "/analytics-events" ||
-                      window.location.pathname ==
-                      "/octalatch-deliveryregistration" ||
-                      window.location.pathname == "/Trial-analytics" ||
-                      window.location.pathname == "/trial-analytics" ||
-                      window.location.pathname == "/feedback" ||
-                      window.location.pathname == "/content-analytics" || window.location.pathname == "/survey/survey-data"
-                      ? "nav-item active active-main"
-                      : "nav-item"
-                  } onClick={handleMenuItemClick}
-                >
-                  <Link
-                    className="nav-link"
-                    to={
-                      localStorage.getItem("group_id") == 2
-                        ? "/content-analytics"
-                        : localStorage.getItem("user_id") ==
-                          "B7SHpAc XDXSH NXkN0rdQ==" ||
-                          localStorage.getItem("user_id") ==
-                          "UbCJcnLM9fe HsRMgX8c1A==" ||
-                          localStorage.getItem("user_id") ==
-                          "wW0geGtDPvig5gF 6KbJrg==" ||
-                          localStorage.getItem("user_id") ==
-                          "z2TunmZQf3QwCsICFTLGGQ==" ||
-
-
-
-
-
-                          
-                          (localStorage.getItem("user_id") ==
-                            "qDgwPdToP05Kgzc g2VjIQ==" || localStorage.getItem("account_type") == "USA_PHARMA")
-                          ? "/totalhcp"
-                          : localStorage.getItem("user_id") ==
-                            "iSnEsKu5gB/DRlycxB6G4g=="
-                            ? "/octalatch-totalhcp"
-                            : localStorage.getItem("user_id") ==
-                              "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "HPW6EwQy6v8VrfnMsjz8tg=="
-                              ? "/Trial-analytics"
-                              :
-                              localStorage.getItem("user_id") ==
-                                "MXl8m36VZFYXpgFVz3Pg0g=="
-                                ? "/trial-analytics"
-                                :
-                                localStorage.getItem("user_id") == "bWmUjqX7J011   WUTYn9g=="
-                                  ? "/trial-analytics"
-                                  : "/content-analytics"
-                    }
-
-                  >
-                    ANALYTICS
-                  </Link>
-                </li>
+                
                 <li
                   className={
                     window.location.pathname == "/EmailArticleSelect" ||
@@ -512,6 +434,86 @@ const Header = () => {
                   <Link className="nav-link" to={"/survey/survey-list"}>SURVEY
                   </Link>
                 </li>)}
+
+                <li
+                  className={
+                    window.location.pathname == "/registration-type" ||
+                      window.location.pathname == "/octa-country-registration" ||
+                      window.location.pathname == "/top-sales" ||
+                      window.location.pathname == "/top-reseller" ||
+                      window.location.pathname == "/top-clients" ||
+                      window.location.pathname == "/sales-by-country" ||
+                      window.location.pathname == "/openings-by-country" ||
+                      window.location.pathname == "/totalhcp" ||
+                      window.location.pathname == "/country-registration" ||
+                      window.location.pathname == "/delivery-stats" ||
+                      window.location.pathname == "/trending-topics" ||
+                      window.location.pathname == "/campaign-stats" ||
+                      window.location.pathname == "/trending-content" || 
+                      window.location.pathname == "/sunshine-trending-content" ||
+                      window.location.pathname == "/octa-trending-content" ||
+                      window.location.pathname == "/content-type" ||
+                      window.location.pathname == "/octalatch-totalhcp" ||
+                      window.location.pathname == "/analytic-trending-topics" ||
+                      window.location.pathname ==
+                      "/analytic-delivery-registration" ||
+                      window.location.pathname == "/analytic-delivery-trends" ||
+                      window.location.pathname == "/analytic-trending-content" ||
+                      window.location.pathname == "/analytic-content-type" ||
+                      window.location.pathname == "/octa-country" ||
+                      window.location.pathname == "/analytics-events" ||
+                      window.location.pathname ==
+                      "/octalatch-deliveryregistration" ||
+                      window.location.pathname == "/Trial-analytics" ||
+                      window.location.pathname == "/trial-analytics" ||
+                      window.location.pathname == "/feedback" ||
+                      window.location.pathname == "/content-analytics" || window.location.pathname == "/survey/survey-data"
+                      ? "nav-item active active-main"
+                      : "nav-item"
+                  } onClick={handleMenuItemClick}
+                >
+                  <Link
+                    className="nav-link"
+                    to={
+                      localStorage.getItem("group_id") == 2
+                        ? "/content-analytics"
+                        : localStorage.getItem("user_id") ==
+                          "B7SHpAc XDXSH NXkN0rdQ==" ||
+                          localStorage.getItem("user_id") ==
+                          "UbCJcnLM9fe HsRMgX8c1A==" ||
+                          localStorage.getItem("user_id") ==
+                          "wW0geGtDPvig5gF 6KbJrg==" ||
+                          localStorage.getItem("user_id") ==
+                          "z2TunmZQf3QwCsICFTLGGQ==" ||
+
+
+
+
+
+                          
+                          (localStorage.getItem("user_id") ==
+                            "qDgwPdToP05Kgzc g2VjIQ==" || localStorage.getItem("account_type") == "USA_PHARMA")
+                          ? "/totalhcp"
+                          : localStorage.getItem("user_id") ==
+                            "iSnEsKu5gB/DRlycxB6G4g=="
+                            ? "/octalatch-totalhcp"
+                            : localStorage.getItem("user_id") ==
+                              "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "HPW6EwQy6v8VrfnMsjz8tg=="
+                              ? "/Trial-analytics"
+                              :
+                              localStorage.getItem("user_id") ==
+                                "MXl8m36VZFYXpgFVz3Pg0g=="
+                                ? "/trial-analytics"
+                                :
+                                localStorage.getItem("user_id") == "bWmUjqX7J011   WUTYn9g=="
+                                  ? "/trial-analytics"
+                                  : "/content-analytics"
+                    }
+
+                  >
+                    ANALYTICS
+                  </Link>
+                </li>
 
               
               </ul>

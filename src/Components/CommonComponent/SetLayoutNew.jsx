@@ -50,7 +50,7 @@ const SetLayoutNew = () => {
     },
     {
       image: `${path_image}email-icon1.svg`,
-      title: "Email",
+      title: "Emails & Notifications",
       subtitle: "Send and resend an email, and work with your lists",
     },
   ];
@@ -315,7 +315,7 @@ const SetLayoutNew = () => {
       ) {
         newdata.push({
           image: `${path_image}webinar-icon.svg`,
-          title: "Webinar",
+          title: "Webinars/Meetings",
           subtitle: "See Webinar Event users",
         });
       }
@@ -440,7 +440,7 @@ const SetLayoutNew = () => {
                       <img src={path_image + "informed-circle-icon.svg"} alt="" />
                     </div>
                     <div className="timeline-date">
-                      <h3>Trial</h3>
+                      <h3>Trials</h3>
                       <p>July. 29. 2024 <span>|</span> 3:00 PM  <sub>last update</sub></p>
                     </div>
                   </div>
