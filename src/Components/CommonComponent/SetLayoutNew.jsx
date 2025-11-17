@@ -296,30 +296,34 @@ const SetLayoutNew = () => {
 
   
   
-  useEffect( async () => {
-    let newdata = [...dummyData];
-    if (localStorage.getItem("group_id") == 2) {
-      newdata.push({
-        image: `${path_image}license-icon.svg`,
-        title: "Licensed",
-        subtitle: "All your licensed content in one place",
-      });
-    }
+  useEffect(() => {
+    const loadData = async () => {
+      let newdata = [...dummyData];
 
-    if (
-      typeof localStorage.getItem("webinar_flag") !== "undefined" &&
-      localStorage.getItem("webinar_flag") == 1 || localStorage.getItem("user_id") === "IJype v19WASFcSlrfRENQ=="
-    ) {
-      newdata.push({
-        image: `${path_image}webinar-icon.svg`,
-        title: "Webinar",
-        subtitle: "See Webinar Event users",
-      });
-    }
-    
-    setData(newdata);
-    
-    
+      if (localStorage.getItem("group_id") == 2) {
+        newdata.push({
+          image: `${path_image}license-icon.svg`,
+          title: "Licensed",
+          subtitle: "All your licensed content in one place",
+        });
+      }
+
+      if (
+        (typeof localStorage.getItem("webinar_flag") !== "undefined" &&
+          localStorage.getItem("webinar_flag") == 1) ||
+        localStorage.getItem("user_id") === "IJype v19WASFcSlrfRENQ=="
+      ) {
+        newdata.push({
+          image: `${path_image}webinar-icon.svg`,
+          title: "Webinar",
+          subtitle: "See Webinar Event users",
+        });
+      }
+
+      setData(newdata);
+    };
+
+    loadData();
   }, []);
 
   const navigate = useNavigate();
