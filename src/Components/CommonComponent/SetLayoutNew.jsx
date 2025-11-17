@@ -29,30 +29,36 @@ const SetLayoutNew = () => {
   const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
   let dummyData = [
     {
+      image: `${path_image}crm-icon.svg`,
+      title: "Trials",
+      subtitle: "See who read what, their RTR-activity and their habits",
+      link: "/IRT-Mandatory"
+    },
+    {
       image: `${path_image}library-icon.svg`,
       title: "Library",
       subtitle: "Create and edit content, see all of your content here",
-    },
-    {
-      image: `${path_image}crm-icon.svg`,
-      title: "CRMs",
-      subtitle: "See who read what, their RTR-activity and their habits",
-    },
-    {
-      image: `${path_image}srm-icon.svg`,
-      title: "SRM",
-      subtitle: "...............................",
-    },
-    {
-      image: `${path_image}analytics-icon.svg`,
-      title: "Analytics",
-      subtitle: "Check the engagement rates, dig into readers and content",
+      link: "/library-content"
     },
     {
       image: `${path_image}email-icon1.svg`,
       title: "Emails & Notifications",
       subtitle: "Send and resend an email, and work with your lists",
+      link: "/EmailStatss"
     },
+    
+    {
+      image: `${path_image}survey-icon.svg`,
+      title: "Survey",
+      subtitle: "Make surveys to hear what they think",
+      link: "/survey/survey-list"
+    },
+    {
+      image: `${path_image}analytics-icon.svg`,
+      title: "Analytics",
+      subtitle: "Check the engagement rates, dig into readers and content",
+      link: "/Trial-analytics"
+    }
   ];
 
   const [data, setData] = useState([]);
@@ -314,6 +320,7 @@ const SetLayoutNew = () => {
         localStorage.getItem("user_id") === "IJype v19WASFcSlrfRENQ=="
       ) {
         newdata.push({
+          link: "/webinar/event-listing",
           image: `${path_image}webinar-icon.svg`,
           title: "Webinars/Meetings",
           subtitle: "See Webinar Event users",
@@ -330,53 +337,9 @@ const SetLayoutNew = () => {
   let [active, setActive] = useState();
   const handleChange = (title) => {
     setActive(title);
-    if (title == "Library") {
-      navigate("/library-content");
-    } else if (title == "CRM") {
-      (isLikeRdAccount)
-        ? navigate("/new-readers-reviews")
-        :
-        navigate("/readers-view");
-      
-    } else if (title == "Analytics") {
-      localStorage.getItem("group_id") == 2
-        ? navigate("/content-analytics")
-        : localStorage.getItem("user_id") == "B7SHpAc XDXSH NXkN0rdQ=="
-          ? navigate("/totalhcp")
-          : localStorage.getItem("user_id") == "iSnEsKu5gB/DRlycxB6G4g=="
-            ? navigate("/octalatch-totalhcp")
-            : (isLikeRdAccount)
-              ? navigate("/Trial-analytics")
-              : localStorage.getItem("user_id") == "wW0geGtDPvig5gF 6KbJrg=="
-                ? navigate("/totalhcp")
-                : localStorage.getItem("user_id") == "UbCJcnLM9fe HsRMgX8c1A=="
-                  ? navigate("/totalhcp")
-                  : localStorage.getItem("user_id") == "z2TunmZQf3QwCsICFTLGGQ=="
-                    ? navigate("/totalhcp")
-                    : localStorage.getItem("user_id") == "qDgwPdToP05Kgzc g2VjIQ=="
-                      ? navigate("/totalhcp")
-                      : navigate("/content-analytics");
-    } else if (title == "Email") {
-   
-      navigate("/EmailList");
-    } else if (title == "Webinar") {
-      if (
-        typeof localStorage.getItem("webinar_flag") !== "undefined" &&
-        localStorage.getItem("webinar_flag") == 1
-        ||
-        localStorage.getItem("user_id") === "IJype v19WASFcSlrfRENQ=="
-      ) {
-        navigate("/webinar/event-listing")
-        
-      }
-    } else if (title == "Licensed") {
-     
-      
-      navigate("/license-content");
-    } else if (title == "Q&A/SURVEY") {
-      if (isLikeRdAccount) {
-        //Remove code because it takes to old server
-      }
+    const block = dummyData.find(item => item.title === title);
+    if (block && block.link) {
+      navigate(block.link);
     }
   };
 
