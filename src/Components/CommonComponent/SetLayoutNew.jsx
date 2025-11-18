@@ -152,6 +152,8 @@ const SetLayoutNew = () => {
   let createdBy = localStorage.getItem("user_id")
   
 
+  
+
   const handleSort = (key) => {
     setSortBy(key);
     setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
@@ -726,6 +728,7 @@ const SetLayoutNew = () => {
                       pathImage={path_image}
                       appliedFilters={appliedFilter}
                       filterdata={filterdata}
+                      setFilterData={setFilterData}
                     />
                   </div>{" "}
                 </div>

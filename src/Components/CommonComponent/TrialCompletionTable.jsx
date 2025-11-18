@@ -15,6 +15,7 @@ const TrialCompletionTable = ({
   pathImage,
   appliedFilters,
   filterdata,
+  setFilterData
 }) => {
   const [indidualCompletionTableData, setIndividualCompletionTableData] =
     useState();
@@ -48,6 +49,23 @@ const TrialCompletionTable = ({
       setSortBy("site_number");
       setSortOrder("desc");
 
+      if (Object.keys(filterdata?.site_number)?.length == 0) {
+        let body = {
+          user_id: createdBy,
+        };
+        const response = await postData(
+          "https://webinar.docintel.app/demoapi/cron_Setup/public/api/distributes/filters_list",
+          body
+        );
+
+        const site_number = response?.data?.response?.data?.site_number;
+        setFilterData((prevData) => {
+          return {
+            ...prevData,
+            site_number: site_number,
+          };
+        });
+      }
       if (!indidualCompletionTableData) {
         const result = await postData(
           "https://onesource.informed.pro/api/demo/v2/training-completion",
