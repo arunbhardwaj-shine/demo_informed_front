@@ -56,7 +56,23 @@ table {
     .latest-home .timeline-layout .timeline-layout-inset{
         padding: 0;
     }
+    .accordion .accordion-item .accordion-header .d-flex{
+      width: 100%;
+    }
 
+    .accordion-header .content-image img{
+      border-radius: 4px;
+      filter: drop-shadow(0 1px 6px rgba(0, 102, 190, .24));
+      width: 50px;
+      margin-right: 20px;
+    }
+    .accordion-button::after{
+        display: none;
+    }
+    .content-detail .page-count .completed-date.certificate-download {
+        align-items: flex-end;
+        flex-direction: column;
+    }
     tbody {
       border: 0;
 
@@ -283,6 +299,112 @@ table {
       .fold-content {
         margin: 10px 0 0;
 
+        &.contents {
+          .accordion-item {
+            .accordion-header {
+              button {
+                padding: 0;
+              }
+            }
+          }
+        }
+
+        .content-detail {
+          width: 100%;
+          padding-right: 10px;
+
+          h6 {
+            font-weight: 500;
+            font-size: 16px;
+            line-height: 19px;
+            color: $dark-blue;
+            margin: 0 0 2px;
+          }
+
+          p {
+            font-weight: 400;
+            font-size: 15px;
+            line-height: 18px;
+            color: $primary-color;
+            margin: 0 0 15px;
+          }
+
+          .page-count {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            line-height: 14px;
+            color: rgba(0, 74, 137, 0.55);
+
+            .time {
+              span {
+                margin-left: 4px;
+              }
+            }
+
+            span {
+              font-weight: 500;
+              color: $dark-blue;
+              font-size: 12px;
+            }
+
+            .completed-date {
+              display: flex;
+              align-items: center;
+
+              &.certificate-download {
+                flex-direction: column;
+                align-items: flex-end;
+
+                button {
+                  filter: drop-shadow(0px 1px 6px rgba(0, 102, 190, 0.2));
+                  border-radius: 30px;
+                  background-color: $white;
+                  border: 0;
+                  min-width: 40px;
+                  padding: 10px;
+                  font-size: 14px;
+                  line-height: 16px;
+                  text-transform: capitalize;
+                  color: $light-gray;
+                  font-weight: 400;
+                  margin: 0 0 7px;
+
+                  &:hover {
+                    background: $primary-color;
+                    color: $white;
+
+                    svg {
+                      path {
+                        fill: $white;
+                      }
+                    }
+                  }
+                }
+              }
+
+              .certificate-issue {
+                display: flex;
+              }
+
+              span {
+                margin: 0 0px 0 9px;
+                color: $dark-blue;
+
+                &.complete {
+                  color: $secondary-green;
+                  display: flex;
+                  align-items: center;
+                }
+
+                img {
+                  margin-left: 3px;
+                }
+              }
+            }
+          }
+        }
+
         p {
           font-weight: 500;
           font-size: 16px;
@@ -304,5 +426,37 @@ table {
         }
       }
     }
+  }
+
+  .engagement-sec {
+    border-radius: 9px;
+    background: $white;
+    box-shadow: 0px 0px 6px 0px rgba(0, 102, 190, 0.24);
+    padding: 4px;
+    margin: 12px 0;
+    display: block;
+  }
+
+  .engagement-sec .pages-viewer {
+    display: flex;
+    align-items: center;
+    font-size: 24px;
+    color: $yellow;
+    min-height: 70px;
+    padding-right: 12px;
+    min-width: 100px;
+  }
+
+  .engagement-sec .pages-viewer img {
+    margin-left: 8px;
+    width: 24px;
+  }
+
+  .site_complete table.table thead th:first-child {
+    width: 612px;
+  }
+
+  .site_complete table.table thead th:nth-child(2) {
+    width: 220px;
   }
 }

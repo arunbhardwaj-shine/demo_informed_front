@@ -257,6 +257,7 @@ import AlandActivity from "./Components/AlandActivity/AlandActivity";
 import CreateSunshineEmail from "./Components/Emails/CreateSunshineEmail";
 import VerifySunshineMAIL from "./Components/Emails/VerifySunshineMAIL";
 import ReaderProfile from "./Components/Readers/ReadersView/ReaderProfile";
+import TrainingCompliances from "./Components/CommonComponent/TrainingCompliances";
 
 let platform = 0;
 let show = 0;
@@ -371,6 +372,10 @@ const Routing = () => {
         <Route path="/home-timeline" element={<SetLayoutNew component={SetLayoutNew} />} />
         <Route path="/home" element={<SetLayout component={SetLayout} />} />
         <Route path="/users" element={<SetLayout component={SetLayout} />} />
+        <Route
+          path="/training-compliances"
+          element={<LoginLayout component={TrainingCompliances} />}
+        />
         <Route
           path="/library-content"
           element={<LoginLayout component={LibraryContent} />}

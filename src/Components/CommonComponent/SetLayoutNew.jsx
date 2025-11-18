@@ -29,30 +29,36 @@ const SetLayoutNew = () => {
   const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
   let dummyData = [
     {
+      image: `${path_image}crm-icon.svg`,
+      title: "Trials",
+      subtitle: "See who read what, their RTR-activity and their habits",
+      link: "/IRT-Mandatory"
+    },
+    {
       image: `${path_image}library-icon.svg`,
       title: "Library",
       subtitle: "Create and edit content, see all of your content here",
+      link: "/library-content"
     },
     {
-      image: `${path_image}crm-icon.svg`,
-      title: "CRMs",
-      subtitle: "See who read what, their RTR-activity and their habits",
+      image: `${path_image}email-icon1.svg`,
+      title: "Emails & Notifications",
+      subtitle: "Send and resend an email, and work with your lists",
+      link: "/EmailStatss"
     },
+    
     {
-      image: `${path_image}srm-icon.svg`,
-      title: "SRM",
-      subtitle: "...............................",
+      image: `${path_image}survey-icon.svg`,
+      title: "Survey",
+      subtitle: "Make surveys to hear what they think",
+      link: "/survey/survey-list"
     },
     {
       image: `${path_image}analytics-icon.svg`,
       title: "Analytics",
       subtitle: "Check the engagement rates, dig into readers and content",
-    },
-    {
-      image: `${path_image}email-icon1.svg`,
-      title: "Email",
-      subtitle: "Send and resend an email, and work with your lists",
-    },
+      link: "/Trial-analytics"
+    }
   ];
 
     const buttonRef = useRef(null);
@@ -304,83 +310,47 @@ const SetLayoutNew = () => {
     event.stopPropagation();
   }
 
-  useEffect(() => {
-    let newdata = [...dummyData];
-    if (localStorage.getItem("group_id") == 2) {
-      newdata.push({
-        image: `${path_image}license-icon.svg`,
-        title: "Licensed",
-        subtitle: "All your licensed content in one place",
-      });
-    }
 
-    if (
-      typeof localStorage.getItem("webinar_flag") !== "undefined" &&
-      localStorage.getItem("webinar_flag") == 1 || localStorage.getItem("user_id") === "IJype v19WASFcSlrfRENQ=="
-    ) {
-      newdata.push({
-        image: `${path_image}webinar-icon.svg`,
-        title: "Webinar",
-        subtitle: "See Webinar Event users",
-      });
-    }
-    
-    setData(newdata);
-    
-    
+  
+  
+  useEffect(() => {
+    const loadData = async () => {
+      let newdata = [...dummyData];
+
+      if (localStorage.getItem("group_id") == 2) {
+        newdata.push({
+          image: `${path_image}license-icon.svg`,
+          title: "Licensed",
+          subtitle: "All your licensed content in one place",
+        });
+      }
+
+      if (
+        (typeof localStorage.getItem("webinar_flag") !== "undefined" &&
+          localStorage.getItem("webinar_flag") == 1) ||
+        localStorage.getItem("user_id") === "IJype v19WASFcSlrfRENQ=="
+      ) {
+        newdata.push({
+          link: "/webinar/event-listing",
+          image: `${path_image}webinar-icon.svg`,
+          title: "Webinars/Meetings",
+          subtitle: "See Webinar Event users",
+        });
+      }
+
+      setData(newdata);
+    };
+
+    loadData();
   }, []);
 
   const navigate = useNavigate();
   let [active, setActive] = useState();
   const handleChange = (title) => {
     setActive(title);
-    if (title == "Library") {
-      navigate("/library-content");
-    } else if (title == "CRM") {
-      (isLikeRdAccount)
-        ? navigate("/new-readers-reviews")
-        :
-        navigate("/readers-view");
-      
-    } else if (title == "Analytics") {
-      localStorage.getItem("group_id") == 2
-        ? navigate("/content-analytics")
-        : localStorage.getItem("user_id") == "B7SHpAc XDXSH NXkN0rdQ=="
-          ? navigate("/totalhcp")
-          : localStorage.getItem("user_id") == "iSnEsKu5gB/DRlycxB6G4g=="
-            ? navigate("/octalatch-totalhcp")
-            : (isLikeRdAccount)
-              ? navigate("/Trial-analytics")
-              : localStorage.getItem("user_id") == "wW0geGtDPvig5gF 6KbJrg=="
-                ? navigate("/totalhcp")
-                : localStorage.getItem("user_id") == "UbCJcnLM9fe HsRMgX8c1A=="
-                  ? navigate("/totalhcp")
-                  : localStorage.getItem("user_id") == "z2TunmZQf3QwCsICFTLGGQ=="
-                    ? navigate("/totalhcp")
-                    : localStorage.getItem("user_id") == "qDgwPdToP05Kgzc g2VjIQ=="
-                      ? navigate("/totalhcp")
-                      : navigate("/content-analytics");
-    } else if (title == "Email") {
-   
-      navigate("/EmailList");
-    } else if (title == "Webinar") {
-      if (
-        typeof localStorage.getItem("webinar_flag") !== "undefined" &&
-        localStorage.getItem("webinar_flag") == 1
-        ||
-        localStorage.getItem("user_id") === "IJype v19WASFcSlrfRENQ=="
-      ) {
-        navigate("/webinar/event-listing")
-        
-      }
-    } else if (title == "Licensed") {
-     
-      
-      navigate("/license-content");
-    } else if (title == "Q&A/SURVEY") {
-      if (isLikeRdAccount) {
-        //Remove code because it takes to old server
-      }
+    const block = dummyData.find(item => item.title === title);
+    if (block && block.link) {
+      navigate(block.link);
     }
   };
 
@@ -483,198 +453,8 @@ const SetLayoutNew = () => {
                       />
                     </div>
                     <div className="timeline-date">
-                      <h3>Trial</h3>
-                      <p>
-                        July. 29. 2024 <span>|</span> 3:00 PM{" "}
-                        <sub>last update</sub>
-                      </p>
-                    </div>
-                    <div>
-                      <button
-                        ref={buttonRef}
-                        className={
-                          Object.keys(filterObject)?.length &&
-                          filterApplyflag == 1
-                            ? "btn btn-secondary dropdown filter_applied"
-                            : "btn btn-secondary dropdown"
-                        }
-                        type="button"
-                        id="dropdownMenuButton2"
-                        onClick={() =>
-                          setShowFilter((showfilter) => !showfilter)
-                        }
-                      >
-                        Filter By
-                        {showfilter ? (
-                          <svg
-                            className="close-arrow"
-                            width="13"
-                            height="12"
-                            viewBox="0 0 13 12"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <rect
-                              width="2.09896"
-                              height="15.1911"
-                              rx="1.04948"
-                              transform="matrix(0.720074 0.693897 -0.720074 0.693897 11.0977 0)"
-                              fill="#0066BE"
-                            />
-                            <rect
-                              width="2.09896"
-                              height="15.1911"
-                              rx="1.04948"
-                              transform="matrix(0.720074 -0.693897 0.720074 0.693897 0 1.45898)"
-                              fill="#0066BE"
-                            />
-                          </svg>
-                        ) : (
-                          <svg
-                            className="filter-arrow"
-                            width="16"
-                            height="14"
-                            viewBox="0 0 16 14"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              d="M0.615385 2.46154H3.07692C3.07692 3.14031 3.62892 3.69231 4.30769 3.69231H5.53846C6.21723 3.69231 6.76923 3.14031 6.76923 2.46154H15.3846C15.7243 2.46154 16 2.18646 16 1.84615C16 1.50585 15.7243 1.23077 15.3846 1.23077H6.76923C6.76923 0.552 6.21723 0 5.53846 0H4.30769C3.62892 0 3.07692 0.552 3.07692 1.23077H0.615385C0.275692 1.23077 0 1.50585 0 1.84615C0 2.18646 0.275692 2.46154 0.615385 2.46154Z"
-                              fill="#97B6CF"
-                            ></path>
-                            <path
-                              d="M15.3846 6.15362H11.6923C11.6923 5.47485 11.1403 4.92285 10.4615 4.92285H9.23077C8.552 4.92285 8 5.47485 8 6.15362H0.615385C0.275692 6.15362 0 6.4287 0 6.76901C0 7.10931 0.275692 7.38439 0.615385 7.38439H8C8 8.06316 8.552 8.61516 9.23077 8.61516H10.4615C11.1403 8.61516 11.6923 8.06316 11.6923 7.38439H15.3846C15.7243 7.38439 16 7.10931 16 6.76901C16 6.4287 15.7243 6.15362 15.3846 6.15362Z"
-                              fill="#97B6CF"
-                            ></path>
-                            <path
-                              d="M15.3846 11.077H6.76923C6.76923 10.3982 6.21723 9.84619 5.53846 9.84619H4.30769C3.62892 9.84619 3.07692 10.3982 3.07692 11.077H0.615385C0.275692 11.077 0 11.352 0 11.6923C0 12.0327 0.275692 12.3077 0.615385 12.3077H3.07692C3.07692 12.9865 3.62892 13.5385 4.30769 13.5385H5.53846C6.21723 13.5385 6.76923 12.9865 6.76923 12.3077H15.3846C15.7243 12.3077 16 12.0327 16 11.6923C16 11.352 15.7243 11.077 15.3846 11.077Z"
-                              fill="#97B6CF"
-                            ></path>
-                          </svg>
-                        )}
-                      </button>
-
-                      {showfilter && (
-                        <div
-                          ref={filterRef}
-                          className="dropdown-menu filter-options"
-                          aria-labelledby="dropdownMenuButton2"
-                        >
-                          <h4>Filter By</h4>
-
-                          <Accordion defaultActiveKey="0" flush>
-                            {Object.keys(filterdata)?.map(function (
-                              key,
-                              index
-                            ) {
-                              return (
-                                <>
-                                  {filterdata[key]?.length > 0 ? (
-                                    <Accordion.Item
-                                      className={
-                                        key == "role" ? "card upper" : "card"
-                                      }
-                                      eventKey={index}
-                                    >
-                                      <Accordion.Header className="card-header">
-                                        {key == "training_status_code"
-                                          ? "Status"
-                                          : key == "user_type"
-                                          ? "Role"
-                                          : key == "site_number"
-                                          ? "Site"
-                                          : key}
-                                      </Accordion.Header>
-
-                                      <Accordion.Body className="card-body">
-                                        <ul>
-                                          {filterdata[key]?.length
-                                            ? filterdata[key]?.map(
-                                                (item, index) => (
-                                                  <li key={index}>
-                                                    {item != "" ? (
-                                                      <label className="select-multiple-option">
-                                                        <input
-                                                          type="checkbox"
-                                                          id={`custom-checkbox-${item}-${index}`}
-                                                          value={
-                                                            typeof item ==
-                                                            "object"
-                                                              ? item?.title
-                                                              : item
-                                                          }
-                                                          name={key}
-                                                          checked={
-                                                            typeof item ==
-                                                            "object"
-                                                              ? selectedFilter[
-                                                                  key
-                                                                ]?.includes(
-                                                                  item.id
-                                                                )
-                                                                ? true
-                                                                : false
-                                                              : selectedFilter[
-                                                                  key
-                                                                ]?.includes(
-                                                                  item
-                                                                )
-                                                              ? true
-                                                              : false
-                                                          }
-                                                          onChange={(e) =>
-                                                            handleOnFilterChange(
-                                                              e,
-                                                              typeof item ==
-                                                                "object"
-                                                                ? item.id
-                                                                : item,
-                                                              index,
-                                                              key,
-                                                              [
-                                                                ...filterdata[
-                                                                  key
-                                                                ],
-                                                              ]
-                                                            )
-                                                          }
-                                                        />
-                                                        {typeof item == "object"
-                                                          ? item?.title
-                                                          : item}
-
-                                                        <span className="checkmark"></span>
-                                                      </label>
-                                                    ) : null}
-                                                  </li>
-                                                )
-                                              )
-                                            : null}
-                                        </ul>
-                                      </Accordion.Body>
-                                    </Accordion.Item>
-                                  ) : null}
-                                </>
-                              );
-                            })}
-                          </Accordion>
-
-                          <div className="filter-footer">
-                            <Button
-                              className="btn btn-primary btn-bordered"
-                              onClick={clearFilter}
-                            >
-                              Clear
-                            </Button>
-                            <Button
-                              className="btn btn-primary btn-filled"
-                              onClick={applyFilter}
-                            >
-                              Apply
-                            </Button>
-                          </div>
-                        </div>
-                      )}
+                      <h3>Trials</h3>
+                      <p>July. 29. 2024 <span>|</span> 3:00 PM  <sub>last update</sub></p>
                     </div>
                   </div>
                   {showFilterBox && (

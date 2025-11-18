@@ -542,6 +542,28 @@ const Sidebar = () => {
                 </li>
               ) : null}
             </ul>
+          ) : window.location.pathname == "/training-compliances" ? (
+            <ul>
+              <li
+                className={
+                  location.pathname === "/training-compliances" ? "active" : "side_li"
+                }
+              >
+                <Link to={"/training-compliances"}>
+                  <img src={sidebar_image_path + "library-mandatory.svg"} alt="" />
+                  {" "}
+                  <p>Training &<br/>Compliances</p>
+                </Link>
+              </li>
+
+              <li className={"side_li"}>
+                <Link to={"#"}>
+                  <img src={sidebar_image_path + "library-create.svg"} alt="" />
+                  {" "}
+                  <p>Option 2</p>
+                </Link>
+              </li>
+            </ul>
           ) : window.location.pathname == "/library-content" || window.location.pathname == "/library-mandatory" || window.location.pathname == "/library-mandatory-content" ||
             location.pathname == "/create-docintel-link" ||
             window.location.pathname == "/library-edit" ||
