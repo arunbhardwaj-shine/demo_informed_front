@@ -48,7 +48,7 @@ const SetLayoutNew = () => {
     },
 
     {
-      image: `${path_image}survey-icon.svg`,
+      image: `${path_image}Survey_home_icon.svg`,
       title: "Survey",
       subtitle: "Make surveys to hear what they think",
       link: "/survey/survey-list"
@@ -92,6 +92,8 @@ const SetLayoutNew = () => {
   const [appliedFilter, setAppliedFilter] = useState({});
   const [selectedFilter, setSelectedFilter] = useState({});
   const [showFilterBox, setShowFilterBox] = useState(false)
+  const [trialCount, setTrialCount] = useState(0);
+  const [trialLastUpdated, setTrialLastUpdated] = useState("");
 
 
   const getStatusColor = (code) => {
@@ -332,7 +334,7 @@ const SetLayoutNew = () => {
           localStorage.getItem("webinar_flag") == 1) ||
         localStorage.getItem("user_id") === "IJype v19WASFcSlrfRENQ=="
       ) {
-        newdata.push({
+        newdata.splice(3, 0, {
           link: "/webinar/event-listing",
           image: `${path_image}webinar-icon.svg`,
           title: "Webinars/Meetings",
@@ -455,10 +457,15 @@ const SetLayoutNew = () => {
                       />
                     </div>
                     <div className="timeline-date">
-                      <h3>Trials</h3>
+                      <h3>
+                        Trials{" "}
+                        <span className="trial-count">
+                          | {trialCount}
+                        </span>
+                      </h3>
                       <p>
-                        July. 29. 2024 <span>|</span> 3:00 PM{" "}
-                        <sub>last update</sub>
+                        <span>last sync: </span>
+                        {trialLastUpdated || "NA"}{" "}
                       </p>
                     </div>
                     <div className="filter-by nav-item dropdown ms-auto">
@@ -736,6 +743,8 @@ const SetLayoutNew = () => {
                       appliedFilters={appliedFilter}
                       filterdata={filterdata}
                       setFilterData={setFilterData}
+                      onCountChange={setTrialCount}
+                      onLastUpdatedChange={setTrialLastUpdated}
                     />
                   </div>{" "}
                 </div>

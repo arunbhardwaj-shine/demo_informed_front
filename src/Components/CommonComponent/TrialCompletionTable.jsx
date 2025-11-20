@@ -15,7 +15,10 @@ const TrialCompletionTable = ({
   pathImage,
   appliedFilters,
   filterdata,
-  setFilterData
+  setFilterData,
+  searchTerm = "",
+  onCountChange,
+  onLastUpdatedChange,
 }) => {
   const [indidualCompletionTableData, setIndividualCompletionTableData] =
     useState();
@@ -66,29 +69,27 @@ const TrialCompletionTable = ({
           };
         });
       }
-      if (!indidualCompletionTableData) {
-        const result = await postData(
-          "https://onesource.informed.pro/api/demo/v2/training-completion",
-          {
-            created_by: createdBy,
-          }
-        );
-        setIndividualCompletionTableData(result?.data?.data);
-        setIndividualCompletionTableDataBackup(result?.data?.data);
-        console.log(result?.data?.data)
-        individual_Completion?.current?.focus();
-        loader("hide");
-      } else {
-        setTimeout(() => {
-          individual_Completion?.current?.focus();
-          loader("hide");
-        }, 500);
+      const result = await postData(
+        "https://onesource.informed.pro/api/demo/v2/training-completion",
+        {
+          created_by: createdBy,
+        }
+      );
+      const tableData = result?.data?.data;
+      const updatedAt = result?.data?.updated;
+
+      setIndividualCompletionTableData(tableData);
+      setIndividualCompletionTableDataBackup(tableData);
+      if (typeof onLastUpdatedChange === "function") {
+        onLastUpdatedChange(updatedAt || "");
       }
+      individual_Completion?.current?.focus();
+      loader("hide");
     } catch (err) {
       loader("hide");
       console.log("-err", err);
     }
-  }, [createdBy, indidualCompletionTableData]);
+  }, [createdBy, onLastUpdatedChange]);
 
   // Auto-fetch training data on component mount
   useEffect(() => {
@@ -99,6 +100,12 @@ const TrialCompletionTable = ({
       fetchData();
     }
   }, [createdBy]);
+
+  useEffect(() => {
+    if (typeof onCountChange === "function") {
+      onCountChange(indidualCompletionTableData?.length || 0);
+    }
+  }, [indidualCompletionTableData, onCountChange]);
 
   const individualCompletionShowData = async (e, index, id, statusCode) => {
     if (individualCompletionShow == index) {
@@ -160,11 +167,17 @@ const TrialCompletionTable = ({
   };
 
   useEffect(() => {
-     applyFilters();
-  }, [appliedFilters]);
+    if (!appliedFilters && !searchTerm) return;
+    applyFilters();
+  }, [appliedFilters, searchTerm, indidualCompletionTableDataBackup]);
 
   const applyFilters = () => {
-    // setIndividualCompletionTableData([]);
+    if (!indidualCompletionTableDataBackup) {
+      setIndividualCompletionTableData([]);
+      return;
+    }
+
+    const normalizedSearch = searchTerm?.trim().toLowerCase();
     const keyArr = [];
     Object.keys(appliedFilters).forEach((key) => {
       const value = appliedFilters[key];
@@ -175,8 +188,10 @@ const TrialCompletionTable = ({
     });
 
     const hasAllNonEmptyValues = keyArr.length > 0;
+    let filteredData = indidualCompletionTableDataBackup || [];
+
     if (hasAllNonEmptyValues) {
-      const data = indidualCompletionTableDataBackup.filter((item) => {
+      filteredData = filteredData.filter((item) => {
         const matchesFilters = keyArr.every((key) => {
           if (Array.isArray(appliedFilters[key])) {
             return appliedFilters[key].some((value) => {
@@ -192,21 +207,21 @@ const TrialCompletionTable = ({
         });
 
         return matchesFilters;
-        // Check if the item matches the search term (name or email)
-        // if (flag == 1) {
-        //   return matchesFilters;
-        // } else {
-        //   const matchesSearch = (
-        //     item.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        //     item.email.toLowerCase().includes(searchTerm.toLowerCase())
-        //   );
-        //   return matchesFilters && matchesSearch;
-        // }
       });
-      setIndividualCompletionTableData(data);
-    } else {
-      setIndividualCompletionTableData(indidualCompletionTableDataBackup);
     }
+
+    if (normalizedSearch) {
+      filteredData = filteredData.filter((item) => {
+        const username = item?.username?.toLowerCase() || "";
+        const email = item?.email?.toLowerCase() || "";
+        return (
+          username.includes(normalizedSearch) ||
+          email.includes(normalizedSearch)
+        );
+      });
+    }
+
+    setIndividualCompletionTableData(filteredData);
   };
   // Helper functions
   const handleSort = (key) => {
@@ -662,6 +677,7 @@ const TrialCompletionTable = ({
                           {item?.training_status_code === 2 ? (
                             <div>
                               <img
+                                class="cert_img" 
                                 src={pathImage + "certificate.png"}
                                 alt="Certificate"
                                 style={{ cursor: "pointer" }}

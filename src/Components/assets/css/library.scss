@@ -1314,7 +1314,7 @@
   }
 
   &.home-layout {
-    flex: 0 0 43%;
+    flex: 0 0 33%;
     max-width: 100%;
     gap: 0;
     padding: 20px 32px 20px;
@@ -1722,7 +1722,7 @@
     height: 100%;
 
     .no_found {
-      min-height: 100%;
+      min-height: 60vh;
     }
 
     .accordion-loader {
@@ -2067,6 +2067,12 @@
           font-size: 24px;
           margin: -2px 0 1px;
           line-height: normal;
+
+          span{
+            font-size: 16px;
+            margin-left: 6px;
+            color: $dark-gray;
+          }
         }
 
         p {

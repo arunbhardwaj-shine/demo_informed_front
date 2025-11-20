@@ -145,47 +145,51 @@ table {
 
 
         &.infocol {
-        position: relative;
+          position: relative;
 
-        .info_img {
+          .info_img {
+              max-width: 26px;
+              cursor: pointer;
+
+              &:hover {
+                &+.extra_info {
+                    display: block;
+                    position: absolute;
+                    z-index: 1;
+                    background: $white;
+                    right: 25px;
+                    width: 270px;
+                    padding: 15px;
+                    box-shadow: 0px 1px 6px rgba(0, 102, 190, 0.2);
+                    border-radius: 6px;
+                    top: -5px;
+                }
+              }
+          }
+
+          .extra_info {
+              display: none;
+
+              p {
+              font-size: 13px;
+              line-height: 15px;
+              color: $dark-gray;
+              margin: 0 0 8px 0;
+
+              &:last-child {
+                  margin-bottom: 0;
+              }
+
+              span {
+                  font-weight: 500;
+                  margin-right: 6px;
+              }
+              }
+          }
+        }
+
+        .cert_img {
             max-width: 26px;
-            cursor: pointer;
-
-            &:hover {
-            &+.extra_info {
-                display: block;
-                position: absolute;
-                z-index: 1;
-                background: $white;
-                right: 25px;
-                width: 270px;
-                padding: 15px;
-                box-shadow: 0px 1px 6px rgba(0, 102, 190, 0.2);
-                border-radius: 6px;
-                top: -5px;
-            }
-            }
-        }
-
-        .extra_info {
-            display: none;
-
-            p {
-            font-size: 13px;
-            line-height: 15px;
-            color: $dark-gray;
-            margin: 0 0 8px 0;
-
-            &:last-child {
-                margin-bottom: 0;
-            }
-
-            span {
-                font-weight: 500;
-                margin-right: 6px;
-            }
-            }
-        }
         }
 
         &.non_display {

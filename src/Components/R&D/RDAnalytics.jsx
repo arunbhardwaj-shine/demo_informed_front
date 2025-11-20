@@ -1568,7 +1568,14 @@ const RDAnalytics = () => {
 
 
 
-                    <TrialCompletionTable createdBy={createdBy} pathImage={path_image} />
+                    <TrialCompletionTable
+                      createdBy={createdBy}
+                      pathImage={path_image}
+                      appliedFilters={appliedFilter}
+                      filterdata={filterdata}
+                      setFilterData={setFilterData}
+                      searchTerm={searchTerm}
+                    />
                   </div>
                 </div>
               ) : null}
