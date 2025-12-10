@@ -82,8 +82,7 @@ const IRTMandatory = ()  => {
     const fetchPieChartData = async () => {
       try {
         // let response = await getDataRd(`${ENDPOINT.IRT_COUNT_BY_CATEGORY}`);
-        // let response = await getDataRd("https://onesource.informed.pro/api/demo/irt-count-by-category");
-        let response = await getDataRd("http://localhost:5000/api/demo/irt-count-by-category");
+        let response = await getDataRd("https://onesource.informed.pro/api/demo/irt-count-by-category");
         
         let result = response?.data?.data;
 

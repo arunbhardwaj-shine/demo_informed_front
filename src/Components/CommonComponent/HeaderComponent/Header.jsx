@@ -5,10 +5,10 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 function useScrollDirection() {
   const [scrollDirection, setScrollDirection] = React.useState(null);
-
+ 
   React.useEffect(() => {
     let lastScrollY = window.pageYOffset;
-
+ 
     const updateScrollDirection = () => {
       const scrollY = window.pageYOffset;
       const direction = scrollY > lastScrollY ? "down" : "up";
@@ -25,10 +25,10 @@ function useScrollDirection() {
       window.removeEventListener("scroll", updateScrollDirection); // clean up
     };
   }, [scrollDirection]);
-
+ 
   return scrollDirection;
 }
-
+ 
 const Header = () => {
   const rdLikeArray = ["56Ek4feL/1A8mZgIKQWEqg==", "bWmUjqX7J011   WUTYn9g==", "MXl8m36VZFYXpgFVz3Pg0g==","HPW6EwQy6v8VrfnMsjz8tg=="]
   const isLikeRdAccount = rdLikeArray.includes(localStorage.getItem("user_id"))
@@ -37,15 +37,15 @@ const Header = () => {
   const [getUserName, setUserName] = useState("");
  
   const navigate = useNavigate();
-
+ 
   const handleMenuItemClick = () => {
     const navbarCollapse = document.getElementById('collapsibleNavbar');
     navbarCollapse.classList.toggle('show');
-
+ 
     const iconCollapse = document.getElementById('collapsibleIcon');
     iconCollapse.classList.toggle('collapsed');
   };
-
+ 
   const removed_pop = () => {
     var element = document.getElementById("resend-confirm");
     element.classList.remove("custom_model_show");
@@ -56,7 +56,7 @@ const Header = () => {
       navigate(redirect_info);
     }
   };
-
+ 
   const logout = () => {
     // localStorage.clear();
     let navigateRoute = "/";
@@ -87,13 +87,13 @@ const Header = () => {
       divElement?.classList.remove('hideheader');
     }
   }, [location?.pathname]);
-
+ 
   useEffect(() => {
     let name = localStorage.getItem("name");
     if (name && name != "") {
       setUserName(name);
     }
-    
+   
    
     const handleOutsideClick = (event) => {
       let sideBar = document.getElementById("left-sidebar");
@@ -102,15 +102,15 @@ const Header = () => {
         sideBar.classList.remove("active");
       }
     };
-
+ 
     document.addEventListener("mousedown", handleOutsideClick);
-
+ 
     return () => {
       document.removeEventListener("mousedown", handleOutsideClick);
     };
     // }  
   }, []);
-
+ 
   const clearLocalStorageExcept = () => {
     const keysToKeep = ['uname', 'pass', 'acceptedCookies'];
     for (let i = localStorage.length - 1; i >= 0; i--) {
@@ -120,7 +120,7 @@ const Header = () => {
       }
     }
   }
-
+ 
   const homeClicked = (e) => {
     e.preventDefault();
     localStorage.removeItem("switch_account_detail")
@@ -131,7 +131,7 @@ const Header = () => {
     }
   }
   let path = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
-
+ 
   return (
     <>
       <div className="loader" id="custom_loader">
@@ -143,7 +143,7 @@ const Header = () => {
         className={`sticky ${scrollDirection === "down" ? "-top-24" : "top-0"
           } h-24 bg-blue-200 transition-all duration-500`}
       >
-
+ 
         <Navbar inverse="true" collapseOnSelect className="navbar navbar-expand-sm navbar-light">
           <div className="container-fluid">
             <div className="mob-sidenav" style={{ display: "none" }}>
@@ -154,13 +154,13 @@ const Header = () => {
                     let classN = sideBar.classList.contains("active");
                     if (classN) {
                       sideBar.classList.remove("active");
-
+ 
                     }
                     else {
-
+ 
                       sideBar.classList.add("active");
                     }
-
+ 
                   }
                 }}>
                 <svg fill="#0066be" height="800px" width="800px" viewBox="0 0 32 32">
@@ -174,7 +174,7 @@ const Header = () => {
             </div>
             <Link
               className="navbar-brand"
-            
+           
               onClick={(e) => homeClicked(e)}
             >
               {
@@ -261,7 +261,7 @@ const Header = () => {
                     LIBRARY
                   </Link>
                 </li>
-
+ 
                 <li
                   className={
                     window.location.pathname == "/training-compliances"
@@ -275,7 +275,7 @@ const Header = () => {
                     TRAINING & Compliances
                   </Link>
                 </li>
-
+ 
                 <li
                   className={
                     window.location.pathname == "/EmailArticleSelect" ||
@@ -325,7 +325,7 @@ const Header = () => {
                       </Link>
                   }
                 </li>
-
+ 
                 {localStorage.getItem("group_id") == 2 ? (
                   <li
                     className={
@@ -356,12 +356,12 @@ const Header = () => {
                     </Link>
                   </li>
                 ) : null}
-
+ 
                 {typeof localStorage.getItem("webinar_flag") !== "undefined" &&
                   localStorage.getItem("webinar_flag") == 1
                   ||
                   localStorage.getItem("user_id") === "IJype v19WASFcSlrfRENQ=="
-
+ 
                   ? (
                     <li className={
                       window.location.pathname == "/webinar/live-stream/settings" ||
@@ -404,12 +404,12 @@ const Header = () => {
                       </Link>
                        
                     </li>
-
+ 
                   ) : (
                     ""
                   )}
                 {(localStorage.getItem("user_id") == "rjiGlqA9DXJVH7bDDTX0Lg==" || localStorage.getItem("user_id") == "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") == "HPW6EwQy6v8VrfnMsjz8tg==" || localStorage.getItem("user_id") == "bWmUjqX7J011   WUTYn9g==" || localStorage.getItem("user_id") == "MXl8m36VZFYXpgFVz3Pg0g==" || localStorage.getItem("user_id") == "B7SHpAc XDXSH NXkN0rdQ==" || localStorage.getItem("user_id") == "iSnEsKu5gB/DRlycxB6G4g==")
-                 && (<li className={window.location.pathname == "/survey/survey-list" || window.location.pathname == "/survey/survey-sublink" || window.location.pathname == "/survey/survey-analytics" || window.location.pathname == "/survey/survey-analytics-detail" || window.location.pathname == "/survey/survey-setup" || window.location.pathname == "/survey/survey-builder" || window.location.pathname == "/survey/survey-configure" || window.location.pathname == "/survey/form-builder" || window.location.pathname == "/survey/thank-you" || window.location.pathname == "/survey/survey-preview" || window.location.pathname == "/survey/email" || 
+                 && (<li className={window.location.pathname == "/survey/survey-list" || window.location.pathname == "/survey/survey-sublink" || window.location.pathname == "/survey/survey-analytics" || window.location.pathname == "/survey/survey-analytics-detail" || window.location.pathname == "/survey/survey-setup" || window.location.pathname == "/survey/survey-builder" || window.location.pathname == "/survey/survey-configure" || window.location.pathname == "/survey/form-builder" || window.location.pathname == "/survey/thank-you" || window.location.pathname == "/survey/survey-preview" || window.location.pathname == "/survey/email" ||
                   window.location.pathname == "/survey/email/selectsurvey" ||
                   window.location.pathname == "/survey/survey-sublink-new" ||
                   window.location.pathname == "/survey/email/create-email" ||
@@ -429,8 +429,8 @@ const Header = () => {
                   window.location.pathname == "/survey/email/verify-hcp-mail" ||
                   window.location.pathname == "/survey/email/analytics" ||
                   window.location.pathname == "/survey/email/get-details" ||
-                  window.location.pathname == "/survey/smart-list-filter" || 
-                  window.location.pathname == "/survey/EditList" || 
+                  window.location.pathname == "/survey/smart-list-filter" ||
+                  window.location.pathname == "/survey/EditList" ||
                   window.location.pathname == "/survey/TemplateBuilder"
                   ? "nav-item active active-main"
                   : "nav-item"
@@ -438,7 +438,7 @@ const Header = () => {
                   <Link className="nav-link" to={"/survey/survey-list"}>SURVEY
                   </Link>
                 </li>)}
-
+ 
                 <li
                   className={
                     window.location.pathname == "/registration-type" ||
@@ -514,18 +514,18 @@ const Header = () => {
                     ANALYTICS
                   </Link>
                 </li>
-
-              
+ 
+             
               </ul>
-            
-
+           
+ 
               <div className="user-login">
                 <Dropdown>
                   <Dropdown.Toggle id="dropdown-basic">
                     <span>Hi,</span>
                     {getUserName}
                   </Dropdown.Toggle>
-
+ 
                   <Dropdown.Menu>
                     <Dropdown.Item
                      
@@ -534,7 +534,7 @@ const Header = () => {
                     >
                       Change Password
                     </Dropdown.Item>
-                    
+                   
                     <Dropdown.Item
                       className="dropdown-item"
                       onClick={() => logout()}
@@ -560,7 +560,7 @@ const Header = () => {
         draggable
         pauseOnHover
       />
-
+ 
       <div
         className="modal send-confirm"
         id="resend-confirm"
@@ -572,14 +572,14 @@ const Header = () => {
             <div className="modal-header">
            
             </div>
-
+ 
             <div className="modal-body">
               <img id="img-replaced" src={path + "success.svg"} alt="" />
               <h4 id="message_change">
                 This email will be sent to everybody who has not opened the
                 email{" "}
               </h4>
-
+ 
               <div className="modal-buttons">
                 <button
                   type="button"
@@ -595,9 +595,9 @@ const Header = () => {
           </div>
         </div>
       </div>
-
+ 
     </>
   );
 };
-
+ 
 export default Header;
