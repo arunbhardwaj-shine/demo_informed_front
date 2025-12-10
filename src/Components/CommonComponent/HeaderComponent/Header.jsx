@@ -202,6 +202,7 @@ const Header = () => {
                       window.location.pathname == "/timeline-detail" ||
                       window.location.pathname == "/add-site" ||
                       window.location.pathname == "/site-listing" ||
+                      window.location.pathname == "/countries-regions" ||
                       window.location.pathname == "/edit-site" ||
                       window.location.pathname == "/site" ||
                       window.location.pathname == "/reader-profile" ||
@@ -293,6 +294,7 @@ const Header = () => {
                       window.location.pathname == "/AutoEmail" ||
                       window.location.pathname == "/TemplateBuilder" ||
                       window.location.pathname == "/SmartList" ||
+                        window.location.pathname == "/EmailsDBAnalytics" ||
                       window.location.pathname == "/ViewSmartList" ||
                       window.location.pathname == "/EditList" ||
                       window.location.pathname == "/EmailStatss" ||
