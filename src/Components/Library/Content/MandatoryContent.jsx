@@ -43,7 +43,7 @@ function MandatoryContent() {
           <Row>
             <div className="top-header sticky">
               <div className="page-title">
-                <h2>Contents Training</h2>
+                <h2>Training Contents</h2>
               </div>
             </div>
             <div className="library_create d-flex library-mandatory">

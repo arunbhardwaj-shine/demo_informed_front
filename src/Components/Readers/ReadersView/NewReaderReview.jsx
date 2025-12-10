@@ -204,6 +204,7 @@ const NewReadersReview = (props) => {
     try {
       loader("show");
       const res = await getData(`${ENDPOINT.READERSFILTER}?irt=${1}&role=${state?.siteRole == 'All IRTs' ? 'all' : null}`);
+      console.log(state, "state");
       setCountry(res?.data?.data?.data?.country);
       setFilterData(res?.data?.data?.data);
       setApiFilterData(res?.data?.data?.data);
@@ -1895,7 +1896,7 @@ const NewReadersReview = (props) => {
                       />
                     </svg>
                   </Link>                                 
-                  <h2>{state?.siteRole ? state?.siteRole : "All IRTs"}</h2> </div>
+                  <h2>{state?.siteRole ? state?.siteRole : "All Users"}</h2> </div>
                 </>)
                  : ""}
               

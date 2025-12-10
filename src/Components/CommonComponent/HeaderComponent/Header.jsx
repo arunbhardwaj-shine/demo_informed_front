@@ -212,7 +212,7 @@ const Header = () => {
                 >
                   <Link className="nav-link"
                     to={isLikeRdAccount
-                      ? "/IRT-Mandatory" : "/readers-view"}
+                      ? "/new-readers-reviews" : "/readers-view"}
        
                   >
                     TRIALS

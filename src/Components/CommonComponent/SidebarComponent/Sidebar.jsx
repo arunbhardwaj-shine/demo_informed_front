@@ -377,6 +377,7 @@ const Sidebar = () => {
             window.location.pathname == "/EmailList" ||
             window.location.pathname == "/RD-EmailList" ||
             window.location.pathname == "/TemplateBuilder" ||
+            window.location.pathname == "/EmailsDBAnalytics" || 
             window.location.pathname == "/AutoEmail" ||
             window.location.pathname == "/IRTRole" ||
             window.location.pathname == "/EmailArticleSelect" ||
@@ -518,7 +519,7 @@ const Sidebar = () => {
                     : "side_li"
                 }
               >
-                <Link to={"#"}>
+                <Link to={"/EmailsDBAnalytics"}>
                 <img src= { sidebar_image_path + "analytics-email.svg" } alt=""/>
                 {" "}
                   <p>Emails Database<br/>& Analytics</p>
@@ -565,6 +566,7 @@ const Sidebar = () => {
               </li>
             </ul>
           ) : window.location.pathname == "/library-content" || window.location.pathname == "/library-mandatory" || window.location.pathname == "/library-mandatory-content" ||
+            window.location.pathname == "/compliance-contents" ||
             location.pathname == "/create-docintel-link" ||
             window.location.pathname == "/library-edit" ||
             window.location.pathname == "/library-create" ||
@@ -622,7 +624,7 @@ const Sidebar = () => {
                 >
                    <img src= { sidebar_image_path + "library-content.svg" } alt=""/>
                    {" "}
-                  <p>{isLikeRdAccount ? 'Contents Database' : 'Content'}</p>
+                  <p>{isLikeRdAccount ? 'All Contents' : 'Content'}</p>
                 </Link>
               </li>
 
@@ -636,22 +638,21 @@ const Sidebar = () => {
                   <Link to={"/library-mandatory"}> 
                   <img src= { sidebar_image_path + "library-mandatory.svg" } alt=""/>
                    {" "}
-                    <p>Contents Training</p>
+                    <p>Training Contents</p>
                   </Link>
                 </li> : ''
               }
 
               {isLikeRdAccount ?
                 <li
-                  // className={
-                  //   location.pathname == "/library-mandatory" || location.pathname == "/library-mandatory-content" || (location?.state?.flag === "mandatory" ? location.pathname == "/library-edit-listing" || location.pathname == "/library-edit" || location.pathname == "/library-create-user" || location.pathname == "/preview-content" || location.pathname == "/content-detail" || location.pathname == "/library-sublink" || location.pathname == "/library-add-link" : '') ? "active" : "side_li"
-                  // }
-                  className="side_li"
+                  className={
+                    location.pathname == "/compliance-contents" ? "active" : "side_li"
+                  }
                 >
-                  <Link to={""}>
+                  <Link to={"/compliance-contents"}>
                   <img src= { sidebar_image_path + "library-mandatory.svg" } alt=""/>
                    {" "}
-                    <p>Contents<br/>Compliances</p>
+                    <p>Compliance<br/>Contents</p>
                   </Link>
                 </li> : ''
               }
@@ -788,7 +789,7 @@ const Sidebar = () => {
                   <Link to={"/library-content"}>
                   <img src= { sidebar_image_path + "license-content.svg" } alt=""/>
                   {" "} 
-                    <p>Contents Database</p>
+                    <p>All Contents</p>
                   </Link>
                 </li> : ''
               }
@@ -862,21 +863,22 @@ const Sidebar = () => {
             window.location.pathname == "/IRT-Mandatory" ||
             window.location.pathname == "/mandatory-reader-edit" ||
             window.location.pathname == "/reader-profile" ||
-            window.location.pathname == "/timeline-detail" ? (
+            window.location.pathname == "/timeline-detail" ||
+            window.location.pathname == "/countries-regions" ? (
             <ul>
 
               {isLikeRdAccount ?
                 (
                   <li
                     className={
-                      location.pathname == "/IRT-Mandatory" || location.pathname == "/new-readers-reviews" ||
+                      location.pathname == "/new-readers-reviews" ||
                         location.pathname == "/reader-add" || location.pathname == "/mandatory-reader-edit" || location.pathname == "/readers-list" ||
                         ((window.location.pathname == "/timeline-detail" || window.location.pathname == "/reader-review") && localStorage.getItem('irt_sec') == 1)
                         ? "active"
                         : "side_li"
                     }
                   >
-                    <Link to={"/IRT-Mandatory"}>
+                    <Link to={"/new-readers-reviews"}>
                       
                     <img src= { sidebar_image_path + "irt-mandatory.svg" } alt=""/>
                     {" "}
@@ -887,7 +889,7 @@ const Sidebar = () => {
                 : null}
               <li
                 className={
-                  (location.pathname == "/readers-view" || location.pathname == "/reader-profile"
+                  (location.pathname == "/IRT-Mandatory" || location.pathname == "/readers-view" || location.pathname == "/reader-profile"
                     || (location.pathname == "/reader-edit" &&isLikeRdAccount) ||
                     ((location.pathname == "/timeline-detail" || location.pathname == "/reader-review" ) && (localStorage.getItem('irt_sec') != 1 && localStorage.getItem('irt_sec') != null)))
                     ? "active"
@@ -945,9 +947,13 @@ const Sidebar = () => {
                 {isLikeRdAccount
                 ? (
                   <li
-                    className="side_li"
+                  className={
+                        location.pathname == "/countries-regions"
+                        ? "active"
+                        : "side_li"
+                    }
                   >
-                    <Link to={"#"}>
+                    <Link to={"/countries-regions"}>
                     <img src= { sidebar_image_path + "site-listing.svg" } alt=""/>
                     {" "}
                       <p>Countries/Regions</p>

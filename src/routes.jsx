@@ -388,6 +388,10 @@ const Routing = () => {
           path="/library-mandatory"
           element={<LoginLayout component={MandatoryContent} />}
         />
+        <Route
+          path="/compliance-contents"
+          element={<LoginLayout component={LibraryContent} />}
+        />
         <Route exact path="/Webinar" element={<Layout />}>
           <Route exact path="poll-question" element={<PollQuestion />} />
           <Route exact path="question-list" element={<QuestionTrigger />} />
@@ -591,6 +595,11 @@ const Routing = () => {
         <Route path="/article_preview" element={<PreviewArticle />} />
         <Route
           path="/site-listing"
+          element={<LoginLayout component={SiteListing} />}
+        />
+
+        <Route
+          path="/countries-regions"
           element={<LoginLayout component={SiteListing} />}
         />
         <Route
@@ -903,6 +912,10 @@ const Routing = () => {
         />
         <Route
           path="/EmailStatss"
+          element={<LoginLayout component={EmailStatss} />}
+        />
+        <Route
+          path="/EmailsDBAnalytics"
           element={<LoginLayout component={EmailStatss} />}
         />
         <Route

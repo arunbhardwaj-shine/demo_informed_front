@@ -32,7 +32,7 @@ const SetLayoutNew = () => {
       image: `${path_image}crm-icon.svg`,
       title: "Trials",
       subtitle: "See who read what, their RTR-activity and their habits",
-      link: "/IRT-Mandatory"
+      link: "/new-readers-reviews"
     },
     {
       image: `${path_image}library-icon.svg`,

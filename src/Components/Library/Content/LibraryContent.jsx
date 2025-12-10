@@ -1155,7 +1155,7 @@ const LibraryContent = (props) => {
 
                       </>
                     ) : (
-                      <h2>Contents Database</h2>
+                      <h2>All Contents</h2>
                     )
                   ) : (
                     ""

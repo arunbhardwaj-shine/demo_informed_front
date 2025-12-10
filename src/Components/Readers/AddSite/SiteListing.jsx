@@ -380,7 +380,7 @@ const SiteListing = () => {
                 <div className="top-sticky">
               <div className="top-header">
                 <div className="page-title">                                               
-                  <h2>Sites</h2> 
+                  <h2>Centers/Sites</h2> 
                 </div>
             
                 <div className="top-right-action irt-blinded flex-wrap">

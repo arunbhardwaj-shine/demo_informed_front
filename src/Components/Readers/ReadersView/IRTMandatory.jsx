@@ -13,12 +13,23 @@ const IRTMandatory = ()  => {
     const colors = ["#8A4E9C","#0066be",'#FAC755', "#39CABC", "#FF9534",'#F58289',"#97B6CF" ];
     const navigate = useNavigate();
     const [apiCallStatus, setApiCallStatus] = useState(false);
-    const images={
-      0:"site-user-blinded.svg", 
-      1:"investigator-blinded.svg",
-      2:"blinded-pharmacist.svg",
-      3:"IRT-doctor.svg"
+    const isLifeScienceHubAccount = localStorage.getItem("HPW6EwQy6v8VrfnMsjz8tg==") ? true : false;
+    const images = isLifeScienceHubAccount
+  ? {
+      "All Users": "all-users.svg",
+      "Investigators": "site-user-blinded.svg",
+      "Blinded Roles": "investigator-blinded.svg",
+      "Unblinded Roles": "blinded-pharmacist.svg",
+      "Radiologist": "IRT-doctor.svg",
+      "Laboratory": "lab.svg",
+      "Monitors": "monitor.svg"
     }
+  : {
+      "Site User-Blinded": "site-user-blinded.svg",
+      "Investigator-Blinded": "investigator-blinded.svg",
+      "Site unblinded pharmacist": "blinded-pharmacist.svg",
+      "All IRTs": "IRT-doctor.svg"
+    };
     const pieOptions = {
       chart: {
         type: "pie",
@@ -71,16 +82,18 @@ const IRTMandatory = ()  => {
     const fetchPieChartData = async () => {
       try {
         // let response = await getDataRd(`${ENDPOINT.IRT_COUNT_BY_CATEGORY}`);
-        let response = await getDataRd("https://onesource.informed.pro/api/demo/irt-count-by-category");
+        // let response = await getDataRd("https://onesource.informed.pro/api/demo/irt-count-by-category");
+        let response = await getDataRd("http://localhost:5000/api/demo/irt-count-by-category");
+        
         let result = response?.data?.data;
 
         let finalRoleData = {};  
 
-        // Sort keys so "all" comes first
-        const sortedKeys = [
-          "All IRTs",
-          ...Object.keys(result).filter(k => k.toLowerCase() !== "all irts")
-        ];
+
+        let sortedKeys = Object.keys(result);
+
+        // Always keep All Users first
+        sortedKeys = ["All Users", ...sortedKeys.filter(k => k !== "All Users")];
 
         console.log("Keys", sortedKeys);
 
@@ -130,6 +143,7 @@ const IRTMandatory = ()  => {
 
           const newPieOptions = {
             ...pieOptions,
+            custom: { roleKey: roleKey },
             chart: {
               ...pieOptions.chart,
               events,
@@ -157,9 +171,14 @@ const IRTMandatory = ()  => {
     function updatingChartImage(index){
      const events= {
         load() {
-          let innerSize = this.userOptions.plotOptions.pie.innerSize,
-            chart = this;
-          chart.myImage = this.renderer.image(path_image+images[index],41,36,24,24).add();
+          const roleName = this?.options?.custom?.roleKey;
+          const icon = images[roleName];
+
+          if (icon) {
+            this.myImage = this.renderer
+              .image(path_image + icon, 41, 36, 24, 24)
+              .add();
+          }
         },
         
         redraw() {
@@ -190,7 +209,7 @@ const IRTMandatory = ()  => {
         <Row>
           <div className="top-header sticky">
             <div className="page-title">
-              <h2>Users</h2>
+              <h2>User Roles</h2>
             </div>
           </div>
           <div className="irt_mandatory irt_create_role d-flex flex-wrap">          
