@@ -294,7 +294,7 @@ const Header = () => {
                       window.location.pathname == "/AutoEmail" ||
                       window.location.pathname == "/TemplateBuilder" ||
                       window.location.pathname == "/SmartList" ||
-                        window.location.pathname == "/EmailsDBAnalytics" ||
+                      window.location.pathname == "/EmailsDBAnalytics" ||
                       window.location.pathname == "/ViewSmartList" ||
                       window.location.pathname == "/EditList" ||
                       window.location.pathname == "/EmailStatss" ||
