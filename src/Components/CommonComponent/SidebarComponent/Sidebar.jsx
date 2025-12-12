@@ -566,7 +566,7 @@ const Sidebar = () => {
               </li>
             </ul>
           ) : window.location.pathname == "/library-content" || window.location.pathname == "/library-mandatory" || window.location.pathname == "/library-mandatory-content" ||
-            window.location.pathname == "/compliance-contents" ||
+            window.location.pathname == "/compliance-contents" ||  window.location.pathname == "/study-documentation" ||
             location.pathname == "/create-docintel-link" ||
             window.location.pathname == "/library-edit" ||
             window.location.pathname == "/library-create" ||
@@ -656,7 +656,19 @@ const Sidebar = () => {
                   </Link>
                 </li> : ''
               }
-
+             {isLikeRdAccount ?
+                <li
+                  className={
+                    location.pathname == "/study-documentation" ? "active" : "side_li"
+                  }
+                >
+                  <Link to={"/study-documentation"}>
+                  <img src= { sidebar_image_path + "library-mandatory.svg" } alt=""/>
+                   {" "}
+                    <p>Study<br/>Documentation</p>
+                  </Link>
+                </li> : ''
+              }
 
 
               {!isLikeRdAccount?

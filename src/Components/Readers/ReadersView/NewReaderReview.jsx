@@ -204,7 +204,6 @@ const NewReadersReview = (props) => {
     try {
       loader("show");
       const res = await getData(`${ENDPOINT.READERSFILTER}?irt=${1}&role=${state?.siteRole == 'All IRTs' ? 'all' : null}`);
-      console.log(state, "state");
       setCountry(res?.data?.data?.data?.country);
       setFilterData(res?.data?.data?.data);
       setApiFilterData(res?.data?.data?.data);
@@ -409,10 +408,10 @@ const NewReadersReview = (props) => {
           ...filterObject,
         }
       }
-
       else {
         payload = { ...data, ...filterObject };
       }
+
       const res = await postFormData(ENDPOINT.NEW_READER_DOWNLOAD, payload, {
         responseType: "blob",
       });
@@ -2333,7 +2332,7 @@ const NewReadersReview = (props) => {
                   {isLikeRdAccount ?
                     (
                       <h4>
-                        Total IRTs |{" "}
+                        Total Users |{" "}
                         <span>{totalCountFlag ? totalCount : 0}</span>
                         {/* <span>{readerDataList?.length}</span> */}
                      </h4>
