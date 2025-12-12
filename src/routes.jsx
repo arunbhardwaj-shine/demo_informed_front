@@ -602,6 +602,10 @@ const Routing = () => {
           path="/countries-regions"
           element={<LoginLayout component={SiteListing} />}
         />
+         <Route
+          path="/study-documentation"
+          element={<LoginLayout component={LibraryContent} />}
+        />
         <Route
           path="/library-edit-listing"
           element={<LoginLayout component={LibraryEditListing} />}

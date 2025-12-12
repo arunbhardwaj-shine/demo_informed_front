@@ -216,7 +216,7 @@ const Header = () => {
                       ? "/new-readers-reviews" : "/readers-view"}
        
                   >
-                    TRIALS
+                    TRIAL
                   </Link>
                 </li>
                 <li
@@ -227,6 +227,7 @@ const Header = () => {
                       window.location.pathname == "/library-content" ||
                       window.location.pathname == "/library-mandatory" ||
                       window.location.pathname == "/compliance-contents" ||
+                      window.location.pathname == "/study-documentation" ||
                       window.location.pathname == "/library-popup" ||
                       window.location.pathname == "/library-mandatory-content" ||
                       window.location.pathname == "/library-create" ||
