@@ -1314,25 +1314,25 @@
   }
 
   &.home-layout {
-    flex: 0 0 20%;
+    flex: 0 0 25%;
     max-width: 100%;
     gap: 0;
     padding: 20px 20px 20px;
     align-items: center;
     transition: 0.5s linear;
-    min-height: 90vh;
+    min-height: 92vh;
 
     .row {
-      gap: 20px 88px;
+      gap: 16px 88px;
       @include flex-center;
       justify-content: center;
     }
 
     .library_create-box {
-      flex: 0 0 70%;
-      max-width: 280px;
+      flex: 0 0 100%;
+      max-width: 340px;
       padding: 10px 22px 14px;
-      min-height: 100px;
+      min-height: 82px;
       border-radius: 12px;
 
       .create-library-img {
@@ -1356,7 +1356,7 @@
         h5 {
           font-size: 13px;
           line-height: normal;
-          min-height: 32px;
+          min-height: 13px;
         }
       }
     }
