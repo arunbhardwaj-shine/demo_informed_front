@@ -8,7 +8,7 @@ import { ENDPOINT } from "../../axios/apiConfig";
 import { postData } from "../../axios/apiInstanceHelper";
 import { loader } from "../../loader";
 
-const PopularContent = ({ mostPopularContentFn, createdBy }) => {
+const PopularContent = ({ mostPopularContentFn, createdBy, refreshTick = 0 }) => {
   
   const [mostPopularContentDataChild, setMostPopularContentDataChild] =
     useState([]);
@@ -74,7 +74,7 @@ const PopularContent = ({ mostPopularContentFn, createdBy }) => {
 
   useEffect(() => {
     getMostPopularData();
-  }, []);
+  }, [refreshTick]);
 
   const tooltip = (
     <Tooltip id="tooltip">

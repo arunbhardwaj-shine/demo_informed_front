@@ -8,7 +8,7 @@ import { ENDPOINT } from "../../axios/apiConfig";
 import { getDataRd } from "../../axios/apiInstanceHelper";
 import { loader } from "../../loader";
 
-const IndividualCompletion = ({ individualCompletionfn }) => {
+const IndividualCompletion = ({ individualCompletionfn, refreshTick = 0 }) => {
   const [pieData, setPieData] = useState({});
 
   const path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
@@ -74,7 +74,7 @@ const IndividualCompletion = ({ individualCompletionfn }) => {
 
   useEffect(() => {
     getPieChartData();
-  }, []);
+  }, [refreshTick]);
 
   const tooltip = (
     <Tooltip id="tooltip">
