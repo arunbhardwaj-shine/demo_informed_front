@@ -46,7 +46,12 @@ const SetLayoutNew = () => {
       subtitle: "Send and resend an email, and work with your lists",
       link: "/EmailStatss"
     },
-
+    {
+      image: `${path_image}email-icon1.svg`,
+      title: "Milestones",
+      subtitle: "IIS management key Challenges & Solutions",
+      link: "/milestones"
+    },
     {
       image: `${path_image}Survey_home_icon.svg`,
       title: "Survey",
@@ -334,7 +339,7 @@ const SetLayoutNew = () => {
           localStorage.getItem("webinar_flag") == 1) ||
         localStorage.getItem("user_id") === "IJype v19WASFcSlrfRENQ=="
       ) {
-        newdata.splice(3, 0, {
+        newdata.splice(4, 0, {
           link: "/webinar/event-listing",
           image: `${path_image}webinar-icon.svg`,
           title: "Webinars/Meetings",

@@ -1314,25 +1314,25 @@
   }
 
   &.home-layout {
-    flex: 0 0 33%;
+    flex: 0 0 20%;
     max-width: 100%;
     gap: 0;
-    padding: 20px 32px 20px;
+    padding: 20px 20px 20px;
     align-items: center;
     transition: 0.5s linear;
     min-height: 90vh;
 
     .row {
-      gap: 80px 88px;
+      gap: 20px 88px;
       @include flex-center;
       justify-content: center;
     }
 
     .library_create-box {
-      flex: 0 0 50%;
-      max-width: 228px;
+      flex: 0 0 70%;
+      max-width: 280px;
       padding: 10px 22px 14px;
-      min-height: 135px;
+      min-height: 100px;
       border-radius: 12px;
 
       .create-library-img {
