@@ -82,6 +82,7 @@ const RDAnalytics = () => {
   const [isActive, setIsActive] = useState("");
   const [lastSortedPDFId, setLastSortedPDFId] = useState(null);
   const [syncData,  setSyncData] = useState(0);
+  const [refreshTick, setRefreshTick] = useState(0);
  
   const [filterdata, setFilterData] = useState({
     'training_status_code': [
@@ -1081,20 +1082,20 @@ const RDAnalytics = () => {
      
       setSortBy('site_number');
       setSortOrder('desc');
-       let obj = {
+      let obj = {
         created_by: createdBy
       };
       if(syncData == 0){
-      obj={
-        ...obj,
-        initial:1
-      }
+        obj={
+          ...obj,
+          initial:1
+        }
       }else{
       setRefreshFlag(true);
-      obj={
-        ...obj,
-        "sync": 1,
-      }
+        obj={
+          ...obj,
+          "sync": 1,
+        }
       }
       const response = await postData(ENDPOINT.INDIVIDUAL_TRAINING_COMPLETION_V2, obj);
       const hadData = response?.data?.data || [];
@@ -1105,6 +1106,12 @@ const RDAnalytics = () => {
           setIndividualCompletionTableDataBackup(hadData);
         }
       setSyncData(1)
+      setIsContentSiteAccordionOpen([]);
+      setIsContentPageAccordionOpen([]);
+      setMostPopularContentSiteData([]);
+      setMostPopularContentPageData([]);
+      setChartOptions({});
+      setRefreshTick((tick) => tick + 1);
       setRefreshFlag(false);
     } catch (err) {
       console.log(err);
@@ -1222,6 +1229,7 @@ const RDAnalytics = () => {
                       <IndividualCompletion
                         individualCompletionfn={individualCompletion}
                         createdBy={createdBy}
+                        refreshTick={refreshTick}
                       />
                     </Col>
                     <Col md={6} lg={8}>
@@ -1236,15 +1244,16 @@ const RDAnalytics = () => {
                   </Row>
                 </Col>
 
-                <Col md={12} lg={3}>
-                  <PopularContent
-                    mostPopularContentFn={mostPopularContent}
-                    // setMostPopularContentData={setMostPopularContentData}
-                    topContentTableFn={topContentTableFn}
-                    createdBy={createdBy}
-                  />
-                </Col>
-              </Row>
+                    <Col md={12} lg={3}>
+                      <PopularContent
+                        mostPopularContentFn={mostPopularContent}
+                        // setMostPopularContentData={setMostPopularContentData}
+                        topContentTableFn={topContentTableFn}
+                        createdBy={createdBy}
+                        refreshTick={refreshTick}
+                      />
+                    </Col>
+                  </Row>
               {flag?.individual_Completion ? (
                 <div className="rd-full-explain">
                   <div className="rd-section-title">
