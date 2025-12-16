@@ -573,7 +573,7 @@ const Sidebar = () => {
                 }
               >
                 <Link to={"/milestones"}>
-                  <img src={sidebar_image_path + "library-mandatory.svg"} alt="" />
+                   <img src= { sidebar_image_path +"surveys.svg" } alt=""/>
                   {" "}
                   <p>Milestones</p>
                 </Link>
