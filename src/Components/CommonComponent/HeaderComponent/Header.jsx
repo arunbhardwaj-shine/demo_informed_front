@@ -327,7 +327,20 @@ const Header = () => {
                       </Link>
                   }
                 </li>
- 
+                  <li
+                  className={
+                    window.location.pathname == "/milestones"
+                      ? "nav-item active active-main"
+                      : "nav-item"
+                  } onClick={handleMenuItemClick}
+                >
+                  <Link className="nav-link"
+                    to="/milestones"
+                  >
+                    MILESTONES
+                  </Link>
+                </li>
+
                 {localStorage.getItem("group_id") == 2 ? (
                   <li
                     className={

@@ -258,6 +258,7 @@ import CreateSunshineEmail from "./Components/Emails/CreateSunshineEmail";
 import VerifySunshineMAIL from "./Components/Emails/VerifySunshineMAIL";
 import ReaderProfile from "./Components/Readers/ReadersView/ReaderProfile";
 import TrainingCompliances from "./Components/CommonComponent/TrainingCompliances";
+import Milestones from "./Components/Milestones/Milestones";
 
 let platform = 0;
 let show = 0;
@@ -375,6 +376,10 @@ const Routing = () => {
         <Route
           path="/training-compliances"
           element={<LoginLayout component={TrainingCompliances} />}
+        />
+         <Route
+          path="/milestones"
+          element={<LoginLayout component={Milestones} />}
         />
         <Route
           path="/library-content"
