@@ -168,6 +168,8 @@ const NewReadersReview = (props) => {
     "Blocked": "Have been blocked from participating in training",
   }
   const searchInputRef = useRef(null);
+  const isLifeScienceHubAccount = localStorage.getItem("user_id") == "HPW6EwQy6v8VrfnMsjz8tg==" ? true : false;
+  console.log("isLifeScienceHubAccount",isLifeScienceHubAccount);
   useEffect(() => {
     if (isLikeRdAccount) {
       setFilterObject({});
@@ -1903,7 +1905,7 @@ const NewReadersReview = (props) => {
                   {(isLikeRdAccount && state?.siteRole!=="All IRTs" && state?.siteRole!=="") ?
                     <div className="action-btn-add">
                       <Button onClick={() => navigate("/reader-add", { state: state })} className="btn-dashed">
-                        Add IRT <img src={path_image + "add-irt.png"} alt="" />
+                        {isLifeScienceHubAccount ? "Add User" : "Add IRT"}<img src={path_image + "add-irt.png"} alt="" />
                       </Button>
 
                      </div> 
@@ -2533,7 +2535,7 @@ const NewReadersReview = (props) => {
                                         </>) : null}
                                       <li>
                                         <h6 className="tab-content-title">
-                                          IRT role
+                                          {isLifeScienceHubAccount ? "Role" : "IRT Role"}
                                         </h6>
                                         <h6>
                                           {data?.role

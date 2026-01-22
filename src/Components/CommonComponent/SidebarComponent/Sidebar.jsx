@@ -935,7 +935,7 @@ const Sidebar = () => {
                 {" "}
                   <p>
                     {isLikeRdAccount
-                        ? "User Roles"
+                        ? (localStorage.getItem("user_id") == "HPW6EwQy6v8VrfnMsjz8tg==" ? "Roles" : "User Roles")
                         : "Profiles"
                     }</p>
                 </Link>

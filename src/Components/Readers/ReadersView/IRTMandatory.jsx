@@ -13,7 +13,7 @@ const IRTMandatory = ()  => {
     const colors = ["#8A4E9C","#0066be",'#FAC755', "#39CABC", "#FF9534",'#F58289',"#97B6CF" ];
     const navigate = useNavigate();
     const [apiCallStatus, setApiCallStatus] = useState(false);
-    const isLifeScienceHubAccount = localStorage.getItem("HPW6EwQy6v8VrfnMsjz8tg==") ? true : false;
+    const isLifeScienceHubAccount = localStorage.getItem("user_id") == "HPW6EwQy6v8VrfnMsjz8tg==" ? true : false;
     const images = isLifeScienceHubAccount
   ? {
       "All Users": "all-users.svg",

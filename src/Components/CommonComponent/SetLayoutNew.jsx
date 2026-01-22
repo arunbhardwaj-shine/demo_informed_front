@@ -27,6 +27,7 @@ let path_image = process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN;
 const SetLayoutNew = () => {
   const rdLikeArray = ["56Ek4feL/1A8mZgIKQWEqg==", "bWmUjqX7J011   WUTYn9g==", "MXl8m36VZFYXpgFVz3Pg0g==", "HPW6EwQy6v8VrfnMsjz8tg=="]
   const isLikeRdAccount = rdLikeArray.includes(localStorage.getItem("user_id"));
+  const isLifeScienceHubAccount = localStorage.getItem("user_id") == "HPW6EwQy6v8VrfnMsjz8tg==" ? true : false;
   let sidebar_image_path= process.env.REACT_APP_ASSETS_PATH_INFORMED_DESIGN_SIDEBAR;
   let dummyData = [
     {
@@ -42,22 +43,10 @@ const SetLayoutNew = () => {
       link: "/library-content"
     },
     {
-      image: `${sidebar_image_path}library-mandatory.svg`,
-      title: "Training & Compliances",
-      subtitle: "RTR Training",
-      link: "/training-compliances"
-    },
-    {
       image: `${path_image}email-icon1.svg`,
-      title: "Emails & Notifications",
+      title: isLifeScienceHubAccount ? "Email" : "Emails & Notifications",
       subtitle: "Send and resend an email, and work with your lists",
       link: "/EmailStatss"
-    },
-    {
-      image: `${path_image}Survey_home_icon.svg`,
-      title: "Milestones",
-      subtitle: "IIS management key Challenges & Solutions",
-      link: "/milestones"
     },
     {
       image: `${path_image}Survey_home_icon.svg`,
@@ -349,9 +338,23 @@ const SetLayoutNew = () => {
         newdata.splice(4, 0, {
           link: "/webinar/event-listing",
           image: `${path_image}webinar-icon.svg`,
-          title: "Webinars/Meetings",
+          title: localStorage.getItem("user_id") === "HPW6EwQy6v8VrfnMsjz8tg==" ? "Meetings" : "Webinars/Meetings",
           subtitle: "See Webinar Event users",
         });
+      }
+
+      if(localStorage.getItem("user_id") != "HPW6EwQy6v8VrfnMsjz8tg=="){
+        newdata.push({
+          image : `${sidebar_image_path}library-mandatory.svg`,
+          title: "Training & Compliances",
+          subtitle: "RTR Training",
+          link: "/training-compliances"
+        },{
+          image: `${path_image}Survey_home_icon.svg`,
+          title: "Milestones",
+          subtitle: "IIS management key Challenges & Solutions",
+          link: "/milestones"
+        },);  
       }
 
       setData(newdata);
@@ -452,7 +455,11 @@ const SetLayoutNew = () => {
                     </div>
                     <div className="create-library-content">
                       <h3>{item.title}</h3>
-                      <h5>{item.subtitle}</h5>
+                      {
+                        !isLifeScienceHubAccount && (
+                          <h5>{item.subtitle}</h5>
+                        )
+                      }
                     </div>
                   </div>
                 ))}

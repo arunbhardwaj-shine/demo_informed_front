@@ -333,23 +333,28 @@ const Header = () => {
                       <Link className="nav-link"
                         to={"/EmailStatss"}
                       >
-                        EMAILS & Notifications
+                        {localStorage.getItem("user_id") === "HPW6EwQy6v8VrfnMsjz8tg==" ? "EMAIL" : "EMAILS & Notifications "}
                       </Link>
                   }
                 </li>
-                  <li
-                  className={
-                    window.location.pathname == "/milestones"
-                      ? "nav-item active active-main"
-                      : "nav-item"
-                  } onClick={handleMenuItemClick}
-                >
-                  <Link className="nav-link"
-                    to="/milestones"
-                  >
-                    MILESTONES
-                  </Link>
-                </li>
+                  {
+                    !(
+                      localStorage.getItem("user_id") === "HPW6EwQy6v8VrfnMsjz8tg=="
+                    ) ? (
+                        <li
+                        className={
+                          window.location.pathname == "/milestones"
+                            ? "nav-item active active-main"
+                            : "nav-item"
+                        } onClick={handleMenuItemClick}
+                      >
+                        <Link className="nav-link"
+                          to="/milestones"
+                        >
+                          MILESTONES
+                        </Link>
+                      </li>
+                    ):null}
 
                 {localStorage.getItem("group_id") == 2 ? (
                   <li
@@ -425,7 +430,9 @@ const Header = () => {
                         : "nav-item"
                     }>
                       <Link className="nav-link" to={"/webinar/event-listing"} onClick={handleMenuItemClick}>
-                        WEBINARS/MEETINGS
+                      {
+                        localStorage.getItem("user_id") === "HPW6EwQy6v8VrfnMsjz8tg==" ? "MEETINGS" : "WEBINARS/MEETINGS"
+                      }
                       </Link>
                        
                     </li>
