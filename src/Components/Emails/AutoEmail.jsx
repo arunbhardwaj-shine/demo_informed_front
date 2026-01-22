@@ -1422,8 +1422,9 @@ const [newTemplateClicked,setNewTemplateClicked] = useState(false)
                         })
                         : null}
                     </div>
+                    {localStorage.getItem("user_id") === "HPW6EwQy6v8VrfnMsjz8tg==" && <button type="button" className="btn btn-primary btn-filled create-new-auto-mail" onClick={handleCreateNewTemplateClick}>Create New Auto Email Template</button>}
+
                   </div>
-                  {localStorage.getItem("user_id") === "HPW6EwQy6v8VrfnMsjz8tg==" && <button type="button" className="btn btn-primary btn-filled create-new-auto-mail" onClick={handleCreateNewTemplateClick}>Create New Auto Email Template</button>}
 
                 </div>
                 <div className="auto_mail_trigger_right col-md-8 col-sm-8">
