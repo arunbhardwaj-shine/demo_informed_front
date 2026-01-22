@@ -217,17 +217,23 @@ const onSublinkChange = (surveyId, selectedOption) => {
                           </div>
                     </div>
 
-                    {
-                      <div className="d-flex justify-content-end sublink-add">
-                        <p onClick={() => { showSublinkModal(data.survey_id); }}>
-                          Create New SubLink{" "}
-                          <img
-                            src={path_image + "creator-add.png"}
-                            alt=""
-                          />
-                        </p>
-                      </div>
-                    }
+                          {
+
+                            !(
+                              localStorage.getItem("user_id") === "HPW6EwQy6v8VrfnMsjz8tg=="
+                            ) ? (
+
+                              <div className="d-flex justify-content-end sublink-add">
+                                <p onClick={() => { showSublinkModal(data.survey_id); }}>
+                                  Create New SubLink{" "}
+                                  <img
+                                    src={path_image + "creator-add.png"}
+                                    alt=""
+                                  />
+                                </p>
+                              </div>
+                            ) : null
+                          }
                     </div>
 
                     {/* <ul className="survey-consent">

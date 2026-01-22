@@ -1548,7 +1548,11 @@ const SurveyList = (props) => {
                                     </div>
                                   </div>
                                 </Tab>
-                                <Tab
+    {!(
+    localStorage.getItem("user_id") === "HPW6EwQy6v8VrfnMsjz8tg=="
+  ) && (
+    <>
+        <Tab
                                   eventKey="sublinks"
                                   title="Sublinks"
                                   className="change-tab flex-column justify-content-between"
@@ -1608,6 +1612,10 @@ const SurveyList = (props) => {
                                     )}
                                   </div>
                                 </Tab>
+                                  </>
+  )
+}
+
                                 <Tab eventKey="setting" title="Setting">
                                   <div className="survey_tabs_data survey-setting">
                                     <div className="d-flex align-items-center justify-content-start">
