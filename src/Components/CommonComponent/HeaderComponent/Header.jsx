@@ -189,7 +189,11 @@ const Header = () => {
             </>
             <Navbar.Collapse id="collapsibleNavbar">
               <div></div>
-             
+             {
+             !(
+                localStorage.getItem("user_id") === "HPW6EwQy6v8VrfnMsjz8tg==" &&
+                location.pathname === "/home-timeline"
+              ) ? (
               <ul className="navbar-nav">
                 <li
                   className={
@@ -532,6 +536,7 @@ const Header = () => {
  
              
               </ul>
+              ):null}
            
  
               <div className="user-login">

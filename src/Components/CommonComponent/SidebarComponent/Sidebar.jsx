@@ -1517,30 +1517,29 @@ const Sidebar = () => {
                        
 
 
-                                      <li
+                                 {
+  !(
+    localStorage.getItem("user_id") === "HPW6EwQy6v8VrfnMsjz8tg=="
+  
+  ) ? (
+    <li
+      className={
+        location.pathname === "/survey/survey-sublink-new"
+          ? "active"
+          : "side_li"
+      }
+    >
+      <Link to="/survey/survey-sublink-new">
+        <img
+          src={sidebar_image_path + "survey-sublink.svg"}
+          alt=""
+        />
+        <p>SubLinks</p>
+      </Link>
+    </li>
+  ) : null
+}
 
-                                      className={
-
-                                        location.pathname == "/survey/survey-sublink-new"
-
-                                          ? "active"
-
-                                          : "side_li"
-
-                                      }
-
-                                      >
-
-                                      <Link to={"/survey/survey-sublink-new"}>
-
-                                      <img src= { sidebar_image_path +"survey-sublink.svg" } alt=""/>
-                                      {" "}
-
-                                        <p>SubLinks</p>
-
-                                      </Link>
-
-                                      </li>
 
                       <li
 
@@ -1708,7 +1707,11 @@ const Sidebar = () => {
                     </li> */}
 
 
-
+{
+  !(
+    localStorage.getItem("user_id") === "HPW6EwQy6v8VrfnMsjz8tg==" 
+   
+  ) ? (
                   <li
                       className={
                         location.pathname == "/survey/survey-sublink-new"
@@ -1729,7 +1732,9 @@ const Sidebar = () => {
 
                     </li>
 
-                    
+                     ) : null
+}
+
 
 
 
