@@ -9999,6 +9999,7 @@ width: 130px;
   z-index: 1;
   margin-bottom: 47px;
   top: 50px;
+  padding-bottom: 6px;
 }
 
 .webinar-auto .auto_mail_trigger_box {
@@ -10029,7 +10030,10 @@ width: 130px;
   width: 26px;
   border-top: 1px dashed var(--skyblue);
 }
-
+button.btn.btn-primary.btn-filled.create-new-auto-mail{
+    margin-bottom: -51px;
+    margin-left: 28px;
+}
 .mail_trigger_left {
   position: relative;
 }
