@@ -9704,6 +9704,16 @@ section.search-hcp.smart-list-view .header-btn-left {
   background: #fbfcfd;
 }
 
+.smart-list-view .selected-hcp-list#analytics-hcp-table table.countries_table th.col_address{
+  width: 350px;
+}
+.smart-list-view .selected-hcp-list#analytics-hcp-table table.countries_table th.col_name{
+  width: 350px;
+}
+.smart-list-view .selected-hcp-list#analytics-hcp-table table.countries_table th.col_city{
+  width: 150px;
+}
+
 .green-box .box,
 .orange-box .box {
   height: 13px;

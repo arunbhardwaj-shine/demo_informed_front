@@ -748,11 +748,11 @@ const SiteListing = () => {
                        
 
                         <div className="table_xls">
-                            <table className="table">
+                            <table className="table countries_table">
                                 <thead className="sticky-header">
                                     <tr>
                                         {/*<th scope="col">ID</th>*/}
-                                        <th scope="col" className="sort_option">
+                                        <th scope="col" className="sort_option col_number">
                                             <span onClick={() => handleSort('site_number')} >
                                                 Number
                                                 <button
@@ -778,7 +778,7 @@ const SiteListing = () => {
                                             </span>
                                             
                                         </th>
-                                        <th scope="col" className="sort_option">
+                                        <th scope="col" className="sort_option col_name">
                                             <span onClick={() => handleSort('site_name')} >
                                                 Name
                                                 <button
@@ -803,7 +803,7 @@ const SiteListing = () => {
                                                 </button>
                                             </span>
                                         </th>
-                                        <th scope="col" className="sort_option">
+                                        <th scope="col" className="sort_option col_address">
                                             <span onClick={() => handleSort('site_address')} >
                                                 Address
                                                 <button
@@ -828,7 +828,7 @@ const SiteListing = () => {
                                                 </button>
                                             </span>
                                         </th>
-                                        <th scope="col" className="sort_option">
+                                        <th scope="col" className="sort_option col_city">
                                             <span onClick={() => handleSort('site_city')} >
                                                 City
                                                 <button
@@ -853,7 +853,7 @@ const SiteListing = () => {
                                                 </button>
                                             </span>
                                         </th>
-                                        <th scope="col" className="sort_option">
+                                        <th scope="col" className="sort_option col_country">
                                             <span onClick={() => handleSort('site_country')} >
                                                 Country
                                                 <button

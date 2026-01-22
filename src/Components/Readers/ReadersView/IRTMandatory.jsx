@@ -208,7 +208,7 @@ const IRTMandatory = ()  => {
         <Row>
           <div className="top-header sticky">
             <div className="page-title">
-              <h2>User Roles</h2>
+              <h2>{isLifeScienceHubAccount ? "Roles" : "User Roles"}</h2>
             </div>
           </div>
           <div className="irt_mandatory irt_create_role d-flex flex-wrap">          
