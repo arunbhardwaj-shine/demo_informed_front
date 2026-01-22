@@ -268,19 +268,25 @@ const Header = () => {
                   </Link>
                 </li>
  
-                <li
-                  className={
-                    window.location.pathname == "/training-compliances"
-                      ? "nav-item active active-main"
-                      : "nav-item"
-                  } onClick={handleMenuItemClick}
-                >
-                  <Link className="nav-link"
-                    to="/training-compliances"
-                  >
-                    TRAINING & Compliances
-                  </Link>
-                </li>
+             
+                      {!(
+                      localStorage.getItem("user_id") === "HPW6EwQy6v8VrfnMsjz8tg==" 
+                     
+                      ) &&  ( 
+                        <li
+                        className={
+                          window.location.pathname == "/training-compliances"
+                            ? "nav-item active active-main"
+                            : "nav-item"
+                        } onClick={handleMenuItemClick}
+                      >
+                        <Link className="nav-link"
+                          to="/training-compliances"
+                        >
+                          TRAINING & Compliances
+                        </Link>
+                      </li>
+                      )}
  
                 <li
                   className={
