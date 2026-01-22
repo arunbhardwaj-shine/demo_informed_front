@@ -9256,6 +9256,9 @@ hr {
 .selected-hcp-list#analytics-hcp-table table tr td:nth-last-child(2) {
   width: 95px;
 }
+.lifescience .selected-hcp-list#analytics-hcp-table table tr td:nth-last-child(2){
+  width: 430px;
+}
 
 #analytics-hcp-table td button:hover {
   border-color: var(--light-blue);
@@ -9651,6 +9654,14 @@ section.search-hcp.smart-list-view .header-btn-left {
 .search-hcp .email_stats.rd-account .accordion .accordion-item .accordion-header button.accordion-button>table tr td:first-child {
   width: 200px;
 }
+.search-hcp.lifescience .email_stats.rd-account#analytics-hcp-table .email_stats_title_heading table tr th:first-child,
+.search-hcp.lifescience .email_stats.rd-account .accordion .accordion-item .accordion-header button.accordion-button>table tr td:first-child{
+width: 130px;
+}
+.search-hcp.lifescience .email_stats.rd-account .accordion .accordion-item .accordion-header button.accordion-button>table tr td:nth-child(2),
+.search-hcp.lifescience .email_stats.rd-account#analytics-hcp-table .email_stats_title_heading table tr th:nth-child(2) {
+  width: 15%;
+}
 
 /* .search-hcp .email_stats#analytics-hcp-table  table tr th:first-child{
   padding-left:30px;
@@ -9669,6 +9680,9 @@ section.search-hcp.smart-list-view .header-btn-left {
 .search-hcp .email_stats#analytics-hcp-table.rd-account table tr td:nth-child(5) {
   min-width: 200px;
 }
+.search-hcp.lifescience .email_stats.rd-account#analytics-hcp-table .email_stats_title_heading table tr th:nth-child(5) {
+  width: 430px;
+}
 
 .search-hcp .email_stats.rd-account#analytics-hcp-table .email_stats_title_heading table tr th:nth-child(4),
 .search-hcp .email_stats#analytics-hcp-table.rd-account table tr td:nth-child(4) {
@@ -9678,6 +9692,10 @@ section.search-hcp.smart-list-view .header-btn-left {
 .search-hcp .email_stats .accordion .accordion-item .accordion-header button.accordion-button>table tr td:nth-child(3),
 .search-hcp .email_stats#analytics-hcp-table .email_stats_title_heading table tr th:nth-child(3) {
   width: 15%;
+}
+
+.search-hcp.lifescience .accordion-item .last-activity{
+  display: initial;
 }
 
 .search-hcp .email_stats .accordion .accordion-item table,

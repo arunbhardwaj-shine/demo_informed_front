@@ -37,11 +37,11 @@ const EmailStats = (props) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [showLoader, setShowLoader] = useState(0);
   const [sortTitleStarted, setSortTitleStarted] = useState(0);
-
   const [perPageData, setPerPageData] = useState();
 
   const rdLikeArray=["56Ek4feL/1A8mZgIKQWEqg==","bWmUjqX7J011   WUTYn9g==","MXl8m36VZFYXpgFVz3Pg0g==","HPW6EwQy6v8VrfnMsjz8tg=="]
-  const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
+  const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"));
+  const isLifeScienceHubAccount = localStorage.getItem("user_id") == "HPW6EwQy6v8VrfnMsjz8tg==" ? true : false;
 
   const buttonRef = useRef(null);
   const filterRef = useRef(null);
@@ -371,8 +371,14 @@ const EmailStats = (props) => {
 
   return (
     <>
-      <div className="right-sidebar">
-        <section className="search-hcp smart-list-view">
+      <div className={"right-sidebar"}>
+        <section
+            className={
+              "search-hcp smart-list-view" +
+              (isLifeScienceHubAccount ? " lifescience" : "")
+            }
+          >
+
         <div className="top-right-action flex-wrap justify-content-end mb-2">
         <div className="search-bar">
                       <form
@@ -651,7 +657,15 @@ const EmailStats = (props) => {
                 <table>
                   <thead>
                     <tr>
-                   {isLikeRdAccount || localStorage.getItem("user_id") == "HPW6EwQy6v8VrfnMsjz8tg==" ?<th>
+                      {
+                       localStorage.getItem("user_id") === "HPW6EwQy6v8VrfnMsjz8tg==" ?(
+                     <th>
+                      Emails
+                      </th>
+                       ):null 
+                      }
+                   {isLikeRdAccount || localStorage.getItem("user_id") == "HPW6EwQy6v8VrfnMsjz8tg==" ?
+                   <th>
                       Site No.
                       </th> : null}
                       <th>
@@ -660,9 +674,11 @@ const EmailStats = (props) => {
                       <th>
                       Description
                       </th>
-                      <th>
-                      Campaign       
-                      </th>
+                      {
+                        !isLifeScienceHubAccount ? (<th>
+                          Campaign       
+                        </th>) : null
+                      }    
                       <th>
                       Creator
                       </th>
@@ -691,6 +707,27 @@ const EmailStats = (props) => {
                                 <table>
                                   <tbody>
                                     <tr>
+                                        {
+                                          localStorage.getItem("user_id") === "HPW6EwQy6v8VrfnMsjz8tg==" && (
+                                            <td onClick={(e) => {
+                                                  e.stopPropagation(); // prevent accordion open
+                                                  getDetails(campaignItem?.campaignSend?.[0]?.distribute_id)
+                                                  navigate("/get-details", {
+                                                    state: {
+                                                      campaignId: campaignItem?.campaignId,
+                                                      totalSent: campaignItem?.campaignSend?.[0]?.total_sent_count,
+                                                      distribute_id:campaignItem?.campaignSend?.[0]?.distribute_id
+                                                    },
+                                                  });
+                                                }}>
+                                              <span
+                                                style={{ cursor: "pointer", color: "#004a89" }}   
+                                              >
+                                                {campaignItem?.campaignSend?.[0]?.total_sent_count}
+                                              </span>
+                                            </td>
+                                          )
+                                        }
                                       {/* {isLikeRdAccount ?<td>{campaignItem?.unique_site_numbers && campaignItem?.unique_site_numbers?.length > 0 ? campaignItem?.unique_site_numbers.join(', ') : 'N/A'}</td> : null} */}
                                             {isLikeRdAccount ? (
                                             <td>
@@ -704,16 +741,19 @@ const EmailStats = (props) => {
                                             </td>
                                           ) : null}
 
-
                                       <td>
                                       {campaignItem?.subject}
                                       </td>
                                       <td>
                                       {campaignItem?.description}
                                       </td>
-                                      <td>
-                                      {campaignItem?.title}
-                                      </td>
+                                      {
+                                        !isLifeScienceHubAccount ? (
+                                          <td>
+                                          {campaignItem?.title}
+                                          </td>
+                                        ) : null
+                                      }
                                       <td>
                                       {campaignItem?.creator}
                                       </td>
@@ -862,8 +902,7 @@ const EmailStats = (props) => {
                                                   : 'N/A'}
                                             </td>
                                           ) : null}
-
-
+   
                                             <td> {item.c_id}</td>
                                             <td> {item.sent_data}</td>
                                             <td className="smartlistth"> {item.subject}</td>
