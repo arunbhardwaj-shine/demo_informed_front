@@ -97,7 +97,7 @@ const AutoEmail = (props) => {
     },
   ]);
   const [irtCountry, setIRTCountry] = useState([]);
-
+const [newTemplateClicked,setNewTemplateClicked] = useState(false)
   const editorRef = useRef(null);
   const templateIdRef = useRef(null)
   const linkingPayload = useRef(null)
@@ -259,6 +259,8 @@ const AutoEmail = (props) => {
     setSourceCode(template.source_code);
     setIndexClicked(index);
     setTemplateId(template.id);
+    setNewTemplateClicked(false)
+
     templateIdRef.current = template?.id
     setTempLang(template.language_code);
     if (template.approved === 1) {
@@ -281,6 +283,7 @@ const AutoEmail = (props) => {
   const cancelClicked = () => {
     setIndexClicked();
     setTemplateClicked(false);
+    setNewTemplateClicked(false)
     setSourceCode("");
   };
 
@@ -1049,29 +1052,63 @@ const AutoEmail = (props) => {
       toast.warning("Please select smart list");
     }
   };
+
   const updateTemplate = async (e, status = 0) => {
     e.preventDefault();
-    if (approveClickedd) {
-      setApproveClicked(false);
-    } else {
-      setApproveClicked(true);
-    }
+    if(!newTemplateClicked){
+      if (approveClickedd) {
+        setApproveClicked(false);
+      } else {
+        setApproveClicked(true);
+      }
 
-    let template_id = templateId;
-    if (
-      typeof template_id != "undefined" &&
-      template_id != "" &&
-      template_id != 0
-    ) {
+      let template_id = templateId;
+      if (
+        typeof template_id != "undefined" &&
+        template_id != "" &&
+        template_id != 0
+      ) {
+        if (editorRef.current) {
+          const body = {
+            type:type == "survey" ? 1 :type,
+            user_id: localStorage.getItem("user_id"),
+            source_code: editorRef.current.getContent(),
+            template_id: templateId,
+            name: templateName,
+            status: status === 0 ? 2 : status === 1 ? 3 : 4,
+            language: tempLang,
+          };
+          axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
+          loader("show");
+          await axios
+            .post(`emailapi/add_update_template`, body)
+            .then((res) => {
+              if (res.data.status_code == 200) {
+                getTemplateListData();
+                toast.success("Your changes saved successfully");
+                loader("hide");
+              }
+            })
+            .catch((err) => {
+              loader("hide");
+              toast.error("Something went wrong");
+            });
+        }
+      } else {
+        toast.warning("Template not selected.");
+      }
+    }
+    else{
+      let template_id = ""
       if (editorRef.current) {
         const body = {
           type:type == "survey" ? 1 :type,
           user_id: localStorage.getItem("user_id"),
-          source_code: editorRef.current.getContent(),
-          template_id: templateId,
-          name: templateName,
-          status: status === 0 ? 2 : status === 1 ? 3 : 4,
-          language: tempLang,
+          source_code: editorRef.current.getContent().trim(),
+          template_id: template_id,
+          name: emailSubject,
+          status: 1,
+          language: language,
         };
         axios.defaults.baseURL = process.env.REACT_APP_API_KEY;
         loader("show");
@@ -1079,9 +1116,19 @@ const AutoEmail = (props) => {
           .post(`emailapi/add_update_template`, body)
           .then((res) => {
             if (res.data.status_code == 200) {
-              getTemplateListData();
-              toast.success("Your changes saved successfully");
-              loader("hide");
+              setNewTemplateClicked(false);
+              setEmailDescription("")
+              setEmailSubject("")
+              setSourceCode("")
+              setEmailSubject("");
+              setEmailDescription("");
+              setTemplateClicked(false);
+              setIndexClicked(undefined);
+              setTemplateId(0);
+              templateIdRef.current = null
+              setTempLang(0);
+              setTemplateName("");
+              getTemplateListData()
             }
           })
           .catch((err) => {
@@ -1089,8 +1136,6 @@ const AutoEmail = (props) => {
             toast.error("Something went wrong");
           });
       }
-    } else {
-      toast.warning("Template not selected.");
     }
   };
 
@@ -1257,6 +1302,21 @@ const AutoEmail = (props) => {
     setAddListOpen(true);
   }
 
+  const handleCreateNewTemplateClick = (e) => {
+    e.preventDefault();
+    setEmailSubject("");
+    setEmailDescription("");
+    setTemplateClicked(true);
+    setSourceCode("");
+    setIndexClicked(undefined);
+    setTemplateId(0);
+    templateIdRef.current = null
+    setTempLang(0);
+    setTemplateName("");
+    setSourceCode("");
+    setNewTemplateClicked(true)
+  }
+
   return (
     <>
       <div className="col right-sidebar">
@@ -1363,7 +1423,8 @@ const AutoEmail = (props) => {
                         : null}
                     </div>
                   </div>
-                   
+                  {localStorage.getItem("user_id") === "HPW6EwQy6v8VrfnMsjz8tg==" && <button type="button" className="btn btn-primary btn-filled create-new-auto-mail" onClick={handleCreateNewTemplateClick}>Create New Auto Email Template</button>}
+
                 </div>
                 <div className="auto_mail_trigger_right col-md-8 col-sm-8">
                   {!templateClicked ? (
