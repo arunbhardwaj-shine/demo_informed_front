@@ -196,7 +196,7 @@ const Header = () => {
              {
              !(
                 localStorage.getItem("user_id") === "HPW6EwQy6v8VrfnMsjz8tg==" &&
-                location.pathname === "/home-timeline"
+                location.pathname === "/home-timeline-new"
               ) ? (
               <ul className="navbar-nav">
                 <li
