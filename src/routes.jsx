@@ -374,15 +374,14 @@ const Routing = () => {
         <Route path="/home-new" element={<SetLayoutNew component={SetLayoutNew} />} />
         {/* <Route path="/home-timeline" element={<SetLayoutNew component={SetLayoutNew} />} /> */}
   
+      <Route
+                path="/home-timeline-new"
+                element={ <SetLifescienceHubLayout component={SetLifescienceHubLayout} />  }
+              />
+
         <Route
           path="/home-timeline"
-          element={
-            localStorage.getItem("user_id") === "HPW6EwQy6v8VrfnMsjz8tg==" ? (
-              <SetLifescienceHubLayout />
-            ) : (
-              <SetLayoutNew />
-            )
-          }
+          element={<SetLayoutNew component={SetLayoutNew} />}
         />
 
         <Route path="/home" element={<SetLayout component={SetLayout} />} />
