@@ -1619,6 +1619,22 @@
 
 
 }
+.trials-right-sidebar{
+  padding: 0;
+ .trial-container{
+  .timeline-layout{
+  backdrop-filter: unset;
+  background: transparent;
+  box-shadow: unset;
+  padding: 0;
+  }
+  .timeline-right-body {
+    height: 80vh;
+    overflow-y: auto;
+    padding: 5px 10px 0 5px;
+  }
+}
+}
 
 .timeline-layout {
   flex: 1 1;

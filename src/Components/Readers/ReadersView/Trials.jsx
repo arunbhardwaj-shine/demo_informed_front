@@ -77,11 +77,10 @@ const Trials = () => {
   }, [appliedFilter]);
 
   return (
-    <Col className="right-sidebar custom-change">
+    <Col className="right-sidebar custom-change trials-right-sidebar">
       <meta name="viewport" content="width=device-width, initial-scale=1" />
-      <div className="custom-container">
+      <div className="custom-container trial-container">
         <Row>
-          <div className="default-layout d-flex latest-home">
             <div className="timeline-layout">
               <div className="timeline-layout-inset">
                 <div className="timeline-right-list">
@@ -387,7 +386,6 @@ const Trials = () => {
                 </div>
               </div>
             </div>
-          </div>
         </Row>
       </div>
     </Col>
