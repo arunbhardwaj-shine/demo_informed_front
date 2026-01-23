@@ -169,7 +169,7 @@ const NewReadersReview = (props) => {
   }
   const searchInputRef = useRef(null);
   const isLifeScienceHubAccount = localStorage.getItem("user_id") == "HPW6EwQy6v8VrfnMsjz8tg==" ? true : false;
-  console.log("isLifeScienceHubAccount",isLifeScienceHubAccount);
+  
   useEffect(() => {
     if (isLikeRdAccount) {
       setFilterObject({});

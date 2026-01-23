@@ -259,6 +259,7 @@ import VerifySunshineMAIL from "./Components/Emails/VerifySunshineMAIL";
 import ReaderProfile from "./Components/Readers/ReadersView/ReaderProfile";
 import TrainingCompliances from "./Components/CommonComponent/TrainingCompliances";
 import Milestones from "./Components/Milestones/Milestones";
+import Trials from "./Components/Readers/ReadersView/Trials";
 
 let platform = 0;
 let show = 0;
@@ -547,6 +548,10 @@ const Routing = () => {
         <Route
           path="/new-readers-reviews"
           element={<LoginLayout component={NewReaderReview} />}
+        />
+        <Route
+          path="/trials"
+          element={<LoginLayout component={Trials} />}
         />
         <Route
           path="/IRT-mandatory"

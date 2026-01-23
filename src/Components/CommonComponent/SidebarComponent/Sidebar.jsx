@@ -15,7 +15,9 @@ const Sidebar = () => {
   const isRdAccount=localStorage.getItem("user_id")=="56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem("user_id") =="HPW6EwQy6v8VrfnMsjz8tg=="
   const isNorgineAccount=localStorage.getItem("user_id")=="bWmUjqX7J011   WUTYn9g=="
   const isGenaAccount=localStorage.getItem("user_id")=="MXl8m36VZFYXpgFVz3Pg0g=="
-  const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"))
+  const isLikeRdAccount= rdLikeArray.includes(localStorage.getItem("user_id"));
+  const isLifeScienceHubAccount = localStorage.getItem("user_id") == "HPW6EwQy6v8VrfnMsjz8tg==" ? true : false;
+  
   let navigate = useNavigate();
   let c_id = 0;
   let webinar_c_id = 0;
@@ -912,12 +914,23 @@ const Sidebar = () => {
                         : "side_li"
                     }
                   >
-                    <Link to={"/new-readers-reviews"}>
+                    {
+                      isLifeScienceHubAccount ?
+                      <Link to={"/trials"}>
                       
-                    <img src= { sidebar_image_path + "irt-mandatory.svg" } alt=""/>
-                    {" "}
-                      <p>All Users</p>
-                    </Link>
+                      <img src= { sidebar_image_path + "irt-mandatory.svg" } alt=""/>
+                      {" "}
+                        <p>Trials</p>
+                      </Link>
+                      :
+                      <Link to={"/new-readers-reviews"}>
+                      
+                        <img src= { sidebar_image_path + "irt-mandatory.svg" } alt=""/>
+                      {" "}
+                        <p>All Users</p>
+                      </Link>
+                    }
+                    
                   </li>
                 )
                 : null}
