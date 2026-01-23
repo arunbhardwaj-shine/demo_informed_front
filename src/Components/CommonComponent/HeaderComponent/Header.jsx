@@ -222,10 +222,10 @@ const Header = () => {
                   <Link className="nav-link"
                           to={
                             isLikeRdAccount
-                              ? "/new-readers-reviews"
-                              : localStorage.getItem("user_id") === "HPW6EwQy6v8VrfnMsjz8tg=="
+                              ? (localStorage.getItem("user_id") === "HPW6EwQy6v8VrfnMsjz8tg=="
                                 ? "/trials"
-                                : "/readers-view"
+                                : "/new-readers-reviews")
+                              : "/readers-view"
                           }
                   >
                     TRIAL
