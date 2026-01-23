@@ -243,6 +243,7 @@ import SurveySublinkNew from "./Components/surveybuilder/SurveySublinkNew";
 import SurveyAnalytics from "./Components/surveybuilder/SurveyAnalytics";
 import SurveyAnalyticsDetail from "./Components/surveybuilder/SurveyAnalyticsDetail";
 import SurveyFinalPreview from "./Components/surveybuilder/SurveyFinalPreview";
+import SetLifescienceHubLayout from "./Components/CommonComponent/SetLifescienceHubLayout";
 import SetLayoutNew from "./Components/CommonComponent/SetLayoutNew";
 import SetLayoutNewTimeline from "./Components/CommonComponent/SetLayoutNewTimeline";
 import ClinetAccount from "./Components/Login/ClientAccount";
@@ -371,7 +372,19 @@ const Routing = () => {
         />
         //LoginLayout for pages after login
         <Route path="/home-new" element={<SetLayoutNew component={SetLayoutNew} />} />
-        <Route path="/home-timeline" element={<SetLayoutNew component={SetLayoutNew} />} />
+        {/* <Route path="/home-timeline" element={<SetLayoutNew component={SetLayoutNew} />} /> */}
+  
+        <Route
+          path="/home-timeline"
+          element={
+            localStorage.getItem("user_id") === "HPW6EwQy6v8VrfnMsjz8tg==" ? (
+              <SetLifescienceHubLayout />
+            ) : (
+              <SetLayoutNew />
+            )
+          }
+        />
+
         <Route path="/home" element={<SetLayout component={SetLayout} />} />
         <Route path="/users" element={<SetLayout component={SetLayout} />} />
         <Route

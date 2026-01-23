@@ -896,6 +896,7 @@ const Sidebar = () => {
             window.location.pathname == "/edit-site" ||
             window.location.pathname == "/site-listing" ||
             window.location.pathname == "/new-readers-reviews" ||
+            window.location.pathname == "/trials" ||
             window.location.pathname == "/IRT-Mandatory" ||
             window.location.pathname == "/mandatory-reader-edit" ||
             window.location.pathname == "/reader-profile" ||
@@ -907,7 +908,7 @@ const Sidebar = () => {
                 (
                   <li
                     className={
-                      location.pathname == "/new-readers-reviews" ||
+                      location.pathname == "/new-readers-reviews" || location.pathname == "/trials" ||
                         location.pathname == "/reader-add" || location.pathname == "/mandatory-reader-edit" || location.pathname == "/readers-list" ||
                         ((window.location.pathname == "/timeline-detail" || window.location.pathname == "/reader-review") && localStorage.getItem('irt_sec') == 1)
                         ? "active"

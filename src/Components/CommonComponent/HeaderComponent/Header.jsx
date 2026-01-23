@@ -197,7 +197,7 @@ const Header = () => {
               <ul className="navbar-nav">
                 <li
                   className={
-                    window.location.pathname == "/readers-view" || window.location.pathname == "/new-readers-reviews" || window.location.pathname == "/IRT-Mandatory" ||
+                    window.location.pathname == "/readers-view" || window.location.pathname == "/new-readers-reviews"  || window.location.pathname == "/trials"|| window.location.pathname == "/IRT-Mandatory" ||
                       window.location.pathname == "/readers-list" ||
                       window.location.pathname == "/reader-add" ||
                       window.location.pathname == "/reader-edit" ||
@@ -216,9 +216,13 @@ const Header = () => {
                   } onClick={handleMenuItemClick}
                 >
                   <Link className="nav-link"
-                    to={isLikeRdAccount
-                      ? "/new-readers-reviews" : "/readers-view"}
-       
+                          to={
+                            isLikeRdAccount
+                              ? "/new-readers-reviews"
+                              : localStorage.getItem("user_id") === "HPW6EwQy6v8VrfnMsjz8tg=="
+                                ? "/trials"
+                                : "/readers-view"
+                          }
                   >
                     TRIAL
                   </Link>
