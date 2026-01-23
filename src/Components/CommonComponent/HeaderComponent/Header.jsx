@@ -123,6 +123,10 @@ const Header = () => {
  
   const homeClicked = (e) => {
     e.preventDefault();
+    if(localStorage.getItem('user_id') == "HPW6EwQy6v8VrfnMsjz8tg=="){
+          navigate("/home-timeline-new")
+          return;
+        }
     localStorage.removeItem("switch_account_detail")
     if (localStorage.getItem('user_id') === "56Ek4feL/1A8mZgIKQWEqg==" || localStorage.getItem('user_id') == "HPW6EwQy6v8VrfnMsjz8tg==" || localStorage.getItem('user_id') === "bWmUjqX7J011   WUTYn9g==") {
       navigate("/home-timeline")
